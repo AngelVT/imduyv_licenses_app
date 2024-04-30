@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/libs/bootstrap-icons-1.11.3/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="/css/tlib-0.1.0.css">
+    <title>Licencias tramites urbanos</title>
+    <link rel="shortcut icon" href="/img/urban_icon.svg" type="image/x-icon">
+</head>
+<body class="bg-image bg-image-1">
+    <header class="header header-15">
+        <div class="container bg-complementary-alpha border-primary border-only-bottom dis-flex flex-center-v flex-between padding-horizontal-large">
+            <a href="" class="w-15"><img class="w-100" src="/img/imduyv_logo_horizontal_primario.png" alt="Logo"></a>
+            <span class="bi-buildings-fill color-primary txt-xlarge"></span>
+            <div class="w-15 dis-flex flex-column color-primary">
+                <span class="bi-person-circle txt-medium btn"> Usuario</span>
+                <span class="bi-door-open txt-medium btn"> Cerrar sesión</span>
+            </div>
+        </div>
+    </header>
+    <main>
+        <section class="page-full bg-blur">
+            <div class="container shadow-inner padding-large">
+                <form class="dis-grid template-3cols container color-primary">
+
+                    <label class="txt-uppercase">Tipo de licencia:
+                        <select class="w-100 margin-vertical-small input input-interface input-round" required>
+                            <option value="">Seleccione tipo...</option>
+                            <option value="1">Constancia de uso de suelo</option>
+                            <option value="2">Licencia de uso de suelo</option>
+                            <option value="3">Licencia de subdivisión</option>
+                            <option value="4">Licencia de Fusion</option>
+                            <option value="5">Prórroga de licencia de fraccionamiento</option>
+                            <option value="6">Licencia de fraccionamiento</option>
+                            <option value="7">Relotificación de fraccionamiento</option>
+                            <option value="8">Régimen de propiedad en condominio</option>
+                        </select>
+                    </label>
+
+                    <div></div>
+                    <div></div>
+
+                    <label class="txt-uppercase">Nombre del solicitante:
+                        <input class="w-100 margin-vertical-small input input-interface input-round" type="text">
+                    </label>
+
+                    <label class="txt-uppercase">Colonia/Asentamiento:
+                        <input class="w-100 margin-vertical-small input input-interface input-round" type="text">
+                    </label>
+
+                    <label class="txt-uppercase">Fecha de solicitud:
+                        <input class="w-100 margin-vertical-small input input-interface input-round" type="date">
+                    </label>
+
+                    <label class="txt-uppercase">Fecha de expedición:
+                        <input class="w-100 margin-vertical-small input input-interface input-round" type="date">
+                    </label>
+
+                    <div></div>
+                    <div></div>
+
+                    <label class="txt-uppercase">Orden de cobro:
+                        <input class="w-100 margin-vertical-small input input-interface input-round" type="text">
+                    </label>
+
+                    <label class="txt-uppercase">Fecha de pago:
+                        <input class="w-100 margin-vertical-small input input-interface input-round" type="date">
+                    </label>
+
+                    <label class="txt-uppercase">Folio y serie de factura:
+                        <input class="w-100 margin-vertical-small input input-interface input-round" type="text">
+                    </label>
+
+                    <label class="txt-uppercase">Monto autorizado:
+                        <input class="w-100 margin-vertical-small input input-interface input-round" type="number">
+                    </label>
+
+                    <div></div>
+                    <div></div>
+
+                    <label class="txt-uppercase">Fecha de entrega:
+                        <input class="w-100 margin-vertical-small input input-interface input-round" type="date">
+                    </label>
+
+                    <label class="txt-uppercase">Nombre de quien recibe:
+                        <input class="w-100 margin-vertical-small input input-interface input-round" type="text">
+                    </label>
+
+                    <div></div>
+                    <div></div>
+
+                    <button type="submit" class="btn btn-secondary-bg" id="xd">Registrar</button>
+                    <div class="dis-flex flex-center">
+                        <button type="reset" class="w-90 h-100 btn btn-secondary">Limpiar</button>
+                    </div>
+                    
+                </form>
+            </div>
+        </section>
+    </main>
+</body>
+</html>

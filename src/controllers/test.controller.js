@@ -1,0 +1,77 @@
+import { User , Role , Group} from "../models/Users.models.js";
+import * as passCrypt from '../libs/passwordCrypt.js';
+import jwt from 'jsonwebtoken';
+import config from "../config.js";
+
+
+export const test = async (req, res) => {
+    try {
+        const { username, password} = req.body;
+
+        if (!username || !password) {
+            res.status(400).json({
+                msgType: "Error",
+                msg: "Required information was not provided"
+            });
+            return;
+        }
+        
+        const user = await User.findOne({
+            where: { username },
+            attributes: ['id','username','password'],
+            include: {
+                model: Group,
+                attributes:['group']
+            }
+        });
+
+        if(user == null) {
+            res.status(401).json({
+                msgType: "Access denied",
+            msg: "Incorrect username or password"
+            });
+            return;
+        }
+
+        if (await passCrypt.comparePassword(password, user.password)) {
+            let redirection;
+            switch (user.group.group) {
+                case 'all':
+                    redirection = '/app/mainMenu'
+                    break;
+                case 'land_use':
+                    redirection = '/app/landMenu'
+                    break;
+            
+                case 'urban':
+                    redirection = '/app/urbanMenu'
+                    break;
+                    
+                default:
+                    redirection = '/app/login'
+                    break;
+            }
+
+            const token = jwt.sign({userID: user.id, username: user.username}, config.SECRET , {
+                expiresIn: config.TOKENS_EXP
+            });
+            
+            res.cookie("access_token", token, {httpOnly: true,
+                secure: true,
+                signed: true,
+                sameSite: 'none',
+                maxAge: config.TOKENS_EXP 
+            }).status(200).redirect(redirection);
+            return;
+        }
+        
+        res.status(401).json({
+            msgType: "Access denied",
+            msg: "Incorrect username or password"
+        });
+        return;
+    } catch (error) {
+        console.log(error);
+        res.status(200).json({msg: "Error on server"});
+    }
+}

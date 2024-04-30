@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/libs/bootstrap-icons-1.11.3/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="/css/tlib-0.1.0.css">
+    <title>Acceder</title>
+    <link rel="shortcut icon" href="/img/imduy_icono_blanco.png" type="image/x-icon">
+    <script src="/js/appLogin.js" defer></script>
+</head>
+<body class="bg-image bg-image-2">
+    <main>
+        <section class="page-full bg-blur">
+            <div class="container dis-flex flex-center">
+                <div class="w-30 dis-grid template-login-a">
+                    <div class="login-icon dis-flex flex-center bg-primary shadow">
+                        <img class="w-60" src="/img/imduy_vertical_blanco.png" alt="icon">
+                    </div>
+                    <div class="login-card border-round shadow"></div>
+
+                    <form class="container login-form dis-flex flex-column flex-center-v padding-large" id="loginForm">
+                        <label class="dis-flex flex-center-v w-100 margin-vertical-small border-round">
+                            <span class="input-icon input-icon-login bi-person-badge input-icon-white input-icon-bg-complementary input-icon-round-left"></span>
+                            <input class="input input-login input-round-right w-100 " type="text" name="username" placeholder="Usuario" required>
+                        </label>
+
+                        <label class="dis-flex flex-center-v w-100 margin-vertical-medium border-round">
+                            <span class="bi-lock input-icon input-icon-login input-icon-white input-icon-bg-complementary input-icon-round-left"></span>
+                            <input class="input input-login input-round-right w-100" type="password" name="password" placeholder="Contraseña" required>
+                        </label>
+                        
+                        <button class="btn btn-primary txt-medium margin-vertical-small" type="submit">Acceder</button>
+                    </form>
+                </div>
+            </div>
+            
+        </section>
+    </main>
+</body>
+</html>

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/libs/bootstrap-icons-1.11.3/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="/css/tlib-0.1.0.css">
+    <title>Licencias tramites urbanos</title>
+    <link rel="shortcut icon" href="/img/urban_icon.svg" type="image/x-icon">
+    <script src="/libs/html2pdf.bundle.min.js"></script>
+</head>
+<body class="bg-image bg-image-1">
+    <header class="header header-15">
+        <div class="container bg-complementary-alpha border-primary border-only-bottom dis-flex flex-center-v flex-between padding-horizontal-large">
+            <a href="" class="w-15"><img class="w-100" src="/img/imduyv_logo_horizontal_primario.png" alt="Logo"></a>
+            <span class="bi-buildings-fill color-primary txt-xlarge"></span>
+            <div class="w-15 dis-flex flex-column color-primary">
+                <span class="bi-person-circle txt-medium btn"> Usuario</span>
+                <span class="bi-door-open txt-medium btn"> Cerrar sesión</span>
+            </div>
+        </div>
+    </header>
+    <main>
+        <section class="page-full bg-blur">
+            <div class="container shadow-inner padding-horizontal-large padding-bottom-medium dis-flex flex-center-v flex-column">
+                <div class="dis-flex flex-between w-100 margin-bottom-small padding-small border-primary border-only-left border-only-bottom border-only-right border-round-bottom">
+                    <form class="dis-flex flex-wrap flex-center-h w-25">
+                        <select class="input input-secondary input-interface border-secondary input-round-left w-40" required>
+                            <option value="">Seleccione tipo ...</option>
+                            <option value="1">Constancia de uso de suelo</option>
+                            <option value="2">Licencia de uso de suelo</option>
+                            <option value="3">Licencia de subdivisión</option>
+                            <option value="4">Licencia de Fusion</option>
+                            <option value="5">Prórroga de licencia de fraccionamiento</option>
+                            <option value="6">Licencia de fraccionamiento</option>
+                            <option value="7">Relotificación de fraccionamiento</option>
+                            <option value="8">Régimen de propiedad en condominio</option>
+                        </select>
+                        <input class="input input-secondary input-interface border-secondary w-20" type="number" placeholder="folio" required>
+                        <select class="input input-secondary input-interface input-round-right w-40" required>
+                            <option value="">Seleccione año ...</option>
+                            <option value="1">2024</option>
+                            <option value="2">2025</option>
+                            <option value="3">2026</option>
+                            <option value="4">2027</option>
+                            <option value="5">2028</option>
+                            <option value="6">2029</option>
+                            <option value="7">2030</option>
+                        </select>
+
+                        <button class="btn btn-primary margin-top-small" type="submit">Buscar</button>
+                        
+                    </form>
+                    <div class="dis-flex flex-column">
+                        <button class="btn btn-primary-bg margin-bottom-small"><span class="bi-printer"> PDF</span></button>
+                        <button class="btn btn-primary"><span class="bi-map"> Maps</span></button>
+                    </div>
+                </div>
+                
+                <div class="h-100 page-container">
+
+                    <div class="letter-page">
+                        
+                    </div>
+
+                    <div class="letter-page">
+
+                    </div>
+                    
+                </div>
+                
+            </div>
+        </section>
+    </main>
+    <!--<script>
+        const btnPDF = document.getElementById('btn_pdf');
+        const printArea = document.getElementById('print_area');
+
+        btnPDF.addEventListener(
+            'click', () => {
+                let option = {
+                    margin: .4,
+                    filename: 'test',
+                    image: { type: 'png', quality: 0.95 },
+                    html2canvas: { scale: 4 },
+                    jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+                }
+                html2pdf(printArea, option);
+            }
+        );
+    </script>-->
+</body>
+</html>
