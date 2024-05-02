@@ -11,7 +11,7 @@ router.get('/appInfo', appControl.getInfo);
 router.get('/login', appControl.goLogIn);
 
 // * protected routes
-router.get('/mainMenu', [authenticator.verifyToken , authenticator.isLandUser] , appControl.goMainMenu);
+router.get('/mainMenu', [authenticator.verifyToken , authenticator.isAllUser] , appControl.goMainMenu);
 
 router.get('/landMenu', [authenticator.verifyToken , authenticator.isLandUser] , appControl.goLandMenu);
 

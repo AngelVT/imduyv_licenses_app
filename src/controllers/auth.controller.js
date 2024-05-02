@@ -75,5 +75,11 @@ export const signIn = async (req, res) => {
 }
 
 export const logOut = (req, res) => {
-    res.status(200).json({msg: "Log out"});
+    res.cookie("access_token", {"id": "none"}, {httpOnly: true,
+        secure: true,
+        signed: true,
+        sameSite: 'none',
+        maxAge: 1
+    }).status(200).redirect('/app/login');
+    return;
 }

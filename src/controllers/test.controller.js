@@ -61,7 +61,7 @@ export const test = async (req, res) => {
                 signed: true,
                 sameSite: 'none',
                 maxAge: config.TOKENS_EXP 
-            }).status(200).redirect(redirection);
+            }).status(200).json("access granted");
             return;
         }
         

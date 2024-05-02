@@ -1,7 +1,6 @@
 import path from "path";
 import { __dirname } from "../paths.js";
 import pkg from '../../package.json' with {type: "json"};
-import { User } from "../models/Users.models.js";
 
 export const goInfo = (req, res) => {
     try {
