@@ -1,3 +1,5 @@
+import fs from 'fs';
+
 export default {
     SECRET: 'u9dYYqNP4582Dra22H21TyZTX',
     TOKENS_EXP: 30000,
@@ -9,5 +11,9 @@ export default {
     DB_TIMEZONE: '-06:00',
     DB_DATABASE: 'dev_imduy_licencias',
     DB_USER: 'API',
-    DB_PASSWORD: '()Xz[pM9nZ)O4D[V'
+    DB_PASSWORD: '()Xz[pM9nZ)O4D[V',
+    HTTPS_OPTIONS: {
+        key: fs.readFileSync('./src/certificate/server.key'),
+        cert: fs.readFileSync('./src/certificate/server.crt')
+    }
 }
