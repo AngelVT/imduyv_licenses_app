@@ -2,7 +2,7 @@ import app from './app.js';
 import config from './config.js';
 import https from 'https';
 
-https.createServer(config.HTTPS_OPTIONS, app).listen(config.APP_PORT, function(error) {
+https.createServer(config.HTTPS_OPTIONS, app).listen(config.APP_PORT, error => {
     if (error) {
         console.error('Error starting HTTPS server:', error);
     } else {

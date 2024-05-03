@@ -8,6 +8,8 @@ const router = Router();
 
 router.post('/test' , testing.test);
 
+router.get('/name', authenticator.verifyToken , userControl.getUserName);
+
 router.get('/', [authenticator.verifyToken , authenticator.isModerator] ,userControl.getUsers);
 
 router.get('/:userID', [authenticator.verifyToken , authenticator.isModerator] ,userControl.getUser);

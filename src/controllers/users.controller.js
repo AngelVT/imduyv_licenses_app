@@ -67,7 +67,7 @@ export const createUser =async (req, res) => {
         return;
     } catch (error) {
         console.log(error);
-        res.status(200).json({msg: "Error on server"});
+        res.status(500).json({msg: "Error on server"});
     }
 }
 
@@ -77,4 +77,24 @@ export const updateUser = async (req, res) => {
 
 export const deleteUser = async (req, res) => {
     res.status(200).json({ msg: "Deleting"});
+}
+
+export const getUserName = async (req, res) => {
+    try {
+        const user = await User.findByPk(req.userID, {
+            attributes: ['name']
+        });
+
+        if (user === null) {
+            res.status(404).json({msg: "No user found"});
+            return;
+        }
+
+        res.status(200).json({
+            name: user.name
+        });
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({msg: "Error on server"});
+    }
 }

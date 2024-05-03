@@ -7,6 +7,8 @@
     <link rel="stylesheet" href="/css/tlib-0.1.0.css">
     <title>Licencias uso de suelo</title>
     <link rel="shortcut icon" href="/img/landuse_icon.svg" type="image/x-icon">
+    <script src="/js/appLogout.js" defer></script>
+    <script src="/js/appInfoLoader.js" defer></script>
 </head>
 <body class="bg-image bg-image-1">
     <header class="header header-15">
@@ -14,8 +16,8 @@
             <a href="" class="w-15"><img class="w-100" src="/img/imduyv_logo_horizontal_primario.png" alt="Logo"></a>
             <span class="bi-building-fill color-primary txt-xlarge"></span>
             <div class="w-15 dis-flex flex-column color-primary">
-                <span class="bi-person-circle txt-medium btn"> Usuario</span>
-                <span class="bi-door-open txt-medium btn"> Cerrar sesión</span>
+                <span id="user_name" class="bi-person-circle txt-medium padding-horizontal-medium"> Usuario</span>
+                <span id="logout" class="bi-door-open txt-medium btn"> Cerrar sesión</span>
             </div>
         </div>
     </header>
