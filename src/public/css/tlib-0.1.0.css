@@ -7,6 +7,11 @@
     --complementary_alpha: #757575ce;
     --white: #fff;
     --black: #000;
+    --small: .5em;
+    --regular: 1em;
+    --medium: 2em;
+    --large: 4em;
+    --xlarge: 8em;
 }
 
 @font-face {
@@ -864,7 +869,7 @@ html {
 }
 
 /*-------------------------------------------------------------------------*/
-
+/*-------------------------------Custom------------------------------------*/
 .page-container {
     overflow: scroll;
     overflow-x: hidden;
@@ -876,4 +881,16 @@ html {
     width: 733px;
     background-color: var(--white);
     border-bottom: 1px dotted var(--black);
+}
+
+.back-arrow {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    color: var(--primary);
+    font-size: 170%;
+}
+
+.back-arrow:hover {
+    transform: scale(1.1);
 }

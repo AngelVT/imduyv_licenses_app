@@ -8,7 +8,7 @@ const router = Router();
 
 router.post('/test' , testing.test);
 
-router.get('/name', authenticator.verifyToken , userControl.getUserName);
+router.get('/info', authenticator.verifyToken , userControl.getUserInfo);
 
 router.get('/', [authenticator.verifyToken , authenticator.isModerator] ,userControl.getUsers);
 

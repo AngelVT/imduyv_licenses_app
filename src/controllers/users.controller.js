@@ -79,10 +79,14 @@ export const deleteUser = async (req, res) => {
     res.status(200).json({ msg: "Deleting"});
 }
 
-export const getUserName = async (req, res) => {
+export const getUserInfo = async (req, res) => {
     try {
         const user = await User.findByPk(req.userID, {
-            attributes: ['name']
+            attributes: ['name'],
+            include: {
+                model: Group,
+                attributes: ['group']
+            }
         });
 
         if (user === null) {
@@ -91,7 +95,8 @@ export const getUserName = async (req, res) => {
         }
 
         res.status(200).json({
-            name: user.name
+            name: user.name,
+            group: user.group.group
         });
     } catch (error) {
         console.log(error);
