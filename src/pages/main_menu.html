@@ -11,7 +11,7 @@
     <script src="/js/appInfoLoader.js" defer></script>
 </head>
 <body class="bg-image bg-image-1">
-    <header class="header header-15">
+    <!--<header class="header header-15">
         <div class="container bg-complementary-alpha border-primary border-only-bottom dis-flex flex-center-v flex-between padding-horizontal-large">
             <img class="w-15" src="/img/imduyv_logo_horizontal_primario.png" alt="Logo">
             <p class="txt-xlarge">
@@ -24,15 +24,21 @@
                 <span id="logout" class="bi-door-open txt-medium btn"> Cerrar sesión</span>
             </div>
         </div>
-    </header>
+    </header>-->
     <main>
-        <section class="page-full bg-blur" id="menu">
+        <section class="page-full bg-blur">
             <div class="container shadow-inner dis-flex flex-center-v flex-evenly">
-                <a href="/app/landMenu#menu" class="w-30 btn-column btn-primary shadow txt-xlarge txt-uppercase padding-small txt-center">
+                <span class="bi-buildings-fill user-info">
+                    <div class="border-round color-white">
+                        <span id="user_name" class="bi-person-circle padding-horizontal-small"> Usuario</span>
+                        <span id="logout" class="bi-door-open btn"> Cerrar sesión</span>
+                    </div>
+                </span>
+                <a href="/app/landMenu" class="w-30 btn-column btn-primary shadow txt-xlarge txt-uppercase padding-small txt-center">
                     <span class="bi-building txt-xlarge"></span>Uso de <br> Suelo
                 </a>
 
-                <a href="/app/urbanMenu#menu" class="w-30 btn-column btn-primary shadow txt-xlarge txt-uppercase padding-small txt-center">
+                <a href="/app/urbanMenu" class="w-30 btn-column btn-primary shadow txt-xlarge txt-uppercase padding-small txt-center">
                     <span class="bi-buildings txt-xlarge"></span>Tramites <br> Urbanos
                 </a>
             </div>

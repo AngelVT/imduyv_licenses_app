@@ -11,7 +11,7 @@
     <script src="/js/appInfoLoader.js" defer></script>
 </head>
 <body class="bg-image bg-image-1">
-    <header class="header header-15">
+    <!--<header class="header header-15">
         <div class="container bg-complementary-alpha border-primary border-only-bottom dis-flex flex-center-v flex-between padding-horizontal-large">
             <img class="w-15" src="/img/imduyv_logo_horizontal_primario.png" alt="Logo">
             <span class="bi-building-fill color-primary txt-xlarge"></span>
@@ -20,11 +20,19 @@
                 <span id="logout" class="bi-door-open txt-medium btn"> Cerrar sesión</span>
             </div>
         </div>
-    </header>
+    </header>-->
     <main>
-        <section class="page-full bg-blur" id="workspace">
+        <section class="page-full bg-blur">
             <div class="container shadow-inner padding-large">
-                <a href="/app/landMenu#menu" class="back-arrow bi-arrow-left-circle-fill"></a>
+                
+                <a href="/app/landMenu" class="back-arrow bi-arrow-left-circle-fill"></a>
+                <span class="bi-building user-info">
+                    <div class="border-round color-white">
+                        <span id="user_name" class="bi-person-circle padding-horizontal-small"> Usuario</span>
+                        <span id="logout" class="bi-door-open btn"> Cerrar sesión</span>
+                    </div>
+                </span>
+                
                 <form class="dis-grid template-3cols container color-primary">
 
                     <label class="txt-uppercase">Tipo de licencia:

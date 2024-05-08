@@ -11,7 +11,7 @@
     <script src="/js/appInfoLoader.js" defer></script>
 </head>
 <body class="bg-image bg-image-1">
-    <header class="header header-15">
+    <!--<header class="header header-15">
         <div class="container bg-complementary-alpha border-primary border-only-bottom dis-flex flex-center-v flex-between padding-horizontal-large">
             <img class="w-15" src="/img/imduyv_logo_horizontal_primario.png" alt="Logo">
             <span class="bi-buildings-fill color-primary txt-xlarge"></span>
@@ -20,14 +20,20 @@
                 <span id="logout" class="bi-door-open txt-medium btn"> Cerrar sesión</span>
             </div>
         </div>
-    </header>
+    </header>-->
     <main>
-        <section class="page-full bg-blur" id="menu">
+        <section class="page-full bg-blur">
             <div class="container shadow-inner dis-flex flex-center-v flex-evenly">
-                <a id="mm" href="/app/mainMenu#menu" class="back-arrow bi-arrow-left-circle-fill" style="display: none;"></a>
-                <a href="/app/urbanRegister#workspace" class="w-25 btn-column btn-primary shadow txt-xlarge txt-uppercase padding-small"><span class="bi-database-add txt-xlarge"></span>Registrar</a>
-                <a href="/app/urbanConsult#workspace" class="w-25 btn-column btn-primary shadow txt-xlarge txt-uppercase padding-small"><span class="bi-database-down txt-xlarge"></span>Consultar</a>
-                <a href="/app/urbanPrint#workspace" class="w-25 btn-column btn-primary shadow txt-xlarge txt-uppercase padding-small bg-contrast"><span class="bi-printer txt-xlarge"></span>Imprimir</a>
+                <a id="mm" href="/app/mainMenu" class="back-arrow bi-arrow-left-circle-fill" style="display: none;"></a>
+                <span class="bi-buildings-fill user-info">
+                    <div class="border-round color-white">
+                        <span id="user_name" class="bi-person-circle padding-horizontal-small"> Usuario</span>
+                        <span id="logout" class="bi-door-open btn"> Cerrar sesión</span>
+                    </div>
+                </span>
+                <a href="/app/urbanRegister" class="w-25 btn-column btn-primary shadow txt-xlarge txt-uppercase padding-small"><span class="bi-database-add txt-xlarge"></span>Registrar</a>
+                <a href="/app/urbanConsult" class="w-25 btn-column btn-primary shadow txt-xlarge txt-uppercase padding-small"><span class="bi-database-down txt-xlarge"></span>Consultar</a>
+                <a href="/app/urbanPrint" class="w-25 btn-column btn-primary shadow txt-xlarge txt-uppercase padding-small bg-contrast"><span class="bi-printer txt-xlarge"></span>Imprimir</a>
             </div>
         </section>
     </main>

@@ -600,7 +600,7 @@ html {
     padding: .5em 2em;
     border-radius: 15px;
     text-decoration: none;
-    transition: ease .2s;
+    transition: ease-in-out .2s;
 }
 .btn:hover {
     transform: scale(1.1);
@@ -885,12 +885,115 @@ html {
 
 .back-arrow {
     position: absolute;
-    top: 20px;
+    top: 35px;
     left: 20px;
     color: var(--primary);
     font-size: 170%;
+    transition: all .2s ease-in;
 }
 
-.back-arrow:hover {
+.user-info {
+    position: absolute;
+    top: 30px;
+    right: 5px;
+    color: var(--primary);
+    padding: var(--small);
+    font-size: 170%;
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+    border-radius: 15px;
+    transition: .2s ease-in-out;
+}
+
+.user-info > div {
+    width: 0;
+    height: 0;
+    overflow: hidden;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    font-size: 50%;
+    transition: .2s ease-in-out;
+}
+
+.user-info:hover > div {
+    width: fit-content;
+    height: fit-content;
+    padding: var(--small);
+}
+
+.user-info:hover {
+    top: 10px;
+    right: 15px;
+    color: var(--white);
+    background-color: var(--secondary_alpha);
+    padding: var(--small);
+}
+
+.back-arrow:hover, .user-info:hover {
     transform: scale(1.1);
+}
+
+.format-head {
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--primary);
+    font-weight: bold;
+    color: var(--white);
+}
+
+.flex_gap {
+    gap: 5px;
+}
+
+.grid-gap {
+    row-gap: 5px;
+}
+
+.format-container {
+    border-left: 1px solid var(--black);
+    border-right: 1px solid var(--black);
+    border-bottom: 1px solid var(--black);
+    padding: 3px;
+}
+
+.table-format th, .td-border {
+    border-bottom: 1px solid var(--black);
+}
+
+.format-table-list {
+    list-style-type: none;
+}
+
+.format-table-list > li {
+    border-bottom: 1px solid var(--black);
+}
+
+.format-txt-regular {
+    font-size: 10px;
+}
+
+.format-txt-small {
+    font-size: 8px;
+}
+
+.format-field {
+    border: 1px solid var(--black);
+    padding: 3px;
+    text-align: center;
+}
+
+.grid-format {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 16px 1fr;
+}
+
+.grid-format-data {
+    display: grid;
+    grid-template-columns: 25% 1fr;
+    grid-template-rows: auto auto auto;
+    row-gap: 3px;
 }
