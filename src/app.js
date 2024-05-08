@@ -22,6 +22,12 @@ checkDB();
 defaults.setDefaultRoles();
 defaults.setDefaultGroups();
 defaults.setDefaultUsers();
+defaults.setDefaultLicenseTypes();
+defaults.setDefaultLicenseTerms();
+defaults.setDefaultLicenseZones();
+defaults.setDefaultLicenseAuthUses();
+defaults.setDefaultLicenseValidities();
+defaults.setDefaultLicenseExpeditionTypes();
 
 app.use(express.json());
 

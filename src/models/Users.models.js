@@ -2,7 +2,7 @@ import { DataTypes } from 'sequelize';
 import { pool } from '../database.js';
 
 export const User = pool.define(
-    "user", {
+    'user', {
         name: {
             type: DataTypes.STRING(45),
             allowNull: false,
