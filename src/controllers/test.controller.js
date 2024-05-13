@@ -2,11 +2,23 @@ import { User , Role , Group} from "../models/Users.models.js";
 import * as passCrypt from '../libs/passwordCrypt.js';
 import jwt from 'jsonwebtoken';
 import config from "../config.js";
+import fs from 'fs/promises';
+import { __dirname, __dirstorage } from "../paths.js";
+import path from "path";
 
 
-export const test = async (req, res) => {
+export const test = async (req, res, next) => {
     try {
-        const { username, password} = req.body;
+        const destination = path.join(__dirstorage, req.file.originalname)
+
+        await fs.writeFile(destination, req.file.buffer, err => {
+            if (err) {
+                console.log(err);
+            }
+        });
+
+        res.status(200).json({msg: "Good"});
+        /*const { username, password} = req.body;
 
         if (!username || !password) {
             res.status(400).json({
@@ -69,9 +81,20 @@ export const test = async (req, res) => {
             msgType: "Access denied",
             msg: "Incorrect username or password"
         });
-        return;
+        return;*/
     } catch (error) {
-        console.log(error);
-        res.status(200).json({msg: "Error on server"});
+        console.log('Tha error: ', error);
+        res.status(500).json({msg: "Error on server"});
+    }
+}
+
+export const testFile = async (req, res, next) => {
+    try {
+        const filePath = path.join(__dirstorage, 'dddepth-293.jpg');
+
+        res.sendFile(filePath);
+    } catch (error) {
+        console.log('Tha error: ', error);
+        res.status(500).json({msg: "Error on server"});
     }
 }

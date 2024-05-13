@@ -4,7 +4,7 @@ import pkg from '../../package.json' with {type: "json"};
 
 export const goInfo = (req, res) => {
     try {
-        res.sendFile(path.join(__dirname, 'pages', 'info.html'));
+        res.sendFile(path.join(__dirname, 'public', 'info.html'));
     } catch (error) {
         console.log('The following error ocurred: ', error);
         res.status(200).json({msg: "Error on server"});
@@ -27,7 +27,7 @@ export const getInfo =(req, res) => {
 
 export const goLogIn = (req, res) => {
     try {
-        res.sendFile(path.join(__dirname, 'pages', 'login.html'));
+        res.sendFile(path.join(__dirname, 'public', 'login.html'));
     } catch (error) {
         console.log('The following error ocurred: ', error);
         res.status(200).json({msg: "Error on server"});
@@ -36,7 +36,7 @@ export const goLogIn = (req, res) => {
 
 export const goLandMenu = (req, res) => {
     try {
-        res.sendFile(path.join(__dirname, 'pages', 'landuse_menu.html'));
+        res.sendFile(path.join(__dirname, 'private', 'landuse_menu.html'));
     } catch (error) {
         console.log('The following error ocurred: ', error);
         res.status(200).json({msg: "Error on server"});
@@ -45,7 +45,7 @@ export const goLandMenu = (req, res) => {
 
 export const goLandRegister = (req, res) => {
     try {
-        res.sendFile(path.join(__dirname, 'pages', 'landuse_reg.html'));
+        res.sendFile(path.join(__dirname, 'private', 'landuse_reg.html'));
     } catch (error) {
         console.log('The following error ocurred: ', error);
         res.status(200).json({msg: "Error on server"});
@@ -54,7 +54,7 @@ export const goLandRegister = (req, res) => {
 
 export const goLandConsult = (req, res) => {
     try {
-        res.sendFile(path.join(__dirname, 'pages', 'landuse_consult.html'));
+        res.sendFile(path.join(__dirname, 'private', 'landuse_consult.html'));
     } catch (error) {
         console.log('The following error ocurred: ', error);
         res.status(200).json({msg: "Error on server"});
@@ -63,7 +63,7 @@ export const goLandConsult = (req, res) => {
 
 export const goLandPrint = (req, res) => {
     try {
-        res.sendFile(path.join(__dirname, 'pages', 'landuse_print.html'));
+        res.sendFile(path.join(__dirname, 'private', 'landuse_print.html'));
     } catch (error) {
         console.log('The following error ocurred: ', error);
         res.status(200).json({msg: "Error on server"});
@@ -72,7 +72,7 @@ export const goLandPrint = (req, res) => {
 
 export const goUrbanMenu = (req, res) => {
     try {
-        res.sendFile(path.join(__dirname, 'pages', 'urban_menu.html'));
+        res.sendFile(path.join(__dirname, 'private', 'urban_menu.html'));
     } catch (error) {
         console.log('The following error ocurred: ', error);
         res.status(200).json({msg: "Error on server"});
@@ -81,7 +81,7 @@ export const goUrbanMenu = (req, res) => {
 
 export const goUrbanRegister = (req, res) => {
     try {
-        res.sendFile(path.join(__dirname, 'pages', 'urban_reg.html'));
+        res.sendFile(path.join(__dirname, 'private', 'urban_reg.html'));
     } catch (error) {
         console.log('The following error ocurred: ', error);
         res.status(200).json({msg: "Error on server"});
@@ -90,7 +90,7 @@ export const goUrbanRegister = (req, res) => {
 
 export const goUrbanConsult = (req, res) => {
     try {
-        res.sendFile(path.join(__dirname, 'pages', 'urban_consult.html'));
+        res.sendFile(path.join(__dirname, 'private', 'urban_consult.html'));
     } catch (error) {
         console.log('The following error ocurred: ', error);
         res.status(200).json({msg: "Error on server"});
@@ -99,7 +99,7 @@ export const goUrbanConsult = (req, res) => {
 
 export const goUrbanPrint = (req, res) => {
     try {
-        res.sendFile(path.join(__dirname, 'pages', 'urban_print.html'));
+        res.sendFile(path.join(__dirname, 'private', 'urban_print.html'));
     } catch (error) {
         console.log('The following error ocurred: ', error);
         res.status(200).json({msg: "Error on server"});
@@ -107,5 +107,5 @@ export const goUrbanPrint = (req, res) => {
 };
 
 export const goMainMenu = (req, res) => {
-    res.sendFile(path.join(__dirname, 'pages', 'main_menu.html'));
+    res.sendFile(path.join(__dirname, 'private', 'main_menu.html'));
 };

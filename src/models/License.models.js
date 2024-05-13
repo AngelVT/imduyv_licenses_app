@@ -1,5 +1,6 @@
 import { DataTypes } from "sequelize";
 import { pool } from '../database.js';
+import { request } from "https";
 
 //models for licenses go here
 
@@ -136,6 +137,10 @@ export const LandUseLicense = pool.define(
             type: DataTypes.STRING,
             allowNull: false
         },
+        zoneImage: {
+            type: DataTypes.STRING,
+            allowNull: false
+        },
         zone: {
             type: DataTypes.INTEGER,
             references: {
@@ -210,6 +215,114 @@ export const LandUseLicense = pool.define(
         }
     }
 );
+
+export const UrbanType = pool.define(
+    'urbanType', {
+        licenseType: {
+            type: DataTypes.STRING,
+            allowNull: false
+        }
+    },{
+        timestamps: false
+    }
+);
+
+export const UrbanLisense = pool.define(
+    'urbanLicense', {
+        invoice: {
+            type: DataTypes.INTEGER,
+            allowNull: false
+        },
+        licenseType: {
+            type: DataTypes.INTEGER,
+            references: {
+                model: UrbanType,
+                key: 'id'
+            },
+            allowNull: false
+        },
+        year: {
+            type: DataTypes.INTEGER,
+            allowNull: false
+        },
+        requestDate: {
+            type: DataTypes.DATEONLY,
+            allowNull: false
+        },
+        requestorName: {
+            type: DataTypes.STRING,
+            allowNull: false
+        },
+        legalRepresentative: {
+            type: DataTypes.STRING,
+            allowNull: false
+        },
+        elaboratedBy: {
+            type: DataTypes.STRING,
+            allowNull: false
+        },
+        address: {
+            type: DataTypes.STRING,
+            allowNull: false
+        },
+        colony: {
+            type: DataTypes.STRING,
+            allowNull: false
+        },
+        catastralKey: {
+            type: DataTypes.BIGINT,
+            allowNull: false
+        },
+        surfaceTotal: {
+            type: DataTypes.STRING,
+            allowNull: false
+        },
+        zoneImage: {
+            type: DataTypes.STRING,
+            allowNull: false
+        },
+        zone: {
+            type: DataTypes.INTEGER,
+            references: {
+                model: Zone,
+                key: 'id'
+            },
+            allowNull: false
+        },
+        expeditionDate: {
+            type: DataTypes.DATEONLY,
+            allowNull: false
+        },
+        collectionOrder: {
+            type: DataTypes.INTEGER,
+            allowNull: false
+        },
+        paymentDate: {
+            type: DataTypes.DATEONLY,
+            allowNull: false
+        },
+        billInvoice: {
+            type: DataTypes.INTEGER,
+            allowNull: false
+        },
+        authorizedquantity: {
+            type: DataTypes.FLOAT,
+            allowNull: false
+        },
+        deliveryDate: {
+            type: DataTypes.DATEONLY,
+            allowNull: false
+        },
+        receiverName: {
+            type: DataTypes.STRING,
+            allowNull: false
+        },
+        observations: {
+            type: DataTypes.STRING,
+            allowNull: false
+        }
+    }
+); 
 
 (async () => {
     try {

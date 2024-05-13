@@ -17,7 +17,7 @@ form.addEventListener(
             });
 
             if(res.ok) {
-                window.location.href = res.url + '#menu';
+                window.location.href = res.url;
                 return;
             }
 

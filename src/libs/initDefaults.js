@@ -1,5 +1,5 @@
 import { User, Role, Group } from "../models/Users.models.js";
-import { Type, Term, Zone, AuthUse, Validity, ExpeditionType } from "../models/License.models.js";
+import { Type, Term, Zone, AuthUse, Validity, ExpeditionType, UrbanType } from "../models/License.models.js";
 import { encryptPassword } from "./passwordCrypt.js";
 import config from "../config.js";
 
@@ -271,6 +271,32 @@ export const setDefaultLicenseExpeditionTypes = async () => {
         ]);
 
         console.log("Default license expedition types have been set");
+
+    } catch (error) {
+        console.log(`Error stablishing defaults: ${error}`);
+    }
+}
+
+export const setDefaultUrbanLicenseTypes = async () => {
+    try {
+        await UrbanType.sync();
+
+        const count = await UrbanType.count();
+
+        if (count > 0) return;
+
+        const createdType = await Promise.all([
+            UrbanType.create({ licenseType: 'CUS'}),
+            UrbanType.create({ licenseType: 'LUS'}),
+            UrbanType.create({ licenseType: 'LSUB'}),
+            UrbanType.create({ licenseType: 'LFUS'}),
+            UrbanType.create({ licenseType: 'PLF'}),
+            UrbanType.create({ licenseType: 'LF'}),
+            UrbanType.create({ licenseType: 'RLF'}),
+            UrbanType.create({ licenseType: 'CRPC'})
+        ]);
+
+        console.log("Default urban license types have been set");
 
     } catch (error) {
         console.log(`Error stablishing defaults: ${error}`);

@@ -8,6 +8,7 @@ import config from './config.js';
 import { __dirname } from './paths.js';
 import * as defaults from './libs/initDefaults.js';
 import { checkDB } from './database.js';
+import { verifyToken } from './middlewares/auth.JWT.js';
 
 import launuseRoutes from './routes/landuse.routes.js';
 import urbanRoutes from './routes/urban.routes.js';
@@ -28,6 +29,7 @@ defaults.setDefaultLicenseZones();
 defaults.setDefaultLicenseAuthUses();
 defaults.setDefaultLicenseValidities();
 defaults.setDefaultLicenseExpeditionTypes();
+defaults.setDefaultUrbanLicenseTypes();
 
 app.use(express.json());
 
@@ -41,7 +43,8 @@ app.use(cors({
 }));
 
 // * Stablish access to the web files
-app.use(express.static(path.join(__dirname, 'public')));
+app.use('/public', express.static(path.join(__dirname, 'public')));
+app.use('/private', verifyToken, express.static(path.join(__dirname, 'private')));
 
 // * Stablish routes
 app.use('/api/landuse', launuseRoutes);
@@ -54,8 +57,12 @@ app.use('/api/users', userRoutes);
 
 app.use('/app', appRoutes);
 
+app.use('/test', async (req, res) => {
+    res.sendFile(path.join(__dirname, 'private','index.html'));
+});
+
 app.use((req, res) => {
-    res.sendFile(path.join(__dirname, 'pages', 'notfound.html'));
+    res.sendFile(path.join(__dirname, 'public', 'notfound.html'));
 });
 
 export default app;
