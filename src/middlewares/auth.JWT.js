@@ -1,23 +1,23 @@
 import jwt from 'jsonwebtoken';
 import config from '../config.js';
 import { User, Role, Group } from '../models/Users.models.js';
-import { where } from 'sequelize';
+import { consoleLogger } from '../logger.js';
 
 export const verifyToken = async (req, res, next) => {
     const clientToken = req.signedCookies.access_token;
 
     if (!clientToken) {
-        console.log('Token not provided');
+        consoleLogger.devInfo('\n  Token not provided');
         next();
         return;
     } else {
-        console.log('Token provided ', clientToken);
+        consoleLogger.devInfo('\n  Token provided: %s', clientToken);
     }
 
     const decoded = jwt.verify(clientToken, config.SECRET)
 
     if(!decoded.userID || !decoded.username) {
-        console.log('invalid token provided');
+        consoleLogger.devInfo('\n  invalid token provided');
         next();
         return;
     } else {
@@ -30,7 +30,7 @@ export const verifyToken = async (req, res, next) => {
     });
 
     if(user === null) {
-        console.log('no user found');
+        consoleLogger.devInfo('\n  no user found');
         next();
         return;
     }

@@ -2,6 +2,7 @@ import { User, Role, Group } from "../models/Users.models.js";
 import { Type, Term, Zone, AuthUse, Validity, ExpeditionType, UrbanType } from "../models/License.models.js";
 import { encryptPassword } from "./passwordCrypt.js";
 import config from "../config.js";
+import { consoleLogger, logger } from "../logger.js";
 
 export const setDefaultRoles = async () => {
     try {
@@ -17,15 +18,11 @@ export const setDefaultRoles = async () => {
             Role.create({ role: 'user'})
         ]);
 
-        console.log("Default roles have been set: ");
-        createdRoles.forEach(
-            role => {
-                console.log(`The following role was created: ${role.role}`);
-            }
-        );
+        consoleLogger.info("\n  Default roles have been set");
+        logger.info("Default roles have been set");
 
     } catch (error) {
-        console.log(`Error stablishing defaults: ${error}`);
+        consoleLogger.warning(`\n  Error stablishing default user roles:\n    ${error}`);
     }
 }
 
@@ -43,15 +40,11 @@ export const setDefaultGroups = async () => {
             Group.create({ group: 'urban'})
         ]);
 
-        console.log("Default groups have been set: ");
-        createdGroup.forEach(
-            group => {
-                console.log(`The following group was created: ${group.group}`);
-            }
-        );
+        consoleLogger.info("\n  Default groups have been set");
+        logger.info("Default groups have been set");
 
     } catch (error) {
-        console.log(`Error stablishing defaults: ${error}`);
+        consoleLogger.warning(`\n  Error stablishing default user groups:\n    ${error}`);
     }
 }
 
@@ -73,10 +66,11 @@ export const setDefaultUsers = async () => {
             groupId: 1
         });
 
-        console.log("Default user has been set");
+        consoleLogger.info("\n  Default user has been set");
+        logger.info("Default user has been set");
 
     } catch (error) {
-        console.log(`Error stablishing defaults: ${error}`);
+        consoleLogger.warning(`\n  Error stablishing default users:\n    ${error}`);
     }
 }
 
@@ -98,10 +92,11 @@ export const setDefaultLicenseTypes = async () => {
             Type.create({ licenseType: 'DP'})
         ]);
 
-        console.log("Default license types have been set");
+        consoleLogger.info("\n  Default license types have been set");
+        logger.info("Default license types have been set");
 
     } catch (error) {
-        console.log(`Error stablishing defaults: ${error}`);
+        consoleLogger.warning(`\n  Error stablishing default license types:\n    ${error}`);
     }
 }
 
@@ -118,10 +113,11 @@ export const setDefaultLicenseTerms = async () => {
             Term.create({ licenseTerm: 'mediano'})
         ]);
 
-        console.log("Default license terms have been set");
+        consoleLogger.info("\n  Default license terms have been set");
+        logger.info("Default license terms have been set");
 
     } catch (error) {
-        console.log(`Error stablishing defaults: ${error}`);
+        consoleLogger.warning(`\n  Error stablishing default terms:\n    ${error}`);
     }
 }
 
@@ -159,10 +155,11 @@ export const setDefaultLicenseZones = async () => {
             Zone.create({ licenseZone: 'Parque Hídrico', licenseKey: 'PH'})
         ]);
 
-        console.log("Default license zones have been set");
+        consoleLogger.info("\n  Default license zones have been set");
+        logger.info("Default license zones have been set");
 
     } catch (error) {
-        console.log(`Error stablishing defaults: ${error}`);
+        consoleLogger.warning(`\n  Error stablishing default zones:\n    ${error}`);
     }
 }
 
@@ -230,10 +227,11 @@ export const setDefaultLicenseAuthUses = async () => {
             AuthUse.create({ licenseAuthUse: 'Minería y extracción'})
         ]);
 
-        console.log("Default license auth uses have been set");
+        consoleLogger.info("\n  Default license auth uses have been set");
+        logger.info("Default license auth uses have been set");
 
     } catch (error) {
-        console.log(`Error stablishing defaults: ${error}`);
+        consoleLogger.warning(`\n  Error stablishing default auth uses:\n    ${error}`);
     }
 }
 
@@ -250,10 +248,11 @@ export const setDefaultLicenseValidities = async () => {
             Validity.create({ licenseValidity: 'seis meses'})
         ]);
 
-        console.log("Default license validities have been set");
+        consoleLogger.info("\n  Default license validities have been set");
+        logger.info("Default license validities have been set");
 
     } catch (error) {
-        console.log(`Error stablishing defaults: ${error}`);
+        consoleLogger.warning(`\n  Error stablishing default validities:\n    ${error}`);
     }
 }
 
@@ -270,10 +269,12 @@ export const setDefaultLicenseExpeditionTypes = async () => {
             ExpeditionType.create({ licenseExpType: 'renovacion'})
         ]);
 
-        console.log("Default license expedition types have been set");
+        consoleLogger.info("\n  Default license expedition types have been set");
+        logger.info("Default license expedition types have been set");
+
 
     } catch (error) {
-        console.log(`Error stablishing defaults: ${error}`);
+        consoleLogger.warning(`\n  Error stablishing default expedition types:\n    ${error}`);
     }
 }
 
@@ -296,9 +297,10 @@ export const setDefaultUrbanLicenseTypes = async () => {
             UrbanType.create({ licenseType: 'CRPC'})
         ]);
 
-        console.log("Default urban license types have been set");
+        consoleLogger.info("\n  Default urban license types have been set");
+        logger.info("Default urban license types have been set");
 
     } catch (error) {
-        console.log(`Error stablishing defaults: ${error}`);
+        consoleLogger.warning(`\n  Error stablishing default urban types:\n    ${error}`);
     }
 }

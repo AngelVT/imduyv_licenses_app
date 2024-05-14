@@ -1,6 +1,7 @@
 import { DataTypes } from "sequelize";
 import { pool } from '../database.js';
-import { request } from "https";
+
+import { consoleLogger } from "../logger.js";
 
 //models for licenses go here
 
@@ -328,7 +329,7 @@ export const UrbanLisense = pool.define(
     try {
         await pool.sync();
     } catch (error) {
-        console.log("Error creating tables.");
+        consoleLogger.warning("\n  Error synchronizing licenses with DB.");
     }
     
 })();

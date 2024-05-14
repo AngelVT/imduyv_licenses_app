@@ -1,7 +1,7 @@
 import { Sequelize } from "sequelize";
 import config from "./config.js";
 
-import { logger } from './logger.js';
+import { logger, consoleLogger } from './logger.js';
 
 export const pool =  new Sequelize(config.DB_DATABASE, config.DB_USER, config.DB_PASSWORD, {
     host: config.DB_HOST,
@@ -14,10 +14,11 @@ export const pool =  new Sequelize(config.DB_DATABASE, config.DB_USER, config.DB
 export const checkDB = async () => {
     try {
         await pool.authenticate();
-        console.log("DB connection successful");
-        logger.info('DB connection successful DB: %s', config.DB_DATABASE);
+        //console.log("DB connection successful");
+        consoleLogger.info("\n  DB connection successful");
+        logger.info('DB connection successful\n    DB: %s\n    Port: %s', config.DB_DATABASE, config.DB_PORT);
     } catch (error) {
-        console.log('Error connecting to the DB');
-        logger.warn('DB connection failure\n DB: %s \n Error: %s\n', config.DB_DATABASE , error);
+        consoleLogger.error('\n  Error connecting to the DB');
+        logger.error('DB connection failure\n    DB: %s\n    Port: %s\n    Error: %s', config.DB_DATABASE, config.DB_PORT, error);
     }
 };
