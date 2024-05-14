@@ -818,6 +818,20 @@ html {
     opacity: 40%;
 }
 
+.input-file::file-selector-button {
+    padding: 5px 10px;
+    outline: none;
+    border: none;
+    border-radius: 15px;
+    background-color: var(--white);
+    cursor: pointer;
+}
+
+.input-file::file-selector-button:hover {
+    box-shadow: 2px 0px 26px -2px rgba(0,0,0,0.36) inset;
+    -webkit-box-shadow: 2px 0px 26px -2px rgba(0,0,0,0.36) inset;
+    -moz-box-shadow: 2px 0px 26px -2px rgba(0,0,0,0.36) inset;
+}
 
 /*-------------------------------------------------------------------------*/
 

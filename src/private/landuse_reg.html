@@ -95,7 +95,7 @@
                     
                     <label class="txt-uppercase">Zona:
                         <span class="w-100 dis-flex">
-                            <select class="w-75 margin-vertical-small input input-interface input-round-left" required>
+                            <select class="w-80 margin-vertical-small input input-interface input-round-left" required>
                                 <option value="">Seleccione zona ...</option>
                                 <option value="1">Densidad muy baja (Unifamiliar)</option>
                                 <option value="2">Densidad baja (Unifamiliar)</option>
@@ -124,6 +124,18 @@
                             <input class="w-25 margin-vertical-small input input-interface input-round-right txt-center" type="text" readonly>
                         </span>
                         
+                    </label>
+
+                    <label class="txt-uppercase">Zonificación: 
+                        <input class="w-100 margin-vertical-small input input-file" type="file" name="zoneIMG" accept=".jpg, .jpeg, .png" required>
+                    </label>
+
+                    <label class="txt-uppercase">Giro impresion (superficie mayor a 120 m<span style="vertical-align: super; font-size: 8px;">2</span>):
+                        <input class="w-100 margin-vertical-small input input-interface input-round" type="text">
+                    </label>
+
+                    <label class="txt-uppercase">Giro interno:
+                        <input class="w-100 margin-vertical-small input input-interface input-round" type="text" required>
                     </label>
 
                     <label class="txt-uppercase">Uso autorizado:
@@ -184,16 +196,6 @@
                             <option value="53">Minería y extracción</option>
                         </select>
                     </label>
-
-                    <label class="txt-uppercase">Giro impresion (superficie mayor a 120 m<span style="vertical-align: super; font-size: 8px;">2</span>):
-                        <input class="w-100 margin-vertical-small input input-interface input-round" type="text">
-                    </label>
-
-                    <label class="txt-uppercase">Giro interno:
-                        <input class="w-100 margin-vertical-small input input-interface input-round" type="text" required>
-                    </label>
-
-                    <div></div>
 
                     <p class="txt-uppercase dis-flex flex-wrap"><span class="w-100">Tipo de expedicion: </span>
                         <label class="w-50"><input class="margin-horizontal-small" type="radio" name="expedition_type" value="1" required>Nueva</label>
