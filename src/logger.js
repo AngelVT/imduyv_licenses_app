@@ -1,25 +1,15 @@
 import { createLogger, format, transports , addColors} from "winston";
 import DailyRotateFile from "winston-daily-rotate-file";
 
-const loggerLevels = {
+const serverLoggerLevels = {
     levels: {
         error: 0,
         warning: 1,
-        info: 2
-    }
-};
-
-const requestLevels = {
-    levels: {
+        info: 2,
         delete: 0,
         update: 1,
         create: 2,
-        get: 3
-    }
-};
-
-const accessLevels = {
-    levels: {
+        get: 2,
         access: 0,
         attempt: 1
     }
@@ -40,10 +30,10 @@ const consoleLevels = {
     }
 };
 
-addColors(consoleLevels.colors)
+addColors(consoleLevels.colors);
 
 export const logger = createLogger({
-    levels: loggerLevels.levels,
+    levels: serverLoggerLevels.levels,
     format: format.combine(
         format.timestamp({ format: 'YYYY-MM-DD hh:mm:ss.SSS A' }),
         format.splat(),
@@ -63,11 +53,13 @@ export const logger = createLogger({
 });
 
 export const requestLogger = createLogger({
-    levels: requestLevels.levels,
+    levels: serverLoggerLevels.levels,
     format: format.combine(
-        format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
+        format.timestamp({ format: 'YYYY-MM-DD hh:mm:ss.SSS A' }),
         format.splat(),
-        format.simple()
+        format.simple(),
+        format.align(),
+        format.printf((info) => `[ ${info.timestamp} ] ${info.level}: \n${info.message}`)
     ),
     transports: [
         new DailyRotateFile({
@@ -81,11 +73,13 @@ export const requestLogger = createLogger({
 });
 
 export const accessLogger = createLogger({
-    levels: accessLevels.levels,
+    levels: serverLoggerLevels.levels,
     format: format.combine(
-        format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
+        format.timestamp({ format: 'YYYY-MM-DD hh:mm:ss.SSS A' }),
         format.splat(),
-        format.simple()
+        format.simple(),
+        format.align(),
+        format.printf((info) => `[ ${info.timestamp} ] ${info.level}: \n${info.message}`)
     ),
     transports: [
         new DailyRotateFile({

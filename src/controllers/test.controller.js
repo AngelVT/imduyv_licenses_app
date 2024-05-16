@@ -7,9 +7,9 @@ import { __dirname, __dirstorage } from "../paths.js";
 import path from "path";
 
 
-export const test = async (req, res, next) => {
+export const test = async (req, res) => {
     try {
-        const destination = path.join(__dirstorage, req.file.originalname)
+        const destination = path.join(__dirstorage, req.file.originalname);
 
         await fs.writeFile(destination, req.file.buffer, err => {
             if (err) {
@@ -17,7 +17,9 @@ export const test = async (req, res, next) => {
             }
         });
 
-        res.status(200).json({msg: "Good"});
+        const txt = await fs.readFile(path.join(__dirstorage, 'xd.txt'), 'utf8');
+
+        res.status(200).json({msg: "Good", content: txt});
         /*const { username, password} = req.body;
 
         if (!username || !password) {

@@ -3,11 +3,14 @@ import config from "../config.js";
 import { User, Group } from '../models/Users.models.js';
 import * as passCrypt from '../libs/passwordCrypt.js';
 
+import { accessLogger } from '../logger.js';
+
 export const signIn = async (req, res) => {
     try {
         const { username, password} = req.body;
 
         if (!username || !password) {
+            accessLogger.attempt('Failed access due to no password or username');
             res.status(400).json({
                 msgType: "Error",
                 msg: "Required information was not provided"
@@ -25,6 +28,7 @@ export const signIn = async (req, res) => {
         });
 
         if(user == null) {
+            accessLogger.attempt('Failed access due to user "%s" does not exist', username);
             res.status(401).json({
                 msgType: "Access denied",
             msg: "Incorrect username or password"
@@ -54,6 +58,7 @@ export const signIn = async (req, res) => {
             const token = jwt.sign({userID: user.id, username: user.username}, config.SECRET , {
                 expiresIn: config.TOKENS_EXP
             });
+            accessLogger.access('Access successful by "%s" DB ID: %d', user.username, user.id);
             res.cookie("access_token", token, {httpOnly: true,
                 secure: true,
                 signed: true,
@@ -62,6 +67,8 @@ export const signIn = async (req, res) => {
             }).status(200).redirect(redirection);
             return;
         }
+
+        accessLogger.attempt('Failed access due to incorrect password for: "%s" or unable to authenticate',username);
         
         res.status(401).json({
             msgType: "Access denied",

@@ -1,7 +1,4 @@
-const thaForm = document.getElementById('tha_form');
-localStorage.setItem("form", thaForm.outerHTML);
-const XD = document.getElementById("xd");
-
+const thaForm = document.getElementById('form_reg');
 
 thaForm.addEventListener(
     'submit', async event => {
@@ -9,17 +6,14 @@ thaForm.addEventListener(
 
         const formData = new FormData(thaForm);
 
-        await fetch('https://192.168.180.25:3091/api/users/test', {
+        await fetch('https://192.168.180.25:3091/api/landuse/', {
             method: 'POST',
             credentials: 'include',
             body: formData
         })
-        .then(async res => {
+        .then(res => {
             if(res.ok){
                 console.log('All good');
-                const response = await res.json();
-                console.log(response.content);
-                XD.outerHTML = response.content;
             }
             return;
         })

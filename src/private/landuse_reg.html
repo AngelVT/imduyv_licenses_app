@@ -9,6 +9,8 @@
     <link rel="shortcut icon" href="/public/img/landuse_icon.svg" type="image/x-icon">
     <script src="/private/js/appLogout.js" defer></script>
     <script src="/private/js/appInfoLoader.js" defer></script>
+    <script src="/private/js/appLandRegistrator.js" defer></script>
+
 </head>
 <body class="bg-image bg-image-1">
     <!--<header class="header header-15">
@@ -33,10 +35,10 @@
                     </div>
                 </span>
                 
-                <form class="dis-grid template-3cols container color-primary">
+                <form id="form_reg" class="dis-grid template-3cols container color-primary">
 
                     <label class="txt-uppercase">Tipo de licencia:
-                        <select class="w-100 margin-vertical-small input input-interface input-round" required>
+                        <select name="licenseType" required class="w-100 margin-vertical-small input input-interface input-round">
                             <option value="">Seleccione tipo...</option>
                             <option value="1">Constancia</option>
                             <option value="2">Licencia Servicios</option>
@@ -52,29 +54,29 @@
                     <div></div>
 
                     <label class="txt-uppercase">Nombre del solicitante:
-                        <input class="w-100 margin-vertical-small input input-interface input-round" type="text" required>
+                        <input name="requestorName" required class="w-100 margin-vertical-small input input-interface input-round" type="text">
                     </label>
 
                     <label class="txt-uppercase">En atención:
-                        <input class="w-100 margin-vertical-small input input-interface input-round" type="text">
+                        <input name="attentionName" required class="w-100 margin-vertical-small input input-interface input-round" type="text">
                     </label>
 
                     
 
                     <label class="txt-uppercase">Calle:
-                        <input class="w-100 margin-vertical-small input input-interface input-round" type="text" required>
+                        <input name="address" required class="w-100 margin-vertical-small input input-interface input-round" type="text">
                     </label>
 
                     <label class="txt-uppercase">Numero:
-                        <input class="w-100 margin-vertical-small input input-interface input-round" type="text" required>
+                        <input name="number" required class="w-100 margin-vertical-small input input-interface input-round" type="text">
                     </label>
 
                     <label class="txt-uppercase">Colonia:
-                        <input class="w-100 margin-vertical-small input input-interface input-round" type="text" required>
+                        <input name="colony" required class="w-100 margin-vertical-small input input-interface input-round" type="text">
                     </label>
 
                     <label class="txt-uppercase">Telefono de contacto:
-                        <input class="w-100 margin-vertical-small input input-interface input-round" type="number" required>
+                        <input name="contactPhone" required class="w-100 margin-vertical-small input input-interface input-round" type="number">
                     </label>
 
                     <label class="txt-uppercase">Superficie:
@@ -82,20 +84,20 @@
                     </label>
 
                     <label class="txt-uppercase">Clave castastral:
-                        <input class="w-100 margin-vertical-small input input-interface input-round" type="text">
+                        <input name="catastralKey" required class="w-100 margin-vertical-small input input-interface input-round" type="number">
                     </label>
 
                     <label class="txt-uppercase">Georeferencia:
-                        <input class="w-100 margin-vertical-small input input-interface input-round" type="text">
+                        <input name="georeference" required class="w-100 margin-vertical-small input input-interface input-round" type="text">
                     </label>
 
                     <label class="txt-uppercase">Superficie de aprovechamiento:
-                        <input class="w-100 margin-vertical-small input input-interface input-round" type="text" required>
+                        <input name="surface" required class="w-100 margin-vertical-small input input-interface input-round" type="text">
                     </label>
                     
                     <label class="txt-uppercase">Zona:
                         <span class="w-100 dis-flex">
-                            <select class="w-80 margin-vertical-small input input-interface input-round-left" required>
+                            <select name="zone" required class="w-80 margin-vertical-small input input-interface input-round-left">
                                 <option value="">Seleccione zona ...</option>
                                 <option value="1">Densidad muy baja (Unifamiliar)</option>
                                 <option value="2">Densidad baja (Unifamiliar)</option>
@@ -127,19 +129,19 @@
                     </label>
 
                     <label class="txt-uppercase">Zonificación: 
-                        <input class="w-100 margin-vertical-small input input-file" type="file" name="zoneIMG" accept=".jpg, .jpeg, .png" required>
+                        <input name="zoneIMG" required class="w-100 margin-vertical-small input input-file" type="file" accept=".jpg, .jpeg, .png">
                     </label>
 
-                    <label class="txt-uppercase">Giro impresion (superficie mayor a 120 m<span style="vertical-align: super; font-size: 8px;">2</span>):
-                        <input class="w-100 margin-vertical-small input input-interface input-round" type="text">
+                    <label class="txt-uppercase">Giro impresión (superficie mayor a 120 m<span style="vertical-align: super; font-size: 8px;">2</span>):
+                        <input name="businessLinePrint" required class="w-100 margin-vertical-small input input-interface input-round" type="text">
                     </label>
 
                     <label class="txt-uppercase">Giro interno:
-                        <input class="w-100 margin-vertical-small input input-interface input-round" type="text" required>
+                        <input name="businessLineIntern" required class="w-100 margin-vertical-small input input-interface input-round" type="text">
                     </label>
 
                     <label class="txt-uppercase">Uso autorizado:
-                        <select class="w-100 margin-vertical-small input input-interface input-round" required>
+                        <select name="authorizedUse" required class="w-100 margin-vertical-small input input-interface input-round">
                             <option value="">Selecciona ...</option>
                             <option value="1">Unifamiliar, plurifamiliar o multifamiliar</option>
                             <option value="2">Vivienda campestre o aislada</option>
@@ -198,8 +200,8 @@
                     </label>
 
                     <p class="txt-uppercase dis-flex flex-wrap"><span class="w-100">Tipo de expedicion: </span>
-                        <label class="w-50"><input class="margin-horizontal-small" type="radio" name="expedition_type" value="1" required>Nueva</label>
-                        <label class="w-50"><input class="margin-horizontal-small" type="radio" name="expedition_type" value="2">Renovación</label>
+                        <label class="w-50"><input class="margin-horizontal-small" type="radio" name="expeditionType" value="1" required>Nueva</label>
+                        <label class="w-50"><input class="margin-horizontal-small" type="radio" name="expeditionType" value="2">Renovación</label>
                     </p>
 
                     <p class="txt-uppercase dis-flex flex-wrap"><span class="w-100">Plazo: </span>
@@ -213,35 +215,35 @@
                     </p>
 
                     <label class="txt-uppercase">Fecha de solicitud:
-                        <input class="w-100 margin-vertical-small input input-interface input-round" type="date" required>
+                        <input name="requestDate" required class="w-100 margin-vertical-small input input-interface input-round" type="date">
                     </label>
 
                     <label class="txt-uppercase">Fecha de expedicion:
-                        <input class="w-100 margin-vertical-small input input-interface input-round" type="date" required>
+                        <input name="expeditionDate" required class="w-100 margin-vertical-small input input-interface input-round" type="date">
                     </label>
 
                     <label class="txt-uppercase">Fecha de vencimiento:
-                        <input class="w-100 margin-vertical-small input input-interface input-round" type="date" required>
+                        <input name="expirationDate" class="w-100 margin-vertical-small input input-interface input-round" type="date">
                     </label>
 
                     <label class="txt-uppercase">Folio de pago:
-                        <input class="w-100 margin-vertical-small input input-interface input-round" type="text" required>
+                        <input name="paymentInvoice" required class="w-100 margin-vertical-small input input-interface input-round" type="text">
                     </label>
 
                     <label class="txt-uppercase">Costo:
-                        <input class="w-100 margin-vertical-small input input-interface input-round" type="number" required>
+                        <input name="cost" required class="w-100 margin-vertical-small input input-interface input-round" type="number">
                     </label>
 
                     <label class="txt-uppercase">Descuento:
-                        <input class="w-100 margin-vertical-small input input-interface input-round" type="number">
+                        <input name="discount" required class="w-100 margin-vertical-small input input-interface input-round" type="number">
                     </label>
 
                     <label class="txt-uppercase">Monto pagado:
-                        <input class="w-100 margin-vertical-small input input-interface input-round" type="number" required>
+                        <input name="paymentDone" required class="w-100 margin-vertical-small input input-interface input-round" type="number">
                     </label>
 
                     <label class="txt-uppercase">Inspector:
-                        <input class="w-100 margin-vertical-small input input-interface input-round" type="text" required>
+                        <input name="inspector" required class="w-100 margin-vertical-small input input-interface input-round" type="text">
                     </label>
 
                     <div></div>

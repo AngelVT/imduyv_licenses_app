@@ -9,6 +9,7 @@
     <link rel="shortcut icon" href="/public/img/urban_icon.svg" type="image/x-icon">
     <script src="/private/js/appLogout.js" defer></script>
     <script src="/private/js/appInfoLoader.js" defer></script>
+    <script src="/private/js/appUrbanRegistrator.js" defer></script>
 </head>
 <body class="bg-image bg-image-1">
     <!--<header class="header header-15">
@@ -33,10 +34,10 @@
                     </div>
                 </span>
 
-                <form class="dis-grid template-3cols container color-primary">
+                <form id="form_reg" class="dis-grid template-3cols container color-primary">
 
                     <label class="txt-uppercase">Tipo de licencia:
-                        <select class="w-100 margin-vertical-small input input-interface input-round" required>
+                        <select required name="licenseType" class="w-100 margin-vertical-small input input-interface input-round">
                             <option value="">Seleccione tipo...</option>
                             <option value="1">Constancia de uso de suelo</option>
                             <option value="2">Licencia de uso de suelo</option>
@@ -53,27 +54,27 @@
                     <div></div>
 
                     <label class="txt-uppercase">Nombre del solicitante:
-                        <input class="w-100 margin-vertical-small input input-interface input-round" type="text">
+                        <input required name="requestorName" class="w-100 margin-vertical-small input input-interface input-round" type="text">
                     </label>
 
                     <label class="txt-uppercase">Representante Legal:
-                        <input class="w-100 margin-vertical-small input input-interface input-round" type="text">
+                        <input required name="legalRepresentative" class="w-100 margin-vertical-small input input-interface input-round" type="text">
                     </label>
 
                     <label class="txt-uppercase">Fecha de solicitud:
-                        <input class="w-100 margin-vertical-small input input-interface input-round" type="date">
+                        <input required name="requestDate" class="w-100 margin-vertical-small input input-interface input-round" type="date">
                     </label>
 
                     <label class="txt-uppercase">Colonia/Asentamiento:
-                        <input class="w-100 margin-vertical-small input input-interface input-round" type="text">
+                        <input required name="colony" class="w-100 margin-vertical-small input input-interface input-round" type="text">
                     </label>
 
                     <label class="txt-uppercase">Calle:
-                        <input class="w-100 margin-vertical-small input input-interface input-round" type="text">
+                        <input required name="address" class="w-100 margin-vertical-small input input-interface input-round" type="text">
                     </label>
 
                     <label class="txt-uppercase">Clave castastral:
-                        <input class="w-100 margin-vertical-small input input-interface input-round" type="text">
+                        <input required name="catastralKey" class="w-100 margin-vertical-small input input-interface input-round" type="number">
                     </label>
 
                     <label class="txt-uppercase">Superficie:
@@ -81,16 +82,16 @@
                     </label>
 
                     <label class="txt-uppercase">Superficie de aprovechamiento:
-                        <input class="w-100 margin-vertical-small input input-interface input-round" type="text" required>
+                        <input required name="surface" class="w-100 margin-vertical-small input input-interface input-round" type="text">
                     </label>
 
                     <label class="txt-uppercase">Zonificación: 
-                        <input class="w-100 margin-vertical-small input-file" type="file" name="zoneIMG" accept=".jpg, .jpeg, .png" required>
+                        <input required name="zoneIMG" class="w-100 margin-vertical-small input-file" type="file" accept=".jpg, .jpeg, .png">
                     </label>
 
                     <label class="txt-uppercase">Zona:
                         <span class="w-100 dis-flex">
-                            <select class="w-80 margin-vertical-small input input-interface input-round-left" required>
+                            <select required name="zone" class="w-80 margin-vertical-small input input-interface input-round-left">
                                 <option value="">Seleccione zona ...</option>
                                 <option value="1">Densidad muy baja (Unifamiliar)</option>
                                 <option value="2">Densidad baja (Unifamiliar)</option>
@@ -122,36 +123,36 @@
                     </label>
 
                     <label class="txt-uppercase">Fecha de expedición:
-                        <input class="w-100 margin-vertical-small input input-interface input-round" type="date">
+                        <input required name="expeditionDate" class="w-100 margin-vertical-small input input-interface input-round" type="date">
                     </label>
 
                     <div></div>
 
                     <label class="txt-uppercase">Orden de cobro:
-                        <input class="w-100 margin-vertical-small input input-interface input-round" type="text">
+                        <input required name="collectionOrder" class="w-100 margin-vertical-small input input-interface input-round" type="text">
                     </label>
 
                     <label class="txt-uppercase">Fecha de pago:
-                        <input class="w-100 margin-vertical-small input input-interface input-round" type="date">
+                        <input required name="paymentDate" class="w-100 margin-vertical-small input input-interface input-round" type="date">
                     </label>
 
                     <label class="txt-uppercase">Folio y serie de factura:
-                        <input class="w-100 margin-vertical-small input input-interface input-round" type="text">
+                        <input required name="billInvoice" class="w-100 margin-vertical-small input input-interface input-round" type="text">
                     </label>
 
                     <label class="txt-uppercase">Monto autorizado:
-                        <input class="w-100 margin-vertical-small input input-interface input-round" type="number">
+                        <input required name="authorizedQuantity" class="w-100 margin-vertical-small input input-interface input-round" type="number">
                     </label>
 
                     <div></div>
                     <div></div>
 
                     <label class="txt-uppercase">Fecha de entrega:
-                        <input class="w-100 margin-vertical-small input input-interface input-round" type="date">
+                        <input required name="deliveryDate" class="w-100 margin-vertical-small input input-interface input-round" type="date">
                     </label>
 
                     <label class="txt-uppercase">Nombre de quien recibe:
-                        <input class="w-100 margin-vertical-small input input-interface input-round" type="text">
+                        <input required name="receiverName" class="w-100 margin-vertical-small input input-interface input-round" type="text">
                     </label>
 
                     <div></div>
