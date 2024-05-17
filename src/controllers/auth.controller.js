@@ -28,7 +28,7 @@ export const signIn = async (req, res) => {
         });
 
         if(user == null) {
-            accessLogger.attempt('Failed access due to user "%s" does not exist', username);
+            accessLogger.attempt('Failed access due to user account "%s" does not exist', username);
             res.status(401).json({
                 msgType: "Access denied",
             msg: "Incorrect username or password"
@@ -58,7 +58,7 @@ export const signIn = async (req, res) => {
             const token = jwt.sign({userID: user.id, username: user.username}, config.SECRET , {
                 expiresIn: config.TOKENS_EXP
             });
-            accessLogger.access('Access successful by "%s" DB ID: %d', user.username, user.id);
+            accessLogger.access('Access successful\n    ID: %d\n    User account: "%s"', user.id, user.username);
             res.cookie("access_token", token, {httpOnly: true,
                 secure: true,
                 signed: true,
@@ -68,7 +68,7 @@ export const signIn = async (req, res) => {
             return;
         }
 
-        accessLogger.attempt('Failed access due to incorrect password for: "%s" or unable to authenticate',username);
+        accessLogger.attempt('Failed access due to incorrect password or unable to authenticate for:\n    User account: "%s"',username);
         
         res.status(401).json({
             msgType: "Access denied",

@@ -11,6 +11,8 @@ router.post('/test' , up.single('file') , testing.test);
 
 router.get('/testFile' , testing.testFile);
 
+router.get('/testScript' , testing.testScript);
+
 router.get('/info', authenticator.verifyToken , userControl.getUserInfo);
 
 router.get('/', [authenticator.verifyToken , authenticator.isModerator] ,userControl.getUsers);

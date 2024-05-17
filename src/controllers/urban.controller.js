@@ -1,4 +1,4 @@
-import { consoleLogger, requestLogger, accessLogger} from "../logger.js";
+import { consoleLogger, requestLogger} from "../logger.js";
 
 
 export const getLicenses = (req, res) => {
@@ -23,6 +23,7 @@ export const createLicense = async (req, res) => {
     try {
         const file = req.file.buffer;
         const body = req.body;
+        const requestorUser = req.userID;
 
         consoleLogger.devInfo('\n   Request file: ');
         console.log(file);
@@ -30,7 +31,6 @@ export const createLicense = async (req, res) => {
         console.log(body);
 
         requestLogger.create('Created urban license %s', req.body.requestorName);
-        accessLogger.access('accesso');
 
         res.status(200).json({ msg: "Creating"});
     } catch (error) {
@@ -56,5 +56,4 @@ export const deleteLicense = (req, res) => {
         console.log(error);
         res.status(500).json({msg: "Error on server"});
     }
-    
 }

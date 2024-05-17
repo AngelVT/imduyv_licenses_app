@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="/public/css/tlib-0.1.0.css">
     <title>Licencias tramites urbanos</title>
     <link rel="shortcut icon" href="/public/img/urban_icon.svg" type="image/x-icon">
+    <script src="/private/js/appRegTools.js"></script>
     <script src="/private/js/appLogout.js" defer></script>
     <script src="/private/js/appInfoLoader.js" defer></script>
     <script src="/private/js/appUrbanRegistrator.js" defer></script>
@@ -78,7 +79,16 @@
                     </label>
 
                     <label class="txt-uppercase">Superficie:
-                        <input class="w-100 margin-vertical-small input input-interface input-round" type="text">
+                        <span class="w-100 dis-flex flex-wrap flex-evenly">
+                            <input class="w-75 margin-vertical-small input input-interface input-round-left" type="text">
+                            <select class="w-30 margin-vertical-small input input-interface input-round-right txt-center">
+                                <option value="1">m2</option>
+                                <option value="2">HA</option>
+                            </select>
+                            <span class="bi-arrow-right-square-fill txt-small btn"> Añadir area unica</span>
+                            <span class="bi-plus-circle-fill txt-small btn"> Añadir area de local</span>
+                            <span class="bi-backspace-fill txt-small btn"> Limpiar</span>
+                        </span>
                     </label>
 
                     <label class="txt-uppercase">Superficie de aprovechamiento:
