@@ -9,11 +9,21 @@ function resetSurfaceFields(inputField, unitField, outputField) {
 }
 
 function addSingleSurface(value, unit, target) {
+    if(value == '' || value == null) {
+        alert('Introduce una superficie valida');
+        return;
+    }
+    count = 1;
+    target.value = '';
     target.value = `${value} ${unit}`;
     return;
 }
 
 function addLocalSurface(value,unit,target) {
+    if(value == '' || value == null) {
+        alert('Introduce una superficie valida');
+        return;
+    }
     if (count == 1) {
         target.value = '';
         target.value += `L${count}: ${value} ${unit}`;

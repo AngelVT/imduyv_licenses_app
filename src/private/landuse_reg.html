@@ -10,7 +10,8 @@
     <script src="/private/js/appRegTools.js"></script>
     <script src="/private/js/appLogout.js" defer></script>
     <script src="/private/js/appInfoLoader.js" defer></script>
-    <script src="/private/js/appLandRegistrator.js" defer></script>
+    <script src="/private/js/appUrbanRegistrator.js" defer></script>
+    <script src="/private/js/appRegInterface.js" defer></script>
 
 </head>
 <body class="bg-image bg-image-1">
@@ -84,21 +85,21 @@
                         <input name="catastralKey" required class="w-100 margin-vertical-small input input-interface input-round" type="number">
                     </label>
 
-                    <label class="txt-uppercase">Superficie:
+                    <p class="txt-uppercase">Superficie:
                         <span class="w-100 dis-flex flex-wrap flex-evenly">
-                            <input class="w-75 margin-vertical-small input input-interface input-round-left" type="text">
-                            <select class="w-30 margin-vertical-small input input-interface input-round-right txt-center">
-                                <option value="1">m2</option>
-                                <option value="2">HA</option>
+                            <input id="input_surface_in" class="w-75 margin-vertical-small input input-interface input-round-left" type="number">
+                            <select id="input_measure" class="w-30 margin-vertical-small input input-interface input-round-right txt-center">
+                                <option value="m2">m2</option>
+                                <option value="HA">HA</option>
                             </select>
-                            <span class="bi-arrow-right-square-fill txt-small btn"> Añadir area unica</span>
-                            <span class="bi-plus-circle-fill txt-small btn"> Añadir area de local</span>
-                            <span class="bi-backspace-fill txt-small btn"> Limpiar</span>
+                            <span id="btn_add_area" class="bi-arrow-right-square-fill txt-small btn"> Añadir area unica</span>
+                            <span id="btn_add_local" class="bi-plus-circle-fill txt-small btn"> Añadir area de local</span>
+                            <span id="btn_clear" class="bi-backspace-fill txt-small btn"> Limpiar</span>
                         </span>
-                    </label>
+                    </p>
                     
                     <label class="txt-uppercase">Superficie de aprovechamiento:
-                        <input name="surface" required class="w-100 margin-vertical-small input input-interface input-round" type="text">
+                        <input id="input_surface_out" name="surface" required class="w-100 margin-vertical-small input input-interface input-round" type="text">
                     </label>
 
                     <label class="txt-uppercase">Georeferencia:
@@ -107,7 +108,7 @@
                     
                     <label class="txt-uppercase">Zona:
                         <span class="w-100 dis-flex">
-                            <select name="zone" required class="w-80 margin-vertical-small input input-interface input-round-left">
+                            <select id="field_zone" name="zone" required class="w-80 margin-vertical-small input input-interface input-round-left">
                                 <option value="">Seleccione zona ...</option>
                                 <option value="1">Densidad muy baja (Unifamiliar)</option>
                                 <option value="2">Densidad baja (Unifamiliar)</option>
@@ -133,14 +134,14 @@
                                 <option value="22">Conservación y restauración ambiental</option>
                                 <option value="23">Parque Hídrico</option>
                             </select>
-                            <input class="w-25 margin-vertical-small input input-interface input-round-right txt-center" type="text" readonly>
+                            <input id="field_key" class="w-25 margin-vertical-small input input-interface input-round-right txt-center" type="text" readonly>
                         </span>
                         
                     </label>
 
-                    <label class="txt-uppercase">Zonificación: 
+                    <p class="txt-uppercase">Zonificación: 
                         <input name="zoneIMG" required class="w-100 margin-vertical-small input input-file" type="file" accept=".jpg, .jpeg, .png">
-                    </label>
+                    </p>
 
                     <label class="txt-uppercase">Giro impresión (superficie mayor a 120 m<span style="vertical-align: super; font-size: 8px;">2</span>):
                         <input name="businessLinePrint" required class="w-100 margin-vertical-small input input-interface input-round" type="text">
