@@ -1,4 +1,5 @@
 import { User , Role , Group} from "../models/Users.models.js";
+import { UrbanLisense, LandUseLicense, AuthUse, Type } from "../models/License.models.js";
 import * as passCrypt from '../libs/passwordCrypt.js';
 import jwt from 'jsonwebtoken';
 import config from "../config.js";
@@ -6,10 +7,65 @@ import fs from 'fs/promises';
 import { __dirname, __dirstorage } from "../paths.js";
 import path from "path";
 
-
 export const test = async (req, res) => {
-    try {
-        const destination = path.join(__dirstorage, req.file.originalname);
+    try { 
+        const date = new Date;
+
+        const year = date.getFullYear();
+
+        const { licenseType } = req.body;
+
+        const licences = await LandUseLicense.findAll({
+            where: {
+                licenseType: licenseType,
+                year: 2025
+            },
+            order: [
+                ['invoice', 'DESC']
+            ],
+            attributes: ['invoice', 'year'],
+            include: {
+                model: Type,
+                attributes: ['licenseType']
+            }
+        });
+
+        console.log(licences);
+
+        let invoice;
+        let type;
+        let lcID;
+
+        if(licences.length == 0) {
+            invoice = 0;
+
+            const types = await Type.findByPk(licenseType);
+
+            if(types == null) {
+                res.status(400).json({msg: "Invalid data was provided"});
+                return;
+            }
+
+            type = types.licenseType;
+        } else {
+            invoice = licences[0].invoice;
+            type = licences[0].type.licenseType;
+        }
+
+        if (invoice <= 8) {
+            lcID = `IMDUyV/DLyCU/${type}/00${invoice + 1}/${year}`;
+        }
+
+        if (invoice >= 9 && invoice < 99) {
+            lcID = `IMDUyV/DLyCU/${type}/0${invoice + 1}/${year}`;
+        }
+
+        if (invoice >= 99) {
+            lcID = `IMDUyV/DLyCU/${type}/${invoice + 1}/${year}`;
+        }
+
+        res.status(200).json({ id: lcID});
+        /*const destination = path.join(__dirstorage, req.file.originalname);
 
         await fs.writeFile(destination, req.file.buffer, err => {
             if (err) {
@@ -20,7 +76,7 @@ export const test = async (req, res) => {
         const txt = await fs.readFile(path.join(__dirstorage, 'xd.txt'), 'utf8');
 
 
-        res.status(200).json({msg: "Good", content: txt});
+        res.status(200).json({msg: "Good", content: txt});*/
         /*const { username, password} = req.body;
 
         if (!username || !password) {

@@ -195,7 +195,7 @@ export const LandUseLicense = pool.define(
             allowNull: false
         },
         contactPhone: {
-            type: DataTypes.INTEGER,
+            type: DataTypes.BIGINT,
             allowNull: false
         },
         cost: {
@@ -216,6 +216,8 @@ export const LandUseLicense = pool.define(
         }
     }
 );
+
+LandUseLicense.belongsTo(Type, {foreignKey: 'licenseType'});
 
 export const UrbanType = pool.define(
     'urbanType', {
