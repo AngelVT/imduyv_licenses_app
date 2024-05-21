@@ -6,6 +6,8 @@ import config from "../config.js";
 import fs from 'fs/promises';
 import { __dirname, __dirstorage } from "../paths.js";
 import path from "path";
+import { generateInvoice } from "../libs/fullInvoiceGen.js";
+import { consoleLogger, requestLogger } from "../logger.js";
 
 export const test = async (req, res) => {
     try { 
@@ -13,58 +15,91 @@ export const test = async (req, res) => {
 
         const year = date.getFullYear();
 
-        const { licenseType } = req.body;
+        const {
+            licenseType,
+            requestorName,
+            attentionName,
+            address,
+            number,
+            colony,
+            contactPhone,
+            catastralKey,
+            surface,
+            georeference,
+            zone,
+            businessLinePrint,
+            businessLineIntern,
+            authorizedUse,
+            expeditionType,
+            term,
+            validity,
+            requestDate,
+            expeditionDate,
+            expirationDate,
+            paymentInvoice,
+            cost,
+            discount,
+            paymentDone,
+            inspector
+        } = req.body;
 
-        const licences = await LandUseLicense.findAll({
-            where: {
-                licenseType: licenseType,
-                year: 2025
-            },
-            order: [
-                ['invoice', 'DESC']
-            ],
-            attributes: ['invoice', 'year'],
-            include: {
-                model: Type,
-                attributes: ['licenseType']
+        const file = req.file;
+
+        if (!licenseType|| !requestorName|| !attentionName|| !address|| !number|| !colony|| !contactPhone|| !catastralKey|| !surface|| !georeference|| !zone|| !businessLinePrint|| !businessLineIntern|| !authorizedUse|| !expeditionType|| !term|| !validity|| !requestDate|| !expeditionDate|| !expirationDate|| !paymentInvoice|| !cost|| !discount|| !paymentDone|| !inspector || !file) {
+            res.status(400).json({ msg: "There is missing information" });
+            return;
+        }
+
+        const invoice = await generateInvoice(licenseType, year);
+
+        if (invoice == null) {
+            res.status(400).json({ msg: "Invalid information provided." });
+            return;
+        }
+
+        const fileName = invoice.lcID + '_zone.png';
+
+        const destination = path.join(__dirstorage, 'zones', 'urban',fileName);
+
+        await fs.writeFile(destination, file.buffer, err => {
+            if (err) {
+                console.log(err);
             }
         });
 
-        console.log(licences);
+        const newLicesnse = await LandUseLicense.create({
+            fullInvoice: invoice.lcID,
+            invoice: invoice.invoice,
+            licenseType: licenseType,
+            year: year,
+            requestorName: requestorName,
+            attentionName: attentionName,
+            requestDate: requestDate,
+            address: address,
+            number: number,
+            colony: colony,
+            surfaceTotal: surface,
+            catastralKey: catastralKey,
+            term: term,
+            geoReference: georeference,
+            zoneImage: fileName,
+            zone: zone,
+            authorizedUse: authorizedUse,
+            businessLinePrint: businessLinePrint,
+            businessLineIntern: businessLineIntern,
+            expeditionDate: expeditionDate,
+            validity: validity,
+            paymentInvoice: paymentInvoice,
+            expirationDate: expirationDate,
+            expeditionType: expeditionType,
+            contactPhone: contactPhone,
+            cost: cost,
+            discount: discount,
+            paymentDone: paymentDone,
+            inspector: inspector
+        });
 
-        let invoice;
-        let type;
-        let lcID;
-
-        if(licences.length == 0) {
-            invoice = 0;
-
-            const types = await Type.findByPk(licenseType);
-
-            if(types == null) {
-                res.status(400).json({msg: "Invalid data was provided"});
-                return;
-            }
-
-            type = types.licenseType;
-        } else {
-            invoice = licences[0].invoice;
-            type = licences[0].type.licenseType;
-        }
-
-        if (invoice <= 8) {
-            lcID = `IMDUyV/DLyCU/${type}/00${invoice + 1}/${year}`;
-        }
-
-        if (invoice >= 9 && invoice < 99) {
-            lcID = `IMDUyV/DLyCU/${type}/0${invoice + 1}/${year}`;
-        }
-
-        if (invoice >= 99) {
-            lcID = `IMDUyV/DLyCU/${type}/${invoice + 1}/${year}`;
-        }
-
-        res.status(200).json({ id: lcID});
+        res.status(200).json({ createdAt: newLicesnse.createdAt, fullInvoice: newLicesnse.fullInvoice, dbInvoice: newLicesnse.invoice});
         /*const destination = path.join(__dirstorage, req.file.originalname);
 
         await fs.writeFile(destination, req.file.buffer, err => {

@@ -78,6 +78,10 @@ export const ExpeditionType = pool.define(
 
 export const LandUseLicense = pool.define(
     'landUseLicense',{
+        fullInvoice: {
+            type: DataTypes.STRING,
+            allowNull: false
+        },
         invoice: {
             type: DataTypes.INTEGER,
             allowNull: false
@@ -232,6 +236,10 @@ export const UrbanType = pool.define(
 
 export const UrbanLisense = pool.define(
     'urbanLicense', {
+        fullInvoice: {
+            type: DataTypes.STRING,
+            allowNull: false
+        },
         invoice: {
             type: DataTypes.INTEGER,
             allowNull: false

@@ -5,7 +5,7 @@ import cookieParser from 'cookie-parser';
 import path from 'path';
 
 import config from './config.js';
-import { __dirname } from './paths.js';
+import { __dirname, __dirstorage } from './paths.js';
 import * as defaults from './libs/initDefaults.js';
 import { checkDB } from './database.js';
 import { verifyToken } from './middlewares/auth.JWT.js';
@@ -15,6 +15,7 @@ import urbanRoutes from './routes/urban.routes.js';
 import userRoutes from './routes/users.routes.js';
 import authRoutes from './routes/auth.routes.js';
 import appRoutes from './routes/app.routes.js';
+import * as defaultStorage from './libs/setDefaultDirectories.js';
 
 const app = express();
 
@@ -30,6 +31,8 @@ defaults.setDefaultLicenseAuthUses();
 defaults.setDefaultLicenseValidities();
 defaults.setDefaultLicenseExpeditionTypes();
 defaults.setDefaultUrbanLicenseTypes();
+defaultStorage.setLandStorage();
+defaultStorage.setUrbanStorage();
 
 app.use(express.json());
 
@@ -45,6 +48,8 @@ app.use(cors({
 // * Stablish access to the web files
 app.use('/public', express.static(path.join(__dirname, 'public')));
 app.use('/private', verifyToken, express.static(path.join(__dirname, 'private')));
+app.use('/urbanStorage', verifyToken, express.static(path.join(__dirstorage, 'zones', 'urban')));
+app.use('/landUseStorage', verifyToken, express.static(path.join(__dirstorage, 'zones', 'land')));
 
 // * Stablish routes
 app.use('/api/landuse', launuseRoutes);

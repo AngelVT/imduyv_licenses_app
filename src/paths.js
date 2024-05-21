@@ -3,4 +3,4 @@ import { dirname } from 'path';
 
 const __filename = fileURLToPath(import.meta.url);
 export const __dirname = dirname(__filename);
-export const __dirstorage = 'D:/test/uploads/';
+export const __dirstorage = 'D:/storage/licenses-app/uploads/';
