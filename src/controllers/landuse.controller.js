@@ -156,17 +156,7 @@ export const createLicense = async (req, res) => {
             res.status(400).json({ msg: "Invalid information provided." });
             return;
         }
-
-        const fileName = invoice.lcID + '_zone.png';
-
-        const destination = path.join(__dirstorage, 'zones', 'land',fileName);
-
-        fs.writeFile(destination, file.buffer, err => {
-            if (err) {
-                console.log(err);
-            }
-        });
-
+        
         const newLicense = await LandUseLicense.create({
             fullInvoice: invoice.lcID,
             invoice: invoice.invoice,
@@ -198,9 +188,19 @@ export const createLicense = async (req, res) => {
             paymentDone: paymentDone,
             inspector: inspector.toLowerCase()
         });
+        
+        const fileName = invoice.lcID + '_zone.png';
+
+        const destination = path.join(__dirstorage, 'zones', 'land',fileName);
+
+        fs.writeFile(destination, file.buffer, err => {
+            if (err) {
+                console.log(err);
+            }
+        });
 
         requestLogger.create('Land use creation request completed:\n    Record: %s\n    Invoice: %s', newLicense.id, newLicense.fullInvoice);
-
+        
         res.status(200).json({ createdAt: newLicense.createdAt, fullInvoice: newLicense.fullInvoice, dbInvoice: newLicense.invoice});
     } catch (error) {
         consoleLogger.error('\n  Request failed due to server side error:\n  Error: %s', error)
