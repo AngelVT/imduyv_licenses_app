@@ -1,12 +1,12 @@
 import { User , Role , Group} from "../models/Users.models.js";
-import { UrbanLisense, LandUseLicense, AuthUse, Type } from "../models/License.models.js";
+import { UrbanLicense, LandUseLicense, AuthUse, Type } from "../models/License.models.js";
 import * as passCrypt from '../libs/passwordCrypt.js';
 import jwt from 'jsonwebtoken';
 import config from "../config.js";
 import fs from 'fs/promises';
 import { __dirname, __dirstorage } from "../paths.js";
 import path from "path";
-import { generateInvoice } from "../libs/fullInvoiceGen.js";
+import { generateLandInvoice, generateUrbanInvoice } from "../libs/fullInvoiceGen.js";
 import { consoleLogger, requestLogger } from "../logger.js";
 
 export const test = async (req, res) => {
@@ -50,7 +50,7 @@ export const test = async (req, res) => {
             return;
         }
 
-        const invoice = await generateInvoice(licenseType, year);
+        const invoice = await generateLandInvoice(licenseType, year);
 
         if (invoice == null) {
             res.status(400).json({ msg: "Invalid information provided." });

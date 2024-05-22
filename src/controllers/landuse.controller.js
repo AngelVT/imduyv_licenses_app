@@ -1,19 +1,105 @@
 import fs from 'fs';
 import path from 'path';
 
-import { generateInvoice } from '../libs/fullInvoiceGen.js';
+import { generateLandInvoice } from '../libs/fullInvoiceGen.js';
 import { __dirstorage } from '../paths.js';
 import { consoleLogger, requestLogger } from "../logger.js";
+import { LandUseLicense, Type, Term, Zone, AuthUse, Validity, ExpeditionType, UrbanType } from '../models/License.models.js';
+import { validate } from '../libs/validate.js';
 
-import { LandUseLicense } from '../models/License.models.js';
+export const getLicenses = async (req, res) => {
+    try {
+        const licenses = await LandUseLicense.findAll({
+            include: [
+                {
+                    model: Type,
+                    attributes: ['licenseType']
+                },
+                {
+                    model: Term,
+                    attributes: ['licenseTerm']
+                },
+                {
+                    model: Zone,
+                    attributes: ['licenseZone', 'licenseKey']
+                },
+                {
+                    model: AuthUse,
+                    attributes: ['licenseAuthUse']
+                },
+                {
+                    model: Validity,
+                    attributes: ['licenseValidity']
+                },
+                {
+                    model: ExpeditionType,
+                    attributes: ['licenseExpType']
+                },
+            ]
+        });
 
+        if(licenses == null) {
+            res.status(404).json({ msg: "The requested data does not exist or is unavailable" });
+            return;
+        }
 
-export const getLicenses = (req, res) => {
-    res.status(200).json({ msg: "Getting all"});
+        requestLogger.get('Land use get request completed:\n    All record requested');
+
+        res.status(200).json({data: licenses});
+    } catch (error) {
+        consoleLogger.error('\n  Request failed due to server side error:\n  Error: %s', error)
+        requestLogger.error('Request failed due to server side error:\n    Error: %s', error);
+        res.status(200).json({msg: "Internal server error"});
+    }
 }
 
-export const getLicense = (req, res) => {
-    res.status(200).json({ msg: "Getting single"});
+export const getLicense = async (req, res) => {
+    try {
+
+        const id = req.params.licenciaID;
+
+        const license = await LandUseLicense.findByPk( id ,{
+            include: [
+                {
+                    model: Type,
+                    attributes: ['licenseType']
+                },
+                {
+                    model: Term,
+                    attributes: ['licenseTerm']
+                },
+                {
+                    model: Zone,
+                    attributes: ['licenseZone', 'licenseKey']
+                },
+                {
+                    model: AuthUse,
+                    attributes: ['licenseAuthUse']
+                },
+                {
+                    model: Validity,
+                    attributes: ['licenseValidity']
+                },
+                {
+                    model: ExpeditionType,
+                    attributes: ['licenseExpType']
+                },
+            ]
+        });
+
+        if(license == null) {
+            res.status(404).json({ msg: "The requested data does not exist or is unavailable" });
+            return;
+        }
+
+        requestLogger.get('Land use get request completed:\n    Requested record: %d', id);
+
+        res.status(200).json({data: license});
+    } catch (error) {
+        consoleLogger.error('\n  Request failed due to server side error:\n  Error: %s', error)
+        requestLogger.error('Request failed due to server side error:\n    Error: %s', error);
+        res.status(200).json({msg: "Internal server error"});
+    }
 }
 
 export const createLicense = async (req, res) => {
@@ -57,9 +143,16 @@ export const createLicense = async (req, res) => {
             return;
         }
 
-        const invoice = await generateInvoice(licenseType, year);
+        const invoice = await generateLandInvoice(licenseType, year);
 
         if (invoice == null) {
+            res.status(400).json({ msg: "Invalid information provided." });
+            return;
+        }
+
+        const validated = await validate({term,zone,authorizedUse,validity,expeditionType});
+
+        if (validated == null) {
             res.status(400).json({ msg: "Invalid information provided." });
             return;
         }
@@ -79,31 +172,31 @@ export const createLicense = async (req, res) => {
             invoice: invoice.invoice,
             licenseType: licenseType,
             year: year,
-            requestorName: requestorName,
-            attentionName: attentionName,
+            requestorName: requestorName.toLowerCase(),
+            attentionName: attentionName.toLowerCase(),
             requestDate: requestDate,
-            address: address,
-            number: number,
-            colony: colony,
+            address: address.toLowerCase(),
+            number: number.toLowerCase(),
+            colony: colony.toLowerCase(),
             surfaceTotal: surface,
             catastralKey: catastralKey,
-            term: term,
+            licenseTerm: term,
             geoReference: georeference,
             zoneImage: fileName,
-            zone: zone,
+            licenseZone: zone,
             authorizedUse: authorizedUse,
-            businessLinePrint: businessLinePrint,
-            businessLineIntern: businessLineIntern,
+            businessLinePrint: businessLinePrint.toLowerCase(),
+            businessLineIntern: businessLineIntern.toLowerCase(),
             expeditionDate: expeditionDate,
-            validity: validity,
+            licenseValidity: validity,
             paymentInvoice: paymentInvoice,
             expirationDate: expirationDate,
-            expeditionType: expeditionType,
+            licenseExpeditionType: expeditionType,
             contactPhone: contactPhone,
             cost: cost,
             discount: discount,
             paymentDone: paymentDone,
-            inspector: inspector
+            inspector: inspector.toLowerCase()
         });
 
         requestLogger.create('Land use creation request completed:\n    Record: %s\n    Invoice: %s', newLicense.id, newLicense.fullInvoice);
@@ -116,10 +209,109 @@ export const createLicense = async (req, res) => {
     }
 }
 
-export const updateLicense= (req, res) => {
-    res.status(200).json({ msg: "Updating"});
+export const updateLicense = async (req, res) => {
+    try {
+        const id = req.params.licenciaID;
+
+        for (const key in req.body) {
+            req.body[key] = req.body[key].toLowerCase();
+        }
+
+        const {
+            requestorName,
+            attentionName,
+            address,
+            number,
+            colony,
+            contactPhone,
+            catastralKey,
+            surface,
+            georeference,
+            businessLinePrint,
+            businessLineIntern,
+            authorizedUse,
+            expeditionType,
+            term,
+            validity,
+            requestDate,
+            expeditionDate,
+            expirationDate,
+            paymentInvoice,
+            cost,
+            discount,
+            paymentDone,
+            inspector
+        } = req.body;
+
+        const modifiedLicense = await LandUseLicense.findByPk(id);
+
+        if (modifiedLicense == null) {
+            res.status(404).json({ msg: "The requested data does not exist or is unavailable" });
+            return;
+        }
+
+        const validated = await validate({term,authorizedUse,validity,expeditionType});
+
+        if (validated == null) {
+            res.status(400).json({ msg: "Invalid information provided." });
+            return;
+        }
+
+        await modifiedLicense.update({
+            requestorName: requestorName,
+            attentionName: attentionName,
+            requestDate: requestDate,
+            address: address,
+            number: number,
+            colony: colony,
+            surfaceTotal: surface,
+            catastralKey: catastralKey,
+            licenseTerm: term,
+            geoReference: georeference,
+            authorizedUse: authorizedUse,
+            businessLinePrint: businessLinePrint,
+            businessLineIntern: businessLineIntern,
+            expeditionDate: expeditionDate,
+            licenseValidity: validity,
+            paymentInvoice: paymentInvoice,
+            expirationDate: expirationDate,
+            licenseExpeditionType: expeditionType,
+            contactPhone: contactPhone,
+            cost: cost,
+            discount: discount,
+            paymentDone: paymentDone,
+            inspector: inspector
+        });
+
+        requestLogger.update('Land use update request completed:\n    Record: %s\n    Invoice: %s', modifiedLicense.id, modifiedLicense.fullInvoice);
+
+        res.status(200).json({msg: "Record updated successfully", affectedRecord: modifiedLicense.fullInvoice});
+    } catch (error) {
+        consoleLogger.error('\n  Request failed due to server side error:\n  Error: %s', error)
+        requestLogger.error('Request failed due to server side error:\n    Error: %s', error);
+        res.status(200).json({msg: "Internal server error"});
+    }
 }
 
-export const deleteLicense = (req, res) => {
-    res.status(200).json({ msg: "Deleting"});
+export const deleteLicense = async (req, res) => {
+    try {
+        const id = req.params.licenciaID;
+
+        const license = await LandUseLicense.findByPk(id);
+
+        if (license == null) {
+            res.status(404).json({ msg: "The requested data does not exist or is unavailable" });
+            return;
+        }
+
+        license.destroy();
+
+        requestLogger.delete('Land use delete request completed:\n    Record: %s\n    Invoice: %s', license.id, license.fullInvoice);
+
+        res.status(200).json({msg: "Record deleted successfully"})
+    } catch (error) {
+        consoleLogger.error('\n  Request failed due to server side error:\n  Error: %s', error)
+        requestLogger.error('Request failed due to server side error:\n    Error: %s', error);
+        res.status(200).json({msg: "Internal server error"});
+    }
 }

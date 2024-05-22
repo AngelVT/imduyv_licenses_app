@@ -130,7 +130,7 @@ export const LandUseLicense = pool.define(
             type: DataTypes.BIGINT,
             allowNull: false
         },
-        term: {
+        licenseTerm: {
             type: DataTypes.INTEGER,
             references: {
                 model: Term,
@@ -146,7 +146,7 @@ export const LandUseLicense = pool.define(
             type: DataTypes.STRING,
             allowNull: false
         },
-        zone: {
+        licenseZone: {
             type: DataTypes.INTEGER,
             references: {
                 model: Zone,
@@ -174,7 +174,7 @@ export const LandUseLicense = pool.define(
             type: DataTypes.DATEONLY,
             allowNull: false
         },
-        validity: {
+        licenseValidity: {
             type: DataTypes.INTEGER,
             references: {
                 model: Validity,
@@ -190,7 +190,7 @@ export const LandUseLicense = pool.define(
             type: DataTypes.DATEONLY,
             allowNull: false
         },
-        expeditionType: {
+        licenseExpeditionType: {
             type: DataTypes.INTEGER,
             references: {
                 model: ExpeditionType,
@@ -222,6 +222,11 @@ export const LandUseLicense = pool.define(
 );
 
 LandUseLicense.belongsTo(Type, {foreignKey: 'licenseType'});
+LandUseLicense.belongsTo(Term, {foreignKey: 'licenseTerm'});
+LandUseLicense.belongsTo(Zone, {foreignKey: 'licenseZone'});
+LandUseLicense.belongsTo(AuthUse, {foreignKey: 'authorizedUse'});
+LandUseLicense.belongsTo(Validity, {foreignKey: 'licenseValidity'});
+LandUseLicense.belongsTo(ExpeditionType, {foreignKey: 'licenseExpeditionType'});
 
 export const UrbanType = pool.define(
     'urbanType', {
@@ -234,7 +239,7 @@ export const UrbanType = pool.define(
     }
 );
 
-export const UrbanLisense = pool.define(
+export const UrbanLicense = pool.define(
     'urbanLicense', {
         fullInvoice: {
             type: DataTypes.STRING,
@@ -292,7 +297,7 @@ export const UrbanLisense = pool.define(
             type: DataTypes.STRING,
             allowNull: false
         },
-        zone: {
+        licenseZone: {
             type: DataTypes.INTEGER,
             references: {
                 model: Zone,
@@ -333,7 +338,10 @@ export const UrbanLisense = pool.define(
             allowNull: false
         }
     }
-); 
+);
+
+UrbanLicense.belongsTo(UrbanType, {foreignKey: 'licenseType'});
+UrbanLicense.belongsTo(Zone, {foreignKey: 'licenseZone'});
 
 (async () => {
     try {
