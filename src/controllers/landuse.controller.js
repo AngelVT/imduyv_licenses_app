@@ -212,6 +212,7 @@ export const createLicense = async (req, res) => {
 export const updateLicense = async (req, res) => {
     try {
         const id = req.params.licenciaID;
+        const file = req.file;
 
         for (const key in req.body) {
             req.body[key] = req.body[key].toLowerCase();
@@ -282,6 +283,18 @@ export const updateLicense = async (req, res) => {
             paymentDone: paymentDone,
             inspector: inspector
         });
+
+        if(file) {
+            const fileName = modifiedLicense.zoneImage;
+
+            const destination = path.join(__dirstorage, 'zones', 'land',fileName);
+
+            fs.writeFile(destination, file.buffer, err => {
+                if (err) {
+                    console.log(err);
+                }
+            });
+        }
 
         requestLogger.update('Land use update request completed:\n    Record: %s\n    Invoice: %s', modifiedLicense.id, modifiedLicense.fullInvoice);
 
