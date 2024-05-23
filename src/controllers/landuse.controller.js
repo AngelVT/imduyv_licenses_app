@@ -49,7 +49,7 @@ export const getLicenses = async (req, res) => {
     } catch (error) {
         consoleLogger.error('\n  Request failed due to server side error:\n  Error: %s', error)
         requestLogger.error('Request failed due to server side error:\n    Error: %s', error);
-        res.status(200).json({msg: "Internal server error"});
+        res.status(500).json({msg: "Internal server error"});
     }
 }
 
@@ -98,7 +98,7 @@ export const getLicense = async (req, res) => {
     } catch (error) {
         consoleLogger.error('\n  Request failed due to server side error:\n  Error: %s', error)
         requestLogger.error('Request failed due to server side error:\n    Error: %s', error);
-        res.status(200).json({msg: "Internal server error"});
+        res.status(500).json({msg: "Internal server error"});
     }
 }
 
@@ -209,7 +209,7 @@ export const createLicense = async (req, res) => {
     } catch (error) {
         consoleLogger.error('\n  Request failed due to server side error:\n  Error: %s', error)
         requestLogger.error('Request failed due to server side error:\n    Error: %s', error);
-        res.status(200).json({msg: "Internal server error"});
+        res.status(500).json({msg: "Internal server error"});
     }
 }
 
@@ -308,7 +308,7 @@ export const updateLicense = async (req, res) => {
     } catch (error) {
         consoleLogger.error('\n  Request failed due to server side error:\n  Error: %s', error)
         requestLogger.error('Request failed due to server side error:\n    Error: %s', error);
-        res.status(200).json({msg: "Internal server error"});
+        res.status(500).json({msg: "Internal server error"});
     }
 }
 
@@ -331,6 +331,6 @@ export const deleteLicense = async (req, res) => {
     } catch (error) {
         consoleLogger.error('\n  Request failed due to server side error:\n  Error: %s', error)
         requestLogger.error('Request failed due to server side error:\n    Error: %s', error);
-        res.status(200).json({msg: "Internal server error"});
+        res.status(500).json({msg: "Internal server error"});
     }
 }

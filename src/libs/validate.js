@@ -1,10 +1,11 @@
 import { Term, Zone, AuthUse, Validity, ExpeditionType, UrbanType } from '../models/License.models.js';
+import { User, Group, Role } from '../models/Users.models.js';
 
-export const validate = async (obj) => {
-    if (obj.term) {
+export const validate = async (license) => {
+    if (license.term) {
         const terms = await Term.findAll({
             where: {
-                id: obj.term
+                id: license.term
             }
         });
 
@@ -13,10 +14,10 @@ export const validate = async (obj) => {
         }
     }
 
-    if (obj.zone) {
+    if (license.zone) {
         const zones = await Zone.findAll({
             where: {
-                id: obj.zone
+                id: license.zone
             }
         });
 
@@ -25,10 +26,10 @@ export const validate = async (obj) => {
         }
     }
 
-    if (obj.authUse) {
+    if (license.authUse) {
         const authUses = await AuthUse.findAll({
             where: {
-                id: obj.authUse
+                id: license.authUse
             }
         });
 
@@ -37,10 +38,10 @@ export const validate = async (obj) => {
         }
     }
 
-    if (obj.validity) {
+    if (license.validity) {
         const validities = await Validity.findAll({
             where: {
-                id: obj.validity
+                id: license.validity
             }
         });
 
@@ -49,10 +50,10 @@ export const validate = async (obj) => {
         }
     }
 
-    if (obj.expeditionType) {
+    if (license.expeditionType) {
         const expeditionTypes = await ExpeditionType.findAll({
             where: {
-                id: obj.expeditionType
+                id: license.expeditionType
             }
         });
 
@@ -61,10 +62,10 @@ export const validate = async (obj) => {
         }
     }
 
-    if (obj.urbanType) {
+    if (license.urbanType) {
         const urbanTypes = await UrbanType.findAll({
             where: {
-                id: obj.urbanType
+                id: license.urbanType
             }
         });
 
@@ -73,7 +74,43 @@ export const validate = async (obj) => {
         }
     }
 
-    if (!obj.term && !obj.zone && !obj.authUse && !obj.validity && !obj.expeditionType && !obj.urbanType) {
+    if (!license.term && !license.zone && !license.authUse && !license.validity && !license.expeditionType && !license.urbanType) {
+        return null;
+    }
+
+    return true;
+}
+
+export const validateUserInfo = async (user) => {
+    if (user.username) {
+        const username = await User.findOne({
+            where: {
+                username: user.username
+            }
+        });
+
+        if(!username == null) {
+            return null;
+        }
+    }
+
+    if (user.role) {
+        const role = await Role.findByPk(user.role);
+
+        if (role == null) {
+            return null;
+        }
+    }
+
+    if (user.group) {
+        const group = await Group.findByPk(user.group);
+
+        if (group == null) {
+            return null;
+        }
+    }
+
+    if (!user.username && !user.role && !user.group) {
         return null;
     }
 

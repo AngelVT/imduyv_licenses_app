@@ -7,7 +7,7 @@ export const goInfo = (req, res) => {
         res.sendFile(path.join(__dirname, 'public', 'info.html'));
     } catch (error) {
         console.log('The following error ocurred: ', error);
-        res.status(200).json({msg: "Error on server"});
+        res.status(500).json({msg: "Error on server"});
     }
 };
 
@@ -21,7 +21,7 @@ export const getInfo =(req, res) => {
         });
     } catch (error) {
         console.log('The following error ocurred: ', error);
-        res.status(200).json({msg: "Error on server"});
+        res.status(500).json({msg: "Error on server"});
     }
 };
 
@@ -30,7 +30,7 @@ export const goLogIn = (req, res) => {
         res.sendFile(path.join(__dirname, 'public', 'login.html'));
     } catch (error) {
         console.log('The following error ocurred: ', error);
-        res.status(200).json({msg: "Error on server"});
+        res.status(500).json({msg: "Error on server"});
     }
 };
 
@@ -39,7 +39,7 @@ export const goLandMenu = (req, res) => {
         res.sendFile(path.join(__dirname, 'private', 'landuse_menu.html'));
     } catch (error) {
         console.log('The following error ocurred: ', error);
-        res.status(200).json({msg: "Error on server"});
+        res.status(500).json({msg: "Error on server"});
     }
 };
 
@@ -48,7 +48,7 @@ export const goLandRegister = (req, res) => {
         res.sendFile(path.join(__dirname, 'private', 'landuse_reg.html'));
     } catch (error) {
         console.log('The following error ocurred: ', error);
-        res.status(200).json({msg: "Error on server"});
+        res.status(500).json({msg: "Error on server"});
     }
 };
 
@@ -57,7 +57,7 @@ export const goLandConsult = (req, res) => {
         res.sendFile(path.join(__dirname, 'private', 'landuse_consult.html'));
     } catch (error) {
         console.log('The following error ocurred: ', error);
-        res.status(200).json({msg: "Error on server"});
+        res.status(500).json({msg: "Error on server"});
     }
 };
 
@@ -66,7 +66,7 @@ export const goLandPrint = (req, res) => {
         res.sendFile(path.join(__dirname, 'private', 'landuse_print.html'));
     } catch (error) {
         console.log('The following error ocurred: ', error);
-        res.status(200).json({msg: "Error on server"});
+        res.status(500).json({msg: "Error on server"});
     }
 };
 
@@ -75,7 +75,7 @@ export const goUrbanMenu = (req, res) => {
         res.sendFile(path.join(__dirname, 'private', 'urban_menu.html'));
     } catch (error) {
         console.log('The following error ocurred: ', error);
-        res.status(200).json({msg: "Error on server"});
+        res.status(500).json({msg: "Error on server"});
     }
 };
 
@@ -84,7 +84,7 @@ export const goUrbanRegister = (req, res) => {
         res.sendFile(path.join(__dirname, 'private', 'urban_reg.html'));
     } catch (error) {
         console.log('The following error ocurred: ', error);
-        res.status(200).json({msg: "Error on server"});
+        res.status(500).json({msg: "Error on server"});
     }
 };
 
@@ -93,7 +93,7 @@ export const goUrbanConsult = (req, res) => {
         res.sendFile(path.join(__dirname, 'private', 'urban_consult.html'));
     } catch (error) {
         console.log('The following error ocurred: ', error);
-        res.status(200).json({msg: "Error on server"});
+        res.status(500).json({msg: "Error on server"});
     }
 };
 
@@ -102,10 +102,15 @@ export const goUrbanPrint = (req, res) => {
         res.sendFile(path.join(__dirname, 'private', 'urban_print.html'));
     } catch (error) {
         console.log('The following error ocurred: ', error);
-        res.status(200).json({msg: "Error on server"});
+        res.status(500).json({msg: "Error on server"});
     }
 };
 
 export const goMainMenu = (req, res) => {
-    res.sendFile(path.join(__dirname, 'private', 'main_menu.html'));
+    try {
+        res.sendFile(path.join(__dirname, 'private', 'main_menu.html'));
+    } catch (error) {
+        console.log('The following error ocurred: ', error);
+        res.status(500).json({msg: "Error on server"});
+    }
 };

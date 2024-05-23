@@ -13,9 +13,10 @@ export const setDefaultRoles = async () => {
         if (count > 0) return;
 
         const createdRoles = await Promise.all([
-            Role.create({ id: 1, role: 'admin'}),
-            Role.create({ id: 2, role: 'moderator'}),
-            Role.create({ id: 3, role: 'user'})
+            Role.create({ id: 1, role: 'system'}),
+            Role.create({ id: 2, role: 'admin'}),
+            Role.create({ id: 3, role: 'moderator'}),
+            Role.create({ id: 4, role: 'user'})
         ]);
 
         consoleLogger.info("\n  Default roles have been set");

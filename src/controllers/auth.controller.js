@@ -77,7 +77,7 @@ export const signIn = async (req, res) => {
         return;
     } catch (error) {
         console.log(error);
-        res.status(200).json({msg: "Error on server"});
+        res.status(500).json({msg: "Error on server"});
     }
 }
 
@@ -87,6 +87,6 @@ export const logOut = (req, res) => {
         signed: true,
         sameSite: 'strict',
         maxAge: 1
-    }).status(200).redirect('/app/login');
+    }).status(500).redirect('/app/login');
     return;
 }
