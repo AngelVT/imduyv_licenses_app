@@ -108,6 +108,10 @@ export const createLicense = async (req, res) => {
 
         const year = date.getFullYear();
 
+        for (const key in req.body) {
+            req.body[key] = req.body[key].toLowerCase();
+        }
+
         const {
             licenseType,
             requestorName,
@@ -162,12 +166,12 @@ export const createLicense = async (req, res) => {
             invoice: invoice.invoice,
             licenseType: licenseType,
             year: year,
-            requestorName: requestorName.toLowerCase(),
-            attentionName: attentionName.toLowerCase(),
+            requestorName: requestorName,
+            attentionName: attentionName,
             requestDate: requestDate,
-            address: address.toLowerCase(),
-            number: number.toLowerCase(),
-            colony: colony.toLowerCase(),
+            address: address,
+            number: number,
+            colony: colony,
             surfaceTotal: surface,
             catastralKey: catastralKey,
             licenseTerm: term,
@@ -175,8 +179,8 @@ export const createLicense = async (req, res) => {
             zoneImage: fileName,
             licenseZone: zone,
             authorizedUse: authorizedUse,
-            businessLinePrint: businessLinePrint.toLowerCase(),
-            businessLineIntern: businessLineIntern.toLowerCase(),
+            businessLinePrint: businessLinePrint,
+            businessLineIntern: businessLineIntern,
             expeditionDate: expeditionDate,
             licenseValidity: validity,
             paymentInvoice: paymentInvoice,
@@ -228,6 +232,7 @@ export const updateLicense = async (req, res) => {
             catastralKey,
             surface,
             georeference,
+            zone,
             businessLinePrint,
             businessLineIntern,
             authorizedUse,
@@ -251,7 +256,7 @@ export const updateLicense = async (req, res) => {
             return;
         }
 
-        const validated = await validate({term,authorizedUse,validity,expeditionType});
+        const validated = await validate({term,authorizedUse,validity,expeditionType,zone});
 
         if (validated == null) {
             res.status(400).json({ msg: "Invalid information provided." });
@@ -269,6 +274,7 @@ export const updateLicense = async (req, res) => {
             catastralKey: catastralKey,
             licenseTerm: term,
             geoReference: georeference,
+            licenseZone: zone,
             authorizedUse: authorizedUse,
             businessLinePrint: businessLinePrint,
             businessLineIntern: businessLineIntern,
@@ -321,7 +327,7 @@ export const deleteLicense = async (req, res) => {
 
         requestLogger.delete('Land use delete request completed:\n    Record: %s\n    Invoice: %s', license.id, license.fullInvoice);
 
-        res.status(200).json({msg: "Record deleted successfully"})
+        res.status(200).json({msg: "Record deleted successfully"});
     } catch (error) {
         consoleLogger.error('\n  Request failed due to server side error:\n  Error: %s', error)
         requestLogger.error('Request failed due to server side error:\n    Error: %s', error);

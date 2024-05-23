@@ -73,5 +73,9 @@ export const validate = async (obj) => {
         }
     }
 
+    if (!obj.term && !obj.zone && !obj.authUse && !obj.validity && !obj.expeditionType && !obj.urbanType) {
+        return null;
+    }
+
     return true;
 }
