@@ -62,7 +62,7 @@ export const getLicense = async (req, res) => {
 
         requestLogger.get('Urban get request completed:\n    Requested record: %d', id);
 
-        res.status(200).json({data: license});
+        res.status(200).json({data: [license]});
     } catch (error) {
         consoleLogger.error('\n  Request failed due to server side error:\n  Error: %s', error)
         requestLogger.error('Request failed due to server side error:\n    Error: %s', error);

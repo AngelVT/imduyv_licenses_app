@@ -223,6 +223,10 @@ html {
 
 /*-------------------------------------------------------------------------*/
 
+.dis-none {
+    display: none;
+}
+
 .dis-flex {
     display: flex;
 }
@@ -300,8 +304,8 @@ html {
     grid-row-gap: 5px;
 }
 
-.template-3cols-nogap {
-    grid-template-columns: 1fr 1fr 1fr;
+.template-4cols-nogap {
+    grid-template-columns: 1fr 1fr 1fr 1fr;
     grid-template-rows: auto;
     grid-column-gap: 0;
     grid-row-gap: 0;
@@ -1010,4 +1014,58 @@ html {
     grid-template-columns: 25% 1fr;
     grid-template-rows: auto auto auto;
     row-gap: 3px;
+}
+
+.input-side-save {
+    height: 30px;
+    border-radius: 0 15px 15px 0;
+    outline: none;
+    border: none;
+    background-color: var(--complementary);
+    color: var(--white);
+    cursor: pointer;
+    text-align: center;
+    transition: ease-in-out .2s;
+}
+
+.input-side-save:hover {
+    background-color: var(--primary);
+}
+
+.input-side-save:active {
+    transform: scale(1.2);
+}
+
+.result-control {
+    cursor: pointer;
+    transition: all .2s ease-in-out;
+}
+
+.result-control:hover {
+    transform: scale(1.2);
+}
+
+.urban-result-img {
+    width: 96%;
+    grid-area: 1 / 1 / 7 / 3;
+    margin: 0 auto;
+    margin-bottom: 10px;
+}
+
+.land-result-img {
+    width: 96%;
+    grid-area: 1 / 1 / 8 / 3;
+    margin: 0 auto;
+    margin-bottom: 10px;
+}
+
+#results_container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    overflow: scroll;
+    overflow-x: hidden;
+    scrollbar-width: none;
+    gap: 10px;
+    border-radius: 5px;
 }

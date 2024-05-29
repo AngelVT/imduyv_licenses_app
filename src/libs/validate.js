@@ -74,10 +74,6 @@ export const validate = async (license) => {
         }
     }
 
-    if (!license.term && !license.zone && !license.authUse && !license.validity && !license.expeditionType && !license.urbanType) {
-        return null;
-    }
-
     return true;
 }
 
@@ -108,10 +104,6 @@ export const validateUserInfo = async (user) => {
         if (group == null) {
             return null;
         }
-    }
-
-    if (!user.username && !user.role && !user.group) {
-        return null;
     }
 
     return true;

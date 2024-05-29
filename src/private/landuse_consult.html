@@ -9,8 +9,10 @@
     <link rel="shortcut icon" href="/public/img/landuse_icon.svg" type="image/x-icon">
     <script src="/private/js/appLogout.js" defer></script>
     <script src="/private/js/appInfoLoader.js" defer></script>
+    <script src="/private/js/appConsultControl.js"></script>
+    <script src="/private/js/appConsultLand.js" defer></script>
 </head>
-<body class="bg-image bg-image-1">
+<body class="bg-image bg-image-2">
     <!--<header class="header header-15">
         <div class="container bg-complementary-alpha border-primary border-only-bottom dis-flex flex-center-v flex-between padding-horizontal-large">
             <a href="" class="w-15"><img class="w-100" src="/img/imduyv_logo_horizontal_primario.png" alt="Logo"></a>
@@ -107,22 +109,148 @@
                         
                     </form>
                 </div>
-                <div class="w-100 h-100 page-container border-secondary">
 
-                    <div class="w-100 dis-flex">
-                        <div class="w-90 dis-grid template-3cols-nogap padding-small bg-secondary-alpha border-round-left">
-                            <form>
-                                <label class="color-primary">Some Label:</label> 
-                                <input class="w-90 input input-none input-interface" type="text" placeholder="Some info">
-                                <button class="w-5 bi-floppy-fill color-primary bg-complementary-alpha input-none"></button>
+                <div id="results_container">
+
+                    <!--<div id="result_1" class="w-100">
+
+                        <div id="result_top_1" class="w-100 dis-flex flex-between flex-center-v padding-small bg-complementary-alpha border-round">
+                            <button onclick="hideShow(this, 1)" class="bi-chevron-bar-down txt-medium color-primary result-control input-none"></button>
+                            <p class="color-white txt-bold">Folio: <span id="result_invoice_1">######/#####/###/###/####</span></p>
+
+                            <div class="w-10 dis-flex flex-evenly">
+                                <span id="result_control_save_1" onclick="updateResultFull(1)" class="bi-floppy txt-large color-primary dis-none result-control"></span>
+                                <span id="result_control_delete_1" onclick="deleteResult(1)" class="bi-trash txt-large color-primary dis-none result-control"></span>
+                            </div>
+                        </div>
+
+                        <div id="result_fields_1" class="w-100 dis-none template-3cols-nogap bg-secondary-alpha padding-small border-round-bottom">
+                            <form onsubmit="updateResultField(this, 1); return false">
+                                <label class="dis-flex flex-wrap color-primary">Nombre del solicitante: 
+                                    <input type="hidden" value="#"> <span class="w-100"></span>
+                                    <input name="requestorName" class="w-85 input input-interface input-round-left" type="text" required>
+                                    <button class="bi-floppy input-side-save w-10"></button>
+                                </label>
                             </form>
+                            <form onsubmit="updateResultField(this, 1); return false">
+                                <label class="dis-flex flex-wrap color-primary">Representante legal: <input type="hidden" value="#"> <span class="w-100"></span>
+                                    <input name="legalRepresentative" class="w-85 input input-interface input-round-left" type="text" required>
+                                    <button class="bi-floppy input-side-save w-10"></button>
+                                </label>
+                            </form>
+                            <form onsubmit="updateResultField(this, 1); return false">
+                                <label class="dis-flex flex-wrap color-primary">Fecha de Solicitud: <input type="hidden" value="#"> <span class="w-100"></span>
+                                    <input name="requestDate" class="w-85 input input-interface input-round-left" type="date" required>
+                                    <button class="bi-floppy input-side-save w-10"></button>
+                                </label>
+                            </form>
+                            <form onsubmit="updateResultField(this, 1); return false">
+                                <label class="dis-flex flex-wrap color-primary">Colonia/Asentamiento: <input type="hidden" value="#"> <span class="w-100"></span>
+                                    <input name="colony" class="w-85 input input-interface input-round-left" type="text" required>
+                                    <button class="bi-floppy input-side-save w-10"></button>
+                                </label>
+                            </form>
+                            <form onsubmit="updateResultField(this, 1); return false">
+                                <label class="dis-flex flex-wrap color-primary">Calle: <input type="hidden" value="#"> <span class="w-100"></span>
+                                    <input name="address" class="w-85 input input-interface input-round-left" type="text" required>
+                                    <button class="bi-floppy input-side-save w-10"></button>
+                                </label>
+                            </form>
+                            <form onsubmit="updateResultField(this, 1); return false">
+                                <label class="dis-flex flex-wrap color-primary">Clave catastral: <input type="hidden" value="#"> <span class="w-100"></span>
+                                    <input name="catastralKey" class="w-85 input input-interface input-round-left" type="text" required>
+                                    <button class="bi-floppy input-side-save w-10"></button>
+                                </label>
+                            </form>
+                            <form onsubmit="updateResultField(this, 1); return false">
+                                <label class="dis-flex flex-wrap color-primary">Superficie de aprovechamiento: <input type="hidden" value="#"> <span class="w-100"></span>
+                                    <input name="surface" class="w-85 input input-interface input-round-left" type="text" required>
+                                    <button class="bi-floppy input-side-save w-10"></button>
+                                </label>
+                            </form>
+                            <form onsubmit="updateResultField(this, 1); return false">
+                                <label class="dis-flex flex-wrap color-primary">Zonificación: <input type="hidden" value="#"> <span class="w-100"></span>
+                                    <input name="zoneIMG" class="w-85 input-file" type="file" accept=".jpg, .jpeg, .png" required>
+                                    <button class="bi-floppy input-side-save w-10"></button>
+                                </label>
+                            </form>
+                            <form onsubmit="updateResultField(this, 1); return false">
+                                <label class="dis-flex flex-wrap color-primary">Zona: <input type="hidden" value="#"><span class="w-100"></span>
+                                    <select name="zone" class="w-85 input input-interface input-round-left" type="text" required>
+                                        <option value="">Seleccione zona ...</option>
+                                        <option value="1">Densidad muy baja (Unifamiliar)</option>
+                                        <option value="2">Densidad baja (Unifamiliar)</option>
+                                        <option value="3">Densidad media baja (Unifamiliar)</option>
+                                        <option value="4">Densidad media (Unifamiliar)</option>
+                                        <option value="5">Densidad media alta (Unifamiliar)</option>
+                                        <option value="6">Densidad alta (Unifamiliar)</option>
+                                        <option value="7">Densidad alta (multifamiliar dúplex, tríplex y cuádruplex)</option>
+                                        <option value="8">Densidad muy alta 1 (multifamiliar)</option>
+                                        <option value="9">Densidad muy alta 2</option>
+                                        <option value="10">Mixto</option>
+                                        <option value="11">Corredor urbano mixto de baja densidad</option>
+                                        <option value="12">Corredor urbano mixto de media densidad</option>
+                                        <option value="13">Industria de bajo impacto</option>
+                                        <option value="14">Industria de medio impacto</option>
+                                        <option value="15">Industria de gran impacto</option>
+                                        <option value="16">Equipamiento Urbano</option>
+                                        <option value="17">Infraestructura urbana</option>
+                                        <option value="18">Reserva territorial futura</option>
+                                        <option value="19">Agricultura tecnificada</option>
+                                        <option value="20">Agroindustria</option>
+                                        <option value="21">Cuerpos de agua</option>
+                                        <option value="22">Conservación y restauración ambiental</option>
+                                        <option value="23">Parque Hídrico</option>
+                                    </select>
+                                    <button class="bi-floppy input-side-save w-10"></button>
+                                </label>
+                            </form>
+                            <form onsubmit="updateResultField(this, 1); return false">
+                                <label class="dis-flex flex-wrap color-primary">Fecha de expedición: <input type="hidden" value="#"> <span class="w-100"></span>
+                                    <input name="expeditionDate" class="w-85 input input-interface input-round-left" type="date" required>
+                                    <button class="bi-floppy input-side-save w-10"></button>
+                                </label>
+                            </form>
+                            <form onsubmit="updateResultField(this, 1); return false">
+                                <label class="dis-flex flex-wrap color-primary">Orden de cobro: <input type="hidden" value="#"> <span class="w-100"></span>
+                                    <input name="collectionOrder" class="w-85 input input-interface input-round-left" type="text" required>
+                                    <button class="bi-floppy input-side-save w-10"></button>
+                                </label>
+                            </form>
+                            <form onsubmit="updateResultField(this, 1); return false">
+                                <label class="dis-flex flex-wrap color-primary">Fecha de pago: <input type="hidden" value="#"> <span class="w-100"></span>
+                                    <input name="paymentDate" class="w-85 input input-interface input-round-left" type="date" required>
+                                    <button class="bi-floppy input-side-save w-10"></button>
+                                </label>
+                            </form>
+                            <form onsubmit="updateResultField(this, 1); return false">
+                                <label class="dis-flex flex-wrap color-primary">Folio y serie de factura: <input type="hidden" value="#"> <span class="w-100"></span>
+                                    <input name="billInvoice" class="w-85 input input-interface input-round-left" type="text" required>
+                                    <button class="bi-floppy input-side-save w-10"></button>
+                                </label>
+                            </form>
+                            <form onsubmit="updateResultField(this, 1); return false">
+                                <label class="dis-flex flex-wrap color-primary">Monto autorizado: <input type="hidden" value="#"> <span class="w-100"></span>
+                                    <input name="authorizedQuantity" class="w-85 input input-interface input-round-left" type="text" required>
+                                    <button class="bi-floppy input-side-save w-10"></button>
+                                </label>
+                            </form>
+                            <form onsubmit="updateResultField(this, 1); return false">
+                                <label class="dis-flex flex-wrap color-primary">Fecha de entrega: <input type="hidden" value="#"> <span class="w-100"></span>
+                                    <input name="deliveryDate" class="w-85 input input-interface input-round-left" type="date" required>
+                                    <button class="bi-floppy input-side-save w-10"></button>
+                                </label>
+                            </form>
+                            <form onsubmit="updateResultField(this, 1); return false">
+                                <label class="dis-flex flex-wrap color-primary">Nombre de quien recibe: <input type="hidden" value="#"> <span class="w-100"></span>
+                                    <input name="receiverName" class="w-85 input input-interface input-round-left" type="text" required>
+                                    <button class="bi-floppy input-side-save w-10"></button>
+                                </label>
+                            </form>
+                            
                         </div>
-                        <div class="w-10 dis-flex flex-column flex-center-v flex-evenly bg-complementary-alpha border-round-right padding-vertical-small">
-                            <span class="bi-floppy txt-large color-primary"></span>
-                            <span class="bi-trash txt-large color-primary"></span>
-                        </div>
-                    </div>
 
+                    </div>-->
                 </div>
                 
             </div>
