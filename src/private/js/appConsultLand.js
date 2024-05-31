@@ -1,5 +1,183 @@
 const resultContainer = document.querySelector('#results_container');
 
+const formSearchBy = document.querySelector('#form_land_by');
+const formSearchByInvoice = document.querySelector('#form_land_byInvoice');
+const formSearchByType = document.querySelector('#form_land_byType');
+
+formSearchBy.addEventListener('submit',
+    event => {
+        event.preventDefault();
+
+        const formData = new FormData(formSearchBy);
+
+        let data = Object.fromEntries(formData);
+
+        getLicenseBy(data.by, data.value);
+    }
+);
+
+formSearchByInvoice.addEventListener('submit',
+    event => {
+        event.preventDefault();
+
+        const formData = new FormData(formSearchByInvoice);
+
+        let data = Object.fromEntries(formData);
+
+        getLicense(data.byInvoiceType, data.byInvoice, data.byInvoiceYear);
+    }
+);
+
+formSearchByType.addEventListener('submit',
+    event => {
+        event.preventDefault();
+
+        const formData = new FormData(formSearchByType);
+
+        let data = Object.fromEntries(formData);
+
+        getLicenseByType(data.byType, data.byTypeYear);
+    }
+);
+
+async function getLicense(type, invoice, year) {
+    await fetch(`https://192.168.180.25:3091/api/landuse/${type}/${invoice}/${year}`, {
+            method: 'GET',
+            credentials: 'include'
+        })
+        .then(async res => {
+            if(res.ok){
+                let response = await res.json();
+
+                if (response.data.length == 0) {
+                    alert('No hay resultados que coincida con la búsqueda');
+                    return;
+                }
+
+                resultContainer.innerHTML = '';
+
+                response.data.forEach(element => {
+                    createLandResult(element, resultContainer);
+                });
+
+                return;
+            }
+
+            if (!res.ok) {
+                let response = await res.json();
+                alert(response.msg);
+                return;
+            }
+        })
+        .catch(error => {
+            alert('An error ocurred:\n' + error);
+            console.error('Error getting data: ', error)
+        });
+}
+
+async function getLicensePrint(type, invoice, year) {
+    await fetch(`https://192.168.180.25:3091/api/landuse/${type}/${invoice}/${year}`, {
+            method: 'GET',
+            credentials: 'include'
+        })
+        .then(async res => {
+            if(res.ok){
+                let response = await res.json();
+
+                if (response.data.length == 0) {
+                    alert('No hay resultados que coincida con la búsqueda');
+                    return;
+                }
+
+                response.data.forEach(element => {
+                    //code for filling the print form
+                });
+
+                return;
+            }
+
+            if (!res.ok) {
+                let response = await res.json();
+                alert(response.msg);
+                return;
+            }
+        })
+        .catch(error => {
+            alert('An error ocurred:\n' + error);
+            console.error('Error getting data: ', error)
+        });
+}
+
+async function getLicenseByType(type, year) {
+    await fetch(`https://192.168.180.25:3091/api/landuse/${type}/${year}`, {
+            method: 'GET',
+            credentials: 'include'
+        })
+        .then(async res => {
+            if(res.ok){
+                let response = await res.json();
+
+                if (response.data.length == 0) {
+                    alert('No hay resultados que coincida con la búsqueda');
+                    return;
+                }
+
+                resultContainer.innerHTML = '';
+
+                response.data.forEach(element => {
+                    createLandResult(element, resultContainer);
+                });
+
+                return;
+            }
+
+            if (!res.ok) {
+                let response = await res.json();
+                alert(response.msg);
+                return;
+            }
+        })
+        .catch(error => {
+            alert('An error ocurred:\n' + error);
+            console.error('Error getting data: ', error)
+        });
+}
+
+async function getLicenseBy(param, value) {
+    await fetch(`https://192.168.180.25:3091/api/landuse/${param}/value/${value}`, {
+            method: 'GET',
+            credentials: 'include'
+        })
+        .then(async res => {
+            if(res.ok){
+                let response = await res.json();
+
+                if (response.data.length == 0) {
+                    alert('No hay resultados que coincida con la búsqueda');
+                    return;
+                }
+
+                resultContainer.innerHTML = '';
+
+                response.data.forEach(element => {
+                    createLandResult(element, resultContainer);
+                });
+
+                return;
+            }
+
+            if (!res.ok) {
+                let response = await res.json();
+                alert(response.msg);
+                return;
+            }
+        })
+        .catch(error => {
+            alert('An error ocurred:\n' + error);
+            console.error('Error getting data: ', error)
+        });
+}
+
 async function getLicensesLand() {
     await fetch(`https://192.168.180.25:3091/api/landuse/`, {
             method: 'GET',
@@ -8,6 +186,13 @@ async function getLicensesLand() {
         .then(async res => {
             if(res.ok){
                 let response = await res.json();
+
+                if (response.data.length == 0) {
+                    alert('No hay resultados que coincida con la búsqueda');
+                    return;
+                }
+
+                resultContainer.innerHTML = '';
 
                 response.data.forEach(element => {
                     createLandResult(element, resultContainer);
@@ -28,15 +213,32 @@ async function getLicensesLand() {
         });
 }
 
-async function updateResult(form) {
+async function updateResultField(form, id) {
+    let registro = document.querySelector(`#result_invoice_${id}`).innerText;
+    let field = form.querySelector('label').innerText.toLowerCase().replaceAll(':', '');
+    let currentValue = form.querySelector('input[type="hidden"]').value;
 
-    if (!confirm("Seguro que quieres modificar el registro")) {
+    const formData = new FormData(form);
+
+    let data = Object.fromEntries(formData);
+
+    for (const key in data) {
+        data = data[key];
+    }
+
+    let mensaje = `
+    ¿Seguro que quieres modificar el ${field} para el registro ${registro}?\n
+    El valor actual es: "${currentValue}"
+    Cambiara a: "${data}"`
+
+    if(currentValue == data) {
+        alert("No se ha realizado ningún cambio");
         return;
     }
 
-    const formData = new FormData(form);
-    
-    let id = form.getAttribute('id');
+    if (!confirm(mensaje)) {
+        return;
+    }
 
     await fetch(`https://192.168.180.25:3091/api/landuse/${id}`, {
             method: 'PATCH',
@@ -51,7 +253,7 @@ async function updateResult(form) {
 
                 if (form.querySelector('.input-file')) {
                     let img = document.querySelector(`#result_fields_${id}`).querySelector('img');
-                    img.setAttribute('src', `/urbanStorage/${form.querySelector('input[type=hidden]').value}?${new Date().getTime()}`);
+                    img.setAttribute('src', `/landUseStorage/${form.querySelector('input[type=hidden]').value}?${new Date().getTime()}`);
                 }
                 
                 alert(`Cambios guardados exitosamente para el registro: ${registro}`);
@@ -65,7 +267,7 @@ async function updateResult(form) {
             }
         })
         .catch(error => {
-            console.error('Error uploading file: ', error)
+            console.error('Error updating data: ', error);
         });
 }
 
@@ -110,117 +312,4 @@ async function deleteResult(id) {
 }
 
 //-------------------------------------------------------------------
-getLicensesLand();
-/*const resultContainer = document.querySelector('#results_container');
-
-let obj = {
-    "id": 2,
-    "fullInvoice": "IMDUyV_DLyCU_DP_002_2024",
-    "invoice": 2,
-    "licenseType": 7,
-    "year": 2024,
-    "requestorName": "someone",
-    "attentionName": "my brothar",
-    "requestDate": "2024-05-21",
-    "address": "here",
-    "number": "S/N",
-    "colony": "this colony",
-    "surfaceTotal": "200 m2",
-    "catastralKey": 14413080030325,
-    "licenseTerm": 1,
-    "geoReference": "somegeo, anothergeo",
-    "zoneImage": "IMDUyV_DLyCU_DP_002_2024_zone.png",
-    "licenseZone": 1,
-    "authorizedUse": 1,
-    "businessLinePrint": "print business line",
-    "businessLineIntern": "some businessline",
-    "expeditionDate": "2024-05-22",
-    "licenseValidity": 2,
-    "paymentInvoice": "1445",
-    "expirationDate": "2024-05-23",
-    "licenseExpeditionType": 1,
-    "contactPhone": 7791042842,
-    "cost": 1,
-    "discount": 0,
-    "paymentDone": 1,
-    "inspector": "myself 3.0",
-    "createdAt": "2024-05-22T15:44:09.000Z",
-    "updatedAt": "2024-05-22T20:20:18.000Z",
-    "type": {
-      "licenseType": "DP"
-    },
-    "term": {
-      "licenseTerm": "corto"
-    },
-    "zone": {
-      "licenseZone": "Densidad muy baja (Unifamiliar)",
-      "licenseKey": "H0.5"
-    },
-    "authUse": {
-      "licenseAuthUse": "Unifamiliar, plurifamiliar o multifamiliar"
-    },
-    "validity": {
-      "licenseValidity": "seis meses"
-    },
-    "expeditionType": {
-      "licenseExpType": "nueva"
-    }
-  }
-
-  let obj2 = {
-    "id": 3,
-    "fullInvoice": "IMDUyV_DLyCU_LC_001_2024",
-    "invoice": 1,
-    "licenseType": 3,
-    "year": 2024,
-    "requestorName": "someone",
-    "attentionName": "my brothar",
-    "requestDate": "2024-05-21",
-    "address": "here",
-    "number": "S/N",
-    "colony": "this colony",
-    "surfaceTotal": "200 m2",
-    "catastralKey": 14413080030325,
-    "licenseTerm": 1,
-    "geoReference": "somegeo, anothergeo",
-    "zoneImage": "IMDUyV_DLyCU_LC_001_2024_zone.png",
-    "licenseZone": 1,
-    "authorizedUse": 1,
-    "businessLinePrint": "print business line",
-    "businessLineIntern": "some businessline",
-    "expeditionDate": "2024-05-22",
-    "licenseValidity": 1,
-    "paymentInvoice": "1445",
-    "expirationDate": "2024-05-23",
-    "licenseExpeditionType": 1,
-    "contactPhone": 7791042842,
-    "cost": 1,
-    "discount": 0,
-    "paymentDone": 1,
-    "inspector": "myself 3.0",
-    "createdAt": "2024-05-22T15:44:14.000Z",
-    "updatedAt": "2024-05-22T20:23:10.000Z",
-    "type": {
-      "licenseType": "LC"
-    },
-    "term": {
-      "licenseTerm": "corto"
-    },
-    "zone": {
-      "licenseZone": "Densidad muy baja (Unifamiliar)",
-      "licenseKey": "H0.5"
-    },
-    "authUse": {
-      "licenseAuthUse": "Unifamiliar, plurifamiliar o multifamiliar"
-    },
-    "validity": {
-      "licenseValidity": "doce meses"
-    },
-    "expeditionType": {
-      "licenseExpType": "nueva"
-    }
-  }
-
-createUrbanResult(obj, resultContainer);
-
-createUrbanResult(obj2, resultContainer);*/
+//getLicensesLand();

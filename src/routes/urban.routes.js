@@ -10,6 +10,12 @@ router.get('/', [authenticator.verifyToken , authenticator.isUrbanUser] , urbanC
 
 router.get('/:licenciaID', [authenticator.verifyToken , authenticator.isUrbanUser] , urbanControl.getLicense);
 
+router.get('/:getByParameter/value/:value', [authenticator.verifyToken , authenticator.isUrbanUser] , urbanControl.getLicenseBy);
+
+router.get('/:type/:invoice/:year', [authenticator.verifyToken , authenticator.isUrbanUser] , urbanControl.getLicenseByInvoice);
+
+router.get('/:type/:year', [authenticator.verifyToken , authenticator.isUrbanUser] , urbanControl.getLicenseByType);
+
 router.post('/', [authenticator.verifyToken , authenticator.isUrbanUser , authenticator.isModerator, up.single('zoneIMG')] , urbanControl.createLicense);
 
 router.patch('/:licenciaID', [authenticator.verifyToken , authenticator.isUrbanUser , authenticator.isModerator, up.single('zoneIMG')] , urbanControl.updateLicense);

@@ -1,13 +1,60 @@
 const resultContainer = document.querySelector('#results_container');
 
-async function getLicensesUrban() {
-    await fetch(`https://192.168.180.25:3091/api/urban/`, {
+const formSearchBy = document.querySelector('#form_urban_by');
+const formSearchByInvoice = document.querySelector('#form_urban_byInvoice');
+const formSearchByType = document.querySelector('#form_urban_byType');
+
+formSearchBy.addEventListener('submit',
+    event => {
+        event.preventDefault();
+
+        const formData = new FormData(formSearchBy);
+
+        let data = Object.fromEntries(formData);
+
+        getLicenseBy(data.by, data.value);
+    }
+);
+
+formSearchByInvoice.addEventListener('submit',
+    event => {
+        event.preventDefault();
+
+        const formData = new FormData(formSearchByInvoice);
+
+        let data = Object.fromEntries(formData);
+
+        getLicense(data.byInvoiceType, data.byInvoice, data.byInvoiceYear);
+    }
+);
+
+formSearchByType.addEventListener('submit',
+    event => {
+        event.preventDefault();
+
+        const formData = new FormData(formSearchByType);
+
+        let data = Object.fromEntries(formData);
+
+        getLicenseByType(data.byType, data.byTypeYear);
+    }
+);
+
+async function getLicense(type, invoice, year) {
+    await fetch(`https://192.168.180.25:3091/api/urban/${type}/${invoice}/${year}`, {
             method: 'GET',
             credentials: 'include'
         })
         .then(async res => {
             if(res.ok){
                 let response = await res.json();
+
+                if (response.data.length == 0) {
+                    alert('No hay resultados que coincida con la búsqueda');
+                    return;
+                }
+
+                resultContainer.innerHTML = '';
 
                 response.data.forEach(element => {
                     createUrbanResult(element, resultContainer);
@@ -23,13 +70,150 @@ async function getLicensesUrban() {
             }
         })
         .catch(error => {
-            alert('An error ocurred', error);
+            alert('An error ocurred:\n' + error);
+            console.error('Error getting data: ', error)
+        });
+}
+
+async function getLicensePrint(type, invoice, year) {
+    await fetch(`https://192.168.180.25:3091/api/urban/${type}/${invoice}/${year}`, {
+            method: 'GET',
+            credentials: 'include'
+        })
+        .then(async res => {
+            if(res.ok){
+                let response = await res.json();
+
+                if (response.data.length == 0) {
+                    alert('No hay resultados que coincida con la búsqueda');
+                    return;
+                }
+
+                response.data.forEach(element => {
+                    //code for filling the print form
+                });
+
+                return;
+            }
+
+            if (!res.ok) {
+                let response = await res.json();
+                alert(response.msg);
+                return;
+            }
+        })
+        .catch(error => {
+            alert('An error ocurred:\n' + error);
+            console.error('Error getting data: ', error)
+        });
+}
+
+async function getLicenseByType(type, year) {
+    await fetch(`https://192.168.180.25:3091/api/urban/${type}/${year}`, {
+            method: 'GET',
+            credentials: 'include'
+        })
+        .then(async res => {
+            if(res.ok){
+                let response = await res.json();
+
+                if (response.data.length == 0) {
+                    alert('No hay resultados que coincida con la búsqueda');
+                    return;
+                }
+
+                resultContainer.innerHTML = '';
+
+                response.data.forEach(element => {
+                    createUrbanResult(element, resultContainer);
+                });
+
+                return;
+            }
+
+            if (!res.ok) {
+                let response = await res.json();
+                alert(response.msg);
+                return;
+            }
+        })
+        .catch(error => {
+            alert('An error ocurred:\n' + error);
+            console.error('Error getting data: ', error)
+        });
+}
+
+async function getLicenseBy(param, value) {
+    await fetch(`https://192.168.180.25:3091/api/urban/${param}/value/${value}`, {
+            method: 'GET',
+            credentials: 'include'
+        })
+        .then(async res => {
+            if(res.ok){
+                let response = await res.json();
+
+                if (response.data.length == 0) {
+                    alert('No hay resultados que coincida con la búsqueda');
+                    return;
+                }
+
+                resultContainer.innerHTML = '';
+
+                response.data.forEach(element => {
+                    createUrbanResult(element, resultContainer);
+                });
+
+                return;
+            }
+
+            if (!res.ok) {
+                let response = await res.json();
+                alert(response.msg);
+                return;
+            }
+        })
+        .catch(error => {
+            alert('An error ocurred:\n' + error);
+            console.error('Error getting data: ', error)
+        });
+}
+
+async function getLicensesUrban() {
+    await fetch(`https://192.168.180.25:3091/api/urban/`, {
+            method: 'GET',
+            credentials: 'include'
+        })
+        .then(async res => {
+            if(res.ok){
+                let response = await res.json();
+
+                if (response.data.length == 0) {
+                    alert('No hay resultados para mostrar');
+                    return;
+                }
+
+                resultContainer.innerHTML = '';
+
+                response.data.forEach(element => {
+                    createUrbanResult(element, resultContainer);
+                });
+
+                return;
+            }
+
+            if (!res.ok) {
+                let response = await res.json();
+                alert(response.msg);
+                return;
+            }
+        })
+        .catch(error => {
+            alert('An error ocurred:\n' + error);
             console.error('Error getting data: ', error)
         });
 }
 
 async function updateResultField(form, id) {
-
     let registro = document.querySelector(`#result_invoice_${id}`).innerText;
     let field = form.querySelector('label').innerText.toLowerCase().replaceAll(':', '');
     let currentValue = form.querySelector('input[type="hidden"]').value;
@@ -47,7 +231,10 @@ async function updateResultField(form, id) {
     El valor actual es: "${currentValue}"
     Cambiara a: "${data}"`
 
-    
+    if(currentValue == data) {
+        alert("No se ha realizado ningún cambio");
+        return;
+    }
 
     if (!confirm(mensaje)) {
         return;
@@ -59,7 +246,7 @@ async function updateResultField(form, id) {
             body: formData
         })
         .then(async res => {
-            if(res.ok){
+            if(res.ok) {
                 if (form.querySelector('.input-interface')) {
                     form.querySelector('input[type=hidden]').value = form.querySelector('.input-interface').value;
                 }
@@ -80,7 +267,8 @@ async function updateResultField(form, id) {
             }
         })
         .catch(error => {
-            console.error('Error updating data: ', error)
+            alert('An error ocurred:\n' + error);
+            console.error('Error updating data: ', error);
         });
 }
 
@@ -120,95 +308,10 @@ async function deleteResult(id) {
             }
         })
         .catch(error => {
+            alert('An error ocurred:\n' + error);
             console.error('Error deleting registry: ', error)
         });
 }
 
 //-------------------------------------------------------------------
-
-getLicensesUrban();
-
-/*let obj = {
-    "id": 1,
-    "fullInvoice": "IMDUyV_DLyCU_LUS_001_2024",
-    "invoice": 1,
-    "licenseType": 2,
-    "year": 2024,
-    "requestDate": "2024-05-22",
-    "requestorName": "alguien",
-    "legalRepresentative": "alguien legal",
-    "elaboratedBy": "someone",
-    "address": "Calle Aqui",
-    "colony": "Aqui",
-    "catastralKey": 14413080030325,
-    "surfaceTotal": "34 m2",
-    "zoneImage": "IMDUyV_DLyCU_LUS_001_2024_zone.png",
-    "licenseZone": 3,
-    "expeditionDate": "2024-05-23",
-    "collectionOrder": 1,
-    "paymentDate": "2024-05-23",
-    "billInvoice": 12,
-    "authorizedquantity": 14456,
-    "deliveryDate": "2024-05-24",
-    "receiverName": "someone who receives",
-    "observations": "none",
-    "createdAt": "2024-05-22T23:00:41.000Z",
-    "updatedAt": "2024-05-27T22:48:16.000Z",
-    "urbanType": {
-      "licenseType": "LUS"
-    },
-    "zone": {
-      "licenseZone": "Densidad media baja (Unifamiliar)",
-      "licenseKey": "H1.5"
-    }
-  }
-
-  let obj2 = {
-    "id": 2,
-    "fullInvoice": "IMDUyV_DLyCU_LUS_001_2024",
-    "invoice": 1,
-    "licenseType": 2,
-    "year": 2024,
-    "requestDate": "2024-05-22",
-    "requestorName": "alguien",
-    "legalRepresentative": "alguien legal",
-    "elaboratedBy": "someone",
-    "address": "Calle Aqui",
-    "colony": "Aqui",
-    "catastralKey": 14413080030325,
-    "surfaceTotal": "34 m2",
-    "zoneImage": "IMDUyV_DLyCU_LUS_001_2024_zone.png",
-    "licenseZone": 3,
-    "expeditionDate": "2024-05-23",
-    "collectionOrder": 1,
-    "paymentDate": "2024-05-23",
-    "billInvoice": 12,
-    "authorizedquantity": 14456,
-    "deliveryDate": "2024-05-24",
-    "receiverName": "someone who receives",
-    "observations": "none",
-    "createdAt": "2024-05-22T23:00:41.000Z",
-    "updatedAt": "2024-05-27T22:48:16.000Z",
-    "urbanType": {
-      "licenseType": "LUS"
-    },
-    "zone": {
-      "licenseZone": "Densidad media baja (Unifamiliar)",
-      "licenseKey": "H1.5"
-    }
-  }
-
-createUrbanResult(obj, resultContainer);
-
-createUrbanResult(obj2, resultContainer);
-
-/*let resultContent = createResultContent(12);
-let field = createResultField(12, 'Nombre del solicitante', 'requestorName', 'Someone', 'text')
-
-resultContent.appendChild(field);
-
-document.querySelector('#results_container').appendChild(createResult(
-    12,
-    createResultTop(12, 'IMDUyV/DLyCU/LSUB/007/2024'), 
-    resultContent
-));*/
+//getLicensesUrban();

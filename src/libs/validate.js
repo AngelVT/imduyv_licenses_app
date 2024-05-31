@@ -108,3 +108,60 @@ export const validateUserInfo = async (user) => {
 
     return true;
 }
+
+export const validUrbanCriteria = {
+    fullInvoice: {},
+    invoice: {},
+    licenseType: {},
+    year: {},
+    requestDate: {},
+    requestorName: {},
+    legalRepresentative: {},
+    elaboratedBy: {},
+    address: {},
+    colony: {},
+    catastralKey: {},
+    surfaceTotal: {},
+    zoneImage: {},
+    licenseZone: {},
+    expeditionDate: {},
+    collectionOrder: {},
+    paymentDate: {},
+    billInvoice: {},
+    authorizedQuantity: {},
+    deliveryDate: {},
+    receiverName: {},
+    observations: {}
+}
+
+export const validLandCriteria = {
+    fullInvoice: {},
+    invoice: {},
+    licenseType: {},
+    year: {},
+    requestorName: {},
+    attentionName: {},
+    requestDate: {},
+    address: {},
+    number: {},
+    colony: {},
+    surfaceTotal: {},
+    catastralKey: {},
+    licenseTerm: {},
+    geoReference: {},
+    zoneImage: {},
+    licenseZone: {},
+    authorizedUse: {},
+    businessLinePrint: {},
+    businessLineIntern: {},
+    expeditionDate: {},
+    licenseValidity: {},
+    paymentInvoice: {},
+    expirationDate: {},
+    licenseExpeditionType: {},
+    contactPhone: {},
+    cost: {},
+    discount: {},
+    paymentDone: {},
+    inspector: {}
+}

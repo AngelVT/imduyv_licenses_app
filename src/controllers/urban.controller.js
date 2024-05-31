@@ -1,11 +1,12 @@
 import fs from 'fs';
 import path from 'path';
+import { Op } from 'sequelize';
 
 import { generateUrbanInvoice } from '../libs/fullInvoiceGen.js';
 import { __dirstorage } from '../paths.js';
 import { consoleLogger, requestLogger } from "../logger.js";
 import { UrbanLicense, UrbanType, Zone } from '../models/License.models.js';
-import { validate } from '../libs/validate.js';
+import { validate, validUrbanCriteria } from '../libs/validate.js';
 
 
 export const getLicenses = async (req, res) => {
@@ -63,6 +64,132 @@ export const getLicense = async (req, res) => {
         requestLogger.get('Urban get request completed:\n    Requested record: %d', id);
 
         res.status(200).json({data: [license]});
+    } catch (error) {
+        consoleLogger.error('\n  Request failed due to server side error:\n  Error: %s', error)
+        requestLogger.error('Request failed due to server side error:\n    Error: %s', error);
+        res.status(500).json({msg: "Internal server error"});
+    }
+}
+
+export const getLicenseByInvoice = async (req, res) => {
+    try {
+        const type = req.params.type;
+        const invoice = req.params.invoice;
+        const year = req.params.year;
+
+        const license = await UrbanLicense.findOne({
+            where: {
+                licenseType: type,
+                invoice: invoice,
+                year: year
+            },
+            include: [
+                {
+                    model: UrbanType,
+                    attributes: ['licenseType']
+                },
+                {
+                    model: Zone,
+                    attributes: ['licenseZone', 'licenseKey']
+                }
+            ]
+        });
+
+        if(license == null) {
+            res.status(404).json({ msg: "The requested data does not exist or is unavailable" });
+            return;
+        }
+
+        requestLogger.get('Urban get request completed:\n    Requested record: %d', license.id);
+
+        res.status(200).json({data: [license]});
+    } catch (error) {
+        consoleLogger.error('\n  Request failed due to server side error:\n  Error: %s', error)
+        requestLogger.error('Request failed due to server side error:\n    Error: %s', error);
+        res.status(500).json({msg: "Internal server error"});
+    }
+}
+
+export const getLicenseByType = async (req, res) => {
+    try {
+        const type = req.params.type;
+        const year = req.params.year;
+
+        const licenses = await UrbanLicense.findAll({
+            where: {
+                licenseType: type,
+                year: year
+            },
+            include: [
+                {
+                    model: UrbanType,
+                    attributes: ['licenseType']
+                },
+                {
+                    model: Zone,
+                    attributes: ['licenseZone', 'licenseKey']
+                }
+            ]
+        });
+
+        if(licenses == null) {
+            res.status(404).json({ msg: "The requested data does not exist or is unavailable" });
+            return;
+        }
+
+        requestLogger.get('Urban get request completed:\n    Requested record: %d', licenses.id);
+
+        res.status(200).json({data: licenses});
+    } catch (error) {
+        consoleLogger.error('\n  Request failed due to server side error:\n  Error: %s', error)
+        requestLogger.error('Request failed due to server side error:\n    Error: %s', error);
+        res.status(500).json({msg: "Internal server error"});
+    }
+}
+
+export const getLicenseBy = async (req, res) => {
+    try {
+        const parameter = req.params.getByParameter;
+        const value = req.params.value;
+
+        let validated;
+
+        for (const key in validUrbanCriteria) {
+            if (key === parameter) {
+                validated = true
+            }
+        }
+
+        if (!validated) {
+            res.status(400).json({ msg: "Invalid information provided." });
+            return;
+        }
+
+        const criteria = {};
+        criteria[parameter] = { [Op.like]: `%${value}%` };
+
+        const licenses = await UrbanLicense.findAll({
+            where: criteria,
+            include: [
+                {
+                    model: UrbanType,
+                    attributes: ['licenseType']
+                },
+                {
+                    model: Zone,
+                    attributes: ['licenseZone', 'licenseKey']
+                }
+            ]
+        });
+
+        if(licenses == null) {
+            res.status(404).json({ msg: "The requested data does not exist or is unavailable" });
+            return;
+        }
+
+        requestLogger.get('Urban get request completed:\n    Requested record: %d', licenses.id);
+
+        res.status(200).json({data: licenses});
     } catch (error) {
         consoleLogger.error('\n  Request failed due to server side error:\n  Error: %s', error)
         requestLogger.error('Request failed due to server side error:\n    Error: %s', error);
@@ -149,7 +276,7 @@ export const createLicense = async (req, res) => {
             collectionOrder: collectionOrder,
             paymentDate: paymentDate,
             billInvoice: billInvoice,
-            authorizedquantity: authorizedQuantity,
+            authorizedQuantity: authorizedQuantity,
             deliveryDate: deliveryDate,
             receiverName: receiverName,
             observations: 'none'

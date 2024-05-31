@@ -321,7 +321,7 @@ export const UrbanLicense = pool.define(
             type: DataTypes.INTEGER,
             allowNull: false
         },
-        authorizedquantity: {
+        authorizedQuantity: {
             type: DataTypes.FLOAT,
             allowNull: false
         },

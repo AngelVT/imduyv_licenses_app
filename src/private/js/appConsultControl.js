@@ -43,7 +43,7 @@ function createResultTop(id, invoice) {
     topLabel.innerText = 'Folio: ';
     span = document.createElement('span');
     span.setAttribute('id', `result_invoice_${id}`);
-    span.innerText = invoice;
+    span.innerText = invoice.replaceAll('_', '/');
     topLabel.appendChild(span);
 
     top.appendChild(topLabel);
