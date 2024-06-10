@@ -10,18 +10,9 @@
     <script src="/private/libs/html2pdf.bundle.min.js"></script>
     <script src="/private/js/appLogout.js" defer></script>
     <script src="/private/js/appInfoLoader.js" defer></script>
+    <script src="/private/js/appPrintUrban.js" defer></script>
 </head>
 <body class="bg-image bg-image-2">
-    <!--<header class="header header-15">
-        <div class="container bg-complementary-alpha border-primary border-only-bottom dis-flex flex-center-v flex-between padding-horizontal-large">
-            <img class="w-15" src="/img/imduyv_logo_horizontal_primario.png" alt="Logo">
-            <span class="bi-buildings-fill color-primary txt-xlarge"></span>
-            <div class="w-15 dis-flex flex-column color-primary">
-                <span id="user_name" class="bi-person-circle txt-medium padding-horizontal-medium"> Usuario</span>
-                <span id="logout" class="bi-door-open txt-medium btn"> Cerrar sesión</span>
-            </div>
-        </div>
-    </header>-->
     <main>
         <section class="page-full bg-blur">
             <div class="container shadow-inner padding-horizontal-large padding-bottom-medium dis-flex flex-center-v flex-column">
@@ -35,36 +26,35 @@
                 </span>
 
                 <div class="dis-flex flex-between w-100 margin-bottom-small padding-small border-primary border-only-left border-only-bottom border-only-right border-round-bottom">
-                    <form class="dis-flex flex-wrap flex-center-h w-25">
-                        <select class="input input-secondary input-interface border-secondary input-round-left w-40" required>
+                    <form id="form_urban_byInvoicePrint" class="dis-flex flex-wrap flex-center-h w-25">
+                        <select name="byInvoiceType" class="input input-secondary input-interface border-secondary input-round-left w-40" required>
                             <option value="">Seleccione tipo ...</option>
-                            <option value="1">Constancia de uso de suelo</option>
-                            <option value="2">Licencia de uso de suelo</option>
-                            <option value="3">Licencia de subdivisión</option>
-                            <option value="4">Licencia de Fusion</option>
-                            <option value="5">Prórroga de licencia de fraccionamiento</option>
-                            <option value="6">Licencia de fraccionamiento</option>
-                            <option value="7">Relotificación de fraccionamiento</option>
-                            <option value="8">Régimen de propiedad en condominio</option>
+                            <option value="1">Constancia</option>
+                            <option value="2">Licencia Servicios</option>
+                            <option value="3">Licencia Comercal</option>
+                            <option value="4">Licencia Industria</option>
+                            <option value="5">Licencia Habitacional</option>
+                            <option value="6">Segregado</option>
+                            <option value="7">Derecho de Preferencia</option>
                         </select>
-                        <input class="input input-secondary input-interface border-secondary w-20" type="number" placeholder="folio" required>
-                        <select class="input input-secondary input-interface input-round-right w-40" required>
+                        <input name="byInvoice" class="input input-secondary input-interface border-secondary w-20" type="number" placeholder="folio" required>
+                        <select name="byInvoiceYear" class="input input-secondary input-interface input-round-right w-40" required>
                             <option value="">Seleccione año ...</option>
-                            <option value="1">2024</option>
-                            <option value="2">2025</option>
-                            <option value="3">2026</option>
-                            <option value="4">2027</option>
-                            <option value="5">2028</option>
-                            <option value="6">2029</option>
-                            <option value="7">2030</option>
+                            <option value="2024">2024</option>
+                            <option value="2025">2025</option>
+                            <option value="2026">2026</option>
+                            <option value="2027">2027</option>
+                            <option value="2028">2028</option>
+                            <option value="2029">2029</option>
+                            <option value="2030">2030</option>
                         </select>
 
                         <button class="btn btn-primary margin-top-small" type="submit">Buscar</button>
                         
                     </form>
-                    <div class="dis-flex flex-column">
-                        <button id="btn_pdf" class="btn btn-primary-bg margin-bottom-small"><span class="bi-printer"> PDF</span></button>
-                        <button class="btn btn-primary"><span class="bi-map"> Maps</span></button>
+                    <div class="dis-flex flex-column padding-horizontal-small">
+                        <button class="btn btn-primary-bg margin-bottom-small bi-printer"> PDF</button>
+                        <a href="/private/tools/maps/maps.html" target="_blank"><button class="btn btn-primary bi-map"> Maps</button></a>
                     </div>
                 </div>
                 
@@ -72,8 +62,8 @@
 
                     <div class="letter-page">
                         <p class="txt-small txt-center margin-bottom-medium">"2024, año de Felipe Carrillo Puerto, Benemérito, Revolucionario y defensor del Mayab"</p>
-                        <p class="txt-uppercase txt-bold txt-center margin-bottom-medium">Licencia de <span>subdivisión</span></p>
-                        <p class="txt-right txt-bold">IMDUyV/DLyCU/<span>LSUB</span>/<span>###</span>/<span>####</span></p>
+                        <p class="txt-uppercase txt-bold txt-center margin-bottom-medium">Licencia de subdivisión</p>
+                        <p class="txt-right txt-bold">IMDUyV/DLyCU/###/###/####</p>
                         <div class="dis-grid grid-gap format-txt-regular">
 
                             <div class="dis-flex flex_gap">
@@ -81,9 +71,9 @@
                                     
                                     <p class="format-head">DATOS DEL SOLICITANTE</p>
                                     <div class="format-container grid-format-data">
-                                        <p class="txt-bold">Nombre: </p>
+                                        <p class="txt-bold format-label">Nombre: </p>
                                         <span class="format-field ">####### ######## ####### ####### ######## #######</span>
-                                        <p class="txt-bold">Domicilio: </p>
+                                        <p class="txt-bold format-label">Domicilio: </p>
                                         <span class="format-field ">######### ######## # #######</span>
                                     </div>
                                     
@@ -92,11 +82,11 @@
                                 <div class="w-50 grid-format">
                                     <p class="format-head">DATOS DEL INMUEBLE</p>
                                     <div class="format-container grid-format-data">
-                                        <p class="txt-bold">Domicilio: </p>
+                                        <p class="txt-bold format-label">Domicilio: </p>
                                         <span class="format-field ">####### ######## #######</span>
-                                        <p class="txt-bold">Clave Catastral: </p>
+                                        <p class="txt-bold format-label">Clave Catastral: </p>
                                         <span class="format-field ">################# </span>
-                                        <p class="txt-bold">Superficie Total: </p>
+                                        <p class="txt-bold format-label">Superficie Total: </p>
                                         <span class="format-field ">###.## ##</span>
                                     </div>
                                     
@@ -277,22 +267,5 @@
             </div>
         </section>
     </main>
-    <script>
-        const btnPDF = document.getElementById('btn_pdf');
-        const printArea = document.getElementById('print_area');
-
-        btnPDF.addEventListener(
-            'click', () => {
-                let option = {
-                    margin: .4,
-                    filename: 'test',
-                    image: { type: 'png', quality: 0.95 },
-                    html2canvas: { scale: 4 },
-                    jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
-                }
-                html2pdf(printArea, option);
-            }
-        );
-    </script>
 </body>
 </html>

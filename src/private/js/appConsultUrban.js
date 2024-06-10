@@ -75,39 +75,6 @@ async function getLicense(type, invoice, year) {
         });
 }
 
-async function getLicensePrint(type, invoice, year) {
-    await fetch(`https://192.168.180.25:3091/api/urban/${type}/${invoice}/${year}`, {
-            method: 'GET',
-            credentials: 'include'
-        })
-        .then(async res => {
-            if(res.ok){
-                let response = await res.json();
-
-                if (response.data.length == 0) {
-                    alert('No hay resultados que coincida con la búsqueda');
-                    return;
-                }
-
-                response.data.forEach(element => {
-                    //code for filling the print form
-                });
-
-                return;
-            }
-
-            if (!res.ok) {
-                let response = await res.json();
-                alert(response.msg);
-                return;
-            }
-        })
-        .catch(error => {
-            alert('An error ocurred:\n' + error);
-            console.error('Error getting data: ', error)
-        });
-}
-
 async function getLicenseByType(type, year) {
     await fetch(`https://192.168.180.25:3091/api/urban/${type}/${year}`, {
             method: 'GET',
@@ -149,7 +116,7 @@ async function getLicenseBy(param, value) {
             credentials: 'include'
         })
         .then(async res => {
-            if(res.ok){
+            if(res.ok) {
                 let response = await res.json();
 
                 if (response.data.length == 0) {
