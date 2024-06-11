@@ -1112,8 +1112,8 @@ textarea.invissible {
 }
 
 .invissible:focus {
-    border: 1px dotted var(--primario);
-    background-color: var(--complementarioTrans);
+    border: 1px dotted var(--primary);
+    background-color: var(--secondary_alpha);
     color: var(--balnco);
     width: 100%;
 }
@@ -1122,17 +1122,13 @@ textarea.invissible:focus {
     height: 80px;
 }
 
-.input_add {
+.input_add, .input_delete {
     color: transparent;
     margin-left: 5px;
 }
 .input_add:hover {
     color: var(--balnco);
     cursor: copy;
-}
-
-.input_delete {
-    color: transparent;
 }
 
 .input_delete:hover {

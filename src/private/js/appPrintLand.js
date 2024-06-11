@@ -162,3 +162,150 @@ function changeFormatLand(formatNo) {
         return;
     }
 }
+
+//Editable section
+const restrictions = document.querySelector('#restrictions');
+const restrictionsInput = document.querySelector('#i-restrictions');
+
+restrictions.addEventListener(
+    'click', () => {
+        restrictionsInput.classList.toggle('hidden');
+        editable(restrictions, restrictionsInput);
+    }
+);
+
+restrictionsInput.addEventListener(
+    'focusout', () => {
+        restrictionsInput.classList.toggle('hidden');
+    }
+);
+
+const parcela = document.querySelectorAll('.parcela');
+const parcelaLabel = document.querySelectorAll('.l-parcela');
+const parcelaInput = document.querySelector('#i-parcela');
+
+parcelaLabel[0].addEventListener(
+    'click', () => {
+        editable(parcela, parcelaInput);
+    }
+);
+
+parcelaLabel[1].addEventListener(
+    'click', () => {
+        editable(parcela, parcelaInput);
+    }
+);
+
+const property = document.querySelector('#prop');
+const propertyLabel = document.querySelector('#l-prop');
+const propertyInput = document.querySelector('#i-prop');
+
+propertyLabel.addEventListener(
+    'click', () => {
+        editable(property, propertyInput);
+    }
+);
+
+
+const annex = document.querySelectorAll('.annex');
+const annexLabel = document.querySelectorAll('.l-annex');
+const annexInput = document.querySelectorAll('.i-annex');
+
+annexLabel[0].addEventListener(
+    'click', () => {
+        editable(annex[0], annexInput[0]);
+    }
+);
+
+annexLabel[1].addEventListener(
+    'click', () => {
+        editable(annex[1], annexInput[1]);
+    }
+);
+
+
+function editable(target, input) {
+    input.focus();
+
+    if (target.length) {
+        input.value = target[0].innerHTML;
+        input.addEventListener(
+            'input', () => {
+                target.forEach(
+                    element => {
+                        element.innerHTML = input.value;
+                        if (input.value == '') {
+                            target.innerText = '*'
+                        }
+                    }
+                );
+            }
+        );
+    } else {
+        input.value = target.innerHTML;
+        input.addEventListener(
+            'input', () => {
+                target.innerHTML = input.value;
+                if (input.value == '') {
+                    target.innerText = '*'
+                }
+            }
+        );
+    }
+}
+
+const conditions = document.querySelector('#conditions');
+const addCondition = document.querySelector('#add_condition');
+
+addCondition.addEventListener(
+    'click', () => {
+        createEntry(conditions);
+    }
+);
+
+function createEntry(target) {
+    let totalEntries = document.querySelectorAll('.li-item').length + 1;
+
+    let liElement;
+    let content;
+    let btn;
+    let input;
+    
+
+    liElement = document.createElement('li');
+    liElement.setAttribute('class', 'li-item');
+    liElement.setAttribute('id', `entry_${totalEntries}`);
+
+    content = document.createElement('span');
+    content.setAttribute('id', `content_${totalEntries}`);
+    content.setAttribute('onclick', `editEntry(${totalEntries})`);
+    content.innerText = '*';
+
+    liElement.appendChild(content);
+
+    btn = document.createElement('span');
+    btn.setAttribute('class', 'bi bi-x-circle input_delete');
+    btn.setAttribute('onclick', `deleteEntry(${totalEntries})`);
+
+    liElement.appendChild(btn);
+
+    input = document.createElement('textarea');
+    input.setAttribute('class', 'invissible');
+    input.setAttribute('id', `input_${totalEntries}`);
+    input.setAttribute('onclick', `deleteEntry(${totalEntries})`);
+
+    liElement.appendChild(input)
+
+    target.appendChild(liElement);
+}
+
+
+function deleteEntry(entry) {
+    document.querySelector(`#entry_${entry}`).remove();
+}
+
+function editEntry(entry) {
+    let target = document.querySelector(`#content_${entry}`);
+    let input = document.querySelector(`#input_${entry}`);
+    editable(target, input);
+}
