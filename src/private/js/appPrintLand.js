@@ -69,6 +69,11 @@ function fillDataPrint(element) {
                 element[key] = element[key].replaceAll('_', '/');
             }
 
+            if (key.match('Date')) {
+                let date = new Date(element[key]);
+                element[key] = `${date.getDate() + 1}/${(date.getMonth() + 1) < 10 ? '0'+(date.getMonth() + 1): (date.getMonth() + 1)}/${date.getFullYear()}`;
+            }
+
             if (document.querySelector(`#f-${key}`)) {
 
                 if (document.querySelector(`#f-${key}`).tagName == 'IMG') {
