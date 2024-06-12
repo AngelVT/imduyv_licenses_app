@@ -1103,6 +1103,10 @@ html {
     font-size: 10px;
 }
 
+input[type=date].invissible:focus {
+    width: 15%;
+}
+
 textarea.invissible {
     height: 0;
     margin: 0;

@@ -66,11 +66,11 @@ function fillDataPrint(element) {
             }
         } else {
             if (key == 'fullInvoice') {
-                element[key] = element[key].replaceAll('_','/');
+                element[key] = element[key].replaceAll('_', '/');
             }
 
             if (document.querySelector(`#f-${key}`)) {
-                
+
                 if (document.querySelector(`#f-${key}`).tagName == 'IMG') {
                     document.querySelector(`#f-${key}`).setAttribute('src', `/landUseStorage/${element[key]}`);
                 } else {
@@ -223,6 +223,15 @@ annexLabel[1].addEventListener(
     }
 );
 
+const dpDate = document.querySelector('#dpDate');
+const dpDateLabel = document.querySelector('#l-dpDate');
+const dpDateInput = document.querySelector('#i-dpDate');
+
+dpDateLabel.addEventListener(
+    'click', () => {
+        editableDateES(dpDate, dpDateInput);
+    }
+);
 
 function editable(target, input) {
     input.focus();
@@ -254,6 +263,22 @@ function editable(target, input) {
     }
 }
 
+function editableDateES(target, input) {
+    input.focus();
+
+    let months = ["enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"];
+
+    input.addEventListener(
+        'input', () => {
+            let date = new Date(input.value);
+            
+            target.innerText = `${date.getDate() + 1} de ${months[date.getMonth()]} del ${date.getFullYear()}`
+        }
+    );
+
+    
+}
+
 const conditions = document.querySelector('#conditions');
 const addCondition = document.querySelector('#add_condition');
 
@@ -270,7 +295,7 @@ function createEntry(target) {
     let content;
     let btn;
     let input;
-    
+
 
     liElement = document.createElement('li');
     liElement.setAttribute('class', 'li-item');
