@@ -61,13 +61,13 @@
                 
                 <div class="h-100 page-container" id="print_area">
 
-                    <div class="letter-page">
+                    <div class="letter-page dis-flex flex-column">
                         <p class="txt-small txt-center margin-bottom-medium">"2024, año de Felipe Carrillo Puerto, Benemérito, Revolucionario y defensor del Mayab"</p>
                         <p class="txt-uppercase txt-bold txt-center margin-bottom-medium">Constancia de uso de suelo <br>
                         <span id="f-fullInvoice" class="txt-capitalize format-txt-medium">IMDUyV/DLyCU/###/###/####</span>
                         </p>
 
-                        <div class="dis-grid grid-gap format-txt-regular">
+                        <div class="dis-flex flex-column flex-between format-txt-regular grid-gap h-100">
 
                             <div class="dis-flex flex_gap">
                                 <div class="w-50 grid-format">
@@ -207,13 +207,13 @@
                                     <span id="f-licenseValidity" class="format-field validity-f formL formC">## meses</span>
 
                                     <p class="format-label txt-bold dis-flex flex-center payInvoice">Folio de pago:</p>
-                                    <span id="f-paymentInvoice" class="format-field payInvoice-f">######</span>
+                                    <p class="format-field payInvoice-f">C-<span id="f-paymentInvoice">####</span></p>
 
                                 </div>
                             </div>
 
-                            <div class="margin-top-xlarge">
-                                <div class="grid-format-page-foot">
+                            <div class="dis-flex flex-center h-100">
+                                <div class="grid-format-page-foot h-100 w-100">
                                     <p class="txt-center format-txt-small">NOTIFÍQUESE Y CÚMPLASE <br> ASÍ EN DEFINITIVA LO RESOLVIÓ Y AUTORIZÓ EL LICENCIADO EN DERECHO JORGE LUIS MARTÍNEZ ÁNGELES, <br> DIRECTOR GENERAL DEL INSTITUTO MUNICIPAL DE DESARROLLO URBANO Y VIVIENDA</p>
 
                                     <p class="txt-center format-txt-small txt-bold page-indicator">
@@ -230,7 +230,7 @@
                     </div>
 
                     <div class="letter-page format-txt-regular hidden formL formDP">
-                        <div class="dis-grid grid-gap format-txt-regular">
+                        <div class="dis-flex flex-column grid-gap format-txt-regular h-100">
                             <div>
                                 <p class="format-head">MAPA DE ZONIFICACIÓN</p>
                                 <div>
@@ -266,58 +266,58 @@
                                             <span id="content_100" >Por lo que hace al uso de suelo HABITACIONAL, una vez autorizado, deberá ser permitido con base en la matriz de compatibilidad del Programa Municipal de Desarrollo Urbano y Ordenamiento Territorial de Tizayuca, Hidalgo.</span>
 
                                             <span id="last_100" class="bi bi-x-circle input_delete" onclick="deleteEntry('100')"></span>
-                                            <input type="text" id="input_100" class="invissible" value="Por lo que hace al uso de suelo HABITACIONAL, una vez autorizado, deberá ser permitido con base en la matriz de compatibilidad del Programa Municipal de Desarrollo Urbano y Ordenamiento Territorial de Tizayuca, Hidalgo.">
+                                            <textarea id="input_100" class="invissible" value="Por lo que hace al uso de suelo HABITACIONAL, una vez autorizado, deberá ser permitido con base en la matriz de compatibilidad del Programa Municipal de Desarrollo Urbano y Ordenamiento Territorial de Tizayuca, Hidalgo."></textarea>
                                         </li>
         
                                         <li class="li-item" id="entry_200">
                                             <span id="content_200" onclick="editEntry('200')">No deberán ocupar área pública como mostrador de productos.</span>
                                             <span id="last_200" class="bi bi-x-circle input_delete" onclick="deleteEntry('200')"></span>
-                                            <input type="text" id="input_200" class="invissible" value="No deberán ocupar área pública como mostrador de productos.">
+                                            <textarea id="input_200" class="invissible" value="No deberán ocupar área pública como mostrador de productos."></textarea>
                                         </li>
         
                                         <li class="li-item" id="entry_300">
                                             <span id="content_300" onclick="editEntry('300')">Se prohíbe la colocación de cualquier publicidad fuera y frente del predio.</span>
 
                                             <span id="last_300" class="bi bi-x-circle input_delete" onclick="deleteEntry('300')"></span>
-                                            <input type="text" id="input_300" class="invissible" value="Se prohíbe la colocación de cualquier publicidad fuera y frente del predio.">
+                                            <textarea id="input_300" class="invissible" value="Se prohíbe la colocación de cualquier publicidad fuera y frente del predio."></textarea>
                                         </li>
         
                                         <li class="li-item" id="entry_400">
                                             <span id="content_400" onclick="editEntry('400')">Deberá destinar un cajón de estacionamiento por cada 30 m2 de construcción.</span>
 
                                             <span id="last_400" class="bi bi-x-circle input_delete" onclick="deleteEntry('400')"></span>
-                                            <input type="text" id="input_400" class="invissible" value="Deberá destinar un cajón de estacionamiento por cada 30 m2 de construcción.">
+                                            <textarea id="input_400" class="invissible" value="Deberá destinar un cajón de estacionamiento por cada 30 m2 de construcción."></textarea>
                                         </li>
         
                                         <li class="li-item" id="entry_500">
                                             <span id="content_500" onclick="editEntry('500')">No se deberá ocupar la banqueta (vía pública) para realizar maniobras en su proceso constructivo.</span>
                                             <span id="last_500" class="bi bi-x-circle input_delete" onclick="deleteEntry('500')"></span>
-                                            <input type="text" id="input_500" class="invissible" value="No se deberá ocupar la banqueta (vía pública) para realizar maniobras en su proceso constructivo.">
+                                            <textarea id="input_500" class="invissible" value="No se deberá ocupar la banqueta (vía pública) para realizar maniobras en su proceso constructivo."></textarea>
                                         </li>
         
                                         <li class="li-item" id="entry_600">
                                             <span id="content_600" onclick="editEntry('600')">Se deberá dar cumplimiento a las Normas Oficiales Mexicanas, según corresponda.</span>
                                             <span id="last_600" class="bi bi-x-circle input_delete" onclick="deleteEntry('600')"></span>
-                                            <input type="text" id="input_600" class="invissible" value="Se deberá dar cumplimiento a las Normas Oficiales Mexicanas, según corresponda.">
+                                            <textarea id="input_600" class="invissible" value="Se deberá dar cumplimiento a las Normas Oficiales Mexicanas, según corresponda."></textarea>
                                         </li>
         
                                         <li class="li-item" id="entry_700">
                                             <span id="content_700" onclick="editEntry('700')">En todas las puertas que conduzcan al exterior habrá letreros con la palabra "salida" y flechas luminosas indicando la dirección de las salidas, las letras tendrán una altura mínima de quince centímetros.</span>
                                             <span id="last_700" class="bi bi-x-circle input_delete" onclick="deleteEntry('700')"></span>
-                                            <input type="text" id="input_700" class="invissible" value="En todas las puertas que conduzcan al exterior habrá letreros con la palabra &quot;salida&quot; y flechas luminosas indicando la dirección de las salidas, las letras tendrán una altura mínima de quince centímetros.">
+                                            <textarea id="input_700" class="invissible" value="En todas las puertas que conduzcan al exterior habrá letreros con la palabra &quot;salida&quot; y flechas luminosas indicando la dirección de las salidas, las letras tendrán una altura mínima de quince centímetros."></textarea>
                                         </li>
         
                                         <li class="li-item" id="entry_800">
                                             <span id="content_800" onclick="editEntry('800')">Deberá tramitar dictamen ante la Dirección de Protección Civil y Bomberos del Municipio de Tizayuca, Hidalgo, así como atender todas las recomendaciones que en materia de riesgos se le efectúen; para poder realizar la actualización de su licencia tendra que presentar dicho dictamen vigente.</span>
                                             <span id="last_800" class="bi bi-x-circle input_delete" onclick="deleteEntry('800')"></span>
-                                            <input type="text" id="input_800" class="invissible" value="Deberá tramitar dictamen ante la Dirección de Protección Civil y Bomberos del Municipio de Tizayuca, Hidalgo, así como atender todas las recomendaciones que en materia de riesgos se le efectúen; para poder realizar la actualización de su licencia tendra que presentar dicho dictamen vigente.">
+                                            <textarea id="input_800" class="invissible" value="Deberá tramitar dictamen ante la Dirección de Protección Civil y Bomberos del Municipio de Tizayuca, Hidalgo, así como atender todas las recomendaciones que en materia de riesgos se le efectúen; para poder realizar la actualización de su licencia tendra que presentar dicho dictamen vigente."></textarea>
                                         </li>
                                     </ol>
                                 </div>
                             </div>
     
-                            <div class="margin-top-xlarge">
-                                <div class="grid-format-page-foot">
+                            <div class="dis-flex flex-center h-100">
+                                <div class="grid-format-page-foot w-100 h-100">
                                     <p class="txt-center format-txt-small">NOTIFÍQUESE Y CÚMPLASE ASÍ EN DEFINITIVA LO RESOLVIÓ Y AUTORIZÓ EL LICENCIADO EN DERECHO JORGE LUIS MARTÍNEZ ÁNGELES, <br> DIRECTOR GENERAL DEL INSTITUTO MUNICIPAL DE DESARROLLO URBANO Y VIVIENDA</p>
     
                                     <p class="txt-center format-txt-small txt-bold page-indicator">
@@ -325,11 +325,11 @@
                                         Pagina 2 de 2
                                     </p>
     
-                                        <p class="format-txt-small margin-top-xlarge names">
-                                            Director General: J.L.M.A. <br>
-                                            Elaboró: E.I.R.B. <br>
-                                            Revisó: E.H.A. <br>
-                                        </p>
+                                    <p class="format-txt-small names">
+                                        Director General: J.L.M.A. <br>
+                                        Elaboró: E.I.R.B. <br>
+                                        Revisó: E.H.A. <br>
+                                    </p>
                                 </div>
                             </div>
     

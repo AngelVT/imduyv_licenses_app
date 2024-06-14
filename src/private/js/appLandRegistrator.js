@@ -13,7 +13,8 @@ thaForm.addEventListener(
         })
         .then(res => {
             if(res.ok){
-                console.log('All good');
+                response = res,json();
+                alert(response);
             }
             return;
         })

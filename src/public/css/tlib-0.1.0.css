@@ -1113,6 +1113,7 @@ textarea.invissible {
     padding: 0;
     width: 0;
     resize: none;
+    position: absolute;
 }
 
 .invissible:focus {
@@ -1123,7 +1124,10 @@ textarea.invissible {
 }
 
 textarea.invissible:focus {
-    height: 80px;
+    top: 15%;
+    right: 1%;
+    height: 200px;
+    width: 29%;
 }
 
 .input_add, .input_delete {
@@ -1141,7 +1145,7 @@ textarea.invissible:focus {
 }
 
 .page-indicator {
-    transform: rotate(-90deg) translate(-20px, 55px);
+    transform: rotate(-90deg) translate(0px, 55px);
 }
 
 .format-zone {
@@ -1239,17 +1243,24 @@ textarea.invissible:focus {
 .grid-format-page-foot {
     display: grid;
     grid-template-columns: 106px 1fr 106px;
-    grid-template-rows: auto 50px auto;
+    grid-template-rows: 1fr 50px 1fr;
 }
 
 .grid-format-page-foot > :first-child {
     grid-area: 1 / 1 / 2 / 4;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 .grid-format-page-foot > :nth-child(2) {
     grid-area: 2 / 3 / 3 / 4;
+    width: 100%;
 }
 .grid-format-page-foot > :last-child {
     grid-area: 3 / 1 / 4 / 4;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 .grid-format-page-foot > .names:last-child {
     grid-area: 3 / 1 / 4 / 2;

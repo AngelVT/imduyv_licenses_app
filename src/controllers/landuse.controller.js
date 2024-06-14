@@ -335,6 +335,8 @@ export const createLicense = async (req, res) => {
             res.status(400).json({ msg: "Invalid information provided." });
             return;
         }
+
+        const fileName = invoice.lcID + '_zone.png';
         
         const newLicense = await LandUseLicense.create({
             fullInvoice: invoice.lcID,
@@ -367,8 +369,6 @@ export const createLicense = async (req, res) => {
             paymentDone: paymentDone,
             inspector: inspector.toLowerCase()
         });
-        
-        const fileName = invoice.lcID + '_zone.png';
 
         const destination = path.join(__dirstorage, 'zones', 'land',fileName);
 
