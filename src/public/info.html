@@ -7,18 +7,21 @@
     <link rel="stylesheet" href="/public/css/tlib-0.1.0.css">
     <title>Info</title>
     <link rel="shortcut icon" href="/public/img/imduy_icono_blanco.png" type="image/x-icon">
+    <script src="/public/js/appInfo.js" defer></script>
 </head>
 <body class="bg-image bg-image-2">
     <main>
         <section class="page-full bg-blur">
             <div class="container dis-flex flex-center-h padding-large">
                 
-                <div class="w-55 txt-xlarge dis-flex flex-column flex-evenly flex-center-v shadow padding-small border-round bg-complementary-alpha">
-                    <img class="w-50" src="/public/img/imduyv_logo_horizontal_primario.png" alt="">
-                    <p class="w-100 color-primary">App name: <span class="color-white">App name</span></p>
-                    <p class="w-100 color-primary">App version: <span class="color-white">1.0.0</span></p>
-                    <p class="w-100 color-primary">Description: <span class="color-white">some</span></p>
-                    <p class="w-100 color-primary">Author: <span class="color-white">AVT</span></p>
+                <div class="w-55 txt-large dis-flex flex-column flex-evenly flex-center-v shadow padding-small border-round bg-complementary-alpha">
+                    <img class="w-45" src="/public/img/imduyv_logo_horizontal_primario.png" alt="">
+                    <p class="w-100 color-primary">App name: <span class="color-white" id="f-appName">App name</span></p>
+                    <p class="w-100 color-primary">App version: <span class="color-white" id="f-appVersion">1.0.0</span></p>
+                    <p class="w-100 color-primary">Description: <br><span class="color-white" id="f-appDescription">some</span></p>
+                    <p class="w-100 color-primary">Author: <span class="color-white" id="f-appAuthor">AVT</span></p>
+                    
+                    <a class="color-primary bi-house-fill btn btn-primary" href="/app/login"> Home</a>
                 </div>
             </div>
         </section>
