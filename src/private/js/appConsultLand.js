@@ -41,7 +41,7 @@ formSearchByType.addEventListener('submit',
 );
 
 async function getLicense(type, invoice, year) {
-    await fetch(`https://192.168.180.25:3091/api/landuse/${type}/${invoice}/${year}`, {
+    await fetch(`${host}/api/landuse/${type}/${invoice}/${year}`, {
             method: 'GET',
             credentials: 'include'
         })
@@ -76,7 +76,7 @@ async function getLicense(type, invoice, year) {
 }
 
 async function getLicenseByType(type, year) {
-    await fetch(`https://192.168.180.25:3091/api/landuse/${type}/${year}`, {
+    await fetch(`${host}/api/landuse/${type}/${year}`, {
             method: 'GET',
             credentials: 'include'
         })
@@ -111,7 +111,7 @@ async function getLicenseByType(type, year) {
 }
 
 async function getLicenseBy(param, value) {
-    await fetch(`https://192.168.180.25:3091/api/landuse/${param}/value/${value}`, {
+    await fetch(`${host}/api/landuse/${param}/value/${value}`, {
             method: 'GET',
             credentials: 'include'
         })
@@ -146,7 +146,7 @@ async function getLicenseBy(param, value) {
 }
 
 async function getLicensesLand() {
-    await fetch(`https://192.168.180.25:3091/api/landuse/`, {
+    await fetch(`${host}/api/landuse/`, {
             method: 'GET',
             credentials: 'include'
         })
@@ -207,7 +207,7 @@ async function updateResultField(form, id) {
         return;
     }
 
-    await fetch(`https://192.168.180.25:3091/api/landuse/${id}`, {
+    await fetch(`${host}/api/landuse/${id}`, {
             method: 'PATCH',
             credentials: 'include',
             body: formData
@@ -257,7 +257,7 @@ async function deleteResult(id) {
         return;
     }
 
-    await fetch(`https://192.168.180.25:3091/api/landuse/${id}`, {
+    await fetch(`${host}/api/landuse/${id}`, {
             method: 'DELETE',
             credentials: 'include',
         })

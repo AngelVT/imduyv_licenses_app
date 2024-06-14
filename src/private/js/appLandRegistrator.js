@@ -6,7 +6,7 @@ thaForm.addEventListener(
 
         const formData = new FormData(thaForm);
 
-        await fetch('https://192.168.180.25:3091/api/landuse/', {
+        await fetch(`${host}/api/landuse/`, {
             method: 'POST',
             credentials: 'include',
             body: formData

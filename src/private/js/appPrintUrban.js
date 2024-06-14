@@ -13,7 +13,7 @@ formSearchByInvoicePrint.addEventListener('submit',
 );
 
 async function getLicensePrint(type, invoice, year) {
-    await fetch(`https://192.168.180.25:3091/api/urban/${type}/${invoice}/${year}`, {
+    await fetch(`${host}/api/urban/${type}/${invoice}/${year}`, {
             method: 'GET',
             credentials: 'include'
         })
