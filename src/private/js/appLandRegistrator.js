@@ -6,7 +6,7 @@ thaForm.addEventListener(
 
         const formData = new FormData(thaForm);
 
-        await fetch(`${host}/api/landuse/`, {
+        await fetch(`/api/landuse/`, {
             method: 'POST',
             credentials: 'include',
             body: formData

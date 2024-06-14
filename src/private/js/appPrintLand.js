@@ -22,7 +22,7 @@ formSearchByInvoicePrint.addEventListener('submit',
 );
 
 async function getLicensePrint(type, invoice, year) {
-    await fetch(`${host}/api/landuse/${type}/${invoice}/${year}`, {
+    await fetch(`/api/landuse/${type}/${invoice}/${year}`, {
         method: 'GET',
         credentials: 'include'
     })
