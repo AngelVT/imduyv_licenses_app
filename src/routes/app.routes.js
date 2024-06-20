@@ -10,6 +10,8 @@ router.get('/appInfo', appControl.getInfo);
 
 router.get('/login', appControl.goLogIn);
 
+router.get('/geo/:coordinates', appControl.getZoneInfo);
+
 // * protected routes
 router.get('/mainMenu', [authenticator.verifyToken , authenticator.isAllUser] , appControl.goMainMenu);
 

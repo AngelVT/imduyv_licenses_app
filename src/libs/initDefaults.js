@@ -111,7 +111,8 @@ export const setDefaultLicenseTerms = async () => {
 
         const createdTerm = await Promise.all([
             Term.create({ id: 1, licenseTerm: 'corto'}),
-            Term.create({ id: 2, licenseTerm: 'mediano'})
+            Term.create({ id: 2, licenseTerm: 'mediano'}),
+            Term.create({ id: 3, licenseTerm: 'largo'})
         ]);
 
         consoleLogger.info("\n  Default license terms have been set");
