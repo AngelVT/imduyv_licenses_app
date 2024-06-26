@@ -53,8 +53,15 @@
                         </select>
                     </label>
 
-                    <div></div>
-                    <div></div>
+                    <label class="txt-uppercase">Georeferencia (DD: 19.850724745665485, -98.97995179629942):
+                        <input id="f-geo_search" class="w-80 margin-vertical-small input input-interface input-round" type="text">
+                        <span id="b-geo_search" class="bi-search btn btn-secondary txt-center"></span>
+                    </label>
+
+                    <label class="txt-uppercase">
+                        Herramientas: <br>
+                        <a id="map_tool" href="/private/tools/maps/maps.html#20/19.85072/-98.97995" target="_blank" class="bi-map btn btn-secondary"></a>
+                    </label>
 
                     <label class="txt-uppercase">Nombre del solicitante:
                         <input required name="requestorName" class="w-100 margin-vertical-small input input-interface input-round" type="text">
@@ -103,7 +110,8 @@
 
                     <label class="txt-uppercase">Zona:
                         <span class="w-100 dis-flex">
-                            <select id="field_zone" name="zone" required class="w-80 margin-vertical-small input input-interface input-round-left">
+                            <input id="zone_placeholder" class="w-80 margin-vertical-small input input-interface input-round-left" type="text" readonly>
+                            <!--<select id="field_zone" name="zone" required class="w-80 margin-vertical-small input input-interface input-round-left">
                                 <option value="">Seleccione zona ...</option>
                                 <option value="1">Densidad muy baja (Unifamiliar)</option>
                                 <option value="2">Densidad baja (Unifamiliar)</option>
@@ -128,7 +136,8 @@
                                 <option value="21">Cuerpos de agua</option>
                                 <option value="22">Conservación y restauración ambiental</option>
                                 <option value="23">Parque Hídrico</option>
-                            </select>
+                            </select>-->
+                            <input type="hidden" id="field_zone" name="zone" required>
                             <input id="field_key" class="w-25 margin-vertical-small input input-interface input-round-right txt-center" type="text" readonly>
                         </span>
                         

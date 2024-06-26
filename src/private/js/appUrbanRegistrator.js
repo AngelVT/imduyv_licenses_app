@@ -11,10 +11,15 @@ thaForm.addEventListener(
             credentials: 'include',
             body: formData
         })
-        .then(res => {
+        .then(async res => {
             if(res.ok){
-                console.log('All good');
+                let response = res.json();
+
+                alert(`Licencia registrada: ${response.fullInvoice}
+                    Folio: ${response.dbInvoice}`);
+                return;
             }
+            alert("Registro no exitoso");
             return;
         })
         .catch(error => {

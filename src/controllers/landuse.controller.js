@@ -5,7 +5,7 @@ import { Op } from 'sequelize';
 import { generateLandInvoice } from '../libs/fullInvoiceGen.js';
 import { __dirstorage } from '../paths.js';
 import { consoleLogger, requestLogger } from "../logger.js";
-import { LandUseLicense, Type, Term, Zone, AuthUse, Validity, ExpeditionType, UrbanType } from '../models/License.models.js';
+import { LandUseLicense, Type, Term, Zone, AuthUse, Validity, ExpeditionType } from '../models/License.models.js';
 import { validate, validLandCriteria } from '../libs/validate.js';
 
 export const getLicenses = async (req, res) => {

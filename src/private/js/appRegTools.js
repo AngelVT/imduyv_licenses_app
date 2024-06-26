@@ -134,3 +134,36 @@ function setKey(zone, target) {
             break;
     }
 }
+
+async function setData(targets, coord) {
+    let data = await getGeoInfo(coord.replaceAll('/',','));
+
+    if(!data) {
+        alert("Error al cargar la información asociada a la georeferencia solicitada");
+        return;
+    }
+
+    targets.numericZone.value = data.data.numericZone;
+    targets.zone.value = data.data.zone;
+    targets.key.value = data.data.key;
+    targets.tool.setAttribute('href', `/private/tools/maps/maps.html#20/${data.georeference.join('/')}`);
+
+    if(document.querySelector('#georeference')) {
+        document.querySelector('#georeference').value = data.georeference.join();
+    }
+}
+
+async function getGeoInfo(georef) {
+    try {
+        let res = await fetch(`/app/georef/${georef}`);
+        let response = await res.json();
+        
+        if(response.data) {
+            return response;
+        }
+        return null;
+    } catch (error) {
+        console.error('Error getting georef data', error);
+        return null;
+    }
+}
