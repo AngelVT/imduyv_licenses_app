@@ -5,7 +5,7 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "dev": "nodemon src/index.js",
+    "dev": "node --env-file=.env --watch src/index.js",
     "start": "node src/index.js"
   },
   "keywords": [],
@@ -30,8 +30,5 @@
     "url": "^0.11.3",
     "winston": "^3.13.0",
     "winston-daily-rotate-file": "^5.0.0"
-  },
-  "devDependencies": {
-    "nodemon": "^3.1.0"
   }
 }

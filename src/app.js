@@ -17,6 +17,8 @@ import authRoutes from './routes/auth.routes.js';
 import appRoutes from './routes/app.routes.js';
 import * as defaultStorage from './libs/setDefaultDirectories.js';
 
+console.log(process.env.ALLOWED_ORIGINS)
+
 const app = express();
 
 checkDB();

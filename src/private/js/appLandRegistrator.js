@@ -11,15 +11,21 @@ thaForm.addEventListener(
             credentials: 'include',
             body: formData
         })
-        .then(res => {
-            if(res.ok){
-                response = res,json();
-                alert(response);
-            }
-            return;
-        })
-        .catch(error => {
-            console.error('Error uploading file: ', error)
-        });
+            .then(async res => {
+                if (res.ok) {
+                    let response = await res.json();
+
+                    alert(`
+                    Licencia registrada: ${response.fullInvoice}
+                    Folio: ${response.dbInvoice}`);
+                    thaForm.reset();
+                    return;
+                }
+                alert("Registro no exitoso");
+                return;
+            })
+            .catch(error => {
+                console.error('Error uploading file: ', error)
+            });
     }
 );

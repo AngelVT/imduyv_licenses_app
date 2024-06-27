@@ -1,19 +1,19 @@
 import fs from 'fs';
 
 export default {
-    SECRET: 'u9dYYqNP4582Dra22H21TyZTX',
+    SECRET: process.env.SECRET,
     TOKENS_EXP: 30000,
     ALLOWED_ORIGINS: ['http://192.168.180.25:3091','http://localhost:3091'],
-    APP_PORT: 3091,
-    DB_PORT: 3306,
+    APP_PORT: process.env.APP_PORT,
+    DB_PORT: process.env.DB_PORT,
     DB_DIALECT: 'mysql',
-    DB_HOST: 'localhost',
+    DB_HOST: process.env.DB_HOST,
     DB_TIMEZONE: '-06:00',
-    DB_DATABASE: 'dev_imduy_licencias',
-    DB_USER: 'API',
-    DB_PASSWORD: '()Xz[pM9nZ)O4D[V',
+    DB_DATABASE: process.env.DB_DATABASE,
+    DB_USER: process.env.DB_USER,
+    DB_PASSWORD: process.env.DB_PASSWORD,
     HTTPS_OPTIONS: {
-        key: fs.readFileSync('./src/certificate/server.key'),
-        cert: fs.readFileSync('./src/certificate/server.crt')
+        key: fs.readFileSync(process.env.CERT_KEY),
+        cert: fs.readFileSync(process.env.CERT_CRT)
     }
 }
