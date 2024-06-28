@@ -3,6 +3,29 @@ const panel_left = document.getElementsByClassName('leaflet-top leaflet-left');
 const panel_bottom = document.getElementsByClassName('leaflet-bottom leaflet-right');
 const captureBtn = document.getElementById('btn');
 
+document.addEventListener('DOMContentLoaded', () => {
+    // Obtener el centro de la ventana
+    const centerX = window.innerWidth / 2;
+    const centerY = window.innerHeight / 2;
+
+    // Crear un nuevo evento de clic
+    const clickEvent = new MouseEvent('click', {
+        view: window,
+        bubbles: true,
+        cancelable: true,
+        clientX: centerX,
+        clientY: centerY
+    });
+
+    // Obtener el elemento en las coordenadas del centro de la página
+    const element = document.elementFromPoint(centerX, centerY);
+
+    // Disparar el evento de clic en el elemento
+    if (element) {
+        element.dispatchEvent(clickEvent);
+    }
+});
+
 async function capture() {
     panel[0].style.display = 'none';
     panel_left[0].style.display = 'none';

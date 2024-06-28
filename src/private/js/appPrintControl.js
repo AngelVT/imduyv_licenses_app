@@ -4,7 +4,7 @@ const printArea = document.querySelector('#print_area');
 btnPrint.addEventListener(
     'click', () => {
         let option = {
-            margin: .4,
+            margin: .6,
             filename: 'test',
             image: { type: 'png', quality: 0.95 },
             html2canvas: { scale: 4 },
