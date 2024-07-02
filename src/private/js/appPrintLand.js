@@ -102,6 +102,7 @@ function changeFormatLand(formatNo) {
     let totalPages = document.querySelector('#total-pages');
 
     if (formatNo == 1) {
+        document.querySelector('#f-licenseType').textContent = "Constancia de uso de suelo";
         document.querySelectorAll('.formL').forEach(
             item => {
                 item.classList.add('hidden');
@@ -124,6 +125,7 @@ function changeFormatLand(formatNo) {
     }
 
     if (formatNo >= 2 && formatNo <= 6) {
+        document.querySelector('#f-licenseType').textContent = "Licencia de uso de suelo";
         document.querySelectorAll('.formC').forEach(
             item => {
                 item.classList.add('hidden');
@@ -146,6 +148,7 @@ function changeFormatLand(formatNo) {
     }
 
     if (formatNo == 7) {
+        document.querySelector('#f-licenseType').textContent = "Derecho de preferencia";
         document.querySelectorAll('.formC').forEach(
             item => {
                 item.classList.add('hidden');
@@ -242,12 +245,12 @@ function editable(target, input) {
     input.focus();
 
     if (target.length) {
-        input.value = target[0].innerHTML;
+        input.value = target[0].innerHTML.replaceAll('<br>', '\n');
         input.addEventListener(
             'input', () => {
                 target.forEach(
                     element => {
-                        element.innerHTML = input.value;
+                        element.innerHTML = input.value.replaceAll('\n', '<br>');
                         if (input.value == '') {
                             target.innerText = '*'
                         }
@@ -256,10 +259,10 @@ function editable(target, input) {
             }
         );
     } else {
-        input.value = target.innerHTML;
+        input.value = target.innerHTML.replaceAll('<br>', '\n');
         input.addEventListener(
             'input', () => {
-                target.innerHTML = input.value;
+                target.innerHTML = input.value.replaceAll('\n', '<br>');
                 if (input.value == '') {
                     target.innerText = '*'
                 }

@@ -340,6 +340,56 @@ export const UrbanLicense = pool.define(
     }
 );
 
+export const UrbanLicenseStatus = pool.define(
+    'urbanState', {
+        licenseState: {
+            type: DataTypes.JSON,
+            allowNull: true
+        }
+    },{
+        timestamps: false
+    }
+);
+
+export const LandLicenseStatus = pool.define(
+    'landState', {
+        licenseState: {
+            type: DataTypes.JSON,
+            allowNull: true
+        }
+    },{
+        timestamps: false
+    }
+);
+
+export const UrbanTestReg = pool.define(
+    'urbanReg', {
+        name: {
+            type: DataTypes.STRING,
+            allowNull: true
+        }
+    },{
+        timestamps: false
+    }
+);
+
+export const LandTestReg = pool.define(
+    'landReg', {
+        name: {
+            type: DataTypes.STRING,
+            allowNull: true
+        }
+    },{
+        timestamps: false
+    }
+);
+
+UrbanTestReg.hasOne(UrbanLicenseStatus, {foreignKey: 'licenseStat', onDelete: 'CASCADE'});
+UrbanLicenseStatus.belongsTo(UrbanTestReg ,{foreignKey: 'licenseStat', onDelete: 'CASCADE'});
+
+LandTestReg.hasOne(LandLicenseStatus, {foreignKey: 'licenseStat', onDelete: 'CASCADE'});
+LandLicenseStatus.belongsTo(LandTestReg ,{foreignKey: 'licenseStat', onDelete: 'CASCADE'});
+
 UrbanLicense.belongsTo(UrbanType, {foreignKey: 'licenseType'});
 UrbanLicense.belongsTo(Zone, {foreignKey: 'licenseZone'});
 
@@ -349,5 +399,4 @@ UrbanLicense.belongsTo(Zone, {foreignKey: 'licenseZone'});
     } catch (error) {
         consoleLogger.warning("\n  Error synchronizing licenses with DB.");
     }
-    
 })();

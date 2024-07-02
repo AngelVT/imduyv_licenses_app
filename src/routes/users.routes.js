@@ -7,7 +7,7 @@ import * as testing from '../controllers/test.controller.js';
 
 const router = Router();
 
-router.post('/test' , up.single('file') , testing.test);
+router.post('/test', testing.test);
 
 router.get('/testFile' , testing.testFile);
 

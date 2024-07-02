@@ -1,5 +1,5 @@
 import { User , Role , Group} from "../models/Users.models.js";
-import { UrbanLicense, LandUseLicense, AuthUse, Type } from "../models/License.models.js";
+import { UrbanLicense, LandUseLicense, AuthUse, Type, LandLicenseStatus, LandTestReg } from "../models/License.models.js";
 import * as passCrypt from '../libs/passwordCrypt.js';
 import jwt from 'jsonwebtoken';
 import config from "../config.js";
@@ -8,174 +8,44 @@ import { __dirname, __dirstorage } from "../paths.js";
 import path from "path";
 import { generateLandInvoice, generateUrbanInvoice } from "../libs/fullInvoiceGen.js";
 import { consoleLogger, requestLogger } from "../logger.js";
+import { statSync } from "fs";
+import { request } from "http";
 
 export const test = async (req, res) => {
-    try { 
-        const date = new Date;
+    try {
 
-        const year = date.getFullYear();
+        /*const {name, stat} = req.body;
 
-        const {
-            licenseType,
-            requestorName,
-            attentionName,
-            address,
-            number,
-            colony,
-            contactPhone,
-            catastralKey,
-            surface,
-            georeference,
-            zone,
-            businessLinePrint,
-            businessLineIntern,
-            authorizedUse,
-            expeditionType,
-            term,
-            validity,
-            requestDate,
-            expeditionDate,
-            expirationDate,
-            paymentInvoice,
-            cost,
-            discount,
-            paymentDone,
-            inspector
-        } = req.body;
+        const reg = await LandTestReg.create({
+            name: name
+        });
+        reg.createLandState({
+            licenseState: stat
+        })*/
 
-        const file = req.file;
+        const target = await LandTestReg.findByPk(1);
+        target.update({
+            name: "Bolines"
+        });
 
-        if (!licenseType|| !requestorName|| !attentionName|| !address|| !number|| !colony|| !contactPhone|| !catastralKey|| !surface|| !georeference|| !zone|| !businessLinePrint|| !businessLineIntern|| !authorizedUse|| !expeditionType|| !term|| !validity|| !requestDate|| !expeditionDate|| !expirationDate|| !paymentInvoice|| !cost|| !discount|| !paymentDone|| !inspector || !file) {
-            res.status(400).json({ msg: "There is missing information" });
-            return;
-        }
-
-        const invoice = await generateLandInvoice(licenseType, year);
-
-        if (invoice == null) {
-            res.status(400).json({ msg: "Invalid information provided." });
-            return;
-        }
-
-        const fileName = invoice.lcID + '_zone.png';
-
-        const destination = path.join(__dirstorage, 'zones', 'urban',fileName);
-
-        await fs.writeFile(destination, file.buffer, err => {
-            if (err) {
-                console.log(err);
+        const targetStatus = await target.getLandState();
+        await targetStatus.update({
+            licenseState: {
+                bolin1: "Bolin izquierdo",
+                bolin2: "Bolin derecho",
             }
-        });
+        })
+        /*target.destroy();*/
 
-        const newLicesnse = await LandUseLicense.create({
-            fullInvoice: invoice.lcID,
-            invoice: invoice.invoice,
-            licenseType: licenseType,
-            year: year,
-            requestorName: requestorName,
-            attentionName: attentionName,
-            requestDate: requestDate,
-            address: address,
-            number: number,
-            colony: colony,
-            surfaceTotal: surface,
-            catastralKey: catastralKey,
-            term: term,
-            geoReference: georeference,
-            zoneImage: fileName,
-            zone: zone,
-            authorizedUse: authorizedUse,
-            businessLinePrint: businessLinePrint,
-            businessLineIntern: businessLineIntern,
-            expeditionDate: expeditionDate,
-            validity: validity,
-            paymentInvoice: paymentInvoice,
-            expirationDate: expirationDate,
-            expeditionType: expeditionType,
-            contactPhone: contactPhone,
-            cost: cost,
-            discount: discount,
-            paymentDone: paymentDone,
-            inspector: inspector
-        });
-
-        res.status(200).json({ createdAt: newLicesnse.createdAt, fullInvoice: newLicesnse.fullInvoice, dbInvoice: newLicesnse.invoice});
-        /*const destination = path.join(__dirstorage, req.file.originalname);
-
-        await fs.writeFile(destination, req.file.buffer, err => {
-            if (err) {
-                console.log(err);
-            }
-        });
-
-        const txt = await fs.readFile(path.join(__dirstorage, 'xd.txt'), 'utf8');
-
-
-        res.status(200).json({msg: "Good", content: txt});*/
-        /*const { username, password} = req.body;
-
-        if (!username || !password) {
-            res.status(400).json({
-                msgType: "Error",
-                msg: "Required information was not provided"
-            });
-            return;
-        }
-        
-        const user = await User.findOne({
-            where: { username },
-            attributes: ['id','username','password'],
+        const full = await LandTestReg.findAll({
             include: {
-                model: Group,
-                attributes:['group']
+                model: LandLicenseStatus,
+                attributes: ['licenseState']
             }
         });
 
-        if(user == null) {
-            res.status(401).json({
-                msgType: "Access denied",
-            msg: "Incorrect username or password"
-            });
-            return;
-        }
-
-        if (await passCrypt.comparePassword(password, user.password)) {
-            let redirection;
-            switch (user.group.group) {
-                case 'all':
-                    redirection = '/app/mainMenu'
-                    break;
-                case 'land_use':
-                    redirection = '/app/landMenu'
-                    break;
-            
-                case 'urban':
-                    redirection = '/app/urbanMenu'
-                    break;
-                    
-                default:
-                    redirection = '/app/login'
-                    break;
-            }
-
-            const token = jwt.sign({userID: user.id, username: user.username}, config.SECRET , {
-                expiresIn: config.TOKENS_EXP
-            });
-            
-            res.cookie("access_token", token, {httpOnly: true,
-                secure: true,
-                signed: true,
-                sameSite: 'none',
-                maxAge: config.TOKENS_EXP 
-            }).status(200).json("access granted");
-            return;
-        }
-        
-        res.status(401).json({
-            msgType: "Access denied",
-            msg: "Incorrect username or password"
-        });
-        return;*/
+        res.status(200).json({ msg: "Good", data: full});
+        return;
     } catch (error) {
         console.log('Tha error: ', error);
         res.status(500).json({msg: "Error on server"});
