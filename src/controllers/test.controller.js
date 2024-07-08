@@ -23,7 +23,7 @@ export const test = async (req, res) => {
             licenseState: stat
         })*/
 
-        const target = await LandTestReg.findByPk(1);
+        /*const target = await LandTestReg.findByPk(1);
         target.update({
             name: "Bolines"
         });
@@ -34,7 +34,7 @@ export const test = async (req, res) => {
                 bolin1: "Bolin izquierdo",
                 bolin2: "Bolin derecho",
             }
-        })
+        })*/
         /*target.destroy();*/
 
         const full = await LandTestReg.findAll({
@@ -43,6 +43,10 @@ export const test = async (req, res) => {
                 attributes: ['licenseState']
             }
         });
+
+        for (let element of full) {
+            element.landState.licenseState = JSON.parse(element.landState.licenseState);
+        }
 
         res.status(200).json({ msg: "Good", data: full});
         return;

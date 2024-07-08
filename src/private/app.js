@@ -61,17 +61,11 @@ thaButton.addEventListener(
             
             console.log(response);
 
-            
-
-            for(let e of response.data) {
-                e.landState.licenseState = JSON.parse(e.landState.licenseState);
-            }
-
             response.data.forEach(element => {
-                console.log(element.landState.licenseState)
+                console.log(element.landState.licenseState);
             });
 
-            console.log(response.data[0].landState.licenseState.bolin2)
+            console.log(response.data[0].landState.licenseState.bolin2);
 
         } catch (error) {
             console.error('Error with test: ', error)
