@@ -11,6 +11,8 @@ import { consoleLogger, requestLogger } from "../logger.js";
 import { statSync } from "fs";
 import { request } from "http";
 
+import { printerPDF } from "../libs/pdfUtil.js";
+
 export const test = async (req, res) => {
     try {
 
@@ -36,20 +38,51 @@ export const test = async (req, res) => {
             }
         })*/
         /*target.destroy();*/
+        var lcId = "IMDUyV/DLyCU/###/###/####";
 
-        const full = await LandTestReg.findAll({
-            include: {
-                model: LandLicenseStatus,
-                attributes: ['licenseState']
-            }
-        });
+        var definition = {
+            content: [
+                {
+                    text: "\"2024, año de Felipe Carrillo Puerto, Benemérito, Revolucionario y defensor del Mayab\"",
+                    alignment: 'center',
+                    fontSize: 8,
+                    margin: [0,0,0,10]
+                },
+                {
+                    text: "CONSTANCIA DE USO DE SUELO",
+                    alignment: 'center',
+                    fontSize: 16,
+                    bold: true
+                },
+                {
+                    text: lcId,
+                    alignment: 'center',
+                    fontSize: 12,
+                    bold: true
+                },
+                {
+                    columns: [
+                        { 
+                            table: {
+                                body: [
+                                    ['c1','c2','c3'],
+                                    ['1','2','3']
+                                ]
+                                
+                            }
+                        },
+                        { text: "xd"}
+                    ]
+                }
+            ]
+        };
+        
+        const pdfDoc = await printerPDF.createPdfKitDocument(definition);
 
-        for (let element of full) {
-            element.landState.licenseState = JSON.parse(element.landState.licenseState);
-        }
-
-        res.status(200).json({ msg: "Good", data: full});
-        return;
+        res.setHeader('Content-Type', 'application/pdf');
+        pdfDoc.info.Title = 'Ejemplo';
+        pdfDoc.pipe(res);
+        pdfDoc.end();
     } catch (error) {
         console.log('Tha error: ', error);
         res.status(500).json({msg: "Error on server"});
