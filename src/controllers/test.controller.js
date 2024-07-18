@@ -12,18 +12,16 @@ import { statSync } from "fs";
 import { request } from "http";
 
 import { printerPDF } from "../libs/pdfUtil.js";
-import { table } from "console";
-import { text } from "express";
-import { definition } from "../models/docs/constanciaLU.js";
+import { generateLandUseC } from "../models/docs/constanciaLU.js";
 
 export const test = async (req, res) => {
     try {
-        const def = definition;
+        const def = generateLandUseC();
 
         const pdfDoc = await printerPDF.createPdfKitDocument(def);
 
         res.setHeader('Content-Type', 'application/pdf');
-        pdfDoc.info.Title = 'Ejemplo';
+        pdfDoc.info.Title = 'IMDUYV/DLYCU/C/001/2024';
         pdfDoc.pipe(res);
         pdfDoc.end();
     } catch (error) {
@@ -93,72 +91,3 @@ ServerEvents.recipes(event => {
         res.status(500).json({msg: "Error on server"});
     }
 }
-
-/*
-{
-                    columns: [
-                        { 
-                            table: {
-                                widths: ['auto', '*'],
-                                body: [
-                                    [
-                                        {
-                                            text: "DATOS SOLICITANTE",
-                                            colSpan: 2,
-                                            style: 'headT',
-                                            border: [false, false, false, false]
-                                        },
-                                        {}
-                                    ],
-                                    [
-                                        {text: 'Nombre: ', style: 'labelT', border: [true, false, false, false]},
-                                        field('random randomly random randomly  random randomly  random randomly', [false, false, true, false])
-                                    ],
-                                    [
-                                        {text: 'En Atención: ', style: 'labelT', border: [true, false, false, false]},
-                                        field('random randomly random randomly  random randomly  random randomly', [false, false, true, false])
-                                    ],
-                                    [
-                                        {text: 'Fecha de Solicitud: ', style: 'labelT', border: [true, false, false, true]},
-                                        field('random randomly random randomly  random randomly  random randomly', [false, false, true, true])
-                                    ]
-                                ]
-                                
-                            }
-                        },
-                        { 
-                            margin: [2,0,0,0],
-                            table: {
-                                widths: ['auto', '*'],
-                                body: [
-                                    [
-                                        {
-                                            text: "DATOS SOLICITANTE",
-                                            colSpan: 2,
-                                            style: 'headT',
-                                            border: [false, false, false, false]
-                                        },
-                                        {}
-                                    ],
-                                    [
-                                        {text: 'Calle: ', style: 'labelT', border: [true, false, false, false]},
-                                        field('random randomly random randomly  random randomly  random randomly', [false, false, true, false])
-                                    ],
-                                    [
-                                        {text: 'Clave Catastral: ', style: 'labelT', border: [true, false, false, false]},
-                                        field('random randomly random randomly  random randomly  random randomly', [false, false, true, false])
-                                    ],
-                                    [
-                                        {text: 'Colonia: ', style: 'labelT', border: [true, false, false, false]},
-                                        field('random randomly random randomly  random randomly  random randomly', [false, false, true, false])
-                                    ],
-                                    [
-                                        {text: 'Superficie Total: ', style: 'labelT', border: [true, false, false, true]},
-                                        field('random randomly random randomly  random randomly  random randomly', [false, false, true, true])
-                                    ]
-                                ]
-                            }
-                        }
-                    ]
-                }
-*/

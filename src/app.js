@@ -31,8 +31,7 @@ defaults.setDefaultLicenseAuthUses();
 defaults.setDefaultLicenseValidities();
 defaults.setDefaultLicenseExpeditionTypes();
 defaults.setDefaultUrbanLicenseTypes();
-defaultStorage.setLandStorage();
-defaultStorage.setUrbanStorage();
+defaultStorage.setDefaultDirectories();
 
 app.use(express.json());
 

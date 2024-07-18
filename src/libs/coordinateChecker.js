@@ -3,7 +3,6 @@ import { ZONE_DATA } from "../private/js/appZonesData.js";
 
 export function invertCoords(coords) {
     let point = coords.replaceAll('/', ',').replaceAll(' ', '').split(',');
-    console.log(point)
     point.reverse();
     return point.map(c => parseFloat(c));
 }
