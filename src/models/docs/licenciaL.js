@@ -2,7 +2,7 @@ import path from "path";
 import { __dirstorage } from "../../paths.js";
 import * as docUtils from "./docUtils/utils.js";
 
-export function generateLandUseC(lcDBObj) {
+export function generateLandUseL(lcDBObj) {
 
     lcDBObj = docUtils.prepareData(lcDBObj);
 
@@ -17,7 +17,7 @@ export function generateLandUseC(lcDBObj) {
                 margin: [0,0,0,10]
             },
             {
-                text: "CONSTANCIA DE USO DE SUELO",
+                text: "LICENCIA DE USO DE SUELO",
                 alignment: 'center',
                 fontSize: 16,
                 bold: true
@@ -138,11 +138,25 @@ export function generateLandUseC(lcDBObj) {
                                             {},{},
                                             docUtils.field(lcDBObj.authUse.licenseAuthUse, docUtils.borderless, 9, 'center', 7),
                                             {},{},{},{},{},{},{},{}
-                                        ]
-                                        ,
+                                        ],
                                         [
-                                            {text: 'La expedición de constancia de uso de suelo: tiene como objeto establecer los usos y destinos de un predio con base en lo previsto en el Programa Municipal de Desarrollo Urbano y Ordenamiento Territorial de Tizayuca, lo cual no autoriza su modificación, construcción o alteración.', style: 'labelTC', border: docUtils.borderless, colSpan: 12},
-                                            {},{},{},{},{},{},{},{},{},{},{}
+                                            {text: 'Giro: ', style: 'labelT', border: docUtils.borderless, colSpan: 1},
+                                            docUtils.field(lcDBObj.businessLinePrint, docUtils.borderless, 2, 'center', 7),
+                                            {},
+                                            {
+                                                colSpan: 9,
+                                                rowSpan: 2,
+                                                text: 'LA AUTORIZACIÓN DE LICENCIA DE USO DE SUELO: TIENE COMO OBJETO AUTORIZAR EL USO O DESTINO DE UN PREDIO O INMUEBLE, ESTABLECIENDO SUS CONDICIONES DE APROVECHAMIENTO DE CONFORMIDAD CON LOS PROGRAMAS, REGLAMENTOS Y NORMATIVIDAD APLICABLE EN MATERIA DE DESARROLLO URBANO Y ORDENAMIENTO TERRITORIAL.',
+                                                fontSize: 6,
+                                                style: 'labelTC',
+                                                margin:[0,4,0,0],
+                                                border: docUtils.borderless
+                                            },
+                                            {},{},{},{},{},{},{},{}
+                                        ],
+                                        [
+                                            {text: 'Superficie: ', style: 'labelT', border: docUtils.borderless, colSpan: 1},
+                                            docUtils.field(lcDBObj.surfaceTotal, docUtils.borderless, 2, null, 6),{},{},{},{},{},{},{},{},{},{}
                                         ]
                                     ]
                                 },
@@ -155,38 +169,25 @@ export function generateLandUseC(lcDBObj) {
             },
             {
                 style: 'formRow',
-                columns: [
-                    {
-                        table: {
-                            widths: ['*'],
-                            body: [
-                                [
-                                    {text: "03PE09 - MAPA DE ZONIFICACIÓN", style: 'headT', border: docUtils.borderless, margin:[1,2,1,2]}
-                                ],
-                                [
-                                    {
-                                        /*text: 'IMG'*/
-                                        border: docUtils.borderless,
-                                        image: path.join(__dirstorage, 'zones', 'land', lcDBObj.zoneImage),
-                                        fit: ['*',143],
-                                        alignment: 'center'
-                                    }
-                                ]
-                            ]
-                        },
-                        layout: docUtils.noBorderNoPadding
-                    },
-                    {
-                        margin: [0,0,35,0],
-                        stack: [
-                            { text: 'Que el solicitante con los documentos anexados a su escrito inicial ha dado cumplimiento con los requisitos técnicos y legales que obran en el expediente radicado en este Instituto Municipal de Desarrollo Urbano y Vivienda, acredita la propiedad del inmueble motivo de la solicitud de Constancia de Uso de Suelo, así como de la visita de inspección de campo, misma que permite la localización y ubicación del inmueble materia de este trámite. ', style: 'regular', margin: [0,0,0,25],alignment: 'justify' },
-                            { text: `El C. ${lcDBObj.inspector}`, style: 'regular' },
-                            { text: 'En su carácter de personal técnico adscrito al referido Instituto, realizó visita de inspección en campo al inmueble del que solicita la Constancia de Uso de Suelo, emitiendo opinión técnica positiva. ', style: 'regular', margin: [0,0,0,15], alignment: 'justify' },
-                            { text: 'Anexo: ', style: 'labelT' }
+                table: {
+                    widths: ['*'],
+                    body: [
+                        [{text: "RESTRICCIONES Y SANCIONES", style: 'headT', border: docUtils.borderless}],
+                        [
+                            {
+                                border: [true, false, true, true],
+                                table: {
+                                    widths: ['*'],
+                                    body: [
+                                        [{text: "La presente no autoriza acciones urbanas que generen impacto social en su entorno inmediato conforme a lo establecido en el artículo 139 de la Ley de Asentamientos Humanos, Desarrollo Urbano y Ordenamiento Territorial del Estado de Hidalgo y al artículo 61 del Reglamento de la Ley de Asentamientos Humanos, Desarrollo Urbano y Ordenamiento Territorial del Estado de Hidalgo debiendo ser compatibles o permitidos los giros de acuerdo a la matriz de compatibilidad del Programa Municipal de Desarrollo Urbano y Ordenamiento Territorial del Municipio de Tizayuca, Estado de Hidalgo.\nAcatar la normativa y restricciones de la zonificación secundaria que determina el documento técnico del Programa Municipal de Desarrollo Urbano y Ordenamiento Territorial de Tizayuca. Los predios que tengan como frente un corredor urbano, podrán adoptar las características propias del corredor, siempre y cuando su acceso sea por el corredor. Deberá tramitar en su caso, la licencia de construcción en la Secretaría de Obras Públicas, así como la licencia de funcionamiento en la Dirección de Reglamentos, Espectáculos y Panteones, pertenecientes al Municipio de Tizayuca, Hidalgo. Dar cumplimiento a lo dispuesto en los artículos 80 y 81 de la Ley de Protección Civil del Estado de Hidalgo. El Instituto Municipal de Desarrollo Urbano y Vivienda se reserva el derecho de revocar la presente, en caso de incumplimiento a cualquiera de las condiciones establecidas en la misma.", fontSize: 6, border: docUtils.borderless, alignment: 'justify'}]
+                                    ]
+                                },
+                                layout: docUtils.formLayout
+                            }
                         ]
-                    }
-                ],
-                columnGap: 5
+                    ]
+                },
+                layout: docUtils.containerLayout
             },
             {
                 style: 'formRow',
@@ -262,7 +263,7 @@ export function generateLandUseC(lcDBObj) {
                                                     <svg width="30" height="84">
                                                         <text x="16" y="42" transform="rotate(-90, 15, 42)" text-anchor="middle" font-size="5" font-weight="bold">
                                                             <tspan x="16" dy="1.2em">${lcDBObj.fullInvoice}</tspan>
-                                                            <tspan x="16" dy="1.2em">Pagina 1 de 1</tspan>
+                                                            <tspan x="16" dy="1.2em">Pagina 1 de 2</tspan>
                                                         </text>
                                                     </svg>`,
                                                 alignment: 'right'
@@ -277,6 +278,112 @@ export function generateLandUseC(lcDBObj) {
                     {
                         text: 'L.D. JORGE LUIS MARTÍNEZ ÁNGELES\nDIRECTOR GENERAL',
                         style: 'labelTC'
+                    }
+                ]
+            },
+            {
+                style: 'formRow',
+                pageBreak: 'before',
+                table: {
+                    widths: ['*'],
+                    body: [
+                        [
+                            {text: "03PE09 - MAPA DE ZONIFICACIÓN", style: 'headT', border: docUtils.borderless, margin:[1,2,1,2]}
+                        ],
+                        [
+                            {
+                                /*text: 'IMG'*/
+                                border: docUtils.borderless,
+                                image: path.join(__dirstorage, 'zones', 'land', lcDBObj.zoneImage),
+                                fit: ['*',288],
+                                alignment: 'center'
+                            }
+                        ]
+                    ]
+                },
+                layout: docUtils.noBorderNoPadding
+            },
+            {
+                style: 'formRow',
+                stack: [
+                    { text: 'Que el solicitante con los documentos anexados a su escrito inicial ha dado cumplimiento con los requisitos técnicos y legales que obran en el expediente radicado en este Instituto Municipal de Desarrollo Urbano y Vivienda, acredita la propiedad del inmueble motivo de la solicitud de Constancia de Uso de Suelo, así como de la visita de inspección de campo, misma que permite la localización y ubicación del inmueble materia de este trámite. ', fontSize: 7 , margin: [0,0,0,25],alignment: 'justify' },
+                    { text: `El C. ${lcDBObj.inspector}`, fontSize: 7 },
+                    { text: 'En su carácter de personal técnico adscrito al referido Instituto, realizó visita de inspección en campo al inmueble del que solicita la Constancia de Uso de Suelo, emitiendo opinión técnica positiva. ', fontSize: 7 , margin: [0,0,0,15], alignment: 'justify' },
+                    { text: 'Anexo: ', style: 'labelT' }
+                ]
+            },
+            {
+                style: 'formRow',
+                table: {
+                    widths: ['*'],
+                    body: [
+                        [{text: "CONDICIONANTES", style: 'headT', border: docUtils.borderless}],
+                        [
+                            {
+                                border: [true, false, true, true],
+                                table: {
+                                    widths: ['*'],
+                                    body: [
+                                        [
+                                            {
+                                                type: 'lower-alpha',
+                                                ol: [
+                                                    'Por lo que hace al uso de suelo HABITACIONAL, una vez autorizado, deberá ser permitido con base en la matriz de compatibilidad del Programa Municipal de Desarrollo Urbano y Ordenamiento Territorial de Tizayuca, Hidalgo.',
+                                                    'Por lo que hace al uso de suelo HABITACIONAL, una vez autorizado, deberá ser permitido con base en la matriz de compatibilidad del Programa Municipal de Desarrollo Urbano y Ordenamiento Territorial de Tizayuca, Hidalgo.',
+                                                    'Se prohíbe la colocación de cualquier publicidad fuera y frente del predio.',
+                                                    'Deberá destinar un cajón de estacionamiento por cada 30 m2 de construcción.',
+                                                    'No se deberá ocupar la banqueta (vía pública) para realizar maniobras en su proceso constructivo.',
+                                                    'Se deberá dar cumplimiento a las Normas Oficiales Mexicanas, según corresponda.',
+                                                    'En todas las puertas que conduzcan al exterior habrá letreros con la palabra "salida" y flechas luminosas indicando la dirección de las salidas, las letras tendrán una altura mínima de quince centímetros.',
+                                                    'Deberá tramitar dictamen ante la Dirección de Protección Civil y Bomberos del Municipio de Tizayuca, Hidalgo, así como atender todas las recomendaciones que en materia de riesgos se le efectúen; para poder realizar la actualización de su licencia tendra que presentar dicho dictamen vigente.'
+                                                ],
+                                                fontSize: 6,
+                                                border: docUtils.borderless,
+                                                alignment: 'justify'
+                                            }
+                                        ]
+                                    ]
+                                },
+                                layout: docUtils.formLayout
+                            }
+                        ]
+                    ]
+                },
+                layout: docUtils.containerLayout
+            },
+            {
+                stack: [
+                    {
+                        text:'NOTIFÍQUESE Y CÚMPLASE ASÍ EN DEFINITIVA LO RESOLVIÓ Y AUTORIZÓ EL LICENCIADO EN DERECHO JORGE LUIS MARTÍNEZ ÁNGELES,\nDIRECTOR GENERAL DEL INSTITUTO MUNICIPAL DE DESARROLLO URBANO Y VIVIENDA',
+                        style: ['regular', 'center'],
+                        margin: [0,10,0,0]
+                    },
+                    {
+                        table: {
+                            widths: ['*','auto','*'],
+                            body: [
+                                [
+                                    {
+                                        margin: [0,42,0,0],
+                                        text: 'Director General: J.L.M.A.\nElaboró: E.I.R.B.\nRevisó: E.H.A. ',
+                                        fontSize: 6
+                                    },
+                                    {},
+                                    {
+                                        svg: `
+                                            <svg width="30" height="84">
+                                                <text x="16" y="42" transform="rotate(-90, 15, 42)" text-anchor="middle" font-size="5" font-weight="bold">
+                                                    <tspan x="16" dy="1.2em">${lcDBObj.fullInvoice}</tspan>
+                                                    <tspan x="16" dy="1.2em">Pagina 2 de 2</tspan>
+                                                </text>
+                                            </svg>`,
+                                        alignment: 'right'
+                                        
+                                    }
+                                ],
+                            ]
+                        },
+                        layout: docUtils.noBorderNoPadding
                     }
                 ]
             }

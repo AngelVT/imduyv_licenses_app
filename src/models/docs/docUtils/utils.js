@@ -79,17 +79,21 @@ export const docStyles = {
     }
 }
 
-export function field(text, borders, span, style) {
+export function field(text, borders, span, style, fontSize) {
     return {
         colSpan: span,
         border: borders,
-        table: {widths: ['*'],body: [[{text: text, fontSize: 8, style: style}]]}
+        table: {widths: ['*'],body: [[{text: text, fontSize: fontSize, style: style}]]}
     }
+}
+
+export function voidCell(span) {
+    return {colSpan: span,border: borderless, text: ''}
 }
 
 export const recordExample = {
     "id": 4,
-    "fullInvoice": "IMDUyV_DLyCU_C_001_2024",
+    "fullInvoice": "IMDUyV_DLyCU_CRPC_001_2024",
     "invoice": 1,
     "licenseType": 1,
     "year": 2024,
@@ -124,14 +128,14 @@ export const recordExample = {
         "licenseType": "C"
     },
     "term": {
-        "licenseTerm": "corto"
+        "licenseTerm": "mediano"
     },
     "zone": {
-        "licenseZone": "Densidad muy baja (Unifamiliar)",
-        "licenseKey": "H0.5"
+        "licenseZone": "Densidad alta (multifamiliar dúplex, tríplex y cuádruplex)",
+        "licenseKey": "CUMM"
     },
     "authUse": {
-        "licenseAuthUse": "Unifamiliar, plurifamiliar o multifamiliar"
+        "licenseAuthUse": "Manufactura de sustancias químicas, productos derivados del petróleo y carbón"
     },
     "validity": {
         "licenseValidity": "doce meses"
@@ -139,4 +143,23 @@ export const recordExample = {
     "expeditionType": {
         "licenseExpType": "nueva"
     }
+}
+
+export function prepareData(lcDBObj) {
+    lcDBObj.fullInvoice = lcDBObj.fullInvoice.replaceAll('_','/');
+
+    for (const key in lcDBObj) {
+        if(typeof lcDBObj[key] == 'string')
+            lcDBObj[key] = lcDBObj[key].toUpperCase();
+    }
+
+    lcDBObj.term.licenseTerm = lcDBObj.term.licenseTerm.toUpperCase();
+    lcDBObj.validity.licenseValidity = lcDBObj.validity.licenseValidity.toUpperCase();
+    lcDBObj.expeditionType.licenseExpType = lcDBObj.expeditionType.licenseExpType.toUpperCase();
+
+    lcDBObj.requestDate = lcDBObj.requestDate.split('-').reverse().join('-');
+    lcDBObj.expeditionDate = lcDBObj.expeditionDate.split('-').reverse().join('-');
+    lcDBObj.expirationDate = lcDBObj.expeditionDate.split('-').reverse().join('-');
+
+    return lcDBObj;
 }

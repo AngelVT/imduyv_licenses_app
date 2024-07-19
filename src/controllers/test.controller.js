@@ -13,10 +13,13 @@ import { request } from "http";
 
 import { printerPDF } from "../libs/pdfUtil.js";
 import { generateLandUseC } from "../models/docs/constanciaLU.js";
+import { generateLandUseL } from "../models/docs/licenciaL.js";
+import { generateLandUseDP } from "../models/docs/licenciaDP.js";
+import * as docUtils from "../models/docs/docUtils/utils.js";
 
 export const test = async (req, res) => {
     try {
-        const def = generateLandUseC();
+        const def = generateLandUseDP(docUtils.recordExample);
 
         const pdfDoc = await printerPDF.createPdfKitDocument(def);
 
