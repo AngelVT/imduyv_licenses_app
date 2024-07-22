@@ -17,10 +17,11 @@ import { generateLandUseL } from "../models/docs/landUse/licenciaL.js";
 import { generateLandUseDP } from "../models/docs/landUse/licenciaDP.js";
 import { generateUrbanC } from "../models/docs/urban/constanciaU.js";
 import * as docUtils from "../models/docs/docUtils/utils.js";
+import { generateUrbanLUS } from "../models/docs/urban/licenciaLUS.js";
 
 export const test = async (req, res) => {
     try {
-        const def = generateUrbanC(docUtils.recordExample);
+        const def = generateUrbanLUS(docUtils.recordExample);
 
         const pdfDoc = await printerPDF.createPdfKitDocument(def);
 
