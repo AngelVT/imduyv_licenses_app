@@ -112,7 +112,7 @@ export const recordExample = {
     "authorizedUse": 1,
     "businessLinePrint": "print business line",
     "businessLineIntern": "some businessline",
-    "expeditionDate": "2024-05-22",
+    "expeditionDate": "2024-09-22",
     "licenseValidity": 1,
     "paymentInvoice": "1445",
     "expirationDate": "2024-05-23",
@@ -162,4 +162,22 @@ export function prepareData(lcDBObj) {
     lcDBObj.expirationDate = lcDBObj.expeditionDate.split('-').reverse().join('-');
 
     return lcDBObj;
+}
+
+export function dateFormatFull(dateNumeric) {
+    let months = [
+        "Enero",
+        "Febrero",
+        "Marzo",
+        "Abril", 
+        "Mayo", 
+        "Junio", 
+        "Julio", 
+        "Agosto", 
+        "Septiembre", 
+        "Octubre", 
+        "Noviembre", 
+        "Diciembre"];
+    var date = dateNumeric.split('-');
+    return `${date[0]} de ${months[parseInt(date[1])-1]} del ${date[2]}`;
 }

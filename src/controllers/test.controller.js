@@ -12,14 +12,15 @@ import { statSync } from "fs";
 import { request } from "http";
 
 import { printerPDF } from "../libs/pdfUtil.js";
-import { generateLandUseC } from "../models/docs/constanciaLU.js";
-import { generateLandUseL } from "../models/docs/licenciaL.js";
-import { generateLandUseDP } from "../models/docs/licenciaDP.js";
+import { generateLandUseC } from "../models/docs/landUse/constanciaLU.js";
+import { generateLandUseL } from "../models/docs/landUse/licenciaL.js";
+import { generateLandUseDP } from "../models/docs/landUse/licenciaDP.js";
+import { generateUrbanC } from "../models/docs/urban/constanciaU.js";
 import * as docUtils from "../models/docs/docUtils/utils.js";
 
 export const test = async (req, res) => {
     try {
-        const def = generateLandUseDP(docUtils.recordExample);
+        const def = generateUrbanC(docUtils.recordExample);
 
         const pdfDoc = await printerPDF.createPdfKitDocument(def);
 

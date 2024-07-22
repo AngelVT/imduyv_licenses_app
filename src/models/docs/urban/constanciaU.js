@@ -1,8 +1,8 @@
 import path from "path";
-import { __dirstorage } from "../../paths.js";
-import * as docUtils from "./docUtils/utils.js";
+import { __dirstorage } from "../../../paths.js";
+import * as docUtils from "../docUtils/utils.js";
 
-export function generateLandUseC(lcDBObj) {
+export function generateUrbanC(lcDBObj) {
 
     lcDBObj = docUtils.prepareData(lcDBObj);
 
@@ -50,16 +50,12 @@ export function generateLandUseC(lcDBObj) {
                                             docUtils.field(lcDBObj.requestorName, docUtils.borderless, null,null, 7)
                                         ],
                                         [
-                                            {text: 'En Atención: ', style: 'labelT', border: docUtils.borderless},
-                                            docUtils.field(lcDBObj.attentionName.toUpperCase(), docUtils.borderless, null,null, 7),
-                                        ],
-                                        [
                                             {text: '', border: docUtils.borderless},
                                             {text: '', border: docUtils.borderless}
                                         ],
                                         [
                                             {text: 'Fecha de Solicitud: ', style: 'labelT', border: docUtils.borderless},
-                                            docUtils.field(lcDBObj.requestDate, docUtils.borderless, null,null, 7)
+                                            docUtils.field(docUtils.dateFormatFull(lcDBObj.requestDate), docUtils.borderless, null,null, 7)
                                         ]
                                     ]
                                 },
@@ -71,7 +67,7 @@ export function generateLandUseC(lcDBObj) {
                             {
                                 border: [true, false, true, true],
                                 table: {
-                                    widths: ['auto', '*', 'auto', 30],
+                                    widths: ['auto', '*', 'auto', 90],
                                     body: [
                                         [
                                             {text: 'Calle: ', style: 'labelT', border: docUtils.borderless},
@@ -83,7 +79,7 @@ export function generateLandUseC(lcDBObj) {
                                             {text: 'Clave Catastral: ', style: 'labelT', border: docUtils.borderless},
                                             docUtils.field(lcDBObj.catastralKey, docUtils.borderless, 1, null, 6),
                                             {text: 'Numero: ', style: 'labelT', border: docUtils.borderless},
-                                            docUtils.field(lcDBObj.number, docUtils.borderless, 1, 'center', 7)
+                                            docUtils.field(lcDBObj.number, docUtils.borderless, 1, 'center', 6)
                                         ],
                                         [
                                             {text: 'Colonia: ', style: 'labelT', border: docUtils.borderless},
@@ -126,20 +122,21 @@ export function generateLandUseC(lcDBObj) {
                                         ],
                                         [
                                             {text: 'Plazo: ', style: 'labelTC', border: docUtils.borderless},
-                                            docUtils.field(lcDBObj.term.licenseTerm, docUtils.borderless, 1, 'center', 6),
-                                            {text: 'Zona: ', style: 'labelTC', border: docUtils.borderless},
-                                            docUtils.field(lcDBObj.zone.licenseZone, docUtils.borderless, 7, 'center', 7),
-                                            {},{},{},{},{},{},
+                                            docUtils.field(lcDBObj.term.licenseTerm, docUtils.borderless, 3, 'center', 7),
+                                            {},{},
+                                            {text: 'P.C.U.: ', style: 'labelTC', border: docUtils.borderless},
+                                            docUtils.field("U3", docUtils.borderless, 3, 'center', 7),
+                                            {},{},
                                             {text: 'Clave: ', style: 'labelTC', border: docUtils.borderless},
-                                            docUtils.field(lcDBObj.zone.licenseKey, docUtils.borderless, 1, 'center',6)
+                                            docUtils.field(lcDBObj.zone.licenseKey, docUtils.borderless, 3, 'center',7),
+                                            {},{}
                                         ],
                                         [
                                             {text: 'Uso de suelo permitido: ', style: 'labelTC', border: docUtils.borderless, colSpan: 3},
                                             {},{},
                                             docUtils.field(lcDBObj.authUse.licenseAuthUse, docUtils.borderless, 9, 'center', 7),
                                             {},{},{},{},{},{},{},{}
-                                        ]
-                                        ,
+                                        ],
                                         [
                                             {text: 'La expedición de constancia de uso de suelo: tiene como objeto establecer los usos y destinos de un predio con base en lo previsto en el Programa Municipal de Desarrollo Urbano y Ordenamiento Territorial de Tizayuca, lo cual no autoriza su modificación, construcción o alteración.', style: 'labelTC', border: docUtils.borderless, colSpan: 12},
                                             {},{},{},{},{},{},{},{},{},{},{}
@@ -179,10 +176,8 @@ export function generateLandUseC(lcDBObj) {
                     {
                         margin: [0,0,35,0],
                         stack: [
-                            { text: 'Que el solicitante con los documentos anexados a su escrito inicial ha dado cumplimiento con los requisitos técnicos y legales que obran en el expediente radicado en este Instituto Municipal de Desarrollo Urbano y Vivienda, acredita la propiedad del inmueble motivo de la solicitud de Constancia de Uso de Suelo, así como de la visita de inspección de campo, misma que permite la localización y ubicación del inmueble materia de este trámite. ', style: 'regular', margin: [0,0,0,25],alignment: 'justify' },
-                            { text: `El C. ${lcDBObj.inspector}`, style: 'regular' },
-                            { text: 'En su carácter de personal técnico adscrito al referido Instituto, realizó visita de inspección en campo al inmueble del que solicita la Constancia de Uso de Suelo, emitiendo opinión técnica positiva. ', style: 'regular', margin: [0,0,0,15], alignment: 'justify' },
-                            { text: 'Anexo: ', style: 'labelT' }
+                            { text: 'Que el solicitante con los documentos anexados a su escrito inicial ha dado cumplimiento con los requisitos técnicos y legales que obran en el expediente radicado en este Instituto Municipal de Desarrollo Urbano y Vivienda, de Tizayuca, Hidalgo, acredita la propiedad del inmueble motivo de la solicitud firmada para obtener la Constancia de Uso de Suelo, así como de la visita de inspección de campo, misma que permite la localización y ubicación del Inmueble materia de este trámite.', style: 'regular', margin: [0,0,0,25],alignment: 'justify' },
+                            { text: 'Personal técnico adscrito al referido Instituto, realizo visita de inspección en campo al Inmueble de que solicita la Constancia de Uso de Suelo, emitiendo opinión técnica positiva.', style: 'regular', margin: [0,0,0,15], alignment: 'justify' }
                         ]
                     }
                 ],
@@ -217,7 +212,7 @@ export function generateLandUseC(lcDBObj) {
                     body: [
                         [{text: 'Fecha de Expedición: ', style: 'labelTC', colSpan: 2},
                             {},
-                            docUtils.field(lcDBObj.expeditionDate, docUtils.borderless, 2, 'center',7),
+                            docUtils.field(docUtils.dateFormatFull(lcDBObj.expeditionDate), docUtils.borderless, 2, 'center',6),
                             {},
                             {text: 'Vigencia: ', style: 'labelTC', colSpan: 2},
                             {},
@@ -234,7 +229,7 @@ export function generateLandUseC(lcDBObj) {
             {
                 stack: [
                     {
-                        text:'NOTIFÍQUESE Y CÚMPLASE\nASÍ EN DEFINITIVA LO RESOLVIÓ Y AUTORIZÓ EL LICENCIADO EN DERECHO JORGE LUIS MARTÍNEZ ÁNGELES,\nDIRECTOR GENERAL DEL INSTITUTO MUNICIPAL DE DESARROLLO URBANO Y VIVIENDA',
+                        text:'NOTIFÍQUESE Y CÚMPLASE\nASÍ EN DEFINITIVA LO RESOLVIÓ Y FIRMA EL LICENCIADO EN DERECHO JORGE LUIS MARTÍNEZ ÁNGELES,\nDIRECTOR GENERAL DEL INSTITUTO MUNICIPAL DE DESARROLLO URBANO Y VIVIENDA',
                         style: ['regular', 'center'],
                         margin: [0,10,0,0]
                     },
@@ -243,7 +238,11 @@ export function generateLandUseC(lcDBObj) {
                             widths: ['*','auto','*'],
                             body: [
                                 [
-                                    {},
+                                    {
+                                        margin: [0,52,0,0],
+                                        text: 'Elaboró: A.H.C.\nRevisó: E.H.A.',
+                                        fontSize: 6
+                                    },
                                     {
                                         image: path.join(__dirstorage, 'official', 'firma.png'),
                                         fit: ['*',70],
@@ -257,16 +256,7 @@ export function generateLandUseC(lcDBObj) {
                                                 fit: ['*',82],
                                                 alignment: 'left'
                                             },
-                                            {
-                                                svg: `
-                                                    <svg width="30" height="84">
-                                                        <text x="16" y="42" transform="rotate(-90, 15, 42)" text-anchor="middle" font-size="5" font-weight="bold">
-                                                            <tspan x="16" dy="1.2em">${lcDBObj.fullInvoice}</tspan>
-                                                            <tspan x="16" dy="1.2em">Pagina 1 de 1</tspan>
-                                                        </text>
-                                                    </svg>`,
-                                                alignment: 'right'
-                                            }
+                                            {}
                                         ]
                                     }
                                 ],
