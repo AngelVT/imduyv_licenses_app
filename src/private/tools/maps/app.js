@@ -17,13 +17,19 @@ document.addEventListener('DOMContentLoaded', () => {
         clientY: centerY
     });
 
-    // Obtener el elemento en las coordenadas del centro de la página
-    const element = document.elementFromPoint(centerX, centerY);
+    // Función para disparar el evento de clic en el elemento
+    const triggerClick = () => {
+        // Obtener el elemento en las coordenadas del centro de la página
+        const element = document.elementFromPoint(centerX, centerY);
 
-    // Disparar el evento de clic en el elemento
-    if (element) {
-        element.dispatchEvent(clickEvent);
-    }
+        // Disparar el evento de clic en el elemento
+        if (element) {
+            element.dispatchEvent(clickEvent);
+        }
+    };
+
+    // Hacer una pausa de 2 segundos antes de simular el clic
+    setTimeout(triggerClick, 500);
 });
 
 async function capture() {

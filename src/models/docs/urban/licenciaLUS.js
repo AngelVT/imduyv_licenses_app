@@ -24,10 +24,10 @@ export function generateUrbanLUS(lcDBObj) {
             },
             {
                 text: lcDBObj.fullInvoice,
-                alignment: 'center',
+                alignment: 'right',
                 fontSize: 12,
                 bold: true,
-                margin: [0,0,0,10]
+                margin: [0,10,0,10]
             },
             {
                 style: 'formRow',
@@ -41,7 +41,6 @@ export function generateUrbanLUS(lcDBObj) {
                         ],
                         [
                             {
-                                border: [true, false, true, true],
                                 table: {
                                     widths: ['auto', '*'],
                                     body: [
@@ -69,7 +68,6 @@ export function generateUrbanLUS(lcDBObj) {
                                 text: '',border: docUtils.borderless
                             },
                             {
-                                border: [true, false, true, true],
                                 table: {
                                     widths: ['auto', '*'],
                                     body: [
@@ -79,7 +77,7 @@ export function generateUrbanLUS(lcDBObj) {
                                         ],
                                         [
                                             {text: 'Clave Catastral: ', style: 'labelT', border: docUtils.borderless},
-                                            docUtils.field(lcDBObj.catastralKey, docUtils.borderless, 1, null, 6),
+                                            docUtils.field(lcDBObj.catastralKey, docUtils.borderless, 1, null, 7),
                                         ],
                                         [
                                             {text: 'Superficie Total: ', style: 'labelT', border: docUtils.borderless},
@@ -104,7 +102,6 @@ export function generateUrbanLUS(lcDBObj) {
                         ],
                         [
                             {
-                                border: [true, false, true, true],
                                 table: {
                                     widths: ['*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*'],
                                     body: [
@@ -174,7 +171,7 @@ export function generateUrbanLUS(lcDBObj) {
                 layout: docUtils.containerLayout
             },
             {
-                margin: [0, 30],
+                margin: [0, 15, 0, 20],
                 style: ['formRow', 'regular'],
                 text: 'El solicitante, con los documentos anexados a su escrito inicial, ha dado cumplimiento con los requisitos técnicos y legales que obran en el expediente radicado en este Instituto Municipal de Desarrollo Urbano y Vivienda, acredita la propiedad del inmueble motivo de la solicitud de Licencia de Uso de Suelo.Personal técnico adscrito al referido Instituto, realizó visita de inspección en campo al inmueble del que solicita la Licencia de Uso de Suelo, emitiendo opinión técnica positiva.',
                 alignment: 'justify',
@@ -227,26 +224,6 @@ export function generateUrbanLUS(lcDBObj) {
                                 margin: [0,10,0,0]
                             }
                         ]
-                        /*table: {
-                            widths: ['*','*','*'],
-                            body: [
-                                [
-                                    {},
-                                    {
-                                        image: path.join(__dirstorage, 'official', 'firma.png'),
-                                        fit: ['*',70],
-                                        alignment: 'center',
-                                        margin: [0,10,0,0]
-                                    },
-                                    {
-                                        image: path.join(__dirstorage, 'official', 'sello.png'),
-                                        fit: ['*',82],
-                                        alignment: 'left'
-                                    }
-                                ],
-                            ]
-                        },
-                        layout: docUtils.NoPadding*/
                     },
                     {
                         columns: [
@@ -293,7 +270,6 @@ export function generateUrbanLUS(lcDBObj) {
                         [{text: "PROHIBICIONES Y SANCIONES", style: 'headT', border: docUtils.borderless}],
                         [
                             {
-                                border: [true, false, true, true],
                                 table: {
                                     widths: ['*'],
                                     body: [
@@ -301,14 +277,12 @@ export function generateUrbanLUS(lcDBObj) {
                                             {
                                                 type: 'lower-alpha',
                                                 ul: [
-                                                    'Por lo que hace al uso de suelo HABITACIONAL, una vez autorizado, deberá ser permitido con base en la matriz de compatibilidad del Programa Municipal de Desarrollo Urbano y Ordenamiento Territorial de Tizayuca, Hidalgo.',
-                                                    'Por lo que hace al uso de suelo HABITACIONAL, una vez autorizado, deberá ser permitido con base en la matriz de compatibilidad del Programa Municipal de Desarrollo Urbano y Ordenamiento Territorial de Tizayuca, Hidalgo.',
-                                                    'Se prohíbe la colocación de cualquier publicidad fuera y frente del predio.',
-                                                    'Deberá destinar un cajón de estacionamiento por cada 30 m2 de construcción.',
-                                                    'No se deberá ocupar la banqueta (vía pública) para realizar maniobras en su proceso constructivo.',
-                                                    'Se deberá dar cumplimiento a las Normas Oficiales Mexicanas, según corresponda.',
-                                                    'En todas las puertas que conduzcan al exterior habrá letreros con la palabra "salida" y flechas luminosas indicando la dirección de las salidas, las letras tendrán una altura mínima de quince centímetros.',
-                                                    'Deberá tramitar dictamen ante la Dirección de Protección Civil y Bomberos del Municipio de Tizayuca, Hidalgo, así como atender todas las recomendaciones que en materia de riesgos se le efectúen; para poder realizar la actualización de su licencia tendra que presentar dicho dictamen vigente.'
+                                                    'Para que se construyan las obras de urbanización y de vivienda, deberá tramitar y contar con la licencia de construcción emitida por la Secretaría de Obras Públicas Municipales de Tizayuca, debiendo acompañar los proyectos ejecutivos de agua potable, drenaje sanitario y pluvial, planos de niveles y rasantes con la aprobación correspondiente; así como de las especificaciones de los materiales a usarse en la urbanización.',
+                                                    'La presente no autoriza acciones urbanas ni construcción de obras que generen impacto social en su entorno inmediato.',
+                                                    'Acatar la normativa y restricciones de la zonificación secundaria que determina el documento técnico del Programa Municipal de Desarrollo Urbano y Ordenamiento Territorial de Tizayuca.',
+                                                    'El Instituto Municipal de Desarrollo Urbano y Vivienda se reserva el derecho de revocar la presente, en caso de incumplimiento a cualquiera de las condiciones establecidas en la misma',
+                                                    'Dar cumplimiento a las acciones y condiciones emitidas por la Secretaria de Obras Públicas del Municipio de, así como a lo dispuesto por la Comisión de Agua y Alcantarillado del Municipio de Tizayuca Hidalgo CAAMTH.',
+                                                    'El propietario está obligado a dejar 30% de la superficie neta de cada lote libre de construcción para absorción de agua pluvial, lo anterior estará asentado en los contratos de compra – venta.'
                                                 ],
                                                 fontSize: 6,
                                                 border: docUtils.borderless,
@@ -332,7 +306,6 @@ export function generateUrbanLUS(lcDBObj) {
                         [{text: "FUNDAMENTO JURÍDICO", style: 'headT', border: docUtils.borderless}],
                         [
                             {
-                                border: [true, false, true, true],
                                 table: {
                                     widths: ['*'],
                                     body: [

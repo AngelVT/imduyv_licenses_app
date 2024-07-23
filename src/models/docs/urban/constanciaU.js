@@ -41,7 +41,6 @@ export function generateUrbanC(lcDBObj) {
                         ],
                         [
                             {
-                                border: [true, false, true, true],
                                 table: {
                                     widths: ['auto', '*'],
                                     body: [
@@ -65,7 +64,6 @@ export function generateUrbanC(lcDBObj) {
                                 text: '',border: docUtils.borderless
                             },
                             {
-                                border: [true, false, true, true],
                                 table: {
                                     widths: ['auto', '*', 'auto', 90],
                                     body: [
@@ -108,7 +106,6 @@ export function generateUrbanC(lcDBObj) {
                         ],
                         [
                             {
-                                border: [true, false, true, true],
                                 table: {
                                     widths: ['*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*'],
                                     body: [
@@ -191,7 +188,6 @@ export function generateUrbanC(lcDBObj) {
                         [{text: "FUNDAMENTO JURÍDICO", style: 'headT', border: docUtils.borderless}],
                         [
                             {
-                                border: [true, false, true, true],
                                 table: {
                                     widths: ['*'],
                                     body: [

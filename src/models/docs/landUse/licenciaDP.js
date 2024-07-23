@@ -41,7 +41,6 @@ export function generateLandUseDP(lcDBObj) {
                         ],
                         [
                             {
-                                border: [true, false, true, true],
                                 table: {
                                     widths: ['auto', '*'],
                                     body: [
@@ -69,7 +68,6 @@ export function generateLandUseDP(lcDBObj) {
                                 text: '',border: docUtils.borderless
                             },
                             {
-                                border: [true, false, true, true],
                                 table: {
                                     widths: ['auto', '*', 'auto', 30],
                                     body: [
@@ -112,7 +110,6 @@ export function generateLandUseDP(lcDBObj) {
                         ],
                         [
                             {
-                                border: [true, false, true, true],
                                 table: {
                                     widths: ['*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*'],
                                     body: [
@@ -159,7 +156,6 @@ export function generateLandUseDP(lcDBObj) {
                         [{text: "CONSIDERANDO", style: 'headT', border: docUtils.borderless}],
                         [
                             {
-                                border: [true, false, true, true],
                                 table: {
                                     widths: ['*'],
                                     body: [
@@ -205,7 +201,6 @@ export function generateLandUseDP(lcDBObj) {
                         [{text: "RESOLUTIVO", style: 'headT', border: docUtils.borderless}],
                         [
                             {
-                                border: [true, false, true, true],
                                 table: {
                                     widths: ['*'],
                                     body: [
@@ -363,7 +358,6 @@ export function generateLandUseDP(lcDBObj) {
                         [{text: "FUNDAMENTO JURÍDICO", style: 'headT', border: docUtils.borderless}],
                         [
                             {
-                                border: [true, false, true, true],
                                 table: {
                                     widths: ['*'],
                                     body: [

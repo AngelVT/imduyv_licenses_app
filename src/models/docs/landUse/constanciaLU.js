@@ -41,7 +41,6 @@ export function generateLandUseC(lcDBObj) {
                         ],
                         [
                             {
-                                border: [true, false, true, true],
                                 table: {
                                     widths: ['auto', '*'],
                                     body: [
@@ -69,7 +68,6 @@ export function generateLandUseC(lcDBObj) {
                                 text: '',border: docUtils.borderless
                             },
                             {
-                                border: [true, false, true, true],
                                 table: {
                                     widths: ['auto', '*', 'auto', 90],
                                     body: [
@@ -112,7 +110,6 @@ export function generateLandUseC(lcDBObj) {
                         ],
                         [
                             {
-                                border: [true, false, true, true],
                                 table: {
                                     widths: ['*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*'],
                                     body: [
@@ -195,7 +192,6 @@ export function generateLandUseC(lcDBObj) {
                         [{text: "FUNDAMENTO JURÍDICO", style: 'headT', border: docUtils.borderless}],
                         [
                             {
-                                border: [true, false, true, true],
                                 table: {
                                     widths: ['*'],
                                     body: [

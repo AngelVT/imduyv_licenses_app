@@ -41,7 +41,6 @@ export function generateLandUseL(lcDBObj) {
                         ],
                         [
                             {
-                                border: [true, false, true, true],
                                 table: {
                                     widths: ['auto', '*'],
                                     body: [
@@ -69,7 +68,6 @@ export function generateLandUseL(lcDBObj) {
                                 text: '',border: docUtils.borderless
                             },
                             {
-                                border: [true, false, true, true],
                                 table: {
                                     widths: ['auto', '*', 'auto', 30],
                                     body: [
@@ -112,7 +110,6 @@ export function generateLandUseL(lcDBObj) {
                         ],
                         [
                             {
-                                border: [true, false, true, true],
                                 table: {
                                     widths: ['*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*'],
                                     body: [
@@ -175,7 +172,6 @@ export function generateLandUseL(lcDBObj) {
                         [{text: "RESTRICCIONES Y SANCIONES", style: 'headT', border: docUtils.borderless}],
                         [
                             {
-                                border: [true, false, true, true],
                                 table: {
                                     widths: ['*'],
                                     body: [
@@ -197,7 +193,6 @@ export function generateLandUseL(lcDBObj) {
                         [{text: "FUNDAMENTO JURÍDICO", style: 'headT', border: docUtils.borderless}],
                         [
                             {
-                                border: [true, false, true, true],
                                 table: {
                                     widths: ['*'],
                                     body: [
@@ -320,7 +315,6 @@ export function generateLandUseL(lcDBObj) {
                         [{text: "CONDICIONANTES", style: 'headT', border: docUtils.borderless}],
                         [
                             {
-                                border: [true, false, true, true],
                                 table: {
                                     widths: ['*'],
                                     body: [
