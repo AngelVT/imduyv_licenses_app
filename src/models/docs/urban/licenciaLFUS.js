@@ -2,7 +2,7 @@ import path from "path";
 import { __dirstorage } from "../../../paths.js";
 import * as docUtils from "../docUtils/utils.js";
 
-export function generateUrbanLSUB(lcDBObj) {
+export function generateUrbanLFUS(lcDBObj) {
 
     lcDBObj = docUtils.prepareData(lcDBObj);
 
@@ -117,8 +117,37 @@ export function generateUrbanLSUB(lcDBObj) {
                                             {text: 'COLINDANCIAS', style: ['boldCenter', 'regularSmall']}
                                         ],
                                         [
-                                            {text: 'Lote 7', style: ['center', 'regularSmall']},
-                                            {text: '180.00 m2', style: ['center', 'regularSmall']},
+                                            {text: 'Lote 7 No.14', style: ['center', 'regularSmall']},
+                                            {text: '90.00 m2', style: ['center', 'regularSmall']},
+                                            {
+                                                colSpan: 2,
+                                                table: {
+                                                    widths: ['*','*'],
+                                                    body: [
+                                                        [
+                                                            {text: 'AL NORTE: 15.00 m', style: 'regularSmall', border: [false, false, false, false]},
+                                                            {text: 'COLINDA CON LOTE 8', style: 'regularSmall', border: [false, false, false, false]}
+                                                        ],
+                                                        [
+                                                            {text: 'AL SUR: 15.00 m', style: 'regularSmall'},
+                                                            {text: 'COLINDA CON LOTE 6', style: 'regularSmall'}
+                                                        ],
+                                                        [
+                                                            {text: 'AL ORIENTE: 12.00 m', style: 'regularSmall'},
+                                                            {text: 'COLINDA CON LOTE 50', style: 'regularSmall'}
+                                                        ],
+                                                        [
+                                                            {text: 'AL PONIENTE: 12.00 m', style: 'regularSmall', border: [false, false, false, false]},
+                                                            {text: 'COLINDA CON CALLE PORVENIR', style: 'regularSmall', border: [false, false, false, false]}
+                                                        ]
+                                                    ]
+                                                },layout: docUtils.subTable
+                                            },
+                                            {}
+                                        ],
+                                        [
+                                            {text: 'Lote 7 No.14 BIS', style: ['center', 'regularSmall']},
+                                            {text: '90.00 m2', style: ['center', 'regularSmall']},
                                             {
                                                 colSpan: 2,
                                                 table: {
@@ -191,37 +220,8 @@ export function generateUrbanLSUB(lcDBObj) {
                                             {text: 'COLINDANCIAS', style: ['boldCenter', 'regularSmall']}
                                         ],
                                         [
-                                            {text: 'Lote 7 No.14', style: ['center', 'regularSmall']},
-                                            {text: '90.00 m2', style: ['center', 'regularSmall']},
-                                            {
-                                                colSpan: 2,
-                                                table: {
-                                                    widths: ['*','*'],
-                                                    body: [
-                                                        [
-                                                            {text: 'AL NORTE: 15.00 m', style: 'regularSmall', border: [false, false, false, false]},
-                                                            {text: 'COLINDA CON LOTE 8', style: 'regularSmall', border: [false, false, false, false]}
-                                                        ],
-                                                        [
-                                                            {text: 'AL SUR: 15.00 m', style: 'regularSmall'},
-                                                            {text: 'COLINDA CON LOTE 6', style: 'regularSmall'}
-                                                        ],
-                                                        [
-                                                            {text: 'AL ORIENTE: 12.00 m', style: 'regularSmall'},
-                                                            {text: 'COLINDA CON LOTE 50', style: 'regularSmall'}
-                                                        ],
-                                                        [
-                                                            {text: 'AL PONIENTE: 12.00 m', style: 'regularSmall', border: [false, false, false, false]},
-                                                            {text: 'COLINDA CON CALLE PORVENIR', style: 'regularSmall', border: [false, false, false, false]}
-                                                        ]
-                                                    ]
-                                                },layout: docUtils.subTable
-                                            },
-                                            {}
-                                        ],
-                                        [
-                                            {text: 'Lote 7 No.14 BIS', style: ['center', 'regularSmall']},
-                                            {text: '90.00 m2', style: ['center', 'regularSmall']},
+                                            {text: 'Lote 7', style: ['center', 'regularSmall']},
+                                            {text: '180.00 m2', style: ['center', 'regularSmall']},
                                             {
                                                 colSpan: 2,
                                                 table: {
@@ -255,7 +255,7 @@ export function generateUrbanLSUB(lcDBObj) {
                         [
                             {
                                 border: [true, false, true, false],
-                                text: `SE AUTORIZA LA SUBDIVISIÓN DEL PREDIO IDENTIFICADO COMO LOTE 7 CON UNA SUPERFICIE DE 180.00 M2, RESULTANDO DOS FRACCIONES IDENTIFICADAS COMO LOTE 7 NO. 14 CON UNA SUPERFICIE DE 90.00 M2 Y LOTE 7 NO. 14 BIS CON UNA SUPERFICIE DE 90.00 M2.`, style: 'regular',
+                                text: `SE AUTORIZA LA FUSIÓN DE LOS PREDIOS IDENTIFICADOS COMO LAS PARCELAS 777, 775, 778, 786, 790, 791 Y LOTE 1 (PARCELA 924), RESULTANDO LA FUSIÓN CON UNA SUPERFICIE TOTAL DE: 161,100.70 M2.`, style: 'regular',
                                 fontSize: 5,
                                 alignment: 'center',
                                 bold: true

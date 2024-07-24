@@ -5,8 +5,8 @@ export const formLayout = {
     paddingRight: function(i, node) { return 1; },
     paddingTop: function(i, node) { return 1; },
     paddingBottom: function(i, node) { return 1; },
-    hLineWidth: function(i, node) { return 1; },
-    vLineWidth: function(i, node) { return 1; },
+    hLineWidth: function(i, node) { return 0.5; },
+    vLineWidth: function(i, node) { return 0.5; },
     hLineColor: function(i, node) { return '#000'; },
     vLineColor: function(i, node) { return '#000'; }
 }
@@ -16,8 +16,8 @@ export const containerLayout = {
     paddingRight: function(i, node) { return 2; },
     paddingTop: function(i, node) { return 2; },
     paddingBottom: function(i, node) { return 2; },
-    hLineWidth: function(i, node) { return 1; },
-    vLineWidth: function(i, node) { return 1; },
+    hLineWidth: function(i, node) { return 0.5; },
+    vLineWidth: function(i, node) { return 0.5; },
     hLineColor: function(i, node) { return '#000'; },
     vLineColor: function(i, node) { return '#000'; }
 }
@@ -38,8 +38,30 @@ export const NoPadding = {
     paddingRight: function(i, node) { return 0; },
     paddingTop: function(i, node) { return 0; },
     paddingBottom: function(i, node) { return 0; },
-    hLineWidth: function(i, node) { return 1; },
-    vLineWidth: function(i, node) { return 1; },
+    hLineWidth: function(i, node) { return 0.5; },
+    vLineWidth: function(i, node) { return 0.5; },
+    hLineColor: function(i, node) { return '#000'; },
+    vLineColor: function(i, node) { return '#000'; }
+}
+
+export const subTable = {
+    paddingLeft: function(i, node) { return 0; },
+    paddingRight: function(i, node) { return 0; },
+    paddingTop: function(i, node) { return 0; },
+    paddingBottom: function(i, node) { return 0; },
+    hLineWidth: function(i, node) { return 0.5; },
+    vLineWidth: function(i, node) { return 0; },
+    hLineColor: function(i, node) { return '#000'; },
+    vLineColor: function(i, node) { return '#000'; }
+}
+
+export const cellLayout = {
+    paddingLeft: function(i, node) { return 2; },
+    paddingRight: function(i, node) { return 2; },
+    paddingTop: function(i, node) { return 1; },
+    paddingBottom: function(i, node) { return 1; },
+    hLineWidth: function(i, node) { return 0.5; },
+    vLineWidth: function(i, node) { return 0.5; },
     hLineColor: function(i, node) { return '#000'; },
     vLineColor: function(i, node) { return '#000'; }
 }
@@ -76,6 +98,12 @@ export const docStyles = {
     },
     regularSmall: {
         fontSize: 5
+    },
+    headST: {
+        color: '#fff',
+        fillColor: '#757575',
+        fontSize: 5,
+        alignment: 'center',
     }
 }
 
@@ -83,7 +111,7 @@ export function field(text, borders, span, style, fontSize) {
     return {
         colSpan: span,
         border: borders,
-        table: {widths: ['*'],body: [[{text: text, fontSize: fontSize, style: style}]]}
+        table: {widths: ['*'],body: [[{text: text, fontSize: fontSize, style: style}]]},layout: cellLayout
     }
 }
 
