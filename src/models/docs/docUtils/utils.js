@@ -74,6 +74,13 @@ export const docStyles = {
         bold: true,
         alignment: 'center',
     },
+    headTB: {
+        color: 'white',
+        fillColor: '#757575',
+        fontSize: 7,
+        bold: true,
+        alignment: 'center',
+    },
     labelT: {
         fontSize: 7,
         bold: true

@@ -20,10 +20,11 @@ import * as docUtils from "../models/docs/docUtils/utils.js";
 import { generateUrbanLUS } from "../models/docs/urban/licenciaLUS.js";
 import { generateUrbanLSUB } from "../models/docs/urban/licenciaLSUB.js";
 import { generateUrbanLFUS } from "../models/docs/urban/licenciaLFUS.js";
+import { generateUrbanCRPC } from "../models/docs/urban/licenciaCRPC.js";
 
 export const test = async (req, res) => {
     try {
-        const def = generateUrbanLFUS(docUtils.recordExample);
+        const def = generateUrbanCRPC(docUtils.recordExample);
 
         const pdfDoc = await printerPDF.createPdfKitDocument(def);
 
