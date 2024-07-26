@@ -7,7 +7,7 @@ export function generateUrbanCRPC(lcDBObj) {
     lcDBObj = docUtils.prepareData(lcDBObj);
 
     var definition = {
-        pageMargins: [ 5, 60, 5, 60 ],
+        pageMargins: [ 5, 60, 5, 70 ],
         styles: docUtils.docStyles,
         content: [
             {
@@ -70,14 +70,6 @@ export function generateUrbanCRPC(lcDBObj) {
                                         [
                                             {text: 'Domicilio: ', style: 'labelT', border: docUtils.borderless},
                                             docUtils.field('CALLE PROGRESO, MANZANA 4, LOTE 36, FRACCIONAMIENTO AMPLIACIÓN LOS OLMOS, TIZAYUCA, HIDALGO.', docUtils.borderless, 1, null, 7)
-                                        ],
-                                        [
-                                            {text: 'Clave Catastral: ', style: 'labelT', border: docUtils.borderless},
-                                            docUtils.field(lcDBObj.catastralKey, docUtils.borderless, 1, null, 7),
-                                        ],
-                                        [
-                                            {text: 'Superficie Total: ', style: 'labelT', border: docUtils.borderless},
-                                            docUtils.field(lcDBObj.surfaceTotal, docUtils.borderless, 1, null, 7)
                                         ]
                                     ]
                                 },
@@ -100,24 +92,26 @@ export function generateUrbanCRPC(lcDBObj) {
                             {
                                 style: 'regular',
                                 stack: [
-                                    {text: `DESARROLLOS INMOBILIARIOS SADASI S.A. DE C.V. a través del C. ELIAS GUARNEROS RAMÍREZ, en su carácter de Representante Legal, solicita la AUTORIZACIÓN DE RÉGIMEN DE PROPIEDAD EN CONDOMINIO, para 5 VIVIENDAS ubicadas en el LOTE 37 y 38 de la MANZANA 218, dentro del fraccionamiento “LOS HÉROES TIZAYUCA”, en el Municipio de Tizayuca, Hidalgo, acompañado para efectos los siguientes documentos:`},
                                     {
-                                        ul: [
-                                            'Solicitud por escrito de Autorización de Régimen de Propiedad de Condómino.',
-                                            'Copia de Identificación oficial del C. Elías Guarneros Ramírez, consistente en credencial de elector, con número de folio 1130008658056, expedida por Instituto Nacional Electoral.',
-                                            'Croquis de localización.',
-                                            '4 planos para su autorización.',
-                                            'Copia Relotificación de Fraccionamiento No. IMDUYV/DPT/RF/001/2023, de fecha 10 de octubre de 2023.',
-                                            'Copia de Segundo Testimonio de Relotificación del Fraccionamiento denominado “los Héroes Tizayuca”, escritura No. 43,226, de fecha 30 de octubre de 2023.',
-                                            'Copia de Convenio de servicios de agua potable con la CAAMTH.',
-                                            'Copia de Recibo de pago de impuesto predial, periodo enero – diciembre 2023, con clave catastral 690500010000100001, del predio ubicado en Los Héroes Tizayuca del Municipio Tizayuca a nombre de Desarrollos Inmobiliarios SADASI S.A. de C.V.',
-                                            'Memoria descriptiva',
-                                            'Dos juegos de Reglamento General del Condominio.',
-                                            'Reporte fotográfico.',
-                                            'Copia de Acta constitutiva de “Desarrollos inmobiliarios SADASI S.A. DE C.V.”',
-                                            'Copia de Poder notarial otorgado a favor del C. Elías Guarneros Ramírez por “Desarrollos Inmobiliarios SADASI S.A. de C.V.”',
-                                            'Copia de cédula de identificación fiscal, RFC.',
+                                        text: [
+                                            {text: lcDBObj.requestorName, bold: true},
+                                            ' a través del C. ',
+                                            {text: lcDBObj.legalRepresentative, bold: true},
+                                            ', en su carácter de Representante Legal, solicita la ',
+                                            {text: 'AUTORIZACIÓN DE RÉGIMEN DE PROPIEDAD EN CONDOMINIO', bold: true},
+                                            ' para ',
+                                            {text: lcDBObj.licenseSpecialData.households, bold: true},
+                                            ' ubicadas en ',
+                                            {text: docUtils.arrayToText(lcDBObj.licenseSpecialData.lotes), bold: true},
+                                            {text: ' de la '},
+                                            {text: docUtils.arrayToText(lcDBObj.licenseSpecialData.manzanas), bold: true},
+                                            ' dentro del fraccionamiento ',
+                                            {text: `"${lcDBObj.colony}"`, bold: true},
+                                            ', en el Municipio de Tizayuca, Hidalgo, acompañado para efectos los siguientes documentos:\n\n'
                                         ]
+                                    },
+                                    {
+                                        ul: lcDBObj.licenseSpecialData.documents
                                     }
                                 ]
                             }
@@ -145,11 +139,12 @@ export function generateUrbanCRPC(lcDBObj) {
                 style: ['regular', 'formRow'],
                 alignment: 'justify',
                 ol: [
-                    'El Instituto Municipal de Desarrollo Urbano y Vivienda, es competente para conocer y resolver la solicitud de AUTORIZACIÓN DE RÉGIMEN DE PROPIEDAD EN CONDOMINIO, para 5 VIVIENDAS ubicadas en los LOTES 37 y 38 de la MANZANA 218, dentro del fraccionamiento “LOS HÉROES TIZAYUCA”, con fundamento en lo previsto en los Artículos 27º y 115º  de la Constitución Política de los Estados Unidos Mexicanos; 1, 10 fracción  XXV, 40 Y 43 de la Ley General de Asentamientos Humanos, Ordenamiento Territorial y Desarrollo Urbano; 10 y 71  fracción XLV de la Constitución Política del Estado de Hidalgo; 1, 7, 8, 69 fracción VIII, 83, 104, 405, 406, 107 y 108 del Reglamento de la Ley de Asentamientos Humanos y Desarrollo Urbano del Estado de Hidalgo y los Artículos 1, 4, 6, 7, 8, 9, 10, 13, 52 y 53 de la Ley de Propiedad en Condominio de Inmuebles para el Estado de Hidalgo.',
-                    'Para respaldar su solicitud de DESARROLLOS INMOBILIARIOS SADASI S.A. DE C.V. a través del C. ELÍAS GUARNEROS RAMÍREZ, en su carácter de Representante Legal, presentó el plano arquitectónico del inmueble objeto del Régimen de Propiedad en Condominio, con las características que establece la Ley de Propiedad en Condominio de Inmuebles para el Estado de Hidalgo vigente en la entidad, misma que reúne todos y cada uno de los elementos que este precepto legal exige, comprende 617.35 m² de áreas privativas y  227.35 m² de área común, según plano autorizado se desglosa de la siguiente manera:'
+                    {text: ['El Instituto Municipal de Desarrollo Urbano y Vivienda, es competente para conocer y resolver la solicitud de',{text: 'AUTORIZACIÓN DE RÉGIMEN DE PROPIEDAD EN CONDOMINIO', bold: true},', para',{text: lcDBObj.licenseSpecialData.households, bold: true},'ubicadas en los ',{text: docUtils.arrayToText(lcDBObj.licenseSpecialData.lotes), bold: true},' de la ',{text: docUtils.arrayToText(lcDBObj.licenseSpecialData.manzanas), bold: true},', dentro del fraccionamiento “',{text: lcDBObj.colony, bold: true},'”, con fundamento en lo previsto en los Artículos 27º y 115º  de la Constitución Política de los Estados Unidos Mexicanos; 1, 10 fracción  XXV, 40 Y 43 de la Ley General de Asentamientos Humanos, Ordenamiento Territorial y Desarrollo Urbano; 10 y 71  fracción XLV de la Constitución Política del Estado de Hidalgo; 1, 7, 8, 69 fracción VIII, 83, 104, 405, 406, 107 y 108 del Reglamento de la Ley de Asentamientos Humanos y Desarrollo Urbano del Estado de Hidalgo y los Artículos 1, 4, 6, 7, 8, 9, 10, 13, 52 y 53 de la Ley de Propiedad en Condominio de Inmuebles para el Estado de Hidalgo.']},
+                    {text: ['Para respaldar su solicitud de ',{text: lcDBObj.requestorName, bold: true},' a través del C. ',{text: lcDBObj.legalRepresentative, bold: true},', en su carácter de Representante Legal, presentó el plano arquitectónico del inmueble objeto del Régimen de Propiedad en Condominio, con las características que establece la Ley de Propiedad en Condominio de Inmuebles para el Estado de Hidalgo vigente en la entidad, misma que reúne todos y cada uno de los elementos que este precepto legal exige, comprende ',{text: lcDBObj.licenseSpecialData.privateSurface, bold: true},' de áreas privativas y ',{text: lcDBObj.licenseSpecialData.commonSurface, bold: true},' de área común, según plano autorizado se desglosa de la siguiente manera: m']}
                 ]
             },
             {
+                pageBreak: 'before',
                 style: 'formRow',
                 table: {
                     widths: ['*'],
@@ -166,6 +161,7 @@ export function generateUrbanCRPC(lcDBObj) {
                 layout: docUtils.containerLayout
             },
             {
+                pageBreak: 'before',
                 style: 'formRow',
                 table: {
                     widths: ['*'],
@@ -182,6 +178,7 @@ export function generateUrbanCRPC(lcDBObj) {
                 layout: docUtils.containerLayout
             },
             {
+                pageBreak: 'before',
                 style: ['regular', 'formRow'],
                 alignment: 'justify',
                 start: 3,
@@ -367,7 +364,23 @@ export function generateUrbanCRPC(lcDBObj) {
                     }
                 ]
             }
-        ]
+        ],
+        footer: function(currentPage, pageCount) {
+            return {
+                columns: [
+                    {
+                        svg: `
+                        <svg width="30" height="66">
+                            <text x="16" y="33" transform="rotate(-90, 15, 33)" text-anchor="middle" font-size="4" font-weight="bold">
+                                <tspan x="16" dy="1.2em">${lcDBObj.fullInvoice}</tspan>
+                                <tspan x="16" dy="1.2em">Pagina ${currentPage} de ${pageCount}</tspan>
+                            </text>
+                        </svg>`,
+                        alignment: 'right'
+                    }
+                ]
+            };
+        }
     };
     return definition;
 }

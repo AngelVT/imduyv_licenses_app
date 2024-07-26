@@ -1,5 +1,5 @@
 import { User , Role , Group} from "../models/Users.models.js";
-import { UrbanLicense, LandUseLicense, AuthUse, Type, LandLicenseStatus, LandTestReg } from "../models/License.models.js";
+import { UrbanLicense, LandUseLicense, AuthUse, Type} from "../models/License.models.js";
 import * as passCrypt from '../libs/passwordCrypt.js';
 import jwt from 'jsonwebtoken';
 import config from "../config.js";

@@ -134,6 +134,7 @@ export const recordExample = {
     "year": 2024,
     "requestorName": "alberto enrique santana sanchez",
     "attentionName": "juan enrique santana navarrete",
+    "legalRepresentative": "juan enrique santana navarrete",
     "requestDate": "2024-05-21",
     "address": "camino interparcelario parcela 854 z-4 p1/3",
     "number": "S/N",
@@ -157,6 +158,64 @@ export const recordExample = {
     "discount": 0,
     "paymentDone": 1,
     "inspector": "eduardo alejandro cordoba vazquez",
+    "licenseSpecialData": {
+        "requestorAddress": "ARQUIMEDES 3 302, CHAPULTEPEC MORALES, DISTRITO FEDERAL, CP 11570",
+        "buildingAddress":"BOULEVARD MIGUEL HIDALGO Y COSTILLA, MANZANA 218, LOTE 37 Y 38, FRACCIONAMIENTO LOS HÉROES TIZAYUCA",
+        "privateSurface": "617.35 m²",
+        "commonSurface": "227.35 m²",
+        "restrictions": ["Restricción 1", "Restricción 2","Restricción 3","Restricción 4"],
+        "conditions": ["Condicionante 1", "Condicionante 2","Condicionante 3","Condicionante 4"],
+        "anexo":"some anexo",
+        "parcela": "742, Z-3, P1/3",
+        "propertyNo": "000001002885",
+        "propertyDate": "2018-04-12",
+        "authorizedFS": "divicion.png",
+        "authorizationResume": "SE AUTORIZA LA FUSIÓN DE LOS PREDIOS IDENTIFICADOS COMO LAS PARCELAS 777, 775, 778, 786, 790, 791 Y LOTE 1 (PARCELA 924), RESULTANDO LA FUSIÓN CON UNA SUPERFICIE TOTAL DE: 161,100.70 M2.",
+        "households": "5 viviendas",
+        "documents": [
+            'Solicitud por escrito de Autorización de Régimen de Propiedad de Condómino.',
+            'Copia de Identificación oficial del C. Elías Guarneros Ramírez, consistente en credencial de elector, con número de folio 1130008658056, expedida por Instituto Nacional Electoral.',
+            'Croquis de localización.',
+            '4 planos para su autorización.',
+            'Copia Relotificación de Fraccionamiento No. IMDUYV/DPT/RF/001/2023, de fecha 10 de octubre de 2023.',
+            'Copia de Segundo Testimonio de Relotificación del Fraccionamiento denominado “los Héroes Tizayuca”, escritura No. 43,226, de fecha 30 de octubre de 2023.',
+            'Copia de Convenio de servicios de agua potable con la CAAMTH.',
+            'Copia de Recibo de pago de impuesto predial, periodo enero – diciembre 2023, con clave catastral 690500010000100001, del predio ubicado en Los Héroes Tizayuca del Municipio Tizayuca a nombre de Desarrollos Inmobiliarios SADASI S.A. de C.V.',
+            'Memoria descriptiva',
+            'Dos juegos de Reglamento General del Condominio.',
+            'Reporte fotográfico.',
+            'Copia de Acta constitutiva de “Desarrollos inmobiliarios SADASI S.A. DE C.V.”',
+            'Copia de Poder notarial otorgado a favor del C. Elías Guarneros Ramírez por “Desarrollos Inmobiliarios SADASI S.A. de C.V.”',
+            'Copia de cédula de identificación fiscal, RFC.',
+        ],
+        "lotes": ["Lote 1", "Lote 2","Lote 3","Lote 4"],
+        "manzanas": ["Manzana 222"],
+        "actualSituation": [
+            {
+                "description": "PARCELA 777",
+                "surface": "31,091.07",
+                "distrubution": ["Oeste","Noroeste","Norte", "Noreste", "Este", "Sureste","Sur", "Suroeste"],
+                "measures": ["Oeste","Noroeste","Norte", "Noreste", "Este", "Sureste","Sur", "Suroeste"],
+                "adjoining": ["Oeste","Noroeste","Norte", "Noreste", "Este", "Sureste","Sur", "Suroeste"]
+            },
+            {
+                "description": "PARCELA 777",
+                "surface": "31,091.07",
+                "distrubution": ["Oeste","Noroeste","Norte", "Noreste", "Este", "Sureste","Sur", "Suroeste"],
+                "measures": ["Oeste","Noroeste","Norte", "Noreste", "Este", "Sureste","Sur", "Suroeste"],
+                "adjoining": ["Oeste","Noroeste","Norte", "Noreste", "Este", "Sureste","Sur", "Suroeste"]
+            }
+        ],
+        "actualAuthorizedFS": [
+            {
+                "description": "PARCELA 777",
+                "surface": "31,091.07",
+                "distrubution": ["Oeste","Noroeste","Norte", "Noreste", "Este", "Sureste","Sur", "Suroeste"],
+                "measures": ["Oeste","Noroeste","Norte", "Noreste", "Este", "Sureste","Sur", "Suroeste"],
+                "adjoining": ["Oeste","Noroeste","Norte", "Noreste", "Este", "Sureste","Sur", "Suroeste"]
+            }
+        ]
+    },
     "createdAt": "2024-05-22T15:44:17.000Z",
     "updatedAt": "2024-05-22T15:44:17.000Z",
     "type": {
@@ -215,4 +274,12 @@ export function dateFormatFull(dateNumeric) {
         "Diciembre"];
     var date = dateNumeric.split('-');
     return `${date[0]} de ${months[parseInt(date[1])-1]} del ${date[2]}`;
+}
+
+export function arrayToText(array) {
+    if (array.length === 0 || !array) return '';
+    if (array.length === 1) return array[0];
+
+    const lastItem = array.pop();
+    return `${array.join(', ')} y ${lastItem}`;
 }

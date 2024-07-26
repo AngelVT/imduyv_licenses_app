@@ -61,6 +61,8 @@ export const getLicense = async (req, res) => {
             return;
         }
 
+        license.licenseSpecialData = JSON.parse(license.licenseSpecialData);
+
         requestLogger.get('Urban get request completed:\n    Requested record: %d', id);
 
         res.status(200).json({data: [license]});
@@ -279,7 +281,8 @@ export const createLicense = async (req, res) => {
             authorizedQuantity: authorizedQuantity,
             deliveryDate: deliveryDate,
             receiverName: receiverName,
-            observations: 'none'
+            observations: 'none',
+            licenseSpecialData: {}
         });
 
         requestLogger.create('Urban creation request completed:\n    Record: %s\n    Invoice: %s', newLicense.id, newLicense.fullInvoice)

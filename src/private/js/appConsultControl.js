@@ -210,7 +210,7 @@ function createUrbanResult(resObj, target) {
 
     resultContent.appendChild(field);
 
-    field = createResultField(resObj.id, 'Monto autorizado', 'authorizedQuantity', resObj.authorizedquantity, 'number');
+    field = createResultField(resObj.id, 'Monto autorizado', 'authorizedQuantity', resObj.authorizedQuantity, 'number');
 
     resultContent.appendChild(field);
 
