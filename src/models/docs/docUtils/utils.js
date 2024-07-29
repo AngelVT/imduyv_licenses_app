@@ -1,3 +1,6 @@
+import { __dirstorage } from "../../../paths.js";
+import path from "path";
+
 export const borderless = [false,false,false,false];
 
 export const formLayout = {
@@ -126,6 +129,46 @@ export function voidCell(span) {
     return {colSpan: span,border: borderless, text: ''}
 }
 
+export function loadResumeAreas(total, fullInvoice) {
+    let images = [];
+
+    for (let index = 1; index <= total; index++) {
+        images.push({
+            image: path.join(__dirstorage, 'assets', 'urban', fullInvoice.replaceAll('/','_'),`area_${index}.png`),
+            width: 550,
+            alignment: 'center',
+            margin: [0,0,0,5]
+        });
+    }
+    images.push({
+        text: [
+            {text: 'Nota: ', style: 'regularSmall', bold: true},
+            {text: 'La información descrita corresponde y es responsabilidad del solicitante.', style: 'regularSmall'}
+        ]
+    });
+    return images;
+}
+
+export function loadResumeLotes(total, fullInvoice) {
+    let images = [];
+
+    for (let index = 1; index <= total; index++) {
+        images.push({
+            image: path.join(__dirstorage, 'assets', 'urban', fullInvoice.replaceAll('/','_'),`lote_${index}.png`),
+            width: 550,
+            alignment: 'center',
+            margin: [0,0,0,5]
+        });
+    }
+    images.push({
+        text: [
+            {text: 'Nota: ', style: 'regularSmall', bold: true},
+            {text: 'La información descrita corresponde y es responsabilidad del solicitante.', style: 'regularSmall'}
+        ]
+    });
+    return images;
+}
+
 export const recordExample = {
     "id": 4,
     "fullInvoice": "IMDUyV_DLyCU_CRPC_001_2024",
@@ -143,7 +186,6 @@ export const recordExample = {
     "catastralKey": '1234567890123, 1234567890123, 1234567890123, 1234567890123',
     "licenseTerm": 1,
     "geoReference": "somegeo, anothergeo",
-    "zoneImage": "IMDUyV_DLyCU_C_001_2024_zone.png",
     "licenseZone": 1,
     "authorizedUse": 1,
     "businessLinePrint": "print business line",
@@ -164,7 +206,11 @@ export const recordExample = {
         "privateSurface": "617.35 m²",
         "commonSurface": "227.35 m²",
         "restrictions": ["Restricción 1", "Restricción 2","Restricción 3","Restricción 4"],
-        "conditions": ["Condicionante 1", "Condicionante 2","Condicionante 3","Condicionante 4"],
+        "conditions": [
+            "Copia simple de la escritura de protocolización de la constitución de Régimen de Propiedad en Condominio debidamente inscrita en el Registro Público de la Propiedad y del Comercio, en un plazo no mayor a 90 días hábiles, a partir de la firma de este.",
+            "Presentar copia de comprobante de pago de impuesto predial correspondiente al periodo enero - diciembre 2024, en un plazo no mayor a 30 días naturales.",
+            "En consideración del impacto urbano y a la sobredemanda de los servicios públicos en el municipio, se deberán de generar las medidas adecuadas de prevención, integración y/o compensación, para mitigar o contrarrestar los impactos o alteraciones causadas por la presente autorización. En razón de lo anterior deberá mediante convenio retribuir por medio del Instituto Municipal de Desarrollo Urbano y Vivienda, hasta el 30% del monto de la presente autorización.  Dicho convenio se deberá de formalizarse en un plazo de hasta 30 días hábiles contados a partir de la firma de éste."
+        ],
         "anexo":"some anexo",
         "parcela": "742, Z-3, P1/3",
         "propertyNo": "000001002885",
@@ -172,6 +218,8 @@ export const recordExample = {
         "authorizedFS": "divicion.png",
         "authorizationResume": "SE AUTORIZA LA FUSIÓN DE LOS PREDIOS IDENTIFICADOS COMO LAS PARCELAS 777, 775, 778, 786, 790, 791 Y LOTE 1 (PARCELA 924), RESULTANDO LA FUSIÓN CON UNA SUPERFICIE TOTAL DE: 161,100.70 M2.",
         "households": "5 viviendas",
+        "areasR":"2",
+        "lotesR":"3",
         "documents": [
             'Solicitud por escrito de Autorización de Régimen de Propiedad de Condómino.',
             'Copia de Identificación oficial del C. Elías Guarneros Ramírez, consistente en credencial de elector, con número de folio 1130008658056, expedida por Instituto Nacional Electoral.',
@@ -216,6 +264,8 @@ export const recordExample = {
             }
         ]
     },
+    "approvalStatus": false,
+	"active": true,
     "createdAt": "2024-05-22T15:44:17.000Z",
     "updatedAt": "2024-05-22T15:44:17.000Z",
     "type": {
@@ -277,9 +327,61 @@ export function dateFormatFull(dateNumeric) {
 }
 
 export function arrayToText(array) {
-    if (array.length === 0 || !array) return '';
-    if (array.length === 1) return array[0];
+    let newArray = Array.from(array);
+    if (newArray.length === 0 || !newArray) return '';
+    if (newArray.length === 1) return newArray[0];
 
-    const lastItem = array.pop();
-    return `${array.join(', ')} y ${lastItem}`;
+    const lastItem = newArray.pop();
+    return `${newArray.join(', ')} y ${lastItem}`;
+}
+
+export function signaturePresident(status) {
+    if(status) {
+        return {
+            image: path.join(__dirstorage, 'official', 'firmaB.png'),
+            fit: ['*',70],
+            alignment: 'center',
+            margin: [0,10,0,0]
+        }
+    }
+    return {
+        image: path.join(__dirstorage, 'official', 'firma_blank.png'),
+        fit: ['*',70],
+        alignment: 'center',
+        margin: [0,10,0,0]
+    }
+}
+
+export function signatureDirector(status) {
+    if(status) {
+        return {
+            image: path.join(__dirstorage, 'official', 'firma.png'),
+            fit: ['*',70],
+            alignment: 'center',
+            margin: [0,10,0,0]
+        }
+    }
+    return {
+        image: path.join(__dirstorage, 'official', 'firma_blank.png'),
+        fit: ['*',70],
+        alignment: 'center',
+        margin: [0,10,0,0]
+    }
+}
+
+export function signatureSeal(status) {
+    if(status) {
+        return {
+            image: path.join(__dirstorage, 'official', 'sello.png'),
+            fit: ['*',70],
+            alignment: 'center',
+            margin: [0,10,0,0]
+        }
+    }
+    return {
+        image: path.join(__dirstorage, 'official', 'sello_blank.png'),
+        fit: ['*',70],
+        alignment: 'center',
+        margin: [0,10,0,0]
+    }
 }

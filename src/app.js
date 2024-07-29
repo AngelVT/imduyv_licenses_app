@@ -47,8 +47,8 @@ app.use(cors({
 // * Stablish access to the web files
 app.use('/public', express.static(path.join(__dirname, 'public')));
 app.use('/private', verifyToken, express.static(path.join(__dirname, 'private')));
-app.use('/urbanStorage', verifyToken, express.static(path.join(__dirstorage, 'zones', 'urban')));
-app.use('/landUseStorage', verifyToken, express.static(path.join(__dirstorage, 'zones', 'land')));
+app.use('/urbanStorage', verifyToken, express.static(path.join(__dirstorage, 'assets', 'urban')));
+app.use('/landUseStorage', verifyToken, express.static(path.join(__dirstorage, 'assets', 'land')));
 
 // * Stablish routes
 app.use('/api/landuse', launuseRoutes);

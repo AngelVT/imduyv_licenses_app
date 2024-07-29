@@ -4,8 +4,8 @@ import { __dirstorage } from '../paths.js';
 import { consoleLogger, logger } from '../logger.js';
 
 export const setDefaultDirectories = async () => {
-    createDirectory('zones/land', "Land use")
-    createDirectory('zones/urban', "Urban")
+    createDirectory('assets/land', "Land use")
+    createDirectory('assets/urban', "Urban")
     createDirectory('official', "Officials")
 }
 

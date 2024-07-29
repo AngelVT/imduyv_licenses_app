@@ -142,10 +142,6 @@ export const LandUseLicense = pool.define(
             type: DataTypes.STRING,
             allowNull: false
         },
-        zoneImage: {
-            type: DataTypes.STRING,
-            allowNull: false
-        },
         licenseZone: {
             type: DataTypes.INTEGER,
             references: {
@@ -304,10 +300,6 @@ export const UrbanLicense = pool.define(
             allowNull: false
         },
         surfaceTotal: {
-            type: DataTypes.STRING,
-            allowNull: false
-        },
-        zoneImage: {
             type: DataTypes.STRING,
             allowNull: false
         },

@@ -157,7 +157,7 @@ function createUrbanResult(resObj, target) {
 
     resultContent.appendChild(field);
 
-    field = createResultField(resObj.id, 'Zonificación', 'zoneIMG', resObj.zoneImage, 'file');
+    field = createResultField(resObj.id, 'Zonificación', 'zoneIMG', resObj.fullInvoice, 'file');
 
     resultContent.appendChild(field);
 
@@ -224,7 +224,7 @@ function createUrbanResult(resObj, target) {
 
     field = document.createElement('img');
     field.setAttribute('alt', 'Zonificación');
-    field.setAttribute('src', `/urbanStorage/${resObj.zoneImage}`);
+    field.setAttribute('src', `/urbanStorage/${resObj.fullInvoice}/zone.png`);
     field.setAttribute('class', 'urban-result-img');
 
     resultContent.appendChild(field);
@@ -310,7 +310,7 @@ function createLandResult(resObj, target) {
 
     resultContent.appendChild(field);
 
-    field = createResultField(resObj.id, 'Zonificación', 'zoneIMG', resObj.zoneImage, 'file');
+    field = createResultField(resObj.id, 'Zonificación', 'zoneIMG', resObj.fullInvoice, 'file');
 
     resultContent.appendChild(field);
 
@@ -459,7 +459,7 @@ function createLandResult(resObj, target) {
 
     field = document.createElement('img');
     field.setAttribute('alt', 'Zonificación');
-    field.setAttribute('src', `/landUseStorage/${resObj.zoneImage}`);
+    field.setAttribute('src', `/landUseStorage/${resObj.fullInvoice}/zone.png`);
     field.setAttribute('class', 'land-result-img');
 
     resultContent.appendChild(field);

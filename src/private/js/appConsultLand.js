@@ -220,7 +220,7 @@ async function updateResultField(form, id) {
 
                 if (form.querySelector('.input-file')) {
                     let img = document.querySelector(`#result_fields_${id}`).querySelector('img');
-                    img.setAttribute('src', `/landUseStorage/${form.querySelector('input[type=hidden]').value}?${new Date().getTime()}`);
+                    img.setAttribute('src', `/landUseStorage/${form.querySelector('input[type=hidden]').value}/zone.png?${new Date().getTime()}`);
                 }
                 
                 alert(`Cambios guardados exitosamente para el registro: ${registro}`);

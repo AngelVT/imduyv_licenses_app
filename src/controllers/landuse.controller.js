@@ -335,8 +335,6 @@ export const createLicense = async (req, res) => {
             res.status(400).json({ msg: "Invalid information provided." });
             return;
         }
-
-        const fileName = invoice.lcID + '_zone.png';
         
         const newLicense = await LandUseLicense.create({
             fullInvoice: invoice.lcID,
@@ -353,7 +351,6 @@ export const createLicense = async (req, res) => {
             catastralKey: catastralKey,
             licenseTerm: term,
             geoReference: georeference,
-            zoneImage: fileName,
             licenseZone: zone,
             authorizedUse: authorizedUse,
             businessLinePrint: businessLinePrint,
@@ -370,7 +367,7 @@ export const createLicense = async (req, res) => {
             inspector: inspector.toLowerCase()
         });
 
-        const destination = path.join(__dirstorage, 'zones', 'land',fileName);
+        const destination = path.join(__dirstorage, 'assets', 'land', invoice.lcID, 'zone.png');
 
         fs.writeFile(destination, file.buffer, err => {
             if (err) {
@@ -466,9 +463,7 @@ export const updateLicense = async (req, res) => {
         });
 
         if(file) {
-            const fileName = modifiedLicense.zoneImage;
-
-            const destination = path.join(__dirstorage, 'zones', 'land',fileName);
+            const destination = path.join(__dirstorage, 'assets', 'land', modifiedLicense.fullInvoice, 'zone.png');
 
             fs.writeFile(destination, file.buffer, err => {
                 if (err) {

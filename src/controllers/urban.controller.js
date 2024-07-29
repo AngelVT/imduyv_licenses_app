@@ -249,16 +249,6 @@ export const createLicense = async (req, res) => {
             return;
         }
 
-        const fileName = invoice.lcID + '_zone.png';
-
-        const destination = path.join(__dirstorage, 'zones', 'urban',fileName);
-
-        fs.writeFile(destination, file.buffer, err => {
-            if (err) {
-                console.log(err);
-            }
-        });
-
         const newLicense = await UrbanLicense.create({
             fullInvoice: invoice.lcID,
             invoice: invoice.invoice,
@@ -272,7 +262,6 @@ export const createLicense = async (req, res) => {
             colony: colony,
             catastralKey: catastralKey,
             surfaceTotal: surface,
-            zoneImage: fileName,
             licenseZone: zone,
             expeditionDate: expeditionDate,
             collectionOrder: collectionOrder,
@@ -283,6 +272,14 @@ export const createLicense = async (req, res) => {
             receiverName: receiverName,
             observations: 'none',
             licenseSpecialData: {}
+        });
+
+        const destination = path.join(__dirstorage, 'assets', 'urban', invoice.lcID, 'zone.png');
+
+        fs.writeFile(destination, file.buffer, err => {
+            if (err) {
+                console.log(err);
+            }
         });
 
         requestLogger.create('Urban creation request completed:\n    Record: %s\n    Invoice: %s', newLicense.id, newLicense.fullInvoice)
@@ -355,9 +352,7 @@ export const updateLicense = async (req, res) => {
         });
 
         if(file) {
-            const fileName = modifiedLicense.zoneImage;
-
-            const destination = path.join(__dirstorage, 'zones', 'urban',fileName);
+            const destination = path.join(__dirstorage, 'assets', 'urban', modifiedLicense.fullInvoice, 'zone.png');
 
             fs.writeFile(destination, file.buffer, err => {
                 if (err) {
