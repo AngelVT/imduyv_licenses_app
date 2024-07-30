@@ -101,80 +101,7 @@ export function generateUrbanLFUS(lcDBObj) {
                                 border: [true, true, true, false],
                                 table: {
                                     widths: ['*','*','*','*'],
-                                    body: [
-                                        [
-                                            {
-                                                text: 'SITUACIÓN ACTUAL',
-                                                colSpan: 4,
-                                                style: 'headST',
-                                                border: docUtils.borderless
-                                            },{},{},{}
-                                        ],
-                                        [
-                                            {text: 'DESCRIPCIÓN', style: ['boldCenter', 'regularSmall']},
-                                            {text: 'SUPERFICIE', style: ['boldCenter', 'regularSmall']},
-                                            {text: 'MEDIDAS', style: ['boldCenter', 'regularSmall']},
-                                            {text: 'COLINDANCIAS', style: ['boldCenter', 'regularSmall']}
-                                        ],
-                                        [
-                                            {text: 'Lote 7 No.14', style: ['center', 'regularSmall']},
-                                            {text: '90.00 m2', style: ['center', 'regularSmall']},
-                                            {
-                                                colSpan: 2,
-                                                table: {
-                                                    widths: ['*','*'],
-                                                    body: [
-                                                        [
-                                                            {text: 'AL NORTE: 15.00 m', style: 'regularSmall', border: [false, false, false, false]},
-                                                            {text: 'COLINDA CON LOTE 8', style: 'regularSmall', border: [false, false, false, false]}
-                                                        ],
-                                                        [
-                                                            {text: 'AL SUR: 15.00 m', style: 'regularSmall'},
-                                                            {text: 'COLINDA CON LOTE 6', style: 'regularSmall'}
-                                                        ],
-                                                        [
-                                                            {text: 'AL ORIENTE: 12.00 m', style: 'regularSmall'},
-                                                            {text: 'COLINDA CON LOTE 50', style: 'regularSmall'}
-                                                        ],
-                                                        [
-                                                            {text: 'AL PONIENTE: 12.00 m', style: 'regularSmall', border: [false, false, false, false]},
-                                                            {text: 'COLINDA CON CALLE PORVENIR', style: 'regularSmall', border: [false, false, false, false]}
-                                                        ]
-                                                    ]
-                                                },layout: docUtils.subTable
-                                            },
-                                            {}
-                                        ],
-                                        [
-                                            {text: 'Lote 7 No.14 BIS', style: ['center', 'regularSmall']},
-                                            {text: '90.00 m2', style: ['center', 'regularSmall']},
-                                            {
-                                                colSpan: 2,
-                                                table: {
-                                                    widths: ['*','*'],
-                                                    body: [
-                                                        [
-                                                            {text: 'AL NORTE: 15.00 m', style: 'regularSmall', border: [false, false, false, false]},
-                                                            {text: 'COLINDA CON LOTE 8', style: 'regularSmall', border: [false, false, false, false]}
-                                                        ],
-                                                        [
-                                                            {text: 'AL SUR: 15.00 m', style: 'regularSmall'},
-                                                            {text: 'COLINDA CON LOTE 6', style: 'regularSmall'}
-                                                        ],
-                                                        [
-                                                            {text: 'AL ORIENTE: 12.00 m', style: 'regularSmall'},
-                                                            {text: 'COLINDA CON LOTE 50', style: 'regularSmall'}
-                                                        ],
-                                                        [
-                                                            {text: 'AL PONIENTE: 12.00 m', style: 'regularSmall', border: [false, false, false, false]},
-                                                            {text: 'COLINDA CON CALLE PORVENIR', style: 'regularSmall', border: [false, false, false, false]}
-                                                        ]
-                                                    ]
-                                                },layout: docUtils.subTable
-                                            },
-                                            {}
-                                        ]
-                                    ]
+                                    body: docUtils.generateDSMCTable(lcDBObj.licenseSpecialData.actualSituation, 'SITUACIÓN ACTUAL')
                                 },layout: docUtils.subTable
                             }
                         ],
@@ -182,8 +109,8 @@ export function generateUrbanLFUS(lcDBObj) {
                             {
                                 border: [true, false, true,true],
                                 text: [
-                                    {text: 'Nota: ', style: 'regularSmall', bold: true},
-                                    {text: 'La información descrita corresponde y es responsabilidad del solicitante.', style: 'regularSmall'}
+                                    {text: 'Nota: ', style: 'regular', bold: true},
+                                    {text: 'La información descrita corresponde y es responsabilidad del solicitante.', style: 'regular'}
                                 ]
                             }
                         ]
@@ -204,60 +131,16 @@ export function generateUrbanLFUS(lcDBObj) {
                                 border: [true, true, true, false],
                                 table: {
                                     widths: ['*','*','*','*'],
-                                    body: [
-                                        [
-                                            {
-                                                text: 'SITUACIÓN ACTUAL',
-                                                colSpan: 4,
-                                                style: 'headST',
-                                                border: docUtils.borderless
-                                            },{},{},{}
-                                        ],
-                                        [
-                                            {text: 'DESCRIPCIÓN', style: ['boldCenter', 'regularSmall']},
-                                            {text: 'SUPERFICIE', style: ['boldCenter', 'regularSmall']},
-                                            {text: 'MEDIDAS', style: ['boldCenter', 'regularSmall']},
-                                            {text: 'COLINDANCIAS', style: ['boldCenter', 'regularSmall']}
-                                        ],
-                                        [
-                                            {text: 'Lote 7', style: ['center', 'regularSmall']},
-                                            {text: '180.00 m2', style: ['center', 'regularSmall']},
-                                            {
-                                                colSpan: 2,
-                                                table: {
-                                                    widths: ['*','*'],
-                                                    body: [
-                                                        [
-                                                            {text: 'AL NORTE: 15.00 m', style: 'regularSmall', border: [false, false, false, false]},
-                                                            {text: 'COLINDA CON LOTE 8', style: 'regularSmall', border: [false, false, false, false]}
-                                                        ],
-                                                        [
-                                                            {text: 'AL SUR: 15.00 m', style: 'regularSmall'},
-                                                            {text: 'COLINDA CON LOTE 6', style: 'regularSmall'}
-                                                        ],
-                                                        [
-                                                            {text: 'AL ORIENTE: 12.00 m', style: 'regularSmall'},
-                                                            {text: 'COLINDA CON LOTE 50', style: 'regularSmall'}
-                                                        ],
-                                                        [
-                                                            {text: 'AL PONIENTE: 12.00 m', style: 'regularSmall', border: [false, false, false, false]},
-                                                            {text: 'COLINDA CON CALLE PORVENIR', style: 'regularSmall', border: [false, false, false, false]}
-                                                        ]
-                                                    ]
-                                                },layout: docUtils.subTable
-                                            },
-                                            {}
-                                        ]
-                                    ]
+                                    body: docUtils.generateDSMCTable(lcDBObj.licenseSpecialData.actualAuthorizedFS, 'FUSIÓN QUE SE AUTORIZA')
                                 },layout: docUtils.subTable
                             }
                         ],
                         [
                             {
                                 border: [true, false, true, false],
-                                text: `SE AUTORIZA LA FUSIÓN DE LOS PREDIOS IDENTIFICADOS COMO LAS PARCELAS 777, 775, 778, 786, 790, 791 Y LOTE 1 (PARCELA 924), RESULTANDO LA FUSIÓN CON UNA SUPERFICIE TOTAL DE: 161,100.70 M2.`, style: 'regular',
-                                fontSize: 5,
+                                text: lcDBObj.licenseSpecialData.authorizationResume,
                                 alignment: 'center',
+                                fontSize: 6,
                                 bold: true
                             }
                         ],
@@ -265,8 +148,8 @@ export function generateUrbanLFUS(lcDBObj) {
                             {
                                 border: [true, false, true,true],
                                 text: [
-                                    {text: 'Nota: ', style: 'regularSmall', bold: true},
-                                    {text: 'La información descrita corresponde y es responsabilidad del solicitante.', style: 'regularSmall'}
+                                    {text: 'Nota: ', style: 'regular', bold: true},
+                                    {text: 'La información descrita corresponde y es responsabilidad del solicitante.', style: 'regular'}
                                 ]
                             }
                         ]
@@ -345,36 +228,41 @@ export function generateUrbanLFUS(lcDBObj) {
                     },
                     {
                         columns: [
-                            {
-                                image: path.join(__dirstorage, 'official', 'firma.png'),
-                                fit: ['*',70],
-                                alignment: 'center',
-                                margin: [0,10,0,0]
+                            {width: 30,
+                                text: ''
                             },
+                            docUtils.signaturePresident(lcDBObj.approvalStatus),
+                            docUtils.signatureSeal(lcDBObj.approvalStatus),
+                            docUtils.signatureDirector(lcDBObj.approvalStatus),
                             {
-                                image: path.join(__dirstorage, 'official', 'sello.png'),
-                                fit: ['*',82],
-                                alignment: 'center'
-                            },
-                            {
-                                image: path.join(__dirstorage, 'official', 'firma.png'),
-                                fit: ['*',70],
-                                alignment: 'center',
-                                margin: [0,10,0,0]
+                                width: 30,
+                                svg: `
+                                    <svg width="30" height="84">
+                                        <text x="16" y="42" transform="rotate(-90, 15, 42)" text-anchor="middle" font-size="5" font-weight="bold">
+                                            <tspan x="16" dy="1.2em">${lcDBObj.fullInvoice}</tspan>
+                                            <tspan x="16" dy="1.2em">Pagina 1 de 2</tspan>
+                                        </text>
+                                    </svg>`,
+                                alignment: 'left'
                             }
                         ]
                     },
                     {
                         columns: [
+                            {width: 5,
+                                text: ''},
                             {
                             text: 'M.A.P.P. SUSANA ARACELI ÁNGELES QUEZADA\nPRESIDENTA MUNICIPAL CONSTITUCIONAL\nDE TIZAYUCA, HIDALGO.',
                             style: 'labelTC'
                         },
-                        {},
+                        {width: 140,
+                            text: ''},
                         {
                             text: 'L.D. JORGE LUIS MARTÍNEZ ÁNGELES.\nDIRECTOR GENERAL DEL INSTITUTO MUNICIPAL\nDE DESARROLLO URBANO Y VIVIENDA.',
                             style: 'labelTC'
-                        }
+                        },
+                        {width: 5,
+                            text: ''}
                         ]
                     }
                 ]
@@ -392,7 +280,7 @@ export function generateUrbanLFUS(lcDBObj) {
                             {
                                 border: [true, true, true,false],
                                 /*text: 'IMG'*/
-                                image: path.join(__dirstorage, 'zones', 'land', lcDBObj.zoneImage),
+                                image: path.join(__dirstorage, 'assets', 'urban', lcDBObj.fullInvoice.replaceAll('/',"_"), 'zone.png'),
                                 fit: ['*',285],
                                 alignment: 'center'
                             }
@@ -401,8 +289,8 @@ export function generateUrbanLFUS(lcDBObj) {
                             {
                                 border: [true, false, true,true],
                                 text: [
-                                    {text: 'Nota: ', style: 'regularSmall', bold: true},
-                                    {text: 'La información descrita corresponde y es responsabilidad del solicitante.', style: 'regularSmall'}
+                                    {text: 'Nota: ', style: 'regular', bold: true},
+                                    {text: 'La información descrita corresponde y es responsabilidad del solicitante.', style: 'regular'}
                                 ]
                             }
                         ]
@@ -444,6 +332,16 @@ export function generateUrbanLFUS(lcDBObj) {
                         fontSize: 6
                     }
                 ]
+            },
+            {
+                svg: `
+                <svg width="30" height="84">
+                    <text x="16" y="42" transform="rotate(-90, 15, 42)" text-anchor="middle" font-size="5" font-weight="bold">
+                        <tspan x="16" dy="1.2em">${lcDBObj.fullInvoice}</tspan>
+                        <tspan x="16" dy="1.2em">Pagina 2 de 2</tspan>
+                    </text>
+                </svg>`,
+                alignment: 'right'
             }
         ]
     };

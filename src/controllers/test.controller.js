@@ -24,7 +24,7 @@ import { generateUrbanCRPC } from "../models/docs/urban/licenciaCRPC.js";
 
 export const test = async (req, res) => {
     try {
-        const def = generateUrbanCRPC(docUtils.recordExample);
+        const def = generateLandUseL(docUtils.recordExample);
 
         const pdfDoc = await printerPDF.createPdfKitDocument(def);
 

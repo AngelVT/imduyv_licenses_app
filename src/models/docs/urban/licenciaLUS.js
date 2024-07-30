@@ -14,7 +14,7 @@ export function generateUrbanLUS(lcDBObj) {
                 text: "\"2024, año de Felipe Carrillo Puerto, Benemérito, Revolucionario y defensor del Mayab\"",
                 alignment: 'center',
                 fontSize: 8,
-                margin: [0,0,0,10]
+                margin: [0, 0, 0, 10],
             },
             {
                 text: "LICENCIA DE USO DE SUELO",
@@ -162,9 +162,9 @@ export function generateUrbanLUS(lcDBObj) {
                             {text: "%", style: 'labelTC'}
                         ],
                         [
-                            {text: "180.00 m2", style: ['center', 'regular']},
+                            {text: lcDBObj.surfaceTotal, style: ['center', 'regular']},
                             {text: lcDBObj.zone.licenseZone, style: ['center', 'regular']},
-                            {text: "100", style: ['center', 'regular']}
+                            {text: lcDBObj.licenseSpecialData.usePercent, style: ['center', 'regular']}
                         ]
                     ]
                 },
@@ -206,36 +206,41 @@ export function generateUrbanLUS(lcDBObj) {
                     },
                     {
                         columns: [
-                            {
-                                image: path.join(__dirstorage, 'official', 'firma.png'),
-                                fit: ['*',70],
-                                alignment: 'center',
-                                margin: [0,10,0,0]
+                            {width: 30,
+                                text: ''
                             },
+                            docUtils.signaturePresident(lcDBObj.approvalStatus),
+                            docUtils.signatureSeal(lcDBObj.approvalStatus),
+                            docUtils.signatureDirector(lcDBObj.approvalStatus),
                             {
-                                image: path.join(__dirstorage, 'official', 'sello.png'),
-                                fit: ['*',82],
-                                alignment: 'center'
-                            },
-                            {
-                                image: path.join(__dirstorage, 'official', 'firma.png'),
-                                fit: ['*',70],
-                                alignment: 'center',
-                                margin: [0,10,0,0]
+                                width: 30,
+                                svg: `
+                                    <svg width="30" height="84">
+                                        <text x="16" y="42" transform="rotate(-90, 15, 42)" text-anchor="middle" font-size="5" font-weight="bold">
+                                            <tspan x="16" dy="1.2em">${lcDBObj.fullInvoice}</tspan>
+                                            <tspan x="16" dy="1.2em">Pagina 1 de 1</tspan>
+                                        </text>
+                                    </svg>`,
+                                alignment: 'left'
                             }
                         ]
                     },
                     {
                         columns: [
+                            {width: 5,
+                                text: ''},
                             {
                             text: 'M.A.P.P. SUSANA ARACELI ÁNGELES QUEZADA\nPRESIDENTA MUNICIPAL CONSTITUCIONAL\nDE TIZAYUCA, HIDALGO.',
                             style: 'labelTC'
                         },
-                        {},
+                        {width: 140,
+                            text: ''},
                         {
                             text: 'L.D. JORGE LUIS MARTÍNEZ ÁNGELES.\nDIRECTOR GENERAL DEL INSTITUTO MUNICIPAL\nDE DESARROLLO URBANO Y VIVIENDA.',
                             style: 'labelTC'
-                        }
+                        },
+                        {width: 5,
+                            text: ''}
                         ]
                     }
                 ]
@@ -253,7 +258,7 @@ export function generateUrbanLUS(lcDBObj) {
                             {
                                 /*text: 'IMG'*/
                                 border: docUtils.borderless,
-                                image: path.join(__dirstorage, 'zones', 'land', lcDBObj.zoneImage),
+                                image: path.join(__dirstorage, 'assets', 'urban', lcDBObj.fullInvoice.replaceAll('/','_'), 'zone.png'),
                                 fit: ['*',288],
                                 alignment: 'center'
                             }

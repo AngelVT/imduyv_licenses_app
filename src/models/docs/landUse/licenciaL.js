@@ -175,7 +175,7 @@ export function generateLandUseL(lcDBObj) {
                                 table: {
                                     widths: ['*'],
                                     body: [
-                                        [{text: "La presente no autoriza acciones urbanas que generen impacto social en su entorno inmediato conforme a lo establecido en el artículo 139 de la Ley de Asentamientos Humanos, Desarrollo Urbano y Ordenamiento Territorial del Estado de Hidalgo y al artículo 61 del Reglamento de la Ley de Asentamientos Humanos, Desarrollo Urbano y Ordenamiento Territorial del Estado de Hidalgo debiendo ser compatibles o permitidos los giros de acuerdo a la matriz de compatibilidad del Programa Municipal de Desarrollo Urbano y Ordenamiento Territorial del Municipio de Tizayuca, Estado de Hidalgo.\nAcatar la normativa y restricciones de la zonificación secundaria que determina el documento técnico del Programa Municipal de Desarrollo Urbano y Ordenamiento Territorial de Tizayuca. Los predios que tengan como frente un corredor urbano, podrán adoptar las características propias del corredor, siempre y cuando su acceso sea por el corredor. Deberá tramitar en su caso, la licencia de construcción en la Secretaría de Obras Públicas, así como la licencia de funcionamiento en la Dirección de Reglamentos, Espectáculos y Panteones, pertenecientes al Municipio de Tizayuca, Hidalgo. Dar cumplimiento a lo dispuesto en los artículos 80 y 81 de la Ley de Protección Civil del Estado de Hidalgo. El Instituto Municipal de Desarrollo Urbano y Vivienda se reserva el derecho de revocar la presente, en caso de incumplimiento a cualquiera de las condiciones establecidas en la misma.", fontSize: 6, border: docUtils.borderless, alignment: 'justify'}]
+                                        [{text: lcDBObj.licenseSpecialData.restrictions, fontSize: 6, border: docUtils.borderless, alignment: 'justify'}]
                                     ]
                                 },
                                 layout: docUtils.formLayout
@@ -232,19 +232,10 @@ export function generateLandUseL(lcDBObj) {
                             body: [
                                 [
                                     {},
-                                    {
-                                        image: path.join(__dirstorage, 'official', 'firma.png'),
-                                        fit: ['*',70],
-                                        alignment: 'center',
-                                        margin: [0,10,0,0]
-                                    },
+                                    docUtils.signatureDirector(lcDBObj.approvalStatus),
                                     {
                                         columns: [
-                                            {
-                                                image: path.join(__dirstorage, 'official', 'sello.png'),
-                                                fit: ['*',82],
-                                                alignment: 'left'
-                                            },
+                                            docUtils.signatureSeal(lcDBObj.approvalStatus),
                                             {
                                                 svg: `
                                                     <svg width="30" height="84">
@@ -281,8 +272,8 @@ export function generateLandUseL(lcDBObj) {
                             {
                                 /*text: 'IMG'*/
                                 border: docUtils.borderless,
-                                image: path.join(__dirstorage, 'zones', 'land', lcDBObj.zoneImage),
-                                fit: ['*',288],
+                                image: path.join(__dirstorage, 'assets', 'land', lcDBObj.fullInvoice.replaceAll('/','_'), 'zone.png'),
+                                width: 586,
                                 alignment: 'center'
                             }
                         ]
@@ -296,7 +287,7 @@ export function generateLandUseL(lcDBObj) {
                     { text: 'Que el solicitante con los documentos anexados a su escrito inicial ha dado cumplimiento con los requisitos técnicos y legales que obran en el expediente radicado en este Instituto Municipal de Desarrollo Urbano y Vivienda, acredita la propiedad del inmueble motivo de la solicitud de Constancia de Uso de Suelo, así como de la visita de inspección de campo, misma que permite la localización y ubicación del inmueble materia de este trámite. ', fontSize: 7 , margin: [0,0,0,25],alignment: 'justify' },
                     { text: `El C. ${lcDBObj.inspector}`, fontSize: 7 },
                     { text: 'En su carácter de personal técnico adscrito al referido Instituto, realizó visita de inspección en campo al inmueble del que solicita la Constancia de Uso de Suelo, emitiendo opinión técnica positiva. ', fontSize: 7 , margin: [0,0,0,15], alignment: 'justify' },
-                    { text: 'Anexo: ', style: 'labelT' }
+                    { text: `Anexo: ${lcDBObj.licenseSpecialData.anexo}`, style: 'labelT' }
                 ]
             },
             {
@@ -313,16 +304,7 @@ export function generateLandUseL(lcDBObj) {
                                         [
                                             {
                                                 type: 'lower-alpha',
-                                                ol: [
-                                                    'Por lo que hace al uso de suelo HABITACIONAL, una vez autorizado, deberá ser permitido con base en la matriz de compatibilidad del Programa Municipal de Desarrollo Urbano y Ordenamiento Territorial de Tizayuca, Hidalgo.',
-                                                    'Por lo que hace al uso de suelo HABITACIONAL, una vez autorizado, deberá ser permitido con base en la matriz de compatibilidad del Programa Municipal de Desarrollo Urbano y Ordenamiento Territorial de Tizayuca, Hidalgo.',
-                                                    'Se prohíbe la colocación de cualquier publicidad fuera y frente del predio.',
-                                                    'Deberá destinar un cajón de estacionamiento por cada 30 m2 de construcción.',
-                                                    'No se deberá ocupar la banqueta (vía pública) para realizar maniobras en su proceso constructivo.',
-                                                    'Se deberá dar cumplimiento a las Normas Oficiales Mexicanas, según corresponda.',
-                                                    'En todas las puertas que conduzcan al exterior habrá letreros con la palabra "salida" y flechas luminosas indicando la dirección de las salidas, las letras tendrán una altura mínima de quince centímetros.',
-                                                    'Deberá tramitar dictamen ante la Dirección de Protección Civil y Bomberos del Municipio de Tizayuca, Hidalgo, así como atender todas las recomendaciones que en materia de riesgos se le efectúen; para poder realizar la actualización de su licencia tendra que presentar dicho dictamen vigente.'
-                                                ],
+                                                ol: lcDBObj.licenseSpecialData.conditions,
                                                 fontSize: 6,
                                                 border: docUtils.borderless,
                                                 alignment: 'justify'

@@ -4,3 +4,4 @@
 .env
 /src/certificate
 tests.json
+/.vs

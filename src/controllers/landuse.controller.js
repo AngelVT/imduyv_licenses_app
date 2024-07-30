@@ -368,11 +368,18 @@ export const createLicense = async (req, res) => {
         });
 
         const destination = path.join(__dirstorage, 'assets', 'land', invoice.lcID, 'zone.png');
+        const directory = path.dirname(destination);
 
-        fs.writeFile(destination, file.buffer, err => {
+        fs.mkdir(directory, { recursive: true }, (err) => {
             if (err) {
-                console.log(err);
+                return console.error(err);
             }
+
+            fs.writeFile(destination, file.buffer, (err) => {
+                if (err) {
+                    return console.error(err);
+                }
+            });
         });
 
         requestLogger.create('Land use creation request completed:\n    Record: %s\n    Invoice: %s', newLicense.id, newLicense.fullInvoice);

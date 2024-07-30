@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import { __dirstorage } from '../paths.js';
-import { consoleLogger, logger } from '../logger.js';
+import { consoleLogger, logger, requestLogger } from '../logger.js';
 
 export const setDefaultDirectories = async () => {
     createDirectory('assets/land', "Land use")

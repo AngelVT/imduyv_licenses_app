@@ -122,7 +122,7 @@ export function generateUrbanC(lcDBObj) {
                                             docUtils.field(lcDBObj.term.licenseTerm, docUtils.borderless, 3, 'center', 7),
                                             {},{},
                                             {text: 'P.C.U.: ', style: 'labelTC', border: docUtils.borderless},
-                                            docUtils.field("U3", docUtils.borderless, 3, 'center', 7),
+                                            docUtils.field(lcDBObj.licenseSpecialData.PCU, docUtils.borderless, 3, 'center', 7),
                                             {},{},
                                             {text: 'Clave: ', style: 'labelTC', border: docUtils.borderless},
                                             docUtils.field(lcDBObj.zone.licenseKey, docUtils.borderless, 3, 'center',7),
@@ -161,7 +161,7 @@ export function generateUrbanC(lcDBObj) {
                                     {
                                         /*text: 'IMG'*/
                                         border: docUtils.borderless,
-                                        image: path.join(__dirstorage, 'zones', 'land', lcDBObj.zoneImage),
+                                        image: path.join(__dirstorage, 'assets', 'urban', lcDBObj.fullInvoice.replaceAll('/','_'), 'zone.png'),
                                         fit: ['*',143],
                                         alignment: 'center'
                                     }
@@ -239,20 +239,20 @@ export function generateUrbanC(lcDBObj) {
                                         text: 'Elaboró: A.H.C.\nRevisó: E.H.A.',
                                         fontSize: 6
                                     },
-                                    {
-                                        image: path.join(__dirstorage, 'official', 'firma.png'),
-                                        fit: ['*',70],
-                                        alignment: 'center',
-                                        margin: [0,10,0,0]
-                                    },
+                                    docUtils.signatureDirector(lcDBObj.approvalStatus),
                                     {
                                         columns: [
+                                            docUtils.signatureSeal(lcDBObj.approvalStatus),
                                             {
-                                                image: path.join(__dirstorage, 'official', 'sello.png'),
-                                                fit: ['*',82],
-                                                alignment: 'left'
-                                            },
-                                            {}
+                                                svg: `
+                                                    <svg width="30" height="84">
+                                                        <text x="16" y="42" transform="rotate(-90, 15, 42)" text-anchor="middle" font-size="5" font-weight="bold">
+                                                            <tspan x="16" dy="1.2em">${lcDBObj.fullInvoice}</tspan>
+                                                            <tspan x="16" dy="1.2em">Pagina 1 de 1</tspan>
+                                                        </text>
+                                                    </svg>`,
+                                                alignment: 'right'
+                                            }
                                         ]
                                     }
                                 ],

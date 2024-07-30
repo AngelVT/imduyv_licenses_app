@@ -176,7 +176,7 @@ export function generateLandUseDP(lcDBObj) {
                                                     {
                                                         text: [
                                                             {text: 'En virtud de que la parcela '},
-                                                            {text: '742 Z-3, P1/3', bold: true},
+                                                            {text: lcDBObj.licenseSpecialData.parcela, bold: true},
                                                             {text: ', del Ejido de Tizayuca, Hidalgo, de acuerdo al Plano 03PE01 - Políticas Territoriales, Plano 03PE10 - Etapas de Desarrollo, 03PE09-Zonificación Secundaria, se encuentra dentro del polígono identificado con un uso de suelo '},
                                                             {text: lcDBObj.zone.licenseZone, bold: true},
                                                             {text: `, "${lcDBObj.zone.licenseKey}"`, bold: true},
@@ -224,9 +224,9 @@ export function generateLandUseDP(lcDBObj) {
                                                             {text: 'Este Instituto '},
                                                             {text: 'NO', bold: true},
                                                             {text: ' ejercerá el DERECHO DE PREFERENCIA, respecto de la parcela '},
-                                                            {text: '742, Z-3, P1/3', bold: true},
+                                                            {text: lcDBObj.licenseSpecialData.parcela, bold: true},
                                                             {text: ' del ejido de Tizayuca, Hidalgo, la cual ampara con el título de propiedad '},
-                                                            {text: '00000100288', bold: true},
+                                                            {text: lcDBObj.licenseSpecialData.propertyNo, bold: true},
                                                             {text: ' de fecha 12 de abril del 2018.\n\n'}
                                                         ]
                                                     },
@@ -283,19 +283,10 @@ export function generateLandUseDP(lcDBObj) {
                             body: [
                                 [
                                     {},
-                                    {
-                                        image: path.join(__dirstorage, 'official', 'firma.png'),
-                                        fit: ['*',70],
-                                        alignment: 'center',
-                                        margin: [0,10,0,0]
-                                    },
+                                    docUtils.signatureDirector(lcDBObj.approvalStatus),
                                     {
                                         columns: [
-                                            {
-                                                image: path.join(__dirstorage, 'official', 'sello.png'),
-                                                fit: ['*',82],
-                                                alignment: 'left'
-                                            },
+                                            docUtils.signatureSeal(lcDBObj.approvalStatus),
                                             {
                                                 svg: `
                                                     <svg width="30" height="84">
@@ -332,8 +323,8 @@ export function generateLandUseDP(lcDBObj) {
                             {
                                 /*text: 'IMG'*/
                                 border: docUtils.borderless,
-                                image: path.join(__dirstorage, 'zones', 'land', lcDBObj.zoneImage),
-                                fit: ['*',288],
+                                image: path.join(__dirstorage, 'assets', 'land', lcDBObj.fullInvoice.replaceAll('/','_'), 'zone.png'),
+                                width: 586,
                                 alignment: 'center'
                             }
                         ]
@@ -347,7 +338,7 @@ export function generateLandUseDP(lcDBObj) {
                     { text: 'Que el solicitante con los documentos anexados a su escrito inicial ha dado cumplimiento con los requisitos técnicos y legales que obran en el expediente radicado en este Instituto Municipal de Desarrollo Urbano y Vivienda, acredita la propiedad del inmueble motivo de la solicitud de Constancia de Uso de Suelo, así como de la visita de inspección de campo, misma que permite la localización y ubicación del inmueble materia de este trámite. ', fontSize: 7 , margin: [0,0,0,25],alignment: 'justify' },
                     { text: `El C. ${lcDBObj.inspector}`, fontSize: 7 },
                     { text: 'En su carácter de personal técnico adscrito al referido Instituto, realizó visita de inspección en campo al inmueble del que solicita la Constancia de Uso de Suelo, emitiendo opinión técnica positiva. ', fontSize: 7 , margin: [0,0,0,15], alignment: 'justify' },
-                    { text: 'Anexo: ', style: 'labelT' }
+                    { text: `Anexo: ${lcDBObj.licenseSpecialData.anexo}`, style: 'labelT' }
                 ]
             },
             {

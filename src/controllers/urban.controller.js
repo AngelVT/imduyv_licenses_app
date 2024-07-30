@@ -8,7 +8,6 @@ import { consoleLogger, requestLogger } from "../logger.js";
 import { UrbanLicense, UrbanType, Zone } from '../models/License.models.js';
 import { validate, validUrbanCriteria } from '../libs/validate.js';
 
-
 export const getLicenses = async (req, res) => {
     try {
         const licenses = await UrbanLicense.findAll({
@@ -275,11 +274,18 @@ export const createLicense = async (req, res) => {
         });
 
         const destination = path.join(__dirstorage, 'assets', 'urban', invoice.lcID, 'zone.png');
+        const directory = path.dirname(destination);
 
-        fs.writeFile(destination, file.buffer, err => {
+        fs.mkdir(directory, { recursive: true }, (err) => {
             if (err) {
-                console.log(err);
+                return console.error(err);
             }
+
+            fs.writeFile(destination, file.buffer, (err) => {
+                if (err) {
+                    return console.error(err);
+                }
+            });
         });
 
         requestLogger.create('Urban creation request completed:\n    Record: %s\n    Invoice: %s', newLicense.id, newLicense.fullInvoice)
