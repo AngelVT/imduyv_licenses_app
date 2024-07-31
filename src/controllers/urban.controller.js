@@ -7,6 +7,7 @@ import { __dirstorage } from '../paths.js';
 import { consoleLogger, requestLogger } from "../logger.js";
 import { UrbanLicense, UrbanType, Zone } from '../models/License.models.js';
 import { validate, validUrbanCriteria } from '../libs/validate.js';
+import { generateUrbanSpecialData } from '../models/docs/docUtils/utils.js';
 
 export const getLicenses = async (req, res) => {
     try {
@@ -102,6 +103,8 @@ export const getLicenseByInvoice = async (req, res) => {
         }
 
         requestLogger.get('Urban get request completed:\n    Requested record: %d', license.id);
+
+        license.licenseSpecialData = JSON.parse(license.licenseSpecialData);
 
         res.status(200).json({data: [license]});
     } catch (error) {
@@ -248,6 +251,8 @@ export const createLicense = async (req, res) => {
             return;
         }
 
+        const licenseSpecialData = generateUrbanSpecialData(parseInt(licenseType));
+
         const newLicense = await UrbanLicense.create({
             fullInvoice: invoice.lcID,
             invoice: invoice.invoice,
@@ -270,7 +275,7 @@ export const createLicense = async (req, res) => {
             deliveryDate: deliveryDate,
             receiverName: receiverName,
             observations: 'none',
-            licenseSpecialData: {}
+            licenseSpecialData: licenseSpecialData
         });
 
         const destination = path.join(__dirstorage, 'assets', 'urban', invoice.lcID, 'zone.png');
@@ -352,7 +357,7 @@ export const updateLicense = async (req, res) => {
             collectionOrder: collectionOrder,
             paymentDate: paymentDate,
             billInvoice: billInvoice,
-            authorizedquantity: authorizedQuantity,
+            authorizedQuantity: authorizedQuantity,
             deliveryDate: deliveryDate,
             receiverName: receiverName,
         });

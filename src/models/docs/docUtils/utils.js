@@ -365,6 +365,12 @@ export const recordExample = {
     "paymentDone": 1,
     "inspector": "eduardo alejandro cordoba vazquez",
     "licenseSpecialData": {
+        "occupationPercent":"70",
+        "surfacePerLote":"90",
+        "maximumHeight":"9 metros o 3 niveles",
+        "minimalFront":"6.00",
+        "frontalRestriction":"2.5",
+        "parkingLots":"1 Cajón por lote",
         "usePercent":"100",
         "PCU": "U3",
         "requestorAddress": "ARQUIMEDES 3 302, CHAPULTEPEC MORALES, DISTRITO FEDERAL, CP 11570",
@@ -457,5 +463,139 @@ export const recordExample = {
     },
     "expeditionType": {
         "licenseExpType": "nueva"
+    }
+}
+
+export function generateUrbanSpecialData(type) {
+    switch(type) {
+        case 1:
+            return { PCU: "PCU" }
+        case 2:
+            return {
+                requestorAddress: "Domicilio",
+                buildingAddress: "Domicilio",
+                occupationPercent: 0,
+                surfacePerLote: 0,
+                maximumHeight: "Ej: 9 metros o 3 niveles",
+                minimalFront: 0.00,
+                frontalRestriction: 0.0,
+                parkingLots: "Ej: 1 Cajón por lote",
+                usePercent: 0
+            }
+        case 3:
+            return {
+                requestorAddress: "Domicilio",
+                buildingAddress: "Domicilio",
+                actualSituation: [
+                    {
+                        "description": "PARCELA 777",
+                        "surface": "31,091.07",
+                        "table": {
+                            "distribution": ["Oeste","Noroeste","Norte", "Noreste", "Este", "Sureste","Sur", "Suroeste"],
+                            "measures": ["15.00 m","15.00 m","15.00 m", "15.00 m", "15.00 m", "15.00 m","15.00 m", "15.00 m"],
+                            "adjoining": ["LOTE 8","LOTE 6","LOTE 50", "CALLE PORVENIR", "LOTE 8", "LOTE 6","LOTE 50", "CALLE PORVENIR"]
+                        }
+                    }
+                ],
+                actualAuthorizedFS: [
+                    {
+                        "description": "PARCELA 777",
+                        "surface": "31,091.07",
+                        "table": {
+                            "distribution": ["Oeste","Noroeste","Norte", "Noreste", "Este", "Sureste","Sur", "Suroeste"],
+                            "measures": ["15.00 m","15.00 m","15.00 m", "15.00 m", "15.00 m", "15.00 m","15.00 m", "15.00 m"],
+                            "adjoining": ["LOTE 8","LOTE 6","LOTE 50", "CALLE PORVENIR", "LOTE 8", "LOTE 6","LOTE 50", "CALLE PORVENIR"]
+                        }
+                    },
+                    {
+                        "description": "PARCELA 777",
+                        "surface": "31,091.07",
+                        "table": {
+                            "distribution": ["Oeste","Noroeste","Norte", "Noreste", "Este", "Sureste","Sur", "Suroeste"],
+                            "measures": ["15.00 m","15.00 m","15.00 m", "15.00 m", "15.00 m", "15.00 m","15.00 m", "15.00 m"],
+                            "adjoining": ["LOTE 8","LOTE 6","LOTE 50", "CALLE PORVENIR", "LOTE 8", "LOTE 6","LOTE 50", "CALLE PORVENIR"]
+                        }
+                    }
+                ],
+                authorizationResume: "Ej: SE AUTORIZA LA SUBDIVISIÓN DE LOS PREDIOS IDENTIFICADOS COMO LAS PARCELAS 777, 775, 778, 786, 790, 791 Y LOTE 1 (PARCELA 924), RESULTANDO LA FUSIÓN CON UNA SUPERFICIE TOTAL DE: 161,100.70 M2."
+            }
+        case 4:
+            return {
+                requestorAddress: "Domicilio",
+                buildingAddress: "Domicilio",
+                actualSituation: [
+                    {
+                        "description": "PARCELA 777",
+                        "surface": "31,091.07",
+                        "table": {
+                            "distribution": ["Oeste","Noroeste","Norte", "Noreste", "Este", "Sureste","Sur", "Suroeste"],
+                            "measures": ["15.00 m","15.00 m","15.00 m", "15.00 m", "15.00 m", "15.00 m","15.00 m", "15.00 m"],
+                            "adjoining": ["LOTE 8","LOTE 6","LOTE 50", "CALLE PORVENIR", "LOTE 8", "LOTE 6","LOTE 50", "CALLE PORVENIR"]
+                        }
+                    },
+                    {
+                        "description": "PARCELA 777",
+                        "surface": "31,091.07",
+                        "table": {
+                            "distribution": ["Oeste","Noroeste","Norte", "Noreste", "Este", "Sureste","Sur", "Suroeste"],
+                            "measures": ["15.00 m","15.00 m","15.00 m", "15.00 m", "15.00 m", "15.00 m","15.00 m", "15.00 m"],
+                            "adjoining": ["LOTE 8","LOTE 6","LOTE 50", "CALLE PORVENIR", "LOTE 8", "LOTE 6","LOTE 50", "CALLE PORVENIR"]
+                        }
+                    }
+                ],
+                actualAuthorizedFS: [
+                    {
+                        "description": "PARCELA 777",
+                        "surface": "31,091.07",
+                        "table": {
+                            "distribution": ["Oeste","Noroeste","Norte", "Noreste", "Este", "Sureste","Sur", "Suroeste"],
+                            "measures": ["15.00 m","15.00 m","15.00 m", "15.00 m", "15.00 m", "15.00 m","15.00 m", "15.00 m"],
+                            "adjoining": ["LOTE 8","LOTE 6","LOTE 50", "CALLE PORVENIR", "LOTE 8", "LOTE 6","LOTE 50", "CALLE PORVENIR"]
+                        }
+                    }
+                ],
+                authorizationResume: "Ej: SE AUTORIZA LA FUSIÓN DE LOS PREDIOS IDENTIFICADOS COMO LAS PARCELAS 777, 775, 778, 786, 790, 791 Y LOTE 1 (PARCELA 924), RESULTANDO LA FUSIÓN CON UNA SUPERFICIE TOTAL DE: 161,100.70 M2."
+            }
+        case 5:
+            return {}
+        case 6:
+            return {}
+        case 7:
+            return {}
+        case 8:
+            return {
+                requestorAddress: "Domicilio",
+                buildingAddress: "Domicilio",
+                households: "Ej: 5 viviendas",
+                areasR:"2",
+                lotesR:"3",
+                documents: [
+                    "Solicitud por escrito de Autorización de Régimen de Propiedad de Condómino.",
+                    "Copia de Identificación oficial del C. Elías Guarneros Ramírez, consistente en credencial de elector, con número de folio 1130008658056, expedida por Instituto Nacional Electoral.",
+                    "Croquis de localización.",
+                    "4 planos para su autorización.",
+                    "Copia Relotificación de Fraccionamiento No. IMDUYV/DPT/RF/001/2023, de fecha 10 de octubre de 2023.",
+                    "Copia de Segundo Testimonio de Relotificación del Fraccionamiento denominado “los Héroes Tizayuca”, escritura No. 43,226, de fecha 30 de octubre de 2023.",
+                    "Copia de Convenio de servicios de agua potable con la CAAMTH.",
+                    "Copia de Recibo de pago de impuesto predial, periodo enero – diciembre 2023, con clave catastral 690500010000100001, del predio ubicado en Los Héroes Tizayuca del Municipio Tizayuca a nombre de Desarrollos Inmobiliarios SADASI S.A. de C.V.",
+                    "Memoria descriptiva",
+                    "Dos juegos de Reglamento General del Condominio.",
+                    "Reporte fotográfico.",
+                    "Copia de Acta constitutiva de “Desarrollos inmobiliarios SADASI S.A. DE C.V.”",
+                    "Copia de Poder notarial otorgado a favor del C. Elías Guarneros Ramírez por “Desarrollos Inmobiliarios SADASI S.A. de C.V.”",
+                    "Copia de cédula de identificación fiscal, RFC.",
+                ],
+                lotes: ["Lote 1", "Lote 2","Lote 3","Lote 4"],
+                manzanas: ["Manzana 1", "Manzana 2"],
+                conditions: [
+                    "Copia simple de la escritura de protocolización de la constitución de Régimen de Propiedad en Condominio debidamente inscrita en el Registro Público de la Propiedad y del Comercio, en un plazo no mayor a 90 días hábiles, a partir de la firma de este.",
+                    "Presentar copia de comprobante de pago de impuesto predial correspondiente al periodo enero - diciembre 2024, en un plazo no mayor a 30 días naturales.",
+                    "En consideración del impacto urbano y a la sobredemanda de los servicios públicos en el municipio, se deberán de generar las medidas adecuadas de prevención, integración y/o compensación, para mitigar o contrarrestar los impactos o alteraciones causadas por la presente autorización. En razón de lo anterior deberá mediante convenio retribuir por medio del Instituto Municipal de Desarrollo Urbano y Vivienda, hasta el 30% del monto de la presente autorización.  Dicho convenio se deberá de formalizarse en un plazo de hasta 30 días hábiles contados a partir de la firma de éste."
+                ],
+                privateSurface: 0.0,
+                commonSurface: 0.0
+            }
+        default:
+            return { DATA:"NO\nDATA"}
     }
 }

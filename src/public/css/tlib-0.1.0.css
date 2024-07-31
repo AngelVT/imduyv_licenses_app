@@ -1075,6 +1075,13 @@ html {
     margin-bottom: 10px;
 }
 
+.urban-print-result-img {
+    width: 96%;
+    grid-area: 1 / 1 / 5 / 2;
+    margin: 0 auto;
+    margin-bottom: 10px;
+}
+
 .land-result-img {
     width: 96%;
     grid-area: 1 / 1 / 8 / 3;

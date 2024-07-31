@@ -114,29 +114,29 @@ export function generateUrbanLUS(lcDBObj) {
                                         [
                                             {text: 'Porcentaje de ocupación:', style: 'labelTC', border: docUtils.borderless, colSpan: 2},
                                             {},
-                                            docUtils.field('70%', docUtils.borderless, 2, 'center', 7),
+                                            docUtils.field(`${lcDBObj.licenseSpecialData.occupationPercent}%`, docUtils.borderless, 2, 'center', 7),
                                             {},
                                             {text: 'Sup. mínima por lote:', style: 'labelTC', border: docUtils.borderless, colSpan: 2},
                                             {},
-                                            docUtils.field('90 m2', docUtils.borderless, 2, 'center', 7),
+                                            docUtils.field(`${lcDBObj.licenseSpecialData.surfacePerLote} m²`, docUtils.borderless, 2, 'center', 7),
                                             {},
                                             {text: 'Altura máxima:', style: 'labelTC', border: docUtils.borderless, colSpan: 2},
                                             {},
-                                            docUtils.field('9 metros o 3 niveles', docUtils.borderless, 2, 'center', 7),
+                                            docUtils.field(lcDBObj.licenseSpecialData.maximumHeight, docUtils.borderless, 2, 'center', 7),
                                             {}
                                         ],
                                         [
                                             {text: 'Frente mínimo:', style: 'labelTC', border: docUtils.borderless, colSpan: 2},
                                             {},
-                                            docUtils.field('6.00 m', docUtils.borderless, 2, 'center', 7),
+                                            docUtils.field(`${lcDBObj.licenseSpecialData.minimalFront} m`, docUtils.borderless, 2, 'center', 7),
                                             {},
                                             {text: 'Restricción frontal:', style: 'labelTC', border: docUtils.borderless, colSpan: 2},
                                             {},
-                                            docUtils.field('2.5 m', docUtils.borderless, 2, 'center', 7),
+                                            docUtils.field(`${lcDBObj.licenseSpecialData.frontalRestriction} m`, docUtils.borderless, 2, 'center', 7),
                                             {},
                                             {text: 'Estacionamientos:', style: 'labelTC', border: docUtils.borderless, colSpan: 2},
                                             {},
-                                            docUtils.field('1 Cajón por lote', docUtils.borderless, 2, 'center', 7),
+                                            docUtils.field(lcDBObj.licenseSpecialData.parkingLots, docUtils.borderless, 2, 'center', 7),
                                             {}
                                         ]
                                     ]
@@ -218,7 +218,7 @@ export function generateUrbanLUS(lcDBObj) {
                                     <svg width="30" height="84">
                                         <text x="16" y="42" transform="rotate(-90, 15, 42)" text-anchor="middle" font-size="5" font-weight="bold">
                                             <tspan x="16" dy="1.2em">${lcDBObj.fullInvoice}</tspan>
-                                            <tspan x="16" dy="1.2em">Pagina 1 de 1</tspan>
+                                            <tspan x="16" dy="1.2em">Pagina 1 de 2</tspan>
                                         </text>
                                     </svg>`,
                                 alignment: 'left'
@@ -276,7 +276,7 @@ export function generateUrbanLUS(lcDBObj) {
                         [
                             {
                                 type: 'lower-alpha',
-                                ul: [
+                                ol: [
                                     'Para que se construyan las obras de urbanización y de vivienda, deberá tramitar y contar con la licencia de construcción emitida por la Secretaría de Obras Públicas Municipales de Tizayuca, debiendo acompañar los proyectos ejecutivos de agua potable, drenaje sanitario y pluvial, planos de niveles y rasantes con la aprobación correspondiente; así como de las especificaciones de los materiales a usarse en la urbanización.',
                                     'La presente no autoriza acciones urbanas ni construcción de obras que generen impacto social en su entorno inmediato.',
                                     'Acatar la normativa y restricciones de la zonificación secundaria que determina el documento técnico del Programa Municipal de Desarrollo Urbano y Ordenamiento Territorial de Tizayuca.',
@@ -285,7 +285,6 @@ export function generateUrbanLUS(lcDBObj) {
                                     'El propietario está obligado a dejar 30% de la superficie neta de cada lote libre de construcción para absorción de agua pluvial, lo anterior estará asentado en los contratos de compra – venta.'
                                 ],
                                 fontSize: 6,
-                                border: docUtils.borderless,
                                 alignment: 'justify'
                             }
                         ]
@@ -321,6 +320,16 @@ export function generateUrbanLUS(lcDBObj) {
                         fontSize: 6
                     }
                 ]
+            },
+            {
+                svg: `
+                <svg width="30" height="84">
+                    <text x="16" y="42" transform="rotate(-90, 15, 42)" text-anchor="middle" font-size="5" font-weight="bold">
+                        <tspan x="16" dy="1.2em">${lcDBObj.fullInvoice}</tspan>
+                        <tspan x="16" dy="1.2em">Pagina 2 de 2</tspan>
+                    </text>
+                </svg>`,
+                alignment: 'right'
             }
         ]
     };
