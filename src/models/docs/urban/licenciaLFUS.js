@@ -17,7 +17,7 @@ export function generateUrbanLFUS(lcDBObj) {
                 margin: [0,0,0,10]
             },
             {
-                text: "LICENCIA DE SUBDIVISIÓN",
+                text: "LICENCIA DE FUSIÓN",
                 alignment: 'center',
                 fontSize: 16,
                 bold: true
@@ -50,7 +50,7 @@ export function generateUrbanLFUS(lcDBObj) {
                                         ],
                                         [
                                             {text: 'Domicilio: ', style: 'labelT', border: docUtils.borderless},
-                                            docUtils.field('BLVD. VALLE DE SAN JAVIER, NO. 707 B, PISO 2 INT. 5, FRACC. VALLE DE SAN JAVIER, PACHUCA DE SOTO, CP. 42086', docUtils.borderless, null,null, 7),
+                                            docUtils.field(lcDBObj.licenseSpecialData.buildingAddress, docUtils.borderless, null,null, 7),
                                         ],
                                         [
                                             {text: '', border: docUtils.borderless},
@@ -69,7 +69,7 @@ export function generateUrbanLFUS(lcDBObj) {
                                     body: [
                                         [
                                             {text: 'Domicilio: ', style: 'labelT', border: docUtils.borderless},
-                                            docUtils.field('CALLE PROGRESO, MANZANA 4, LOTE 36, FRACCIONAMIENTO AMPLIACIÓN LOS OLMOS, TIZAYUCA, HIDALGO.', docUtils.borderless, 1, null, 7)
+                                            docUtils.field(lcDBObj.licenseSpecialData.buildingAddress, docUtils.borderless, 1, null, 7)
                                         ],
                                         [
                                             {text: 'Clave Catastral: ', style: 'labelT', border: docUtils.borderless},
@@ -167,7 +167,8 @@ export function generateUrbanLFUS(lcDBObj) {
                         ],
                         [
                             {
-                                ul: [
+                                type: 'lower-alpha',
+                                ol: [
                                     'Deberá protocolizar la escritura de la subdivisión, debidamente inscrita en el Registro Público de la Propiedad y del Comercio del Distrito Judicial de Tizayuca, Hidalgo, en un plazo no mayor a 90 días naturales contados a partir de la firma del presente.'
                                 ],
                                 fontSize: 6
@@ -211,7 +212,7 @@ export function generateUrbanLFUS(lcDBObj) {
                             {},{},{},{},{},
                             {text: 'Folio de pago: ', style: 'labelTC', colSpan: 2},
                             {},
-                            docUtils.field(`C-${lcDBObj.paymentInvoice}`, docUtils.borderless, 2, 'center',6),
+                            docUtils.field(`C-${lcDBObj.billInvoice}`, docUtils.borderless, 2, 'center',6),
                             {}]
                     ]
                 },

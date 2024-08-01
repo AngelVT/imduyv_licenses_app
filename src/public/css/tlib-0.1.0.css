@@ -322,7 +322,7 @@ html {
     width: 90%;
 }
 .w-85 {
-    width: 80%;
+    width: 85%;
 }
 .w-80 {
     width: 80%;
@@ -837,6 +837,16 @@ html {
     -moz-box-shadow: 2px 0px 26px -2px rgba(0,0,0,0.36) inset;
 }
 
+.input-textarea-result {
+    font-size: 12px;
+    resize: vertical;
+    padding: 5px 8px;
+    width: 88%;
+    height: 46px;
+    min-height: 46px;
+    max-height: 280px;
+}
+
 /*-------------------------------------------------------------------------*/
 
 .table-border {
@@ -1049,6 +1059,10 @@ html {
     cursor: pointer;
     text-align: center;
     transition: ease-in-out .2s;
+}
+
+.input-side-save.ta {
+    height: 46px;
 }
 
 .input-side-save:hover {
@@ -1275,4 +1289,8 @@ textarea.invissible:focus {
 
 .hidden {
     display: none!important;
+}
+
+.field-span {
+    grid-column: span 2;
 }

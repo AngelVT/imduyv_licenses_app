@@ -1,5 +1,6 @@
 import { __dirstorage } from "../../../paths.js";
 import path from "path";
+import fs from 'fs'
 
 export const borderless = [false,false,false,false];
 
@@ -129,57 +130,94 @@ export function voidCell(span) {
     return {colSpan: span,border: borderless, text: ''}
 }
 
-export function loadResumeAreas(total, fullInvoice) {
+export function loadResumeAreas(fullInvoice) {
     let images = [];
+    const dir = path.join(__dirstorage, 'assets', 'urban', fullInvoice.replaceAll('/', '_'));
+    const pattern = /^area_.*/;
 
-    for (let index = 1; index <= total; index++) {
-        images.push({
-            image: path.join(__dirstorage, 'assets', 'urban', fullInvoice.replaceAll('/','_'),`area_${index}.png`),
-            width: 550,
-            alignment: 'center',
-            margin: [0,0,0,5]
+    return new Promise((resolve, reject) => {
+        fs.readdir(dir, (err, files) => {
+            if (err) {
+                return reject(err);
+            }
+
+            const matchedFiles = files.filter(file => pattern.test(file));
+
+            for (let e of matchedFiles) {
+                images.push({
+                    image: path.join(__dirstorage, 'assets', 'urban', fullInvoice.replaceAll('/', '_'), `${e}`),
+                    width: 550,
+                    alignment: 'center',
+                    margin: [0, 0, 0, 5]
+                });
+            }
+
+            images.push({
+                text: [
+                    { text: 'Nota: ', style: 'regular', bold: true },
+                    { text: 'La información descrita corresponde y es responsabilidad del solicitante.', style: 'regular' }
+                ]
+            });
+
+            resolve(images);
         });
-    }
-    images.push({
-        text: [
-            {text: 'Nota: ', style: 'regular', bold: true},
-            {text: 'La información descrita corresponde y es responsabilidad del solicitante.', style: 'regular'}
-        ]
     });
-    return images;
 }
 
-export function loadResumeLotes(total, fullInvoice) {
+export async function loadResumeLotes(fullInvoice) {
     let images = [];
+    const dir = path.join(__dirstorage, 'assets', 'urban', fullInvoice.replaceAll('/', '_'));
+    const pattern = /^lote_.*/;
 
-    for (let index = 1; index <= total; index++) {
-        images.push({
-            image: path.join(__dirstorage, 'assets', 'urban', fullInvoice.replaceAll('/','_'),`lote_${index}.png`),
-            width: 550,
-            alignment: 'center',
-            margin: [0,0,0,5]
+    return new Promise((resolve, reject) => {
+        fs.readdir(dir, (err, files) => {
+            if (err) {
+                return reject(err);
+            }
+
+            const matchedFiles = files.filter(file => pattern.test(file));
+
+            for (let e of matchedFiles) {
+                images.push({
+                    image: path.join(__dirstorage, 'assets', 'urban', fullInvoice.replaceAll('/', '_'), `${e}`),
+                    width: 550,
+                    alignment: 'center',
+                    margin: [0, 0, 0, 5]
+                });
+            }
+
+            images.push({
+                text: [
+                    { text: 'Nota: ', style: 'regular', bold: true },
+                    { text: 'La información descrita corresponde y es responsabilidad del solicitante.', style: 'regular' }
+                ]
+            });
+
+            resolve(images);
         });
-    }
-    images.push({
-        text: [
-            {text: 'Nota: ', style: 'regular', bold: true},
-            {text: 'La información descrita corresponde y es responsabilidad del solicitante.', style: 'regular'}
-        ]
     });
-    return images;
 }
 
 export function prepareData(lcDBObj) {
     lcDBObj.fullInvoice = lcDBObj.fullInvoice.replaceAll('_','/');
 
-    for (const key in lcDBObj) {
-        if(typeof lcDBObj[key] == 'string')
+    for (const key in lcDBObj.dataValues) {
+        if(typeof lcDBObj[key] == 'string') {
             lcDBObj[key] = lcDBObj[key].toUpperCase();
+        }
     }
 
-    lcDBObj.term.licenseTerm = lcDBObj.term.licenseTerm.toUpperCase();
-    lcDBObj.validity.licenseValidity = lcDBObj.validity.licenseValidity.toUpperCase();
-    lcDBObj.expeditionType.licenseExpType = lcDBObj.expeditionType.licenseExpType.toUpperCase();
+    if (lcDBObj.term) {
+        lcDBObj.term.licenseTerm = lcDBObj.term.licenseTerm.toUpperCase();
+    }
+
+    if(lcDBObj.validity) {
+        lcDBObj.validity.licenseValidity = lcDBObj.validity.licenseValidity.toUpperCase();
+    }
+
+    if(lcDBObj.expeditionType) {
+        lcDBObj.expeditionType.licenseExpType = lcDBObj.expeditionType.licenseExpType.toUpperCase();
+    }
 
     lcDBObj.requestDate = lcDBObj.requestDate.split('-').reverse().join('-');
     lcDBObj.expeditionDate = lcDBObj.expeditionDate.split('-').reverse().join('-');
@@ -203,7 +241,7 @@ export function dateFormatFull(dateNumeric) {
         "Noviembre", 
         "Diciembre"];
     var date = dateNumeric.split('-');
-    return `${date[0]} de ${months[parseInt(date[1])-1]} del ${date[2]}`;
+    return `${date[2]} de ${months[parseInt(date[1])-1]} del ${date[0]}`;
 }
 
 export function arrayToText(array) {
@@ -387,7 +425,7 @@ export const recordExample = {
         "parcela": "742, Z-3, P1/4",
         "propertyNo": "100001002885",
         "propertyDate": "2018-04-12",
-        "authorizationResume": "SE AUTORIZA LA FUSIÓN DE LOS PREDIOS IDENTIFICADOS COMO LAS PARCELAS 777, 775, 778, 786, 790, 791 Y LOTE 1 (PARCELA 924), RESULTANDO LA FUSIÓN CON UNA SUPERFICIE TOTAL DE: 161,100.70 M2.",
+        "authorizationResume": "se autoriza la fusión de los predios identificados como las parcelas 777, 775, 778, 786, 790, 791 y lote 1 (parcela 924), resultando la fusión con una superficie total de: 161,100.70 m2. tu puta madre",
         "households": "5 viviendas",
         "areasR":"2",
         "lotesR":"3",
@@ -567,8 +605,6 @@ export function generateUrbanSpecialData(type) {
                 requestorAddress: "Domicilio",
                 buildingAddress: "Domicilio",
                 households: "Ej: 5 viviendas",
-                areasR:"2",
-                lotesR:"3",
                 documents: [
                     "Solicitud por escrito de Autorización de Régimen de Propiedad de Condómino.",
                     "Copia de Identificación oficial del C. Elías Guarneros Ramírez, consistente en credencial de elector, con número de folio 1130008658056, expedida por Instituto Nacional Electoral.",

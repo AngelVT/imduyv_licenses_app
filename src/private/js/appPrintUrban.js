@@ -2,6 +2,8 @@ const formSearchByInvoicePrint = document.querySelector('#form_urban_byInvoicePr
 
 const resultPrint = document.querySelector('#print_results');
 
+const PDF = document.querySelector('#pdf_lc');
+
 formSearchByInvoicePrint.addEventListener('submit',
     event => {
         event.preventDefault();
@@ -31,6 +33,7 @@ async function getLicensePrint(type, invoice, year) {
                 response.data.forEach(element => {
                     resultPrint.innerHTML = '';
                     createUrbanPrintResult(element, resultPrint);
+                    PDF.setAttribute('src', `/api/urban/PDF/${type}/${invoice}/${year}?${new Date().getTime()}`)
                 });
 
                 return;
@@ -88,8 +91,13 @@ async function updateResultField(form, id) {
 
                 if (form.querySelector('.input-file')) {
                     let img = document.querySelector(`#result_fields_${id}`).querySelector('img');
-                    img.setAttribute('src', `/urbanStorage/${form.querySelector('input[type=hidden]').value}/zone.png?${new Date().getTime()}`);
+                    if(img) {
+                        img.setAttribute('src', `/urbanStorage/${form.querySelector('input[type=hidden]').value}/zone.png?${new Date().getTime()}`);
+                    }
                 }
+
+                let url = PDF.getAttribute('src').split('?')[0];
+                PDF.setAttribute('src', `${url}?${new Date().getTime()}`)
                 
                 alert(`Cambios guardados exitosamente para el registro: ${registro}`);
                 return;

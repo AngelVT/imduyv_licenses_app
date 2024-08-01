@@ -5,9 +5,16 @@ import { Op } from 'sequelize';
 import { generateUrbanInvoice } from '../libs/fullInvoiceGen.js';
 import { __dirstorage } from '../paths.js';
 import { consoleLogger, requestLogger } from "../logger.js";
-import { UrbanLicense, UrbanType, Zone } from '../models/License.models.js';
+import { Term, UrbanLicense, UrbanType, Validity, Zone } from '../models/License.models.js';
 import { validate, validUrbanCriteria } from '../libs/validate.js';
 import { generateUrbanSpecialData } from '../models/docs/docUtils/utils.js';
+
+import { printerPDF } from "../libs/pdfUtil.js";
+import { generateUrbanC } from "../models/docs/urban/constanciaU.js";
+import { generateUrbanLUS } from "../models/docs/urban/licenciaLUS.js";
+import { generateUrbanLSUB } from "../models/docs/urban/licenciaLSUB.js";
+import { generateUrbanLFUS } from "../models/docs/urban/licenciaLFUS.js";
+import { generateUrbanCRPC } from "../models/docs/urban/licenciaCRPC.js";
 
 export const getLicenses = async (req, res) => {
     try {
@@ -28,6 +35,10 @@ export const getLicenses = async (req, res) => {
             res.status(404).json({ msg: "The requested data does not exist or is unavailable" });
             return;
         }
+
+        licenses.forEach(e => {
+            e.licenseSpecialData = JSON.parse(e.licenseSpecialData)
+        });
 
         requestLogger.get('Urban get request completed:\n    All record requested');
 
@@ -218,10 +229,13 @@ export const createLicense = async (req, res) => {
             requestDate,
             colony,
             address,
+            number,
             catastralKey,
+            licenseTerm,
             surface,
             zone,
             expeditionDate,
+            licenseValidity,
             collectionOrder,
             paymentDate,
             billInvoice,
@@ -263,11 +277,14 @@ export const createLicense = async (req, res) => {
             legalRepresentative: legalRepresentative,
             elaboratedBy: 'someone',
             address: address,
+            number: number,
             colony: colony,
             catastralKey: catastralKey,
+            licenseTerm: licenseTerm,
             surfaceTotal: surface,
             licenseZone: zone,
             expeditionDate: expeditionDate,
+            licenseValidity: licenseValidity,
             collectionOrder: collectionOrder,
             paymentDate: paymentDate,
             billInvoice: billInvoice,
@@ -307,9 +324,23 @@ export const updateLicense = async (req, res) => {
     try {
         const id = req.params.licenciaID;
         const file = req.file;
+        const files = req.files;
 
         for (const key in req.body) {
-            req.body[key] = req.body[key].toLowerCase();
+            if (key == 'requestorAddress' ||
+                key == 'buildingAddress' ||
+                key == 'maximumHeight' ||
+                key == 'parkingLots' ||
+                key == 'authorizationResume' ||
+                key == 'households' ||
+                key == 'documents' ||
+                key == 'conditions' ||
+                key == 'lotes' ||
+                key == 'manzanas') {
+                    console.log("Skipped", typeof key, key)
+            } else {
+                req.body[key] = req.body[key].toLowerCase();
+            }
         }
 
         const {
@@ -327,7 +358,27 @@ export const updateLicense = async (req, res) => {
             billInvoice,
             authorizedQuantity,
             deliveryDate,
-            receiverName
+            receiverName,
+            PCU,
+            requestorAddress,
+            buildingAddress,
+            occupationPercent,
+            surfacePerLote,
+            maximumHeight,
+            minimalFront,
+            frontalRestriction,
+            parkingLots,
+            usePercent,
+            actualSituation,
+            actualAuthorizedFS,
+            authorizationResume,
+            households,
+            documents,
+            lotes,
+            manzanas,
+            conditions,
+            privateSurface,
+            commonSurface
         } = req.body;
 
         const modifiedLicense = await UrbanLicense.findByPk(id);
@@ -343,6 +394,29 @@ export const updateLicense = async (req, res) => {
             res.status(400).json({ msg: "Invalid information provided." });
             return;
         }
+
+        let newSpecialData = JSON.parse(modifiedLicense.licenseSpecialData);
+
+        newSpecialData.PCU = PCU ? PCU.toUpperCase() : newSpecialData.PCU;
+        newSpecialData.requestorAddress = requestorAddress ? requestorAddress : newSpecialData.requestorAddress;
+        newSpecialData.buildingAddress = buildingAddress ? buildingAddress : newSpecialData.buildingAddress;
+        newSpecialData.occupationPercent = occupationPercent ? occupationPercent : newSpecialData.occupationPercent;
+        newSpecialData.surfacePerLote = surfacePerLote ? surfacePerLote : newSpecialData.surfacePerLote;
+        newSpecialData.maximumHeight = maximumHeight ? maximumHeight : newSpecialData.maximumHeight;
+        newSpecialData.minimalFront = minimalFront ? minimalFront : newSpecialData.minimalFront;
+        newSpecialData.frontalRestriction = frontalRestriction ? frontalRestriction : newSpecialData.frontalRestriction;
+        newSpecialData.parkingLots = parkingLots ? parkingLots : newSpecialData.parkingLots;
+        newSpecialData.usePercent = usePercent ? usePercent : newSpecialData.usePercent;
+        newSpecialData.actualSituation = actualSituation ? actualSituation : newSpecialData.actualSituation;
+        newSpecialData.actualAuthorizedFS = actualAuthorizedFS ? actualAuthorizedFS : newSpecialData.actualAuthorizedFS;
+        newSpecialData.authorizationResume = authorizationResume ? authorizationResume : newSpecialData.authorizationResume;
+        newSpecialData.households = households ? households : newSpecialData.households;
+        newSpecialData.documents = documents ? documents.replaceAll('\r', '').split('\n') : newSpecialData.documents;
+        newSpecialData.lotes = lotes ? lotes.replaceAll('\r', '').split('\n') : newSpecialData.lotes;
+        newSpecialData.manzanas = manzanas ? manzanas.replaceAll('\r', '').split('\n') : newSpecialData.manzanas;
+        newSpecialData.conditions = conditions ? conditions.replaceAll('\r', '').split('\n') : newSpecialData.conditions;
+        newSpecialData.privateSurface = privateSurface ? privateSurface : newSpecialData.privateSurface;
+        newSpecialData.commonSurface = commonSurface ? commonSurface : newSpecialData.commonSurface;
 
         await modifiedLicense.update({
             requestDate: requestDate,
@@ -360,16 +434,48 @@ export const updateLicense = async (req, res) => {
             authorizedQuantity: authorizedQuantity,
             deliveryDate: deliveryDate,
             receiverName: receiverName,
+            licenseSpecialData: newSpecialData
         });
 
-        if(file) {
+        if (files) {
             const destination = path.join(__dirstorage, 'assets', 'urban', modifiedLicense.fullInvoice, 'zone.png');
+            const directory = path.dirname(destination);
 
-            fs.writeFile(destination, file.buffer, err => {
-                if (err) {
-                    console.log(err);
-                }
+            await new Promise((resolve, reject) => {
+                fs.mkdir(directory, { recursive: true }, (err) => {
+                    if (err) {
+                        return reject(err);
+                    }
+                    resolve();
+                });
             });
+
+            await deleteFiles(directory);
+
+            if (files.zoneIMG) {
+                await new Promise((resolve, reject) => {
+                    fs.writeFile(destination, files.zoneIMG[0].buffer, (err) => {
+                        if (err) {
+                            return reject(err);
+                        }
+                        resolve();
+                    });
+                });
+            }
+
+            if (files.resumeTables) {
+                await Promise.all(files.resumeTables.map(e => {
+                    const currentDestination = path.join(__dirstorage, 'assets', 'urban', modifiedLicense.fullInvoice, e.originalname);
+                    return new Promise((resolve, reject) => {
+                        fs.writeFile(currentDestination, e.buffer, (err) => {
+                            if (err) {
+                                return reject(err);
+                            }
+                            resolve();
+                        });
+                    });
+                }));
+            }
         }
 
         requestLogger.update('Urban update request completed:\n    Record: %s\n    Invoice: %s', modifiedLicense.id, modifiedLicense.fullInvoice);
@@ -404,4 +510,128 @@ export const deleteLicense = async (req, res) => {
         requestLogger.error('Request failed due to server side error:\n    Error: %s', error);
         res.status(500).json({msg: "Internal server error"});
     }
+}
+
+export const getLicensePDF= async (req, res) => {
+    try {
+        const type = req.params.type;
+        const invoice = req.params.invoice;
+        const year = req.params.year;
+
+        const license = await UrbanLicense.findOne({
+            where: {
+                licenseType: type,
+                invoice: invoice,
+                year: year
+            },
+            include: [
+                {
+                    model: UrbanType,
+                    attributes: ['licenseType']
+                },
+                {
+                    model: Zone,
+                    attributes: ['licenseZone', 'licenseKey']
+                },
+                {
+                    model: Term,
+                    attributes: ['licenseTerm']
+                },
+                {
+                    model: Validity,
+                    attributes: ['licenseValidity']
+                }
+            ]
+        });
+
+        if(license == null) {
+            res.status(404).json({ msg: "The requested data does not exist or is unavailable" });
+            return;
+        }
+
+        requestLogger.get('Urban get request completed:\n    Requested record: %d', license.id);
+
+        license.licenseSpecialData = JSON.parse(license.licenseSpecialData);
+
+        let def
+
+        switch (parseInt(type)) {
+            case 1:
+                consoleLogger.info('Generating PDF')
+                def = generateUrbanC(license);
+                break;
+            case 2:
+                consoleLogger.info('Generating PDF')
+                def = generateUrbanLUS(license);
+                break;
+            case 3:
+                consoleLogger.info('Generating PDF')
+                def = generateUrbanLSUB(license);
+                break;
+            case 4:
+                consoleLogger.info('Generating PDF')
+                def = generateUrbanLFUS(license);
+                break;
+            case 5:
+                consoleLogger.info('Generating PDF')
+                def = generateUrbanC(license);
+                break;
+            case 6:
+                consoleLogger.info('Generating PDF')
+                def = generateUrbanC(license);
+                break;
+            case 7:
+                consoleLogger.info('Generating PDF')
+                def = generateUrbanC(license);
+                break;
+            case 8:
+                consoleLogger.info('Generating PDF')
+                def = await generateUrbanCRPC(license)
+                break;
+        
+            default:
+                def = generateUrbanC(license);
+                break;
+        }
+
+        const pdfDoc = await printerPDF.createPdfKitDocument(def);
+
+        res.setHeader('Content-Type', 'application/pdf');
+        pdfDoc.info.Title = license.fullInvoice;
+        pdfDoc.pipe(res);
+        pdfDoc.end();
+    } catch (error) {
+        consoleLogger.error('\n  Request failed due to server side error:\n  Error: %s', error)
+        requestLogger.error('Request failed due to server side error:\n    Error: %s', error);
+        res.status(500).json({msg: "Internal server error"});
+    }
+}
+
+async function deleteFiles(directory) {
+    return new Promise((resolve, reject) => {
+        fs.readdir(directory, (err, files) => {
+            if (err) {
+                return reject(err);
+            }
+
+            let deletePromises = files
+                .filter(file => file.startsWith('lote_') || file.startsWith('area_'))
+                .map(file => {
+                    return new Promise((resolve, reject) => {
+                        fs.unlink(path.join(directory, file), err => {
+                            if (err) {
+                                console.error(`Error deleting file ${file}:`, err);
+                                return reject(err);
+                            }
+                            console.log(`Deleted file ${file}`);
+                            resolve();
+                        });
+                    });
+                });
+
+            Promise.all(deletePromises)
+                .then(resolve)
+                .catch(reject);
+        });
+    });
 }

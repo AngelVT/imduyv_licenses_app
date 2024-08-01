@@ -108,7 +108,7 @@ export function generateUrbanLUS(lcDBObj) {
                                         [
                                             {text: 'Uso de suelo permitido:', style: 'labelTC', border: docUtils.borderless, colSpan: 3},
                                             {},{},
-                                            docUtils.field(lcDBObj.authUse.licenseAuthUse, docUtils.borderless, 9, 'center', 7),
+                                            docUtils.field(lcDBObj.zone.licenseZone, docUtils.borderless, 9, 'center', 7),
                                             {},{},{},{},{},{},{},{}
                                         ],
                                         [
@@ -191,7 +191,7 @@ export function generateUrbanLUS(lcDBObj) {
                             {},
                             {text: 'Folio de pago: ', style: 'labelTC', colSpan: 2},
                             {},
-                            docUtils.field(`C-${lcDBObj.paymentInvoice}`, docUtils.borderless, 2, 'center',7),
+                            docUtils.field(`C-${lcDBObj.billInvoice}`, docUtils.borderless, 2, 'center',7),
                             {}]
                     ]
                 },

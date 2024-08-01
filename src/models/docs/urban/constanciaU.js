@@ -131,7 +131,7 @@ export function generateUrbanC(lcDBObj) {
                                         [
                                             {text: 'Uso de suelo permitido: ', style: 'labelTC', border: docUtils.borderless, colSpan: 3},
                                             {},{},
-                                            docUtils.field(lcDBObj.authUse.licenseAuthUse, docUtils.borderless, 9, 'center', 7),
+                                            docUtils.field(lcDBObj.zone.licenseZone, docUtils.borderless, 9, 'center', 7),
                                             {},{},{},{},{},{},{},{}
                                         ],
                                         [
@@ -162,7 +162,7 @@ export function generateUrbanC(lcDBObj) {
                                         /*text: 'IMG'*/
                                         border: docUtils.borderless,
                                         image: path.join(__dirstorage, 'assets', 'urban', lcDBObj.fullInvoice.replaceAll('/','_'), 'zone.png'),
-                                        fit: ['*',143],
+                                        width: 290,
                                         alignment: 'center'
                                     }
                                 ]
@@ -171,7 +171,7 @@ export function generateUrbanC(lcDBObj) {
                         layout: docUtils.noBorderNoPadding
                     },
                     {
-                        margin: [0,0,35,0],
+                        margin: [0,0,5,0],
                         stack: [
                             { text: 'Que el solicitante con los documentos anexados a su escrito inicial ha dado cumplimiento con los requisitos técnicos y legales que obran en el expediente radicado en este Instituto Municipal de Desarrollo Urbano y Vivienda, de Tizayuca, Hidalgo, acredita la propiedad del inmueble motivo de la solicitud firmada para obtener la Constancia de Uso de Suelo, así como de la visita de inspección de campo, misma que permite la localización y ubicación del Inmueble materia de este trámite.', style: 'regular', margin: [0,0,0,25],alignment: 'justify' },
                             { text: 'Personal técnico adscrito al referido Instituto, realizo visita de inspección en campo al Inmueble de que solicita la Constancia de Uso de Suelo, emitiendo opinión técnica positiva.', style: 'regular', margin: [0,0,0,15], alignment: 'justify' }
@@ -216,7 +216,7 @@ export function generateUrbanC(lcDBObj) {
                             {},
                             {text: 'Folio de pago: ', style: 'labelTC', colSpan: 2},
                             {},
-                            docUtils.field(`C-${lcDBObj.paymentInvoice}`, docUtils.borderless, 2, 'center',7),
+                            docUtils.field(`C-${lcDBObj.billInvoice}`, docUtils.borderless, 2, 'center',7),
                             {}]
                     ]
                 },

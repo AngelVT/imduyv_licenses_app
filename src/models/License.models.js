@@ -116,7 +116,8 @@ export const LandUseLicense = pool.define(
         },
         number: {
             type: DataTypes.STRING,
-            allowNull: false
+            allowNull: true,
+            defaultValue: 'S/N'
         },
         colony: {
             type: DataTypes.STRING,
@@ -291,12 +292,25 @@ export const UrbanLicense = pool.define(
             type: DataTypes.STRING,
             allowNull: false
         },
+        number: {
+            type: DataTypes.STRING,
+            allowNull: true,
+            defaultValue: 'S/N'
+        },
         colony: {
             type: DataTypes.STRING,
             allowNull: false
         },
         catastralKey: {
             type: DataTypes.STRING,
+            allowNull: false
+        },
+        licenseTerm: {
+            type: DataTypes.INTEGER,
+            references: {
+                model: Term,
+                key: 'id'
+            },
             allowNull: false
         },
         surfaceTotal: {
@@ -313,6 +327,14 @@ export const UrbanLicense = pool.define(
         },
         expeditionDate: {
             type: DataTypes.DATEONLY,
+            allowNull: false
+        },
+        licenseValidity: {
+            type: DataTypes.INTEGER,
+            references: {
+                model: Validity,
+                key: 'id'
+            },
             allowNull: false
         },
         collectionOrder: {
@@ -362,6 +384,8 @@ export const UrbanLicense = pool.define(
 
 UrbanLicense.belongsTo(UrbanType, {foreignKey: 'licenseType'});
 UrbanLicense.belongsTo(Zone, {foreignKey: 'licenseZone'});
+UrbanLicense.belongsTo(Term, {foreignKey: 'licenseTerm'});
+UrbanLicense.belongsTo(Validity, {foreignKey: 'licenseValidity'});
 
 (async () => {
     try {

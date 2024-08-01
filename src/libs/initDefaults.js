@@ -246,8 +246,8 @@ export const setDefaultLicenseValidities = async () => {
         if (count > 0) return;
 
         const createdTerm = await Promise.all([
-            Validity.create({ id: 1, licenseValidity: 'doce meses'}),
-            Validity.create({ id: 2, licenseValidity: 'seis meses'})
+            Validity.create({ id: 1, licenseValidity: 'seis meses'}),
+            Validity.create({ id: 2, licenseValidity: 'doce meses'})
         ]);
 
         consoleLogger.info("\n  Default license validities have been set");

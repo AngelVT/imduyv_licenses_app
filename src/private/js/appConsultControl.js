@@ -104,8 +104,13 @@ function createResultField(id, tag, name, value, type) {
         input = document.createElement('input');
         if(type == 'file') {
             input.setAttribute('class', 'w-85 input-file');
+            input.setAttribute('multiple', '');
         } else {
             input.setAttribute('class', 'w-85 input input-interface input-round-left');
+        }
+
+        if(type == 'number') {
+            input.setAttribute('step', 'any');
         }
 
         input.setAttribute('type', type);
@@ -117,6 +122,48 @@ function createResultField(id, tag, name, value, type) {
     label.appendChild(input);
 
     button.setAttribute('class', 'bi-floppy input-side-save w-10');
+
+    label.appendChild(button);
+
+    field.appendChild(label);
+
+    return field;
+}
+
+function createResultTextArea(id, tag, name, value) {
+    let field = document.createElement('form');
+    let label = document.createElement('label');
+    let button = document.createElement('button');
+    let input;
+    let span;
+
+    field.setAttribute('onsubmit', `updateResultField(this, ${id}); return false`);
+    field.setAttribute('class', 'field-span')
+
+    label.innerText = tag + ':';
+    label.setAttribute('class', 'dis-flex flex-wrap color-primary')
+
+    input = document.createElement('input');
+    input.setAttribute('type', 'hidden');
+    input.setAttribute('value', value);
+
+    label.appendChild(input);
+
+    span = document.createElement('span');
+    span.setAttribute('class', 'w-100');
+
+    label.appendChild(span);
+
+    input = document.createElement('textarea');
+    input.setAttribute('class', 'input input-interface input-round-left input-textarea-result');
+
+    input.setAttribute('name', name);
+    input.value = value;
+    input.setAttribute('required','');
+
+    label.appendChild(input);
+
+    button.setAttribute('class', 'bi-floppy input-side-save ta w-10');
 
     label.appendChild(button);
 
@@ -637,7 +684,7 @@ function createUrbanPrintResult(resObj, target) {
             field = createResultField(resObj.id, 'Domicilio del inmueble', 'buildingAddress', resObj.licenseSpecialData.buildingAddress, 'text');
             resultContent.appendChild(field);
 
-            field = createResultField(resObj.id, 'Resumen de autorización', 'authorizationResume', resObj.licenseSpecialData.authorizationResume, 'text');
+            field = createResultTextArea(resObj.id, 'Resumen de autorización', 'authorizationResume', resObj.licenseSpecialData.authorizationResume);
             resultContent.appendChild(field);
             break;
         case 4:
@@ -647,7 +694,7 @@ function createUrbanPrintResult(resObj, target) {
             field = createResultField(resObj.id, 'Domicilio del inmueble', 'buildingAddress', resObj.licenseSpecialData.buildingAddress, 'text');
             resultContent.appendChild(field);
 
-            field = createResultField(resObj.id, 'Resumen de autorización', 'authorizationResume', resObj.licenseSpecialData.authorizationResume, 'text');
+            field = createResultTextArea(resObj.id, 'Resumen de autorización', 'authorizationResume', resObj.licenseSpecialData.authorizationResume);
             resultContent.appendChild(field);
             break;
         case 5:
@@ -666,6 +713,21 @@ function createUrbanPrintResult(resObj, target) {
             field = createResultField(resObj.id, 'Viviendas', 'households', resObj.licenseSpecialData.households, 'text');
             resultContent.appendChild(field);
 
+            field = createResultField(resObj.id, 'Tablas resumen', 'resumeTables', resObj.fullInvoice, 'file');
+            resultContent.appendChild(field);
+
+            field = createResultTextArea(resObj.id, 'Documentos', 'documents', resObj.licenseSpecialData.documents.join('\n'));
+            resultContent.appendChild(field);
+
+            field = createResultTextArea(resObj.id, 'Lotes', 'lotes', resObj.licenseSpecialData.lotes.join('\n'));
+            resultContent.appendChild(field);
+
+            field = createResultTextArea(resObj.id, 'Manzanas', 'manzanas', resObj.licenseSpecialData.manzanas.join('\n'));
+            resultContent.appendChild(field);
+
+            field = createResultTextArea(resObj.id, 'Condicionantes', 'conditions', resObj.licenseSpecialData.conditions.join('\n'));
+            resultContent.appendChild(field);
+
             field = createResultField(resObj.id, 'Superficie privativa', 'privateSurface', resObj.licenseSpecialData.privateSurface, 'number');
             resultContent.appendChild(field);
 
@@ -677,7 +739,7 @@ function createUrbanPrintResult(resObj, target) {
     if(resObj.licenseType <= 4) {
         field = document.createElement('img');
         field.setAttribute('alt', 'Zonificación');
-        field.setAttribute('src', `/urbanStorage/${resObj.fullInvoice}/zone.png`);
+        field.setAttribute('src', `/urbanStorage/${resObj.fullInvoice}/zone.png?${new Date().getTime()}`);
         field.setAttribute('class', 'urban-print-result-img ');
 
         resultContent.appendChild(field);
