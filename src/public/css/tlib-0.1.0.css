@@ -1061,15 +1061,27 @@ html {
     transition: ease-in-out .2s;
 }
 
+.input-bottom-save {
+    height: 30px;
+    border-radius: 0 0 15px 15px;
+    outline: none;
+    border: none;
+    background-color: var(--complementary);
+    color: var(--white);
+    cursor: pointer;
+    text-align: center;
+    transition: ease-in-out .2s;
+}
+
 .input-side-save.ta {
     height: 46px;
 }
 
-.input-side-save:hover {
+.input-side-save:hover, .input-bottom-save:hover{
     background-color: var(--primary);
 }
 
-.input-side-save:active {
+.input-side-save:active{
     transform: scale(1.2);
 }
 
@@ -1293,4 +1305,43 @@ textarea.invissible:focus {
 
 .field-span {
     grid-column: span 2;
+}
+
+.input-textarea-table {
+    resize: none;
+    width: 20%;
+    font-size: 12px;
+    padding: 5px 8px;
+    height: 150px;
+}
+
+.text-like-field {
+    background-color: var(--white);
+    color: var(--black);
+    padding: 0 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.preview-container {
+    padding: 10px;
+    border-radius: 15px;
+    overflow-y: scroll;
+    max-height: 256px;
+    
+}
+
+.preview-table {
+    font-size: 12px;
+    width: 100%;
+    background-color: var(--white);
+    border: 1px solid var(--black);
+    border-collapse: collapse;
+}
+
+.preview-table th, .preview-table td {
+    border: 1px solid var(--black);
+    padding: 5px;
+    border-collapse: collapse;
 }

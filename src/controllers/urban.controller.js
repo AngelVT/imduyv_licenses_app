@@ -336,7 +336,9 @@ export const updateLicense = async (req, res) => {
                 key == 'documents' ||
                 key == 'conditions' ||
                 key == 'lotes' ||
-                key == 'manzanas') {
+                key == 'manzanas' ||
+                key == 'actualSituation' ||
+                key == 'actualAuthorizedFS') {
                     console.log("Skipped", typeof key, key)
             } else {
                 req.body[key] = req.body[key].toLowerCase();
@@ -407,8 +409,8 @@ export const updateLicense = async (req, res) => {
         newSpecialData.frontalRestriction = frontalRestriction ? frontalRestriction : newSpecialData.frontalRestriction;
         newSpecialData.parkingLots = parkingLots ? parkingLots : newSpecialData.parkingLots;
         newSpecialData.usePercent = usePercent ? usePercent : newSpecialData.usePercent;
-        newSpecialData.actualSituation = actualSituation ? actualSituation : newSpecialData.actualSituation;
-        newSpecialData.actualAuthorizedFS = actualAuthorizedFS ? actualAuthorizedFS : newSpecialData.actualAuthorizedFS;
+        newSpecialData.actualSituation = actualSituation ? JSON.parse(actualSituation) : newSpecialData.actualSituation;
+        newSpecialData.actualAuthorizedFS = actualAuthorizedFS ? JSON.parse(actualAuthorizedFS) : newSpecialData.actualAuthorizedFS;
         newSpecialData.authorizationResume = authorizationResume ? authorizationResume : newSpecialData.authorizationResume;
         newSpecialData.households = households ? households : newSpecialData.households;
         newSpecialData.documents = documents ? documents.replaceAll('\r', '').split('\n') : newSpecialData.documents;
@@ -450,7 +452,10 @@ export const updateLicense = async (req, res) => {
                 });
             });
 
-            await deleteFiles(directory);
+            if(files.resumeTables) {
+                await deleteFiles(directory);
+            }
+            
 
             if (files.zoneIMG) {
                 await new Promise((resolve, reject) => {

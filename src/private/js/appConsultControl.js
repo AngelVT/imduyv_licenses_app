@@ -686,6 +686,16 @@ function createUrbanPrintResult(resObj, target) {
 
             field = createResultTextArea(resObj.id, 'Resumen de autorización', 'authorizationResume', resObj.licenseSpecialData.authorizationResume);
             resultContent.appendChild(field);
+
+            field = generateTableForm(resObj);
+            resultContent.appendChild(field);
+
+            field = document.createElement('div');
+            field.setAttribute('class', 'field-span border-round preview-container');
+            field.setAttribute('id', `tha-preview-${resObj.id}`);
+            field.appendChild(generateTableFrom(resObj.licenseSpecialData.actualSituation));
+
+            resultContent.appendChild(field);
             break;
         case 4:
             field = createResultField(resObj.id, 'Domicilio del solicitante', 'requestorAddress', resObj.licenseSpecialData.requestorAddress, 'text');
@@ -695,6 +705,16 @@ function createUrbanPrintResult(resObj, target) {
             resultContent.appendChild(field);
 
             field = createResultTextArea(resObj.id, 'Resumen de autorización', 'authorizationResume', resObj.licenseSpecialData.authorizationResume);
+            resultContent.appendChild(field);
+
+            field = generateTableForm(resObj);
+            resultContent.appendChild(field);
+
+            field = document.createElement('div');
+            field.setAttribute('class', 'field-span border-round preview-container');
+            field.setAttribute('id', `tha-preview-${resObj.id}`);
+            field.appendChild(generateTableFrom(resObj.licenseSpecialData.actualSituation));
+
             resultContent.appendChild(field);
             break;
         case 5:
@@ -751,4 +771,457 @@ function createUrbanPrintResult(resObj, target) {
         resultContent);
 
     target.appendChild(newResult);
+}
+
+function generateTableForm(resObj) {
+    let field = document.createElement('form');
+    let label = document.createElement('span');
+    let button = document.createElement('button');
+    let input;
+    let span;
+
+    field.setAttribute('onsubmit', `updateResultTables(this, ${resObj.id}); return false`);
+    field.setAttribute('class', 'field-span')
+
+    label.innerText = 'Situación actual/Subdivisión o fusión que se autoriza:';
+    label.setAttribute('class', 'dis-flex flex-wrap color-primary')
+
+    input = document.createElement('input');
+    input.setAttribute('type', 'hidden');
+    input.setAttribute('name', `actualSituation`);
+    input.setAttribute('id', `current_actual_situation_${resObj.id}`)
+    input.setAttribute('value', JSON.stringify(resObj.licenseSpecialData.actualSituation));
+
+    label.appendChild(input);
+
+    input = document.createElement('input');
+    input.setAttribute('type', 'hidden');
+    input.setAttribute('name', `actualAuthorizedFS`);
+    input.setAttribute('id', `current_actual_authorized_fs_${resObj.id}`)
+    input.setAttribute('value', JSON.stringify(resObj.licenseSpecialData.actualAuthorizedFS));
+
+    label.appendChild(input);
+
+    span = document.createElement('span');
+    span.setAttribute('class', 'w-100');
+
+    label.appendChild(span);
+
+    input = document.createElement('select');
+    input.setAttribute('class', 'w-35 input input-interface input-round-left');
+    input.setAttribute('onchange', `selector(${resObj.id})`);
+    input.innerHTML = `
+    <option value="1">Situación Actual</option>
+    <option value="2">Subdivisión o fusión que se autoriza</option>`;
+    input.setAttribute('id',`editor_table_${resObj.id}`);
+
+    label.appendChild(input);
+
+    //colums
+    span = document.createElement('span');
+    span.setAttribute('class', 'text-like-field');
+    span.innerText = 'Numero de filas: ';
+
+    label.appendChild(span);
+
+    input = document.createElement('input');
+    input.setAttribute('class', 'w-10 input input-interface');
+    input.setAttribute('type','number');
+    input.setAttribute('id',`editor_rows_${resObj.id}`);
+    input.value = resObj.licenseSpecialData.actualSituation.length;
+    input.setAttribute('onchange', `defineTotalRows(${resObj.id})`);
+
+    label.appendChild(input);
+
+    span = document.createElement('span');
+    span.setAttribute('class', 'text-like-field');
+    span.innerText = 'Fila objetivo: ';
+
+    label.appendChild(span);
+
+    input = document.createElement('input');
+    input.setAttribute('class', 'w-10 input input-interface input-round-right');
+    input.setAttribute('type','number');
+    input.setAttribute('id',`editor_rowT_${resObj.id}`);
+    input.setAttribute('oninput', `checkTargetRow(${resObj.id})`);
+    input.value = 1;
+
+    label.appendChild(input);
+
+    span = document.createElement('span');
+    span.setAttribute('class', 'w-100 margin-bottom-small');
+
+    label.appendChild(span);
+
+    span = document.createElement('span');
+    span.innerText = 'Descripción:';
+    span.setAttribute('class', 'w-20');
+
+    label.appendChild(span);
+
+    span = document.createElement('span');
+    span.innerText = 'Superficie:';
+    span.setAttribute('class', 'w-20');
+
+    label.appendChild(span);
+
+    span = document.createElement('span');
+    span.innerText = 'Orientación:';
+    span.setAttribute('class', 'w-20');
+
+    label.appendChild(span);
+
+    span = document.createElement('span');
+    span.innerText = 'Medidas:';
+    span.setAttribute('class', 'w-20');
+
+    label.appendChild(span);
+
+    span = document.createElement('span');
+    span.innerText = 'Colindancias:';
+    span.setAttribute('class', 'w-20');
+
+    label.appendChild(span);
+
+    //inputs
+    input = document.createElement('input');
+    input.style.borderRadius = '15px 0 0 0'
+    input.setAttribute('class', 'input input-interface input-textarea-table');
+    input.setAttribute('id', `table_editor_description_${resObj.id}`)
+    input.value = resObj.licenseSpecialData.actualSituation[0].description;
+    input.setAttribute('oninput', `updateDescription(${resObj.id}, this.value)`);
+
+    label.appendChild(input);
+
+    input = document.createElement('input');
+    input.setAttribute('class', 'input input-interface input-textarea-table');
+    input.setAttribute('id', `table_editor_surface_${resObj.id}`)
+    input.value = resObj.licenseSpecialData.actualSituation[0].surface;
+    input.setAttribute('oninput', `updateSurface(${resObj.id}, this.value)`);
+
+    label.appendChild(input);
+
+    input = document.createElement('textarea');
+    input.setAttribute('class', 'input input-interface input-textarea-table');
+    input.setAttribute('id', `table_editor_distribution_${resObj.id}`)
+    input.value = resObj.licenseSpecialData.actualSituation[0].table.distribution.join('\n');
+    input.setAttribute('oninput', `updateDistribution(${resObj.id}, this.value)`);
+
+    label.appendChild(input);
+
+    input = document.createElement('textarea');
+    input.setAttribute('class', 'input input-interface input-textarea-table');
+    input.setAttribute('id', `table_editor_measures_${resObj.id}`)
+    input.value = resObj.licenseSpecialData.actualSituation[0].table.measures.join('\n');
+    input.setAttribute('oninput', `updateMeasures(${resObj.id}, this.value)`);
+
+    label.appendChild(input);
+
+    input = document.createElement('textarea');
+    input.style.borderRadius = '0 15px 0 0'
+    input.setAttribute('class', 'input input-interface input-textarea-table');
+    input.setAttribute('id', `table_editor_adjoining_${resObj.id}`)
+    input.value = resObj.licenseSpecialData.actualSituation[0].table.adjoining.join('\n');
+    input.setAttribute('oninput', `updateAdjoining(${resObj.id}, this.value)`);
+
+    label.appendChild(input);
+
+    button.setAttribute('class', 'bi-floppy input-bottom-save w-100');
+
+    label.appendChild(button);
+
+    field.appendChild(label);
+
+    return field;
+}
+
+function selector(target) {
+    let table = document.querySelector(`#editor_table_${target}`);
+    let rows = document.querySelector(`#editor_rows_${target}`);
+    let row = document.querySelector(`#editor_rowT_${target}`);
+
+    let currentActualSituation = JSON.parse(document.querySelector(`#current_actual_situation_${target}`).value);
+    let currentActualAuthorizedFS = JSON.parse(document.querySelector(`#current_actual_authorized_fs_${target}`).value);
+
+    row.value = 1;
+
+    if (table.value  == 1) {
+        rows.value = currentActualSituation.length;
+    } else {
+        rows.value = currentActualAuthorizedFS.length;
+    }
+
+    updatePreview(target);
+}
+
+function updatePreview(target) {
+    let preview = document.querySelector(`#tha-preview-${target}`);
+    let table = document.querySelector(`#editor_table_${target}`);
+
+    let currentActualSituation = JSON.parse(document.querySelector(`#current_actual_situation_${target}`).value);
+    let currentActualAuthorizedFS = JSON.parse(document.querySelector(`#current_actual_authorized_fs_${target}`).value);
+
+    if (table.value  == 1) {
+        preview.innerHTML = '';
+        preview.appendChild(generateTableFrom(currentActualSituation));
+    } else {
+        preview.innerHTML = '';
+        preview.appendChild(generateTableFrom(currentActualAuthorizedFS));
+    }
+}
+
+function updateDistribution(target, value) {
+    let table = document.querySelector(`#editor_table_${target}`);
+    let row = document.querySelector(`#editor_rowT_${target}`).value;
+
+    let currentActualSituation = JSON.parse(document.querySelector(`#current_actual_situation_${target}`).value);
+    let currentActualAuthorizedFS = JSON.parse(document.querySelector(`#current_actual_authorized_fs_${target}`).value);
+
+    if (table.value  == 1) {
+        currentActualSituation[row - 1].table.distribution = value.split('\n');
+    } else {
+        currentActualAuthorizedFS[row - 1].table.distribution = value.split('\n');
+    }
+
+    document.querySelector(`#current_actual_situation_${target}`).value = JSON.stringify(currentActualSituation);
+    document.querySelector(`#current_actual_authorized_fs_${target}`).value = JSON.stringify(currentActualAuthorizedFS);
+
+    updatePreview(target);
+}
+
+function updateMeasures(target, value) {
+    let table = document.querySelector(`#editor_table_${target}`);
+    let row = document.querySelector(`#editor_rowT_${target}`).value;
+    let currentActualSituation = JSON.parse(document.querySelector(`#current_actual_situation_${target}`).value);
+    let currentActualAuthorizedFS = JSON.parse(document.querySelector(`#current_actual_authorized_fs_${target}`).value);
+
+    if (table.value  == 1) {
+        currentActualSituation[row - 1].table.measures = value.split('\n');
+    } else {
+        currentActualAuthorizedFS[row - 1].table.measures = value.split('\n');
+    }
+
+    document.querySelector(`#current_actual_situation_${target}`).value = JSON.stringify(currentActualSituation);
+    document.querySelector(`#current_actual_authorized_fs_${target}`).value = JSON.stringify(currentActualAuthorizedFS);
+
+    updatePreview(target);
+}
+
+function updateAdjoining(target, value) {
+    let table = document.querySelector(`#editor_table_${target}`);
+    let row = document.querySelector(`#editor_rowT_${target}`).value;
+
+    let currentActualSituation = JSON.parse(document.querySelector(`#current_actual_situation_${target}`).value);
+    let currentActualAuthorizedFS = JSON.parse(document.querySelector(`#current_actual_authorized_fs_${target}`).value);
+
+    if (table.value  == 1) {
+        currentActualSituation[row - 1].table.adjoining = value.split('\n');
+    } else {
+        currentActualAuthorizedFS[row - 1].table.adjoining = value.split('\n');
+    }
+
+    document.querySelector(`#current_actual_situation_${target}`).value = JSON.stringify(currentActualSituation);
+    document.querySelector(`#current_actual_authorized_fs_${target}`).value = JSON.stringify(currentActualAuthorizedFS);
+
+    updatePreview(target);
+}
+
+function updateDescription(target, value) {
+    let table = document.querySelector(`#editor_table_${target}`);
+    let row = document.querySelector(`#editor_rowT_${target}`).value;
+
+    let currentActualSituation = JSON.parse(document.querySelector(`#current_actual_situation_${target}`).value);
+    let currentActualAuthorizedFS = JSON.parse(document.querySelector(`#current_actual_authorized_fs_${target}`).value);
+
+    if (table.value  == 1) {
+        currentActualSituation[row - 1].description = value;
+    } else {
+        currentActualAuthorizedFS[row - 1].description = value;
+    }
+
+    document.querySelector(`#current_actual_situation_${target}`).value = JSON.stringify(currentActualSituation);
+    document.querySelector(`#current_actual_authorized_fs_${target}`).value = JSON.stringify(currentActualAuthorizedFS);
+
+    updatePreview(target);
+}
+
+function updateSurface(target, value) {
+    let table = document.querySelector(`#editor_table_${target}`);
+    let row = document.querySelector(`#editor_rowT_${target}`).value;
+
+    let currentActualSituation = JSON.parse(document.querySelector(`#current_actual_situation_${target}`).value);
+    let currentActualAuthorizedFS = JSON.parse(document.querySelector(`#current_actual_authorized_fs_${target}`).value);
+
+    if (table.value  == 1) {
+        currentActualSituation[row - 1].surface = value;
+    } else {
+        currentActualAuthorizedFS[row - 1].surface = value;
+    }
+
+    document.querySelector(`#current_actual_situation_${target}`).value = JSON.stringify(currentActualSituation);
+    document.querySelector(`#current_actual_authorized_fs_${target}`).value = JSON.stringify(currentActualAuthorizedFS);
+
+    updatePreview(target);
+}
+
+function checkTargetRow(target) {
+    let table = document.querySelector(`#editor_table_${target}`);
+    let row = document.querySelector(`#editor_rowT_${target}`);
+
+    let currentActualSituation = JSON.parse(document.querySelector(`#current_actual_situation_${target}`).value);
+    let currentActualAuthorizedFS = JSON.parse(document.querySelector(`#current_actual_authorized_fs_${target}`).value);
+
+    if (table.value  == 1) {
+        if(row.value > currentActualSituation.length) {
+            row.value = 1
+        } else if (row.value < 1) {
+            row.value = currentActualSituation.length
+        }
+    } else {
+        if(row.value > currentActualAuthorizedFS.length) {
+            row.value = 1
+        } else if (row.value < 1) {
+            row.value = currentActualAuthorizedFS.length
+        }
+    }
+    updateRowFields(target);
+}
+
+function defineTotalRows(target) {
+    let table = document.querySelector(`#editor_table_${target}`);
+    let row = document.querySelector(`#editor_rows_${target}`);
+    let rowT = document.querySelector(`#editor_rowT_${target}`);
+
+    let currentActualSituation = JSON.parse(document.querySelector(`#current_actual_situation_${target}`).value);
+    let currentActualAuthorizedFS = JSON.parse(document.querySelector(`#current_actual_authorized_fs_${target}`).value);
+
+    if (table.value  == 1) {
+        if(row.value <= 0) {
+            row.value = 1;
+            return;
+        }
+
+        if(row.value > currentActualSituation.length) {
+            currentActualSituation.length = row.value 
+            for (let i = 0; i < currentActualSituation.length; i++) {
+                if(currentActualSituation[i] == undefined) {
+                    currentActualSituation[i] = {
+                        "description": `Fila ${i+1}*`,
+                        "surface": "########",
+                        "table": {
+                            "distribution": ["Oeste","Noroeste","Norte", "Noreste", "Este", "Sureste","Sur", "Suroeste"],
+                            "measures": ["15.00 m","15.00 m","15.00 m", "15.00 m", "15.00 m", "15.00 m","15.00 m", "15.00 m"],
+                            "adjoining": ["LOTE 8","LOTE 6","LOTE 50", "CALLE PORVENIR", "LOTE 8", "LOTE 6","LOTE 50", "CALLE PORVENIR"]
+                        }
+                    }
+                }
+            }
+        } else if (row.value < currentActualSituation.length) {
+            currentActualSituation = currentActualSituation.slice(0, row.value);
+        }
+
+        rowT.value = currentActualAuthorizedFS.length;
+
+    } else {
+        if(row.value <= 0) {
+            row.value = 1;
+            return;
+        }
+
+        if(row.value > currentActualAuthorizedFS.length) {
+            currentActualSituation.length = row.value 
+            for (let i = 0; i < currentActualAuthorizedFS.length; i++) {
+                if(currentActualAuthorizedFS[i] == undefined) {
+                    currentActualAuthorizedFS[i] = {
+                        "description": `Fila ${i+1}*`,
+                        "surface": "########",
+                        "table": {
+                            "distribution": ["Oeste","Noroeste","Norte", "Noreste", "Este", "Sureste","Sur", "Suroeste"],
+                            "measures": ["15.00 m","15.00 m","15.00 m", "15.00 m", "15.00 m", "15.00 m","15.00 m", "15.00 m"],
+                            "adjoining": ["LOTE 8","LOTE 6","LOTE 50", "CALLE PORVENIR", "LOTE 8", "LOTE 6","LOTE 50", "CALLE PORVENIR"]
+                        }
+                    }
+                }
+            }
+        } else if (row.value < currentActualAuthorizedFS.length) {
+            currentActualAuthorizedFS = currentActualAuthorizedFS.slice(0, row.value);
+        }
+
+        rowT.value = currentActualAuthorizedFS.length;
+    }
+
+    document.querySelector(`#current_actual_situation_${target}`).value = JSON.stringify(currentActualSituation);
+    document.querySelector(`#current_actual_authorized_fs_${target}`).value = JSON.stringify(currentActualAuthorizedFS);
+
+    updatePreview(target);
+}
+
+function updateRowFields(target) {
+    let table = document.querySelector(`#editor_table_${target}`);
+    let row = document.querySelector(`#editor_rowT_${target}`).value;
+
+    let currentActualSituation = JSON.parse(document.querySelector(`#current_actual_situation_${target}`).value);
+    let currentActualAuthorizedFS = JSON.parse(document.querySelector(`#current_actual_authorized_fs_${target}`).value);
+
+    if (table.value  == 1) {
+        document.querySelector(`#table_editor_description_${target}`).value = currentActualSituation[row-1].description;
+        document.querySelector(`#table_editor_surface_${target}`).value = currentActualSituation[row-1].surface;
+        document.querySelector(`#table_editor_distribution_${target}`).value = currentActualSituation[row-1].table.distribution.join('\n');
+        document.querySelector(`#table_editor_measures_${target}`).value = currentActualSituation[row-1].table.measures.join('\n');
+        document.querySelector(`#table_editor_adjoining_${target}`).value = currentActualSituation[row-1].table.adjoining.join('\n');
+    } else {
+        document.querySelector(`#table_editor_description_${target}`).value = currentActualAuthorizedFS[row-1].description;
+        document.querySelector(`#table_editor_surface_${target}`).value = currentActualAuthorizedFS[row-1].surface;
+        document.querySelector(`#table_editor_distribution_${target}`).value = currentActualAuthorizedFS[row-1].table.distribution.join('\n');
+        document.querySelector(`#table_editor_measures_${target}`).value = currentActualAuthorizedFS[row-1].table.measures.join('\n');
+        document.querySelector(`#table_editor_adjoining_${target}`).value = currentActualAuthorizedFS[row-1].table.adjoining.join('\n');
+    }
+
+    document.querySelector(`#current_actual_situation_${target}`).value = JSON.stringify(currentActualSituation);
+    document.querySelector(`#current_actual_authorized_fs_${target}`).value = JSON.stringify(currentActualAuthorizedFS);
+}
+
+function generateTableFrom(obj) {
+    let table = document.createElement('table');
+    table.setAttribute('class', 'preview-table')
+
+    let headerRow = document.createElement('tr');
+    let headers = ['Descripción', 'Superficie', 'Orientación', 'Medidas', 'Colindancias'];
+    headers.forEach(headerText => {
+        let header = document.createElement('th');
+        header.textContent = headerText;
+        headerRow.appendChild(header);
+    });
+    table.appendChild(headerRow);
+
+    obj.forEach(item => {
+        let row = document.createElement('tr');
+
+        let descriptionCell = document.createElement('td');
+        descriptionCell.textContent = item.description;
+        row.appendChild(descriptionCell);
+
+        let surfaceCell = document.createElement('td');
+        surfaceCell.textContent = item.surface;
+        row.appendChild(surfaceCell);
+
+        let distributionCell = document.createElement('td');
+        distributionCell.textContent = item.table.distribution.join('\n');
+        distributionCell.style.whiteSpace = 'pre-wrap';
+        row.appendChild(distributionCell);
+
+        let measuresCell = document.createElement('td');
+        measuresCell.textContent = item.table.measures.join('\n');
+        measuresCell.style.whiteSpace = 'pre-wrap';
+        row.appendChild(measuresCell);
+
+        let adjoiningCell = document.createElement('td');
+        adjoiningCell.textContent = item.table.adjoining.join('\n');
+        adjoiningCell.style.whiteSpace = 'pre-wrap';
+        row.appendChild(adjoiningCell);
+
+        table.appendChild(row);
+    });
+
+    return table;
 }
