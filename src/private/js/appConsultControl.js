@@ -685,6 +685,7 @@ function createUrbanPrintResult(resObj, target) {
             resultContent.appendChild(field);
 
             field = createResultTextArea(resObj.id, 'Resumen de autorización', 'authorizationResume', resObj.licenseSpecialData.authorizationResume);
+            field.style.marginBottom = '10px';
             resultContent.appendChild(field);
 
             field = generateTableForm(resObj);
@@ -705,6 +706,7 @@ function createUrbanPrintResult(resObj, target) {
             resultContent.appendChild(field);
 
             field = createResultTextArea(resObj.id, 'Resumen de autorización', 'authorizationResume', resObj.licenseSpecialData.authorizationResume);
+            field.style.marginBottom = '10px';
             resultContent.appendChild(field);
 
             field = generateTableForm(resObj);
@@ -952,6 +954,7 @@ function selector(target) {
     }
 
     updatePreview(target);
+    checkTargetRow(target)
 }
 
 function updatePreview(target) {

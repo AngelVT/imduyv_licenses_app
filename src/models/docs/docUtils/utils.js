@@ -526,7 +526,7 @@ export function generateUrbanSpecialData(type) {
                 buildingAddress: "Domicilio",
                 actualSituation: [
                     {
-                        "description": "PARCELA 777",
+                        "description": "Fila 1",
                         "surface": "31,091.07",
                         "table": {
                             "distribution": ["Oeste","Noroeste","Norte", "Noreste", "Este", "Sureste","Sur", "Suroeste"],
@@ -537,7 +537,7 @@ export function generateUrbanSpecialData(type) {
                 ],
                 actualAuthorizedFS: [
                     {
-                        "description": "PARCELA 777",
+                        "description": "Fila 1",
                         "surface": "31,091.07",
                         "table": {
                             "distribution": ["Oeste","Noroeste","Norte", "Noreste", "Este", "Sureste","Sur", "Suroeste"],
@@ -546,7 +546,7 @@ export function generateUrbanSpecialData(type) {
                         }
                     },
                     {
-                        "description": "PARCELA 777",
+                        "description": "Fila 2",
                         "surface": "31,091.07",
                         "table": {
                             "distribution": ["Oeste","Noroeste","Norte", "Noreste", "Este", "Sureste","Sur", "Suroeste"],
@@ -563,7 +563,7 @@ export function generateUrbanSpecialData(type) {
                 buildingAddress: "Domicilio",
                 actualSituation: [
                     {
-                        "description": "PARCELA 777",
+                        "description": "Fila 1",
                         "surface": "31,091.07",
                         "table": {
                             "distribution": ["Oeste","Noroeste","Norte", "Noreste", "Este", "Sureste","Sur", "Suroeste"],
@@ -572,7 +572,7 @@ export function generateUrbanSpecialData(type) {
                         }
                     },
                     {
-                        "description": "PARCELA 777",
+                        "description": "Fila 2",
                         "surface": "31,091.07",
                         "table": {
                             "distribution": ["Oeste","Noroeste","Norte", "Noreste", "Este", "Sureste","Sur", "Suroeste"],
@@ -583,7 +583,7 @@ export function generateUrbanSpecialData(type) {
                 ],
                 actualAuthorizedFS: [
                     {
-                        "description": "PARCELA 777",
+                        "description": "Fila 1",
                         "surface": "31,091.07",
                         "table": {
                             "distribution": ["Oeste","Noroeste","Norte", "Noreste", "Este", "Sureste","Sur", "Suroeste"],
