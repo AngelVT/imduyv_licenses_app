@@ -2,12 +2,12 @@ import path from "path";
 import { __dirstorage } from "../../../paths.js";
 import * as docUtils from "../docUtils/utils.js";
 
-export function generateUrbanLUS(lcDBObj) {
+export function generateUrbanLF(lcDBObj) {
 
     lcDBObj = docUtils.prepareData(lcDBObj);
 
     var definition = {
-        pageMargins: [ 5, 60, 5, 10 ],
+        pageMargins: [ 5, 60, 5, 70 ],
         styles: docUtils.docStyles,
         content: [
             {
@@ -17,7 +17,7 @@ export function generateUrbanLUS(lcDBObj) {
                 margin: [0, 0, 0, 10],
             },
             {
-                text: "LICENCIA DE USO DE SUELO",
+                text: "LICENCIA DE FRACCIONAMIENTO",
                 alignment: 'center',
                 fontSize: 16,
                 bold: true
@@ -48,6 +48,7 @@ export function generateUrbanLUS(lcDBObj) {
                                             {text: 'Nombre: ', style: 'labelT', border: docUtils.borderless},
                                             docUtils.field(lcDBObj.requestorName, docUtils.borderless, null,null, 7)
                                         ],
+                                        docUtils.generateLegalRepresentativeField(lcDBObj.legalRepresentative),
                                         [
                                             {text: 'Domicilio: ', style: 'labelT', border: docUtils.borderless},
                                             docUtils.field(lcDBObj.licenseSpecialData.requestorAddress, docUtils.borderless, null,null, 7),
@@ -55,10 +56,6 @@ export function generateUrbanLUS(lcDBObj) {
                                         [
                                             {text: '', border: docUtils.borderless},
                                             {text: '', border: docUtils.borderless}
-                                        ],
-                                        [
-                                            {text: 'Fecha de Solicitud: ', style: 'labelT', border: docUtils.borderless},
-                                            docUtils.field(docUtils.dateFormatFull(lcDBObj.requestDate), docUtils.borderless, null,null, 7)
                                         ]
                                     ]
                                 },

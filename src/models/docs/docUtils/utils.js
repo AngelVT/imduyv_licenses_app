@@ -344,6 +344,17 @@ export function generateDSMCTable(situationArray, subject) {
     return body;
 }
 
+export function generateLegalRepresentativeField(representative) {
+    if (representative) {
+        return [
+            {text: 'Representante Legal: ', style: 'labelT', border: borderless},
+            field(representative, borderless, null,null, 7)
+        ];
+    }
+
+    return [{text: '', border: borderless},{text: '', border: borderless}];
+}
+
 function generateSubTable(tableObj) {
     let subBody = []
 
@@ -597,7 +608,17 @@ export function generateUrbanSpecialData(type) {
         case 5:
             return {}
         case 6:
-            return {}
+            return {
+                requestorAddress: "Domicilio",
+                buildingAddress: "Domicilio",
+                occupationPercent: 0,
+                surfacePerLote: 0,
+                maximumHeight: "Ej: 9 metros o 3 niveles",
+                minimalFront: 0.00,
+                frontalRestriction: 0.0,
+                parkingLots: "Ej: 1 Cajón por lote",
+                usePercent: 0
+            }
         case 7:
             return {}
         case 8:
