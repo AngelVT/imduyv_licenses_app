@@ -1371,17 +1371,21 @@ textarea.invissible:focus {
         font-size: 2.2em;
     }
 
+    .template-login-a {
+        width: 60%;
+    }
+
     .template-3cols {
         grid-template-columns: 1fr 1fr;
+    }
+
+    .two-col-blank-gap {
+        display: none;
     }
 
     .page-full {
         height: auto;
         scroll-snap-align: none;
-    }
-
-    .two-col-blank-gap {
-        display: none;
     }
 
     .page-full.menu {
@@ -1406,9 +1410,20 @@ textarea.invissible:focus {
     }
 }
 
-@media (max-width: 400px) {
+@media (max-width: 770px) {
     .container.dis-flex {
         flex-direction: column;
+    }
+
+    .btn-column {
+        width: 50%;
+        font-size: 2.5em;
+    }
+}
+
+@media (max-width: 450px) {
+    .template-login-a {
+        width: 90%;
     }
 
     .btn-column {
