@@ -15,327 +15,59 @@
 </head>
 <body class="bg-image bg-image-2">
     <main>
-        <section class="page-full bg-blur">
+        <section class="page-full menu bg-blur">
             <div class="container shadow-inner padding-horizontal-large dis-flex flex-center-v flex-column">
-                
-                <a href="/app/landMenu" class="back-arrow bi-arrow-left-circle-fill"></a>
-                <span class="bi-building user-info">
+
+                <a href="/app/urbanMenu" class="back-arrow bi-arrow-left-circle-fill"></a>
+                <span class="bi-buildings user-info">
                     <div class="border-round color-white">
                         <span id="user_name" class="bi-person-circle padding-horizontal-small"> Usuario</span>
                         <span id="logout" class="bi-door-open btn"> Cerrar sesión</span>
                     </div>
                 </span>
+                
+                <div class="h-100 w-100 page-container">
+                    <div class="w-100 page">
+                        <div class="dis-flex flex-center w-100 margin-bottom-small padding-small border-primary border-only-left border-only-bottom border-only-right border-round-bottom controls print">
+                            <form id="form_urban_byInvoicePrint" class="dis-flex flex-wrap flex-center-h w-25">
+                                <select id="formatter" name="byInvoiceType" class="input input-secondary input-interface border-secondary input-round-left w-40" required>
+                                    <option value="">Seleccione tipo ...</option>
+                                    <option value="1">Constancia</option>
+                                    <option value="2">Licencia Servicios</option>
+                                    <option value="3">Licencia Comercal</option>
+                                    <option value="4">Licencia Industria</option>
+                                    <option value="5">Licencia Habitacional</option>
+                                    <option value="6">Segregado</option>
+                                    <option value="7">Derecho de Preferencia</option>
+                                </select>
+                                <input name="byInvoice" class="input input-secondary input-interface border-secondary w-20" type="number" placeholder="folio" required>
+                                <select name="byInvoiceYear" class="input input-secondary input-interface input-round-right w-40" required>
+                                    <option value="">Seleccione año ...</option>
+                                    <option value="2024">2024</option>
+                                    <option value="2025">2025</option>
+                                    <option value="2026">2026</option>
+                                    <option value="2027">2027</option>
+                                    <option value="2028">2028</option>
+                                    <option value="2029">2029</option>
+                                    <option value="2030">2030</option>
+                                </select>
+        
+                                <button class="btn btn-primary margin-top-small" type="submit">Buscar</button>
+                                
+                            </form>
+                        </div>
 
-                <div class="dis-flex flex-between w-100 margin-bottom-small padding-small border-primary border-only-left border-only-bottom border-only-right border-round-bottom">
-                    <form id="form_land_byInvoicePrint" class="dis-flex flex-wrap flex-center-h w-25">
-                        <select id="formatter" name="byInvoiceType" class="input input-secondary input-interface border-secondary input-round-left w-40" required>
-                            <option value="">Seleccione tipo ...</option>
-                            <option value="1">Constancia</option>
-                            <option value="2">Licencia Servicios</option>
-                            <option value="3">Licencia Comercal</option>
-                            <option value="4">Licencia Industria</option>
-                            <option value="5">Licencia Habitacional</option>
-                            <option value="6">Segregado</option>
-                            <option value="7">Derecho de Preferencia</option>
-                        </select>
-                        <input name="byInvoice" class="input input-secondary input-interface border-secondary w-20" type="number" placeholder="folio" required>
-                        <select name="byInvoiceYear" class="input input-secondary input-interface input-round-right w-40" required>
-                            <option value="">Seleccione año ...</option>
-                            <option value="2024">2024</option>
-                            <option value="2025">2025</option>
-                            <option value="2026">2026</option>
-                            <option value="2027">2027</option>
-                            <option value="2028">2028</option>
-                            <option value="2029">2029</option>
-                            <option value="2030">2030</option>
-                        </select>
+                        <div class="w-100" id="print_results">
 
-                        <button class="btn btn-primary margin-top-small" type="submit">Buscar</button>
-                        
-                    </form>
-                    <div class="dis-flex flex-column padding-horizontal-small">
-                        <button class="btn btn-primary-bg margin-bottom-small bi-printer" id="btn_pdf"> PDF</button>
-                        <button class="btn btn-primary bi-floppy"> Guardar</button>
+                        </div>
+
                     </div>
+
+                    <iframe class="w-100 h-100 page bg-complementary-alpha border-round margin-top-small" src="" frameborder="0" id="pdf_lc">
+
+                    </iframe>
                 </div>
                 
-                <div class="h-100 page-container" id="print_area">
-
-                    <div class="letter-page dis-flex flex-column">
-                        <p class="txt-small txt-center margin-bottom-medium">"2024, año de Felipe Carrillo Puerto, Benemérito, Revolucionario y defensor del Mayab"</p>
-                        <p class="txt-uppercase txt-bold txt-center margin-bottom-medium"> <span id="f-licenseType">Constancia de uso de suelo</span> <br>
-                        <span id="f-fullInvoice" class="txt-capitalize format-txt-medium">IMDUyV/DLyCU/###/###/####</span>
-                        </p>
-
-                        <div class="dis-flex flex-column flex-between format-txt-regular grid-gap h-100">
-
-                            <div class="dis-flex flex_gap">
-                                <div class="w-50 grid-format">
-                                    
-                                    <p class="format-head">DATOS DEL SOLICITANTE</p>
-                                    <div class="format-container grid-format-data">
-
-                                        <p class="txt-bold format-label">Nombre: </p>
-                                        <span id="f-requestorName" class="format-field ">####### ######## ####### ####### ######## #######</span>
-
-                                        <p class="txt-bold format-label">En Atención: </p>
-                                        <span id="f-attentionName" class="format-field ">######### ######## # #######</span>
-
-                                        <p class="txt-bold format-label">Fecha de Solicitud: </p>
-                                        <span id="f-requestDate" class="format-field">######### ######## # #######</span>
-                                    </div>
-                                    
-                                </div>
-
-                                <div class="w-50 grid-format">
-                                    <p class="format-head">DATOS DEL INMUEBLE</p>
-                                    <div class="format-container grid-format-data">
-
-                                        <p class="txt-bold format-label">Calle: </p>
-                                        <span id="f-address" class="format-field">####### ######## #######</span>
-
-                                        <div class="number-ckey">
-                                            <p class="txt-bold format-label">Clave Catastral: </p>
-                                            <span id="f-catastralKey" class="format-field ">################# </span>
-
-                                            <p class="txt-bold format-label">Numero: </p>
-                                            <span id="f-number" class="format-field ">#### </span>
-                                        </div>
-
-                                        <p class="txt-bold format-label">Colonia: </p>
-                                        <span id="f-colony" class="format-field">################# </span>
-
-                                        <p class="txt-bold format-label">Superficie Total: </p>
-                                        <span id="f-surfaceTotal" class="format-field">###.## ##</span>
-                                    </div>
-                                    
-                                </div>
-                            </div>
-
-                            <div>
-                                <p class="format-head">NORMAS DE COMPATIBILIDADES Y APROVECHAMIENTO.</p>
-                                <div class="format-container grid-format-data-b">
-                                    <p class="format-field dis-flex flex-center txt-bold">PLANO 03PE01 - POLÍTICAS TERRITORIALES</p>
-                                    <p class="format-field dis-flex flex-center txt-bold">03PE09 -ZONIFICACIÓN SECUNDARIA</p>
-                                    <p class="format-field dis-flex flex-center txt-bold">PLANO 03PE10 - ETAPAS DE DESARROLLO</p>
-
-                                    <p class="format-label txt-bold dis-flex flex-center">Plazo: </p>
-                                    <span id="f-licenseTerm" class="format-field term">#####</span>
-
-                                    <p class="format-label txt-bold dis-flex flex-center">Zona: </p>
-                                    <span id="f-licenseZone" class="format-field zone">#####</span>
-
-                                    <p class="format-label txt-bold dis-flex flex-center">Clave: </p>
-                                    <span id="f-licenseKey" class="format-field key">#####</span>
-
-                                    <p class="format-label txt-bold dis-flex flex-center authUse formC formL">Uso de suelo permitido:</p>
-                                    <span id="f-licenseAuthUse" class="format-field authUse-f formC formL">######### ######## #########</span>
-
-                                    <p class="format-field txt-bold DP hidden formDP">DERECHO DE PREFERENCIA</p>
-
-                                    <p class="txt-bold txt-center dis-flex flex-center C formC">La expedición de constancia de uso de suelo: tiene como objeto establecer los usos y destinos de un predio con base en lo previsto en el Programa Municipal de Desarrollo Urbano y Ordenamiento Territorial de Tizayuca, lo cual no autoriza su modificación, construcción o alteración.</p>
-
-                                    <p class="format-label businessLine hidden formL">Giro:</p>
-                                    <span id="f-businessLinePrint" class="format-field businessLine-f hidden formL">##### #### ##### #####</span>
-
-                                    <p class="format-label surface hidden formL formDP">Superficie:</p>
-                                    <span class="format-field surface-f cf-surfaceTotal hidden formL formDP">##### m2</span>
-
-                                    <p class="format-field txt-bold format-txt-small hidden formL">La autorización de licencia de uso de suelo: tiene como objeto autorizar el uso o destino de un predio o inmueble, estableciendo sus condiciones de aprovechamiento de conformidad con los programas, reglamentos y normatividad aplicable en materia de desarrollo urbano y ordenamiento territorial.</p>
-                                </div>
-                            </div>
-
-                            <div class="dis-flex flex_gap formC">
-                                <div class="w-50 grid-format">
-                                    <p class="format-head">03PE09
-                                        - MAPA DE ZONIFICACIÓN</p>
-                                    <div>
-                                        <img id="f-zoneImage" class="w-100 format-zone" src="/landUseStorage/IMDUyV_DLyCU_DP_002_2024_zone.png" alt="zonificación">
-                                    </div>
-                                    
-                                </div>
-
-                                <div class="w-50">
-                                    <p class="format-txt-regular">
-                                        Que el solicitante con los documentos anexados a su escrito inicial ha dado cumplimiento con los requisitos técnicos y legales que obran en el expediente radicado en este Instituto Municipal de Desarrollo Urbano y Vivienda, acredita la propiedad del inmueble motivo de la solicitud de Constancia de Uso de Suelo, así como de la visita de inspección de campo, misma que permite la localización y ubicación del inmueble materia de este trámite.
-                                        <br><br>
-                                        El C. <span id="f-inspector"> ############## </span> <br>
-                                        En su carácter de personal técnico adscrito al referido Instituto, realizó visita de inspección en campo al inmueble del que solicita la Constancia de Uso de Suelo, emitiendo opinión técnica positiva.
-                                    <br><br>
-                                    <b class="l-annex">Anexo:</b> <span class="annex"></span> <input class="i-annex invissible" type="text">
-                                    </p>
-                                </div>
-                            </div>
-
-                            <div class="hidden formL">
-                                <p class="format-head">RESTRICCIONES Y SANCIONES</p>
-                                <div class="format-container">
-                                    <p id="restrictions" class="format-txt-small">La presente no autoriza acciones urbanas que generen impacto social en su entorno inmediato conforme a lo establecido en el artículo 139 de la Ley de Asentamientos Humanos, Desarrollo Urbano y Ordenamiento Territorial del Estado de Hidalgo y al artículo 61 del Reglamento de la Ley de Asentamientos Humanos, Desarrollo Urbano y Ordenamiento Territorial del Estado de Hidalgo debiendo ser compatibles o permitidos los giros de acuerdo a la matriz de compatibilidad del Programa Municipal de Desarrollo Urbano y Ordenamiento Territorial del Municipio de Tizayuca, Estado de Hidalgo. <br> Acatar la normativa y restricciones de la zonificación secundaria que determina el documento técnico del Programa Municipal de Desarrollo Urbano y Ordenamiento Territorial de Tizayuca. Los predios que tengan como frente un corredor urbano, podrán adoptar las características propias del corredor, siempre y cuando su acceso sea por el corredor. Deberá tramitar en su caso, la licencia de construcción en la Secretaría de Obras Públicas, así como la licencia de funcionamiento en la Dirección de Reglamentos, Espectáculos y Panteones, pertenecientes al Municipio de Tizayuca, Hidalgo. Dar cumplimiento a lo dispuesto en los artículos 80 y 81 de la Ley de Protección Civil del Estado de Hidalgo. El Instituto Municipal de Desarrollo Urbano y Vivienda se reserva el derecho de revocar la presente, en caso de incumplimiento a cualquiera de las condiciones establecidas en la misma.</p>
-                                    <textarea class="invissible hidden" id="i-restrictions"></textarea>
-                                </div>
-                            </div>
-
-                            <div class="formL formC">
-                                <p class="format-head">FUNDAMENTO JURÍDICO</p>
-                                <div class="format-container">
-                                    <p class="format-txt-small txt-justify">
-                                        Lo anterior con fundamento en lo dispuesto en los artículos 27 párrafo tercero, 73 fracción XXIX-c, 115 fracción V, inciso d y e, de la Constitución Política de los Estados Unidos Mexicanos; artículos 115, 141, fracción XVII, incisos a, c, d, e y g de la Constitución Política para el Estado de Hidalgo; los artículos 1 fracción IV, 6,, fracción II, II, XII, XV y XVII, 52 fracción I y VII, 59, 60, 66 y 68 de la Ley General de Asentamientos Humanos, Ordenamiento Territorial y Desarrollo Urbano; los artículos 1, 2, 4 fracción XIX, 5, 7, 8 fracción VII, 9, fracción I y V, 54, 55, 56, 132, 133, 134, 135, 136, 137, 138, 139, 146, 147, 156 fracción VI, 159 y demás aplicables de la Ley de Asentamientos Humanos, Desarrollo Urbano y Ordenamiento Territorial para el Estado de Hidalgo; artículos 25, 32, 69 y 70 y demás aplicables del Reglamento de la Ley de Asentamientos Humanos, Desarrollo Urbano y Ordenamiento Territorial para el Estado de Hidalgo; artículos 56 fracción I inciso p, fracción II inciso k, 60 fracción I inciso h, II inciso e, f, g y m, 117 fracción IV de la Ley Orgánica Municipal del Estado de Hidalgo; a efecto de dar cumplimiento a lo ordenado por el seno de cabildo la creación del Instituto Municipal de Desarrollo Urbano y Vivienda, Tizayuca, Estado de Hidalgo, con fecha 15 de agosto de 2006, y habiéndose publicado la versión abreviada en el Periódico Oficial del estado el 28 de agosto y 04 de diciembre de 2006, y la actualización del Programa Municipal de Desarrollo Urbano y Ordenamiento Territorial de Tizayuca, Hidalgo publicado en el Periódico Oficial de Gobierno del estado de Hidalgo en el tomo CLIV alcance uno al Periódico Oficial de fecha 28 de noviembre de 2022, mismo que se encuentra inscrito en el Registro Público de la Propiedad y del Comercio del Distrito Judicial de Tizayuca, Estado de Hidalgo, bajo el Acto publicitario No. 2,194 con Registro de entrada 26250-2022-0, con fecha de asiento 07 de diciembre de 2022.
-                                    </p>
-                                </div>
-                            </div>
-
-                            <div class="hidden formDP">
-                                <p class="format-head">CONSIDERANDO</p>
-                                <div class="format-container">
-                                    <p>A) Que el solicitante el <b>C. <span class="cf-requestorName">SANTIAGO GONZÁLEZ PÉREZ</span></b>, con los documentos que se anexan a su escrito inicial, acredita la propiedad del inmueble motivo de la solicitud del <b>DERECHO DE PREFERENCIA</b>, así mismo de la inspección realizada en campo, se permite comprobar la localización y ubicación del inmueble que es motivo de la solicitud.<br><br> B) En virtud de que la <b><span class="l-parcela">parcela </span><span class="parcela">742 Z-3, P1/3</span><input id="i-parcela" type="text" class="invissible">, del Ejido de Tizayuca</b>, Hidalgo, de acuerdo al Plano 03PE01 - Políticas Territoriales, Plano 03PE10 - Etapas de Desarrollo, 03PE09-Zonificación Secundaria, se encuentra dentro del polígono identificado con un uso de suelo <b><span class="cf-licenseZone">DENSIDAD MEDIA (UNIFAMILIAR)</span>, "<span class="cf-licenseKey">H#</span>"</b>.</p>
-                                </div>
-                            </div>
-
-                            <div class="hidden formDP">
-                                <p class="format-head">RESOLUTIVO</p>
-                                <div class="format-container">
-                                    <p><b>PRIMERO.</b> El Instituto Municipal de Desarrollo Urbano y Vivienda del Municipio de Tizayuca, Estado de Hidalgo, resulta ser competente para el trámite y resolución de la solicitud del<b>DERECHO DE PREFERENCIA.</b><br><br><b>SEGUNDO.</b> Este Instituto <b>NO</b> ejercerá el <b>DERECHO DE PREFERENCIA</b>, respecto de la <span class="l-parcela">parcela </span><b class="parcela">742, Z-3, P1/3</b>, del ejido de Tizayuca, Hidalgo, la cual ampara con el título de <span id="l-prop">propiedad </span> <b id="prop">000001002885</b><input id="i-prop" type="text" class="invissible"> de <span id="l-dpDate" >fecha </span><span id="dpDate">12 de abril del 2018</span>. <input id="i-dpDate" type="date" class="invissible"> <br><br><b>TERCERO.</b> Así mismo se le informa que dicha parcela cuenta, dentro de las normas de compatibilidad y aprovechamiento PLANO 03PE01 - POLÍTICAS TERRITORIALES, PLANO 03PE10 -ETAPAS DE DESARROLLO, 03PE09 -ZONIFICACIÓN SECUNDARIA, con un <b>USO DE SUELO <span class="cf-licenseZone">DENSIDAD MEDIA (UNIFAMILIAR)</span>, "<span class="cf-licenseKey">H#</span>"</b>.</p>
-                                </div>
-                            </div>
-
-                            <div>
-                                <div class="grid-format-data-b">
-                                    <p class="format-label txt-bold dis-flex flex-center expDate">Fecha de Expedición:</p>
-                                    <span id="f-expeditionDate" class="format-field expDate-f">##/##/####</span>
-
-                                    <p class="format-label txt-bold dis-flex flex-center validity formL formC">Vigencia:</p>
-                                    <span id="f-licenseValidity" class="format-field validity-f formL formC">## meses</span>
-
-                                    <p class="format-label txt-bold dis-flex flex-center payInvoice">Folio de pago:</p>
-                                    <p class="format-field payInvoice-f">C-<span id="f-paymentInvoice">####</span></p>
-
-                                </div>
-                            </div>
-
-                            <div class="dis-flex flex-center h-100">
-                                <div class="grid-format-page-foot h-100 w-100">
-                                    <p class="txt-center format-txt-small">NOTIFÍQUESE Y CÚMPLASE <br> ASÍ EN DEFINITIVA LO RESOLVIÓ Y AUTORIZÓ EL LICENCIADO EN DERECHO JORGE LUIS MARTÍNEZ ÁNGELES, <br> DIRECTOR GENERAL DEL INSTITUTO MUNICIPAL DE DESARROLLO URBANO Y VIVIENDA</p>
-
-                                    <p class="txt-center format-txt-small txt-bold page-indicator">
-                                        <span class="cf-fullInvoice">IMDUyV/DLyCU/###/###</span> <br>
-                                        Pagina 1 de <span id="total-pages">1</span>
-                                        </p>
-
-                                    <p class="txt-center txt-bold">L.D. JORGE LUIS MARTÍNEZ ÁNGELES <br> DIRECTOR GENERAL</p>
-                                </div>
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                    <div class="letter-page format-txt-regular hidden formL formDP">
-                        <div class="dis-flex flex-column grid-gap format-txt-regular h-100">
-                            <div>
-                                <p class="format-head">MAPA DE ZONIFICACIÓN</p>
-                                <div>
-                                    <img class="w-100 format-zone cf-zoneImage" src="/landUseStorage/IMDUyV_DLyCU_DP_002_2024_zone.png" alt="zonificación">
-                                </div>
-                            </div>
-    
-                            <div>
-                                <p class="format-txt-regular">
-                                    Que el solicitante con los documentos anexados a su escrito inicial ha dado cumplimiento con los requisitos técnicos y legales que obran en el expediente radicado en este Instituto Municipal de Desarrollo Urbano y Vivienda, acredita la propiedad del inmueble motivo de la solicitud de Constancia de Uso de Suelo, así como de la visita de inspección de campo, misma que permite la localización y ubicación del inmueble materia de este trámite.
-                                    <br><br>
-                                    El C. <span class="cf-inspector"></span> <br>
-                                    En su carácter de personal técnico adscrito al referido Instituto, realizó visita de inspección en campo al inmueble del que solicita la Constancia de Uso de Suelo, emitiendo opinión técnica positiva.
-                                <br><br>
-                                <b class="l-annex">Anexo:</b> <span class="annex"></span> <input class="i-annex invissible" type="text">
-                                </p>
-                            </div>
-    
-                            <div class="formDP">
-                                <p class="format-head">FUNDAMENTO JURÍDICO</p>
-                                <div class="format-container">
-                                    <p class="format-txt-small txt-center txt-bold">
-                                        Lo anterior con fundamento en lo dispuesto en los artículos 100, 102 parrafo segundo, 103, 104, 193 de la Ley de Asentamiento Humanos, Desarrollo Urbano y Ordenamiento Territorial.
-                                    </p>
-                                </div>
-                            </div>
-    
-                            <div class="formL">
-                                <p class="format-head">CONDICIONANTES <span class="bi bi-plus-circle input_add" id="add_condition"></span></p>
-                                <div class="format-container">
-                                    <ol type="a" class="margin-left-medium" id="conditions">
-                                        <li class="li-item" id="entry_100"onclick="editEntry('100')">
-                                            <span id="content_100" >Por lo que hace al uso de suelo HABITACIONAL, una vez autorizado, deberá ser permitido con base en la matriz de compatibilidad del Programa Municipal de Desarrollo Urbano y Ordenamiento Territorial de Tizayuca, Hidalgo.</span>
-
-                                            <span id="last_100" class="bi bi-x-circle input_delete" onclick="deleteEntry('100')"></span>
-                                            <textarea id="input_100" class="invissible" value="Por lo que hace al uso de suelo HABITACIONAL, una vez autorizado, deberá ser permitido con base en la matriz de compatibilidad del Programa Municipal de Desarrollo Urbano y Ordenamiento Territorial de Tizayuca, Hidalgo."></textarea>
-                                        </li>
-        
-                                        <li class="li-item" id="entry_200">
-                                            <span id="content_200" onclick="editEntry('200')">No deberán ocupar área pública como mostrador de productos.</span>
-                                            <span id="last_200" class="bi bi-x-circle input_delete" onclick="deleteEntry('200')"></span>
-                                            <textarea id="input_200" class="invissible" value="No deberán ocupar área pública como mostrador de productos."></textarea>
-                                        </li>
-        
-                                        <li class="li-item" id="entry_300">
-                                            <span id="content_300" onclick="editEntry('300')">Se prohíbe la colocación de cualquier publicidad fuera y frente del predio.</span>
-
-                                            <span id="last_300" class="bi bi-x-circle input_delete" onclick="deleteEntry('300')"></span>
-                                            <textarea id="input_300" class="invissible" value="Se prohíbe la colocación de cualquier publicidad fuera y frente del predio."></textarea>
-                                        </li>
-        
-                                        <li class="li-item" id="entry_400">
-                                            <span id="content_400" onclick="editEntry('400')">Deberá destinar un cajón de estacionamiento por cada 30 m2 de construcción.</span>
-
-                                            <span id="last_400" class="bi bi-x-circle input_delete" onclick="deleteEntry('400')"></span>
-                                            <textarea id="input_400" class="invissible" value="Deberá destinar un cajón de estacionamiento por cada 30 m2 de construcción."></textarea>
-                                        </li>
-        
-                                        <li class="li-item" id="entry_500">
-                                            <span id="content_500" onclick="editEntry('500')">No se deberá ocupar la banqueta (vía pública) para realizar maniobras en su proceso constructivo.</span>
-                                            <span id="last_500" class="bi bi-x-circle input_delete" onclick="deleteEntry('500')"></span>
-                                            <textarea id="input_500" class="invissible" value="No se deberá ocupar la banqueta (vía pública) para realizar maniobras en su proceso constructivo."></textarea>
-                                        </li>
-        
-                                        <li class="li-item" id="entry_600">
-                                            <span id="content_600" onclick="editEntry('600')">Se deberá dar cumplimiento a las Normas Oficiales Mexicanas, según corresponda.</span>
-                                            <span id="last_600" class="bi bi-x-circle input_delete" onclick="deleteEntry('600')"></span>
-                                            <textarea id="input_600" class="invissible" value="Se deberá dar cumplimiento a las Normas Oficiales Mexicanas, según corresponda."></textarea>
-                                        </li>
-        
-                                        <li class="li-item" id="entry_700">
-                                            <span id="content_700" onclick="editEntry('700')">En todas las puertas que conduzcan al exterior habrá letreros con la palabra "salida" y flechas luminosas indicando la dirección de las salidas, las letras tendrán una altura mínima de quince centímetros.</span>
-                                            <span id="last_700" class="bi bi-x-circle input_delete" onclick="deleteEntry('700')"></span>
-                                            <textarea id="input_700" class="invissible" value="En todas las puertas que conduzcan al exterior habrá letreros con la palabra &quot;salida&quot; y flechas luminosas indicando la dirección de las salidas, las letras tendrán una altura mínima de quince centímetros."></textarea>
-                                        </li>
-        
-                                        <li class="li-item" id="entry_800">
-                                            <span id="content_800" onclick="editEntry('800')">Deberá tramitar dictamen ante la Dirección de Protección Civil y Bomberos del Municipio de Tizayuca, Hidalgo, así como atender todas las recomendaciones que en materia de riesgos se le efectúen; para poder realizar la actualización de su licencia tendra que presentar dicho dictamen vigente.</span>
-                                            <span id="last_800" class="bi bi-x-circle input_delete" onclick="deleteEntry('800')"></span>
-                                            <textarea id="input_800" class="invissible" value="Deberá tramitar dictamen ante la Dirección de Protección Civil y Bomberos del Municipio de Tizayuca, Hidalgo, así como atender todas las recomendaciones que en materia de riesgos se le efectúen; para poder realizar la actualización de su licencia tendra que presentar dicho dictamen vigente."></textarea>
-                                        </li>
-                                    </ol>
-                                </div>
-                            </div>
-    
-                            <div class="dis-flex flex-center h-100">
-                                <div class="grid-format-page-foot w-100 h-100">
-                                    <p class="txt-center format-txt-small">NOTIFÍQUESE Y CÚMPLASE ASÍ EN DEFINITIVA LO RESOLVIÓ Y AUTORIZÓ EL LICENCIADO EN DERECHO JORGE LUIS MARTÍNEZ ÁNGELES, <br> DIRECTOR GENERAL DEL INSTITUTO MUNICIPAL DE DESARROLLO URBANO Y VIVIENDA</p>
-    
-                                    <p class="txt-center format-txt-small txt-bold page-indicator">
-                                        <span class="cf-fullInvoice">IMDUyV/DLyCU/###/###</span> <br>
-                                        Pagina 2 de 2
-                                    </p>
-    
-                                    <p class="format-txt-small names">
-                                        Director General: J.L.M.A. <br>
-                                        Elaboró: E.I.R.B. <br>
-                                        Revisó: E.H.A. <br>
-                                    </p>
-                                </div>
-                            </div>
-    
-                        </div>
-                    </div>
-                </div>
             </div>
         </section>
     </main>

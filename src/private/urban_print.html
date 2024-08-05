@@ -15,7 +15,7 @@
 </head>
 <body class="bg-image bg-image-2">
     <main>
-        <section class="page-full bg-blur">
+        <section class="page-full menu bg-blur">
             <div class="container shadow-inner padding-horizontal-large dis-flex flex-center-v flex-column">
 
                 <a href="/app/urbanMenu" class="back-arrow bi-arrow-left-circle-fill"></a>
@@ -27,8 +27,8 @@
                 </span>
                 
                 <div class="h-100 w-100 page-container">
-                    <div class="w-100 h-100 page">
-                        <div class="dis-flex flex-between w-100 h-10 margin-bottom-small padding-small border-primary border-only-left border-only-bottom border-only-right border-round-bottom">
+                    <div class="w-100 page">
+                        <div class="dis-flex flex-center w-100 margin-bottom-small padding-small border-primary border-only-left border-only-bottom border-only-right border-round-bottom controls print">
                             <form id="form_urban_byInvoicePrint" class="dis-flex flex-wrap flex-center-h w-25">
                                 <select name="byInvoiceType" class="input input-secondary input-interface border-secondary input-round-left w-40" required>
                                     <option value="">Seleccione tipo ...</option>
@@ -56,10 +56,6 @@
                                 <button class="btn btn-primary margin-top-small" type="submit">Buscar</button>
                                 
                             </form>
-                            <div class="dis-flex flex-column padding-horizontal-small">
-                                <button class="btn btn-primary-bg margin-bottom-small bi-printer"> PDF</button>
-                                <button class="btn btn-primary bi-floppy"> Guardar</button>
-                            </div>
                         </div>
 
                         <div class="w-100" id="print_results">
@@ -68,7 +64,7 @@
 
                     </div>
 
-                    <iframe class="w-100 h-100 page bg-complementary" src="" frameborder="0" id="pdf_lc">
+                    <iframe class="w-100 h-100 page bg-complementary-alpha border-round margin-top-small" src="" frameborder="0" id="pdf_lc">
 
                     </iframe>
                 </div>

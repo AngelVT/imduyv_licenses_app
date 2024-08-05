@@ -32,14 +32,14 @@ function createResultTop(id, invoice) {
     let span;
 
     top.setAttribute('id', `result_top_${id}`);
-    top.setAttribute('class', 'w-100 dis-flex flex-between flex-center-v padding-small bg-complementary-alpha border-round');
+    top.setAttribute('class', 'w-100 dis-flex flex-between flex-center-v padding-small bg-complementary-alpha border-round controls');
 
     topBtn.setAttribute('onclick', `hideShow(this, ${id})`);
     topBtn.setAttribute('class', 'bi-chevron-bar-down txt-medium color-primary result-control input-none');
 
     top.appendChild(topBtn);
 
-    topLabel.setAttribute('class', 'color-white txt-bold');
+    topLabel.setAttribute('class', 'color-white txt-bold result-label');
     topLabel.innerText = 'Folio: ';
     span = document.createElement('span');
     span.setAttribute('id', `result_invoice_${id}`);

@@ -311,7 +311,8 @@ export const UrbanLicense = pool.define(
                 model: Term,
                 key: 'id'
             },
-            allowNull: false
+            defaultValue: 1,
+            allowNull: true
         },
         surfaceTotal: {
             type: DataTypes.STRING,
@@ -335,7 +336,8 @@ export const UrbanLicense = pool.define(
                 model: Validity,
                 key: 'id'
             },
-            allowNull: false
+            defaultValue: 1,
+            allowNull: true
         },
         collectionOrder: {
             type: DataTypes.INTEGER,
