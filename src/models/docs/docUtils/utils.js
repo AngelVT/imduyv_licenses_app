@@ -101,6 +101,9 @@ export const docStyles = {
     center: {
         alignment: 'center'
     },
+    justify: {
+        alignment: 'justify'
+    },
     formRow: {
         margin: [0,0,0,5]
     },
@@ -198,6 +201,109 @@ export async function loadResumeLotes(fullInvoice) {
     });
 }
 
+export async function loadSurfaceChart(fullInvoice) {
+    let images = [];
+    const dir = path.join(__dirstorage, 'assets', 'urban', fullInvoice.replaceAll('/', '_'));
+    const pattern = /^superficies_.*/;
+
+    return new Promise((resolve, reject) => {
+        fs.readdir(dir, (err, files) => {
+            if (err) {
+                return reject(err);
+            }
+
+            const matchedFiles = files.filter(file => pattern.test(file));
+
+            for (let e of matchedFiles) {
+                images.push({
+                    image: path.join(__dirstorage, 'assets', 'urban', fullInvoice.replaceAll('/', '_'), `${e}`),
+                    width: 550,
+                    alignment: 'center',
+                    margin: [0, 0, 0, 5]
+                });
+            }
+
+            images.push({
+                text: [
+                    { text: 'Nota: ', style: 'regular', bold: true },
+                    { text: 'La información descrita corresponde y es responsabilidad del solicitante.', style: 'regular' }
+                ]
+            });
+
+            resolve(images);
+        });
+    });
+}
+
+export async function loadDistributionChart(fullInvoice) {
+    let images = [];
+    const dir = path.join(__dirstorage, 'assets', 'urban', fullInvoice.replaceAll('/', '_'));
+    const pattern = /^distribuciones_.*/;
+
+    return new Promise((resolve, reject) => {
+        fs.readdir(dir, (err, files) => {
+            if (err) {
+                return reject(err);
+            }
+
+            const matchedFiles = files.filter(file => pattern.test(file));
+
+            for (let e of matchedFiles) {
+                images.push({
+                    image: path.join(__dirstorage, 'assets', 'urban', fullInvoice.replaceAll('/', '_'), `${e}`),
+                    width: 550,
+                    alignment: 'center',
+                    margin: [0, 0, 0, 5]
+                });
+            }
+
+            images.push({
+                text: [
+                    { text: 'Nota: ', style: 'regular', bold: true },
+                    { text: 'La información descrita corresponde y es responsabilidad del solicitante.', style: 'regular' }
+                ]
+            });
+
+            resolve(images);
+        });
+    });
+}
+
+export async function loadDonationsChart(fullInvoice) {
+    let images = [];
+    const dir = path.join(__dirstorage, 'assets', 'urban', fullInvoice.replaceAll('/', '_'));
+    const pattern = /^donaciones_.*/;
+
+    return new Promise((resolve, reject) => {
+        fs.readdir(dir, (err, files) => {
+            if (err) {
+                return reject(err);
+            }
+
+            const matchedFiles = files.filter(file => pattern.test(file));
+
+            for (let e of matchedFiles) {
+                images.push({
+                    image: path.join(__dirstorage, 'assets', 'urban', fullInvoice.replaceAll('/', '_'), `${e}`),
+                    width: 550,
+                    alignment: 'center',
+                    margin: [0, 0, 0, 5]
+                });
+            }
+
+            images.push({
+                text: [
+                    { text: 'Nota: ', style: 'regular', bold: true },
+                    { text: 'La información descrita corresponde y es responsabilidad del solicitante.', style: 'regular' }
+                ]
+            });
+
+            resolve(images);
+        });
+    });
+}
+
+
 export function prepareData(lcDBObj) {
     lcDBObj.fullInvoice = lcDBObj.fullInvoice.replaceAll('_','/');
 
@@ -219,10 +325,6 @@ export function prepareData(lcDBObj) {
         lcDBObj.expeditionType.licenseExpType = lcDBObj.expeditionType.licenseExpType.toUpperCase();
     }
 
-    lcDBObj.requestDate = lcDBObj.requestDate.split('-').reverse().join('-');
-    lcDBObj.expeditionDate = lcDBObj.expeditionDate.split('-').reverse().join('-');
-    lcDBObj.expirationDate = lcDBObj.expeditionDate.split('-').reverse().join('-');
-
     return lcDBObj;
 }
 
@@ -240,7 +342,7 @@ export function dateFormatFull(dateNumeric) {
         "Octubre", 
         "Noviembre", 
         "Diciembre"];
-    var date = dateNumeric.split('-');
+    let date = dateNumeric.split('-');
     return `${date[2]} de ${months[parseInt(date[1])-1]} del ${date[0]}`;
 }
 
@@ -382,6 +484,27 @@ function generateSubTable(tableObj) {
     return subBody
 }
 
+export function generateDistributionTable(lotes, manzanas) {
+    let table = [
+        [
+            {text: "CUADRO DE DISTRIBUCIÓN POR MANZANAS", style: 'headT', border: borderless, colSpan: 2},{}
+        ],
+        [
+            {text: "LOTE", style: 'labelTC'},
+            {text: "MANZANA", style: 'labelTC'}
+        ]
+    ]
+
+    for (let i = 0; i < lotes.length; i++) {
+        table.push([
+            {text: lotes[i], style: ['center', 'regular']},
+            {text: manzanas[i], style: ['left', 'regular']}
+        ]);
+    }
+
+    return table
+}
+
 export const recordExample = {
     "id": 4,
     "fullInvoice": "IMDUyV_DLyCU_CRPC_001_2024",
@@ -406,6 +529,7 @@ export const recordExample = {
     "expeditionDate": "2024-09-22",
     "licenseValidity": 1,
     "paymentInvoice": "1445",
+    "billInvoice": "1445",
     "expirationDate": "2024-05-23",
     "licenseExpeditionType": 1,
     "contactPhone": 7791042842,
@@ -428,9 +552,22 @@ export const recordExample = {
         "commonSurface": "227.35 m²",
         "restrictions": "La presente no autoriza acciones urbanas que generen impacto social en su entorno inmediato conforme a lo establecido en el artículo 139 de la Ley de Asentamientos Humanos, Desarrollo Urbano y Ordenamiento Territorial del Estado de Hidalgo y al artículo 61 del Reglamento de la Ley de Asentamientos Humanos, Desarrollo Urbano y Ordenamiento Territorial del Estado de Hidalgo debiendo ser compatibles o permitidos los giros de acuerdo a la matriz de compatibilidad del Programa Municipal de Desarrollo Urbano y Ordenamiento Territorial del Municipio de Tizayuca, Estado de Hidalgo.\nAcatar la normativa y restricciones de la zonificación secundaria que determina el documento técnico del Programa Municipal de Desarrollo Urbano y Ordenamiento Territorial de Tizayuca. Los predios que tengan como frente un corredor urbano, podrán adoptar las características propias del corredor, siempre y cuando su acceso sea por el corredor. Deberá tramitar en su caso, la licencia de construcción en la Secretaría de Obras Públicas, así como la licencia de funcionamiento en la Dirección de Reglamentos, Espectáculos y Panteones, pertenecientes al Municipio de Tizayuca, Hidalgo. Dar cumplimiento a lo dispuesto en los artículos 80 y 81 de la Ley de Protección Civil del Estado de Hidalgo. El Instituto Municipal de Desarrollo Urbano y Vivienda se reserva el derecho de revocar la presente, en caso de incumplimiento a cualquiera de las condiciones establecidas en la misma.",
         "conditions": [
-            "Copia simple de la escritura de protocolización de la constitución de Régimen de Propiedad en Condominio debidamente inscrita en el Registro Público de la Propiedad y del Comercio, en un plazo no mayor a 90 días hábiles, a partir de la firma de este.",
-            "Presentar copia de comprobante de pago de impuesto predial correspondiente al periodo enero - diciembre 2024, en un plazo no mayor a 30 días naturales.",
-            "En consideración del impacto urbano y a la sobredemanda de los servicios públicos en el municipio, se deberán de generar las medidas adecuadas de prevención, integración y/o compensación, para mitigar o contrarrestar los impactos o alteraciones causadas por la presente autorización. En razón de lo anterior deberá mediante convenio retribuir por medio del Instituto Municipal de Desarrollo Urbano y Vivienda, hasta el 30% del monto de la presente autorización.  Dicho convenio se deberá de formalizarse en un plazo de hasta 30 días hábiles contados a partir de la firma de éste."
+            "En un plazo de 90 días naturales contados a partir de la firma de éste, presentará copia simple de la escritura de protocolización del Fraccionamiento denominado “ANDALUCÍA RESIDENCIAL, 3RA ETAPA, SECCIÓN MÁLAGA” debidamente inscrita en el Registro Público de la Propiedad y del Comercio. ",
+            "En un plazo de 90 días naturales presentará factibilidad del suministro de energía eléctrica emitida por la CFE (Comisión Federal de Electricidad), para el fraccionamiento denominado “ANDALUCÍA RESIDENCIAL, 3RA ETAPA, SECCIÓN MÁLAGA”.",
+            "En un plazo de 90 días naturales presentará factibilidad y proyectos ejecutivos aprobados por la Comisión de Agua y Alcantarillado del Municipio de Tizayuca, Hgo., (CAAMTH), para el fraccionamiento denominado “ANDALUCÍA RESIDENCIAL, 3RA ETAPA, SECCIÓN MÁLAGA”. ",
+            "Presentar convenio con la Secretaria de Obras Publicas del Municipio de Tizayuca, Hidalgo, del mantenimiento de la infraestructura vial, en un radio de 500.00 m. del fraccionamiento, como lo indica en las obligaciones del fraccionador en un plazo no mayor a 30 días naturales.",
+            "Deberá cumplir con las condicionantes establecidas por la Comisión de Agua y Alcantarillado del Municipio de Tizayuca (CAAMTH), la Secretaria de Obras Públicas municipales y la Secretaria General Municipal, debiendo cumplir mediante convenio en un periodo establecido por estas instancias; así como determinadas por las entidades estatales correspondientes.",
+            "Deberá presentar Dictamen del Estudio de Impacto Urbano y Vial emitido por la Secretaria de Infraestructura Pública y Desarrollo Urbano Sostenible, de Gobierno del Estado de Hidalgo, en un plazo no mayor a 60 días naturales.",
+            "Deberá presentar Resolución del Estudio de Impacto Ambiental, emitido por la Secretaria de Medio Ambiente y Recursos Naturales del Estado de Hidalgo, en un plazo no mayor a 60 días naturales.",
+            "Deberá presentar Constancia de Viabilidad emitida por la Secretaria de Infraestructura Pública y Desarrollo Urbano Sostenible, de Gobierno del Estado de Hidalgo, en un plazo no mayor a 60 días naturales.",
+            "Deberá presentar proyecto de red de agua potable y calculo hidráulico validado por la dependencia correspondiente, en un plazo no mayor a 30 días naturales.",
+            "Deberá presentar proyecto de red de drenaje y calculo sanitario, validado por dependencia correspondiste, en un plazo no mayor a 30 días naturales.",
+            "Deberá presentar proyecto de drenaje pluvial y calculo hidráulico, validado por la dependencia correspondiente en un plazo no mayor a 30 días naturales.",
+            "Deberá presentar proyecto de red de energía eléctrica y calculo eléctrico, validado por la dependencia correspondiente, en un plazo no mayor a 30 días naturales.",
+            "Presentar calendario y presupuesto de obra de urbanización en un plazo no mayor a 30 dias naturales.",
+            "En consideración del impacto urbano y a la sobredemanda de los servicios públicos en el municipio, se deberán de generar las medidas adecuadas de prevención, integración y/o compensación, para disminuir o compensar los impactos o alteraciones causadas por la presente autorización. En razón de lo anterior el fraccionador deberá mediante convenio retribuir al Instituto Municipal de Desarrollo Urbano y Vivienda, el 30% del monto de la presente autorización. Dicho convenio se deberá de formalizarse en un plazo de hasta 90 días hábiles contados a partir de la firma de éste.",
+            "En caso de incumplimiento a cualquiera de las prerrogativas descritas con antelación se hará acreedor a las sanciones establecidas en el artículo 196 fracción V en relación con el Artículo 193 fracción XIII, ambos de la Ley de Asentamientos Humanos, Desarrollo Urbano y Ordenamiento Territorial del Estado de Hidalgo.",
+            "En caso de incumplimiento a lo antes citado, este documento quedará sin validez."
         ],
         "anexo":"some anexo",
         "parcela": "742, Z-3, P1/4",
@@ -438,8 +575,6 @@ export const recordExample = {
         "propertyDate": "2018-04-12",
         "authorizationResume": "se autoriza la fusión de los predios identificados como las parcelas 777, 775, 778, 786, 790, 791 y lote 1 (parcela 924), resultando la fusión con una superficie total de: 161,100.70 m2. tu puta madre",
         "households": "5 viviendas",
-        "areasR":"2",
-        "lotesR":"3",
         "documents": [
             'Solicitud por escrito de Autorización de Régimen de Propiedad de Condómino.',
             'Copia de Identificación oficial del C. Elías Guarneros Ramírez, consistente en credencial de elector, con número de folio 1130008658056, expedida por Instituto Nacional Electoral.',
@@ -456,7 +591,7 @@ export const recordExample = {
             'Copia de Poder notarial otorgado a favor del C. Elías Guarneros Ramírez por “Desarrollos Inmobiliarios SADASI S.A. de C.V.”',
             'Copia de cédula de identificación fiscal, RFC.',
         ],
-        "lotes": ["Lote 1", "Lote 2","Lote 3","Lote 4"],
+        "lotes": ["Lote 1", "Lote 2","Lote 3", "Lote 4"],
         "manzanas": ["Manzana 222"],
         "actualSituation": [
             {
@@ -488,7 +623,13 @@ export const recordExample = {
                     "adjoining": ["Oeste","Noroeste","Norte", "Noreste", "Este", "Sureste","Sur", "Suroeste"]
                 }
             }
-        ]
+        ],
+        "urbanCUS": "IMDUyV/DLyCU/CUS/0011/2023, IMDUyV/DLyCU/CUS/0012/2023, IMDUyV/DLyCU/CUS/0013/2023, IMDUyV/DLyCU/CUS/0014/2023, IMDUyV/DLyCU/CUS/0015/2023, IMDUyV/DLyCU/CUS/0016/2023, IMDUyV/DLyCU/CUS/0017/2023",
+        "urbanLUS": "IMDUyV/DLyCU/LUS/0011/2023, IMDUyV/DLyCU/LUS/0012/2023, IMDUyV/DLyCU/LUS/0013/2023, IMDUyV/DLyCU/LUS/0014/2023, IMDUyV/DLyCU/LUS/0015/2023, IMDUyV/DLyCU/LUS/0016/2023, IMDUyV/DLyCU/LUS/0017/2023",
+        "location": ["Parcela 775", "777", "778", "786", "790", "791" , "LOTE 1 (PARCELA 925)"],
+        "habitacionalLotes":"3 lotes habitacionales",
+        "totalManzanas":"37 manzanas",
+        "totalSurface":"14,335.98 m²",
     },
     "approvalStatus": true,
 	"active": true,
@@ -617,7 +758,49 @@ export function generateUrbanSpecialData(type) {
                 minimalFront: 0.00,
                 frontalRestriction: 0.0,
                 parkingLots: "Ej: 1 Cajón por lote",
-                usePercent: 0
+                usePercent: 0,
+                documents: [
+                    "Solicitud de Licencia de Fraccionamiento.",
+                    "Copia de Identificación oficial del C. Ismael Banderas Peñaloza, consistente en credencial de elector, con número de folio 1165026473873, expedida por Instituto Nacional Electoral.",
+                    "Copia de Constancia de Situación Fiscal a nombre de Arrendadora Cesvin.",
+                    "Copia de Licencias de Uso de Suelo No. IMDUyV/DLyCU/LUS/0011/2023, IMDUyV/DLyCU/LUS/0012/2023, IMDUyV/DLyCU/LUS/0013/2023, IMDUyV/DLyCU/LUS/0014/2023, IMDUyV/DLyCU/LUS/0015/2023, IMDUyV/DLyCU/LUS/0016/2023, IMDUyV/DLyCU/LUS/0017/2023, de fecha 04 de diciembre de 2023.",
+                    "Copias de Certificados de existencia o inexistencia de Gravámenes.",
+                    "Copias de los recibos de pago de impuesto predial a nombre de Arrendadora Cesvin S.A. de C.V, clave catastral 6908055000053, 690855000041, 6905055000017, 690855000044, 6905055000045, 6908055000046 y 6908055000070 correspondiente al ejercicio fiscal enero- diciembre 2023.",
+                    "Reporte fotográfico.",
+                    "Croquis de localización con coordenadas UTM.",
+                    "4 juegos de planos para su autorización de proyecto de lotificación firmado por Arq. Yolanda Calva Silva Pérez, D.R. y C. 328",
+                    "Copia de Acta constitutiva de Arrendadora Cesvin S.A. de C.V.",
+                    "Copia de Poder Notarial Lic. Ismael Banderas Peñaloza",
+                    "Copia de Factibilidad de servicios emitida por CAAMTH, No. 001-FACT-CAAMTH-2024 de fecha 06 de febrero de 2024.",
+                    "Copia de Acuse de solicitud de Constancia de Viabilidad en la Secretaria de Infraestructura Pública y Desarrollo Urbano Sostenible, de fecha 06 de diciembre de 2023.",
+                    "Copia de Acuse de solicitud de aprobación del Estudio de Vulnerabilidad y Riesgo, a Subsecretaria de Protección Civil, de fecha 17 de enero de 2024.",
+                    "Copia de Constancia de Factibilidad de Transporte de Residuos Sólidos Urbanos y RME, de fecha 23 de febrero de 2024.",
+                    "Copia de Aprobación de proyecto emitida por CFE, de fecha 10 de junio de 2019.",
+                ],
+                conditions: [
+                    "En un plazo de 90 días naturales contados a partir de la firma de éste, presentará copia simple de la escritura de protocolización del Fraccionamiento denominado “ANDALUCÍA RESIDENCIAL, 3RA ETAPA, SECCIÓN MÁLAGA” debidamente inscrita en el Registro Público de la Propiedad y del Comercio. ",
+                    "En un plazo de 90 días naturales presentará factibilidad del suministro de energía eléctrica emitida por la CFE (Comisión Federal de Electricidad), para el fraccionamiento denominado “ANDALUCÍA RESIDENCIAL, 3RA ETAPA, SECCIÓN MÁLAGA”.",
+                    "En un plazo de 90 días naturales presentará factibilidad y proyectos ejecutivos aprobados por la Comisión de Agua y Alcantarillado del Municipio de Tizayuca, Hgo., (CAAMTH), para el fraccionamiento denominado “ANDALUCÍA RESIDENCIAL, 3RA ETAPA, SECCIÓN MÁLAGA”. ",
+                    "Presentar convenio con la Secretaria de Obras Publicas del Municipio de Tizayuca, Hidalgo, del mantenimiento de la infraestructura vial, en un radio de 500.00 m. del fraccionamiento, como lo indica en las obligaciones del fraccionador en un plazo no mayor a 30 días naturales.",
+                    "Deberá cumplir con las condicionantes establecidas por la Comisión de Agua y Alcantarillado del Municipio de Tizayuca (CAAMTH), la Secretaria de Obras Públicas municipales y la Secretaria General Municipal, debiendo cumplir mediante convenio en un periodo establecido por estas instancias; así como determinadas por las entidades estatales correspondientes.",
+                    "Deberá presentar Dictamen del Estudio de Impacto Urbano y Vial emitido por la Secretaria de Infraestructura Pública y Desarrollo Urbano Sostenible, de Gobierno del Estado de Hidalgo, en un plazo no mayor a 60 días naturales.",
+                    "Deberá presentar Resolución del Estudio de Impacto Ambiental, emitido por la Secretaria de Medio Ambiente y Recursos Naturales del Estado de Hidalgo, en un plazo no mayor a 60 días naturales.",
+                    "Deberá presentar Constancia de Viabilidad emitida por la Secretaria de Infraestructura Pública y Desarrollo Urbano Sostenible, de Gobierno del Estado de Hidalgo, en un plazo no mayor a 60 días naturales.",
+                    "Deberá presentar proyecto de red de agua potable y calculo hidráulico validado por la dependencia correspondiente, en un plazo no mayor a 30 días naturales.",
+                    "Deberá presentar proyecto de red de drenaje y calculo sanitario, validado por dependencia correspondiste, en un plazo no mayor a 30 días naturales.",
+                    "Deberá presentar proyecto de drenaje pluvial y calculo hidráulico, validado por la dependencia correspondiente en un plazo no mayor a 30 días naturales.",
+                    "Deberá presentar proyecto de red de energía eléctrica y calculo eléctrico, validado por la dependencia correspondiente, en un plazo no mayor a 30 días naturales.",
+                    "Presentar calendario y presupuesto de obra de urbanización en un plazo no mayor a 30 dias naturales.",
+                    "En consideración del impacto urbano y a la sobredemanda de los servicios públicos en el municipio, se deberán de generar las medidas adecuadas de prevención, integración y/o compensación, para disminuir o compensar los impactos o alteraciones causadas por la presente autorización. En razón de lo anterior el fraccionador deberá mediante convenio retribuir al Instituto Municipal de Desarrollo Urbano y Vivienda, el 30% del monto de la presente autorización. Dicho convenio se deberá de formalizarse en un plazo de hasta 90 días hábiles contados a partir de la firma de éste.",
+                    "En caso de incumplimiento a cualquiera de las prerrogativas descritas con antelación se hará acreedor a las sanciones establecidas en el artículo 196 fracción V en relación con el Artículo 193 fracción XIII, ambos de la Ley de Asentamientos Humanos, Desarrollo Urbano y Ordenamiento Territorial del Estado de Hidalgo.",
+                    "En caso de incumplimiento a lo antes citado, este documento quedará sin validez."
+                ],
+                urbanCUS: "Ej: IMDUyV/DLyCU/CUS/0011/2023, IMDUyV/DLyCU/CUS/0012/2023, IMDUyV/DLyCU/CUS/0013/2023, IMDUyV/DLyCU/CUS/0014/2023, IMDUyV/DLyCU/CUS/0015/2023, IMDUyV/DLyCU/CUS/0016/2023, IMDUyV/DLyCU/CUS/0017/2023",
+                urbanLUS: "Ej: IMDUyV/DLyCU/LUS/0011/2023, IMDUyV/DLyCU/LUS/0012/2023, IMDUyV/DLyCU/LUS/0013/2023, IMDUyV/DLyCU/LUS/0014/2023, IMDUyV/DLyCU/LUS/0015/2023, IMDUyV/DLyCU/LUS/0016/2023, IMDUyV/DLyCU/LUS/0017/2023",
+                location: ["Parcela 775", "777", "778", "786", "790", "791" , "LOTE 1 (PARCELA 925)"],
+                habitacionalLotes:"3 lotes habitacionales",
+                totalManzanas:"37 manzanas",
+                totalSurface:"14,335.98 m²"
             }
         case 7:
             return {}

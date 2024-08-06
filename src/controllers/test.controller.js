@@ -22,10 +22,11 @@ import { generateUrbanLSUB } from "../models/docs/urban/licenciaLSUB.js";
 import { generateUrbanLFUS } from "../models/docs/urban/licenciaLFUS.js";
 import { generateUrbanCRPC } from "../models/docs/urban/licenciaCRPC.js";
 import { generateUrbanLF } from "../models/docs/urban/licenciaLF.js";
+import { generateUrbanPLF } from "../models/docs/urban/licenciaPLF.js";
 
 export const test = async (req, res) => {
     try {
-        const def = generateUrbanLF(docUtils.recordExample);
+        const def = await generateUrbanPLF(docUtils.recordExample);
 
         const pdfDoc = await printerPDF.createPdfKitDocument(def);
 

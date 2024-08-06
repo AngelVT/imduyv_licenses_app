@@ -2,7 +2,7 @@ import path from "path";
 import { __dirstorage } from "../../../paths.js";
 import * as docUtils from "../docUtils/utils.js";
 
-export async function generateUrbanLF(lcDBObj) {
+export async function generateUrbanPLF(lcDBObj) {
 
     lcDBObj = docUtils.prepareData(lcDBObj);
 
@@ -17,7 +17,7 @@ export async function generateUrbanLF(lcDBObj) {
                 margin: [0, 0, 0, 10],
             },
             {
-                text: "LICENCIA DE FRACCIONAMIENTO",
+                text: "PRORROGA DE LICENCIA DE FRACCIONAMIENTO",
                 alignment: 'center',
                 fontSize: 16,
                 bold: true
@@ -54,8 +54,8 @@ export async function generateUrbanLF(lcDBObj) {
                                             docUtils.field(lcDBObj.licenseSpecialData.requestorAddress, docUtils.borderless, null,null, 7),
                                         ],
                                         [
-                                            {text: '', border: docUtils.borderless},
-                                            {text: '', border: docUtils.borderless}
+                                            {text: 'Fecha de Solicitud: ', style: 'labelT', border: docUtils.borderless},
+                                            docUtils.field(docUtils.dateFormatFull(lcDBObj.requestDate), docUtils.borderless, null,null, 7),
                                         ]
                                     ]
                                 },
@@ -88,46 +88,6 @@ export async function generateUrbanLF(lcDBObj) {
                     ]
                 },
                 layout: docUtils.containerLayout
-            },
-            {
-                style: 'formRow',
-                table: {
-                    widths: ['*', 1, '*'],
-                    body: [
-                        [
-                            {
-                                border: docUtils.borderless,
-                                table: {
-                                    widths: [70, '*'],
-                                    body: [
-                                        [
-                                            {text: 'Constancia de Uso de Suelo: ', style: 'labelT', border: docUtils.borderless},
-                                            docUtils.field(lcDBObj.licenseSpecialData.urbanCUS, docUtils.borderless, 1, 'center', 6)
-                                        ]
-                                    ]
-                                },
-                                layout: docUtils.formLayout
-                            },
-                            {
-                                text: '',border: docUtils.borderless
-                            },
-                            {
-                                border: docUtils.borderless,
-                                table: {
-                                    widths: [70, '*'],
-                                    body: [
-                                        [
-                                            {text: 'Licencia de Uso de Suelo: ', style: 'labelT', border: docUtils.borderless},
-                                            docUtils.field(lcDBObj.licenseSpecialData.urbanLUS, docUtils.borderless, 1, 'center', 6)
-                                        ]
-                                    ]
-                                },
-                                layout: docUtils.formLayout
-                            }
-                        ]
-                    ]
-                },
-                layout: docUtils.noBorderNoPadding
             },
             {
                 style: 'formRow',
@@ -198,29 +158,25 @@ export async function generateUrbanLF(lcDBObj) {
                                 style: ['regular', 'justify'],
                                 stack: [
                                     {
-                                        ol: [
+                                        text: [
+                                            {text: lcDBObj.requestorName, bold: true},
                                             {
-                                                text: [
-                                                    {text: lcDBObj.requestorName, bold: true},
-                                                    {
-                                                        text: lcDBObj.legalRepresentative ? [{text: ' a través del C. '}, {text: lcDBObj.legalRepresentative, bold: true}, { text: ', en su carácter de Representante Legal'}] : ''
-                                                    },
-                                                    ', solicita la ',
-                                                    {text: 'AUTORIZACIÓN DEL FRACCIONAMIENTO', bold: true},
-                                                    ' denominado ',
-                                                    {text: `“${lcDBObj.colony}”`, bold: true},
-                                                    ' ubicado en ',
-                                                    {text: docUtils.arrayToText(lcDBObj.licenseSpecialData.location), bold: true},
-                                                    ', del ejido de Tizayuca, estado de Hidalgo, acompañado para efectos los siguientes documentos:\n\n'
-                                                ]
+                                                text: lcDBObj.legalRepresentative ? [{text: ' a través del C. '}, {text: lcDBObj.legalRepresentative, bold: true}, { text: ', en su carácter de Representante Legal'}] : ''
                                             },
-                                            {
-                                                ul: lcDBObj.licenseSpecialData.documents
-                                            },
+                                            ', solicita la ',
+                                            {text: 'PRÓRROGA DE LICENCIA DE FRACCIONAMIENTO', bold: true},
+                                            ' denominado ',
+                                            {text: `“${lcDBObj.colony}”`, bold: true},
+                                            ' ubicado en ',
+                                            {text: docUtils.arrayToText(lcDBObj.licenseSpecialData.location), bold: true},
+                                            ', Hidalgo, acompañado para efectos los siguientes documentos:\n\n'
                                         ]
                                     },
                                     {
-                                        text: '\nUna vez analizados los antecedentes descritos el Instituto Municipal de Desarrollo Urbano y Vivienda, resuelve en definitiva sobre la Autorización de Fraccionamiento objeto de la presente resolución en atención a los siguientes: '
+                                        ul: lcDBObj.licenseSpecialData.documents
+                                    },
+                                    {
+                                        text: '\nUna vez analizados los antecedentes descritos el Instituto Municipal de Desarrollo Urbano y Vivienda, resuelve en definitiva sobre la Autorización de Prorroga de Licencia de Fraccionamiento objeto de la presente resolución en atención a los siguientes:'
                                     }
                                 ]
                             }

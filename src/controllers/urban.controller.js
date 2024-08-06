@@ -563,36 +563,36 @@ export const getLicensePDF= async (req, res) => {
 
         switch (parseInt(type)) {
             case 1:
-                consoleLogger.info('Generating PDF')
+                consoleLogger.info('Generating PDF');
                 def = generateUrbanC(license);
                 break;
             case 2:
-                consoleLogger.info('Generating PDF')
+                consoleLogger.info('Generating PDF');
                 def = generateUrbanLUS(license);
                 break;
             case 3:
-                consoleLogger.info('Generating PDF')
+                consoleLogger.info('Generating PDF');
                 def = generateUrbanLSUB(license);
                 break;
             case 4:
-                consoleLogger.info('Generating PDF')
+                consoleLogger.info('Generating PDF');
                 def = generateUrbanLFUS(license);
                 break;
             case 5:
-                consoleLogger.info('Generating PDF')
+                consoleLogger.info('Generating PDF');
                 def = generateUrbanC(license);
                 break;
             case 6:
-                consoleLogger.info('Generating PDF')
-                def = generateUrbanLF(license);
+                consoleLogger.info('Generating PDF');
+                def = await generateUrbanLF(license);
                 break;
             case 7:
-                consoleLogger.info('Generating PDF')
+                consoleLogger.info('Generating PDF');
                 def = generateUrbanC(license);
                 break;
             case 8:
-                consoleLogger.info('Generating PDF')
-                def = await generateUrbanCRPC(license)
+                consoleLogger.info('Generating PDF');
+                def = await generateUrbanCRPC(license);
                 break;
         
             default:
