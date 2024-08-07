@@ -16,6 +16,7 @@ import { generateUrbanLSUB } from "../models/docs/urban/licenciaLSUB.js";
 import { generateUrbanLFUS } from "../models/docs/urban/licenciaLFUS.js";
 import { generateUrbanCRPC } from "../models/docs/urban/licenciaCRPC.js";
 import { generateUrbanLF } from '../models/docs/urban/licenciaLF.js';
+import { generateUrbanPLF } from '../models/docs/urban/licenciaPLF.js';
 
 export const getLicenses = async (req, res) => {
     try {
@@ -580,7 +581,7 @@ export const getLicensePDF= async (req, res) => {
                 break;
             case 5:
                 consoleLogger.info('Generating PDF');
-                def = generateUrbanC(license);
+                def = await generateUrbanPLF(license);
                 break;
             case 6:
                 consoleLogger.info('Generating PDF');

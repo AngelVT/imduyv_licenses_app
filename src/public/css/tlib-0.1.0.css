@@ -1364,6 +1364,19 @@ textarea.invissible:focus {
     .controls form {
         width: 33%;
     }
+
+    .urban-print-result-img {
+        width: 96%;
+        grid-area: 1 / 1 / 6 / 3;
+    }
+
+    .field-span.table-result, .field-span.preview-container {
+        grid-column: span 4;
+    }
+
+    .field-span {
+        grid-column: span 3;
+    }
 }
 
 @media (max-width: 1024px) {
@@ -1408,6 +1421,15 @@ textarea.invissible:focus {
     .geo-search, #b-geo_search {
         width: 100%;
     }
+
+    .urban-print-result-img {
+        width: 96%;
+        grid-area: 1 / 1 / 6 / 3;
+    }
+
+    .field-span.table-result, .field-span.preview-container {
+        grid-column: span 3;
+    }
 }
 
 @media (max-width: 770px) {
@@ -1439,8 +1461,17 @@ textarea.invissible:focus {
         grid-template-columns: 1fr;
     }
 
+    .field-span.table-result, .field-span.preview-container {
+        grid-column: span none;
+    }
+
     .urban-result-img {
         grid-area: 1 / 1 / 7 / 2;
+    }
+
+    .urban-print-result-img {
+        width: 100%;
+        grid-area: 1 / 1 / 2 / 2;
     }
 
     .controls {
@@ -1463,5 +1494,9 @@ textarea.invissible:focus {
     .controls form {
         width: 100%;
         margin-bottom: 5px;
+    }
+
+    .field-span {
+        grid-column: span 1;
     }
 }

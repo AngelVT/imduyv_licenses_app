@@ -154,7 +154,7 @@ export async function generateUrbanCRPC(lcDBObj) {
                         ],
                         [
                             {
-                                stack: await docUtils.loadResumeAreas(lcDBObj.fullInvoice)
+                                stack: await docUtils.loadChart(lcDBObj.fullInvoice, 'area_')
                             }
                         ]
                     ]
@@ -172,7 +172,7 @@ export async function generateUrbanCRPC(lcDBObj) {
                         ],
                         [
                             {
-                                stack: await docUtils.loadResumeLotes(lcDBObj.fullInvoice)
+                                stack: await docUtils.loadChart(lcDBObj.fullInvoice, 'lote_')
                             }
                         ]
                     ]

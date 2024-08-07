@@ -578,9 +578,11 @@ function createUrbanPrintResult(resObj, target) {
 
     resultContent.appendChild(field);
 
-    field = createResultField(resObj.id, 'Zonificación', 'zoneIMG', resObj.fullInvoice, 'file');
+    if(resObj.licenseType <= 4) {
+        field = createResultField(resObj.id, 'Zonificación/División o subdivisión', 'zoneIMG', resObj.fullInvoice, 'file');
 
-    resultContent.appendChild(field);
+        resultContent.appendChild(field);
+    }
 
     field = createResultField(resObj.id, 'Zona', 'zone', resObj.licenseZone, 'select');
 
@@ -720,8 +722,12 @@ function createUrbanPrintResult(resObj, target) {
             resultContent.appendChild(field);
             break;
         case 5:
+            field = createResultField(resObj.id, 'Tablas/Cuadros resumen', 'resumeTables', resObj.fullInvoice, 'file');
+            resultContent.appendChild(field);
             break;
         case 6:
+            field = createResultField(resObj.id, 'Tablas/Cuadros resumen', 'resumeTables', resObj.fullInvoice, 'file');
+            resultContent.appendChild(field);
             break;
         case 7:
             break;
@@ -735,7 +741,7 @@ function createUrbanPrintResult(resObj, target) {
             field = createResultField(resObj.id, 'Viviendas', 'households', resObj.licenseSpecialData.households, 'text');
             resultContent.appendChild(field);
 
-            field = createResultField(resObj.id, 'Tablas resumen', 'resumeTables', resObj.fullInvoice, 'file');
+            field = createResultField(resObj.id, 'Tablas/Cuadros resumen', 'resumeTables', resObj.fullInvoice, 'file');
             resultContent.appendChild(field);
 
             field = createResultTextArea(resObj.id, 'Documentos', 'documents', resObj.licenseSpecialData.documents.join('\n'));
@@ -783,7 +789,7 @@ function generateTableForm(resObj) {
     let span;
 
     field.setAttribute('onsubmit', `updateResultTables(this, ${resObj.id}); return false`);
-    field.setAttribute('class', 'field-span')
+    field.setAttribute('class', 'field-span table-result')
 
     label.innerText = 'Situación actual/Subdivisión o fusión que se autoriza:';
     label.setAttribute('class', 'dis-flex flex-wrap color-primary')

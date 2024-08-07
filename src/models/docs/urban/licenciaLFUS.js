@@ -275,7 +275,7 @@ export function generateUrbanLFUS(lcDBObj) {
                     widths: ['*'],
                     body: [
                         [
-                            {text: "SUBDIVISIÓN QUE SE AUTORIZA", style: 'headT', border: docUtils.borderless, margin:[1,2,1,2]}
+                            {text: "FUSIÓN QUE SE AUTORIZA", style: 'headT', border: docUtils.borderless, margin:[1,2,1,2]}
                         ],
                         [
                             {

@@ -251,7 +251,7 @@ export async function generateUrbanLF(lcDBObj) {
                         ],
                         [
                             {
-                                stack: await docUtils.loadSurfaceChart(lcDBObj.fullInvoice)
+                                stack: await docUtils.loadChart(lcDBObj.fullInvoice, 'superficies_')
                             }
                         ]
                     ]
@@ -259,6 +259,7 @@ export async function generateUrbanLF(lcDBObj) {
                 layout: docUtils.containerLayout
             },
             {
+                pageBreak: 'before',
                 style: 'formRow',
                 table: {
                     widths: ['*'],
@@ -268,7 +269,7 @@ export async function generateUrbanLF(lcDBObj) {
                         ],
                         [
                             {
-                                stack: await docUtils.loadDistributionChart(lcDBObj.fullInvoice)
+                                stack: await docUtils.loadChart(lcDBObj.fullInvoice, 'distribuciones_')
                             }
                         ]
                     ]
@@ -276,6 +277,7 @@ export async function generateUrbanLF(lcDBObj) {
                 layout: docUtils.containerLayout
             },
             {
+                pageBreak: 'before',
                 style: 'formRow',
                 table: {
                     widths: ['*'],
@@ -285,7 +287,7 @@ export async function generateUrbanLF(lcDBObj) {
                         ],
                         [
                             {
-                                stack: await docUtils.loadDonationsChart(lcDBObj.fullInvoice)
+                                stack: await docUtils.loadChart(lcDBObj.fullInvoice, 'donaciones_')
                             }
                         ]
                     ]

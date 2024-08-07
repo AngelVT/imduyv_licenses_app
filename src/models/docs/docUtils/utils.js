@@ -133,146 +133,10 @@ export function voidCell(span) {
     return {colSpan: span,border: borderless, text: ''}
 }
 
-export function loadResumeAreas(fullInvoice) {
+export async function loadChart(fullInvoice, sourcePattern) {
     let images = [];
     const dir = path.join(__dirstorage, 'assets', 'urban', fullInvoice.replaceAll('/', '_'));
-    const pattern = /^area_.*/;
-
-    return new Promise((resolve, reject) => {
-        fs.readdir(dir, (err, files) => {
-            if (err) {
-                return reject(err);
-            }
-
-            const matchedFiles = files.filter(file => pattern.test(file));
-
-            for (let e of matchedFiles) {
-                images.push({
-                    image: path.join(__dirstorage, 'assets', 'urban', fullInvoice.replaceAll('/', '_'), `${e}`),
-                    width: 550,
-                    alignment: 'center',
-                    margin: [0, 0, 0, 5]
-                });
-            }
-
-            images.push({
-                text: [
-                    { text: 'Nota: ', style: 'regular', bold: true },
-                    { text: 'La información descrita corresponde y es responsabilidad del solicitante.', style: 'regular' }
-                ]
-            });
-
-            resolve(images);
-        });
-    });
-}
-
-export async function loadResumeLotes(fullInvoice) {
-    let images = [];
-    const dir = path.join(__dirstorage, 'assets', 'urban', fullInvoice.replaceAll('/', '_'));
-    const pattern = /^lote_.*/;
-
-    return new Promise((resolve, reject) => {
-        fs.readdir(dir, (err, files) => {
-            if (err) {
-                return reject(err);
-            }
-
-            const matchedFiles = files.filter(file => pattern.test(file));
-
-            for (let e of matchedFiles) {
-                images.push({
-                    image: path.join(__dirstorage, 'assets', 'urban', fullInvoice.replaceAll('/', '_'), `${e}`),
-                    width: 550,
-                    alignment: 'center',
-                    margin: [0, 0, 0, 5]
-                });
-            }
-
-            images.push({
-                text: [
-                    { text: 'Nota: ', style: 'regular', bold: true },
-                    { text: 'La información descrita corresponde y es responsabilidad del solicitante.', style: 'regular' }
-                ]
-            });
-
-            resolve(images);
-        });
-    });
-}
-
-export async function loadSurfaceChart(fullInvoice) {
-    let images = [];
-    const dir = path.join(__dirstorage, 'assets', 'urban', fullInvoice.replaceAll('/', '_'));
-    const pattern = /^superficies_.*/;
-
-    return new Promise((resolve, reject) => {
-        fs.readdir(dir, (err, files) => {
-            if (err) {
-                return reject(err);
-            }
-
-            const matchedFiles = files.filter(file => pattern.test(file));
-
-            for (let e of matchedFiles) {
-                images.push({
-                    image: path.join(__dirstorage, 'assets', 'urban', fullInvoice.replaceAll('/', '_'), `${e}`),
-                    width: 550,
-                    alignment: 'center',
-                    margin: [0, 0, 0, 5]
-                });
-            }
-
-            images.push({
-                text: [
-                    { text: 'Nota: ', style: 'regular', bold: true },
-                    { text: 'La información descrita corresponde y es responsabilidad del solicitante.', style: 'regular' }
-                ]
-            });
-
-            resolve(images);
-        });
-    });
-}
-
-export async function loadDistributionChart(fullInvoice) {
-    let images = [];
-    const dir = path.join(__dirstorage, 'assets', 'urban', fullInvoice.replaceAll('/', '_'));
-    const pattern = /^distribuciones_.*/;
-
-    return new Promise((resolve, reject) => {
-        fs.readdir(dir, (err, files) => {
-            if (err) {
-                return reject(err);
-            }
-
-            const matchedFiles = files.filter(file => pattern.test(file));
-
-            for (let e of matchedFiles) {
-                images.push({
-                    image: path.join(__dirstorage, 'assets', 'urban', fullInvoice.replaceAll('/', '_'), `${e}`),
-                    width: 550,
-                    alignment: 'center',
-                    margin: [0, 0, 0, 5]
-                });
-            }
-
-            images.push({
-                text: [
-                    { text: 'Nota: ', style: 'regular', bold: true },
-                    { text: 'La información descrita corresponde y es responsabilidad del solicitante.', style: 'regular' }
-                ]
-            });
-
-            resolve(images);
-        });
-    });
-}
-
-export async function loadDonationsChart(fullInvoice) {
-    let images = [];
-    const dir = path.join(__dirstorage, 'assets', 'urban', fullInvoice.replaceAll('/', '_'));
-    const pattern = /^donaciones_.*/;
+    const pattern = new RegExp(sourcePattern);
 
     return new Promise((resolve, reject) => {
         fs.readdir(dir, (err, files) => {
@@ -626,10 +490,13 @@ export const recordExample = {
         ],
         "urbanCUS": "IMDUyV/DLyCU/CUS/0011/2023, IMDUyV/DLyCU/CUS/0012/2023, IMDUyV/DLyCU/CUS/0013/2023, IMDUyV/DLyCU/CUS/0014/2023, IMDUyV/DLyCU/CUS/0015/2023, IMDUyV/DLyCU/CUS/0016/2023, IMDUyV/DLyCU/CUS/0017/2023",
         "urbanLUS": "IMDUyV/DLyCU/LUS/0011/2023, IMDUyV/DLyCU/LUS/0012/2023, IMDUyV/DLyCU/LUS/0013/2023, IMDUyV/DLyCU/LUS/0014/2023, IMDUyV/DLyCU/LUS/0015/2023, IMDUyV/DLyCU/LUS/0016/2023, IMDUyV/DLyCU/LUS/0017/2023",
-        "location": ["Parcela 775", "777", "778", "786", "790", "791" , "LOTE 1 (PARCELA 925)"],
+        "location": ["un costado del fraccionamiento Haciendas de Tizayuca, en el municipio de Tizayuca"],
         "habitacionalLotes":"3 lotes habitacionales",
         "totalManzanas":"37 manzanas",
         "totalSurface":"14,335.98 m²",
+        "authorizationFor" : "AUTORIZACIÓN DE PRÓRROGA DE LICENCIA DE FRACCIONAMIENTO",
+        "integrity" : "98 lotes, divididos en 45 lotes habitacionales, 30 lotes habitacionales en condominio, 8 lotes comerciales, 4 lotes de áreas jardinadas, 2 lotes de área de donación, 4 lotes de infraestructura y 5 lotes de servidumbre de paso",
+        "detailedUse" : "Habitacional de Interés Social, Económico Condominal Horizontal, Condominal Vertical y Comercial.",
     },
     "approvalStatus": true,
 	"active": true,
@@ -747,7 +614,50 @@ export function generateUrbanSpecialData(type) {
                 authorizationResume: "Ej: SE AUTORIZA LA FUSIÓN DE LOS PREDIOS IDENTIFICADOS COMO LAS PARCELAS 777, 775, 778, 786, 790, 791 Y LOTE 1 (PARCELA 924), RESULTANDO LA FUSIÓN CON UNA SUPERFICIE TOTAL DE: 161,100.70 M2."
             }
         case 5:
-            return {}
+            return {
+                requestorAddress: "Domicilio",
+                buildingAddress: "Domicilio",
+                location: ["un costado del fraccionamiento Haciendas de Tizayuca, en el municipio de Tizayuca"],
+                documents: [
+                    "Solicitud de Licencia de Fraccionamiento.",
+                    "Copia de Identificación oficial del C. Ismael Banderas Peñaloza, consistente en credencial de elector, con número de folio 1165026473873, expedida por Instituto Nacional Electoral.",
+                    "Copia de Constancia de Situación Fiscal a nombre de Arrendadora Cesvin.",
+                    "Copia de Licencias de Uso de Suelo No. IMDUyV/DLyCU/LUS/0011/2023, IMDUyV/DLyCU/LUS/0012/2023, IMDUyV/DLyCU/LUS/0013/2023, IMDUyV/DLyCU/LUS/0014/2023, IMDUyV/DLyCU/LUS/0015/2023, IMDUyV/DLyCU/LUS/0016/2023, IMDUyV/DLyCU/LUS/0017/2023, de fecha 04 de diciembre de 2023.",
+                    "Copias de Certificados de existencia o inexistencia de Gravámenes.",
+                    "Copias de los recibos de pago de impuesto predial a nombre de Arrendadora Cesvin S.A. de C.V, clave catastral 6908055000053, 690855000041, 6905055000017, 690855000044, 6905055000045, 6908055000046 y 6908055000070 correspondiente al ejercicio fiscal enero- diciembre 2023.",
+                    "Reporte fotográfico.",
+                    "Croquis de localización con coordenadas UTM.",
+                    "4 juegos de planos para su autorización de proyecto de lotificación firmado por Arq. Yolanda Calva Silva Pérez, D.R. y C. 328",
+                    "Copia de Acta constitutiva de Arrendadora Cesvin S.A. de C.V.",
+                    "Copia de Poder Notarial Lic. Ismael Banderas Peñaloza",
+                    "Copia de Factibilidad de servicios emitida por CAAMTH, No. 001-FACT-CAAMTH-2024 de fecha 06 de febrero de 2024.",
+                    "Copia de Acuse de solicitud de Constancia de Viabilidad en la Secretaria de Infraestructura Pública y Desarrollo Urbano Sostenible, de fecha 06 de diciembre de 2023.",
+                    "Copia de Acuse de solicitud de aprobación del Estudio de Vulnerabilidad y Riesgo, a Subsecretaria de Protección Civil, de fecha 17 de enero de 2024.",
+                    "Copia de Constancia de Factibilidad de Transporte de Residuos Sólidos Urbanos y RME, de fecha 23 de febrero de 2024.",
+                    "Copia de Aprobación de proyecto emitida por CFE, de fecha 10 de junio de 2019.",
+                ],
+                authorizationFor : "AUTORIZACIÓN DE PRÓRROGA DE LICENCIA DE FRACCIONAMIENTO",
+                integrity : "98 lotes, divididos en 45 lotes habitacionales, 30 lotes habitacionales en condominio, 8 lotes comerciales, 4 lotes de áreas jardinadas, 2 lotes de área de donación, 4 lotes de infraestructura y 5 lotes de servidumbre de paso",
+                detailedUse : "Habitacional de Interés Social, Económico Condominal Horizontal, Condominal Vertical y Comercial.",
+                conditions: [
+                    "En un plazo de 90 días naturales contados a partir de la firma de éste, presentará copia simple de la escritura de protocolización del Fraccionamiento denominado “ANDALUCÍA RESIDENCIAL, 3RA ETAPA, SECCIÓN MÁLAGA” debidamente inscrita en el Registro Público de la Propiedad y del Comercio. ",
+                    "En un plazo de 90 días naturales presentará factibilidad del suministro de energía eléctrica emitida por la CFE (Comisión Federal de Electricidad), para el fraccionamiento denominado “ANDALUCÍA RESIDENCIAL, 3RA ETAPA, SECCIÓN MÁLAGA”.",
+                    "En un plazo de 90 días naturales presentará factibilidad y proyectos ejecutivos aprobados por la Comisión de Agua y Alcantarillado del Municipio de Tizayuca, Hgo., (CAAMTH), para el fraccionamiento denominado “ANDALUCÍA RESIDENCIAL, 3RA ETAPA, SECCIÓN MÁLAGA”. ",
+                    "Presentar convenio con la Secretaria de Obras Publicas del Municipio de Tizayuca, Hidalgo, del mantenimiento de la infraestructura vial, en un radio de 500.00 m. del fraccionamiento, como lo indica en las obligaciones del fraccionador en un plazo no mayor a 30 días naturales.",
+                    "Deberá cumplir con las condicionantes establecidas por la Comisión de Agua y Alcantarillado del Municipio de Tizayuca (CAAMTH), la Secretaria de Obras Públicas municipales y la Secretaria General Municipal, debiendo cumplir mediante convenio en un periodo establecido por estas instancias; así como determinadas por las entidades estatales correspondientes.",
+                    "Deberá presentar Dictamen del Estudio de Impacto Urbano y Vial emitido por la Secretaria de Infraestructura Pública y Desarrollo Urbano Sostenible, de Gobierno del Estado de Hidalgo, en un plazo no mayor a 60 días naturales.",
+                    "Deberá presentar Resolución del Estudio de Impacto Ambiental, emitido por la Secretaria de Medio Ambiente y Recursos Naturales del Estado de Hidalgo, en un plazo no mayor a 60 días naturales.",
+                    "Deberá presentar Constancia de Viabilidad emitida por la Secretaria de Infraestructura Pública y Desarrollo Urbano Sostenible, de Gobierno del Estado de Hidalgo, en un plazo no mayor a 60 días naturales.",
+                    "Deberá presentar proyecto de red de agua potable y calculo hidráulico validado por la dependencia correspondiente, en un plazo no mayor a 30 días naturales.",
+                    "Deberá presentar proyecto de red de drenaje y calculo sanitario, validado por dependencia correspondiste, en un plazo no mayor a 30 días naturales.",
+                    "Deberá presentar proyecto de drenaje pluvial y calculo hidráulico, validado por la dependencia correspondiente en un plazo no mayor a 30 días naturales.",
+                    "Deberá presentar proyecto de red de energía eléctrica y calculo eléctrico, validado por la dependencia correspondiente, en un plazo no mayor a 30 días naturales.",
+                    "Presentar calendario y presupuesto de obra de urbanización en un plazo no mayor a 30 dias naturales.",
+                    "En consideración del impacto urbano y a la sobredemanda de los servicios públicos en el municipio, se deberán de generar las medidas adecuadas de prevención, integración y/o compensación, para disminuir o compensar los impactos o alteraciones causadas por la presente autorización. En razón de lo anterior el fraccionador deberá mediante convenio retribuir al Instituto Municipal de Desarrollo Urbano y Vivienda, el 30% del monto de la presente autorización. Dicho convenio se deberá de formalizarse en un plazo de hasta 90 días hábiles contados a partir de la firma de éste.",
+                    "En caso de incumplimiento a cualquiera de las prerrogativas descritas con antelación se hará acreedor a las sanciones establecidas en el artículo 196 fracción V en relación con el Artículo 193 fracción XIII, ambos de la Ley de Asentamientos Humanos, Desarrollo Urbano y Ordenamiento Territorial del Estado de Hidalgo.",
+                    "En caso de incumplimiento a lo antes citado, este documento quedará sin validez."
+                ],
+            }
         case 6:
             return {
                 requestorAddress: "Domicilio",
