@@ -371,7 +371,7 @@ export function generateDistributionTable(lotes, manzanas) {
 
 export const recordExample = {
     "id": 4,
-    "fullInvoice": "IMDUyV_DLyCU_CRPC_001_2024",
+    "fullInvoice": "IMDUyV_DLyCU_CRPC_999_2024",
     "invoice": 1,
     "licenseType": 1,
     "year": 2024,
@@ -497,6 +497,10 @@ export const recordExample = {
         "authorizationFor" : "AUTORIZACIÓN DE PRÓRROGA DE LICENCIA DE FRACCIONAMIENTO",
         "integrity" : "98 lotes, divididos en 45 lotes habitacionales, 30 lotes habitacionales en condominio, 8 lotes comerciales, 4 lotes de áreas jardinadas, 2 lotes de área de donación, 4 lotes de infraestructura y 5 lotes de servidumbre de paso",
         "detailedUse" : "Habitacional de Interés Social, Económico Condominal Horizontal, Condominal Vertical y Comercial.",
+        "totalRelotification": "47 lotes",
+        "resultRelotification": ["Manzana 217", "LOTES 1 A 13", "13-A", "13-B", "15 A 44", "62", "65"],
+        "previousInvoice":"IMDUyV/DPT/RLF/08/2021",
+        "previousInvoiceDate":"2024-12-07",
     },
     "approvalStatus": true,
 	"active": true,

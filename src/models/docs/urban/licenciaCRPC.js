@@ -392,18 +392,14 @@ export async function generateUrbanCRPC(lcDBObj) {
         ],
         footer: function(currentPage, pageCount) {
             return {
-                columns: [
-                    {
-                        svg: `
-                        <svg width="30" height="66">
-                            <text x="16" y="33" transform="rotate(-90, 15, 33)" text-anchor="middle" font-size="4" font-weight="bold">
-                                <tspan x="16" dy="1.2em">${lcDBObj.fullInvoice}</tspan>
-                                <tspan x="16" dy="1.2em">Pagina ${currentPage} de ${pageCount}</tspan>
-                            </text>
-                        </svg>`,
-                        alignment: 'right'
-                    }
-                ]
+                svg: `
+                    <svg width="30" height="66">
+                        <text x="16" y="33" transform="rotate(-90, 15, 33)" text-anchor="middle" font-size="4" font-weight="bold">
+                            <tspan x="16" dy="1.2em">${lcDBObj.fullInvoice}</tspan>
+                            <tspan x="16" dy="1.2em">Pagina ${currentPage} de ${pageCount}</tspan>
+                        </text>
+                    </svg>`,
+                alignment: 'right'
             };
         }
     };
