@@ -730,6 +730,8 @@ function createUrbanPrintResult(resObj, target) {
             resultContent.appendChild(field);
             break;
         case 7:
+            field = createResultField(resObj.id, 'Tablas/Cuadros resumen', 'resumeTables', resObj.fullInvoice, 'file');
+            resultContent.appendChild(field);
             break;
         case 8:
             field = createResultField(resObj.id, 'Domicilio del solicitante', 'requestorAddress', resObj.licenseSpecialData.requestorAddress, 'text');
