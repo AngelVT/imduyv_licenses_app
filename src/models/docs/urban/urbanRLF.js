@@ -347,24 +347,24 @@ export async function generateUrbanRLF(lcDBObj) {
                         [
                             {
                                 style: 'regular',
-                                text: [{text: 'PRIMERO. ', bold: true},'El Instituto Municipal de Desarrollo Urbano y Vivienda, Tizayuca, estado de Hidalgo,  resulto competente para conocer y Dictaminar  en definitiva ', {text: 'AUTORIZACIÓN DE PRÓRROGA DE LICENCIA DE FRACCIONAMIENTO', bold: true}, ' denominado ',{text: `“${lcDBObj.colony}”`, bold: true},' que dio origen a este trámite.\n\n',
+                                text: [{text: 'PRIMERO. ', bold: true},'El Instituto Municipal de Desarrollo Urbano y Vivienda, de Tizayuca, Hidalgo;  resulto competente para conocer y dictaminar  en definitiva sobre la autorización de ', {text: 'RELOTIFICACIÓN DE FRACCIONAMIENTO', bold: true}, ' para ', {text: docUtils.arrayToText(lcDBObj.licenseSpecialData.lotes), bold: true}, ' del fraccionamiento denominado ',{text: `“${lcDBObj.colony}”`, bold: true},' , que dio origen a este trámite.\n\n',
 
-                                {text: 'SEGUNDO. ', bold: true},' A través de esta resolución se autoriza el fraccionamiento denominado ',{text: `“${lcDBObj.colony}”`, bold: true},', que contiene ', {text: lcDBObj.licenseSpecialData.integrity, bold: true}, ' ubicado en ',{text: lcDBObj.licenseSpecialData.location, bold: true}, ', Estado de Hidalgo, de acuerdo al plano de lotificación que se anexa y que ahora forma parte integral de la misma, con firmas, sellos, fecha y número de autorización.\n\n',
+                                {text: 'SEGUNDO. ', bold: true},'A través de esta resolución se autoriza la ', {text: 'RELOTIFICACIÓN DE FRACCIONAMIENTO', bold: true}, ' para ', {text: docUtils.arrayToText(lcDBObj.licenseSpecialData.lotes), bold: true}, ', del fraccionamiento denominado ',{text: `“${lcDBObj.colony}”`, bold: true},', ubicado en ', {text: lcDBObj.licenseSpecialData.location, bold: true},'\n\n',
 
-                                {text: 'TERCERO. ', bold: true},'El uso de suelo autorizado es ',{text: lcDBObj.licenseSpecialData.detailedUse, bold: true},'\n\n',
+                                {text: 'TERCERO. ', bold: true},'El uso de suelo autorizado para fraccionar es ',{text: lcDBObj.licenseSpecialData.detailedUse, bold: true},' para Desarrollo Habitacional, de acuerdo al Programa Municipal de Desarrollo Urbano y Ordenamiento Territorial de Tizayuca, Hidalgo.\n\n',
 
-                                {text: 'CUARTO. ', bold: true},'El fraccionador se obliga a entregar los documentos antes de vencimiento del plazo establecido en las disposiciones contenidas en las condicionantes de éste documento.\n\n',
+                                {text: 'CUARTO. ', bold: true}, 'Esta resolución no lo autoriza a realizar edificaciones, por lo que deberá solicitar la licencia de construcción correspondiente.\n\n',
 
-                                {text: 'QUINTO. ', bold: true},'El fraccionador ha dado cumplimiento a los pagos correspondientes a la Autorización de Régimen de Propiedad en Condominio de las manzanas 21, 22, 23, 24, 25, 26 y 27, del Fraccionamiento denominado ', {text: `“${lcDBObj.colony}”`, bold: true},'.\n\n',
+                                {text: 'QUINTO. ', bold: true}, {text: lcDBObj.requestorName, bold: true}, {
+                                    text: lcDBObj.legalRepresentative ? [{text: 'a través del C. '}, {text: lcDBObj.legalRepresentative, bold: true}, { text: ', representante legal de '}] : ''
+                                }, ', se obliga a entregar los documentos que se obtendrán con posterioridad como consecuencia del cumplimiento de sus obligaciones y la escritura de las áreas de donación a favor del Municipio de Tizayuca, Estado de Hidalgo, y escritura de protocolización de la presente resolución.\n\n',
 
-                                {text: 'SEXTO. ', bold: true},'De conformidad con el artículo 156 fracción V de la Ley de Asentamientos Humanos, Desarrollo Urbano y Ordenamiento Territorial del Estado de Hidalgo, al ',{
-                                    text: lcDBObj.legalRepresentative ? [{text: 'C. '}, {text: lcDBObj.legalRepresentative, bold: true}, { text: ', representante legal de '}] : ''
-                                },{text: lcDBObj.requestorName, bold: true}, ' deberá remitir copia de la presente resolución, adjuntando plano de lotificación autorizado con sello y firmas, al Registro Público de la Propiedad y del Comercio del Distrito Judicial de Tizayuca, Hidalgo.\n\n',
+                                {text: 'SEXTO. ', bold: true}, 'Remítase copia de la presente resolución, adjuntando plano del Fraccionamiento denominado ', {text: `“${lcDBObj.colony}”`, bold: true},', autorizado, con sello y firma al Registro Público de la propiedad y del Comercio, del distrito judicial de Tizayuca, estado de Hidalgo, de conformidad al artículo 156 fracción V de la Ley de Asentamientos Humanos, Desarrollo Urbano y Ordenamiento Territorial del Estado de Hidalgo.\n\n',
 
                                 {text: 'SÉPTIMO. ', bold: true},'Se le apercibe a ',{text: lcDBObj.requestorName, bold: true}, 
                                 {
                                     text: lcDBObj.legalRepresentative ? [{text: ' a través del C. '}, {text: lcDBObj.legalRepresentative, bold: true}, { text: ', en su carácter de representante Legal'}] : ''
-                                },' que de no dar cumplimiento a cualquiera de las obligaciones y prohibiciones señaladas en el cuerpo de la presente resolución o pase por alto las previsiones de la ley de la materia, se le aplicaran las sanciones que procedan y que son previstas en el Titulo IV, Capítulo I sección IV, relativo a fraccionamientos de la Ley de Asentamientos Humanos, Desarrollo Humano y Ordenamiento Territorial del Estado de Hidalgo y su Reglamento; ',{text: 'no se omite que la inobservancia de lo anterior faculte a esta autoridad a revocar la autorización concedida.', bold: true}]
+                                },' que de no dar cumplimiento a cualquiera de las obligaciones y prohibiciones señaladas en el cuerpo de la presente resolución o pase por alto las previsiones de la ley de la materia, se le aplicaran las sanciones que procedan y que son previstas en el Titulo IV, Capítulo I sección IV, relativo a fraccionamientos de la Ley de Asentamientos Humanos, Desarrollo Humano y Ordenamiento Territorial del Estado de Hidalgo y su Reglamento; ',{text: 'no se omite que la inobservancia de lo anterior faculte a esta autoridad a revocar la autorización concedida. ', bold: true}]
                             }
                         ]
                     ]
@@ -372,6 +372,7 @@ export async function generateUrbanRLF(lcDBObj) {
                 layout: docUtils.containerLayout
             },
             {
+                pageBreak: 'before',
                 style: 'formRow',
                 table: {
                     widths: ['*'],
@@ -394,9 +395,9 @@ export async function generateUrbanRLF(lcDBObj) {
                             {},
                             docUtils.field(docUtils.dateFormatFull(lcDBObj.expeditionDate), docUtils.borderless, 2, 'center',6),
                             {},
-                            {text: 'Vigencia: ', style: 'labelTC', colSpan: 2},
                             {},
-                            docUtils.field(lcDBObj.validity.licenseValidity, docUtils.borderless, 2, 'center',7),
+                            {},
+                            {},
                             {},
                             {text: 'Folio de pago: ', style: 'labelTC', colSpan: 2},
                             {},

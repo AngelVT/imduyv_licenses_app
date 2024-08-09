@@ -717,7 +717,51 @@ export function generateUrbanSpecialData(type) {
                 totalSurface:"14,335.98 m²"
             }
         case 7:
-            return {}
+            return {
+                requestorAddress: "Domicilio",
+                buildingAddress: "Domicilio",
+                lotes: ["Lote 1", "Lote 2","Lote 3","Lote 4"],
+                location: [" un costado del fraccionamiento Haciendas de Tizayuca, en el municipio de Tizayuca"],
+                documents: [
+                    "Solicitud por escrito de Autorización de Régimen de Propiedad de Condómino.",
+                    "Copia de Identificación oficial del C. Elías Guarneros Ramírez, consistente en credencial de elector, con número de folio 1130008658056, expedida por Instituto Nacional Electoral.",
+                    "Croquis de localización.",
+                    "4 planos para su autorización.",
+                    "Copia Relotificación de Fraccionamiento No. IMDUYV/DPT/RF/001/2023, de fecha 10 de octubre de 2023.",
+                    "Copia de Segundo Testimonio de Relotificación del Fraccionamiento denominado “los Héroes Tizayuca”, escritura No. 43,226, de fecha 30 de octubre de 2023.",
+                    "Copia de Convenio de servicios de agua potable con la CAAMTH.",
+                    "Copia de Recibo de pago de impuesto predial, periodo enero – diciembre 2023, con clave catastral 690500010000100001, del predio ubicado en Los Héroes Tizayuca del Municipio Tizayuca a nombre de Desarrollos Inmobiliarios SADASI S.A. de C.V.",
+                    "Memoria descriptiva",
+                    "Dos juegos de Reglamento General del Condominio.",
+                    "Reporte fotográfico.",
+                    "Copia de Acta constitutiva de “Desarrollos inmobiliarios SADASI S.A. DE C.V.”",
+                    "Copia de Poder notarial otorgado a favor del C. Elías Guarneros Ramírez por “Desarrollos Inmobiliarios SADASI S.A. de C.V.”",
+                    "Copia de cédula de identificación fiscal, RFC.",
+                ],
+                totalRelotification: "47 lotes",
+                resultRelotification: ["Manzana 217", "LOTES 1 A 13", "13-A", "13-B", "15 A 44", "62", "65"],
+                previousInvoice:"IMDUyV/DPT/RLF/08/2021",
+                previousInvoiceDate:"2024-12-07",
+                conditions: [
+                    "En un plazo de 90 días naturales contados a partir de la firma de éste, presentará copia simple de la escritura de protocolización del Fraccionamiento denominado “ANDALUCÍA RESIDENCIAL, 3RA ETAPA, SECCIÓN MÁLAGA” debidamente inscrita en el Registro Público de la Propiedad y del Comercio. ",
+                    "En un plazo de 90 días naturales presentará factibilidad del suministro de energía eléctrica emitida por la CFE (Comisión Federal de Electricidad), para el fraccionamiento denominado “ANDALUCÍA RESIDENCIAL, 3RA ETAPA, SECCIÓN MÁLAGA”.",
+                    "En un plazo de 90 días naturales presentará factibilidad y proyectos ejecutivos aprobados por la Comisión de Agua y Alcantarillado del Municipio de Tizayuca, Hgo., (CAAMTH), para el fraccionamiento denominado “ANDALUCÍA RESIDENCIAL, 3RA ETAPA, SECCIÓN MÁLAGA”. ",
+                    "Presentar convenio con la Secretaria de Obras Publicas del Municipio de Tizayuca, Hidalgo, del mantenimiento de la infraestructura vial, en un radio de 500.00 m. del fraccionamiento, como lo indica en las obligaciones del fraccionador en un plazo no mayor a 30 días naturales.",
+                    "Deberá cumplir con las condicionantes establecidas por la Comisión de Agua y Alcantarillado del Municipio de Tizayuca (CAAMTH), la Secretaria de Obras Públicas municipales y la Secretaria General Municipal, debiendo cumplir mediante convenio en un periodo establecido por estas instancias; así como determinadas por las entidades estatales correspondientes.",
+                    "Deberá presentar Dictamen del Estudio de Impacto Urbano y Vial emitido por la Secretaria de Infraestructura Pública y Desarrollo Urbano Sostenible, de Gobierno del Estado de Hidalgo, en un plazo no mayor a 60 días naturales.",
+                    "Deberá presentar Resolución del Estudio de Impacto Ambiental, emitido por la Secretaria de Medio Ambiente y Recursos Naturales del Estado de Hidalgo, en un plazo no mayor a 60 días naturales.",
+                    "Deberá presentar Constancia de Viabilidad emitida por la Secretaria de Infraestructura Pública y Desarrollo Urbano Sostenible, de Gobierno del Estado de Hidalgo, en un plazo no mayor a 60 días naturales.",
+                    "Deberá presentar proyecto de red de agua potable y calculo hidráulico validado por la dependencia correspondiente, en un plazo no mayor a 30 días naturales.",
+                    "Deberá presentar proyecto de red de drenaje y calculo sanitario, validado por dependencia correspondiste, en un plazo no mayor a 30 días naturales.",
+                    "Deberá presentar proyecto de drenaje pluvial y calculo hidráulico, validado por la dependencia correspondiente en un plazo no mayor a 30 días naturales.",
+                    "Deberá presentar proyecto de red de energía eléctrica y calculo eléctrico, validado por la dependencia correspondiente, en un plazo no mayor a 30 días naturales.",
+                    "Presentar calendario y presupuesto de obra de urbanización en un plazo no mayor a 30 dias naturales.",
+                    "En consideración del impacto urbano y a la sobredemanda de los servicios públicos en el municipio, se deberán de generar las medidas adecuadas de prevención, integración y/o compensación, para disminuir o compensar los impactos o alteraciones causadas por la presente autorización. En razón de lo anterior el fraccionador deberá mediante convenio retribuir al Instituto Municipal de Desarrollo Urbano y Vivienda, el 30% del monto de la presente autorización. Dicho convenio se deberá de formalizarse en un plazo de hasta 90 días hábiles contados a partir de la firma de éste.",
+                    "En caso de incumplimiento a cualquiera de las prerrogativas descritas con antelación se hará acreedor a las sanciones establecidas en el artículo 196 fracción V en relación con el Artículo 193 fracción XIII, ambos de la Ley de Asentamientos Humanos, Desarrollo Urbano y Ordenamiento Territorial del Estado de Hidalgo.",
+                    "En caso de incumplimiento a lo antes citado, este documento quedará sin validez."
+                ],
+                detailedUse : "Habitacional de Interés Social, Económico Condominal Horizontal, Condominal Vertical y Comercial.",
+            }
         case 8:
             return {
                 requestorAddress: "Domicilio",
