@@ -1356,6 +1356,10 @@ textarea.invissible:focus {
     width: 75%;
 }
 
+.result-label{
+    cursor: pointer;
+}
+
 @media (max-width: 1450px) {
     .btn-column {
         font-size: 2.8em;

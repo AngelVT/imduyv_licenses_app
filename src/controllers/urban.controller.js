@@ -157,6 +157,10 @@ export const getLicenseByType = async (req, res) => {
 
         requestLogger.get('Urban get request completed:\n    Requested record: %d', licenses.id);
 
+        for (let license of licenses) {
+            license.licenseSpecialData = JSON.parse(license.licenseSpecialData);
+        }
+
         res.status(200).json({data: licenses});
     } catch (error) {
         consoleLogger.error('\n  Request failed due to server side error:\n  Error: %s', error)
@@ -206,6 +210,10 @@ export const getLicenseBy = async (req, res) => {
         }
 
         requestLogger.get('Urban get request completed:\n    Requested record: %d', licenses.id);
+
+        for (let license of licenses) {
+            license.licenseSpecialData = JSON.parse(license.licenseSpecialData);
+        }
 
         res.status(200).json({data: licenses});
     } catch (error) {

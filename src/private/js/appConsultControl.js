@@ -2,13 +2,15 @@ function hideShow(btn, id) {
     let resultTop = document.querySelector(`#result_top_${id}`);
     let resultSave = document.querySelector(`#result_control_save_${id}`);
     let resultDelete = document.querySelector(`#result_control_delete_${id}`);
+    let resultPrint = document.querySelector(`#result_control_print_${id}`);
     let fields = document.querySelector(`#result_fields_${id}`);
-    btn.classList.toggle("bi-chevron-bar-up");
-    btn.classList.toggle("bi-chevron-bar-down");
+    /*btn.classList.toggle("bi-chevron-bar-up");
+    btn.classList.toggle("bi-chevron-bar-down");*/
     resultTop.classList.toggle("border-round");
     resultTop.classList.toggle("border-round-top");
     resultSave.classList.toggle("dis-none");
     resultDelete.classList.toggle("dis-none");
+    resultPrint.classList.toggle("dis-none");
     fields.classList.toggle("dis-none");
     fields.classList.toggle("dis-grid");
 }
@@ -24,39 +26,48 @@ function createResult(id, top, fields) {
     return result;
 }
 
-function createResultTop(id, invoice) {
+function createResultTop(obj) {
     let top = document.createElement('div');
     let topBtn = document.createElement('button');
     let topLabel = document.createElement('p');
     let topControls = document.createElement('div');
     let span;
 
-    top.setAttribute('id', `result_top_${id}`);
+    top.setAttribute('id', `result_top_${obj.id}`);
     top.setAttribute('class', 'w-100 dis-flex flex-between flex-center-v padding-small bg-complementary-alpha border-round controls');
 
-    topBtn.setAttribute('onclick', `hideShow(this, ${id})`);
+    /*topBtn.setAttribute('onclick', `hideShow(this, ${obj.id})`);
     topBtn.setAttribute('class', 'bi-chevron-bar-down txt-medium color-primary result-control input-none');
 
-    top.appendChild(topBtn);
+    top.appendChild(topBtn);*/
 
-    topLabel.setAttribute('class', 'color-white txt-bold result-label');
+    topLabel.setAttribute('class', 'color-white txt-bold w-100 txt-center result-label');
+    topLabel.setAttribute('onclick', `hideShow(this, ${obj.id})`)
     topLabel.innerText = 'Folio: ';
     span = document.createElement('span');
-    span.setAttribute('id', `result_invoice_${id}`);
-    span.innerText = invoice.replaceAll('_', '/');
+    span.setAttribute('id', `result_invoice_${obj.id}`);
+    span.innerText = obj.fullInvoice.replaceAll('_', '/');
     topLabel.appendChild(span);
 
     top.appendChild(topLabel);
 
-    topControls.setAttribute('class', 'w-10 dis-flex flex-evenly');
+    topControls.setAttribute('class', 'w-15 dis-flex flex-evenly');
     span = document.createElement('span');
-    span.setAttribute('id', `result_control_save_${id}`);
-    span.setAttribute('onclick', `updateResultFull(${id})`);
+    span.setAttribute('id', `result_control_save_${obj.id}`);
+    span.setAttribute('onclick', `updateResultFull(${obj.id})`);
     span.setAttribute('class', 'bi-floppy txt-large color-primary dis-none result-control');
     topControls.appendChild(span);
+
+    span = document.createElement('a');
+    span.setAttribute('id', `result_control_print_${obj.id}`);
+    span.setAttribute('target', '_blank');
+    span.setAttribute('href', `/api/urban/PDF/${obj.licenseType}/${obj.invoice}/${obj.year}`);
+    span.setAttribute('class', 'bi-printer txt-large color-primary dis-none result-control');
+    topControls.appendChild(span);
+
     span = document.createElement('span');
-    span.setAttribute('id', `result_control_delete_${id}`);
-    span.setAttribute('onclick', `deleteResult(${id})`);
+    span.setAttribute('id', `result_control_delete_${obj.id}`);
+    span.setAttribute('onclick', `deleteResult(${obj.id})`);
     span.setAttribute('class', 'bi-trash txt-large color-primary dis-none result-control');
     topControls.appendChild(span);
 
@@ -269,16 +280,240 @@ function createUrbanResult(resObj, target) {
 
     resultContent.appendChild(field);
 
-    field = document.createElement('img');
-    field.setAttribute('alt', 'Zonificación');
-    field.setAttribute('src', `/urbanStorage/${resObj.fullInvoice}/zone.png`);
-    field.setAttribute('class', 'urban-result-img');
+    switch(resObj.licenseType) {
+        case 1:
+            field = createResultField(resObj.id, 'P.C.U.', 'PCU', resObj.licenseSpecialData.PCU, 'text');
 
-    resultContent.appendChild(field);
+            resultContent.appendChild(field);
+            break;
+        case 2:
+            field = createResultField(resObj.id, 'Domicilio del solicitante', 'requestorAddress', resObj.licenseSpecialData.requestorAddress, 'text');
+            resultContent.appendChild(field);
+
+            field = createResultField(resObj.id, 'Domicilio del inmueble', 'buildingAddress', resObj.licenseSpecialData.buildingAddress, 'text');
+            resultContent.appendChild(field);
+
+            field = createResultField(resObj.id, 'Porcentaje de ocupación', 'occupationPercent', resObj.licenseSpecialData.occupationPercent, 'number');
+            resultContent.appendChild(field);
+
+            field = createResultField(resObj.id, 'Superficie minima por lote', 'surfacePerLote', resObj.licenseSpecialData.surfacePerLote, 'number');
+            resultContent.appendChild(field);
+
+            field = createResultField(resObj.id, 'Altura maxima', 'maximumHeight', resObj.licenseSpecialData.maximumHeight, 'text');
+            resultContent.appendChild(field);
+
+            field = createResultField(resObj.id, 'Frente mínimo', 'minimalFront', resObj.licenseSpecialData.minimalFront, 'number');
+            resultContent.appendChild(field);
+
+            field = createResultField(resObj.id, 'Restricción frontal', 'frontalRestriction', resObj.licenseSpecialData.frontalRestriction, 'number');
+            resultContent.appendChild(field);
+
+            field = createResultField(resObj.id, 'Estacionamientos', 'parkingLots', resObj.licenseSpecialData.parkingLots, 'text');
+            resultContent.appendChild(field);
+
+            field = createResultField(resObj.id, 'Porcentaje de uso', 'usePercent', resObj.licenseSpecialData.usePercent, 'number');
+            resultContent.appendChild(field);
+            break;
+        case 3:
+            field = createResultField(resObj.id, 'Domicilio del solicitante', 'requestorAddress', resObj.licenseSpecialData.requestorAddress, 'text');
+            resultContent.appendChild(field);
+
+            field = createResultField(resObj.id, 'Domicilio del inmueble', 'buildingAddress', resObj.licenseSpecialData.buildingAddress, 'text');
+            resultContent.appendChild(field);
+
+            field = createResultTextArea(resObj.id, 'Resumen de autorización', 'authorizationResume', resObj.licenseSpecialData.authorizationResume);
+            field.style.marginBottom = '10px';
+            resultContent.appendChild(field);
+
+            field = generateTableForm(resObj);
+            resultContent.appendChild(field);
+
+            field = document.createElement('div');
+            field.setAttribute('class', 'field-span border-round preview-container');
+            field.setAttribute('id', `tha-preview-${resObj.id}`);
+            field.appendChild(generateTableFrom(resObj.licenseSpecialData.actualSituation));
+
+            resultContent.appendChild(field);
+            break;
+        case 4:
+            field = createResultField(resObj.id, 'Domicilio del solicitante', 'requestorAddress', resObj.licenseSpecialData.requestorAddress, 'text');
+            resultContent.appendChild(field);
+
+            field = createResultField(resObj.id, 'Domicilio del inmueble', 'buildingAddress', resObj.licenseSpecialData.buildingAddress, 'text');
+            resultContent.appendChild(field);
+
+            field = createResultTextArea(resObj.id, 'Resumen de autorización', 'authorizationResume', resObj.licenseSpecialData.authorizationResume);
+            field.style.marginBottom = '10px';
+            resultContent.appendChild(field);
+
+            field = generateTableForm(resObj);
+            resultContent.appendChild(field);
+
+            field = document.createElement('div');
+            field.setAttribute('class', 'field-span border-round preview-container');
+            field.setAttribute('id', `tha-preview-${resObj.id}`);
+            field.appendChild(generateTableFrom(resObj.licenseSpecialData.actualSituation));
+
+            resultContent.appendChild(field);
+            break;
+        case 5:
+            field = createResultField(resObj.id, 'Domicilio del solicitante', 'requestorAddress', resObj.licenseSpecialData.requestorAddress, 'text');
+            resultContent.appendChild(field);
+
+            field = createResultField(resObj.id, 'Domicilio del inmueble', 'buildingAddress', resObj.licenseSpecialData.buildingAddress, 'text');
+            resultContent.appendChild(field);
+
+            field = createResultField(resObj.id, 'Tablas/Cuadros resumen', 'resumeTables', resObj.fullInvoice, 'file');
+            resultContent.appendChild(field);
+
+            field = createResultTextArea(resObj.id, 'Documentos', 'documents', resObj.licenseSpecialData.documents.join('\n'));
+            resultContent.appendChild(field);
+
+            field = createResultTextArea(resObj.id, 'Ubicación', 'location', resObj.licenseSpecialData.location.join('\n'));
+            resultContent.appendChild(field);
+
+            field = createResultTextArea(resObj.id, 'Integridad', 'integrity', resObj.licenseSpecialData.integrity);
+            resultContent.appendChild(field);
+
+            field = createResultTextArea(resObj.id, 'Condicionantes', 'conditions', resObj.licenseSpecialData.conditions.join('\n'));
+            resultContent.appendChild(field);
+
+            field = createResultTextArea(resObj.id, 'Uso autorizado', 'detailedUse', resObj.licenseSpecialData.detailedUse);
+            resultContent.appendChild(field);
+
+            break;
+        case 6:
+            field = createResultField(resObj.id, 'Domicilio del solicitante', 'requestorAddress', resObj.licenseSpecialData.requestorAddress, 'text');
+            resultContent.appendChild(field);
+
+            field = createResultField(resObj.id, 'Domicilio del inmueble', 'buildingAddress', resObj.licenseSpecialData.buildingAddress, 'text');
+            resultContent.appendChild(field);
+
+            field = createResultTextArea(resObj.id, 'Constancia de Uso de Suelo', 'urbanCUS', resObj.licenseSpecialData.urbanCUS);
+            resultContent.appendChild(field);
+
+            field = createResultTextArea(resObj.id, 'Licencia de Uso de Suelo', 'urbanLUS', resObj.licenseSpecialData.urbanLUS);
+            resultContent.appendChild(field);
+
+            field = createResultField(resObj.id, 'Altura maxima', 'maximumHeight', resObj.licenseSpecialData.maximumHeight, 'text');
+            resultContent.appendChild(field);
+
+            field = createResultField(resObj.id, 'Frente mínimo', 'minimalFront', resObj.licenseSpecialData.minimalFront, 'number');
+            resultContent.appendChild(field);
+
+            field = createResultField(resObj.id, 'Restricción frontal', 'frontalRestriction', resObj.licenseSpecialData.frontalRestriction, 'number');
+            resultContent.appendChild(field);
+
+            field = createResultField(resObj.id, 'Estacionamientos', 'parkingLots', resObj.licenseSpecialData.parkingLots, 'text');
+            resultContent.appendChild(field);
+
+            field = createResultField(resObj.id, 'Porcentaje de uso', 'usePercent', resObj.licenseSpecialData.usePercent, 'number');
+            resultContent.appendChild(field);
+
+            field = createResultTextArea(resObj.id, 'Ubicación', 'location', resObj.licenseSpecialData.location.join('\n'));
+            resultContent.appendChild(field);
+
+            field = createResultTextArea(resObj.id, 'Documentos', 'documents', resObj.licenseSpecialData.documents.join('\n'));
+            resultContent.appendChild(field);
+
+            field = createResultTextArea(resObj.id, 'Condicionantes', 'conditions', resObj.licenseSpecialData.conditions.join('\n'));
+            resultContent.appendChild(field);
+
+            field = createResultField(resObj.id, 'Lotes Totales', 'habitacionalLotes', resObj.licenseSpecialData.habitacionalLotes, 'number');
+            resultContent.appendChild(field);
+
+            field = createResultField(resObj.id, 'Manzanas Totales', 'totalManzanas', resObj.licenseSpecialData.totalManzanas, 'number');
+            resultContent.appendChild(field);
+
+            field = createResultField(resObj.id, 'Superficie de donación', 'totalSurface', resObj.licenseSpecialData.totalSurface, 'text');
+            resultContent.appendChild(field);
+
+            field = createResultField(resObj.id, 'Tablas/Cuadros resumen', 'resumeTables', resObj.fullInvoice, 'file');
+            resultContent.appendChild(field);
+            break;
+        case 7:
+            field = createResultField(resObj.id, 'Domicilio del solicitante', 'requestorAddress', resObj.licenseSpecialData.requestorAddress, 'text');
+            resultContent.appendChild(field);
+
+            field = createResultField(resObj.id, 'Domicilio del inmueble', 'buildingAddress', resObj.licenseSpecialData.buildingAddress, 'text');
+            resultContent.appendChild(field);
+
+            field = createResultField(resObj.id, 'Tablas/Cuadros resumen', 'resumeTables', resObj.fullInvoice, 'file');
+            resultContent.appendChild(field);
+
+            field = createResultTextArea(resObj.id, 'Relotificación para', 'lotes', resObj.licenseSpecialData.lotes.join('\n'));
+            resultContent.appendChild(field);
+
+            field = createResultTextArea(resObj.id, 'Documentos', 'documents', resObj.licenseSpecialData.documents.join('\n'));
+            resultContent.appendChild(field);
+
+            field = createResultTextArea(resObj.id, 'Ubicación', 'location', resObj.licenseSpecialData.location.join('\n'));
+            resultContent.appendChild(field);
+
+            field = createResultTextArea(resObj.id, 'Condicionantes', 'conditions', resObj.licenseSpecialData.conditions.join('\n'));
+            resultContent.appendChild(field);
+
+            field = createResultField(resObj.id, 'Relotificación', 'totalRelotification', resObj.licenseSpecialData.totalRelotification, 'text');
+            resultContent.appendChild(field);
+
+            field = createResultField(resObj.id, 'Folio previo', 'previousInvoice', resObj.licenseSpecialData.previousInvoice, 'text');
+            resultContent.appendChild(field);
+
+            field = createResultField(resObj.id, 'Fecha de folio previo', 'previousInvoiceDat', resObj.licenseSpecialData.previousInvoiceDate, 'date');
+            resultContent.appendChild(field);
+
+            field = createResultTextArea(resObj.id, 'Relotificación resultante', 'resultRelotification', resObj.licenseSpecialData.resultRelotification.join('\n'));
+            resultContent.appendChild(field);
+
+            field = createResultTextArea(resObj.id, 'Uso autorizado', 'detailedUse', resObj.licenseSpecialData.detailedUse);
+            resultContent.appendChild(field);
+
+            break;
+        case 8:
+            field = createResultField(resObj.id, 'Domicilio del solicitante', 'requestorAddress', resObj.licenseSpecialData.requestorAddress, 'text');
+            resultContent.appendChild(field);
+
+            field = createResultField(resObj.id, 'Domicilio del inmueble', 'buildingAddress', resObj.licenseSpecialData.buildingAddress, 'text');
+            resultContent.appendChild(field);
+
+            field = createResultField(resObj.id, 'Viviendas', 'households', resObj.licenseSpecialData.households, 'text');
+            resultContent.appendChild(field);
+
+            field = createResultField(resObj.id, 'Tablas/Cuadros resumen', 'resumeTables', resObj.fullInvoice, 'file');
+            resultContent.appendChild(field);
+
+            field = createResultTextArea(resObj.id, 'Documentos', 'documents', resObj.licenseSpecialData.documents.join('\n'));
+            resultContent.appendChild(field);
+
+            field = createResultTextArea(resObj.id, 'Lotes', 'lotes', resObj.licenseSpecialData.lotes.join('\n'));
+            resultContent.appendChild(field);
+
+            field = createResultTextArea(resObj.id, 'Manzanas', 'manzanas', resObj.licenseSpecialData.manzanas.join('\n'));
+            resultContent.appendChild(field);
+
+            field = createResultTextArea(resObj.id, 'Condicionantes', 'conditions', resObj.licenseSpecialData.conditions.join('\n'));
+            resultContent.appendChild(field);
+
+            field = createResultField(resObj.id, 'Superficie privativa', 'privateSurface', resObj.licenseSpecialData.privateSurface, 'number');
+            resultContent.appendChild(field);
+
+            field = createResultField(resObj.id, 'Superficie común', 'commonSurface', resObj.licenseSpecialData.commonSurface, 'number');
+            resultContent.appendChild(field);
+            break;
+    }
+
+    if(resObj.licenseType <= 4) {
+        field = document.createElement('img');
+        field.setAttribute('alt', 'Zonificación');
+        field.setAttribute('src', `/urbanStorage/${resObj.fullInvoice}/zone.png?${new Date().getTime()}`);
+        field.setAttribute('class', 'urban-print-result-img ');
+
+        resultContent.appendChild(field);
+    }
 
     let newResult = createResult(
         resObj.id,
-        createResultTop(resObj.id, resObj.fullInvoice), 
+        createResultTop(resObj), 
         resultContent);
 
     target.appendChild(newResult);
@@ -513,7 +748,7 @@ function createLandResult(resObj, target) {
 
     let newResult = createResult(
         resObj.id,
-        createResultTop(resObj.id, resObj.fullInvoice), 
+        createResultTop(resObj), 
         resultContent);
 
     target.appendChild(newResult);
@@ -722,16 +957,117 @@ function createUrbanPrintResult(resObj, target) {
             resultContent.appendChild(field);
             break;
         case 5:
+            field = createResultField(resObj.id, 'Domicilio del solicitante', 'requestorAddress', resObj.licenseSpecialData.requestorAddress, 'text');
+            resultContent.appendChild(field);
+
+            field = createResultField(resObj.id, 'Domicilio del inmueble', 'buildingAddress', resObj.licenseSpecialData.buildingAddress, 'text');
+            resultContent.appendChild(field);
+
             field = createResultField(resObj.id, 'Tablas/Cuadros resumen', 'resumeTables', resObj.fullInvoice, 'file');
             resultContent.appendChild(field);
+
+            field = createResultTextArea(resObj.id, 'Documentos', 'documents', resObj.licenseSpecialData.documents.join('\n'));
+            resultContent.appendChild(field);
+
+            field = createResultTextArea(resObj.id, 'Ubicación', 'location', resObj.licenseSpecialData.location.join('\n'));
+            resultContent.appendChild(field);
+
+            field = createResultTextArea(resObj.id, 'Integridad', 'integrity', resObj.licenseSpecialData.integrity);
+            resultContent.appendChild(field);
+
+            field = createResultTextArea(resObj.id, 'Condicionantes', 'conditions', resObj.licenseSpecialData.conditions.join('\n'));
+            resultContent.appendChild(field);
+
+            field = createResultTextArea(resObj.id, 'Uso autorizado', 'detailedUse', resObj.licenseSpecialData.detailedUse);
+            resultContent.appendChild(field);
+
             break;
         case 6:
+            field = createResultField(resObj.id, 'Domicilio del solicitante', 'requestorAddress', resObj.licenseSpecialData.requestorAddress, 'text');
+            resultContent.appendChild(field);
+
+            field = createResultField(resObj.id, 'Domicilio del inmueble', 'buildingAddress', resObj.licenseSpecialData.buildingAddress, 'text');
+            resultContent.appendChild(field);
+
+            field = createResultTextArea(resObj.id, 'Constancia de Uso de Suelo', 'urbanCUS', resObj.licenseSpecialData.urbanCUS);
+            resultContent.appendChild(field);
+
+            field = createResultTextArea(resObj.id, 'Licencia de Uso de Suelo', 'urbanLUS', resObj.licenseSpecialData.urbanLUS);
+            resultContent.appendChild(field);
+
+            field = createResultField(resObj.id, 'Altura maxima', 'maximumHeight', resObj.licenseSpecialData.maximumHeight, 'text');
+            resultContent.appendChild(field);
+
+            field = createResultField(resObj.id, 'Frente mínimo', 'minimalFront', resObj.licenseSpecialData.minimalFront, 'number');
+            resultContent.appendChild(field);
+
+            field = createResultField(resObj.id, 'Restricción frontal', 'frontalRestriction', resObj.licenseSpecialData.frontalRestriction, 'number');
+            resultContent.appendChild(field);
+
+            field = createResultField(resObj.id, 'Estacionamientos', 'parkingLots', resObj.licenseSpecialData.parkingLots, 'text');
+            resultContent.appendChild(field);
+
+            field = createResultField(resObj.id, 'Porcentaje de uso', 'usePercent', resObj.licenseSpecialData.usePercent, 'number');
+            resultContent.appendChild(field);
+
+            field = createResultTextArea(resObj.id, 'Ubicación', 'location', resObj.licenseSpecialData.location.join('\n'));
+            resultContent.appendChild(field);
+
+            field = createResultTextArea(resObj.id, 'Documentos', 'documents', resObj.licenseSpecialData.documents.join('\n'));
+            resultContent.appendChild(field);
+
+            field = createResultTextArea(resObj.id, 'Condicionantes', 'conditions', resObj.licenseSpecialData.conditions.join('\n'));
+            resultContent.appendChild(field);
+
+            field = createResultField(resObj.id, 'Lotes Totales', 'habitacionalLotes', resObj.licenseSpecialData.habitacionalLotes, 'number');
+            resultContent.appendChild(field);
+
+            field = createResultField(resObj.id, 'Manzanas Totales', 'totalManzanas', resObj.licenseSpecialData.totalManzanas, 'number');
+            resultContent.appendChild(field);
+
+            field = createResultField(resObj.id, 'Superficie de donación', 'totalSurface', resObj.licenseSpecialData.totalSurface, 'text');
+            resultContent.appendChild(field);
+
             field = createResultField(resObj.id, 'Tablas/Cuadros resumen', 'resumeTables', resObj.fullInvoice, 'file');
             resultContent.appendChild(field);
             break;
         case 7:
+            field = createResultField(resObj.id, 'Domicilio del solicitante', 'requestorAddress', resObj.licenseSpecialData.requestorAddress, 'text');
+            resultContent.appendChild(field);
+
+            field = createResultField(resObj.id, 'Domicilio del inmueble', 'buildingAddress', resObj.licenseSpecialData.buildingAddress, 'text');
+            resultContent.appendChild(field);
+
             field = createResultField(resObj.id, 'Tablas/Cuadros resumen', 'resumeTables', resObj.fullInvoice, 'file');
             resultContent.appendChild(field);
+
+            field = createResultTextArea(resObj.id, 'Relotificación para', 'lotes', resObj.licenseSpecialData.lotes.join('\n'));
+            resultContent.appendChild(field);
+
+            field = createResultTextArea(resObj.id, 'Documentos', 'documents', resObj.licenseSpecialData.documents.join('\n'));
+            resultContent.appendChild(field);
+
+            field = createResultTextArea(resObj.id, 'Ubicación', 'location', resObj.licenseSpecialData.location.join('\n'));
+            resultContent.appendChild(field);
+
+            field = createResultTextArea(resObj.id, 'Condicionantes', 'conditions', resObj.licenseSpecialData.conditions.join('\n'));
+            resultContent.appendChild(field);
+
+            field = createResultField(resObj.id, 'Relotificación', 'totalRelotification', resObj.licenseSpecialData.totalRelotification, 'text');
+            resultContent.appendChild(field);
+
+            field = createResultField(resObj.id, 'Folio previo', 'previousInvoice', resObj.licenseSpecialData.previousInvoice, 'text');
+            resultContent.appendChild(field);
+
+            field = createResultField(resObj.id, 'Fecha de folio previo', 'previousInvoiceDat', resObj.licenseSpecialData.previousInvoiceDate, 'date');
+            resultContent.appendChild(field);
+
+            field = createResultTextArea(resObj.id, 'Relotificación resultante', 'resultRelotification', resObj.licenseSpecialData.resultRelotification.join('\n'));
+            resultContent.appendChild(field);
+
+            field = createResultTextArea(resObj.id, 'Uso autorizado', 'detailedUse', resObj.licenseSpecialData.detailedUse);
+            resultContent.appendChild(field);
+
             break;
         case 8:
             field = createResultField(resObj.id, 'Domicilio del solicitante', 'requestorAddress', resObj.licenseSpecialData.requestorAddress, 'text');

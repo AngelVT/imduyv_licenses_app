@@ -92,6 +92,7 @@ async function getLicenseByType(type, year) {
                 resultContainer.innerHTML = '';
 
                 response.data.forEach(element => {
+                    console.log(element.specialData);
                     createUrbanResult(element, resultContainer);
                 });
 
