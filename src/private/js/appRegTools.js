@@ -167,3 +167,315 @@ async function getGeoInfo(georef) {
         return null;
     }
 }
+
+function setFormFields(formFieldSet) {
+    switch (formFieldSet) {
+        case 1:
+            showCUS();
+            break;
+
+        case 2:
+            showLUS();
+            break;
+
+        case 3:
+            showLSUB();
+            break;
+
+        case 4:
+            showLFUS();
+            break;
+
+        case 5:
+            showPLF();
+            break;
+
+        case 6:
+            showLF();
+            break;
+
+        case 7:
+            showRLF();
+            break;
+
+        case 8:
+            showCRPC();
+            break;
+    
+        default:
+            alert("Error cambiado formato");
+            break;
+    }
+}
+
+function showCUS() {
+    document.querySelectorAll('.LUS').forEach(e => {
+        e.classList.add("dis-none");
+    });
+    
+    document.querySelectorAll('.LSUB').forEach(e => {
+        e.classList.add("dis-none");
+    });
+
+    document.querySelectorAll('.LFUS').forEach(e => {
+        e.classList.add("dis-none");
+    });
+    
+    document.querySelectorAll('.PLF').forEach(e => {
+        e.classList.add("dis-none");
+    });
+
+    document.querySelectorAll('.LF').forEach(e => {
+        e.classList.add("dis-none");
+    });
+
+    document.querySelectorAll('.RLF').forEach(e => {
+        e.classList.add("dis-none");
+    });
+
+    document.querySelectorAll('.CRPC').forEach(e => {
+        e.classList.add("dis-none");
+    });
+
+    document.querySelectorAll('.CUS').forEach(e => {
+        e.classList.remove("dis-none");
+    });
+}
+
+function showLUS() {
+    document.querySelectorAll('.CUS').forEach(e => {
+        e.classList.add("dis-none");
+    });
+    
+    document.querySelectorAll('.LSUB').forEach(e => {
+        e.classList.add("dis-none");
+    });
+
+    document.querySelectorAll('.LFUS').forEach(e => {
+        e.classList.add("dis-none");
+    });
+    
+    document.querySelectorAll('.PLF').forEach(e => {
+        e.classList.add("dis-none");
+    });
+
+    document.querySelectorAll('.LF').forEach(e => {
+        e.classList.add("dis-none");
+    });
+
+    document.querySelectorAll('.RLF').forEach(e => {
+        e.classList.add("dis-none");
+    });
+
+    document.querySelectorAll('.CRPC').forEach(e => {
+        e.classList.add("dis-none");
+    });
+
+    document.querySelectorAll('.LUS').forEach(e => {
+        e.classList.remove("dis-none");
+    });
+}
+
+function showLSUB() {
+    document.querySelectorAll('.LUS').forEach(e => {
+        e.classList.add("dis-none");
+    });
+    
+    document.querySelectorAll('.CUS').forEach(e => {
+        e.classList.add("dis-none");
+    });
+
+    document.querySelectorAll('.LFUS').forEach(e => {
+        e.classList.add("dis-none");
+    });
+    
+    document.querySelectorAll('.PLF').forEach(e => {
+        e.classList.add("dis-none");
+    });
+
+    document.querySelectorAll('.LF').forEach(e => {
+        e.classList.add("dis-none");
+    });
+
+    document.querySelectorAll('.RLF').forEach(e => {
+        e.classList.add("dis-none");
+    });
+
+    document.querySelectorAll('.CRPC').forEach(e => {
+        e.classList.add("dis-none");
+    });
+
+    document.querySelectorAll('.LSUB').forEach(e => {
+        e.classList.remove("dis-none");
+    });
+}
+
+function showLFUS() {
+    document.querySelectorAll('.LUS').forEach(e => {
+        e.classList.add("dis-none");
+    });
+    
+    document.querySelectorAll('.LSUB').forEach(e => {
+        e.classList.add("dis-none");
+    });
+
+    document.querySelectorAll('.CUS').forEach(e => {
+        e.classList.add("dis-none");
+    });
+    
+    document.querySelectorAll('.PLF').forEach(e => {
+        e.classList.add("dis-none");
+    });
+
+    document.querySelectorAll('.LF').forEach(e => {
+        e.classList.add("dis-none");
+    });
+
+    document.querySelectorAll('.RLF').forEach(e => {
+        e.classList.add("dis-none");
+    });
+
+    document.querySelectorAll('.CRPC').forEach(e => {
+        e.classList.add("dis-none");
+    });
+
+    document.querySelectorAll('.LFUS').forEach(e => {
+        e.classList.remove("dis-none");
+    });
+}
+
+function showPLF() {
+    document.querySelectorAll('.LUS').forEach(e => {
+        e.classList.add("dis-none");
+    });
+    
+    document.querySelectorAll('.LSUB').forEach(e => {
+        e.classList.add("dis-none");
+    });
+
+    document.querySelectorAll('.LFUS').forEach(e => {
+        e.classList.add("dis-none");
+    });
+    
+    document.querySelectorAll('.CUS').forEach(e => {
+        e.classList.add("dis-none");
+    });
+
+    document.querySelectorAll('.LF').forEach(e => {
+        e.classList.add("dis-none");
+    });
+
+    document.querySelectorAll('.RLF').forEach(e => {
+        e.classList.add("dis-none");
+    });
+
+    document.querySelectorAll('.CRPC').forEach(e => {
+        e.classList.add("dis-none");
+    });
+
+    document.querySelectorAll('.PLF').forEach(e => {
+        e.classList.remove("dis-none");
+    });
+}
+
+function showLF() {
+    document.querySelectorAll('.LUS').forEach(e => {
+        e.classList.add("dis-none");
+    });
+    
+    document.querySelectorAll('.LSUB').forEach(e => {
+        e.classList.add("dis-none");
+    });
+
+    document.querySelectorAll('.LFUS').forEach(e => {
+        e.classList.add("dis-none");
+    });
+    
+    document.querySelectorAll('.PLF').forEach(e => {
+        e.classList.add("dis-none");
+    });
+
+    document.querySelectorAll('.CUS').forEach(e => {
+        e.classList.add("dis-none");
+    });
+
+    document.querySelectorAll('.RLF').forEach(e => {
+        e.classList.add("dis-none");
+    });
+
+    document.querySelectorAll('.CRPC').forEach(e => {
+        e.classList.add("dis-none");
+    });
+
+    document.querySelectorAll('.LF').forEach(e => {
+        e.classList.remove("dis-none");
+    });
+}
+
+function showRLF() {
+    document.querySelectorAll('.LUS').forEach(e => {
+        e.classList.add("dis-none");
+    });
+    
+    document.querySelectorAll('.LSUB').forEach(e => {
+        e.classList.add("dis-none");
+    });
+
+    document.querySelectorAll('.LFUS').forEach(e => {
+        e.classList.add("dis-none");
+    });
+    
+    document.querySelectorAll('.PLF').forEach(e => {
+        e.classList.add("dis-none");
+    });
+
+    document.querySelectorAll('.LF').forEach(e => {
+        e.classList.add("dis-none");
+    });
+
+    document.querySelectorAll('.CUS').forEach(e => {
+        e.classList.add("dis-none");
+    });
+
+    document.querySelectorAll('.CRPC').forEach(e => {
+        e.classList.add("dis-none");
+    });
+
+    document.querySelectorAll('.RLF').forEach(e => {
+        e.classList.remove("dis-none");
+    });
+}
+
+function showCRPC() {
+    document.querySelectorAll('.LUS').forEach(e => {
+        e.classList.add("dis-none");
+    });
+    
+    document.querySelectorAll('.LSUB').forEach(e => {
+        e.classList.add("dis-none");
+    });
+
+    document.querySelectorAll('.LFUS').forEach(e => {
+        e.classList.add("dis-none");
+    });
+    
+    document.querySelectorAll('.PLF').forEach(e => {
+        e.classList.add("dis-none");
+    });
+
+    document.querySelectorAll('.LF').forEach(e => {
+        e.classList.add("dis-none");
+    });
+
+    document.querySelectorAll('.RLF').forEach(e => {
+        e.classList.add("dis-none");
+    });
+
+    document.querySelectorAll('.CUS').forEach(e => {
+        e.classList.add("dis-none");
+    });
+
+    document.querySelectorAll('.CRPC').forEach(e => {
+        e.classList.remove("dis-none");
+    });
+}

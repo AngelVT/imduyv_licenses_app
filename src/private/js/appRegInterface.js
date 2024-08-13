@@ -15,6 +15,8 @@ const btnClear = document.getElementById('btn_clear');
 
 const toolMap = document.getElementById('map_tool');
 
+const typeSelector = document.getElementById('license-type-selector');
+
 
 fieldZone.addEventListener(
     'change', () => {
@@ -22,23 +24,27 @@ fieldZone.addEventListener(
     }
 );
 
-btnAddArea.addEventListener(
-    'click', () => {
-        addSingleSurface(fieldSurfaceIn.value, fieldMeasure.value, fieldSurfaceOut);
-    }
-);
+try {
+    btnAddArea.addEventListener(
+        'click', () => {
+            addSingleSurface(fieldSurfaceIn.value, fieldMeasure.value, fieldSurfaceOut);
+        }
+    );
 
-btnAddLocalArea.addEventListener(
-    'click', () => {
-        addLocalSurface(fieldSurfaceIn.value, fieldMeasure.value, fieldSurfaceOut)
-    }
-);
-
-btnClear.addEventListener(
-    'click', () => {
-        resetSurfaceFields(fieldSurfaceIn,fieldMeasure,fieldSurfaceOut);
-    }
-);
+    btnAddLocalArea.addEventListener(
+        'click', () => {
+            addLocalSurface(fieldSurfaceIn.value, fieldMeasure.value, fieldSurfaceOut)
+        }
+    );
+    
+    btnClear.addEventListener(
+        'click', () => {
+            resetSurfaceFields(fieldSurfaceIn,fieldMeasure,fieldSurfaceOut);
+        }
+    );
+} catch (error) {
+    console.log(error);
+}
 
 btnGeoSearch.addEventListener(
     'click', async () => {
@@ -50,4 +56,10 @@ btnGeoSearch.addEventListener(
         };
         await setData(targets, fieldGeoRef.value);
     }
-)
+);
+
+typeSelector.addEventListener(
+    'change', () => {
+        setFormFields(parseInt(typeSelector.value));
+    }
+);

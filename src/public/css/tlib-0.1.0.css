@@ -223,10 +223,6 @@ html {
 
 /*-------------------------------------------------------------------------*/
 
-.dis-none {
-    display: none;
-}
-
 .dis-flex {
     display: flex;
 }
@@ -1360,6 +1356,10 @@ textarea.invissible:focus {
     cursor: pointer;
 }
 
+.grid-btn-container {
+    grid-column: span 4;
+}
+
 @media (max-width: 1450px) {
     .btn-column {
         font-size: 2.8em;
@@ -1400,11 +1400,6 @@ textarea.invissible:focus {
         display: none;
     }
 
-    .page-full {
-        height: auto;
-        scroll-snap-align: none;
-    }
-
     .page-full.menu {
         height: 100dvh;
     }
@@ -1434,6 +1429,10 @@ textarea.invissible:focus {
     .field-span.table-result, .field-span.preview-container {
         grid-column: span 3;
     }
+
+    .grid-btn-container {
+        grid-column: span 3;
+    }
 }
 
 @media (max-width: 770px) {
@@ -1448,6 +1447,11 @@ textarea.invissible:focus {
 }
 
 @media (max-width: 450px) {
+    .page-full {
+        height: auto;
+        scroll-snap-align: none;
+    }
+
     .template-login-a {
         width: 90%;
     }
@@ -1466,6 +1470,10 @@ textarea.invissible:focus {
     }
 
     .field-span.table-result, .field-span.preview-container {
+        grid-column: span none;
+    }
+
+    .grid-btn-container {
         grid-column: span none;
     }
 
@@ -1503,4 +1511,8 @@ textarea.invissible:focus {
     .field-span {
         grid-column: span 1;
     }
+}
+
+.dis-none {
+    display: none !important;
 }
