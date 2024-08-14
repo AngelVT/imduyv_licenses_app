@@ -15,16 +15,6 @@
 
 </head>
 <body class="bg-image bg-image-1">
-    <!--<header class="header header-15">
-        <div class="container bg-complementary-alpha border-primary border-only-bottom dis-flex flex-center-v flex-between padding-horizontal-large">
-            <img class="w-15" src="/img/imduyv_logo_horizontal_primario.png" alt="Logo">
-            <span class="bi-buildings-fill color-primary txt-xlarge"></span>
-            <div class="w-15 dis-flex flex-column color-primary">
-                <span id="user_name" class="bi-person-circle txt-medium padding-horizontal-medium"> Usuario</span>
-                <span id="logout" class="bi-door-open txt-medium btn"> Cerrar sesión</span>
-            </div>
-        </div>
-    </header>-->
     <main>
         <section class="page-full bg-blur">
             <div class="container shadow-inner padding-large">
@@ -66,6 +56,18 @@
                     <label class="txt-uppercase">Nombre del solicitante:
                         <input required name="requestorName" class="w-100 margin-vertical-small input input-interface input-round" type="text">
                     </label>
+
+                    <label class="dis-none txt-uppercase LF LFUS LSUB LUS PLF CRPC RLF">Domicilio del solicitante:
+                        <input name="requestorAddress" class="w-100 margin-vertical-small input input-interface input-round" type="text">
+                    </label>
+
+                    <label class="dis-none txt-uppercase LF LFUS LSUB LUS PLF CRPC RLF">Domicilio del inmueble:
+                        <input name="buildingAddress" class="w-100 margin-vertical-small input input-interface input-round" type="text">
+                    </label>
+
+                    <label class="dis-none txt-uppercase LUS LSUB LFUS PLF LF RLF CRPC">Representante Legal:
+                        <input name="legalRepresentative" class="w-100 margin-vertical-small input input-interface input-round" type="text">
+                    </label>
                     
                     <label class="txt-uppercase">Colonia/Asentamiento:
                         <input required name="colony" class="w-100 margin-vertical-small input input-interface input-round" type="text">
@@ -103,91 +105,51 @@
                         <input name="receiverName" class="w-100 margin-vertical-small input input-interface input-round" type="text">
                     </label>
 
-                    <label class="txt-uppercase CUS">Calle:
-                        <input required name="address" class="w-100 margin-vertical-small input input-interface input-round" type="text">
+                    <label class="dis-none txt-uppercase CUS">Calle:
+                        <input name="address" class="w-100 margin-vertical-small input input-interface input-round" type="text">
                     </label>
 
-                    <label class="txt-uppercase CUS">Numero:
-                        <input required name="number" class="w-100 margin-vertical-small input input-interface input-round" type="text">
+                    <label class="dis-none txt-uppercase CUS">Numero:
+                        <input name="number" class="w-100 margin-vertical-small input input-interface input-round" type="text">
                     </label>
 
-                    <label class="txt-uppercase CUS LUS LSUB LFUS PLF LF">Clave castastral:
-                        <input required name="catastralKey" class="w-100 margin-vertical-small input input-interface input-round" type="text">
+                    <label class="dis-none txt-uppercase CUS LUS LSUB LFUS PLF LF">Clave castastral:
+                        <input name="catastralKey" class="w-100 margin-vertical-small input input-interface input-round" type="text">
                     </label>
 
-                    <label class="txt-uppercase CUS">Zona:
+                    <label class="dis-none txt-uppercase CUS LUS">Uso de suelo:
                         <span class="w-100 dis-flex">
                             <input id="zone_placeholder" class="w-80 margin-vertical-small input input-interface input-round-left" type="text" readonly>
-                            <input type="hidden" id="field_zone" name="zone">
+                            <input type="hidden" id="field_zone" name="zone" value="null">
                             <input id="field_key" class="w-25 margin-vertical-small input input-interface input-round-right txt-center" type="text" readonly>
                         </span>
                     </label>
 
-                    <label class="txt-uppercase CUS">P.C.U.:
+                    <label class="dis-none txt-uppercase CUS LUS LFUS LSUB LF PLF">Superficie total:
+                        <input id="input_surface_out" name="surface" class="w-100 margin-vertical-small input input-interface input-round" type="text">
+                    </label>
+
+                    <label class="dis-none txt-uppercase CUS">P.C.U.:
                         <input name="PCU" class="w-100 margin-vertical-small input input-interface input-round" type="text">
                     </label>
 
-                    <p class="txt-uppercase CUS">Zonificación: 
+                    <p class="dis-none txt-uppercase CUS LUS LSUB LFUS">Zonificación/División: 
                         <input name="zoneIMG" class="w-100 margin-vertical-small input-file" type="file" accept=".jpg, .jpeg, .png">
                     </p>
 
-                    <p class="txt-uppercase dis-flex flex-wrap CUS"><span class="w-100">Plazo: </span>
+                    <p class="dis-none txt-uppercase PLF LF RLF CRPC">Cuadros y tablas: 
+                        <input name="resumeTables" class="w-100 margin-vertical-small input-file" type="file" accept=".jpg, .jpeg, .png">
+                    </p>
+
+                    <p class="dis-none txt-uppercase dis-flex flex-wrap CUS"><span class="w-100">Plazo: </span>
                         <label class="w-50"><input class="margin-horizontal-small" type="radio" name="term" value="1">Corto</label>
                         <label class="w-50"><input class="margin-horizontal-small" type="radio" name="term" value="2">Mediano</label>
                     </p>
 
-                    <p class="txt-uppercase dis-flex flex-wrap CUS PLF LUS"><span class="w-100">Vigencia: </span>
+                    <p class="dis-none txt-uppercase dis-flex flex-wrap CUS LUS LF PLF "><span class="w-100">Vigencia: </span>
                         <label class="w-50"><input class="margin-horizontal-small" type="radio" name="validity" value="1" >12 meses</label>
                         <label class="w-50"><input class="margin-horizontal-small" type="radio" name="validity" value="2">6 meses</label>
                     </p>
-
-                    <!--<label class="txt-uppercase">Representante Legal:
-                        <input required name="legalRepresentative" class="w-100 margin-vertical-small input input-interface input-round" type="text">
-                    </label>
-
-                    <p class="txt-uppercase">Superficie:
-                        <span class="w-100 dis-flex flex-wrap flex-evenly">
-                            <input id="input_surface_in" class="w-75 margin-vertical-small input input-interface input-round-left" type="number">
-                            <select id="input_measure" class="w-30 margin-vertical-small input input-interface input-round-right txt-center">
-                                <option value="m²">m²</option>
-                                <option value="HA">HA</option>
-                            </select>
-                            <span id="btn_add_area" class="bi-arrow-right-square-fill txt-small btn"> Añadir area unica</span>
-                            <span id="btn_add_local" class="bi-plus-circle-fill txt-small btn"> Añadir area de local</span>
-                            <span id="btn_clear" class="bi-backspace-fill txt-small btn"> Limpiar</span>
-                        </span>
-                    </p>
-
-                    <label class="txt-uppercase">Superficie de aprovechamiento:
-                        <input id="input_surface_out" name="surface" required class="w-100 margin-vertical-small input input-interface input-round" type="text">
-                    </label>
-
-
-                    <label class="txt-uppercase">Zona:
-                        <span class="w-100 dis-flex">
-                            <input id="zone_placeholder" class="w-80 margin-vertical-small input input-interface input-round-left" type="text" readonly>
-                            <input type="hidden" id="field_zone" name="zone" required>
-                            <input id="field_key" class="w-25 margin-vertical-small input input-interface input-round-right txt-center" type="text" readonly>
-                        </span>
-                    </label>
-
-                    
-
-                    <div class="two-col-blank-gap"></div>
-
-                    
-
-                    
-
-                    
-
-                    
-
-                    <div class="two-col-blank-gap"></div>
-                    <div class="two-col-blank-gap"></div>
-
-                    <div class="two-col-blank-gap"></div>
-                    <div class="two-col-blank-gap"></div>-->
 
                     
                     <div class="dis-flex flex-evenly w-100 grid-btn-container">

@@ -191,64 +191,11 @@ function createUrbanResult(resObj, target) {
 
     resultContent.appendChild(field);
 
-    field = createResultField(resObj.id, 'Representante legal', 'legalRepresentative', resObj.legalRepresentative, 'text');
-
-    resultContent.appendChild(field);
-
-    field = createResultField(resObj.id, 'Fecha de Solicitud', 'requestDate', resObj.requestDate, 'date');
-
-    resultContent.appendChild(field);
-    
     field = createResultField(resObj.id, 'Colonia/Asentamiento', 'colony', resObj.colony, 'text');
 
     resultContent.appendChild(field);
 
-    field = createResultField(resObj.id, 'Calle', 'address', resObj.address, 'text');
-
-    resultContent.appendChild(field);
-
-    field = createResultField(resObj.id, 'Clave catastral', 'catastralKey', resObj.catastralKey, 'number');
-
-    resultContent.appendChild(field);
-
-    field = createResultField(resObj.id, 'Superficie de aprovechamiento', 'surface', resObj.surfaceTotal, 'text');
-
-    resultContent.appendChild(field);
-
-    field = createResultField(resObj.id, 'Zonificación', 'zoneIMG', resObj.fullInvoice, 'file');
-
-    resultContent.appendChild(field);
-
-    field = createResultField(resObj.id, 'Zona', 'zone', resObj.licenseZone, 'select');
-
-    field.querySelector('select').innerHTML = `
-    <option value="">Seleccione zona ...</option>
-    <option value="1">Densidad muy baja (Unifamiliar)</option>
-    <option value="2">Densidad baja (Unifamiliar)</option>
-    <option value="3">Densidad media baja (Unifamiliar)</option>
-    <option value="4">Densidad media (Unifamiliar)</option>
-    <option value="5">Densidad media alta (Unifamiliar)</option>
-    <option value="6">Densidad alta (Unifamiliar)</option>
-    <option value="7">Densidad alta (multifamiliar dúplex, tríplex y cuádruplex)</option>
-    <option value="8">Densidad muy alta 1 (multifamiliar)</option>
-    <option value="9">Densidad muy alta 2</option>
-    <option value="10">Mixto</option>
-    <option value="11">Corredor urbano mixto de baja densidad</option>
-    <option value="12">Corredor urbano mixto de media densidad</option>
-    <option value="13">Industria de bajo impacto</option>
-    <option value="14">Industria de medio impacto</option>
-    <option value="15">Industria de gran impacto</option>
-    <option value="16">Equipamiento Urbano</option>
-    <option value="17">Infraestructura urbana</option>
-    <option value="18">Reserva territorial futura</option>
-    <option value="19">Agricultura tecnificada</option>
-    <option value="20">Agroindustria</option>
-    <option value="21">Cuerpos de agua</option>
-    <option value="22">Conservación y restauración ambiental</option>
-    <option value="23">Parque Hídrico</option>
-    `
-
-    field.querySelector('select').value = resObj.licenseZone;
+    field = createResultField(resObj.id, 'Fecha de Solicitud', 'requestDate', resObj.requestDate, 'date');
 
     resultContent.appendChild(field);
 
@@ -256,15 +203,7 @@ function createUrbanResult(resObj, target) {
 
     resultContent.appendChild(field);
 
-    field = createResultField(resObj.id, 'Orden de cobro', 'collectionOrde', resObj.collectionOrder, 'number');
-
-    resultContent.appendChild(field);
-
-    field = createResultField(resObj.id, 'Fecha de pago:', 'paymentDate', resObj.paymentDate, 'date');
-
-    resultContent.appendChild(field);
-
-    field = createResultField(resObj.id, 'Folio y serie de factura', 'billInvoice', resObj.billInvoice, 'number');
+    field = createResultField(resObj.id, 'Fecha de entrega', 'deliveryDate', resObj.deliveryDate, 'date');
 
     resultContent.appendChild(field);
 
@@ -272,7 +211,15 @@ function createUrbanResult(resObj, target) {
 
     resultContent.appendChild(field);
 
-    field = createResultField(resObj.id, 'Fecha de entrega', 'deliveryDate', resObj.deliveryDate, 'date');
+    field = createResultField(resObj.id, 'Orden de cobro', 'collectionOrde', resObj.collectionOrder, 'number');
+
+    resultContent.appendChild(field);
+
+    field = createResultField(resObj.id, 'Folio y serie de factura', 'billInvoice', resObj.billInvoice, 'number');
+
+    resultContent.appendChild(field);
+
+    field = createResultField(resObj.id, 'Fecha de pago:', 'paymentDate', resObj.paymentDate, 'date');
 
     resultContent.appendChild(field);
 
@@ -282,15 +229,153 @@ function createUrbanResult(resObj, target) {
 
     switch(resObj.licenseType) {
         case 1:
+            field = createResultField(resObj.id, 'Calle', 'address', resObj.address, 'text');
+
+            resultContent.appendChild(field);
+
+            field = createResultField(resObj.id, 'Numero', 'number', resObj.address, 'text');
+
+            resultContent.appendChild(field);
+
+            field = createResultField(resObj.id, 'Clave catastral', 'catastralKey', resObj.catastralKey, 'text');
+
+            resultContent.appendChild(field);
+
+            field = createResultField(resObj.id, 'Zona', 'zone', resObj.licenseZone, 'select');
+
+            field.querySelector('select').innerHTML = `
+            <option value="">Seleccione zona ...</option>
+            <option value="19">Agricultura tecnificada</option>
+            <option value="20">Agroindustria</option>
+            <option value="21">Cuerpos de agua</option>
+            <option value="22">Conservación y restauración ambiental</option>
+            <option value="11">Corredor urbano mixto de baja densidad</option>
+            <option value="12">Corredor urbano mixto de media densidad</option>
+            <option value="1">Densidad muy baja (Unifamiliar)</option>
+            <option value="6">Densidad alta (Unifamiliar)</option>
+            <option value="7">Densidad alta (multifamiliar dúplex, tríplex y cuádruplex)</option>
+            <option value="2">Densidad baja (Unifamiliar)</option>
+            <option value="3">Densidad media baja (Unifamiliar)</option>
+            <option value="4">Densidad media (Unifamiliar)</option>
+            <option value="5">Densidad media alta (Unifamiliar)</option>
+            <option value="8">Densidad muy alta 1 (multifamiliar)</option>
+            <option value="9">Densidad muy alta 2</option>
+            <option value="16">Equipamiento Urbano</option>
+            <option value="13">Industria de bajo impacto</option>
+            <option value="15">Industria de gran impacto</option>
+            <option value="14">Industria de medio impacto</option>
+            <option value="17">Infraestructura urbana</option>
+            <option value="10">Mixto</option>
+            <option value="23">Parque Hídrico</option>
+            <option value="18">Reserva territorial futura</option>
+            `
+
+            field.querySelector('select').value = resObj.licenseZone;
+
+            resultContent.appendChild(field);
+
+            field = createResultField(resObj.id, 'Superficie total', 'surface', resObj.surfaceTotal, 'text');
+
+            resultContent.appendChild(field);
+
+            field = createResultField(resObj.id, 'Zonificación/División o subdivisión', 'zoneIMG', resObj.fullInvoice, 'file');
+
+            resultContent.appendChild(field);
+
             field = createResultField(resObj.id, 'P.C.U.', 'PCU', resObj.licenseSpecialData.PCU, 'text');
+
+            resultContent.appendChild(field);
+
+            field = createResultField(resObj.id, 'Plazo', 'term', resObj.licenseTerm, 'select');
+
+            field.querySelector('select').innerHTML = `
+            <option value="">Selecciona ...</option>
+            <option value="1">Corto</option>
+            <option value="2">Mediano</option>
+            `;
+
+            field.querySelector('select').value = resObj.licenseTerm;
+
+            resultContent.appendChild(field);
+
+            field = createResultField(resObj.id, 'Vigencia', 'validity', resObj.licenseValidity, 'select');
+
+            field.querySelector('select').innerHTML = `
+            <option value="">Selecciona ...</option>
+            <option value="1">12 Meses</option>
+            <option value="2">6 Meses</option>
+            `;
+
+            field.querySelector('select').value = resObj.licenseValidity;
 
             resultContent.appendChild(field);
             break;
         case 2:
+            field = createResultField(resObj.id, 'Representante legal', 'legalRepresentative', resObj.legalRepresentative, 'text');
+
+            resultContent.appendChild(field);
+
             field = createResultField(resObj.id, 'Domicilio del solicitante', 'requestorAddress', resObj.licenseSpecialData.requestorAddress, 'text');
             resultContent.appendChild(field);
 
             field = createResultField(resObj.id, 'Domicilio del inmueble', 'buildingAddress', resObj.licenseSpecialData.buildingAddress, 'text');
+            resultContent.appendChild(field);
+
+            field = createResultField(resObj.id, 'Clave catastral', 'catastralKey', resObj.catastralKey, 'text');
+
+            resultContent.appendChild(field);
+
+            field = createResultField(resObj.id, 'Zona', 'zone', resObj.licenseZone, 'select');
+
+            field.querySelector('select').innerHTML = `
+            <option value="">Seleccione zona ...</option>
+            <option value="19">Agricultura tecnificada</option>
+            <option value="20">Agroindustria</option>
+            <option value="21">Cuerpos de agua</option>
+            <option value="22">Conservación y restauración ambiental</option>
+            <option value="11">Corredor urbano mixto de baja densidad</option>
+            <option value="12">Corredor urbano mixto de media densidad</option>
+            <option value="1">Densidad muy baja (Unifamiliar)</option>
+            <option value="6">Densidad alta (Unifamiliar)</option>
+            <option value="7">Densidad alta (multifamiliar dúplex, tríplex y cuádruplex)</option>
+            <option value="2">Densidad baja (Unifamiliar)</option>
+            <option value="3">Densidad media baja (Unifamiliar)</option>
+            <option value="4">Densidad media (Unifamiliar)</option>
+            <option value="5">Densidad media alta (Unifamiliar)</option>
+            <option value="8">Densidad muy alta 1 (multifamiliar)</option>
+            <option value="9">Densidad muy alta 2</option>
+            <option value="16">Equipamiento Urbano</option>
+            <option value="13">Industria de bajo impacto</option>
+            <option value="15">Industria de gran impacto</option>
+            <option value="14">Industria de medio impacto</option>
+            <option value="17">Infraestructura urbana</option>
+            <option value="10">Mixto</option>
+            <option value="23">Parque Hídrico</option>
+            <option value="18">Reserva territorial futura</option>
+            `
+
+            field.querySelector('select').value = resObj.licenseZone;
+
+            resultContent.appendChild(field);
+
+            field = createResultField(resObj.id, 'Superficie total', 'surface', resObj.surfaceTotal, 'text');
+
+            resultContent.appendChild(field);
+
+            field = createResultField(resObj.id, 'Zonificación/División o subdivisión', 'zoneIMG', resObj.fullInvoice, 'file');
+
+            resultContent.appendChild(field);
+
+            field = createResultField(resObj.id, 'Vigencia', 'validity', resObj.licenseValidity, 'select');
+
+            field.querySelector('select').innerHTML = `
+            <option value="">Selecciona ...</option>
+            <option value="1">12 Meses</option>
+            <option value="2">6 Meses</option>
+            `;
+
+            field.querySelector('select').value = resObj.licenseValidity;
+
             resultContent.appendChild(field);
 
             field = createResultField(resObj.id, 'Porcentaje de ocupación', 'occupationPercent', resObj.licenseSpecialData.occupationPercent, 'number');
@@ -315,15 +400,28 @@ function createUrbanResult(resObj, target) {
             resultContent.appendChild(field);
             break;
         case 3:
+            field = createResultField(resObj.id, 'Representante legal', 'legalRepresentative', resObj.legalRepresentative, 'text');
+
+            resultContent.appendChild(field);
+
             field = createResultField(resObj.id, 'Domicilio del solicitante', 'requestorAddress', resObj.licenseSpecialData.requestorAddress, 'text');
             resultContent.appendChild(field);
 
             field = createResultField(resObj.id, 'Domicilio del inmueble', 'buildingAddress', resObj.licenseSpecialData.buildingAddress, 'text');
             resultContent.appendChild(field);
 
-            field = createResultTextArea(resObj.id, 'Resumen de autorización', 'authorizationResume', resObj.licenseSpecialData.authorizationResume);
-            field.style.marginBottom = '10px';
+            field = createResultField(resObj.id, 'Clave catastral', 'catastralKey', resObj.catastralKey, 'text');
+
             resultContent.appendChild(field);
+
+            field = createResultField(resObj.id, 'Superficie total', 'surface', resObj.surfaceTotal, 'text');
+
+            resultContent.appendChild(field);
+
+            field = createResultField(resObj.id, 'Zonificación/División o subdivisión', 'zoneIMG', resObj.fullInvoice, 'file');
+
+            resultContent.appendChild(field);
+
 
             field = generateTableForm(resObj);
             resultContent.appendChild(field);
@@ -333,17 +431,33 @@ function createUrbanResult(resObj, target) {
             field.setAttribute('id', `tha-preview-${resObj.id}`);
             field.appendChild(generateTableFrom(resObj.licenseSpecialData.actualSituation));
 
+            resultContent.appendChild(field);
+
+            field = createResultTextArea(resObj.id, 'Resumen de autorización', 'authorizationResume', resObj.licenseSpecialData.authorizationResume);
+            field.style.marginBottom = '10px';
             resultContent.appendChild(field);
             break;
         case 4:
+            field = createResultField(resObj.id, 'Representante legal', 'legalRepresentative', resObj.legalRepresentative, 'text');
+
+            resultContent.appendChild(field);
+
             field = createResultField(resObj.id, 'Domicilio del solicitante', 'requestorAddress', resObj.licenseSpecialData.requestorAddress, 'text');
             resultContent.appendChild(field);
 
             field = createResultField(resObj.id, 'Domicilio del inmueble', 'buildingAddress', resObj.licenseSpecialData.buildingAddress, 'text');
             resultContent.appendChild(field);
 
-            field = createResultTextArea(resObj.id, 'Resumen de autorización', 'authorizationResume', resObj.licenseSpecialData.authorizationResume);
-            field.style.marginBottom = '10px';
+            field = createResultField(resObj.id, 'Clave catastral', 'catastralKey', resObj.catastralKey, 'text');
+
+            resultContent.appendChild(field);
+
+            field = createResultField(resObj.id, 'Superficie total', 'surface', resObj.surfaceTotal, 'text');
+
+            resultContent.appendChild(field);
+
+            field = createResultField(resObj.id, 'Zonificación/División o subdivisión', 'zoneIMG', resObj.fullInvoice, 'file');
+
             resultContent.appendChild(field);
 
             field = generateTableForm(resObj);
@@ -355,15 +469,43 @@ function createUrbanResult(resObj, target) {
             field.appendChild(generateTableFrom(resObj.licenseSpecialData.actualSituation));
 
             resultContent.appendChild(field);
+
+            field = createResultTextArea(resObj.id, 'Resumen de autorización', 'authorizationResume', resObj.licenseSpecialData.authorizationResume);
+            field.style.marginBottom = '10px';
+            resultContent.appendChild(field);
             break;
         case 5:
+            field = createResultField(resObj.id, 'Representante legal', 'legalRepresentative', resObj.legalRepresentative, 'text');
+
+            resultContent.appendChild(field);
+            
             field = createResultField(resObj.id, 'Domicilio del solicitante', 'requestorAddress', resObj.licenseSpecialData.requestorAddress, 'text');
             resultContent.appendChild(field);
 
             field = createResultField(resObj.id, 'Domicilio del inmueble', 'buildingAddress', resObj.licenseSpecialData.buildingAddress, 'text');
             resultContent.appendChild(field);
 
+            field = createResultField(resObj.id, 'Clave catastral', 'catastralKey', resObj.catastralKey, 'text');
+
+            resultContent.appendChild(field);
+
+            field = createResultField(resObj.id, 'Superficie total', 'surface', resObj.surfaceTotal, 'text');
+
+            resultContent.appendChild(field);
+
             field = createResultField(resObj.id, 'Tablas/Cuadros resumen', 'resumeTables', resObj.fullInvoice, 'file');
+            resultContent.appendChild(field);
+
+            field = createResultField(resObj.id, 'Vigencia', 'validity', resObj.licenseValidity, 'select');
+
+            field.querySelector('select').innerHTML = `
+            <option value="">Selecciona ...</option>
+            <option value="1">12 Meses</option>
+            <option value="2">6 Meses</option>
+            `;
+
+            field.querySelector('select').value = resObj.licenseValidity;
+
             resultContent.appendChild(field);
 
             field = createResultTextArea(resObj.id, 'Documentos', 'documents', resObj.licenseSpecialData.documents.join('\n'));
@@ -383,10 +525,37 @@ function createUrbanResult(resObj, target) {
 
             break;
         case 6:
+            field = createResultField(resObj.id, 'Representante legal', 'legalRepresentative', resObj.legalRepresentative, 'text');
+
+            resultContent.appendChild(field);
+
             field = createResultField(resObj.id, 'Domicilio del solicitante', 'requestorAddress', resObj.licenseSpecialData.requestorAddress, 'text');
             resultContent.appendChild(field);
 
             field = createResultField(resObj.id, 'Domicilio del inmueble', 'buildingAddress', resObj.licenseSpecialData.buildingAddress, 'text');
+            resultContent.appendChild(field);
+
+            field = createResultField(resObj.id, 'Clave catastral', 'catastralKey', resObj.catastralKey, 'text');
+
+            resultContent.appendChild(field);
+
+            field = createResultField(resObj.id, 'Superficie total', 'surface', resObj.surfaceTotal, 'text');
+
+            resultContent.appendChild(field);
+
+            field = createResultField(resObj.id, 'Tablas/Cuadros resumen', 'resumeTables', resObj.fullInvoice, 'file');
+            resultContent.appendChild(field);
+
+            field = createResultField(resObj.id, 'Vigencia', 'validity', resObj.licenseValidity, 'select');
+
+            field.querySelector('select').innerHTML = `
+            <option value="">Selecciona ...</option>
+            <option value="1">12 Meses</option>
+            <option value="2">6 Meses</option>
+            `;
+
+            field.querySelector('select').value = resObj.licenseValidity;
+
             resultContent.appendChild(field);
 
             field = createResultTextArea(resObj.id, 'Constancia de Uso de Suelo', 'urbanCUS', resObj.licenseSpecialData.urbanCUS);
@@ -427,11 +596,12 @@ function createUrbanResult(resObj, target) {
 
             field = createResultField(resObj.id, 'Superficie de donación', 'totalSurface', resObj.licenseSpecialData.totalSurface, 'text');
             resultContent.appendChild(field);
-
-            field = createResultField(resObj.id, 'Tablas/Cuadros resumen', 'resumeTables', resObj.fullInvoice, 'file');
-            resultContent.appendChild(field);
             break;
         case 7:
+            field = createResultField(resObj.id, 'Representante legal', 'legalRepresentative', resObj.legalRepresentative, 'text');
+
+            resultContent.appendChild(field);
+
             field = createResultField(resObj.id, 'Domicilio del solicitante', 'requestorAddress', resObj.licenseSpecialData.requestorAddress, 'text');
             resultContent.appendChild(field);
 
@@ -470,16 +640,20 @@ function createUrbanResult(resObj, target) {
 
             break;
         case 8:
+            field = createResultField(resObj.id, 'Representante legal', 'legalRepresentative', resObj.legalRepresentative, 'text');
+
+            resultContent.appendChild(field);
+
             field = createResultField(resObj.id, 'Domicilio del solicitante', 'requestorAddress', resObj.licenseSpecialData.requestorAddress, 'text');
             resultContent.appendChild(field);
 
             field = createResultField(resObj.id, 'Domicilio del inmueble', 'buildingAddress', resObj.licenseSpecialData.buildingAddress, 'text');
             resultContent.appendChild(field);
 
-            field = createResultField(resObj.id, 'Viviendas', 'households', resObj.licenseSpecialData.households, 'text');
+            field = createResultField(resObj.id, 'Tablas/Cuadros resumen', 'resumeTables', resObj.fullInvoice, 'file');
             resultContent.appendChild(field);
 
-            field = createResultField(resObj.id, 'Tablas/Cuadros resumen', 'resumeTables', resObj.fullInvoice, 'file');
+            field = createResultField(resObj.id, 'Viviendas', 'households', resObj.licenseSpecialData.households, 'text');
             resultContent.appendChild(field);
 
             field = createResultTextArea(resObj.id, 'Documentos', 'documents', resObj.licenseSpecialData.documents.join('\n'));
@@ -789,66 +963,11 @@ function createUrbanPrintResult(resObj, target) {
 
     resultContent.appendChild(field);
 
-    field = createResultField(resObj.id, 'Representante legal', 'legalRepresentative', resObj.legalRepresentative, 'text');
-
-    resultContent.appendChild(field);
-
-    field = createResultField(resObj.id, 'Fecha de Solicitud', 'requestDate', resObj.requestDate, 'date');
-
-    resultContent.appendChild(field);
-    
     field = createResultField(resObj.id, 'Colonia/Asentamiento', 'colony', resObj.colony, 'text');
 
     resultContent.appendChild(field);
 
-    field = createResultField(resObj.id, 'Calle', 'address', resObj.address, 'text');
-
-    resultContent.appendChild(field);
-
-    field = createResultField(resObj.id, 'Clave catastral', 'catastralKey', resObj.catastralKey, 'number');
-
-    resultContent.appendChild(field);
-
-    field = createResultField(resObj.id, 'Superficie de aprovechamiento', 'surface', resObj.surfaceTotal, 'text');
-
-    resultContent.appendChild(field);
-
-    if(resObj.licenseType <= 4) {
-        field = createResultField(resObj.id, 'Zonificación/División o subdivisión', 'zoneIMG', resObj.fullInvoice, 'file');
-
-        resultContent.appendChild(field);
-    }
-
-    field = createResultField(resObj.id, 'Zona', 'zone', resObj.licenseZone, 'select');
-
-    field.querySelector('select').innerHTML = `
-    <option value="">Seleccione zona ...</option>
-    <option value="19">Agricultura tecnificada</option>
-    <option value="20">Agroindustria</option>
-    <option value="21">Cuerpos de agua</option>
-    <option value="22">Conservación y restauración ambiental</option>
-    <option value="11">Corredor urbano mixto de baja densidad</option>
-    <option value="12">Corredor urbano mixto de media densidad</option>
-    <option value="1">Densidad muy baja (Unifamiliar)</option>
-    <option value="6">Densidad alta (Unifamiliar)</option>
-    <option value="7">Densidad alta (multifamiliar dúplex, tríplex y cuádruplex)</option>
-    <option value="2">Densidad baja (Unifamiliar)</option>
-    <option value="3">Densidad media baja (Unifamiliar)</option>
-    <option value="4">Densidad media (Unifamiliar)</option>
-    <option value="5">Densidad media alta (Unifamiliar)</option>
-    <option value="8">Densidad muy alta 1 (multifamiliar)</option>
-    <option value="9">Densidad muy alta 2</option>
-    <option value="16">Equipamiento Urbano</option>
-    <option value="13">Industria de bajo impacto</option>
-    <option value="15">Industria de gran impacto</option>
-    <option value="14">Industria de medio impacto</option>
-    <option value="17">Infraestructura urbana</option>
-    <option value="10">Mixto</option>
-    <option value="23">Parque Hídrico</option>
-    <option value="18">Reserva territorial futura</option>
-    `
-
-    field.querySelector('select').value = resObj.licenseZone;
+    field = createResultField(resObj.id, 'Fecha de Solicitud', 'requestDate', resObj.requestDate, 'date');
 
     resultContent.appendChild(field);
 
@@ -856,15 +975,7 @@ function createUrbanPrintResult(resObj, target) {
 
     resultContent.appendChild(field);
 
-    field = createResultField(resObj.id, 'Orden de cobro', 'collectionOrde', resObj.collectionOrder, 'number');
-
-    resultContent.appendChild(field);
-
-    field = createResultField(resObj.id, 'Fecha de pago:', 'paymentDate', resObj.paymentDate, 'date');
-
-    resultContent.appendChild(field);
-
-    field = createResultField(resObj.id, 'Folio y serie de factura', 'billInvoice', resObj.billInvoice, 'number');
+    field = createResultField(resObj.id, 'Fecha de entrega', 'deliveryDate', resObj.deliveryDate, 'date');
 
     resultContent.appendChild(field);
 
@@ -872,7 +983,15 @@ function createUrbanPrintResult(resObj, target) {
 
     resultContent.appendChild(field);
 
-    field = createResultField(resObj.id, 'Fecha de entrega', 'deliveryDate', resObj.deliveryDate, 'date');
+    field = createResultField(resObj.id, 'Orden de cobro', 'collectionOrde', resObj.collectionOrder, 'number');
+
+    resultContent.appendChild(field);
+
+    field = createResultField(resObj.id, 'Folio y serie de factura', 'billInvoice', resObj.billInvoice, 'number');
+
+    resultContent.appendChild(field);
+
+    field = createResultField(resObj.id, 'Fecha de pago:', 'paymentDate', resObj.paymentDate, 'date');
 
     resultContent.appendChild(field);
 
@@ -882,15 +1001,153 @@ function createUrbanPrintResult(resObj, target) {
 
     switch(resObj.licenseType) {
         case 1:
+            field = createResultField(resObj.id, 'Calle', 'address', resObj.address, 'text');
+
+            resultContent.appendChild(field);
+
+            field = createResultField(resObj.id, 'Numero', 'number', resObj.address, 'text');
+
+            resultContent.appendChild(field);
+
+            field = createResultField(resObj.id, 'Clave catastral', 'catastralKey', resObj.catastralKey, 'text');
+
+            resultContent.appendChild(field);
+
+            field = createResultField(resObj.id, 'Zona', 'zone', resObj.licenseZone, 'select');
+
+            field.querySelector('select').innerHTML = `
+            <option value="">Seleccione zona ...</option>
+            <option value="19">Agricultura tecnificada</option>
+            <option value="20">Agroindustria</option>
+            <option value="21">Cuerpos de agua</option>
+            <option value="22">Conservación y restauración ambiental</option>
+            <option value="11">Corredor urbano mixto de baja densidad</option>
+            <option value="12">Corredor urbano mixto de media densidad</option>
+            <option value="1">Densidad muy baja (Unifamiliar)</option>
+            <option value="6">Densidad alta (Unifamiliar)</option>
+            <option value="7">Densidad alta (multifamiliar dúplex, tríplex y cuádruplex)</option>
+            <option value="2">Densidad baja (Unifamiliar)</option>
+            <option value="3">Densidad media baja (Unifamiliar)</option>
+            <option value="4">Densidad media (Unifamiliar)</option>
+            <option value="5">Densidad media alta (Unifamiliar)</option>
+            <option value="8">Densidad muy alta 1 (multifamiliar)</option>
+            <option value="9">Densidad muy alta 2</option>
+            <option value="16">Equipamiento Urbano</option>
+            <option value="13">Industria de bajo impacto</option>
+            <option value="15">Industria de gran impacto</option>
+            <option value="14">Industria de medio impacto</option>
+            <option value="17">Infraestructura urbana</option>
+            <option value="10">Mixto</option>
+            <option value="23">Parque Hídrico</option>
+            <option value="18">Reserva territorial futura</option>
+            `
+
+            field.querySelector('select').value = resObj.licenseZone;
+
+            resultContent.appendChild(field);
+
+            field = createResultField(resObj.id, 'Superficie total', 'surface', resObj.surfaceTotal, 'text');
+
+            resultContent.appendChild(field);
+
+            field = createResultField(resObj.id, 'Zonificación/División o subdivisión', 'zoneIMG', resObj.fullInvoice, 'file');
+
+            resultContent.appendChild(field);
+
             field = createResultField(resObj.id, 'P.C.U.', 'PCU', resObj.licenseSpecialData.PCU, 'text');
+
+            resultContent.appendChild(field);
+
+            field = createResultField(resObj.id, 'Plazo', 'term', resObj.licenseTerm, 'select');
+
+            field.querySelector('select').innerHTML = `
+            <option value="">Selecciona ...</option>
+            <option value="1">Corto</option>
+            <option value="2">Mediano</option>
+            `;
+
+            field.querySelector('select').value = resObj.licenseTerm;
+
+            resultContent.appendChild(field);
+
+            field = createResultField(resObj.id, 'Vigencia', 'validity', resObj.licenseValidity, 'select');
+
+            field.querySelector('select').innerHTML = `
+            <option value="">Selecciona ...</option>
+            <option value="1">12 Meses</option>
+            <option value="2">6 Meses</option>
+            `;
+
+            field.querySelector('select').value = resObj.licenseValidity;
 
             resultContent.appendChild(field);
             break;
         case 2:
+            field = createResultField(resObj.id, 'Representante legal', 'legalRepresentative', resObj.legalRepresentative, 'text');
+
+            resultContent.appendChild(field);
+
             field = createResultField(resObj.id, 'Domicilio del solicitante', 'requestorAddress', resObj.licenseSpecialData.requestorAddress, 'text');
             resultContent.appendChild(field);
 
             field = createResultField(resObj.id, 'Domicilio del inmueble', 'buildingAddress', resObj.licenseSpecialData.buildingAddress, 'text');
+            resultContent.appendChild(field);
+
+            field = createResultField(resObj.id, 'Clave catastral', 'catastralKey', resObj.catastralKey, 'text');
+
+            resultContent.appendChild(field);
+
+            field = createResultField(resObj.id, 'Zona', 'zone', resObj.licenseZone, 'select');
+
+            field.querySelector('select').innerHTML = `
+            <option value="">Seleccione zona ...</option>
+            <option value="19">Agricultura tecnificada</option>
+            <option value="20">Agroindustria</option>
+            <option value="21">Cuerpos de agua</option>
+            <option value="22">Conservación y restauración ambiental</option>
+            <option value="11">Corredor urbano mixto de baja densidad</option>
+            <option value="12">Corredor urbano mixto de media densidad</option>
+            <option value="1">Densidad muy baja (Unifamiliar)</option>
+            <option value="6">Densidad alta (Unifamiliar)</option>
+            <option value="7">Densidad alta (multifamiliar dúplex, tríplex y cuádruplex)</option>
+            <option value="2">Densidad baja (Unifamiliar)</option>
+            <option value="3">Densidad media baja (Unifamiliar)</option>
+            <option value="4">Densidad media (Unifamiliar)</option>
+            <option value="5">Densidad media alta (Unifamiliar)</option>
+            <option value="8">Densidad muy alta 1 (multifamiliar)</option>
+            <option value="9">Densidad muy alta 2</option>
+            <option value="16">Equipamiento Urbano</option>
+            <option value="13">Industria de bajo impacto</option>
+            <option value="15">Industria de gran impacto</option>
+            <option value="14">Industria de medio impacto</option>
+            <option value="17">Infraestructura urbana</option>
+            <option value="10">Mixto</option>
+            <option value="23">Parque Hídrico</option>
+            <option value="18">Reserva territorial futura</option>
+            `
+
+            field.querySelector('select').value = resObj.licenseZone;
+
+            resultContent.appendChild(field);
+
+            field = createResultField(resObj.id, 'Superficie total', 'surface', resObj.surfaceTotal, 'text');
+
+            resultContent.appendChild(field);
+
+            field = createResultField(resObj.id, 'Zonificación/División o subdivisión', 'zoneIMG', resObj.fullInvoice, 'file');
+
+            resultContent.appendChild(field);
+
+            field = createResultField(resObj.id, 'Vigencia', 'validity', resObj.licenseValidity, 'select');
+
+            field.querySelector('select').innerHTML = `
+            <option value="">Selecciona ...</option>
+            <option value="1">12 Meses</option>
+            <option value="2">6 Meses</option>
+            `;
+
+            field.querySelector('select').value = resObj.licenseValidity;
+
             resultContent.appendChild(field);
 
             field = createResultField(resObj.id, 'Porcentaje de ocupación', 'occupationPercent', resObj.licenseSpecialData.occupationPercent, 'number');
@@ -915,14 +1172,26 @@ function createUrbanPrintResult(resObj, target) {
             resultContent.appendChild(field);
             break;
         case 3:
+            field = createResultField(resObj.id, 'Representante legal', 'legalRepresentative', resObj.legalRepresentative, 'text');
+
+            resultContent.appendChild(field);
+
             field = createResultField(resObj.id, 'Domicilio del solicitante', 'requestorAddress', resObj.licenseSpecialData.requestorAddress, 'text');
             resultContent.appendChild(field);
 
             field = createResultField(resObj.id, 'Domicilio del inmueble', 'buildingAddress', resObj.licenseSpecialData.buildingAddress, 'text');
             resultContent.appendChild(field);
 
-            field = createResultTextArea(resObj.id, 'Resumen de autorización', 'authorizationResume', resObj.licenseSpecialData.authorizationResume);
-            field.style.marginBottom = '10px';
+            field = createResultField(resObj.id, 'Clave catastral', 'catastralKey', resObj.catastralKey, 'text');
+
+            resultContent.appendChild(field);
+
+            field = createResultField(resObj.id, 'Superficie total', 'surface', resObj.surfaceTotal, 'text');
+
+            resultContent.appendChild(field);
+
+            field = createResultField(resObj.id, 'Zonificación/División o subdivisión', 'zoneIMG', resObj.fullInvoice, 'file');
+
             resultContent.appendChild(field);
 
             field = generateTableForm(resObj);
@@ -933,17 +1202,33 @@ function createUrbanPrintResult(resObj, target) {
             field.setAttribute('id', `tha-preview-${resObj.id}`);
             field.appendChild(generateTableFrom(resObj.licenseSpecialData.actualSituation));
 
+            resultContent.appendChild(field);
+
+            field = createResultTextArea(resObj.id, 'Resumen de autorización', 'authorizationResume', resObj.licenseSpecialData.authorizationResume);
+            field.style.marginBottom = '10px';
             resultContent.appendChild(field);
             break;
         case 4:
+            field = createResultField(resObj.id, 'Representante legal', 'legalRepresentative', resObj.legalRepresentative, 'text');
+
+            resultContent.appendChild(field);
+
             field = createResultField(resObj.id, 'Domicilio del solicitante', 'requestorAddress', resObj.licenseSpecialData.requestorAddress, 'text');
             resultContent.appendChild(field);
 
             field = createResultField(resObj.id, 'Domicilio del inmueble', 'buildingAddress', resObj.licenseSpecialData.buildingAddress, 'text');
             resultContent.appendChild(field);
 
-            field = createResultTextArea(resObj.id, 'Resumen de autorización', 'authorizationResume', resObj.licenseSpecialData.authorizationResume);
-            field.style.marginBottom = '10px';
+            field = createResultField(resObj.id, 'Clave catastral', 'catastralKey', resObj.catastralKey, 'text');
+
+            resultContent.appendChild(field);
+
+            field = createResultField(resObj.id, 'Superficie total', 'surface', resObj.surfaceTotal, 'text');
+
+            resultContent.appendChild(field);
+
+            field = createResultField(resObj.id, 'Zonificación/División o subdivisión', 'zoneIMG', resObj.fullInvoice, 'file');
+
             resultContent.appendChild(field);
 
             field = generateTableForm(resObj);
@@ -955,15 +1240,43 @@ function createUrbanPrintResult(resObj, target) {
             field.appendChild(generateTableFrom(resObj.licenseSpecialData.actualSituation));
 
             resultContent.appendChild(field);
+
+            field = createResultTextArea(resObj.id, 'Resumen de autorización', 'authorizationResume', resObj.licenseSpecialData.authorizationResume);
+            field.style.marginBottom = '10px';
+            resultContent.appendChild(field);
             break;
         case 5:
+            field = createResultField(resObj.id, 'Representante legal', 'legalRepresentative', resObj.legalRepresentative, 'text');
+
+            resultContent.appendChild(field);
+            
             field = createResultField(resObj.id, 'Domicilio del solicitante', 'requestorAddress', resObj.licenseSpecialData.requestorAddress, 'text');
             resultContent.appendChild(field);
 
             field = createResultField(resObj.id, 'Domicilio del inmueble', 'buildingAddress', resObj.licenseSpecialData.buildingAddress, 'text');
             resultContent.appendChild(field);
 
+            field = createResultField(resObj.id, 'Clave catastral', 'catastralKey', resObj.catastralKey, 'text');
+
+            resultContent.appendChild(field);
+
+            field = createResultField(resObj.id, 'Superficie total', 'surface', resObj.surfaceTotal, 'text');
+
+            resultContent.appendChild(field);
+
             field = createResultField(resObj.id, 'Tablas/Cuadros resumen', 'resumeTables', resObj.fullInvoice, 'file');
+            resultContent.appendChild(field);
+
+            field = createResultField(resObj.id, 'Vigencia', 'validity', resObj.licenseValidity, 'select');
+
+            field.querySelector('select').innerHTML = `
+            <option value="">Selecciona ...</option>
+            <option value="1">12 Meses</option>
+            <option value="2">6 Meses</option>
+            `;
+
+            field.querySelector('select').value = resObj.licenseValidity;
+
             resultContent.appendChild(field);
 
             field = createResultTextArea(resObj.id, 'Documentos', 'documents', resObj.licenseSpecialData.documents.join('\n'));
@@ -983,10 +1296,37 @@ function createUrbanPrintResult(resObj, target) {
 
             break;
         case 6:
+            field = createResultField(resObj.id, 'Representante legal', 'legalRepresentative', resObj.legalRepresentative, 'text');
+
+            resultContent.appendChild(field);
+
             field = createResultField(resObj.id, 'Domicilio del solicitante', 'requestorAddress', resObj.licenseSpecialData.requestorAddress, 'text');
             resultContent.appendChild(field);
 
             field = createResultField(resObj.id, 'Domicilio del inmueble', 'buildingAddress', resObj.licenseSpecialData.buildingAddress, 'text');
+            resultContent.appendChild(field);
+
+            field = createResultField(resObj.id, 'Clave catastral', 'catastralKey', resObj.catastralKey, 'text');
+
+            resultContent.appendChild(field);
+
+            field = createResultField(resObj.id, 'Superficie total', 'surface', resObj.surfaceTotal, 'text');
+
+            resultContent.appendChild(field);
+
+            field = createResultField(resObj.id, 'Tablas/Cuadros resumen', 'resumeTables', resObj.fullInvoice, 'file');
+            resultContent.appendChild(field);
+
+            field = createResultField(resObj.id, 'Vigencia', 'validity', resObj.licenseValidity, 'select');
+
+            field.querySelector('select').innerHTML = `
+            <option value="">Selecciona ...</option>
+            <option value="1">12 Meses</option>
+            <option value="2">6 Meses</option>
+            `;
+
+            field.querySelector('select').value = resObj.licenseValidity;
+
             resultContent.appendChild(field);
 
             field = createResultTextArea(resObj.id, 'Constancia de Uso de Suelo', 'urbanCUS', resObj.licenseSpecialData.urbanCUS);
@@ -1027,11 +1367,12 @@ function createUrbanPrintResult(resObj, target) {
 
             field = createResultField(resObj.id, 'Superficie de donación', 'totalSurface', resObj.licenseSpecialData.totalSurface, 'text');
             resultContent.appendChild(field);
-
-            field = createResultField(resObj.id, 'Tablas/Cuadros resumen', 'resumeTables', resObj.fullInvoice, 'file');
-            resultContent.appendChild(field);
             break;
         case 7:
+            field = createResultField(resObj.id, 'Representante legal', 'legalRepresentative', resObj.legalRepresentative, 'text');
+
+            resultContent.appendChild(field);
+
             field = createResultField(resObj.id, 'Domicilio del solicitante', 'requestorAddress', resObj.licenseSpecialData.requestorAddress, 'text');
             resultContent.appendChild(field);
 
@@ -1070,16 +1411,20 @@ function createUrbanPrintResult(resObj, target) {
 
             break;
         case 8:
+            field = createResultField(resObj.id, 'Representante legal', 'legalRepresentative', resObj.legalRepresentative, 'text');
+
+            resultContent.appendChild(field);
+
             field = createResultField(resObj.id, 'Domicilio del solicitante', 'requestorAddress', resObj.licenseSpecialData.requestorAddress, 'text');
             resultContent.appendChild(field);
 
             field = createResultField(resObj.id, 'Domicilio del inmueble', 'buildingAddress', resObj.licenseSpecialData.buildingAddress, 'text');
             resultContent.appendChild(field);
 
-            field = createResultField(resObj.id, 'Viviendas', 'households', resObj.licenseSpecialData.households, 'text');
+            field = createResultField(resObj.id, 'Tablas/Cuadros resumen', 'resumeTables', resObj.fullInvoice, 'file');
             resultContent.appendChild(field);
 
-            field = createResultField(resObj.id, 'Tablas/Cuadros resumen', 'resumeTables', resObj.fullInvoice, 'file');
+            field = createResultField(resObj.id, 'Viviendas', 'households', resObj.licenseSpecialData.households, 'text');
             resultContent.appendChild(field);
 
             field = createResultTextArea(resObj.id, 'Documentos', 'documents', resObj.licenseSpecialData.documents.join('\n'));

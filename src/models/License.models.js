@@ -274,7 +274,7 @@ export const UrbanLicense = pool.define(
         },
         requestDate: {
             type: DataTypes.DATEONLY,
-            allowNull: false
+            allowNull: true
         },
         requestorName: {
             type: DataTypes.STRING,
@@ -282,7 +282,7 @@ export const UrbanLicense = pool.define(
         },
         legalRepresentative: {
             type: DataTypes.STRING,
-            allowNull: false
+            allowNull: true
         },
         elaboratedBy: {
             type: DataTypes.STRING,
@@ -290,7 +290,7 @@ export const UrbanLicense = pool.define(
         },
         address: {
             type: DataTypes.STRING,
-            allowNull: false
+            allowNull: true
         },
         number: {
             type: DataTypes.STRING,
@@ -299,11 +299,11 @@ export const UrbanLicense = pool.define(
         },
         colony: {
             type: DataTypes.STRING,
-            allowNull: false
+            allowNull: true
         },
         catastralKey: {
             type: DataTypes.STRING,
-            allowNull: false
+            allowNull: true
         },
         licenseTerm: {
             type: DataTypes.INTEGER,
@@ -316,7 +316,7 @@ export const UrbanLicense = pool.define(
         },
         surfaceTotal: {
             type: DataTypes.STRING,
-            allowNull: false
+            allowNull: true
         },
         licenseZone: {
             type: DataTypes.INTEGER,
@@ -324,11 +324,12 @@ export const UrbanLicense = pool.define(
                 model: Zone,
                 key: 'id'
             },
-            allowNull: false
+            defaultValue: 1,
+            allowNull: true
         },
         expeditionDate: {
             type: DataTypes.DATEONLY,
-            allowNull: false
+            allowNull: true
         },
         licenseValidity: {
             type: DataTypes.INTEGER,
@@ -341,31 +342,31 @@ export const UrbanLicense = pool.define(
         },
         collectionOrder: {
             type: DataTypes.INTEGER,
-            allowNull: false
+            allowNull: true
         },
         paymentDate: {
             type: DataTypes.DATEONLY,
-            allowNull: false
+            allowNull: true
         },
         billInvoice: {
             type: DataTypes.INTEGER,
-            allowNull: false
+            allowNull: true
         },
         authorizedQuantity: {
             type: DataTypes.FLOAT,
-            allowNull: false
+            allowNull: true
         },
         deliveryDate: {
             type: DataTypes.DATEONLY,
-            allowNull: false
+            allowNull: true
         },
         receiverName: {
             type: DataTypes.STRING,
-            allowNull: false
+            allowNull: true
         },
         observations: {
             type: DataTypes.STRING,
-            allowNull: false
+            allowNull: true
         },
         licenseSpecialData: {
             type: DataTypes.JSON,

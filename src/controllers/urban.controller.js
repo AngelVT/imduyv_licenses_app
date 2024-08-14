@@ -252,12 +252,16 @@ export const createLicense = async (req, res) => {
             billInvoice,
             authorizedQuantity,
             deliveryDate,
-            receiverName
+            receiverName,
+            PCU,
+            requestorAddress,
+            buildingAddress
+            
         } = req.body;
 
-        const file = req.file;
+        const files = req.files;
 
-        if (!licenseType || !requestorName || !legalRepresentative || !requestDate || !colony || !address || !catastralKey || !surface || !zone || !expeditionDate || !collectionOrder || !paymentDate || !billInvoice || !authorizedQuantity || !deliveryDate || !receiverName) {
+        if (!licenseType || !requestorName || !requestDate) {
             res.status(400).json({ msg: "There is missing information" });
             return;
         }
@@ -269,7 +273,7 @@ export const createLicense = async (req, res) => {
             return;
         }
 
-        const validated = await validate({urbanType: licenseType, zone});
+        const validated = await validate({urbanType: licenseType});
 
         if (validated == null) {
             res.status(400).json({ msg: "Invalid information provided." });
@@ -277,6 +281,10 @@ export const createLicense = async (req, res) => {
         }
 
         const licenseSpecialData = generateUrbanSpecialData(parseInt(licenseType));
+
+        licenseSpecialData.PCU = PCU ? PCU.toUpperCase() : licenseSpecialData.PCU;
+        licenseSpecialData.requestorAddress = requestorAddress ? requestorAddress : licenseSpecialData.requestorAddress;
+        licenseSpecialData.buildingAddress = buildingAddress ? buildingAddress : licenseSpecialData.buildingAddress;
 
         const newLicense = await UrbanLicense.create({
             fullInvoice: invoice.lcID,
@@ -293,7 +301,7 @@ export const createLicense = async (req, res) => {
             catastralKey: catastralKey,
             licenseTerm: licenseTerm,
             surfaceTotal: surface,
-            licenseZone: zone,
+            licenseZone: zone ? zone : 1,
             expeditionDate: expeditionDate,
             licenseValidity: licenseValidity,
             collectionOrder: collectionOrder,
@@ -306,20 +314,42 @@ export const createLicense = async (req, res) => {
             licenseSpecialData: licenseSpecialData
         });
 
-        const destination = path.join(__dirstorage, 'assets', 'urban', invoice.lcID, 'zone.png');
+        const destination = path.join(__dirstorage, 'assets', 'urban', newLicense.fullInvoice, 'zone.png');
         const directory = path.dirname(destination);
 
-        fs.mkdir(directory, { recursive: true }, (err) => {
-            if (err) {
-                return console.error(err);
-            }
-
-            fs.writeFile(destination, file.buffer, (err) => {
+        await new Promise((resolve, reject) => {
+            fs.mkdir(directory, { recursive: true }, (err) => {
                 if (err) {
-                    return console.error(err);
+                    return reject(err);
                 }
+                resolve();
             });
         });
+
+        if (files.zoneIMG) {
+            await new Promise((resolve, reject) => {
+                fs.writeFile(destination, files.zoneIMG[0].buffer, (err) => {
+                    if (err) {
+                        return reject(err);
+                    }
+                    resolve();
+                });
+            });
+        }
+
+        if(files.resumeTables) {
+            await Promise.all(files.resumeTables.map(e => {
+                const currentDestination = path.join(__dirstorage, 'assets', 'urban', modifiedLicense.fullInvoice, e.originalname);
+                return new Promise((resolve, reject) => {
+                    fs.writeFile(currentDestination, e.buffer, (err) => {
+                        if (err) {
+                            return reject(err);
+                        }
+                        resolve();
+                    });
+                });
+            }));
+        }
 
         requestLogger.create('Urban creation request completed:\n    Record: %s\n    Invoice: %s', newLicense.id, newLicense.fullInvoice)
 

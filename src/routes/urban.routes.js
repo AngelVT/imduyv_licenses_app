@@ -16,7 +16,7 @@ router.get('/:type/:invoice/:year', [authenticator.verifyToken , authenticator.i
 
 router.get('/:type/:year', [authenticator.verifyToken , authenticator.isUrbanUser] , urbanControl.getLicenseByType);
 
-router.post('/', [authenticator.verifyToken , authenticator.isUrbanUser , authenticator.isModerator, up.single('zoneIMG')] , urbanControl.createLicense);
+router.post('/', [authenticator.verifyToken , authenticator.isUrbanUser , authenticator.isModerator, up.fields([{ name: 'zoneIMG', maxCount: 1 }, { name: 'resumeTables', maxCount: 10 }])] , urbanControl.createLicense);
 
 router.patch('/:licenciaID', [authenticator.verifyToken , authenticator.isUrbanUser , authenticator.isModerator, up.fields([{ name: 'zoneIMG', maxCount: 1 }, { name: 'resumeTables', maxCount: 10 }])], urbanControl.updateLicense);
 

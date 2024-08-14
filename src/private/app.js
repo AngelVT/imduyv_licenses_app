@@ -1,38 +1,6 @@
 const thaButton = document.querySelector('#tha_button');
 const thaP = document.querySelector('#tha_json');
 
-
-/*thaButton.addEventListener(
-    'click', async () => {
-        await fetch('https://192.168.180.25:3091/api/users/test', {
-            method: 'POST',
-            credentials: 'include',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                x: "LOL",
-                y: 600,
-                z: [12, 23]
-            }),
-            
-        })
-        .then(async res => {
-            if(res.ok){
-                console.log('All good');
-                const response = await res.json();
-                let obj = JSON.parse(response.data[2].licenseState);
-                thaP.textContent = obj.z[1];
-                console.log(obj)
-            }
-            return;
-        })
-        .catch(error => {
-            console.error('Error uploading file: ', error)
-        });
-    }
-)*/
-
 thaButton.addEventListener(
     'click', async () => {
         try {
