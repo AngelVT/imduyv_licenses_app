@@ -73,12 +73,8 @@ export async function generateUrbanRLF(lcDBObj) {
                                             docUtils.field(lcDBObj.licenseSpecialData.buildingAddress, docUtils.borderless, 1, null, 7)
                                         ],
                                         [
-                                            {text: 'Clave Catastral: ', style: 'labelT', border: docUtils.borderless},
-                                            docUtils.field(lcDBObj.catastralKey, docUtils.borderless, 1, null, 7),
-                                        ],
-                                        [
-                                            {text: 'Superficie Total: ', style: 'labelT', border: docUtils.borderless},
-                                            docUtils.field(lcDBObj.surfaceTotal, docUtils.borderless, 1, null, 7)
+                                            {text: 'Manzana y lotes: ', style: 'labelT', border: docUtils.borderless},
+                                            docUtils.field(docUtils.arrayToText(lcDBObj.licenseSpecialData.lotes).toUpperCase(), docUtils.borderless, 1, null, 7)
                                         ]
                                     ]
                                 },
@@ -150,7 +146,7 @@ export async function generateUrbanRLF(lcDBObj) {
                         ],
                         [
                             {
-                                stack: await docUtils.loadChart(lcDBObj.fullInvoice, 'superficies_')
+                                stack: await docUtils.loadChart(lcDBObj.fullInvoice, 'tabla_s1_')
                             }
                         ]
                     ]
@@ -168,7 +164,7 @@ export async function generateUrbanRLF(lcDBObj) {
                         ],
                         [
                             {
-                                stack: await docUtils.loadChart(lcDBObj.fullInvoice, 'lotificacion_')
+                                stack: await docUtils.loadChart(lcDBObj.fullInvoice, 'tabla_s2_')
                             }
                         ]
                     ]

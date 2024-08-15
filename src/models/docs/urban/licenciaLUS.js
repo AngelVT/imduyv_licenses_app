@@ -52,6 +52,7 @@ export function generateUrbanLUS(lcDBObj) {
                                             {text: 'Domicilio: ', style: 'labelT', border: docUtils.borderless},
                                             docUtils.field(lcDBObj.licenseSpecialData.requestorAddress, docUtils.borderless, null,null, 7),
                                         ],
+                                        docUtils.generateLegalRepresentativeField(lcDBObj.legalRepresentative),
                                         [
                                             {text: '', border: docUtils.borderless},
                                             {text: '', border: docUtils.borderless}

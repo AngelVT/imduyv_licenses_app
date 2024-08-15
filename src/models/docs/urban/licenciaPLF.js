@@ -150,7 +150,7 @@ export async function generateUrbanPLF(lcDBObj) {
                         ],
                         [
                             {
-                                stack: await docUtils.loadChart(lcDBObj.fullInvoice, 'superficies_')
+                                stack: await docUtils.loadChart(lcDBObj.fullInvoice, 'tabla_s1_')
                             }
                         ]
                     ]
@@ -168,7 +168,7 @@ export async function generateUrbanPLF(lcDBObj) {
                         ],
                         [
                             {
-                                stack: await docUtils.loadChart(lcDBObj.fullInvoice, 'lotificacion_')
+                                stack: await docUtils.loadChart(lcDBObj.fullInvoice, 'tabla_s2_')
                             }
                         ]
                     ]
@@ -185,7 +185,7 @@ export async function generateUrbanPLF(lcDBObj) {
                         ],
                         [
                             {
-                                stack: await docUtils.loadChart(lcDBObj.fullInvoice, 'lotif_resumen_')
+                                stack: await docUtils.loadChart(lcDBObj.fullInvoice, 'tabla_s3_')
                             }
                         ]
                     ]

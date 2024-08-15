@@ -48,13 +48,10 @@ export async function generateUrbanCRPC(lcDBObj) {
                                             {text: 'Nombre: ', style: 'labelT', border: docUtils.borderless},
                                             docUtils.field(lcDBObj.requestorName, docUtils.borderless, null,null, 7)
                                         ],
+                                        docUtils.generateLegalRepresentativeField(lcDBObj.legalRepresentative),
                                         [
                                             {text: 'Domicilio: ', style: 'labelT', border: docUtils.borderless},
                                             docUtils.field(lcDBObj.licenseSpecialData.requestorAddress, docUtils.borderless, null,null, 7),
-                                        ],
-                                        [
-                                            {text: '', border: docUtils.borderless},
-                                            {text: '', border: docUtils.borderless}
                                         ]
                                     ]
                                 },
@@ -95,9 +92,9 @@ export async function generateUrbanCRPC(lcDBObj) {
                                     {
                                         text: [
                                             {text: lcDBObj.requestorName, bold: true},
-                                            ' a través del C. ',
-                                            {text: lcDBObj.legalRepresentative, bold: true},
-                                            ', en su carácter de Representante Legal, solicita la ',
+                                            {
+                                                text: lcDBObj.legalRepresentative ? [{text: ' a través del C. '}, {text: lcDBObj.legalRepresentative, bold: true}, { text: ', en su carácter de Representante Legal'}] : ''
+                                            },', solicita la ',
                                             {text: 'AUTORIZACIÓN DE RÉGIMEN DE PROPIEDAD EN CONDOMINIO', bold: true},
                                             ' para ',
                                             {text: lcDBObj.licenseSpecialData.households, bold: true},
@@ -140,7 +137,9 @@ export async function generateUrbanCRPC(lcDBObj) {
                 alignment: 'justify',
                 ol: [
                     {text: ['El Instituto Municipal de Desarrollo Urbano y Vivienda, es competente para conocer y resolver la solicitud de',{text: 'AUTORIZACIÓN DE RÉGIMEN DE PROPIEDAD EN CONDOMINIO', bold: true},', para ',{text: lcDBObj.licenseSpecialData.households, bold: true},'ubicadas en los ',{text: docUtils.arrayToText(lcDBObj.licenseSpecialData.lotes), bold: true},' de la ',{text: docUtils.arrayToText(lcDBObj.licenseSpecialData.manzanas), bold: true},', dentro del fraccionamiento “',{text: lcDBObj.colony, bold: true},'”, con fundamento en lo previsto en los Artículos 27º y 115º  de la Constitución Política de los Estados Unidos Mexicanos; 1, 10 fracción  XXV, 40 Y 43 de la Ley General de Asentamientos Humanos, Ordenamiento Territorial y Desarrollo Urbano; 10 y 71  fracción XLV de la Constitución Política del Estado de Hidalgo; 1, 7, 8, 69 fracción VIII, 83, 104, 405, 406, 107 y 108 del Reglamento de la Ley de Asentamientos Humanos y Desarrollo Urbano del Estado de Hidalgo y los Artículos 1, 4, 6, 7, 8, 9, 10, 13, 52 y 53 de la Ley de Propiedad en Condominio de Inmuebles para el Estado de Hidalgo.\n\n']},
-                    {text: ['Para respaldar su solicitud de ',{text: lcDBObj.requestorName, bold: true},' a través del C. ',{text: lcDBObj.legalRepresentative, bold: true},', en su carácter de Representante Legal, presentó el plano arquitectónico del inmueble objeto del Régimen de Propiedad en Condominio, con las características que establece la Ley de Propiedad en Condominio de Inmuebles para el Estado de Hidalgo vigente en la entidad, misma que reúne todos y cada uno de los elementos que este precepto legal exige, comprende ',{text: `${lcDBObj.licenseSpecialData.privateSurface} m²`, bold: true},' de áreas privativas y ',{text: `${lcDBObj.licenseSpecialData.commonSurface} m²`, bold: true},' de área común, según plano autorizado se desglosa de la siguiente manera: m']}
+                    {text: ['Para respaldar su solicitud de ',{text: lcDBObj.requestorName, bold: true},{
+                        text: lcDBObj.legalRepresentative ? [{text: ' a través del C. '}, {text: lcDBObj.legalRepresentative, bold: true}, { text: ', en su carácter de Representante Legal'}] : ''
+                    },', presentó el plano arquitectónico del inmueble objeto del Régimen de Propiedad en Condominio, con las características que establece la Ley de Propiedad en Condominio de Inmuebles para el Estado de Hidalgo vigente en la entidad, misma que reúne todos y cada uno de los elementos que este precepto legal exige, comprende ',{text: `${lcDBObj.licenseSpecialData.privateSurface} m²`, bold: true},' de áreas privativas y ',{text: `${lcDBObj.licenseSpecialData.commonSurface} m²`, bold: true},' de área común, según plano autorizado se desglosa de la siguiente manera: m']}
                 ]
             },
             {
@@ -154,7 +153,7 @@ export async function generateUrbanCRPC(lcDBObj) {
                         ],
                         [
                             {
-                                stack: await docUtils.loadChart(lcDBObj.fullInvoice, 'area_')
+                                stack: await docUtils.loadChart(lcDBObj.fullInvoice, 'tabla_s1_')
                             }
                         ]
                     ]
@@ -172,7 +171,7 @@ export async function generateUrbanCRPC(lcDBObj) {
                         ],
                         [
                             {
-                                stack: await docUtils.loadChart(lcDBObj.fullInvoice, 'lote_')
+                                stack: await docUtils.loadChart(lcDBObj.fullInvoice, 'tabla_s2_')
                             }
                         ]
                     ]
@@ -186,7 +185,9 @@ export async function generateUrbanCRPC(lcDBObj) {
                 start: 3,
                 ol: [
                     'Los condóminos de las porciones del inmueble objeto de esta autorización deberán sujetarse a lo establecido en la Ley de Propiedad en Condominio de Inmuebles para el Estado de Hidalgo y al Reglamento Interno.\n\n',
-                    {text: [{text:'En  virtud de que el '},{text: lcDBObj.requestorName, bold: true},{text:' a través del C. '},{text:lcDBObj.legalRepresentative, bold: true},{text:'en su carácter de Representante Legal, ha cumplido con los requisitos de la Ley de Propiedad en Condominio de Inmuebles para el Estado de Hidalgo vigente en sus numerales 1, 4, 6, 7, 8, 9, 10, 13, 52 y 53, así como lo dispuesto por los artículos 1, 66 fracción VIII, 104, 105, 107 y 108 del Reglamento de la Ley de Asentamiento Humanos, Desarrollo Urbano y Ordenamiento Territorial del Estado de Hidalgo, resuelve que es procedente la autorización de: RÉGIMEN DE PROPIEDAD EN CONDOMINIO para '},{text: lcDBObj.licenseSpecialData.households, bold: true},{text:' ubicadas en los '},{text: docUtils.arrayToText(lcDBObj.licenseSpecialData.lotes), bold: true},{text:' de la '},{text: docUtils.arrayToText(lcDBObj.licenseSpecialData.manzanas), bold: true},{text:', dentro del fraccionamiento '},{text: `"${lcDBObj.colony}"`, bold: true},{text:', ubicado en el municipio de Tizayuca, Estado de Hidalgo.'},]}
+                    {text: [{text:'En  virtud de que el '},{text: lcDBObj.requestorName, bold: true},{
+                        text: lcDBObj.legalRepresentative ? [{text: ' a través del C. '}, {text: lcDBObj.legalRepresentative, bold: true}, { text: ', en su carácter de Representante Legal'}] : ''
+                    },{text:', ha cumplido con los requisitos de la Ley de Propiedad en Condominio de Inmuebles para el Estado de Hidalgo vigente en sus numerales 1, 4, 6, 7, 8, 9, 10, 13, 52 y 53, así como lo dispuesto por los artículos 1, 66 fracción VIII, 104, 105, 107 y 108 del Reglamento de la Ley de Asentamiento Humanos, Desarrollo Urbano y Ordenamiento Territorial del Estado de Hidalgo, resuelve que es procedente la autorización de: RÉGIMEN DE PROPIEDAD EN CONDOMINIO para '},{text: lcDBObj.licenseSpecialData.households, bold: true},{text:' ubicadas en los '},{text: docUtils.arrayToText(lcDBObj.licenseSpecialData.lotes), bold: true},{text:' de la '},{text: docUtils.arrayToText(lcDBObj.licenseSpecialData.manzanas), bold: true},{text:', dentro del fraccionamiento '},{text: `"${lcDBObj.colony}"`, bold: true},{text:', ubicado en el municipio de Tizayuca, Estado de Hidalgo.'},]}
                     /*'LOS HÉROES TIZAYUCA”'*/
                 ]
             },
@@ -297,7 +298,9 @@ export async function generateUrbanCRPC(lcDBObj) {
                         [
                             {
                                 style: 'regular',
-                                text: [{text: 'ÚNICA. ', bold: true},{text: 'En caso de que '},{text: lcDBObj.requestorName, bold: true},{text: ' a través del C. '},{text: lcDBObj.legalRepresentative, bold: true},{text: ' en su carácter de Representante Legal no de cumplimiento a las disposiciones de la presente resolución o pase por alto las previsiones que establece la  Ley de Propiedad en Condominio de Inmuebles para el Estado de Hidalgo, la Ley de Asentamientos Humanos, Desarrollo Urbano y Ordenamiento Territorial del Estado de Hidalgo; así como la Ley Estatal del Procedimiento Administrativo y demás Leyes aplicables, se le sancionará de acuerdo a lo que éstas establecen en sus respectivos capítulos, con las consecuencias jurídicas que procedan, llegando incluso a la revocación de la presente autorización.\nPor lo anterior expuesto y fundado se:'}]
+                                text: [{text: 'ÚNICA. ', bold: true},{text: 'En caso de que '},{text: lcDBObj.requestorName, bold: true},{text: ' a través del C. '},{
+                                    text: lcDBObj.legalRepresentative ? [{text: ' a través del C. '}, {text: lcDBObj.legalRepresentative, bold: true}, { text: ', en su carácter de Representante Legal'}] : ''
+                                },{text: ' no de cumplimiento a las disposiciones de la presente resolución o pase por alto las previsiones que establece la  Ley de Propiedad en Condominio de Inmuebles para el Estado de Hidalgo, la Ley de Asentamientos Humanos, Desarrollo Urbano y Ordenamiento Territorial del Estado de Hidalgo; así como la Ley Estatal del Procedimiento Administrativo y demás Leyes aplicables, se le sancionará de acuerdo a lo que éstas establecen en sus respectivos capítulos, con las consecuencias jurídicas que procedan, llegando incluso a la revocación de la presente autorización.\nPor lo anterior expuesto y fundado se:'}]
                             }
                         ]
                     ]

@@ -493,11 +493,6 @@ export const updateLicense = async (req, res) => {
                 });
             });
 
-            if(files.resumeTables) {
-                await deleteFiles(directory);
-            }
-            
-
             if (files.zoneIMG) {
                 await new Promise((resolve, reject) => {
                     fs.writeFile(destination, files.zoneIMG[0].buffer, (err) => {
@@ -510,6 +505,8 @@ export const updateLicense = async (req, res) => {
             }
 
             if (files.resumeTables) {
+                await deleteFiles(directory);
+
                 await Promise.all(files.resumeTables.map(e => {
                     const currentDestination = path.join(__dirstorage, 'assets', 'urban', modifiedLicense.fullInvoice, e.originalname);
                     return new Promise((resolve, reject) => {

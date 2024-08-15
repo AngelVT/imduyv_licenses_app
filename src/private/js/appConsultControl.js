@@ -611,6 +611,9 @@ function createUrbanResult(resObj, target) {
             field = createResultField(resObj.id, 'Tablas/Cuadros resumen', 'resumeTables', resObj.fullInvoice, 'file');
             resultContent.appendChild(field);
 
+            field = createResultField(resObj.id, 'Relotificación', 'totalRelotification', resObj.licenseSpecialData.totalRelotification, 'text');
+            resultContent.appendChild(field);
+
             field = createResultTextArea(resObj.id, 'Relotificación para', 'lotes', resObj.licenseSpecialData.lotes.join('\n'));
             resultContent.appendChild(field);
 
@@ -621,9 +624,6 @@ function createUrbanResult(resObj, target) {
             resultContent.appendChild(field);
 
             field = createResultTextArea(resObj.id, 'Condicionantes', 'conditions', resObj.licenseSpecialData.conditions.join('\n'));
-            resultContent.appendChild(field);
-
-            field = createResultField(resObj.id, 'Relotificación', 'totalRelotification', resObj.licenseSpecialData.totalRelotification, 'text');
             resultContent.appendChild(field);
 
             field = createResultField(resObj.id, 'Folio previo', 'previousInvoice', resObj.licenseSpecialData.previousInvoice, 'text');
@@ -1382,6 +1382,9 @@ function createUrbanPrintResult(resObj, target) {
             field = createResultField(resObj.id, 'Tablas/Cuadros resumen', 'resumeTables', resObj.fullInvoice, 'file');
             resultContent.appendChild(field);
 
+            field = createResultField(resObj.id, 'Relotificación', 'totalRelotification', resObj.licenseSpecialData.totalRelotification, 'text');
+            resultContent.appendChild(field);
+
             field = createResultTextArea(resObj.id, 'Relotificación para', 'lotes', resObj.licenseSpecialData.lotes.join('\n'));
             resultContent.appendChild(field);
 
@@ -1392,9 +1395,6 @@ function createUrbanPrintResult(resObj, target) {
             resultContent.appendChild(field);
 
             field = createResultTextArea(resObj.id, 'Condicionantes', 'conditions', resObj.licenseSpecialData.conditions.join('\n'));
-            resultContent.appendChild(field);
-
-            field = createResultField(resObj.id, 'Relotificación', 'totalRelotification', resObj.licenseSpecialData.totalRelotification, 'text');
             resultContent.appendChild(field);
 
             field = createResultField(resObj.id, 'Folio previo', 'previousInvoice', resObj.licenseSpecialData.previousInvoice, 'text');
