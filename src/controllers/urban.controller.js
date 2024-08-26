@@ -256,7 +256,6 @@ export const createLicense = async (req, res) => {
             PCU,
             requestorAddress,
             buildingAddress
-            
         } = req.body;
 
         const files = req.files;
