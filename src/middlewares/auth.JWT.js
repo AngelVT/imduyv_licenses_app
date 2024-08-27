@@ -64,6 +64,17 @@ export const isAdmin = async (req, res, next) => {
     next();
 }
 
+export const isSystemAdmin = async (req, res, next) => {
+    console.log("Verifying System Admin role");
+    console.log(req.userID);
+
+    const user = await User.findByPk(req.userID);
+
+    console.log(JSON.stringify(user));
+
+    next();
+}
+
 export const isLandUser = async (req, res, next) => {
     console.log("Verifying Land user group");
     console.log(req.userID);
