@@ -420,7 +420,20 @@ export const updateLicense = async (req, res) => {
             manzanas,
             conditions,
             privateSurface,
-            commonSurface
+            commonSurface,
+            location,
+            authorizationFor,
+            integrity,
+            detailedUse,
+            urbanLUS,
+            urbanCUS,
+            habitacionalLotes,
+            totalManzanas,
+            totalSurface,
+            totalRelotification,
+            resultRelotification,
+            previousInvoice,
+            previousInvoiceDate,
         } = req.body;
 
         const modifiedLicense = await UrbanLicense.findByPk(id);
@@ -459,6 +472,19 @@ export const updateLicense = async (req, res) => {
         newSpecialData.conditions = conditions ? conditions.replaceAll('\r', '').split('\n') : newSpecialData.conditions;
         newSpecialData.privateSurface = privateSurface ? privateSurface : newSpecialData.privateSurface;
         newSpecialData.commonSurface = commonSurface ? commonSurface : newSpecialData.commonSurface;
+        newSpecialData.location = location ? location.replaceAll('\r', '').split('\n') : newSpecialData.location;
+        newSpecialData.authorizationFor = authorizationFor ? authorizationFor : newSpecialData.authorizationFor;
+        newSpecialData.integrity = integrity ? integrity : newSpecialData.integrity;
+        newSpecialData.detailedUse = detailedUse ? detailedUse : newSpecialData.detailedUse;
+        newSpecialData.urbanCUS = urbanCUS ? urbanCUS : newSpecialData.urbanCUS;
+        newSpecialData.urbanLUS = urbanLUS ? urbanLUS : newSpecialData.urbanLUS;
+        newSpecialData.habitacionalLotes = habitacionalLotes ? habitacionalLotes : newSpecialData.habitacionalLotes;
+        newSpecialData.totalManzanas = totalManzanas ? totalManzanas : newSpecialData.totalManzanas;
+        newSpecialData.totalSurface = totalSurface ? totalSurface : newSpecialData.totalSurface;
+        newSpecialData.totalRelotification = totalRelotification ? totalRelotification : newSpecialData.totalRelotification;
+        newSpecialData.resultRelotification = resultRelotification ? resultRelotification.replaceAll('\r', '').split('\n') : newSpecialData.resultRelotification;
+        newSpecialData.previousInvoice = previousInvoice ? previousInvoice : newSpecialData.previousInvoice;
+        newSpecialData.previousInvoiceDate = previousInvoiceDate ? previousInvoiceDate : newSpecialData.previousInvoiceDate;
 
         await modifiedLicense.update({
             requestDate: requestDate,
