@@ -52,6 +52,10 @@ export const getLicenses = async (req, res) => {
 
         requestLogger.get('Land use get request completed:\n    All record requested');
 
+        licenses.forEach(license => {
+            license.licenseSpecialData = JSON.parse(license.licenseSpecialData);
+        });
+
         res.status(200).json({data: licenses});
     } catch (error) {
         consoleLogger.error('\n  Request failed due to server side error:\n  Error: %s', error)
@@ -100,6 +104,8 @@ export const getLicense = async (req, res) => {
         }
 
         requestLogger.get('Land use get request completed:\n    Requested record: %d', id);
+
+        license.licenseSpecialData = JSON.parse(license.licenseSpecialData);
 
         res.status(200).json({data: [license]});
     } catch (error) {
@@ -211,6 +217,10 @@ export const getLicenseByType = async (req, res) => {
 
         requestLogger.get('Land get request completed:\n    Requested record: %d', licenses.id);
 
+        licenses.forEach(license => {
+            license.licenseSpecialData = JSON.parse(license.licenseSpecialData);
+        });
+
         res.status(200).json({data: licenses});
     } catch (error) {
         consoleLogger.error('\n  Request failed due to server side error:\n  Error: %s', error)
@@ -276,6 +286,10 @@ export const getLicenseBy = async (req, res) => {
         }
 
         requestLogger.get('Land get request completed:\n    Requested record: %d', licenses.id);
+
+        licenses.forEach(license => {
+            license.licenseSpecialData = JSON.parse(license.licenseSpecialData);
+        });
 
         res.status(200).json({data: licenses});
     } catch (error) {

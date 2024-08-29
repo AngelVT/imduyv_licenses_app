@@ -8,20 +8,16 @@ export const verifyToken = async (req, res, next) => {
 
     if (!clientToken) {
         consoleLogger.devInfo('\n  Token not provided');
-        next();
+        res.redirect('/app/login');
         return;
-    } else {
-        consoleLogger.devInfo('\n  Token provided: %s', clientToken);
     }
 
     const decoded = jwt.verify(clientToken, config.SECRET)
 
     if(!decoded.userID || !decoded.username) {
         consoleLogger.devInfo('\n  invalid token provided');
-        next();
+        res.redirect('/app/login');
         return;
-    } else {
-        console.log(decoded.userID , decoded.username);
     }
 
     const user = await User.findOne({
@@ -31,54 +27,16 @@ export const verifyToken = async (req, res, next) => {
 
     if(user === null) {
         consoleLogger.devInfo('\n  no user found');
-        next();
+        res.redirect('/app/login');
         return;
     }
-
-    console.log(JSON.stringify(user));
 
     req.userID = user.id;
     
     next();
 }
 
-export const isModerator = async (req, res, next) => {
-    console.log("Verifying Moderator Role");
-    console.log(req.userID);
-
-    const user = await User.findByPk(req.userID);
-
-    console.log(JSON.stringify(user));
-
-    next();
-}
-
-export const isAdmin = async (req, res, next) => {
-    console.log("Verifying Admin role");
-    console.log(req.userID);
-
-    const user = await User.findByPk(req.userID);
-
-    console.log(JSON.stringify(user));
-
-    next();
-}
-
-export const isSystemAdmin = async (req, res, next) => {
-    console.log("Verifying System Admin role");
-    console.log(req.userID);
-
-    const user = await User.findByPk(req.userID);
-
-    console.log(JSON.stringify(user));
-
-    next();
-}
-
 export const isLandUser = async (req, res, next) => {
-    console.log("Verifying Land user group");
-    console.log(req.userID);
-
     const user = await User.findByPk(req.userID, {
         include: {
             model: Group,
@@ -87,26 +45,25 @@ export const isLandUser = async (req, res, next) => {
     });
 
     if (user === null) {
-        console.log('no user found');
-        next();
+        res.redirect('/app/login');
         return;
     }
 
     if(user.group.group == 'land_use' || user.group.group == 'all') {
-        console.log('User belongs to this group');
-        console.log(user.group.group);
         next();
         return;
     }
     
-    console.log('User does not belong to this group');
-    next();
+    if (user.group.group == 'urban') {
+        res.redirect('/app/urbanMenu');
+        return;
+    }
+
+    res.redirect('/app/login');
+    return;
 }
 
 export const isUrbanUser = async (req, res, next) => {
-    console.log("Verifying Urban user group");
-    console.log(req.userID);
-
     const user = await User.findByPk(req.userID, {
         include: {
             model: Group,
@@ -115,26 +72,25 @@ export const isUrbanUser = async (req, res, next) => {
     });
 
     if (user === null) {
-        console.log('no user found');
-        next();
+        res.redirect('/app/login');
         return;
     }
 
     if(user.group.group == 'urban' || user.group.group == 'all') {
-        console.log('User belongs to this group');
-        console.log(user.group.group);
         next();
         return;
     }
     
-    console.log('User does not belong to this group');
-    next();
+    if (user.group.group == 'land_use') {
+        res.redirect('/app/landMenu');
+        return;
+    }
+
+    res.redirect('/app/login');
+    return;
 }
 
 export const isAllUser = async (req, res, next) => {
-    console.log("Verifying all user group");
-    console.log(req.userID);
-
     const user = await User.findByPk(req.userID, {
         include: {
             model: Group,
@@ -143,18 +99,74 @@ export const isAllUser = async (req, res, next) => {
     });
 
     if (user === null) {
-        console.log('no user found');
-        next();
+        res.redirect('/app/login');
         return;
     }
 
     if(user.group.group == 'all') {
-        console.log('User belongs to this group');
-        console.log(user.group.group);
         next();
         return;
     }
+
+    if (user.group.group == 'land_use') {
+        res.redirect('/app/landMenu');
+        return;
+    }
+
+    if (user.group.group == 'urban') {
+        res.redirect('/app/urbanMenu');
+        return;
+    }
     
-    console.log('User does not belong to this group');
-    next();
+    res.redirect('/app/login');
+    return;
+}
+
+export const isModerator = async (req, res, next) => {
+
+    const user = await User.findByPk(req.userID, {
+        include: {
+            model: Role,
+            attributes:['role']
+        }
+    });
+
+    if (user.role.role == 'moderator' || user.role.role == 'admin' || user.role.role == 'system') {
+        next();
+        return;
+    }
+
+    res.status(401).json({msg: "Access denied, elevated privileges required to perform this action"});
+}
+
+export const isAdmin = async (req, res, next) => {
+    const user = await User.findByPk(req.userID, {
+        include: {
+            model: Role,
+            attributes:['role']
+        }
+    });
+
+    if (user.role.role == 'admin' || user.role.role == 'system') {
+        next();
+        return;
+    }
+
+    res.status(401).json({msg: "Access denied, elevated privileges required to perform this action"});
+}
+
+export const isSystemAdmin = async (req, res, next) => {
+    const user = await User.findByPk(req.userID, {
+        include: {
+            model: Role,
+            attributes:['role']
+        }
+    });
+
+    if (user.role.role == 'system') {
+        next();
+        return;
+    }
+
+    res.status(401).json({msg: "Access denied, elevated privileges required to perform this action"});
 }

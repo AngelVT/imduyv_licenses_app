@@ -1,17 +1,10 @@
 import { Router } from "express";
 import * as userControl from '../controllers/users.controller.js';
 import * as authenticator from '../middlewares/auth.JWT.js';
-import { up } from "../multerUp.js";
 
 import * as testing from '../controllers/test.controller.js';
 
 const router = Router();
-
-router.get('/test', testing.test);
-
-router.get('/testFile' , testing.testFile);
-
-router.get('/testScript' , testing.testScript);
 
 router.get('/info', authenticator.verifyToken , userControl.getUserInfo);
 
