@@ -115,6 +115,15 @@ async function updateResultField(form, id) {
         });
 }
 
+async function updateResultFull(id) {
+    console.log('updating everything');
+    let fields = document.querySelector(`#result_fields_${id}`).children;
+
+    for (let index = 0; index < fields.length; index++) {
+        fields[index].querySelector('label').querySelector('button').click();
+    }
+}
+
 async function updateResultTables(form, id) {
     let registro = document.querySelector(`#result_invoice_${id}`).innerText;
 
@@ -156,15 +165,6 @@ async function updateResultTables(form, id) {
             alert('An error ocurred:\n' + error);
             console.error('Error updating data: ', error);
         });
-}
-
-async function updateResultFull(id) {
-    console.log('updating everything');
-    let fields = document.querySelector(`#result_fields_${id}`).children;
-
-    for (let index = 0; index < fields.length; index++) {
-        fields[index].querySelector('label').querySelector('button').click();
-    }
 }
 
 async function deleteResult(id) {

@@ -1,13 +1,8 @@
 const formSearchByInvoicePrint = document.querySelector('#form_land_byInvoicePrint');
-const formatter = document.querySelector('#formatter');
 
+const resultPrint = document.querySelector('#print_results');
 
-
-formatter.addEventListener(
-    'change', () => {
-        changeFormatLand(formatter.value);
-    }
-);
+const PDF = document.querySelector('#pdf_lc');
 
 formSearchByInvoicePrint.addEventListener('submit',
     event => {
@@ -36,7 +31,9 @@ async function getLicensePrint(type, invoice, year) {
                 }
 
                 response.data.forEach(element => {
-                    fillDataPrint(element);
+                    resultPrint.innerHTML = '';
+                    createLandPrintResult(element, resultPrint);
+                    PDF.setAttribute('src', `/api/landuse/PDF/${type}/${invoice}/${year}?${new Date().getTime()}`)
                 });
 
                 return;
@@ -171,174 +168,69 @@ function changeFormatLand(formatNo) {
     }
 }
 
-//Editable section
-const restrictions = document.querySelector('#restrictions');
-const restrictionsInput = document.querySelector('#i-restrictions');
+async function updateResultField(form, id) {
+    let registro = document.querySelector(`#result_invoice_${id}`).innerText;
+    let field = form.querySelector('label').innerText.toLowerCase().replaceAll(':', '');
+    let currentValue = form.querySelector('input[type="hidden"]').value;
 
-restrictions.addEventListener(
-    'click', () => {
-        restrictionsInput.classList.toggle('hidden');
-        editable(restrictions, restrictionsInput);
+    const formData = new FormData(form);
+
+    let data = Object.fromEntries(formData);
+
+    for (const key in data) {
+        data = data[key];
     }
-);
 
-restrictionsInput.addEventListener(
-    'focusout', () => {
-        restrictionsInput.classList.toggle('hidden');
+    let mensaje = `
+    ¿Seguro que quieres modificar el ${field} para el registro ${registro}?\n
+    El valor actual es: "${currentValue}"
+    Cambiara a: "${data}"`
+
+    if(currentValue == data) {
+        alert("No se ha realizado ningún cambio");
+        return;
     }
-);
 
-const parcela = document.querySelectorAll('.parcela');
-const parcelaLabel = document.querySelectorAll('.l-parcela');
-const parcelaInput = document.querySelector('#i-parcela');
-
-parcelaLabel[0].addEventListener(
-    'click', () => {
-        editable(parcela, parcelaInput);
+    if (!confirm(mensaje)) {
+        return;
     }
-);
 
-parcelaLabel[1].addEventListener(
-    'click', () => {
-        editable(parcela, parcelaInput);
-    }
-);
-
-const property = document.querySelector('#prop');
-const propertyLabel = document.querySelector('#l-prop');
-const propertyInput = document.querySelector('#i-prop');
-
-propertyLabel.addEventListener(
-    'click', () => {
-        editable(property, propertyInput);
-    }
-);
-
-
-const annex = document.querySelectorAll('.annex');
-const annexLabel = document.querySelectorAll('.l-annex');
-const annexInput = document.querySelectorAll('.i-annex');
-
-annexLabel[0].addEventListener(
-    'click', () => {
-        editable(annex[0], annexInput[0]);
-    }
-);
-
-annexLabel[1].addEventListener(
-    'click', () => {
-        editable(annex[1], annexInput[1]);
-    }
-);
-
-const dpDate = document.querySelector('#dpDate');
-const dpDateLabel = document.querySelector('#l-dpDate');
-const dpDateInput = document.querySelector('#i-dpDate');
-
-dpDateLabel.addEventListener(
-    'click', () => {
-        editableDateES(dpDate, dpDateInput);
-    }
-);
-
-function editable(target, input) {
-    input.focus();
-
-    if (target.length) {
-        input.value = target[0].innerHTML.replaceAll('<br>', '\n');
-        input.addEventListener(
-            'input', () => {
-                target.forEach(
-                    element => {
-                        element.innerHTML = input.value.replaceAll('\n', '<br>');
-                        if (input.value == '') {
-                            target.innerText = '*'
-                        }
-                    }
-                );
-            }
-        );
-    } else {
-        input.value = target.innerHTML.replaceAll('<br>', '\n');
-        input.addEventListener(
-            'input', () => {
-                target.innerHTML = input.value.replaceAll('\n', '<br>');
-                if (input.value == '') {
-                    target.innerText = '*'
+    await fetch(`/api/landuse/${id}`, {
+            method: 'PATCH',
+            credentials: 'include',
+            body: formData
+        })
+        .then(async res => {
+            if(res.ok) {
+                if (form.querySelector('.input-interface')) {
+                    form.querySelector('input[type=hidden]').value = form.querySelector('.input-interface').value;
                 }
+
+                if (form.querySelector('.input-file')) {
+                    let img = document.querySelector(`#result_fields_${id}`).querySelector('img');
+                    img.setAttribute('src', `/landUseStorage/${form.querySelector('input[type=hidden]').value}/zone.png?${new Date().getTime()}`);
+                }
+                
+                alert(`Cambios guardados exitosamente para el registro: ${registro}`);
+                return;
             }
-        );
+
+            if (!res.ok) {
+                let response = await res.json();
+                alert(response.msg);
+                return;
+            }
+        })
+        .catch(error => {
+            console.error('Error updating data: ', error);
+        });
+}
+
+async function updateResultFull(id) {
+    console.log('updating everything');
+    let fields = document.querySelector(`#result_fields_${id}`).children;
+
+    for (let index = 0; index < fields.length; index++) {
+        fields[index].querySelector('label').querySelector('button').click();
     }
-}
-
-function editableDateES(target, input) {
-    input.focus();
-
-    let months = ["enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"];
-
-    input.addEventListener(
-        'input', () => {
-            let date = new Date(input.value);
-            
-            target.innerText = `${date.getDate() + 1} de ${months[date.getMonth()]} del ${date.getFullYear()}`
-        }
-    );
-
-    
-}
-
-const conditions = document.querySelector('#conditions');
-const addCondition = document.querySelector('#add_condition');
-
-addCondition.addEventListener(
-    'click', () => {
-        createEntry(conditions);
-    }
-);
-
-function createEntry(target) {
-    let totalEntries = document.querySelectorAll('.li-item').length + 1;
-
-    let liElement;
-    let content;
-    let btn;
-    let input;
-
-
-    liElement = document.createElement('li');
-    liElement.setAttribute('class', 'li-item');
-    liElement.setAttribute('id', `entry_${totalEntries}`);
-
-    content = document.createElement('span');
-    content.setAttribute('id', `content_${totalEntries}`);
-    content.setAttribute('onclick', `editEntry(${totalEntries})`);
-    content.innerText = '*';
-
-    liElement.appendChild(content);
-
-    btn = document.createElement('span');
-    btn.setAttribute('class', 'bi bi-x-circle input_delete');
-    btn.setAttribute('onclick', `deleteEntry(${totalEntries})`);
-
-    liElement.appendChild(btn);
-
-    input = document.createElement('textarea');
-    input.setAttribute('class', 'invissible');
-    input.setAttribute('id', `input_${totalEntries}`);
-    input.setAttribute('onclick', `deleteEntry(${totalEntries})`);
-
-    liElement.appendChild(input)
-
-    target.appendChild(liElement);
-}
-
-
-function deleteEntry(entry) {
-    document.querySelector(`#entry_${entry}`).remove();
-}
-
-function editEntry(entry) {
-    let target = document.querySelector(`#content_${entry}`);
-    let input = document.querySelector(`#input_${entry}`);
-    editable(target, input);
 }

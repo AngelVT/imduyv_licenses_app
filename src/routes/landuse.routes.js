@@ -22,4 +22,6 @@ router.patch('/:licenciaID', [authenticator.verifyToken , authenticator.isLandUs
 
 router.delete('/:licenciaID', [authenticator.verifyToken , authenticator.isLandUser , authenticator.isModerator] , landControl.deleteLicense);
 
+router.get('/PDF/:type/:invoice/:year', [authenticator.verifyToken , authenticator.isLandUser] , landControl.getLicensePDF);
+
 export default router;

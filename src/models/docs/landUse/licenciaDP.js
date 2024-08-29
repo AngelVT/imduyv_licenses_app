@@ -227,7 +227,9 @@ export function generateLandUseDP(lcDBObj) {
                                                             {text: lcDBObj.licenseSpecialData.parcela, bold: true},
                                                             {text: ' del ejido de Tizayuca, Hidalgo, la cual ampara con el título de propiedad '},
                                                             {text: lcDBObj.licenseSpecialData.propertyNo, bold: true},
-                                                            {text: ' de fecha 12 de abril del 2018.\n\n'}
+                                                            {text: ' de fecha '},
+                                                            {text: docUtils.dateFormatFull(lcDBObj.licenseSpecialData.propertyDate)},
+                                                            {text: '.\n\n'}
                                                         ]
                                                     },
                                                     {

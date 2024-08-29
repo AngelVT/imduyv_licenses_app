@@ -363,7 +363,6 @@ export const createLicense = async (req, res) => {
 export const updateLicense = async (req, res) => {
     try {
         const id = req.params.licenciaID;
-        const file = req.file;
         const files = req.files;
 
         for (const key in req.body) {

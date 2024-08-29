@@ -913,6 +913,42 @@ function createLandResult(resObj, target) {
 
     resultContent.appendChild(field);
 
+    if (resObj.licenseType == 1) {
+        field = createResultField(resObj.id, 'Anexo', 'anexo', resObj.licenseSpecialData.anexo, 'text');
+
+        resultContent.appendChild(field);
+    }
+
+    if (resObj.licenseType >= 2 && resObj.licenseType <=6) {
+        field = createResultTextArea(resObj.id, 'Restricciones', 'restrictions', resObj.licenseSpecialData.restrictions);
+        resultContent.appendChild(field);
+
+        field = createResultTextArea(resObj.id, 'Condicionantes', 'conditions', resObj.licenseSpecialData.conditions.join('\n'));
+        resultContent.appendChild(field);
+
+        field = createResultField(resObj.id, 'Anexo', 'anexo', resObj.licenseSpecialData.anexo, 'text');
+
+        resultContent.appendChild(field);
+    }
+
+    if (resObj.licenseType == 7) {
+        field = createResultField(resObj.id, 'Anexo', 'anexo', resObj.licenseSpecialData.anexo, 'text');
+
+        resultContent.appendChild(field);
+
+        field = createResultField(resObj.id, 'Parcela', 'parcela', resObj.licenseSpecialData.parcela, 'text');
+
+        resultContent.appendChild(field);
+
+        field = createResultField(resObj.id, 'Numero de propiedad', 'propertyNo', resObj.licenseSpecialData.propertyNo, 'text');
+
+        resultContent.appendChild(field);
+
+        field = createResultField(resObj.id, 'Fecha de propiedad', 'propertyDate', resObj.licenseSpecialData.propertyDate, 'date');
+
+        resultContent.appendChild(field);
+    }
+
     field = document.createElement('img');
     field.setAttribute('alt', 'Zonificación');
     field.setAttribute('src', `/landUseStorage/${resObj.fullInvoice}/zone.png`);
@@ -1455,6 +1491,277 @@ function createUrbanPrintResult(resObj, target) {
 
         resultContent.appendChild(field);
     }
+
+    let newResult = createResult(
+        resObj.id,
+        createPrintResultTop(resObj.id, resObj.fullInvoice), 
+        resultContent);
+
+    target.appendChild(newResult);
+}
+
+function createLandPrintResult(resObj, target) {
+    let resultContent = createPrintResultContent(resObj.id);
+    let field;
+
+    field = createResultField(resObj.id, 'Nombre del solicitante', 'requestorName', resObj.requestorName, 'text');
+
+    resultContent.appendChild(field);
+    
+    field = createResultField(resObj.id, 'En atención', 'attentionName', resObj.attentionName, 'text');
+
+    resultContent.appendChild(field);
+
+    field = createResultField(resObj.id, 'Calle', 'address', resObj.address, 'text');
+
+    resultContent.appendChild(field);
+
+    field = createResultField(resObj.id, 'Numero', 'number', resObj.number, 'text');
+
+    resultContent.appendChild(field);
+
+    field = createResultField(resObj.id, 'Colonia', 'colony', resObj.colony, 'text');
+
+    resultContent.appendChild(field);
+
+    field = createResultField(resObj.id, 'Teléfono de contacto', 'contactPhone', resObj.contactPhone, 'number');
+
+    resultContent.appendChild(field);
+
+    field = createResultField(resObj.id, 'Clave castastral', 'catastralKey', resObj.catastralKey, 'number');
+
+    resultContent.appendChild(field);
+
+    field = createResultField(resObj.id, 'Superficie de aprovechamiento', 'surface', resObj.surfaceTotal, 'text');
+
+    resultContent.appendChild(field);
+
+    field = createResultField(resObj.id, 'Georeferencia', 'georeference', resObj.geoReference, 'text');
+
+    resultContent.appendChild(field);
+
+    field = createResultField(resObj.id, 'Zona', 'zone', resObj.zone, 'select');
+
+    field.querySelector('select').innerHTML = `
+    <option value="">Seleccione zona ...</option>
+    <option value="1">Densidad muy baja (Unifamiliar)</option>
+    <option value="2">Densidad baja (Unifamiliar)</option>
+    <option value="3">Densidad media baja (Unifamiliar)</option>
+    <option value="4">Densidad media (Unifamiliar)</option>
+    <option value="5">Densidad media alta (Unifamiliar)</option>
+    <option value="6">Densidad alta (Unifamiliar)</option>
+    <option value="7">Densidad alta (multifamiliar dúplex, tríplex y cuádruplex)</option>
+    <option value="8">Densidad muy alta 1 (multifamiliar)</option>
+    <option value="9">Densidad muy alta 2</option>
+    <option value="10">Mixto</option>
+    <option value="11">Corredor urbano mixto de baja densidad</option>
+    <option value="12">Corredor urbano mixto de media densidad</option>
+    <option value="13">Industria de bajo impacto</option>
+    <option value="14">Industria de medio impacto</option>
+    <option value="15">Industria de gran impacto</option>
+    <option value="16">Equipamiento Urbano</option>
+    <option value="17">Infraestructura urbana</option>
+    <option value="18">Reserva territorial futura</option>
+    <option value="19">Agricultura tecnificada</option>
+    <option value="20">Agroindustria</option>
+    <option value="21">Cuerpos de agua</option>
+    <option value="22">Conservación y restauración ambiental</option>
+    <option value="23">Parque Hídrico</option>
+    `
+
+    field.querySelector('select').value = resObj.licenseZone;
+
+    resultContent.appendChild(field);
+
+    field = createResultField(resObj.id, 'Zonificación', 'zoneIMG', resObj.fullInvoice, 'file');
+
+    resultContent.appendChild(field);
+
+    field = createResultField(resObj.id, 'Giro impresión', 'businessLinePrint', resObj.businessLinePrint, 'text');
+
+    resultContent.appendChild(field);
+
+    field = createResultField(resObj.id, 'Giro interno', 'businessLineIntern', resObj.businessLineIntern, 'text');
+
+    resultContent.appendChild(field);
+
+    field = createResultField(resObj.id, 'Uso autorizado', 'authorizedUse', resObj.authorizedUse, 'select');
+
+    field.querySelector('select').innerHTML = `
+    <option value="">Selecciona ...</option>
+    <option value="1">Unifamiliar, plurifamiliar o multifamiliar</option>
+    <option value="2">Vivienda campestre o aislada</option>
+    <option value="3">Comercio básico</option>
+    <option value="4">Comercio especializado</option>
+    <option value="5">Comercio de medio impacto</option>
+    <option value="6">Comercio de impacto</option>
+    <option value="7">Centros comerciales</option>
+    <option value="8">Comercio de abasto</option>
+    <option value="9">Comercio temporal</option>
+    <option value="10">Servicios básicos</option>
+    <option value="11">Servicios especializados</option>
+    <option value="12">Servicios profesionales, técnicos y personales</option>
+    <option value="13">Talleres de servicio, reparación y mantenimiento</option>
+    <option value="14">Servicios colectivos</option>
+    <option value="15">Servicios de publicidad exterior</option>
+    <option value="16">Oficinas de pequeña escala</option>
+    <option value="17">Oficinas en general</option>
+    <option value="18">Centro recreativos y de espectáculos</option>
+    <option value="19">Centros sociales</option>
+    <option value="20">Centros deportivos y ecuestres</option>
+    <option value="21">Turismo</option>
+    <option value="22">Alojamiento</option>
+    <option value="23">Salud</option>
+    <option value="24">Educación</option>
+    <option value="25">Cultura</option>
+    <option value="26">Transporte</option>
+    <option value="27">Áreas verdes y deportivas</option>
+    <option value="28">Comunicaciones</option>
+    <option value="29">Servicios urbanos</option>
+    <option value="30">Religioso</option>
+    <option value="31">Equipamiento Regional</option>
+    <option value="32">Asistencia pública</option>
+    <option value="33">Comercio y abasto</option>
+    <option value="34">Equipamiento especial</option>
+    <option value="35">Industria casera</option>
+    <option value="36">Industria de bajo impacto</option>
+    <option value="37">Industria de medio impacto</option>
+    <option value="38">Industria textil</option>
+    <option value="39">Industria a base de minerales no metálicos</option>
+    <option value="40">Manufactura de sustancias químicas, productos derivados del petróleo y carbón</option>
+    <option value="41">Industria no contaminante</option>
+    <option value="42">Industria grande y/o pesada</option>
+    <option value="43">Almacenamientos, bodegas y depósitos</option>
+    <option value="44">Hidráulica</option>
+    <option value="45">Sanitaria</option>
+    <option value="46">Electricidad</option>
+    <option value="47">Gas natural y gas LP</option>
+    <option value="48">Estaciones de servicio</option>
+    <option value="49">Telecomunicaciones</option>
+    <option value="50">Vial</option>
+    <option value="51">Aprovechamiento Agropecuario</option>
+    <option value="52">Silvicultura</option>
+    <option value="53">Minería y extracción</option>
+    `;
+
+    field.querySelector('select').value = resObj.authorizedUse;
+
+    resultContent.appendChild(field);
+
+    field = createResultField(resObj.id, 'Tipo de expedición', 'expeditionType', resObj.licenseExpeditionType, 'select');
+
+    field.querySelector('select').innerHTML = `
+    <option value="">Selecciona ...</option>
+    <option value="1">Nueva</option>
+    <option value="2">Renovación</option>
+    `;
+
+    field.querySelector('select').value = resObj.licenseExpeditionType;
+
+    resultContent.appendChild(field);
+
+    field = createResultField(resObj.id, 'Plazo', 'term', resObj.licenseTerm, 'select');
+
+    field.querySelector('select').innerHTML = `
+    <option value="">Selecciona ...</option>
+    <option value="1">Corto</option>
+    <option value="2">Mediano</option>
+    `;
+
+    field.querySelector('select').value = resObj.licenseTerm;
+
+    resultContent.appendChild(field);
+
+    field = createResultField(resObj.id, 'Vigencia', 'validity', resObj.licenseValidity, 'select');
+
+    field.querySelector('select').innerHTML = `
+    <option value="">Selecciona ...</option>
+    <option value="1">12 Meses</option>
+    <option value="2">6 Meses</option>
+    `;
+
+    field.querySelector('select').value = resObj.licenseValidity;
+
+    resultContent.appendChild(field);
+
+    field = document.createElement('div');
+
+    resultContent.appendChild(field);
+
+    field = createResultField(resObj.id, 'Fecha de solicitud', 'requestDate', resObj.requestDate, 'date');
+
+    resultContent.appendChild(field);
+
+    field = createResultField(resObj.id, 'Fecha de expedición', 'expeditionDate', resObj.expeditionDate, 'date');
+
+    resultContent.appendChild(field);
+
+    field = createResultField(resObj.id, 'Fecha de vencimiento', 'expirationDate', resObj.expirationDate, 'date');
+
+    resultContent.appendChild(field);
+
+    field = createResultField(resObj.id, 'Folio de pago', 'paymentInvoice', resObj.paymentInvoice, 'number');
+
+    resultContent.appendChild(field);
+
+    field = createResultField(resObj.id, 'Costo', 'cost', resObj.cost, 'number');
+
+    resultContent.appendChild(field);
+
+    field = createResultField(resObj.id, 'Descuento', 'discount', resObj.discount, 'number');
+
+    resultContent.appendChild(field);
+
+    field = createResultField(resObj.id, 'Monto pagado', 'paymentDone', resObj.paymentDone, 'number');
+
+    resultContent.appendChild(field);
+
+    field = createResultField(resObj.id, 'Inspector', 'inspector', resObj.inspector, 'text');
+
+    resultContent.appendChild(field);
+
+    if (resObj.licenseType == 1) {
+        field = createResultField(resObj.id, 'Anexo', 'anexo', resObj.licenseSpecialData.anexo, 'text');
+
+        resultContent.appendChild(field);
+    }
+
+    if (resObj.licenseType >= 2 && resObj.licenseType <=6) {
+        field = createResultTextArea(resObj.id, 'Restricciones', 'restrictions', resObj.licenseSpecialData.restrictions);
+        resultContent.appendChild(field);
+
+        field = createResultTextArea(resObj.id, 'Condicionantes', 'conditions', resObj.licenseSpecialData.conditions.join('\n'));
+        resultContent.appendChild(field);
+
+        field = createResultField(resObj.id, 'Anexo', 'anexo', resObj.licenseSpecialData.anexo, 'text');
+
+        resultContent.appendChild(field);
+    }
+
+    if (resObj.licenseType == 7) {
+        field = createResultField(resObj.id, 'Anexo', 'anexo', resObj.licenseSpecialData.anexo, 'text');
+
+        resultContent.appendChild(field);
+
+        field = createResultField(resObj.id, 'Parcela', 'parcela', resObj.licenseSpecialData.parcela, 'text');
+
+        resultContent.appendChild(field);
+
+        field = createResultField(resObj.id, 'Numero de propiedad', 'propertyNo', resObj.licenseSpecialData.propertyNo, 'text');
+
+        resultContent.appendChild(field);
+
+        field = createResultField(resObj.id, 'Fecha de propiedad', 'propertyDate', resObj.licenseSpecialData.propertyDate, 'date');
+
+        resultContent.appendChild(field);
+    }
+
+    field = document.createElement('img');
+    field.setAttribute('alt', 'Zonificación');
+    field.setAttribute('src', `/landUseStorage/${resObj.fullInvoice}/zone.png`);
+    field.setAttribute('class', 'land-result-img');
+
+    resultContent.appendChild(field);
 
     let newResult = createResult(
         resObj.id,
