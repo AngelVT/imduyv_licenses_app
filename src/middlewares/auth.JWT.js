@@ -7,7 +7,6 @@ export const verifyToken = async (req, res, next) => {
     const clientToken = req.signedCookies.access_token;
 
     if (!clientToken) {
-        consoleLogger.devInfo('\n  Token not provided');
         res.redirect('/app/login');
         return;
     }
@@ -15,7 +14,6 @@ export const verifyToken = async (req, res, next) => {
     const decoded = jwt.verify(clientToken, config.SECRET)
 
     if(!decoded.userID || !decoded.username) {
-        consoleLogger.devInfo('\n  invalid token provided');
         res.redirect('/app/login');
         return;
     }
@@ -26,7 +24,6 @@ export const verifyToken = async (req, res, next) => {
     });
 
     if(user === null) {
-        consoleLogger.devInfo('\n  no user found');
         res.redirect('/app/login');
         return;
     }
