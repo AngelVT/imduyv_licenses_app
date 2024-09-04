@@ -2,8 +2,6 @@ import { Router } from "express";
 import * as userControl from '../controllers/users.controller.js';
 import * as authenticator from '../middlewares/auth.JWT.js';
 
-import * as testing from '../controllers/test.controller.js';
-
 const router = Router();
 
 router.get('/info', authenticator.verifyToken , userControl.getUserInfo);
@@ -12,10 +10,10 @@ router.get('/', [authenticator.verifyToken , authenticator.isModerator] ,userCon
 
 router.get('/:userID', [authenticator.verifyToken , authenticator.isModerator] ,userControl.getUser);
 
-router.post('/' , [authenticator.verifyToken , authenticator.isAdmin] ,userControl.createUser);
+router.post('/' , [authenticator.verifyToken , authenticator.isSystemAdmin] ,userControl.createUser);
 
-router.patch('/:userID', [authenticator.verifyToken , authenticator.isAdmin] ,userControl.updateUser);
+router.patch('/:userID', [authenticator.verifyToken , authenticator.isSystemAdmin] ,userControl.updateUser);
 
-router.delete('/:userID', [authenticator.verifyToken , authenticator.isAdmin] ,userControl.deleteUser);
+router.delete('/:userID', [authenticator.verifyToken , authenticator.isSystemAdmin] ,userControl.deleteUser);
 
 export default router;
