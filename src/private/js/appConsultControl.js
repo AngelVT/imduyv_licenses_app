@@ -1945,12 +1945,12 @@ function selector(target) {
 
     if (table.value  == 1) {
         rows.value = currentActualSituation.length;
-    } else {
+    } else if (table.value  == 2) {
         rows.value = currentActualAuthorizedFS.length;
     }
 
     updatePreview(target);
-    checkTargetRow(target)
+    checkTargetRow(target);
 }
 
 function updatePreview(target) {
@@ -1963,7 +1963,7 @@ function updatePreview(target) {
     if (table.value  == 1) {
         preview.innerHTML = '';
         preview.appendChild(generateTableFrom(currentActualSituation));
-    } else {
+    } else if (table.value  == 2) {
         preview.innerHTML = '';
         preview.appendChild(generateTableFrom(currentActualAuthorizedFS));
     }
@@ -1978,7 +1978,7 @@ function updateDistribution(target, value) {
 
     if (table.value  == 1) {
         currentActualSituation[row - 1].table.distribution = value.split('\n');
-    } else {
+    } else if (table.value  == 2) {
         currentActualAuthorizedFS[row - 1].table.distribution = value.split('\n');
     }
 
@@ -1996,7 +1996,7 @@ function updateMeasures(target, value) {
 
     if (table.value  == 1) {
         currentActualSituation[row - 1].table.measures = value.split('\n');
-    } else {
+    } else if (table.value  == 2) {
         currentActualAuthorizedFS[row - 1].table.measures = value.split('\n');
     }
 
@@ -2015,7 +2015,7 @@ function updateAdjoining(target, value) {
 
     if (table.value  == 1) {
         currentActualSituation[row - 1].table.adjoining = value.split('\n');
-    } else {
+    } else if (table.value  == 2) {
         currentActualAuthorizedFS[row - 1].table.adjoining = value.split('\n');
     }
 
@@ -2034,7 +2034,7 @@ function updateDescription(target, value) {
 
     if (table.value  == 1) {
         currentActualSituation[row - 1].description = value;
-    } else {
+    } else if (table.value  == 2) {
         currentActualAuthorizedFS[row - 1].description = value;
     }
 
@@ -2053,7 +2053,7 @@ function updateSurface(target, value) {
 
     if (table.value  == 1) {
         currentActualSituation[row - 1].surface = value;
-    } else {
+    } else if (table.value  == 2) {
         currentActualAuthorizedFS[row - 1].surface = value;
     }
 
@@ -2119,16 +2119,16 @@ function defineTotalRows(target) {
             currentActualSituation = currentActualSituation.slice(0, row.value);
         }
 
-        rowT.value = currentActualAuthorizedFS.length;
+        rowT.value = currentActualSituation.length;
 
-    } else {
+    } else if (table.value  == 2) {
         if(row.value <= 0) {
             row.value = 1;
             return;
         }
 
         if(row.value > currentActualAuthorizedFS.length) {
-            currentActualSituation.length = row.value 
+            currentActualAuthorizedFS.length = row.value 
             for (let i = 0; i < currentActualAuthorizedFS.length; i++) {
                 if(currentActualAuthorizedFS[i] == undefined) {
                     currentActualAuthorizedFS[i] = {
@@ -2168,7 +2168,7 @@ function updateRowFields(target) {
         document.querySelector(`#table_editor_distribution_${target}`).value = currentActualSituation[row-1].table.distribution.join('\n');
         document.querySelector(`#table_editor_measures_${target}`).value = currentActualSituation[row-1].table.measures.join('\n');
         document.querySelector(`#table_editor_adjoining_${target}`).value = currentActualSituation[row-1].table.adjoining.join('\n');
-    } else {
+    } else if (table.value  == 2) {
         document.querySelector(`#table_editor_description_${target}`).value = currentActualAuthorizedFS[row-1].description;
         document.querySelector(`#table_editor_surface_${target}`).value = currentActualAuthorizedFS[row-1].surface;
         document.querySelector(`#table_editor_distribution_${target}`).value = currentActualAuthorizedFS[row-1].table.distribution.join('\n');
