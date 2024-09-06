@@ -2,7 +2,7 @@ import path from "path";
 import { __dirstorage } from "../../../paths.js";
 import * as docUtils from "../docUtils/utils.js";
 
-export function generateUrbanLUS(lcDBObj) {
+export async function generateUrbanLUS(lcDBObj) {
 
     lcDBObj = docUtils.prepareData(lcDBObj);
 
@@ -259,8 +259,8 @@ export function generateUrbanLUS(lcDBObj) {
                             {
                                 /*text: 'IMG'*/
                                 border: docUtils.borderless,
-                                image: path.join(__dirstorage, 'assets', 'urban', lcDBObj.fullInvoice.replaceAll('/','_'), 'zone.png'),
-                                fit: ['*',288],
+                                image: await docUtils.fileExist(lcDBObj.fullInvoice, 'urban'),
+                                width: 580,
                                 alignment: 'center'
                             }
                         ]

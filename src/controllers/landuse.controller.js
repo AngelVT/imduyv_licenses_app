@@ -511,7 +511,7 @@ export const updateLicense = async (req, res) => {
         });
 
         if(file) {
-            const destination = path.join(__dirstorage, 'assets', 'land', invoice.lcID, 'zone.png');
+            const destination = path.join(__dirstorage, 'assets', 'land', modifiedLicense.fullInvoice.replaceAll('/','_'), 'zone.png');
             const directory = path.dirname(destination);
 
             fs.mkdir(directory, { recursive: true }, (err) => {
@@ -612,15 +612,15 @@ export const getLicensePDF= async (req, res) => {
         let def
 
         if (type == 1) {
-            def = generateLandUseC(license);
+            def = await generateLandUseC(license);
         }
 
         if (type >= 2 && type <= 6) {
-            def = generateLandUseL(license);
+            def = await generateLandUseL(license);
         }
 
         if (type == 7) {
-            def = generateLandUseDP(license);
+            def = await generateLandUseDP(license);
         }
 
         const pdfDoc = await printerPDF.createPdfKitDocument(def);

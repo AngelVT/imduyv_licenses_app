@@ -1,6 +1,6 @@
-import { __dirstorage } from "../../../paths.js";
+import { __dirstorage, __dirname } from "../../../paths.js";
 import path from "path";
-import fs from 'fs'
+import fs from 'fs';
 
 export const borderless = [false,false,false,false];
 
@@ -167,6 +167,21 @@ export async function loadChart(fullInvoice, sourcePattern) {
     });
 }
 
+export async function fileExist(location, group) {
+    let fileDirectory = path.join(__dirstorage, 'assets', group, location.replaceAll('/', '_'), 'zone.png');
+    
+    const defaultPath = path.join(__dirname, 'public', 'img', 'background_2.jpg');
+
+    return new Promise((resolve, reject) => {
+        fs.access(fileDirectory,(err) => {
+            if (err) {
+                return resolve(defaultPath);
+            }
+
+            return resolve(fileDirectory);
+        });
+    });
+}
 
 export function prepareData(lcDBObj) {
     lcDBObj.fullInvoice = lcDBObj.fullInvoice.replaceAll('_','/');

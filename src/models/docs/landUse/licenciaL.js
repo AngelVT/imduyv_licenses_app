@@ -2,7 +2,7 @@ import path from "path";
 import { __dirstorage } from "../../../paths.js";
 import * as docUtils from "../docUtils/utils.js";
 
-export function generateLandUseL(lcDBObj) {
+export async function generateLandUseL(lcDBObj) {
 
     lcDBObj = docUtils.prepareData(lcDBObj);
 
@@ -272,7 +272,7 @@ export function generateLandUseL(lcDBObj) {
                             {
                                 /*text: 'IMG'*/
                                 border: docUtils.borderless,
-                                image: path.join(__dirstorage, 'assets', 'land', lcDBObj.fullInvoice.replaceAll('/','_'), 'zone.png'),
+                                image: await docUtils.fileExist(lcDBObj.fullInvoice, 'land'),
                                 width: 586,
                                 alignment: 'center'
                             }

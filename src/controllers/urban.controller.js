@@ -624,16 +624,16 @@ export const getLicensePDF= async (req, res) => {
 
         switch (parseInt(type)) {
             case 1:
-                def = generateUrbanC(license);
+                def = await generateUrbanC(license);
                 break;
             case 2:
-                def = generateUrbanLUS(license);
+                def = await generateUrbanLUS(license);
                 break;
             case 3:
-                def = generateUrbanLSUB(license);
+                def = await generateUrbanLSUB(license);
                 break;
             case 4:
-                def = generateUrbanLFUS(license);
+                def = await generateUrbanLFUS(license);
                 break;
             case 5:
                 def = await generateUrbanPLF(license);
@@ -649,7 +649,7 @@ export const getLicensePDF= async (req, res) => {
                 break;
         
             default:
-                def = generateUrbanC(license);
+                def = await generateUrbanC(license);
                 break;
         }
 

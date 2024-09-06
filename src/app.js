@@ -15,6 +15,7 @@ import urbanRoutes from './routes/urban.routes.js';
 import userRoutes from './routes/users.routes.js';
 import authRoutes from './routes/auth.routes.js';
 import appRoutes from './routes/app.routes.js';
+import testRoutes from './routes/test.routes.js'
 import * as defaultStorage from './libs/setDefaultDirectories.js';
 
 const app = express();
@@ -61,9 +62,7 @@ app.use('/api/users', userRoutes);
 
 app.use('/app', appRoutes);
 
-app.use('/test', async (req, res) => {
-    res.sendFile(path.join(__dirname, 'private','index.html'));
-});
+app.use('/test', testRoutes);
 
 app.use((req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'notfound.html'));
