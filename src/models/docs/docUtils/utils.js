@@ -285,6 +285,14 @@ export function signatureSeal(status) {
     }
 }
 
+export function madeBy(name) {
+    let nameArr = name.split(' ');
+
+    nameArr = nameArr.map(e => e.charAt(0) + '.');
+
+    return nameArr.join('');
+}
+
 export function generateDSMCTable(situationArray, subject) {
 
     let body = [
@@ -311,7 +319,7 @@ export function generateDSMCTable(situationArray, subject) {
             {
                 colSpan: 2,
                 table: {
-                    widths: ['*','*'],
+                    widths: [100,'*'],
                     body: generateSubTable(i.table)
                 },
                 layout: subTable
@@ -329,7 +337,7 @@ export function generateLegalRepresentativeField(representative) {
     if (representative) {
         return [
             {text: 'Representante Legal: ', style: 'labelT', border: borderless},
-            field(representative, borderless, null,null, 7)
+            field(representative, borderless, null,'center', 7)
         ];
     }
 
@@ -343,18 +351,18 @@ function generateSubTable(tableObj) {
         let row;
         if (i == 0) {
             row = [
-                {text: `AL ${tableObj.distribution[i]}: ${tableObj.measures[i]}`, style: 'regularSmall', border: [false, false, true, true], margin:[2,0,0,0]},
-                {text: `COLINDA CON ${tableObj.adjoining[i]}`, style: 'regularSmall', border: [true, false, false, true], margin:[2,0,0,0]}
+                {text: `${tableObj.distribution[i]} ${tableObj.measures[i]}`, style: 'regularSmall', border: [false, false, true, true], margin:[2,0,0,0]},
+                {text: `${tableObj.adjoining[i]}`, style: 'regularSmall', border: [true, false, false, true], margin:[2,0,0,0]}
             ]
         } else if (i == tableObj.distribution.length - 1) {
             row = [
-                {text: `AL ${tableObj.distribution[i]}: ${tableObj.measures[i]}`, style: 'regularSmall', border: [false, true, true, false], margin:[2,0,0,0]},
-                {text: `COLINDA CON ${tableObj.adjoining[i]}`, style: 'regularSmall', border: [true, true, false, false], margin:[2,0,0,0]}
+                {text: `${tableObj.distribution[i]} ${tableObj.measures[i]}`, style: 'regularSmall', border: [false, true, true, false], margin:[2,0,0,0]},
+                {text: `${tableObj.adjoining[i]}`, style: 'regularSmall', border: [true, true, false, false], margin:[2,0,0,0]}
             ]
         } else {
             row = [
-                {text: `AL ${tableObj.distribution[i]}: ${tableObj.measures[i]}`, style: 'regularSmall', border: [false, true, true, true], margin:[2,0,0,0]},
-                {text: `COLINDA CON ${tableObj.adjoining[i]}`, style: 'regularSmall', border: [true, true, false, true], margin:[2,0,0,0]}
+                {text: `${tableObj.distribution[i]} ${tableObj.measures[i]}`, style: 'regularSmall', border: [false, true, true, true], margin:[2,0,0,0]},
+                {text: `${tableObj.adjoining[i]}`, style: 'regularSmall', border: [true, true, false, true], margin:[2,0,0,0]}
             ]
         }
         subBody.push(row);

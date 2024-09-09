@@ -7,7 +7,7 @@ export async function generateUrbanLF(lcDBObj) {
     lcDBObj = docUtils.prepareData(lcDBObj);
 
     var definition = {
-        pageMargins: [ 5, 60, 5, 70 ],
+        pageMargins: [ 5, 60, 5, 60 ],
         styles: docUtils.docStyles,
         content: [
             {
@@ -46,12 +46,12 @@ export async function generateUrbanLF(lcDBObj) {
                                     body: [
                                         [
                                             {text: 'Nombre: ', style: 'labelT', border: docUtils.borderless},
-                                            docUtils.field(lcDBObj.requestorName, docUtils.borderless, null,null, 7)
+                                            docUtils.field(lcDBObj.requestorName, docUtils.borderless, null,'center', 7)
                                         ],
                                         docUtils.generateLegalRepresentativeField(lcDBObj.legalRepresentative),
                                         [
                                             {text: 'Domicilio: ', style: 'labelT', border: docUtils.borderless},
-                                            docUtils.field(lcDBObj.licenseSpecialData.requestorAddress, docUtils.borderless, null,null, 7),
+                                            docUtils.field(lcDBObj.licenseSpecialData.requestorAddress.toUpperCase(), docUtils.borderless, null,'center', 7),
                                         ],
                                         [
                                             {text: '', border: docUtils.borderless},
@@ -70,15 +70,15 @@ export async function generateUrbanLF(lcDBObj) {
                                     body: [
                                         [
                                             {text: 'Domicilio: ', style: 'labelT', border: docUtils.borderless},
-                                            docUtils.field(lcDBObj.licenseSpecialData.buildingAddress, docUtils.borderless, 1, null, 7)
+                                            docUtils.field(lcDBObj.licenseSpecialData.buildingAddress.toUpperCase(), docUtils.borderless, 1, 'center', 7)
                                         ],
                                         [
                                             {text: 'Clave Catastral: ', style: 'labelT', border: docUtils.borderless},
-                                            docUtils.field(lcDBObj.catastralKey, docUtils.borderless, 1, null, 7),
+                                            docUtils.field(lcDBObj.catastralKey, docUtils.borderless, 1, 'center', 7),
                                         ],
                                         [
                                             {text: 'Superficie Total: ', style: 'labelT', border: docUtils.borderless},
-                                            docUtils.field(lcDBObj.surfaceTotal, docUtils.borderless, 1, null, 7)
+                                            docUtils.field(lcDBObj.surfaceTotal, docUtils.borderless, 1, 'center', 7)
                                         ]
                                     ]
                                 },
@@ -570,13 +570,13 @@ export async function generateUrbanLF(lcDBObj) {
                             {width: 5,
                                 text: ''},
                             {
-                            text: 'M.A.P.P. SUSANA ARACELI ÁNGELES QUEZADA\nPRESIDENTA MUNICIPAL CONSTITUCIONAL\nDE TIZAYUCA, HIDALGO.',
+                            text: 'I.A.E.V. GRETCHEN ALYNE ATILANO MORENO.\nPRESIDENTA MUNICIPAL CONSTITUCIONAL\nDE TIZAYUCA, HIDALGO.',
                             style: 'labelTC'
                         },
                         {width: 140,
                             text: ''},
                         {
-                            text: 'L.D. JORGE LUIS MARTÍNEZ ÁNGELES.\nDIRECTOR GENERAL DEL INSTITUTO MUNICIPAL\nDE DESARROLLO URBANO Y VIVIENDA.',
+                            text: 'M.A.C.I.G. HIPÓLITO ZAMORA SORIA.\nDIRECTOR GENERAL DEL INSTITUTO MUNICIPAL\nDE DESARROLLO URBANO Y VIVIENDA.',
                             style: 'labelTC'
                         },
                         {width: 5,
@@ -590,13 +590,13 @@ export async function generateUrbanLF(lcDBObj) {
                 columns: [
                     {
                         margin: [0,0,30,0],
-                        text: 'Revisó: E.H.A.',
+                        text: 'Revisó: F.I.G.S.',
                         fontSize: 6,
                         alignment: 'right'
                     },
                     {
                         margin: [30,0,0,0],
-                        text: 'Elaboró: A.H.C.',
+                        text: `Elaboró: ${docUtils.madeBy(lcDBObj.elaboratedBy)}`,
                         fontSize: 6
                     }
                 ]

@@ -292,6 +292,7 @@ function createUrbanResult(resObj, target) {
             <option value="">Selecciona ...</option>
             <option value="1">Corto</option>
             <option value="2">Mediano</option>
+            <option value="3">Largo</option>
             `;
 
             field.querySelector('select').value = resObj.licenseTerm;
@@ -302,8 +303,8 @@ function createUrbanResult(resObj, target) {
 
             field.querySelector('select').innerHTML = `
             <option value="">Selecciona ...</option>
-            <option value="1">12 Meses</option>
-            <option value="2">6 Meses</option>
+            <option value="1">6 Meses</option>
+            <option value="2">12 Meses</option>
             `;
 
             field.querySelector('select').value = resObj.licenseValidity;
@@ -370,8 +371,8 @@ function createUrbanResult(resObj, target) {
 
             field.querySelector('select').innerHTML = `
             <option value="">Selecciona ...</option>
-            <option value="1">12 Meses</option>
-            <option value="2">6 Meses</option>
+            <option value="1">6 Meses</option>
+            <option value="2">12 Meses</option>
             `;
 
             field.querySelector('select').value = resObj.licenseValidity;
@@ -500,8 +501,8 @@ function createUrbanResult(resObj, target) {
 
             field.querySelector('select').innerHTML = `
             <option value="">Selecciona ...</option>
-            <option value="1">12 Meses</option>
-            <option value="2">6 Meses</option>
+            <option value="1">6 Meses</option>
+            <option value="2">12 Meses</option>
             `;
 
             field.querySelector('select').value = resObj.licenseValidity;
@@ -550,8 +551,8 @@ function createUrbanResult(resObj, target) {
 
             field.querySelector('select').innerHTML = `
             <option value="">Selecciona ...</option>
-            <option value="1">12 Meses</option>
-            <option value="2">6 Meses</option>
+            <option value="1">6 Meses</option>
+            <option value="2">12 Meses</option>
             `;
 
             field.querySelector('select').value = resObj.licenseValidity;
@@ -859,6 +860,7 @@ function createLandResult(resObj, target) {
     <option value="">Selecciona ...</option>
     <option value="1">Corto</option>
     <option value="2">Mediano</option>
+    <option value="3">Largo</option>
     `;
 
     field.querySelector('select').value = resObj.licenseTerm;
@@ -869,8 +871,8 @@ function createLandResult(resObj, target) {
 
     field.querySelector('select').innerHTML = `
     <option value="">Selecciona ...</option>
-    <option value="1">12 Meses</option>
-    <option value="2">6 Meses</option>
+    <option value="1">6 Meses</option>
+    <option value="2">12 Meses</option>
     `;
 
     field.querySelector('select').value = resObj.licenseValidity;
@@ -1100,6 +1102,7 @@ function createUrbanPrintResult(resObj, target) {
             <option value="">Selecciona ...</option>
             <option value="1">Corto</option>
             <option value="2">Mediano</option>
+            <option value="3">Largo</option>
             `;
 
             field.querySelector('select').value = resObj.licenseTerm;
@@ -1110,8 +1113,8 @@ function createUrbanPrintResult(resObj, target) {
 
             field.querySelector('select').innerHTML = `
             <option value="">Selecciona ...</option>
-            <option value="1">12 Meses</option>
-            <option value="2">6 Meses</option>
+            <option value="1">6 Meses</option>
+            <option value="2">12 Meses</option>
             `;
 
             field.querySelector('select').value = resObj.licenseValidity;
@@ -1178,8 +1181,8 @@ function createUrbanPrintResult(resObj, target) {
 
             field.querySelector('select').innerHTML = `
             <option value="">Selecciona ...</option>
-            <option value="1">12 Meses</option>
-            <option value="2">6 Meses</option>
+            <option value="1">6 Meses</option>
+            <option value="2">12 Meses</option>
             `;
 
             field.querySelector('select').value = resObj.licenseValidity;
@@ -1307,8 +1310,8 @@ function createUrbanPrintResult(resObj, target) {
 
             field.querySelector('select').innerHTML = `
             <option value="">Selecciona ...</option>
-            <option value="1">12 Meses</option>
-            <option value="2">6 Meses</option>
+            <option value="1">6 Meses</option>
+            <option value="2">12 Meses</option>
             `;
 
             field.querySelector('select').value = resObj.licenseValidity;
@@ -1357,8 +1360,8 @@ function createUrbanPrintResult(resObj, target) {
 
             field.querySelector('select').innerHTML = `
             <option value="">Selecciona ...</option>
-            <option value="1">12 Meses</option>
-            <option value="2">6 Meses</option>
+            <option value="1">6 Meses</option>
+            <option value="2">12 Meses</option>
             `;
 
             field.querySelector('select').value = resObj.licenseValidity;
@@ -1666,6 +1669,7 @@ function createLandPrintResult(resObj, target) {
     <option value="">Selecciona ...</option>
     <option value="1">Corto</option>
     <option value="2">Mediano</option>
+    <option value="3">Largo</option>
     `;
 
     field.querySelector('select').value = resObj.licenseTerm;
@@ -1676,8 +1680,8 @@ function createLandPrintResult(resObj, target) {
 
     field.querySelector('select').innerHTML = `
     <option value="">Selecciona ...</option>
-    <option value="1">12 Meses</option>
-    <option value="2">6 Meses</option>
+    <option value="1">6 Meses</option>
+    <option value="2">12 Meses</option>
     `;
 
     field.querySelector('select').value = resObj.licenseValidity;
@@ -1884,7 +1888,7 @@ function generateTableForm(resObj) {
     //inputs
     input = document.createElement('input');
     input.style.borderRadius = '15px 0 0 0'
-    input.setAttribute('class', 'input input-interface input-textarea-table');
+    input.setAttribute('class', 'input input-interface input-textarea-table w-10');
     input.setAttribute('id', `table_editor_description_${resObj.id}`)
     input.value = resObj.licenseSpecialData.actualSituation[0].description;
     input.setAttribute('oninput', `updateDescription(${resObj.id}, this.value)`);
@@ -1892,7 +1896,7 @@ function generateTableForm(resObj) {
     label.appendChild(input);
 
     input = document.createElement('input');
-    input.setAttribute('class', 'input input-interface input-textarea-table');
+    input.setAttribute('class', 'input input-interface input-textarea-table w-10');
     input.setAttribute('id', `table_editor_surface_${resObj.id}`)
     input.value = resObj.licenseSpecialData.actualSituation[0].surface;
     input.setAttribute('oninput', `updateSurface(${resObj.id}, this.value)`);
@@ -1900,7 +1904,7 @@ function generateTableForm(resObj) {
     label.appendChild(input);
 
     input = document.createElement('textarea');
-    input.setAttribute('class', 'input input-interface input-textarea-table');
+    input.setAttribute('class', 'input input-interface input-textarea-table w-15');
     input.setAttribute('id', `table_editor_distribution_${resObj.id}`)
     input.value = resObj.licenseSpecialData.actualSituation[0].table.distribution.join('\n');
     input.setAttribute('oninput', `updateDistribution(${resObj.id}, this.value)`);
@@ -1908,7 +1912,7 @@ function generateTableForm(resObj) {
     label.appendChild(input);
 
     input = document.createElement('textarea');
-    input.setAttribute('class', 'input input-interface input-textarea-table');
+    input.setAttribute('class', 'input input-interface input-textarea-table w-10');
     input.setAttribute('id', `table_editor_measures_${resObj.id}`)
     input.value = resObj.licenseSpecialData.actualSituation[0].table.measures.join('\n');
     input.setAttribute('oninput', `updateMeasures(${resObj.id}, this.value)`);
@@ -1917,7 +1921,7 @@ function generateTableForm(resObj) {
 
     input = document.createElement('textarea');
     input.style.borderRadius = '0 15px 0 0'
-    input.setAttribute('class', 'input input-interface input-textarea-table');
+    input.setAttribute('class', 'input input-interface input-textarea-table w-55');
     input.setAttribute('id', `table_editor_adjoining_${resObj.id}`)
     input.value = resObj.licenseSpecialData.actualSituation[0].table.adjoining.join('\n');
     input.setAttribute('oninput', `updateAdjoining(${resObj.id}, this.value)`);
@@ -2185,7 +2189,7 @@ function generateTableFrom(obj) {
     table.setAttribute('class', 'preview-table')
 
     let headerRow = document.createElement('tr');
-    let headers = ['Descripción', 'Superficie', 'Orientación', 'Medidas', 'Colindancias'];
+    let headers = ['Descripción', 'Superficie', 'Medidas', 'Colindancias'];
     headers.forEach(headerText => {
         let header = document.createElement('th');
         header.textContent = headerText;
@@ -2198,28 +2202,39 @@ function generateTableFrom(obj) {
 
         let descriptionCell = document.createElement('td');
         descriptionCell.textContent = item.description;
+        descriptionCell.rowSpan = item.table.distribution.length;
         row.appendChild(descriptionCell);
 
         let surfaceCell = document.createElement('td');
         surfaceCell.textContent = item.surface;
+        surfaceCell.rowSpan = item.table.distribution.length;
         row.appendChild(surfaceCell);
 
-        let distributionCell = document.createElement('td');
-        distributionCell.textContent = item.table.distribution.join('\n');
-        distributionCell.style.whiteSpace = 'pre-wrap';
-        row.appendChild(distributionCell);
+        let firstMeasure = document.createElement('td');
+        firstMeasure.textContent = item.table.distribution[0];
+        row.appendChild(firstMeasure);
 
-        let measuresCell = document.createElement('td');
-        measuresCell.textContent = item.table.measures.join('\n');
-        measuresCell.style.whiteSpace = 'pre-wrap';
-        row.appendChild(measuresCell);
-
-        let adjoiningCell = document.createElement('td');
-        adjoiningCell.textContent = item.table.adjoining.join('\n');
-        adjoiningCell.style.whiteSpace = 'pre-wrap';
-        row.appendChild(adjoiningCell);
-
+        let firstAdjoining = document.createElement('td');
+        firstAdjoining.textContent = item.table.adjoining[0];
+        row.appendChild(firstAdjoining);
+        
         table.appendChild(row);
+
+        for (let i = 1; i < item.table.distribution.length; i++) {
+            let row = document.createElement('tr');
+
+            let distributionCell = document.createElement('td');
+            distributionCell.textContent = `${item.table.distribution[i]} ${item.table.measures[i]}`;
+            distributionCell.style.whiteSpace = 'pre-wrap';
+            row.appendChild(distributionCell);
+
+            let adjoiningCell = document.createElement('td');
+            adjoiningCell.textContent = item.table.adjoining[i];
+            adjoiningCell.style.whiteSpace = 'pre-wrap';
+            row.appendChild(adjoiningCell);
+
+            table.appendChild(row);
+        }
     });
 
     return table;

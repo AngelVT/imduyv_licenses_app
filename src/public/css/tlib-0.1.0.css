@@ -1305,10 +1305,10 @@ textarea.invissible:focus {
 
 .input-textarea-table {
     resize: none;
-    width: 20%;
     font-size: 12px;
     padding: 5px 8px;
     height: 150px;
+    scrollbar-width:none;
 }
 
 .text-like-field {
@@ -1357,6 +1357,10 @@ textarea.invissible:focus {
 }
 
 .grid-btn-container {
+    grid-column: span 4;
+}
+
+.field-span.table-result, .field-span.preview-container {
     grid-column: span 4;
 }
 

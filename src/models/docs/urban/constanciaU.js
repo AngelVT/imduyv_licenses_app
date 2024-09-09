@@ -7,7 +7,7 @@ export async function generateUrbanC(lcDBObj) {
     lcDBObj = docUtils.prepareData(lcDBObj);
 
     var definition = {
-        pageMargins: [ 5, 60, 5, 10 ],
+        pageMargins: [ 5, 60, 5, 60 ],
         styles: docUtils.docStyles,
         content: [
             {
@@ -46,7 +46,7 @@ export async function generateUrbanC(lcDBObj) {
                                     body: [
                                         [
                                             {text: 'Nombre: ', style: 'labelT', border: docUtils.borderless},
-                                            docUtils.field(lcDBObj.requestorName, docUtils.borderless, null,null, 7)
+                                            docUtils.field(lcDBObj.requestorName, docUtils.borderless, null,'center', 7)
                                         ],
                                         [
                                             {text: '', border: docUtils.borderless},
@@ -54,7 +54,7 @@ export async function generateUrbanC(lcDBObj) {
                                         ],
                                         [
                                             {text: 'Fecha de Solicitud: ', style: 'labelT', border: docUtils.borderless},
-                                            docUtils.field(docUtils.dateFormatFull(lcDBObj.requestDate), docUtils.borderless, null,null, 7)
+                                            docUtils.field(docUtils.dateFormatFull(lcDBObj.requestDate), docUtils.borderless, null,'center', 7)
                                         ]
                                     ]
                                 },
@@ -69,23 +69,23 @@ export async function generateUrbanC(lcDBObj) {
                                     body: [
                                         [
                                             {text: 'Calle: ', style: 'labelT', border: docUtils.borderless},
-                                            docUtils.field(lcDBObj.address, docUtils.borderless, 3, null, 7),
+                                            docUtils.field(lcDBObj.address, docUtils.borderless, 3, 'center', 7),
                                             {},
                                             {}
                                         ],
                                         [
                                             {text: 'Clave Catastral: ', style: 'labelT', border: docUtils.borderless},
-                                            docUtils.field(lcDBObj.catastralKey, docUtils.borderless, 1, null, 6),
+                                            docUtils.field(lcDBObj.catastralKey, docUtils.borderless, 1, 'center', 6),
                                             {text: 'Numero: ', style: 'labelT', border: docUtils.borderless},
                                             docUtils.field(lcDBObj.number, docUtils.borderless, 1, 'center', 6)
                                         ],
                                         [
                                             {text: 'Colonia: ', style: 'labelT', border: docUtils.borderless},
-                                            docUtils.field(lcDBObj.colony, docUtils.borderless, 3, null, 7),{},{}
+                                            docUtils.field(lcDBObj.colony, docUtils.borderless, 3, 'center', 7),{},{}
                                         ],
                                         [
                                             {text: 'Superficie Total: ', style: 'labelT', border: docUtils.borderless},
-                                            docUtils.field(lcDBObj.surfaceTotal, docUtils.borderless, 3, null, 7),{},{}
+                                            docUtils.field(lcDBObj.surfaceTotal, docUtils.borderless, 3, 'center', 7),{},{}
                                         ]
                                     ]
                                 },
@@ -236,7 +236,7 @@ export async function generateUrbanC(lcDBObj) {
                                 [
                                     {
                                         margin: [0,52,0,0],
-                                        text: 'Elaboró: A.H.C.\nRevisó: E.H.A.',
+                                        text: `Elaboró: ${docUtils.madeBy(lcDBObj.elaboratedBy)}\nRevisó: F.I.G.S.`,
                                         fontSize: 6
                                     },
                                     docUtils.signatureDirector(lcDBObj.approvalStatus),
@@ -261,7 +261,7 @@ export async function generateUrbanC(lcDBObj) {
                         layout: docUtils.noBorderNoPadding
                     },
                     {
-                        text: 'L.D. JORGE LUIS MARTÍNEZ ÁNGELES\nDIRECTOR GENERAL',
+                        text: 'M.A.C.I.G. HIPÓLITO ZAMORA SORIA.\nDIRECTOR GENERAL',
                         style: 'labelTC'
                     }
                 ]
