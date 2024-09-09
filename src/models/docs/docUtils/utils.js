@@ -170,7 +170,7 @@ export async function loadChart(fullInvoice, sourcePattern) {
 export async function fileExist(location, group) {
     let fileDirectory = path.join(__dirstorage, 'assets', group, location.replaceAll('/', '_'), 'zone.png');
     
-    const defaultPath = path.join(__dirname, 'public', 'img', 'background_2.jpg');
+    const defaultPath = path.join(__dirname, 'public', 'img', '404.jpg');
 
     return new Promise((resolve, reject) => {
         fs.access(fileDirectory,(err) => {

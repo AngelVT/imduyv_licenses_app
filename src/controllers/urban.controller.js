@@ -530,7 +530,7 @@ export const updateLicense = async (req, res) => {
 
             if (files.resumeTables) {
                 await deleteFiles(directory);
-
+                
                 await Promise.all(files.resumeTables.map(e => {
                     const currentDestination = path.join(__dirstorage, 'assets', 'urban', modifiedLicense.fullInvoice, e.originalname);
                     return new Promise((resolve, reject) => {
@@ -674,7 +674,7 @@ async function deleteFiles(directory) {
             }
 
             let deletePromises = files
-                .filter(file => file.startsWith('lote_') || file.startsWith('area_'))
+                .filter(file => file.startsWith('tabla_') || file.startsWith('area_'))
                 .map(file => {
                     return new Promise((resolve, reject) => {
                         fs.unlink(path.join(directory, file), err => {
