@@ -85,7 +85,7 @@ export async function generateUrbanC(lcDBObj) {
                                         ],
                                         [
                                             {text: 'Superficie Total: ', style: 'labelT', border: docUtils.borderless},
-                                            docUtils.field(lcDBObj.surfaceTotal, docUtils.borderless, 3, 'center', 7),{},{}
+                                            docUtils.field(`${lcDBObj.surfaceTotal} m²`, docUtils.borderless, 3, 'center', 7),{},{}
                                         ]
                                     ]
                                 },
@@ -216,7 +216,7 @@ export async function generateUrbanC(lcDBObj) {
                             {},
                             {text: 'Folio de pago: ', style: 'labelTC', colSpan: 2},
                             {},
-                            docUtils.field(`C-${lcDBObj.billInvoice}`, docUtils.borderless, 2, 'center',7),
+                            docUtils.field(lcDBObj.billInvoice, docUtils.borderless, 2, 'center',7),
                             {}]
                     ]
                 },
@@ -225,7 +225,7 @@ export async function generateUrbanC(lcDBObj) {
             {
                 stack: [
                     {
-                        text:'NOTIFÍQUESE Y CÚMPLASE\nASÍ EN DEFINITIVA LO RESOLVIÓ Y FIRMA EL LICENCIADO EN DERECHO JORGE LUIS MARTÍNEZ ÁNGELES,\nDIRECTOR GENERAL DEL INSTITUTO MUNICIPAL DE DESARROLLO URBANO Y VIVIENDA',
+                        text:'NOTIFÍQUESE Y CÚMPLASE\nASÍ EN DEFINITIVA LO RESOLVIÓ Y FIRMA EL MAESTRO EN AUDITORÍA Y CONTROL INTERNO GUBERNAMENTAL HIPÓLITO ZAMORA SORIA,\nDIRECTOR GENERAL DEL INSTITUTO MUNICIPAL DE DESARROLLO URBANO Y VIVIENDA',
                         style: ['regular', 'center'],
                         margin: [0,10,0,0]
                     },
@@ -244,13 +244,7 @@ export async function generateUrbanC(lcDBObj) {
                                         columns: [
                                             docUtils.signatureSeal(lcDBObj.approvalStatus),
                                             {
-                                                svg: `
-                                                    <svg width="30" height="84">
-                                                        <text x="16" y="42" transform="rotate(-90, 15, 42)" text-anchor="middle" font-size="5" font-weight="bold">
-                                                            <tspan x="16" dy="1.2em">${lcDBObj.fullInvoice}</tspan>
-                                                            <tspan x="16" dy="1.2em">Pagina 1 de 1</tspan>
-                                                        </text>
-                                                    </svg>`,
+                                                text: '',
                                                 alignment: 'right'
                                             }
                                         ]
@@ -266,7 +260,15 @@ export async function generateUrbanC(lcDBObj) {
                     }
                 ]
             }
-        ]
+        ],
+        footer: function(currentPage, pageCount) {
+            return {
+                style: 'regularSmall',
+                bold: true,
+                text: `${lcDBObj.fullInvoice}\nPagina ${currentPage} de ${pageCount}`,
+                alignment: 'center'
+            };
+        }
     };
     return definition;
 }

@@ -349,7 +349,7 @@ export const UrbanLicense = pool.define(
             allowNull: true
         },
         billInvoice: {
-            type: DataTypes.INTEGER,
+            type: DataTypes.STRING,
             allowNull: true
         },
         authorizedQuantity: {

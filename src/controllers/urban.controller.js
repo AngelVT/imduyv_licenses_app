@@ -254,6 +254,7 @@ export const createLicense = async (req, res) => {
             deliveryDate,
             receiverName,
             PCU,
+            representativeAs,
             requestorAddress,
             buildingAddress
         } = req.body;
@@ -282,6 +283,7 @@ export const createLicense = async (req, res) => {
         const licenseSpecialData = generateUrbanSpecialData(parseInt(licenseType));
 
         licenseSpecialData.PCU = PCU ? PCU.toUpperCase() : licenseSpecialData.PCU;
+        licenseSpecialData.representativeAs = representativeAs ? representativeAs : licenseSpecialData.representativeAs;
         licenseSpecialData.requestorAddress = requestorAddress ? requestorAddress : licenseSpecialData.requestorAddress;
         licenseSpecialData.buildingAddress = buildingAddress ? buildingAddress : licenseSpecialData.buildingAddress;
 
@@ -338,14 +340,18 @@ export const createLicense = async (req, res) => {
 
         if(files.resumeTables) {
             await Promise.all(files.resumeTables.map(e => {
-                const currentDestination = path.join(__dirstorage, 'assets', 'urban', modifiedLicense.fullInvoice, e.originalname);
+                const currentDestination = path.join(__dirstorage, 'assets', 'urban', modifiedLicense.fullInvoice, e.originalname.toLowerCase());
                 return new Promise((resolve, reject) => {
-                    fs.writeFile(currentDestination, e.buffer, (err) => {
-                        if (err) {
-                            return reject(err);
-                        }
+                    if (e.originalname.toLowerCase().includes('tabla_s')) {
+                        fs.writeFile(currentDestination, e.buffer, (err) => {
+                            if (err) {
+                                return reject(err);
+                            }
+                            resolve();
+                        });
+                    } else {
                         resolve();
-                    });
+                    }
                 });
             }));
         }
@@ -377,7 +383,8 @@ export const updateLicense = async (req, res) => {
                 key == 'lotes' ||
                 key == 'manzanas' ||
                 key == 'actualSituation' ||
-                key == 'actualAuthorizedFS') {
+                key == 'actualAuthorizedFS' ||
+                key == 'representativeAs') {
                     console.log("Skipped", typeof key, key)
             } else {
                 req.body[key] = req.body[key].toLowerCase();
@@ -403,6 +410,8 @@ export const updateLicense = async (req, res) => {
             validity,
             term,
             PCU,
+            number,
+            representativeAs,
             requestorAddress,
             buildingAddress,
             occupationPercent,
@@ -454,6 +463,7 @@ export const updateLicense = async (req, res) => {
         let newSpecialData = JSON.parse(modifiedLicense.licenseSpecialData);
 
         newSpecialData.PCU = PCU ? PCU.toUpperCase() : newSpecialData.PCU;
+        newSpecialData.representativeAs = representativeAs ? representativeAs : newSpecialData.representativeAs;
         newSpecialData.requestorAddress = requestorAddress ? requestorAddress : newSpecialData.requestorAddress;
         newSpecialData.buildingAddress = buildingAddress ? buildingAddress : newSpecialData.buildingAddress;
         newSpecialData.occupationPercent = occupationPercent ? occupationPercent : newSpecialData.occupationPercent;
@@ -493,6 +503,7 @@ export const updateLicense = async (req, res) => {
             legalRepresentative: legalRepresentative,
             address: address,
             colony: colony,
+            number: number,
             catastralKey: catastralKey,
             surfaceTotal: surface,
             licenseZone: zone,
@@ -536,14 +547,18 @@ export const updateLicense = async (req, res) => {
                 await deleteFiles(directory);
                 
                 await Promise.all(files.resumeTables.map(e => {
-                    const currentDestination = path.join(__dirstorage, 'assets', 'urban', modifiedLicense.fullInvoice, e.originalname);
+                    const currentDestination = path.join(__dirstorage, 'assets', 'urban', modifiedLicense.fullInvoice, e.originalname.toLowerCase());
                     return new Promise((resolve, reject) => {
-                        fs.writeFile(currentDestination, e.buffer, (err) => {
-                            if (err) {
-                                return reject(err);
-                            }
+                        if (e.originalname.toLowerCase().includes('tabla_s')) {
+                            fs.writeFile(currentDestination, e.buffer, (err) => {
+                                if (err) {
+                                    return reject(err);
+                                }
+                                resolve();
+                            });
+                        } else {
                             resolve();
-                        });
+                        }
                     });
                 }));
             }

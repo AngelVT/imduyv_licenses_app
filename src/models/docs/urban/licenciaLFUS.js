@@ -48,7 +48,7 @@ export async function generateUrbanLFUS(lcDBObj) {
                                             {text: 'Nombre: ', style: 'labelT', border: docUtils.borderless},
                                             docUtils.field(lcDBObj.requestorName, docUtils.borderless, null,'center', 7)
                                         ],
-                                        docUtils.generateLegalRepresentativeField(lcDBObj.legalRepresentative),
+                                        docUtils.generateLegalRepresentativeField(lcDBObj.legalRepresentative, lcDBObj.licenseSpecialData.representativeAs),
                                         [
                                             {text: 'Domicilio: ', style: 'labelT', border: docUtils.borderless},
                                             docUtils.field(lcDBObj.licenseSpecialData.buildingAddress.toUpperCase(), docUtils.borderless, null,'center', 7),
@@ -74,7 +74,7 @@ export async function generateUrbanLFUS(lcDBObj) {
                                         ],
                                         [
                                             {text: 'Superficie Total: ', style: 'labelT', border: docUtils.borderless},
-                                            docUtils.field(lcDBObj.surfaceTotal, docUtils.borderless, 1, 'center', 7)
+                                            docUtils.field(`${lcDBObj.surfaceTotal} m²`, docUtils.borderless, 1, 'center', 7)
                                         ]
                                     ]
                                 },
@@ -157,6 +157,67 @@ export async function generateUrbanLFUS(lcDBObj) {
             {
                 style: 'formRow',
                 table: {
+                    widths: ['*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*'],
+                    body: [
+                        [{text: 'Fecha de Expedición: ', style: 'labelTC', colSpan: 2},
+                            {},
+                            docUtils.field(docUtils.dateFormatFull(lcDBObj.expeditionDate), docUtils.borderless, 2, 'center',6),
+                            {},{},{},{},{},
+                            {text: 'Folio de pago: ', style: 'labelTC', colSpan: 2},
+                            {},
+                            docUtils.field(lcDBObj.billInvoice, docUtils.borderless, 2, 'center',6),
+                            {}]
+                    ]
+                },
+                layout: docUtils.noBorderNoPadding
+            },
+            {
+                pageBreak: 'avoid',
+                stack: [
+                    {
+                        text:'NOTIFÍQUESE Y CÚMPLASE\nASÍ EN DEFINITIVA LO RESOLVIÓ Y AUTORIZÓ EL MAESTRO EN AUDITORÍA Y CONTROL INTERNO GUBERNAMENTAL HIPÓLITO ZAMORA SORIA,\nDIRECTOR GENERAL DEL INSTITUTO MUNICIPAL DE DESARROLLO URBANO Y VIVIENDA',
+                        style: 'center',
+                        fontSize: 6,
+                        margin: [0,10,0,50]
+                    },
+                    /*{
+                        columns: [
+                            {width: 30,
+                                text: ''
+                            },
+                            docUtils.signaturePresident(lcDBObj.approvalStatus),
+                            docUtils.signatureSeal(lcDBObj.approvalStatus),
+                            docUtils.signatureDirector(lcDBObj.approvalStatus),
+                            {
+                                width: 30,
+                                text: ''
+                            }
+                        ]
+                    },*/
+                    {
+                        columns: [
+                            {width: 5,
+                                text: ''},
+                            {
+                            text: 'I.A.E.V. GRETCHEN ALYNE ATILANO MORENO.\nPRESIDENTA MUNICIPAL CONSTITUCIONAL\nDE TIZAYUCA, HIDALGO.',
+                            style: 'labelTC'
+                        },
+                        {width: 140,
+                            text: ''},
+                        {
+                            text: 'M.A.C.I.G. HIPÓLITO ZAMORA SORIA.\nDIRECTOR GENERAL DEL INSTITUTO MUNICIPAL\nDE DESARROLLO URBANO Y VIVIENDA.',
+                            style: 'labelTC'
+                        },
+                        {width: 5,
+                            text: ''}
+                        ]
+                    }
+                ]
+            },
+            {
+                style: 'formRow',
+                pageBreak: 'before',
+                table: {
                     widths: ['*'],
                     body: [
                         [
@@ -200,74 +261,7 @@ export async function generateUrbanLFUS(lcDBObj) {
             },
             {
                 style: 'formRow',
-                table: {
-                    widths: ['*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*'],
-                    body: [
-                        [{text: 'Fecha de Expedición: ', style: 'labelTC', colSpan: 2},
-                            {},
-                            docUtils.field(docUtils.dateFormatFull(lcDBObj.expeditionDate), docUtils.borderless, 2, 'center',6),
-                            {},{},{},{},{},
-                            {text: 'Folio de pago: ', style: 'labelTC', colSpan: 2},
-                            {},
-                            docUtils.field(`C-${lcDBObj.billInvoice}`, docUtils.borderless, 2, 'center',6),
-                            {}]
-                    ]
-                },
-                layout: docUtils.noBorderNoPadding
-            },
-            {
                 pageBreak: 'avoid',
-                stack: [
-                    {
-                        text:'NOTIFÍQUESE Y CÚMPLASE\nASÍ EN DEFINITIVA LO RESOLVIÓ Y AUTORIZÓ EL LICENCIADO EN DERECHO JORGE LUIS MARTÍNEZ ÁNGELES,\nDIRECTOR GENERAL DEL INSTITUTO MUNICIPAL DE DESARROLLO URBANO Y VIVIENDA',
-                        style: 'center',
-                        fontSize: 6,
-                        margin: [0,10,0,10]
-                    },
-                    {
-                        columns: [
-                            {width: 30,
-                                text: ''
-                            },
-                            docUtils.signaturePresident(lcDBObj.approvalStatus),
-                            docUtils.signatureSeal(lcDBObj.approvalStatus),
-                            docUtils.signatureDirector(lcDBObj.approvalStatus),
-                            {
-                                width: 30,
-                                svg: `
-                                    <svg width="30" height="84">
-                                        <text x="16" y="42" transform="rotate(-90, 15, 42)" text-anchor="middle" font-size="5" font-weight="bold">
-                                            <tspan x="16" dy="1.2em">${lcDBObj.fullInvoice}</tspan>
-                                            <tspan x="16" dy="1.2em">Pagina 1 de 2</tspan>
-                                        </text>
-                                    </svg>`,
-                                alignment: 'left'
-                            }
-                        ]
-                    },
-                    {
-                        columns: [
-                            {width: 5,
-                                text: ''},
-                            {
-                            text: 'I.A.E.V. GRETCHEN ALYNE ATILANO MORENO.\nPRESIDENTA MUNICIPAL CONSTITUCIONAL\nDE TIZAYUCA, HIDALGO.',
-                            style: 'labelTC'
-                        },
-                        {width: 140,
-                            text: ''},
-                        {
-                            text: 'M.A.C.I.G. HIPÓLITO ZAMORA SORIA.\nDIRECTOR GENERAL DEL INSTITUTO MUNICIPAL\nDE DESARROLLO URBANO Y VIVIENDA.',
-                            style: 'labelTC'
-                        },
-                        {width: 5,
-                            text: ''}
-                        ]
-                    }
-                ]
-            },
-            {
-                style: 'formRow',
-                pageBreak: 'before',
                 table: {
                     widths: ['*'],
                     body: [
@@ -330,18 +324,16 @@ export async function generateUrbanLFUS(lcDBObj) {
                         fontSize: 6
                     }
                 ]
-            },
-            {
-                svg: `
-                <svg width="30" height="84">
-                    <text x="16" y="42" transform="rotate(-90, 15, 42)" text-anchor="middle" font-size="5" font-weight="bold">
-                        <tspan x="16" dy="1.2em">${lcDBObj.fullInvoice}</tspan>
-                        <tspan x="16" dy="1.2em">Pagina 2 de 2</tspan>
-                    </text>
-                </svg>`,
-                alignment: 'right'
             }
-        ]
+        ],
+        footer: function(currentPage, pageCount) {
+            return {
+                style: 'regularSmall',
+                bold: true,
+                text: `${lcDBObj.fullInvoice}\nPagina ${currentPage} de ${pageCount}`,
+                alignment: 'center'
+            };
+        }
     };
     return definition;
 }

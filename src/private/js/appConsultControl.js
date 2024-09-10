@@ -215,7 +215,7 @@ function createUrbanResult(resObj, target) {
 
     resultContent.appendChild(field);
 
-    field = createResultField(resObj.id, 'Folio y serie de factura', 'billInvoice', resObj.billInvoice, 'number');
+    field = createResultField(resObj.id, 'Folio y serie de factura', 'billInvoice', resObj.billInvoice, 'text');
 
     resultContent.appendChild(field);
 
@@ -274,7 +274,7 @@ function createUrbanResult(resObj, target) {
 
             resultContent.appendChild(field);
 
-            field = createResultField(resObj.id, 'Superficie total', 'surface', resObj.surfaceTotal, 'text');
+            field = createResultField(resObj.id, 'Superficie total', 'surface', resObj.surfaceTotal, 'number');
 
             resultContent.appendChild(field);
 
@@ -312,7 +312,11 @@ function createUrbanResult(resObj, target) {
             resultContent.appendChild(field);
             break;
         case 2:
-            field = createResultField(resObj.id, 'Representante legal', 'legalRepresentative', resObj.legalRepresentative, 'text');
+            field = createResultField(resObj.id, 'Representante', 'legalRepresentative', resObj.legalRepresentative, 'text');
+
+            resultContent.appendChild(field);
+
+            field = createResultField(resObj.id, 'Caracter del representante', 'representativeAs', resObj.licenseSpecialData.representativeAs, 'text');
 
             resultContent.appendChild(field);
 
@@ -359,7 +363,7 @@ function createUrbanResult(resObj, target) {
 
             resultContent.appendChild(field);
 
-            field = createResultField(resObj.id, 'Superficie total', 'surface', resObj.surfaceTotal, 'text');
+            field = createResultField(resObj.id, 'Superficie total', 'surface', resObj.surfaceTotal, 'number');
 
             resultContent.appendChild(field);
 
@@ -401,7 +405,11 @@ function createUrbanResult(resObj, target) {
             resultContent.appendChild(field);
             break;
         case 3:
-            field = createResultField(resObj.id, 'Representante legal', 'legalRepresentative', resObj.legalRepresentative, 'text');
+            field = createResultField(resObj.id, 'Representante', 'legalRepresentative', resObj.legalRepresentative, 'text');
+
+            resultContent.appendChild(field);
+
+            field = createResultField(resObj.id, 'Caracter del representante', 'representativeAs', resObj.licenseSpecialData.representativeAs, 'text');
 
             resultContent.appendChild(field);
 
@@ -415,7 +423,7 @@ function createUrbanResult(resObj, target) {
 
             resultContent.appendChild(field);
 
-            field = createResultField(resObj.id, 'Superficie total', 'surface', resObj.surfaceTotal, 'text');
+            field = createResultField(resObj.id, 'Superficie total', 'surface', resObj.surfaceTotal, 'number');
 
             resultContent.appendChild(field);
 
@@ -439,7 +447,11 @@ function createUrbanResult(resObj, target) {
             resultContent.appendChild(field);
             break;
         case 4:
-            field = createResultField(resObj.id, 'Representante legal', 'legalRepresentative', resObj.legalRepresentative, 'text');
+            field = createResultField(resObj.id, 'Representante', 'legalRepresentative', resObj.legalRepresentative, 'text');
+
+            resultContent.appendChild(field);
+
+            field = createResultField(resObj.id, 'Caracter del representante', 'representativeAs', resObj.licenseSpecialData.representativeAs, 'text');
 
             resultContent.appendChild(field);
 
@@ -453,7 +465,7 @@ function createUrbanResult(resObj, target) {
 
             resultContent.appendChild(field);
 
-            field = createResultField(resObj.id, 'Superficie total', 'surface', resObj.surfaceTotal, 'text');
+            field = createResultField(resObj.id, 'Superficie total', 'surface', resObj.surfaceTotal, 'number');
 
             resultContent.appendChild(field);
 
@@ -476,7 +488,11 @@ function createUrbanResult(resObj, target) {
             resultContent.appendChild(field);
             break;
         case 5:
-            field = createResultField(resObj.id, 'Representante legal', 'legalRepresentative', resObj.legalRepresentative, 'text');
+            field = createResultField(resObj.id, 'Representante', 'legalRepresentative', resObj.legalRepresentative, 'text');
+
+            resultContent.appendChild(field);
+
+            field = createResultField(resObj.id, 'Caracter del representante', 'representativeAs', resObj.licenseSpecialData.representativeAs, 'text');
 
             resultContent.appendChild(field);
             
@@ -490,7 +506,7 @@ function createUrbanResult(resObj, target) {
 
             resultContent.appendChild(field);
 
-            field = createResultField(resObj.id, 'Superficie total', 'surface', resObj.surfaceTotal, 'text');
+            field = createResultField(resObj.id, 'Superficie total', 'surface', resObj.surfaceTotal, 'number');
 
             resultContent.appendChild(field);
 
@@ -526,7 +542,11 @@ function createUrbanResult(resObj, target) {
 
             break;
         case 6:
-            field = createResultField(resObj.id, 'Representante legal', 'legalRepresentative', resObj.legalRepresentative, 'text');
+            field = createResultField(resObj.id, 'Representante', 'legalRepresentative', resObj.legalRepresentative, 'text');
+
+            resultContent.appendChild(field);
+
+            field = createResultField(resObj.id, 'Caracter del representante', 'representativeAs', resObj.licenseSpecialData.representativeAs, 'text');
 
             resultContent.appendChild(field);
 
@@ -540,7 +560,7 @@ function createUrbanResult(resObj, target) {
 
             resultContent.appendChild(field);
 
-            field = createResultField(resObj.id, 'Superficie total', 'surface', resObj.surfaceTotal, 'text');
+            field = createResultField(resObj.id, 'Superficie total', 'surface', resObj.surfaceTotal, 'number');
 
             resultContent.appendChild(field);
 
@@ -589,17 +609,21 @@ function createUrbanResult(resObj, target) {
             field = createResultTextArea(resObj.id, 'Condicionantes', 'conditions', resObj.licenseSpecialData.conditions.join('\n'));
             resultContent.appendChild(field);
 
-            field = createResultField(resObj.id, 'Lotes Totales', 'habitacionalLotes', resObj.licenseSpecialData.habitacionalLotes, 'number');
+            field = createResultField(resObj.id, 'Lotes Totales', 'habitacionalLotes', resObj.licenseSpecialData.habitacionalLotes, 'text');
             resultContent.appendChild(field);
 
-            field = createResultField(resObj.id, 'Manzanas Totales', 'totalManzanas', resObj.licenseSpecialData.totalManzanas, 'number');
+            field = createResultField(resObj.id, 'Manzanas Totales', 'totalManzanas', resObj.licenseSpecialData.totalManzanas, 'text');
             resultContent.appendChild(field);
 
             field = createResultField(resObj.id, 'Superficie de donación', 'totalSurface', resObj.licenseSpecialData.totalSurface, 'text');
             resultContent.appendChild(field);
             break;
         case 7:
-            field = createResultField(resObj.id, 'Representante legal', 'legalRepresentative', resObj.legalRepresentative, 'text');
+            field = createResultField(resObj.id, 'Representante', 'legalRepresentative', resObj.legalRepresentative, 'text');
+
+            resultContent.appendChild(field);
+
+            field = createResultField(resObj.id, 'Caracter del representante', 'representativeAs', resObj.licenseSpecialData.representativeAs, 'text');
 
             resultContent.appendChild(field);
 
@@ -641,7 +665,11 @@ function createUrbanResult(resObj, target) {
 
             break;
         case 8:
-            field = createResultField(resObj.id, 'Representante legal', 'legalRepresentative', resObj.legalRepresentative, 'text');
+            field = createResultField(resObj.id, 'Representante', 'legalRepresentative', resObj.legalRepresentative, 'text');
+
+            resultContent.appendChild(field);
+
+            field = createResultField(resObj.id, 'Caracter del representante', 'representativeAs', resObj.licenseSpecialData.representativeAs, 'text');
 
             resultContent.appendChild(field);
 
@@ -726,7 +754,7 @@ function createLandResult(resObj, target) {
 
     resultContent.appendChild(field);
 
-    field = createResultField(resObj.id, 'Superficie de aprovechamiento', 'surface', resObj.surfaceTotal, 'text');
+    field = createResultField(resObj.id, 'Superficie de aprovechamiento', 'surface', resObj.surfaceTotal, 'number');
 
     resultContent.appendChild(field);
 
@@ -1025,7 +1053,7 @@ function createUrbanPrintResult(resObj, target) {
 
     resultContent.appendChild(field);
 
-    field = createResultField(resObj.id, 'Folio y serie de factura', 'billInvoice', resObj.billInvoice, 'number');
+    field = createResultField(resObj.id, 'Folio y serie de factura', 'billInvoice', resObj.billInvoice, 'text');
 
     resultContent.appendChild(field);
 
@@ -1084,7 +1112,7 @@ function createUrbanPrintResult(resObj, target) {
 
             resultContent.appendChild(field);
 
-            field = createResultField(resObj.id, 'Superficie total', 'surface', resObj.surfaceTotal, 'text');
+            field = createResultField(resObj.id, 'Superficie total', 'surface', resObj.surfaceTotal, 'number');
 
             resultContent.appendChild(field);
 
@@ -1122,7 +1150,11 @@ function createUrbanPrintResult(resObj, target) {
             resultContent.appendChild(field);
             break;
         case 2:
-            field = createResultField(resObj.id, 'Representante legal', 'legalRepresentative', resObj.legalRepresentative, 'text');
+            field = createResultField(resObj.id, 'Representante', 'legalRepresentative', resObj.legalRepresentative, 'text');
+
+            resultContent.appendChild(field);
+
+            field = createResultField(resObj.id, 'Caracter del representante', 'representativeAs', resObj.licenseSpecialData.representativeAs, 'text');
 
             resultContent.appendChild(field);
 
@@ -1169,7 +1201,7 @@ function createUrbanPrintResult(resObj, target) {
 
             resultContent.appendChild(field);
 
-            field = createResultField(resObj.id, 'Superficie total', 'surface', resObj.surfaceTotal, 'text');
+            field = createResultField(resObj.id, 'Superficie total', 'surface', resObj.surfaceTotal, 'number');
 
             resultContent.appendChild(field);
 
@@ -1211,7 +1243,11 @@ function createUrbanPrintResult(resObj, target) {
             resultContent.appendChild(field);
             break;
         case 3:
-            field = createResultField(resObj.id, 'Representante legal', 'legalRepresentative', resObj.legalRepresentative, 'text');
+            field = createResultField(resObj.id, 'Representante', 'legalRepresentative', resObj.legalRepresentative, 'text');
+
+            resultContent.appendChild(field);
+
+            field = createResultField(resObj.id, 'Caracter del representante', 'representativeAs', resObj.licenseSpecialData.representativeAs, 'text');
 
             resultContent.appendChild(field);
 
@@ -1225,7 +1261,7 @@ function createUrbanPrintResult(resObj, target) {
 
             resultContent.appendChild(field);
 
-            field = createResultField(resObj.id, 'Superficie total', 'surface', resObj.surfaceTotal, 'text');
+            field = createResultField(resObj.id, 'Superficie total', 'surface', resObj.surfaceTotal, 'number');
 
             resultContent.appendChild(field);
 
@@ -1248,7 +1284,11 @@ function createUrbanPrintResult(resObj, target) {
             resultContent.appendChild(field);
             break;
         case 4:
-            field = createResultField(resObj.id, 'Representante legal', 'legalRepresentative', resObj.legalRepresentative, 'text');
+            field = createResultField(resObj.id, 'Representante', 'legalRepresentative', resObj.legalRepresentative, 'text');
+
+            resultContent.appendChild(field);
+
+            field = createResultField(resObj.id, 'Caracter del representante', 'representativeAs', resObj.licenseSpecialData.representativeAs, 'text');
 
             resultContent.appendChild(field);
 
@@ -1262,7 +1302,7 @@ function createUrbanPrintResult(resObj, target) {
 
             resultContent.appendChild(field);
 
-            field = createResultField(resObj.id, 'Superficie total', 'surface', resObj.surfaceTotal, 'text');
+            field = createResultField(resObj.id, 'Superficie total', 'surface', resObj.surfaceTotal, 'number');
 
             resultContent.appendChild(field);
 
@@ -1285,7 +1325,11 @@ function createUrbanPrintResult(resObj, target) {
             resultContent.appendChild(field);
             break;
         case 5:
-            field = createResultField(resObj.id, 'Representante legal', 'legalRepresentative', resObj.legalRepresentative, 'text');
+            field = createResultField(resObj.id, 'Representante', 'legalRepresentative', resObj.legalRepresentative, 'text');
+
+            resultContent.appendChild(field);
+
+            field = createResultField(resObj.id, 'Caracter del representante', 'representativeAs', resObj.licenseSpecialData.representativeAs, 'text');
 
             resultContent.appendChild(field);
             
@@ -1299,7 +1343,7 @@ function createUrbanPrintResult(resObj, target) {
 
             resultContent.appendChild(field);
 
-            field = createResultField(resObj.id, 'Superficie total', 'surface', resObj.surfaceTotal, 'text');
+            field = createResultField(resObj.id, 'Superficie total', 'surface', resObj.surfaceTotal, 'number');
 
             resultContent.appendChild(field);
 
@@ -1335,7 +1379,11 @@ function createUrbanPrintResult(resObj, target) {
 
             break;
         case 6:
-            field = createResultField(resObj.id, 'Representante legal', 'legalRepresentative', resObj.legalRepresentative, 'text');
+            field = createResultField(resObj.id, 'Representante', 'legalRepresentative', resObj.legalRepresentative, 'text');
+
+            resultContent.appendChild(field);
+
+            field = createResultField(resObj.id, 'Caracter del representante', 'representativeAs', resObj.licenseSpecialData.representativeAs, 'text');
 
             resultContent.appendChild(field);
 
@@ -1349,7 +1397,7 @@ function createUrbanPrintResult(resObj, target) {
 
             resultContent.appendChild(field);
 
-            field = createResultField(resObj.id, 'Superficie total', 'surface', resObj.surfaceTotal, 'text');
+            field = createResultField(resObj.id, 'Superficie total', 'surface', resObj.surfaceTotal, 'number');
 
             resultContent.appendChild(field);
 
@@ -1374,6 +1422,12 @@ function createUrbanPrintResult(resObj, target) {
             field = createResultTextArea(resObj.id, 'Licencia de Uso de Suelo', 'urbanLUS', resObj.licenseSpecialData.urbanLUS);
             resultContent.appendChild(field);
 
+            field = createResultField(resObj.id, 'Porcentaje de uso', 'usePercent', resObj.licenseSpecialData.usePercent, 'number');
+            resultContent.appendChild(field);
+
+            field = createResultField(resObj.id, 'Superficie minima por lote', 'surfacePerLote', resObj.licenseSpecialData.surfacePerLote, 'number');
+            resultContent.appendChild(field);
+
             field = createResultField(resObj.id, 'Altura maxima', 'maximumHeight', resObj.licenseSpecialData.maximumHeight, 'text');
             resultContent.appendChild(field);
 
@@ -1386,9 +1440,6 @@ function createUrbanPrintResult(resObj, target) {
             field = createResultField(resObj.id, 'Estacionamientos', 'parkingLots', resObj.licenseSpecialData.parkingLots, 'text');
             resultContent.appendChild(field);
 
-            field = createResultField(resObj.id, 'Porcentaje de uso', 'usePercent', resObj.licenseSpecialData.usePercent, 'number');
-            resultContent.appendChild(field);
-
             field = createResultTextArea(resObj.id, 'Ubicación', 'location', resObj.licenseSpecialData.location.join('\n'));
             resultContent.appendChild(field);
 
@@ -1398,17 +1449,21 @@ function createUrbanPrintResult(resObj, target) {
             field = createResultTextArea(resObj.id, 'Condicionantes', 'conditions', resObj.licenseSpecialData.conditions.join('\n'));
             resultContent.appendChild(field);
 
-            field = createResultField(resObj.id, 'Lotes Totales', 'habitacionalLotes', resObj.licenseSpecialData.habitacionalLotes, 'number');
+            field = createResultField(resObj.id, 'Lotes Totales', 'habitacionalLotes', resObj.licenseSpecialData.habitacionalLotes, 'text');
             resultContent.appendChild(field);
 
-            field = createResultField(resObj.id, 'Manzanas Totales', 'totalManzanas', resObj.licenseSpecialData.totalManzanas, 'number');
+            field = createResultField(resObj.id, 'Manzanas Totales', 'totalManzanas', resObj.licenseSpecialData.totalManzanas, 'text');
             resultContent.appendChild(field);
 
-            field = createResultField(resObj.id, 'Superficie de donación', 'totalSurface', resObj.licenseSpecialData.totalSurface, 'text');
+            field = createResultField(resObj.id, 'Superficie de donación', 'totalSurface', resObj.licenseSpecialData.totalSurface, 'number');
             resultContent.appendChild(field);
             break;
         case 7:
-            field = createResultField(resObj.id, 'Representante legal', 'legalRepresentative', resObj.legalRepresentative, 'text');
+            field = createResultField(resObj.id, 'Representante', 'legalRepresentative', resObj.legalRepresentative, 'text');
+
+            resultContent.appendChild(field);
+
+            field = createResultField(resObj.id, 'Caracter del representante', 'representativeAs', resObj.licenseSpecialData.representativeAs, 'text');
 
             resultContent.appendChild(field);
 
@@ -1450,7 +1505,11 @@ function createUrbanPrintResult(resObj, target) {
 
             break;
         case 8:
-            field = createResultField(resObj.id, 'Representante legal', 'legalRepresentative', resObj.legalRepresentative, 'text');
+            field = createResultField(resObj.id, 'Representante', 'legalRepresentative', resObj.legalRepresentative, 'text');
+
+            resultContent.appendChild(field);
+
+            field = createResultField(resObj.id, 'Caracter del representante', 'representativeAs', resObj.licenseSpecialData.representativeAs, 'text');
 
             resultContent.appendChild(field);
 
@@ -1535,7 +1594,7 @@ function createLandPrintResult(resObj, target) {
 
     resultContent.appendChild(field);
 
-    field = createResultField(resObj.id, 'Superficie de aprovechamiento', 'surface', resObj.surfaceTotal, 'text');
+    field = createResultField(resObj.id, 'Superficie de aprovechamiento', 'surface', resObj.surfaceTotal, 'number');
 
     resultContent.appendChild(field);
 

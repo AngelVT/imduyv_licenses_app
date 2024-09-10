@@ -48,7 +48,7 @@ export async function generateUrbanRLF(lcDBObj) {
                                             {text: 'Nombre: ', style: 'labelT', border: docUtils.borderless},
                                             docUtils.field(lcDBObj.requestorName, docUtils.borderless, null,'center', 7)
                                         ],
-                                        docUtils.generateLegalRepresentativeField(lcDBObj.legalRepresentative),
+                                        docUtils.generateLegalRepresentativeField(lcDBObj.legalRepresentative, lcDBObj.licenseSpecialData.representativeAs),
                                         [
                                             {text: 'Domicilio: ', style: 'labelT', border: docUtils.borderless},
                                             docUtils.field(lcDBObj.licenseSpecialData.requestorAddress.toUpperCase(), docUtils.borderless, null,'center', 7),
@@ -101,7 +101,7 @@ export async function generateUrbanRLF(lcDBObj) {
                                         text: [
                                             {text: lcDBObj.requestorName, bold: true},
                                             {
-                                                text: lcDBObj.legalRepresentative ? [{text: ' a través del C. '}, {text: lcDBObj.legalRepresentative, bold: true}, { text: ', en su carácter de Representante Legal'}] : ''
+                                                text: lcDBObj.legalRepresentative ? [{text: ' a través del C. '}, {text: lcDBObj.legalRepresentative, bold: true}, { text: `, en su carácter de ${lcDBObj.licenseSpecialData.representativeAs}`}] : ''
                                             },
                                             ', solicita la ',
                                             {text: 'Relotificación de Fraccionamiento', bold: true},
@@ -209,7 +209,7 @@ export async function generateUrbanRLF(lcDBObj) {
                             'Dentro de las obligaciones de ',
                             {text: lcDBObj.requestorName, bold: true},
                             {
-                                text: lcDBObj.legalRepresentative ? [{text: ' a través del C. '}, {text: lcDBObj.legalRepresentative, bold: true}, { text: ', en su carácter de Representante Legal'}] : ''
+                                text: lcDBObj.legalRepresentative ? [{text: ' a través del C. '}, {text: lcDBObj.legalRepresentative, bold: true}, { text: `, en su carácter de ${lcDBObj.licenseSpecialData.representativeAs}`}] : ''
                             },
                             ', deberá satisfacer todas y cada una de las obligaciones comprendida en la Ley de Asentamientos Humanos, Desarrollo Urbano y Ordenamiento Territorial del Estado de Hidalgo y su reglamento, las cuales de manera enunciativa mas no limitativa se detallan a continuación:'
                         ]
@@ -239,7 +239,7 @@ export async function generateUrbanRLF(lcDBObj) {
                                         text: [{text: 'Tercera.- ', bold: true}, 
                                             {text: lcDBObj.requestorName, bold: true},
                                             {
-                                                text: lcDBObj.legalRepresentative ? [{text: ' a través del C. '}, {text: lcDBObj.legalRepresentative, bold: true}, { text: ', en su carácter de Representante Legal'}] : ''
+                                                text: lcDBObj.legalRepresentative ? [{text: ' a través del C. '}, {text: lcDBObj.legalRepresentative, bold: true}, { text: `, en su carácter de ${lcDBObj.licenseSpecialData.representativeAs}`}] : ''
                                             },', deberá satisfacer todas y cada una de las obligaciones comprendidas en el cuerpo de la Licencia de Fraccionamiento, expedida por el Instituto Municipal de Desarrollo Urbano y Vivienda, mediante expediente número ',{text: lcDBObj.licenseSpecialData.previousInvoice, bold: true}, ' de fecha ',
                                             docUtils.dateFormatFull(lcDBObj.licenseSpecialData.previousInvoiceDate), '.'
                                         ]
@@ -323,7 +323,7 @@ export async function generateUrbanRLF(lcDBObj) {
                                 border: docUtils.borderless,
                                 text: [{text: 'ÚNICA. ', bold: true}, 'En caso de que ',{text: lcDBObj.requestorName, bold: true},
                                     {
-                                        text: lcDBObj.legalRepresentative ? [{text: ' a través del C. '}, {text: lcDBObj.legalRepresentative, bold: true}, { text: ', en su carácter de Apoderado Legal'}] : ''
+                                        text: lcDBObj.legalRepresentative ? [{text: ' a través del C. '}, {text: lcDBObj.legalRepresentative, bold: true}, { text: `, en su carácter de ${lcDBObj.licenseSpecialData.representativeAs}`}] : ''
                                     },
                                     ' no de cumplimiento a las disposiciones de la presente resolución o pase por alto las previsiones que establece la Ley de Asentamientos Humanos, Desarrollo Urbano y Ordenamiento Territorial del Estado de Hidalgo; así como la Ley Estatal del Procedimiento Administrativo y demás Leyes aplicables, se le sancionará de acuerdo a lo que éstas establecen en sus respectivos capítulos, con las consecuencias jurídicas que procedan, llegando incluso a la revocación de la presente autorización.\n\nPor lo anterior expuesto y fundado se:']
                             }
@@ -352,14 +352,14 @@ export async function generateUrbanRLF(lcDBObj) {
                                 {text: 'CUARTO. ', bold: true}, 'Esta resolución no lo autoriza a realizar edificaciones, por lo que deberá solicitar la licencia de construcción correspondiente.\n\n',
 
                                 {text: 'QUINTO. ', bold: true}, {text: lcDBObj.requestorName, bold: true}, {
-                                    text: lcDBObj.legalRepresentative ? [{text: 'a través del C. '}, {text: lcDBObj.legalRepresentative, bold: true}, { text: ', representante legal de '}] : ''
+                                    text: lcDBObj.legalRepresentative ? [{text: 'a través del C. '}, {text: lcDBObj.legalRepresentative, bold: true}, { text: `, en su carácter de ${lcDBObj.licenseSpecialData.representativeAs}`}] : ''
                                 }, ', se obliga a entregar los documentos que se obtendrán con posterioridad como consecuencia del cumplimiento de sus obligaciones y la escritura de las áreas de donación a favor del Municipio de Tizayuca, Estado de Hidalgo, y escritura de protocolización de la presente resolución.\n\n',
 
                                 {text: 'SEXTO. ', bold: true}, 'Remítase copia de la presente resolución, adjuntando plano del Fraccionamiento denominado ', {text: `“${lcDBObj.colony}”`, bold: true},', autorizado, con sello y firma al Registro Público de la propiedad y del Comercio, del distrito judicial de Tizayuca, estado de Hidalgo, de conformidad al artículo 156 fracción V de la Ley de Asentamientos Humanos, Desarrollo Urbano y Ordenamiento Territorial del Estado de Hidalgo.\n\n',
 
                                 {text: 'SÉPTIMO. ', bold: true},'Se le apercibe a ',{text: lcDBObj.requestorName, bold: true}, 
                                 {
-                                    text: lcDBObj.legalRepresentative ? [{text: ' a través del C. '}, {text: lcDBObj.legalRepresentative, bold: true}, { text: ', en su carácter de representante Legal'}] : ''
+                                    text: lcDBObj.legalRepresentative ? [{text: ' a través del C. '}, {text: lcDBObj.legalRepresentative, bold: true}, { text: `, en su carácter de ${lcDBObj.licenseSpecialData.representativeAs}`}] : ''
                                 },' que de no dar cumplimiento a cualquiera de las obligaciones y prohibiciones señaladas en el cuerpo de la presente resolución o pase por alto las previsiones de la ley de la materia, se le aplicaran las sanciones que procedan y que son previstas en el Titulo IV, Capítulo I sección IV, relativo a fraccionamientos de la Ley de Asentamientos Humanos, Desarrollo Humano y Ordenamiento Territorial del Estado de Hidalgo y su Reglamento; ',{text: 'no se omite que la inobservancia de lo anterior faculte a esta autoridad a revocar la autorización concedida. ', bold: true}]
                             }
                         ]
@@ -397,7 +397,7 @@ export async function generateUrbanRLF(lcDBObj) {
                             {},
                             {text: 'Folio de pago: ', style: 'labelTC', colSpan: 2},
                             {},
-                            docUtils.field(`C-${lcDBObj.billInvoice}`, docUtils.borderless, 2, 'center',7),
+                            docUtils.field(lcDBObj.billInvoice, docUtils.borderless, 2, 'center',7),
                             {}]
                     ]
                 },
@@ -406,7 +406,7 @@ export async function generateUrbanRLF(lcDBObj) {
             {
                 stack: [
                     {
-                        text:'NOTIFÍQUESE Y CÚMPLASE\nASÍ EN DEFINITIVA LO RESOLVIÓ Y AUTORIZÓ EL LICENCIADO EN DERECHO JORGE LUIS MARTÍNEZ ÁNGELES,\nDIRECTOR GENERAL DEL INSTITUTO MUNICIPAL DE DESARROLLO URBANO Y VIVIENDA',
+                        text:'NOTIFÍQUESE Y CÚMPLASE\nASÍ EN DEFINITIVA LO RESOLVIÓ Y AUTORIZÓ MAESTRO EN AUDITORÍA Y CONTROL INTERNO GUBERNAMENTAL HIPÓLITO ZAMORA SORIA,\nDIRECTOR GENERAL DEL INSTITUTO MUNICIPAL DE DESARROLLO URBANO Y VIVIENDA',
                         style: ['regular', 'center'],
                         margin: [0,10,0,10]
                     },
@@ -460,7 +460,15 @@ export async function generateUrbanRLF(lcDBObj) {
                     }
                 ]
             }
-        ]
+        ],
+        footer: function(currentPage, pageCount) {
+            return {
+                style: 'regularSmall',
+                bold: true,
+                text: `${lcDBObj.fullInvoice}\nPagina ${currentPage} de ${pageCount}`,
+                alignment: 'center'
+            };
+        }
     };
     return definition;
 }

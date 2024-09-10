@@ -333,10 +333,10 @@ export function generateDSMCTable(situationArray, subject) {
     return body;
 }
 
-export function generateLegalRepresentativeField(representative) {
+export function generateLegalRepresentativeField(representative, representativeAs) {
     if (representative) {
         return [
-            {text: 'Representante Legal: ', style: 'labelT', border: borderless},
+            {text: `${representativeAs}: `, style: 'labelT', border: borderless},
             field(representative, borderless, null,'center', 7)
         ];
     }
@@ -556,6 +556,7 @@ export function generateUrbanSpecialData(type) {
             return { PCU: "PCU" }
         case 2:
             return {
+                representativeAs: "Representante Legal",
                 requestorAddress: "Domicilio",
                 buildingAddress: "Domicilio",
                 occupationPercent: 0,
@@ -568,6 +569,7 @@ export function generateUrbanSpecialData(type) {
             }
         case 3:
             return {
+                representativeAs: "Representante Legal",
                 requestorAddress: "Domicilio",
                 buildingAddress: "Domicilio",
                 actualSituation: [
@@ -605,6 +607,7 @@ export function generateUrbanSpecialData(type) {
             }
         case 4:
             return {
+                representativeAs: "Representante Legal",
                 requestorAddress: "Domicilio",
                 buildingAddress: "Domicilio",
                 actualSituation: [
@@ -642,6 +645,7 @@ export function generateUrbanSpecialData(type) {
             }
         case 5:
             return {
+                representativeAs: "Representante Legal",
                 requestorAddress: "Domicilio",
                 buildingAddress: "Domicilio",
                 location: ["un costado del fraccionamiento Haciendas de Tizayuca, en el municipio de Tizayuca"],
@@ -687,6 +691,7 @@ export function generateUrbanSpecialData(type) {
             }
         case 6:
             return {
+                representativeAs: "Representante Legal",
                 requestorAddress: "Domicilio",
                 buildingAddress: "Domicilio",
                 occupationPercent: 0,
@@ -741,6 +746,7 @@ export function generateUrbanSpecialData(type) {
             }
         case 7:
             return {
+                representativeAs: "Representante Legal",
                 requestorAddress: "Domicilio",
                 buildingAddress: "Domicilio",
                 lotes: ["Lote 1", "Lote 2","Lote 3","Lote 4"],
@@ -787,6 +793,7 @@ export function generateUrbanSpecialData(type) {
             }
         case 8:
             return {
+                representativeAs: "Representante Legal",
                 requestorAddress: "Domicilio",
                 buildingAddress: "Domicilio",
                 households: "Ej: 5 viviendas",
