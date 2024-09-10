@@ -340,7 +340,7 @@ export const createLicense = async (req, res) => {
 
         if(files.resumeTables) {
             await Promise.all(files.resumeTables.map(e => {
-                const currentDestination = path.join(__dirstorage, 'assets', 'urban', modifiedLicense.fullInvoice, e.originalname.toLowerCase());
+                const currentDestination = path.join(__dirstorage, 'assets', 'urban', newLicense.fullInvoice, e.originalname.toLowerCase());
                 return new Promise((resolve, reject) => {
                     if (e.originalname.toLowerCase().includes('tabla_s')) {
                         fs.writeFile(currentDestination, e.buffer, (err) => {
