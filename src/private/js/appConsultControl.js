@@ -211,7 +211,7 @@ function createUrbanResult(resObj, target) {
 
     resultContent.appendChild(field);
 
-    field = createResultField(resObj.id, 'Orden de cobro', 'collectionOrde', resObj.collectionOrder, 'number');
+    field = createResultField(resObj.id, 'Orden de cobro', 'collectionOrder', resObj.collectionOrder, 'number');
 
     resultContent.appendChild(field);
 
@@ -1049,7 +1049,7 @@ function createUrbanPrintResult(resObj, target) {
 
     resultContent.appendChild(field);
 
-    field = createResultField(resObj.id, 'Orden de cobro', 'collectionOrde', resObj.collectionOrder, 'number');
+    field = createResultField(resObj.id, 'Orden de cobro', 'collectionOrder', resObj.collectionOrder, 'number');
 
     resultContent.appendChild(field);
 
@@ -1916,31 +1916,31 @@ function generateTableForm(resObj) {
 
     span = document.createElement('span');
     span.innerText = 'Descripción:';
-    span.setAttribute('class', 'w-20');
+    span.setAttribute('class', 'w-10');
 
     label.appendChild(span);
 
     span = document.createElement('span');
     span.innerText = 'Superficie:';
-    span.setAttribute('class', 'w-20');
+    span.setAttribute('class', 'w-10');
 
     label.appendChild(span);
 
     span = document.createElement('span');
     span.innerText = 'Orientación:';
-    span.setAttribute('class', 'w-20');
+    span.setAttribute('class', 'w-15');
 
     label.appendChild(span);
 
     span = document.createElement('span');
     span.innerText = 'Medidas:';
-    span.setAttribute('class', 'w-20');
+    span.setAttribute('class', 'w-10');
 
     label.appendChild(span);
 
     span = document.createElement('span');
     span.innerText = 'Colindancias:';
-    span.setAttribute('class', 'w-20');
+    span.setAttribute('class', 'w-55');
 
     label.appendChild(span);
 
