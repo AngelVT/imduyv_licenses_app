@@ -603,7 +603,8 @@ export function generateUrbanSpecialData(type) {
                         }
                     }
                 ],
-                authorizationResume: "Ej: SE AUTORIZA LA SUBDIVISIÓN DE LOS PREDIOS IDENTIFICADOS COMO LAS PARCELAS 777, 775, 778, 786, 790, 791 Y LOTE 1 (PARCELA 924), RESULTANDO LA FUSIÓN CON UNA SUPERFICIE TOTAL DE: 161,100.70 M2."
+                authorizationResume: "Ej: SE AUTORIZA LA SUBDIVISIÓN DE LOS PREDIOS IDENTIFICADOS COMO LAS PARCELAS 777, 775, 778, 786, 790, 791 Y LOTE 1 (PARCELA 924), RESULTANDO LA FUSIÓN CON UNA SUPERFICIE TOTAL DE: 161,100.70 M2.",
+                conditions: ["Deberá protocolizar la escritura de la subdivisión, debidamente inscrita en el Registro Público de la Propiedad y del Comercio del Distrito Judicial de Tizayuca, Hidalgo, en un plazo no mayor a 90 días naturales contados a partir de la firma del presente."]
             }
         case 4:
             return {
@@ -641,7 +642,8 @@ export function generateUrbanSpecialData(type) {
                         }
                     }
                 ],
-                authorizationResume: "Ej: SE AUTORIZA LA FUSIÓN DE LOS PREDIOS IDENTIFICADOS COMO LAS PARCELAS 777, 775, 778, 786, 790, 791 Y LOTE 1 (PARCELA 924), RESULTANDO LA FUSIÓN CON UNA SUPERFICIE TOTAL DE: 161,100.70 M2."
+                authorizationResume: "Ej: SE AUTORIZA LA FUSIÓN DE LOS PREDIOS IDENTIFICADOS COMO LAS PARCELAS 777, 775, 778, 786, 790, 791 Y LOTE 1 (PARCELA 924), RESULTANDO LA FUSIÓN CON UNA SUPERFICIE TOTAL DE: 161,100.70 M2.",
+                conditions: ["Deberá protocolizar la escritura de la subdivisión, debidamente inscrita en el Registro Público de la Propiedad y del Comercio del Distrito Judicial de Tizayuca, Hidalgo, en un plazo no mayor a 90 días naturales contados a partir de la firma del presente."]
             }
         case 5:
             return {

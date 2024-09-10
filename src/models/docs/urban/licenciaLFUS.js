@@ -226,9 +226,7 @@ export async function generateUrbanLFUS(lcDBObj) {
                         [
                             {
                                 type: 'lower-alpha',
-                                ol: [
-                                    'Deberá protocolizar la escritura de la subdivisión, debidamente inscrita en el Registro Público de la Propiedad y del Comercio del Distrito Judicial de Tizayuca, Hidalgo, en un plazo no mayor a 90 días naturales contados a partir de la firma del presente.'
-                                ],
+                                ol: lcDBObj.licenseSpecialData.conditions ? lcDBObj.licenseSpecialData.conditions.join('\n\n*').split('*') : ["..."],
                                 fontSize: 6
                             }
                         ]

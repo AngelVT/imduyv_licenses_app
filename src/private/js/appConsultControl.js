@@ -1,11 +1,9 @@
-function hideShow(btn, id) {
+function hideShow(id) {
     let resultTop = document.querySelector(`#result_top_${id}`);
     let resultSave = document.querySelector(`#result_control_save_${id}`);
     let resultDelete = document.querySelector(`#result_control_delete_${id}`);
     let resultPrint = document.querySelector(`#result_control_print_${id}`);
     let fields = document.querySelector(`#result_fields_${id}`);
-    /*btn.classList.toggle("bi-chevron-bar-up");
-    btn.classList.toggle("bi-chevron-bar-down");*/
     resultTop.classList.toggle("border-round");
     resultTop.classList.toggle("border-round-top");
     resultSave.classList.toggle("dis-none");
@@ -445,6 +443,9 @@ function createUrbanResult(resObj, target) {
             field = createResultTextArea(resObj.id, 'Resumen de autorización', 'authorizationResume', resObj.licenseSpecialData.authorizationResume);
             field.style.marginBottom = '10px';
             resultContent.appendChild(field);
+
+            field = createResultTextArea(resObj.id, 'Condicionantes', 'conditions', resObj.licenseSpecialData.conditions ? resObj.licenseSpecialData.conditions.join('\n') : '');
+            resultContent.appendChild(field);
             break;
         case 4:
             field = createResultField(resObj.id, 'Representante', 'legalRepresentative', resObj.legalRepresentative, 'text');
@@ -485,6 +486,9 @@ function createUrbanResult(resObj, target) {
 
             field = createResultTextArea(resObj.id, 'Resumen de autorización', 'authorizationResume', resObj.licenseSpecialData.authorizationResume);
             field.style.marginBottom = '10px';
+            resultContent.appendChild(field);
+
+            field = createResultTextArea(resObj.id, 'Condicionantes', 'conditions', resObj.licenseSpecialData.conditions ? resObj.licenseSpecialData.conditions.join('\n') : '');
             resultContent.appendChild(field);
             break;
         case 5:
@@ -994,7 +998,7 @@ function createLandResult(resObj, target) {
     target.appendChild(newResult);
 }
 
-function createPrintResultTop(id, invoice) {
+function createPrintResultTop(id, fullInvoice, invoice, type, year) {
     let top = document.createElement('div');
     let topLabel = document.createElement('p');
     let span;
@@ -1006,10 +1010,17 @@ function createPrintResultTop(id, invoice) {
     topLabel.innerText = 'Folio: ';
     span = document.createElement('span');
     span.setAttribute('id', `result_invoice_${id}`);
-    span.innerText = invoice.replaceAll('_', '/');
+    span.innerText = fullInvoice.replaceAll('_', '/');
     topLabel.appendChild(span);
 
     top.appendChild(topLabel);
+
+    span = document.createElement('a');
+    span.setAttribute('id', `result_control_print_${id}`);
+    span.setAttribute('target', '_blank');
+    span.setAttribute('href', `/api/urban/PDF/${type}/${invoice}/${year}`);
+    span.setAttribute('class', 'bi-printer txt-large color-primary result-control w-5');
+    top.appendChild(span);
 
     return top;
 }
@@ -1282,6 +1293,9 @@ function createUrbanPrintResult(resObj, target) {
             field = createResultTextArea(resObj.id, 'Resumen de autorización', 'authorizationResume', resObj.licenseSpecialData.authorizationResume);
             field.style.marginBottom = '10px';
             resultContent.appendChild(field);
+
+            field = createResultTextArea(resObj.id, 'Condicionantes', 'conditions', resObj.licenseSpecialData.conditions ? resObj.licenseSpecialData.conditions.join('\n') : '');
+            resultContent.appendChild(field);
             break;
         case 4:
             field = createResultField(resObj.id, 'Representante', 'legalRepresentative', resObj.legalRepresentative, 'text');
@@ -1322,6 +1336,9 @@ function createUrbanPrintResult(resObj, target) {
 
             field = createResultTextArea(resObj.id, 'Resumen de autorización', 'authorizationResume', resObj.licenseSpecialData.authorizationResume);
             field.style.marginBottom = '10px';
+            resultContent.appendChild(field);
+
+            field = createResultTextArea(resObj.id, 'Condicionantes', 'conditions', resObj.licenseSpecialData.conditions ? resObj.licenseSpecialData.conditions.join('\n') : '');
             resultContent.appendChild(field);
             break;
         case 5:
@@ -1556,7 +1573,7 @@ function createUrbanPrintResult(resObj, target) {
 
     let newResult = createResult(
         resObj.id,
-        createPrintResultTop(resObj.id, resObj.fullInvoice), 
+        createPrintResultTop(resObj.id, resObj.fullInvoice, resObj.invoice, resObj.licenseType, resObj.year), 
         resultContent);
 
     target.appendChild(newResult);
