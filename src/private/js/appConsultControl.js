@@ -26,7 +26,6 @@ function createResult(id, top, fields) {
 
 function createResultTop(obj) {
     let top = document.createElement('div');
-    let topBtn = document.createElement('button');
     let topLabel = document.createElement('p');
     let topControls = document.createElement('div');
     let span;
@@ -40,7 +39,7 @@ function createResultTop(obj) {
     top.appendChild(topBtn);*/
 
     topLabel.setAttribute('class', 'color-white txt-bold w-100 txt-center result-label');
-    topLabel.setAttribute('onclick', `hideShow(this, ${obj.id})`)
+    topLabel.setAttribute('onclick', `hideShow(${obj.id})`)
     topLabel.innerText = 'Folio: ';
     span = document.createElement('span');
     span.setAttribute('id', `result_invoice_${obj.id}`);
