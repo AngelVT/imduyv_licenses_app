@@ -13,6 +13,12 @@ thaForm.addEventListener(
         })
             .then(async res => {
                 if (res.ok) {
+                    let content = res.headers.get('Content-Type');
+                    if (content.includes('text/html')) {
+                        location.href = res.url;
+                        return;
+                    }
+                    
                     let response = await res.json();
 
                     alert(`

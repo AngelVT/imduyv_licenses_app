@@ -47,6 +47,12 @@ async function getLicense(type, invoice, year) {
         })
         .then(async res => {
             if(res.ok){
+                let content = res.headers.get('Content-Type');
+                if (content.includes('text/html')) {
+                    location.href = res.url;
+                    return;
+                }
+
                 let response = await res.json();
 
                 if (response.data.length == 0) {
@@ -82,6 +88,12 @@ async function getLicenseByType(type, year) {
         })
         .then(async res => {
             if(res.ok){
+                let content = res.headers.get('Content-Type');
+                if (content.includes('text/html')) {
+                    location.href = res.url;
+                    return;
+                }
+
                 let response = await res.json();
 
                 if (response.data.length == 0) {
@@ -118,6 +130,12 @@ async function getLicenseBy(param, value) {
         })
         .then(async res => {
             if(res.ok) {
+                let content = res.headers.get('Content-Type');
+                if (content.includes('text/html')) {
+                    location.href = res.url;
+                    return;
+                }
+
                 let response = await res.json();
 
                 if (response.data.length == 0) {
@@ -153,6 +171,12 @@ async function getLicensesUrban() {
         })
         .then(async res => {
             if(res.ok){
+                let content = res.headers.get('Content-Type');
+                if (content.includes('text/html')) {
+                    location.href = res.url;
+                    return;
+                }
+
                 let response = await res.json();
 
                 if (response.data.length == 0) {
@@ -215,13 +239,21 @@ async function updateResultField(form, id) {
         })
         .then(async res => {
             if(res.ok) {
+                let content = res.headers.get('Content-Type');
+                if (content.includes('text/html')) {
+                    location.href = res.url;
+                    return;
+                }
+
                 if (form.querySelector('.input-interface')) {
                     form.querySelector('input[type=hidden]').value = form.querySelector('.input-interface').value;
                 }
 
                 if (form.querySelector('.input-file')) {
                     let img = document.querySelector(`#result_fields_${id}`).querySelector('img');
-                    img.setAttribute('src', `/urbanStorage/${form.querySelector('input[type=hidden]').value}/zone.png?${new Date().getTime()}`);
+                    if(img) {
+                        img.setAttribute('src', `/urbanStorage/${form.querySelector('input[type=hidden]').value}/zone.png?${new Date().getTime()}`);
+                    }
                 }
                 
                 alert(`Cambios guardados exitosamente para el registro: ${registro}`);
@@ -265,6 +297,12 @@ async function deleteResult(id) {
         })
         .then(res => {
             if(res.ok){
+                let content = res.headers.get('Content-Type');
+                if (content.includes('text/html')) {
+                    location.href = res.url;
+                    return;
+                }
+                
                 document.querySelector(`#result_${id}`).remove();
                 return;
             }

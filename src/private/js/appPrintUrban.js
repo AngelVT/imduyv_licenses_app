@@ -23,6 +23,12 @@ async function getLicensePrint(type, invoice, year) {
         })
         .then(async res => {
             if(res.ok){
+                let content = res.headers.get('Content-Type');
+                if (content.includes('text/html')) {
+                    location.href = res.url;
+                    return;
+                }
+
                 let response = await res.json();
 
                 if (response.data.length == 0) {
@@ -47,7 +53,8 @@ async function getLicensePrint(type, invoice, year) {
         })
         .catch(error => {
             alert('An error ocurred:\n' + error);
-            console.error('Error getting data: ', error)
+            console.log(error.message)
+            console.error('Error getting data: ', error);
         });
 }
 
@@ -85,6 +92,12 @@ async function updateResultField(form, id) {
         })
         .then(async res => {
             if(res.ok) {
+                let content = res.headers.get('Content-Type');
+                if (content.includes('text/html')) {
+                    location.href = res.url;
+                    return;
+                }
+
                 if (form.querySelector('.input-interface')) {
                     form.querySelector('input[type=hidden]').value = form.querySelector('.input-interface').value;
                 }
@@ -148,6 +161,12 @@ async function updateResultTables(form, id) {
         })
         .then(async res => {
             if(res.ok) {
+                let content = res.headers.get('Content-Type');
+                if (content.includes('text/html')) {
+                    location.href = res.url;
+                    return;
+                }
+
                 let url = PDF.getAttribute('src').split('?')[0];
                 PDF.setAttribute('src', `${url}?${new Date().getTime()}`)
                 
@@ -183,6 +202,12 @@ async function deleteResult(id) {
         })
         .then(res => {
             if(res.ok){
+                let content = res.headers.get('Content-Type');
+                if (content.includes('text/html')) {
+                    location.href = res.url;
+                    return;
+                }
+                
                 document.querySelector(`#result_${id}`).remove();
                 return;
             }

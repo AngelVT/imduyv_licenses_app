@@ -7,7 +7,7 @@ export async function generateUrbanLSUB(lcDBObj) {
     lcDBObj = docUtils.prepareData(lcDBObj);
 
     var definition = {
-        pageMargins: [ 5, 60, 5, 60 ],
+        pageMargins: [ 5, 40, 5, 40 ],
         styles: docUtils.docStyles,
         content: [
             {
@@ -178,7 +178,7 @@ export async function generateUrbanLSUB(lcDBObj) {
                         text:'NOTIFÍQUESE Y CÚMPLASE\nASÍ EN DEFINITIVA LO RESOLVIÓ Y AUTORIZÓ EL MAESTRO EN AUDITORÍA Y CONTROL INTERNO GUBERNAMENTAL HIPÓLITO ZAMORA SORIA,\nDIRECTOR GENERAL DEL INSTITUTO MUNICIPAL DE DESARROLLO URBANO Y VIVIENDA',
                         style: 'center',
                         fontSize: 6,
-                        margin: [0,10,0,50]
+                        margin: [0,10,0,40]
                     },
                     /*{
                         columns: [

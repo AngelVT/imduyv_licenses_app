@@ -7,7 +7,7 @@ export async function generateUrbanLFUS(lcDBObj) {
     lcDBObj = docUtils.prepareData(lcDBObj);
 
     var definition = {
-        pageMargins: [ 5, 60, 5, 60 ],
+        pageMargins: [ 5, 40, 5, 40 ],
         styles: docUtils.docStyles,
         content: [
             {
