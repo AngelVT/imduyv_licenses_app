@@ -443,6 +443,10 @@ export const updateLicense = async (req, res) => {
             resultRelotification,
             previousInvoice,
             previousInvoiceDate,
+            layout,
+            pageBreak_1,
+            pageBreak_2,
+            pageBreak_3,
         } = req.body;
 
         let { legalRepresentative } = req.body;
@@ -497,6 +501,11 @@ export const updateLicense = async (req, res) => {
         newSpecialData.resultRelotification = resultRelotification ? resultRelotification.replaceAll('\r', '').split('\n') : newSpecialData.resultRelotification;
         newSpecialData.previousInvoice = previousInvoice ? previousInvoice : newSpecialData.previousInvoice;
         newSpecialData.previousInvoiceDate = previousInvoiceDate ? previousInvoiceDate : newSpecialData.previousInvoiceDate;
+
+        newSpecialData.layout = layout ? layout.toUpperCase() : newSpecialData.layout;
+        newSpecialData.pageBreak_1 = pageBreak_1 ? parseInt(pageBreak_1) : newSpecialData.pageBreak_1;
+        newSpecialData.pageBreak_2 = pageBreak_2 ? parseInt(pageBreak_2) : newSpecialData.pageBreak_2;
+        newSpecialData.pageBreak_3 = pageBreak_3 ? parseInt(pageBreak_3) : newSpecialData.pageBreak_3;
 
         if (legalRepresentative == '-' || newSpecialData.representativeAs == '-') {
             legalRepresentative = null;

@@ -6,6 +6,51 @@ export async function generateUrbanLFUS(lcDBObj) {
 
     lcDBObj = docUtils.prepareData(lcDBObj);
 
+    const conditionsPart = {
+        style: 'formRow',
+        pageBreak: lcDBObj.licenseSpecialData.pageBreak_1 == 1 ? 'before' : 'avoid',
+        table: {
+            widths: ['*'],
+            body: [
+                [
+                    {text: "CONDICIONANTES", style: 'headT', border: docUtils.borderless}
+                ],
+                [
+                    {
+                        type: 'lower-alpha',
+                        ol: lcDBObj.licenseSpecialData.conditions ? lcDBObj.licenseSpecialData.conditions.join('\n\n*').split('*') : ["..."],
+                        fontSize: 6
+                    }
+                ]
+            ]
+        },
+        layout: docUtils.containerLayout
+    };
+    const restrictionsPart = {
+        style: 'formRow',
+        pageBreak: lcDBObj.licenseSpecialData.pageBreak_2 == 1 ? 'before' : 'avoid',
+        table: {
+            widths: ['*'],
+            body: [
+                [
+                    {text: "RESTRICCIONES Y SANCIONES", style: 'headT', border: docUtils.borderless}
+                ],
+                [
+                    {
+                        ul: [
+                            'La presente no autoriza acciones urbanas que generen impacto social en su entorno inmediato conforme a lo establecido en el artículo 139 de la Ley de Asentamientos Humanos, Desarrollo Urbano y Ordenamiento Territorial del Estado de Hidalgo y al artículo 71 del Reglamento de la Ley de Asentamientos Humanos, Desarrollo Urbano y Ordenamiento Territorial del Estado de Hidalgo.',
+                            'Acatar la normativa y restricciones de la zonificación secundaria que determina el documento técnico del Programa Municipal de Desarrollo Urbano y Ordenamiento Territorial de Tizayuca.',
+                            'El presente documento es intransferible y aplicación durante su vigencia es exclusivamente para los inmuebles autorizados y del propietario acreditado, dejando de surtir efecto alguno si por cualquier título legal se transfiere el uso, destino o dominio del predio y solo refiere el uso de suelo de la acción urbana competencia de este Instituto Municipal de Desarrollo Urbano y Vivienda, de Tizayuca, estado de Hidalgo y por ningún motivo constituye un permiso para la realización de obras, ni reconoce ni valida la personalidad jurídica, legitima la propiedad y/o tenencia de la tierra, ni tampoco es vinculante con autorizaciones competencia de otras autoridades federales, estatales y/o municipales, quienes en su caso resolverán lo conducente respecto a permisos, licencias y dictámenes entre otros.',
+                            'El Instituto Municipal de Desarrollo Urbano y Vivienda se reserva el derecho de revocar la presente, en caso de incumplimiento a cualquiera de las condiciones establecidas en la misma.'
+                        ],
+                        fontSize: 6
+                    }
+                ]
+            ]
+        },
+        layout: docUtils.containerLayout
+    };
+
     var definition = {
         pageMargins: [ 5, 40, 5, 40 ],
         styles: docUtils.docStyles,
@@ -154,6 +199,8 @@ export async function generateUrbanLFUS(lcDBObj) {
                 },
                 layout: docUtils.containerLayout
             },
+            lcDBObj.licenseSpecialData.layout == "A" ? conditionsPart : {},
+            lcDBObj.licenseSpecialData.layout == "A" ? restrictionsPart : {},
             {
                 style: 'formRow',
                 table: {
@@ -216,52 +263,11 @@ export async function generateUrbanLFUS(lcDBObj) {
                     }
                 ]
             },
+            lcDBObj.licenseSpecialData.layout == "B" ? conditionsPart : {},
+            lcDBObj.licenseSpecialData.layout == "B" ? restrictionsPart : {},
             {
                 style: 'formRow',
-                pageBreak: 'before',
-                table: {
-                    widths: ['*'],
-                    body: [
-                        [
-                            {text: "CONDICIONANTES", style: 'headT', border: docUtils.borderless}
-                        ],
-                        [
-                            {
-                                type: 'lower-alpha',
-                                ol: lcDBObj.licenseSpecialData.conditions ? lcDBObj.licenseSpecialData.conditions.join('\n\n*').split('*') : ["..."],
-                                fontSize: 6
-                            }
-                        ]
-                    ]
-                },
-                layout: docUtils.containerLayout
-            },
-            {
-                style: 'formRow',
-                table: {
-                    widths: ['*'],
-                    body: [
-                        [
-                            {text: "RESTRICCIONES Y SANCIONES", style: 'headT', border: docUtils.borderless}
-                        ],
-                        [
-                            {
-                                ul: [
-                                    'La presente no autoriza acciones urbanas que generen impacto social en su entorno inmediato conforme a lo establecido en el artículo 139 de la Ley de Asentamientos Humanos, Desarrollo Urbano y Ordenamiento Territorial del Estado de Hidalgo y al artículo 71 del Reglamento de la Ley de Asentamientos Humanos, Desarrollo Urbano y Ordenamiento Territorial del Estado de Hidalgo.',
-                                    'Acatar la normativa y restricciones de la zonificación secundaria que determina el documento técnico del Programa Municipal de Desarrollo Urbano y Ordenamiento Territorial de Tizayuca.',
-                                    'El presente documento es intransferible y aplicación durante su vigencia es exclusivamente para los inmuebles autorizados y del propietario acreditado, dejando de surtir efecto alguno si por cualquier título legal se transfiere el uso, destino o dominio del predio y solo refiere el uso de suelo de la acción urbana competencia de este Instituto Municipal de Desarrollo Urbano y Vivienda, de Tizayuca, estado de Hidalgo y por ningún motivo constituye un permiso para la realización de obras, ni reconoce ni valida la personalidad jurídica, legitima la propiedad y/o tenencia de la tierra, ni tampoco es vinculante con autorizaciones competencia de otras autoridades federales, estatales y/o municipales, quienes en su caso resolverán lo conducente respecto a permisos, licencias y dictámenes entre otros.',
-                                    'El Instituto Municipal de Desarrollo Urbano y Vivienda se reserva el derecho de revocar la presente, en caso de incumplimiento a cualquiera de las condiciones establecidas en la misma.'
-                                ],
-                                fontSize: 6
-                            }
-                        ]
-                    ]
-                },
-                layout: docUtils.containerLayout
-            },
-            {
-                style: 'formRow',
-                pageBreak: 'avoid',
+                pageBreak: lcDBObj.licenseSpecialData.pageBreak_3 == 1 ? 'before' : 'avoid',
                 table: {
                     widths: ['*'],
                     body: [
