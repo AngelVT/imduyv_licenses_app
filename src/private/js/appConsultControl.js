@@ -1487,6 +1487,105 @@ function createUrbanPrintResult(resObj, target) {
             field = createResultTextArea(resObj.id, 'Uso autorizado', 'detailedUse', resObj.licenseSpecialData.detailedUse);
             resultContent.appendChild(field);
 
+            //saltos de pagina
+            field = createResultField(resObj.id, 'Salto antes de cuadro de superficies por uso de suelo', 'pageBreak_1', resObj.licenseSpecialData.pageBreak_1, 'select');
+
+            field.querySelector('select').innerHTML = `
+            <option value="">Selecciona ...</option>
+            <option value="0">No</option>
+            <option value="1">Si</option>
+            `;
+            field.querySelector('select').value = resObj.licenseSpecialData.pageBreak_1;
+
+            resultContent.appendChild(field);
+
+            field = createResultField(resObj.id, 'Salto antes de resumen de manzanas', 'pageBreak_2', resObj.licenseSpecialData.pageBreak_2, 'select');
+
+            field.querySelector('select').innerHTML = `
+            <option value="">Selecciona ...</option>
+            <option value="0">No</option>
+            <option value="1">Si</option>
+            `;
+            field.querySelector('select').value = resObj.licenseSpecialData.pageBreak_2;
+
+            resultContent.appendChild(field);
+
+            field = createResultField(resObj.id, 'Salto antes de resumen de por uso', 'pageBreak_3', resObj.licenseSpecialData.pageBreak_3, 'select');
+
+            field.querySelector('select').innerHTML = `
+            <option value="">Selecciona ...</option>
+            <option value="0">No</option>
+            <option value="1">Si</option>
+            `;
+            field.querySelector('select').value = resObj.licenseSpecialData.pageBreak_3;
+
+            resultContent.appendChild(field);
+
+            field = createResultField(resObj.id, 'Salto antes de obligaciones', 'pageBreak_4', resObj.licenseSpecialData.pageBreak_4, 'select');
+
+            field.querySelector('select').innerHTML = `
+            <option value="">Selecciona ...</option>
+            <option value="0">No</option>
+            <option value="1">Si</option>
+            `;
+            field.querySelector('select').value = resObj.licenseSpecialData.pageBreak_4;
+
+            resultContent.appendChild(field);
+
+            field = createResultField(resObj.id, 'Salto antes de condicionantes', 'pageBreak_5', resObj.licenseSpecialData.pageBreak_5, 'select');
+
+            field.querySelector('select').innerHTML = `
+            <option value="">Selecciona ...</option>
+            <option value="0">No</option>
+            <option value="1">Si</option>
+            `;
+            field.querySelector('select').value = resObj.licenseSpecialData.pageBreak_5;
+
+            resultContent.appendChild(field);
+
+            field = createResultField(resObj.id, 'Salto antes de prohibiciones y sanciones', 'pageBreak_6', resObj.licenseSpecialData.pageBreak_6, 'select');
+
+            field.querySelector('select').innerHTML = `
+            <option value="">Selecciona ...</option>
+            <option value="0">No</option>
+            <option value="1">Si</option>
+            `;
+            field.querySelector('select').value = resObj.licenseSpecialData.pageBreak_6;
+
+            resultContent.appendChild(field);
+
+            field = createResultField(resObj.id, 'Salto antes de medidas preventivas', 'pageBreak_7', resObj.licenseSpecialData.pageBreak_7, 'select');
+
+            field.querySelector('select').innerHTML = `
+            <option value="">Selecciona ...</option>
+            <option value="0">No</option>
+            <option value="1">Si</option>
+            `;
+            field.querySelector('select').value = resObj.licenseSpecialData.pageBreak_7;
+
+            resultContent.appendChild(field);
+
+            field = createResultField(resObj.id, 'Salto antes de resuelve', 'pageBreak_8', resObj.licenseSpecialData.pageBreak_8, 'select');
+
+            field.querySelector('select').innerHTML = `
+            <option value="">Selecciona ...</option>
+            <option value="0">No</option>
+            <option value="1">Si</option>
+            `;
+            field.querySelector('select').value = resObj.licenseSpecialData.pageBreak_8;
+
+            resultContent.appendChild(field);
+
+            field = createResultField(resObj.id, 'Salto antes de fundamento jurídico', 'pageBreak_9', resObj.licenseSpecialData.pageBreak_9, 'select');
+
+            field.querySelector('select').innerHTML = `
+            <option value="">Selecciona ...</option>
+            <option value="0">No</option>
+            <option value="1">Si</option>
+            `;
+            field.querySelector('select').value = resObj.licenseSpecialData.pageBreak_9;
+
+            resultContent.appendChild(field);
             break;
         case 6:
             field = createResultField(resObj.id, 'Representante', 'legalRepresentative', resObj.legalRepresentative, 'text');
@@ -1567,6 +1666,106 @@ function createUrbanPrintResult(resObj, target) {
 
             field = createResultField(resObj.id, 'Superficie de donación', 'totalSurface', resObj.licenseSpecialData.totalSurface, 'number');
             resultContent.appendChild(field);
+
+            //saltos de pagina
+            field = createResultField(resObj.id, 'Salto antes de cuadro de superficies por uso de suelo', 'pageBreak_1', resObj.licenseSpecialData.pageBreak_1, 'select');
+
+            field.querySelector('select').innerHTML = `
+            <option value="">Selecciona ...</option>
+            <option value="0">No</option>
+            <option value="1">Si</option>
+            `;
+            field.querySelector('select').value = resObj.licenseSpecialData.pageBreak_1;
+
+            resultContent.appendChild(field);
+
+            field = createResultField(resObj.id, 'Salto antes de cuadro de distribución por manzanas', 'pageBreak_2', resObj.licenseSpecialData.pageBreak_2, 'select');
+
+            field.querySelector('select').innerHTML = `
+            <option value="">Selecciona ...</option>
+            <option value="0">No</option>
+            <option value="1">Si</option>
+            `;
+            field.querySelector('select').value = resObj.licenseSpecialData.pageBreak_2;
+
+            resultContent.appendChild(field);
+
+            field = createResultField(resObj.id, 'Salto antes de donaciones', 'pageBreak_3', resObj.licenseSpecialData.pageBreak_3, 'select');
+
+            field.querySelector('select').innerHTML = `
+            <option value="">Selecciona ...</option>
+            <option value="0">No</option>
+            <option value="1">Si</option>
+            `;
+            field.querySelector('select').value = resObj.licenseSpecialData.pageBreak_3;
+
+            resultContent.appendChild(field);
+
+            field = createResultField(resObj.id, 'Salto antes de obligaciones', 'pageBreak_4', resObj.licenseSpecialData.pageBreak_4, 'select');
+
+            field.querySelector('select').innerHTML = `
+            <option value="">Selecciona ...</option>
+            <option value="0">No</option>
+            <option value="1">Si</option>
+            `;
+            field.querySelector('select').value = resObj.licenseSpecialData.pageBreak_4;
+
+            resultContent.appendChild(field);
+
+            field = createResultField(resObj.id, 'Salto antes de condicionantes', 'pageBreak_5', resObj.licenseSpecialData.pageBreak_5, 'select');
+
+            field.querySelector('select').innerHTML = `
+            <option value="">Selecciona ...</option>
+            <option value="0">No</option>
+            <option value="1">Si</option>
+            `;
+            field.querySelector('select').value = resObj.licenseSpecialData.pageBreak_5;
+
+            resultContent.appendChild(field);
+
+            field = createResultField(resObj.id, 'Salto antes de prohibiciones y sanciones', 'pageBreak_6', resObj.licenseSpecialData.pageBreak_6, 'select');
+
+            field.querySelector('select').innerHTML = `
+            <option value="">Selecciona ...</option>
+            <option value="0">No</option>
+            <option value="1">Si</option>
+            `;
+            field.querySelector('select').value = resObj.licenseSpecialData.pageBreak_6;
+
+            resultContent.appendChild(field);
+
+            field = createResultField(resObj.id, 'Salto antes de medidas preventivas', 'pageBreak_7', resObj.licenseSpecialData.pageBreak_7, 'select');
+
+            field.querySelector('select').innerHTML = `
+            <option value="">Selecciona ...</option>
+            <option value="0">No</option>
+            <option value="1">Si</option>
+            `;
+            field.querySelector('select').value = resObj.licenseSpecialData.pageBreak_7;
+
+            resultContent.appendChild(field);
+
+            field = createResultField(resObj.id, 'Salto antes de resuelve', 'pageBreak_8', resObj.licenseSpecialData.pageBreak_8, 'select');
+
+            field.querySelector('select').innerHTML = `
+            <option value="">Selecciona ...</option>
+            <option value="0">No</option>
+            <option value="1">Si</option>
+            `;
+            field.querySelector('select').value = resObj.licenseSpecialData.pageBreak_8;
+
+            resultContent.appendChild(field);
+
+            field = createResultField(resObj.id, 'Salto antes de fundamento jurídico', 'pageBreak_9', resObj.licenseSpecialData.pageBreak_9, 'select');
+
+            field.querySelector('select').innerHTML = `
+            <option value="">Selecciona ...</option>
+            <option value="0">No</option>
+            <option value="1">Si</option>
+            `;
+            field.querySelector('select').value = resObj.licenseSpecialData.pageBreak_9;
+
+            resultContent.appendChild(field);
             break;
         case 7:
             field = createResultField(resObj.id, 'Representante', 'legalRepresentative', resObj.legalRepresentative, 'text');
@@ -1613,6 +1812,94 @@ function createUrbanPrintResult(resObj, target) {
             field = createResultTextArea(resObj.id, 'Uso autorizado', 'detailedUse', resObj.licenseSpecialData.detailedUse);
             resultContent.appendChild(field);
 
+            //saltos de pagina
+            field = createResultField(resObj.id, 'Salto antes de datos generales', 'pageBreak_1', resObj.licenseSpecialData.pageBreak_1, 'select');
+
+            field.querySelector('select').innerHTML = `
+            <option value="">Selecciona ...</option>
+            <option value="0">No</option>
+            <option value="1">Si</option>
+            `;
+            field.querySelector('select').value = resObj.licenseSpecialData.pageBreak_1;
+
+            resultContent.appendChild(field);
+
+            field = createResultField(resObj.id, 'Salto antes de resumen de relotificacion', 'pageBreak_2', resObj.licenseSpecialData.pageBreak_2, 'select');
+
+            field.querySelector('select').innerHTML = `
+            <option value="">Selecciona ...</option>
+            <option value="0">No</option>
+            <option value="1">Si</option>
+            `;
+            field.querySelector('select').value = resObj.licenseSpecialData.pageBreak_2;
+
+            resultContent.appendChild(field);
+
+            field = createResultField(resObj.id, 'Salto antes de obligaciones', 'pageBreak_3', resObj.licenseSpecialData.pageBreak_3, 'select');
+
+            field.querySelector('select').innerHTML = `
+            <option value="">Selecciona ...</option>
+            <option value="0">No</option>
+            <option value="1">Si</option>
+            `;
+            field.querySelector('select').value = resObj.licenseSpecialData.pageBreak_3;
+
+            resultContent.appendChild(field);
+
+            field = createResultField(resObj.id, 'Salto antes de condicionantes', 'pageBreak_4', resObj.licenseSpecialData.pageBreak_4, 'select');
+
+            field.querySelector('select').innerHTML = `
+            <option value="">Selecciona ...</option>
+            <option value="0">No</option>
+            <option value="1">Si</option>
+            `;
+            field.querySelector('select').value = resObj.licenseSpecialData.pageBreak_4;
+
+            resultContent.appendChild(field);
+
+            field = createResultField(resObj.id, 'Salto antes de prohibiciones y sanciones', 'pageBreak_5', resObj.licenseSpecialData.pageBreak_5, 'select');
+
+            field.querySelector('select').innerHTML = `
+            <option value="">Selecciona ...</option>
+            <option value="0">No</option>
+            <option value="1">Si</option>
+            `;
+            field.querySelector('select').value = resObj.licenseSpecialData.pageBreak_5;
+
+            resultContent.appendChild(field);
+
+            field = createResultField(resObj.id, 'Salto antes de medidas preventivas', 'pageBreak_6', resObj.licenseSpecialData.pageBreak_6, 'select');
+
+            field.querySelector('select').innerHTML = `
+            <option value="">Selecciona ...</option>
+            <option value="0">No</option>
+            <option value="1">Si</option>
+            `;
+            field.querySelector('select').value = resObj.licenseSpecialData.pageBreak_6;
+
+            resultContent.appendChild(field);
+
+            field = createResultField(resObj.id, 'Salto antes de resuelve', 'pageBreak_7', resObj.licenseSpecialData.pageBreak_7, 'select');
+
+            field.querySelector('select').innerHTML = `
+            <option value="">Selecciona ...</option>
+            <option value="0">No</option>
+            <option value="1">Si</option>
+            `;
+            field.querySelector('select').value = resObj.licenseSpecialData.pageBreak_7;
+
+            resultContent.appendChild(field);
+
+            field = createResultField(resObj.id, 'Salto antes de fundamento jurídico', 'pageBreak_8', resObj.licenseSpecialData.pageBreak_8, 'select');
+
+            field.querySelector('select').innerHTML = `
+            <option value="">Selecciona ...</option>
+            <option value="0">No</option>
+            <option value="1">Si</option>
+            `;
+            field.querySelector('select').value = resObj.licenseSpecialData.pageBreak_8;
+
+            resultContent.appendChild(field);
             break;
         case 8:
             field = createResultField(resObj.id, 'Representante', 'legalRepresentative', resObj.legalRepresentative, 'text');
@@ -1651,6 +1938,117 @@ function createUrbanPrintResult(resObj, target) {
             resultContent.appendChild(field);
 
             field = createResultField(resObj.id, 'Superficie común', 'commonSurface', resObj.licenseSpecialData.commonSurface, 'number');
+            resultContent.appendChild(field);
+
+            //saltos de pagina
+            field = createResultField(resObj.id, 'Salto antes de resumen de areas', 'pageBreak_1', resObj.licenseSpecialData.pageBreak_1, 'select');
+
+            field.querySelector('select').innerHTML = `
+            <option value="">Selecciona ...</option>
+            <option value="0">No</option>
+            <option value="1">Si</option>
+            `;
+            field.querySelector('select').value = resObj.licenseSpecialData.pageBreak_1;
+
+            resultContent.appendChild(field);
+
+            field = createResultField(resObj.id, 'Salto antes de resumen de lotes', 'pageBreak_2', resObj.licenseSpecialData.pageBreak_2, 'select');
+
+            field.querySelector('select').innerHTML = `
+            <option value="">Selecciona ...</option>
+            <option value="0">No</option>
+            <option value="1">Si</option>
+            `;
+            field.querySelector('select').value = resObj.licenseSpecialData.pageBreak_2;
+
+            resultContent.appendChild(field);
+
+            field = createResultField(resObj.id, 'Salto antes de resumen por lote', 'pageBreak_3', resObj.licenseSpecialData.pageBreak_3, 'select');
+
+            field.querySelector('select').innerHTML = `
+            <option value="">Selecciona ...</option>
+            <option value="0">No</option>
+            <option value="1">Si</option>
+            `;
+            field.querySelector('select').value = resObj.licenseSpecialData.pageBreak_3;
+
+            resultContent.appendChild(field);
+
+            field = createResultField(resObj.id, 'Salto antes de considerandos parte 2', 'pageBreak_4', resObj.licenseSpecialData.pageBreak_4, 'select');
+
+            field.querySelector('select').innerHTML = `
+            <option value="">Selecciona ...</option>
+            <option value="0">No</option>
+            <option value="1">Si</option>
+            `;
+            field.querySelector('select').value = resObj.licenseSpecialData.pageBreak_4;
+
+            resultContent.appendChild(field);
+
+            field = createResultField(resObj.id, 'Salto antes de prohibiciones y sanciones', 'pageBreak_5', resObj.licenseSpecialData.pageBreak_5, 'select');
+
+            field.querySelector('select').innerHTML = `
+            <option value="">Selecciona ...</option>
+            <option value="0">No</option>
+            <option value="1">Si</option>
+            `;
+            field.querySelector('select').value = resObj.licenseSpecialData.pageBreak_5;
+
+            resultContent.appendChild(field);
+
+            field = createResultField(resObj.id, 'Salto antes de obligaciones', 'pageBreak_6', resObj.licenseSpecialData.pageBreak_6, 'select');
+
+            field.querySelector('select').innerHTML = `
+            <option value="">Selecciona ...</option>
+            <option value="0">No</option>
+            <option value="1">Si</option>
+            `;
+            field.querySelector('select').value = resObj.licenseSpecialData.pageBreak_6;
+
+            resultContent.appendChild(field);
+
+            field = createResultField(resObj.id, 'Salto antes de condicionantes', 'pageBreak_7', resObj.licenseSpecialData.pageBreak_7, 'select');
+
+            field.querySelector('select').innerHTML = `
+            <option value="">Selecciona ...</option>
+            <option value="0">No</option>
+            <option value="1">Si</option>
+            `;
+            field.querySelector('select').value = resObj.licenseSpecialData.pageBreak_7;
+
+            resultContent.appendChild(field);
+
+            field = createResultField(resObj.id, 'Salto antes de medidas preventivas', 'pageBreak_8', resObj.licenseSpecialData.pageBreak_8, 'select');
+
+            field.querySelector('select').innerHTML = `
+            <option value="">Selecciona ...</option>
+            <option value="0">No</option>
+            <option value="1">Si</option>
+            `;
+            field.querySelector('select').value = resObj.licenseSpecialData.pageBreak_8;
+
+            resultContent.appendChild(field);
+
+            field = createResultField(resObj.id, 'Salto antes de resuelve', 'pageBreak_9', resObj.licenseSpecialData.pageBreak_9, 'select');
+
+            field.querySelector('select').innerHTML = `
+            <option value="">Selecciona ...</option>
+            <option value="0">No</option>
+            <option value="1">Si</option>
+            `;
+            field.querySelector('select').value = resObj.licenseSpecialData.pageBreak_9;
+
+            resultContent.appendChild(field);
+
+            field = createResultField(resObj.id, 'Salto antes de fundamento jurídico', 'pageBreak_10', resObj.licenseSpecialData.pageBreak_10, 'select');
+
+            field.querySelector('select').innerHTML = `
+            <option value="">Selecciona ...</option>
+            <option value="0">No</option>
+            <option value="1">Si</option>
+            `;
+            field.querySelector('select').value = resObj.licenseSpecialData.pageBreak_10;
+
             resultContent.appendChild(field);
             break;
     }

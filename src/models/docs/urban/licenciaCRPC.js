@@ -7,7 +7,7 @@ export async function generateUrbanCRPC(lcDBObj) {
     lcDBObj = docUtils.prepareData(lcDBObj);
 
     var definition = {
-        pageMargins: [ 5, 50, 5, 50 ],
+        pageMargins: [ 5, 60, 5, 60 ],
         styles: docUtils.docStyles,
         content: [
             {
@@ -143,7 +143,7 @@ export async function generateUrbanCRPC(lcDBObj) {
                 ]
             },
             {
-                pageBreak: 'before',
+                pageBreak: lcDBObj.licenseSpecialData.pageBreak_1 == 1 ? 'before' : 'avoid',
                 style: 'formRow',
                 table: {
                     widths: ['*'],
@@ -161,7 +161,7 @@ export async function generateUrbanCRPC(lcDBObj) {
                 layout: docUtils.containerLayout
             },
             {
-                pageBreak: 'before',
+                pageBreak: lcDBObj.licenseSpecialData.pageBreak_2 == 1 ? 'before' : 'avoid',
                 style: 'formRow',
                 table: {
                     widths: ['*'],
@@ -179,7 +179,25 @@ export async function generateUrbanCRPC(lcDBObj) {
                 layout: docUtils.containerLayout
             },
             {
-                pageBreak: 'before',
+                pageBreak: lcDBObj.licenseSpecialData.pageBreak_3 == 1 ? 'before' : 'avoid',
+                style: 'formRow',
+                table: {
+                    widths: ['*'],
+                    body: [
+                        [
+                            {text: "RESUMEN POR LOTE", style: 'headT', border: docUtils.borderless}
+                        ],
+                        [
+                            {
+                                stack: await docUtils.loadChart(lcDBObj.fullInvoice, 'tabla_s3_')
+                            }
+                        ]
+                    ]
+                },
+                layout: docUtils.containerLayout
+            },
+            {
+                pageBreak: lcDBObj.licenseSpecialData.pageBreak_4 == 1 ? 'before' : 'avoid',
                 style: ['regular', 'formRow'],
                 alignment: 'justify',
                 start: 3,
@@ -188,10 +206,10 @@ export async function generateUrbanCRPC(lcDBObj) {
                     {text: [{text:'En  virtud de que el '},{text: lcDBObj.requestorName, bold: true},{
                         text: lcDBObj.legalRepresentative ? [{text: ' a través del C. '}, {text: lcDBObj.legalRepresentative, bold: true}, { text: `, en su carácter de ${lcDBObj.licenseSpecialData.representativeAs}`}] : ''
                     },{text:', ha cumplido con los requisitos de la Ley de Propiedad en Condominio de Inmuebles para el Estado de Hidalgo vigente en sus numerales 1, 4, 6, 7, 8, 9, 10, 13, 52 y 53, así como lo dispuesto por los artículos 1, 66 fracción VIII, 104, 105, 107 y 108 del Reglamento de la Ley de Asentamiento Humanos, Desarrollo Urbano y Ordenamiento Territorial del Estado de Hidalgo, resuelve que es procedente la autorización de: RÉGIMEN DE PROPIEDAD EN CONDOMINIO para '},{text: lcDBObj.licenseSpecialData.households, bold: true},{text:' ubicadas en los '},{text: docUtils.arrayToText(lcDBObj.licenseSpecialData.lotes), bold: true},{text:' de la '},{text: docUtils.arrayToText(lcDBObj.licenseSpecialData.manzanas), bold: true},{text:', dentro del fraccionamiento '},{text: `"${lcDBObj.colony}"`, bold: true},{text:', ubicado en el municipio de Tizayuca, Estado de Hidalgo.'},]}
-                    /*'LOS HÉROES TIZAYUCA”'*/
                 ]
             },
             {
+                pageBreak: lcDBObj.licenseSpecialData.pageBreak_5 == 1 ? 'before' : 'avoid',
                 style: 'formRow',
                 table: {
                     widths: ['*'],
@@ -220,6 +238,7 @@ export async function generateUrbanCRPC(lcDBObj) {
                 layout: docUtils.containerLayout
             },
             {
+                pageBreak: lcDBObj.licenseSpecialData.pageBreak_6 == 1 ? 'before' : 'avoid',
                 style: 'formRow',
                 table: {
                     widths: ['*'],
@@ -252,6 +271,7 @@ export async function generateUrbanCRPC(lcDBObj) {
                 layout: docUtils.containerLayout
             },
             {
+                pageBreak: lcDBObj.licenseSpecialData.pageBreak_7 == 1 ? 'before' : 'avoid',
                 style: 'formRow',
                 table: {
                     widths: ['*'],
@@ -273,21 +293,7 @@ export async function generateUrbanCRPC(lcDBObj) {
                 layout: docUtils.containerLayout
             },
             {
-                style: 'formRow',
-                table: {
-                    widths: ['*'],
-                    body: [
-                        [{text: "FUNDAMENTO JURÍDICO", style: 'headT', border: docUtils.borderless}],
-                        [
-                            {text: "Lo anterior con fundamento en lo dispuesto en los artículos 27 párrafo tercero, 73 fracción XXIX-c, 115 fracción V, inciso d y e, de la Constitución Política de los Estados Unidos Mexicanos; artículos 115, 141, fracción XVII, incisos a, c, d, e y g de la Constitución Política para el Estado de Hidalgo; los artículos 1 fracción IV, 6,, fracción II, II, XII, XV y XVII, 52 fracción I y VII, 59, 60, 66 y 68 de la Ley General de Asentamientos Humanos, Ordenamiento Territorial y Desarrollo Urbano; los artículos 1, 2, 4 fracción XIX, 5, 7, 8 fracción VII, 9, fracción I y V, 54, 55, 56, 132, 133, 134, 135, 136, 137, 138, 139, 146, 147, 156 fracción VI, 159 y demás aplicables de la Ley de Asentamientos Humanos, Desarrollo Urbano y Ordenamiento Territorial para el Estado de Hidalgo; artículos 25, 32, 69 y 71 y demás aplicables del Reglamento de la Ley de Asentamientos Humanos, Desarrollo Urbano y Ordenamiento Territorial para el Estado de Hidalgo; artículos 56 fracción I inciso p, fracción II inciso k, 60 fracción I inciso h, II inciso e, f, g y m, 117 fracción IV de la Ley Orgánica Municipal del Estado de Hidalgo; a efecto de dar cumplimiento a lo ordenado por el seno del cabildo y la creación del Instituto Municipal de Desarrollo Urbano y Vivienda, Tizayuca, Estado de Hidalgo, con fecha 15 de agosto de 2006, y habiéndose publicado la versión abreviada en el Periódico Oficial del estado el 28 de agosto y 04 de diciembre de 2006, y la actualización del Programa Municipal de Desarrollo Urbano y Ordenamiento Territorial de Tizayuca, Hidalgo publicado en el Periódico Oficial de Gobierno del Estado de Hidalgo en el tomo CLIV alcance uno al Periódico Oficial de fecha 28 de noviembre de 2022, mismo que se encuentra inscrito en el Registro Público de la Propiedad y del Comercio del Distrito Judicial de Tizayuca, Estado de Hidalgo, bajo el Acto publicitario No. 2,194 con Registro de entrada 26250-2022-0, con fecha de asiento 07 de diciembre de 2022.", style: 'regular', alignment: 'justify'
-                            }
-                        ]
-                    ]
-                },
-                layout: docUtils.containerLayout
-            },
-            {
-                pageBreak: 'before',
+                pageBreak: lcDBObj.licenseSpecialData.pageBreak_8 == 1 ? 'before' : 'avoid',
                 style: 'formRow',
                 table: {
                     widths: ['*'],
@@ -308,6 +314,7 @@ export async function generateUrbanCRPC(lcDBObj) {
                 layout: docUtils.containerLayout
             },
             {
+                pageBreak: lcDBObj.licenseSpecialData.pageBreak_9 == 1 ? 'before' : 'avoid',
                 style: 'formRow',
                 table: {
                     widths: ['*'],
@@ -322,6 +329,21 @@ export async function generateUrbanCRPC(lcDBObj) {
                                     {text: 'SEGUNDO. ', bold: true},{text: 'A través de esta resolución y previo pago de los derechos, se autoriza el '},{text: 'RÉGIMEN DE PROPIEDAD EN CONDOMINIO, LIBRO DE ACTAS Y REGLAMENTO INTERNO DE CONDOMINIO ', bold: true},{text: lcDBObj.licenseSpecialData.households},{text: ' ubicadas en los '},{text: docUtils.arrayToText(lcDBObj.licenseSpecialData.lotes), bold: true},{text: ' de la '},{text: docUtils.arrayToText(lcDBObj.licenseSpecialData.manzanas), bold: true},{text: ', del fraccionamiento '},{text: `"${lcDBObj.colony}"`, bold: true},{text: ', ubicado en el municipio de Tizayuca, Estado de Hidalgo, que comprende '},{text: `${lcDBObj.licenseSpecialData.privateSurface} m² de áreas privativas y ${lcDBObj.licenseSpecialData.commonSurface} m² de área común.\n\n`, bold: true},
                                     {text: 'TERCERO. ', bold: true},{text: 'Remítase copia de la presente resolución, adjuntando plano del Régimen de Propiedad en Condominio, autorizado con sello y firmas al Registro Público de la Propiedad y del Comercio del Distrito Judicial de Tizayuca Hidalgo.\n\n'},
                                     {text: 'CUARTO. ', bold: true},{text: 'Deberá presentar copia de la protocolización del Régimen de Propiedad en Condominio una vez inscrito en el Registro Público de la Propiedad y del Comercio al Instituto Municipal de Desarrollo Urbano y Vivienda.'}]
+                            }
+                        ]
+                    ]
+                },
+                layout: docUtils.containerLayout
+            },
+            {
+                pageBreak: lcDBObj.licenseSpecialData.pageBreak_10 == 1 ? 'before' : 'avoid',
+                style: 'formRow',
+                table: {
+                    widths: ['*'],
+                    body: [
+                        [{text: "FUNDAMENTO JURÍDICO", style: 'headT', border: docUtils.borderless}],
+                        [
+                            {text: "Lo anterior con fundamento en lo dispuesto en los artículos 27 párrafo tercero, 73 fracción XXIX-c, 115 fracción V, inciso d y e, de la Constitución Política de los Estados Unidos Mexicanos; artículos 115, 141, fracción XVII, incisos a, c, d, e y g de la Constitución Política para el Estado de Hidalgo; los artículos 1 fracción IV, 6,, fracción II, II, XII, XV y XVII, 52 fracción I y VII, 59, 60, 66 y 68 de la Ley General de Asentamientos Humanos, Ordenamiento Territorial y Desarrollo Urbano; los artículos 1, 2, 4 fracción XIX, 5, 7, 8 fracción VII, 9, fracción I y V, 54, 55, 56, 132, 133, 134, 135, 136, 137, 138, 139, 146, 147, 156 fracción VI, 159 y demás aplicables de la Ley de Asentamientos Humanos, Desarrollo Urbano y Ordenamiento Territorial para el Estado de Hidalgo; artículos 25, 32, 69 y 71 y demás aplicables del Reglamento de la Ley de Asentamientos Humanos, Desarrollo Urbano y Ordenamiento Territorial para el Estado de Hidalgo; artículos 56 fracción I inciso p, fracción II inciso k, 60 fracción I inciso h, II inciso e, f, g y m, 117 fracción IV de la Ley Orgánica Municipal del Estado de Hidalgo; a efecto de dar cumplimiento a lo ordenado por el seno del cabildo y la creación del Instituto Municipal de Desarrollo Urbano y Vivienda, Tizayuca, Estado de Hidalgo, con fecha 15 de agosto de 2006, y habiéndose publicado la versión abreviada en el Periódico Oficial del estado el 28 de agosto y 04 de diciembre de 2006, y la actualización del Programa Municipal de Desarrollo Urbano y Ordenamiento Territorial de Tizayuca, Hidalgo publicado en el Periódico Oficial de Gobierno del Estado de Hidalgo en el tomo CLIV alcance uno al Periódico Oficial de fecha 28 de noviembre de 2022, mismo que se encuentra inscrito en el Registro Público de la Propiedad y del Comercio del Distrito Judicial de Tizayuca, Estado de Hidalgo, bajo el Acto publicitario No. 2,194 con Registro de entrada 26250-2022-0, con fecha de asiento 07 de diciembre de 2022.", style: 'regularSmall', alignment: 'justify'
                             }
                         ]
                     ]

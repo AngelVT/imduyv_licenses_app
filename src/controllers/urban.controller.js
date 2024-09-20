@@ -447,6 +447,13 @@ export const updateLicense = async (req, res) => {
             pageBreak_1,
             pageBreak_2,
             pageBreak_3,
+            pageBreak_4,
+            pageBreak_5,
+            pageBreak_6,
+            pageBreak_7,
+            pageBreak_8,
+            pageBreak_9,
+            pageBreak_10,
         } = req.body;
 
         let { legalRepresentative } = req.body;
@@ -506,6 +513,13 @@ export const updateLicense = async (req, res) => {
         newSpecialData.pageBreak_1 = pageBreak_1 ? parseInt(pageBreak_1) : newSpecialData.pageBreak_1;
         newSpecialData.pageBreak_2 = pageBreak_2 ? parseInt(pageBreak_2) : newSpecialData.pageBreak_2;
         newSpecialData.pageBreak_3 = pageBreak_3 ? parseInt(pageBreak_3) : newSpecialData.pageBreak_3;
+        newSpecialData.pageBreak_4 = pageBreak_4 ? parseInt(pageBreak_4) : newSpecialData.pageBreak_4;
+        newSpecialData.pageBreak_5 = pageBreak_5 ? parseInt(pageBreak_5) : newSpecialData.pageBreak_5;
+        newSpecialData.pageBreak_6 = pageBreak_6 ? parseInt(pageBreak_6) : newSpecialData.pageBreak_6;
+        newSpecialData.pageBreak_7 = pageBreak_7 ? parseInt(pageBreak_7) : newSpecialData.pageBreak_7;
+        newSpecialData.pageBreak_8 = pageBreak_8 ? parseInt(pageBreak_8) : newSpecialData.pageBreak_8;
+        newSpecialData.pageBreak_9 = pageBreak_9 ? parseInt(pageBreak_9) : newSpecialData.pageBreak_9;
+        newSpecialData.pageBreak_10 = pageBreak_10 ? parseInt(pageBreak_10) : newSpecialData.pageBreak_10;
 
         if (legalRepresentative == '-' || newSpecialData.representativeAs == '-') {
             legalRepresentative = null;

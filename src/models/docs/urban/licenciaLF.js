@@ -7,7 +7,7 @@ export async function generateUrbanLF(lcDBObj) {
     lcDBObj = docUtils.prepareData(lcDBObj);
 
     var definition = {
-        pageMargins: [ 5, 50, 5, 50 ],
+        pageMargins: [ 5, 60, 5, 60 ],
         styles: docUtils.docStyles,
         content: [
             {
@@ -230,7 +230,7 @@ export async function generateUrbanLF(lcDBObj) {
                 layout: docUtils.containerLayout
             },
             {
-                pageBreak: 'before',
+                pageBreak: 'avoid',
                 table: {
                     widths: ['*'],
                     body: [
@@ -242,64 +242,6 @@ export async function generateUrbanLF(lcDBObj) {
                 layout: docUtils.containerLayout
             },
             {
-                style: 'formRow',
-                table: {
-                    widths: ['*'],
-                    body: [
-                        [
-                            {text: "CUADRO DE SUPERFICIES POR USO DE SUELO", style: 'headT', border: docUtils.borderless}
-                        ],
-                        [
-                            {
-                                stack: await docUtils.loadChart(lcDBObj.fullInvoice, 'tabla_s1_')
-                            }
-                        ]
-                    ]
-                },
-                layout: docUtils.containerLayout
-            },
-            {
-                pageBreak: 'before',
-                style: 'formRow',
-                table: {
-                    widths: ['*'],
-                    body: [
-                        [
-                            {text: "CUADRO DE DISTRIBUCIÓN POR MANZANAS", style: 'headT', border: docUtils.borderless}
-                        ],
-                        [
-                            {
-                                stack: await docUtils.loadChart(lcDBObj.fullInvoice, 'tabla_s2_')
-                            }
-                        ]
-                    ]
-                },
-                layout: docUtils.containerLayout
-            },
-            {
-                pageBreak: 'before',
-                style: 'formRow',
-                table: {
-                    widths: ['*'],
-                    body: [
-                        [
-                            {text: "CUADRO DE DONACIONES", style: 'headT', border: docUtils.borderless}
-                        ],
-                        [
-                            {
-                                stack: await docUtils.loadChart(lcDBObj.fullInvoice, 'tabla_s3_')
-                            }
-                        ]
-                    ]
-                },
-                layout: docUtils.containerLayout
-            },
-            {
-                style: ['formRow', 'regular'],
-                text: ['Las tablas que contiene los cuadros de lotificación se presentarán como ',{text: 'ANEXO I', bold: true} ,' a la presente resolución.']
-            },
-            {
-                pageBreak: 'before',
                 style: ['formRow', 'regular'],
                 ol: [
                     {
@@ -336,6 +278,65 @@ export async function generateUrbanLF(lcDBObj) {
                 ]
             },
             {
+                pageBreak: lcDBObj.licenseSpecialData.pageBreak_1 == 1 ? 'before' : 'avoid',
+                style: 'formRow',
+                table: {
+                    widths: ['*'],
+                    body: [
+                        [
+                            {text: "CUADRO DE SUPERFICIES POR USO DE SUELO", style: 'headT', border: docUtils.borderless}
+                        ],
+                        [
+                            {
+                                stack: await docUtils.loadChart(lcDBObj.fullInvoice, 'tabla_s1_')
+                            }
+                        ]
+                    ]
+                },
+                layout: docUtils.containerLayout
+            },
+            {
+                pageBreak: lcDBObj.licenseSpecialData.pageBreak_2 == 1 ? 'before' : 'avoid',
+                style: 'formRow',
+                table: {
+                    widths: ['*'],
+                    body: [
+                        [
+                            {text: "CUADRO DE DISTRIBUCIÓN POR MANZANAS", style: 'headT', border: docUtils.borderless}
+                        ],
+                        [
+                            {
+                                stack: await docUtils.loadChart(lcDBObj.fullInvoice, 'tabla_s2_')
+                            }
+                        ]
+                    ]
+                },
+                layout: docUtils.containerLayout
+            },
+            {
+                pageBreak: lcDBObj.licenseSpecialData.pageBreak_3 == 1 ? 'before' : 'avoid',
+                style: 'formRow',
+                table: {
+                    widths: ['*'],
+                    body: [
+                        [
+                            {text: "CUADRO DE DONACIONES", style: 'headT', border: docUtils.borderless}
+                        ],
+                        [
+                            {
+                                stack: await docUtils.loadChart(lcDBObj.fullInvoice, 'tabla_s3_')
+                            }
+                        ]
+                    ]
+                },
+                layout: docUtils.containerLayout
+            },
+            {
+                style: ['formRow', 'regular'],
+                text: ['Las tablas que contiene los cuadros de lotificación se presentarán como ',{text: 'ANEXO I', bold: true} ,' a la presente resolución.']
+            },
+            {
+                pageBreak: lcDBObj.licenseSpecialData.pageBreak_4 == 1 ? 'before' : 'avoid',
                 style: 'formRow',
                 table: {
                     widths: ['*'],
@@ -392,7 +393,7 @@ export async function generateUrbanLF(lcDBObj) {
                 layout: docUtils.containerLayout
             },
             {
-                pageBreak: 'before',
+                pageBreak: lcDBObj.licenseSpecialData.pageBreak_5 == 1 ? 'before' : 'avoid',
                 style: 'formRow',
                 table: {
                     widths: ['*'],
@@ -414,6 +415,7 @@ export async function generateUrbanLF(lcDBObj) {
                 layout: docUtils.containerLayout
             },
             {
+                pageBreak: lcDBObj.licenseSpecialData.pageBreak_6 == 1 ? 'before' : 'avoid',
                 style: 'formRow',
                 table: {
                     widths: ['*'],
@@ -450,7 +452,7 @@ export async function generateUrbanLF(lcDBObj) {
                 layout: docUtils.containerLayout
             },
             {
-                pageBreak: 'before',
+                pageBreak: lcDBObj.licenseSpecialData.pageBreak_7 == 1 ? 'before' : 'avoid',
                 style: 'formRow',
                 table: {
                     widths: ['*'],
@@ -474,6 +476,7 @@ export async function generateUrbanLF(lcDBObj) {
                 layout: docUtils.containerLayout
             },
             {
+                pageBreak: lcDBObj.licenseSpecialData.pageBreak_8 == 1 ? 'before' : 'avoid',
                 style: 'formRow',
                 table: {
                     widths: ['*'],
@@ -509,6 +512,7 @@ export async function generateUrbanLF(lcDBObj) {
                 layout: docUtils.containerLayout
             },
             {
+                pageBreak: lcDBObj.licenseSpecialData.pageBreak_9 == 1 ? 'before' : 'avoid',
                 style: 'formRow',
                 table: {
                     widths: ['*'],

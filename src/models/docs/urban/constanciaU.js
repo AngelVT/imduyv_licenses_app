@@ -7,7 +7,7 @@ export async function generateUrbanC(lcDBObj) {
     lcDBObj = docUtils.prepareData(lcDBObj);
 
     var definition = {
-        pageMargins: [ 5, 50, 5, 50 ],
+        pageMargins: [ 5, 60, 5, 60 ],
         styles: docUtils.docStyles,
         content: [
             {
