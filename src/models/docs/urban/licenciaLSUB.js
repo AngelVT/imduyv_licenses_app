@@ -136,7 +136,7 @@ export async function generateUrbanLSUB(lcDBObj) {
                             {
                                 border: [true, false, true, false],
                                 text: lcDBObj.licenseSpecialData.authorizationResume,
-                                fontSize: 6,
+                                fontSize: 5,
                                 alignment: 'center',
                                 bold: true
                             }
@@ -200,13 +200,15 @@ export async function generateUrbanLSUB(lcDBObj) {
                                 text: ''},
                             {
                             text: 'I.A.E.V. GRETCHEN ALYNE ATILANO MORENO.\nPRESIDENTA MUNICIPAL CONSTITUCIONAL\nDE TIZAYUCA, HIDALGO.',
-                            style: 'labelTC'
+                            style: 'labelTC',
+                            fontSize: 6
                         },
                         {width: 140,
                             text: ''},
                         {
                             text: 'M.A.C.I.G. HIPÓLITO ZAMORA SORIA.\nDIRECTOR GENERAL DEL INSTITUTO MUNICIPAL\nDE DESARROLLO URBANO Y VIVIENDA.',
-                            style: 'labelTC'
+                            style: 'labelTC',
+                            fontSize: 6
                         },
                         {width: 5,
                             text: ''}

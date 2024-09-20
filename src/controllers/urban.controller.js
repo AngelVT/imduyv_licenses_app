@@ -393,7 +393,6 @@ export const updateLicense = async (req, res) => {
 
         const {
             requestorName,
-            legalRepresentative,
             requestDate,
             colony,
             address,
@@ -446,6 +445,8 @@ export const updateLicense = async (req, res) => {
             previousInvoiceDate,
         } = req.body;
 
+        let { legalRepresentative } = req.body;
+
         const modifiedLicense = await UrbanLicense.findByPk(id);
 
         if (modifiedLicense == null) {
@@ -497,6 +498,11 @@ export const updateLicense = async (req, res) => {
         newSpecialData.previousInvoice = previousInvoice ? previousInvoice : newSpecialData.previousInvoice;
         newSpecialData.previousInvoiceDate = previousInvoiceDate ? previousInvoiceDate : newSpecialData.previousInvoiceDate;
 
+        if (legalRepresentative == '-') {
+            legalRepresentative = null;
+            newSpecialData.representativeAs = null;
+        }
+
         await modifiedLicense.update({
             requestDate: requestDate,
             requestorName: requestorName,
@@ -518,6 +524,8 @@ export const updateLicense = async (req, res) => {
             receiverName: receiverName,
             licenseSpecialData: newSpecialData
         });
+
+        console.log(modifiedLicense.legalRepresentative);
 
         if (files) {
             const destination = path.join(__dirstorage, 'assets', 'urban', modifiedLicense.fullInvoice, 'zone.png');
