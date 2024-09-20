@@ -146,9 +146,16 @@ export async function loadChart(fullInvoice, sourcePattern) {
 
             const matchedFiles = files.filter(file => pattern.test(file));
 
+            matchedFiles.sort((a, b) => {
+                const numA = parseInt(a.match(/_(\d+)\.png/)[1]);
+                const numB = parseInt(b.match(/_(\d+)\.png/)[1]);
+
+                return numA - numB;
+            });
+
             for (let e of matchedFiles) {
                 images.push({
-                    image: path.join(__dirstorage, 'assets', 'urban', fullInvoice.replaceAll('/', '_'), `${e}`),
+                    image: path.join(dir, e),
                     width: 550,
                     alignment: 'center',
                     margin: [0, 0, 0, 5]

@@ -498,7 +498,7 @@ export const updateLicense = async (req, res) => {
         newSpecialData.previousInvoice = previousInvoice ? previousInvoice : newSpecialData.previousInvoice;
         newSpecialData.previousInvoiceDate = previousInvoiceDate ? previousInvoiceDate : newSpecialData.previousInvoiceDate;
 
-        if (legalRepresentative == '-') {
+        if (legalRepresentative == '-' || newSpecialData.representativeAs == '-') {
             legalRepresentative = null;
             newSpecialData.representativeAs = null;
         }
