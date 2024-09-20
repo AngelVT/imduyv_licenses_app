@@ -611,7 +611,11 @@ export function generateUrbanSpecialData(type) {
                     }
                 ],
                 authorizationResume: "Ej: SE AUTORIZA LA SUBDIVISIÓN DE LOS PREDIOS IDENTIFICADOS COMO LAS PARCELAS 777, 775, 778, 786, 790, 791 Y LOTE 1 (PARCELA 924), RESULTANDO LA FUSIÓN CON UNA SUPERFICIE TOTAL DE: 161,100.70 M2.",
-                conditions: ["Deberá protocolizar la escritura de la subdivisión, debidamente inscrita en el Registro Público de la Propiedad y del Comercio del Distrito Judicial de Tizayuca, Hidalgo, en un plazo no mayor a 90 días naturales contados a partir de la firma del presente."]
+                conditions: ["Deberá protocolizar la escritura de la subdivisión, debidamente inscrita en el Registro Público de la Propiedad y del Comercio del Distrito Judicial de Tizayuca, Hidalgo, en un plazo no mayor a 90 días naturales contados a partir de la firma del presente."],
+                "layout": "A",
+                "pageBreak_1": 0,
+                "pageBreak_2": 0,
+                "pageBreak_3": 1,
             }
         case 4:
             return {
@@ -650,7 +654,11 @@ export function generateUrbanSpecialData(type) {
                     }
                 ],
                 authorizationResume: "Ej: SE AUTORIZA LA FUSIÓN DE LOS PREDIOS IDENTIFICADOS COMO LAS PARCELAS 777, 775, 778, 786, 790, 791 Y LOTE 1 (PARCELA 924), RESULTANDO LA FUSIÓN CON UNA SUPERFICIE TOTAL DE: 161,100.70 M2.",
-                conditions: ["Deberá protocolizar la escritura de la subdivisión, debidamente inscrita en el Registro Público de la Propiedad y del Comercio del Distrito Judicial de Tizayuca, Hidalgo, en un plazo no mayor a 90 días naturales contados a partir de la firma del presente."]
+                conditions: ["Deberá protocolizar la escritura de la subdivisión, debidamente inscrita en el Registro Público de la Propiedad y del Comercio del Distrito Judicial de Tizayuca, Hidalgo, en un plazo no mayor a 90 días naturales contados a partir de la firma del presente."],
+                "layout": "A",
+                "pageBreak_1": 0,
+                "pageBreak_2": 0,
+                "pageBreak_3": 1,
             }
         case 5:
             return {
@@ -697,6 +705,15 @@ export function generateUrbanSpecialData(type) {
                     "En caso de incumplimiento a cualquiera de las prerrogativas descritas con antelación se hará acreedor a las sanciones establecidas en el artículo 196 fracción V en relación con el Artículo 193 fracción XIII, ambos de la Ley de Asentamientos Humanos, Desarrollo Urbano y Ordenamiento Territorial del Estado de Hidalgo.",
                     "En caso de incumplimiento a lo antes citado, este documento quedará sin validez."
                 ],
+                "pageBreak_1": 1,
+                "pageBreak_2": 1,
+                "pageBreak_3": 1,
+                "pageBreak_4": 0,
+                "pageBreak_5": 0,
+                "pageBreak_6": 0,
+                "pageBreak_7": 0,
+                "pageBreak_8": 0,
+                "pageBreak_9": 0
             }
         case 6:
             return {
@@ -751,7 +768,16 @@ export function generateUrbanSpecialData(type) {
                 location: ["Parcela 775", "777", "778", "786", "790", "791" , "LOTE 1 (PARCELA 925)"],
                 habitacionalLotes:"3 lotes habitacionales",
                 totalManzanas:"37 manzanas",
-                totalSurface:"14,335.98 m²"
+                totalSurface:"14,335.98 m²",
+                "pageBreak_1": 1,
+                "pageBreak_2": 1,
+                "pageBreak_3": 1,
+                "pageBreak_4": 0,
+                "pageBreak_5": 0,
+                "pageBreak_6": 0,
+                "pageBreak_7": 0,
+                "pageBreak_8": 0,
+                "pageBreak_9": 0
             }
         case 7:
             return {
@@ -799,6 +825,14 @@ export function generateUrbanSpecialData(type) {
                     "En caso de incumplimiento a lo antes citado, este documento quedará sin validez."
                 ],
                 detailedUse : "Habitacional de Interés Social, Económico Condominal Horizontal, Condominal Vertical y Comercial.",
+                "pageBreak_1": 1,
+                "pageBreak_2": 1,
+                "pageBreak_3": 0,
+                "pageBreak_4": 0,
+                "pageBreak_5": 0,
+                "pageBreak_6": 0,
+                "pageBreak_7": 0,
+                "pageBreak_8": 0
             }
         case 8:
             return {
@@ -830,7 +864,17 @@ export function generateUrbanSpecialData(type) {
                     "En consideración del impacto urbano y a la sobredemanda de los servicios públicos en el municipio, se deberán de generar las medidas adecuadas de prevención, integración y/o compensación, para mitigar o contrarrestar los impactos o alteraciones causadas por la presente autorización. En razón de lo anterior deberá mediante convenio retribuir por medio del Instituto Municipal de Desarrollo Urbano y Vivienda, hasta el 30% del monto de la presente autorización.  Dicho convenio se deberá de formalizarse en un plazo de hasta 30 días hábiles contados a partir de la firma de éste."
                 ],
                 privateSurface: 0.0,
-                commonSurface: 0.0
+                commonSurface: 0.0,
+                "pageBreak_1": 0,
+                "pageBreak_2": 1,
+                "pageBreak_3": 1,
+                "pageBreak_4": 0,
+                "pageBreak_5": 0,
+                "pageBreak_6": 0,
+                "pageBreak_7": 0,
+                "pageBreak_8": 0,
+                "pageBreak_9": 0,
+                "pageBreak_10": 1,
             }
         default:
             return { DATA:"NO\nDATA"}
