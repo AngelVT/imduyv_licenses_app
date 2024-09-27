@@ -222,6 +222,9 @@ async function updateResultField(form, id) {
                     let img = document.querySelector(`#result_fields_${id}`).querySelector('img');
                     img.setAttribute('src', `/landUseStorage/${form.querySelector('input[type=hidden]').value}/zone.png?${new Date().getTime()}`);
                 }
+
+                let url = PDF.getAttribute('src').split('?')[0];
+                PDF.setAttribute('src', `${url}?${new Date().getTime()}`)
                 
                 alert(`Cambios guardados exitosamente para el registro: ${registro}`);
                 return;
