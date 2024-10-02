@@ -1,7 +1,6 @@
 import jwt from 'jsonwebtoken';
 import config from '../config.js';
 import { User, Role, Group } from '../models/Users.models.js';
-import { consoleLogger } from '../logger.js';
 
 export const verifyToken = async (req, res, next) => {
     const clientToken = req.signedCookies.access_token;
