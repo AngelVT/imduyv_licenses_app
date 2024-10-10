@@ -162,7 +162,7 @@ export async function generateUrbanLUS(lcDBObj) {
                             {text: "%", style: 'labelTC'}
                         ],
                         [
-                            {text: lcDBObj.surfaceTotal, style: ['center', 'regular']},
+                            {text: `${lcDBObj.surfaceTotal} m²`, style: ['center', 'regular']},
                             {text: lcDBObj.zone.licenseZone, style: ['center', 'regular']},
                             {text: lcDBObj.licenseSpecialData.usePercent, style: ['center', 'regular']}
                         ]

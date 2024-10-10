@@ -423,7 +423,12 @@ export const updateLicense = async (req, res) => {
         const file = req.file;
 
         for (const key in req.body) {
-            req.body[key] = req.body[key].toLowerCase();
+            if (key == 'conditions' || key == 'restrictions' || key == 'anexo') {
+                console.log("Skipped", typeof key, key);
+            } else {
+                req.body[key] = req.body[key].toLowerCase();
+            }
+            
         }
 
         const {
@@ -477,7 +482,7 @@ export const updateLicense = async (req, res) => {
 
         newSpecialData.anexo = anexo ? anexo : newSpecialData.anexo;
         newSpecialData.restrictions = restrictions ? restrictions : newSpecialData.restrictions;
-        newSpecialData.conditions = conditions ? conditions : newSpecialData.conditions;
+        newSpecialData.conditions = conditions ? conditions.replaceAll('\r', '').split('\n') : newSpecialData.conditions;
         newSpecialData.parcela = parcela ? parcela : newSpecialData.parcela;
         newSpecialData.propertyNo = propertyNo ? propertyNo : newSpecialData.propertyNo;
         newSpecialData.propertyDate = propertyDate ? propertyDate : newSpecialData.propertyDate;

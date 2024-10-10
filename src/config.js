@@ -2,7 +2,7 @@ import fs from 'fs';
 
 export default {
     SECRET: process.env.SECRET,
-    TOKENS_EXP: 14400000,
+    TOKENS_EXP: 28800000,
     ALLOWED_ORIGINS: ['http://192.168.180.25:3091','http://localhost:3091'],
     APP_PORT: process.env.APP_PORT,
     DB_PORT: process.env.DB_PORT,
