@@ -397,7 +397,7 @@ export async function generateUrbanPLF(lcDBObj) {
                                 {text: 'QUINTO. ', bold: true},'El fraccionador ha dado cumplimiento a los pagos correspondientes a la Autorización de Régimen de Propiedad en Condominio de las manzanas 21, 22, 23, 24, 25, 26 y 27, del Fraccionamiento denominado ', {text: `“${lcDBObj.colony}”`, bold: true},'.\n\n',
 
                                 {text: 'SEXTO. ', bold: true},'De conformidad con el artículo 156 fracción V de la Ley de Asentamientos Humanos, Desarrollo Urbano y Ordenamiento Territorial del Estado de Hidalgo, al ',{
-                                    text: lcDBObj.legalRepresentative ? [{text: 'C. '}, {text: lcDBObj.legalRepresentative, bold: true}, { text: ', representante legal de '}] : ''
+                                    text: lcDBObj.legalRepresentative ? [{text: 'C. '}, {text: lcDBObj.legalRepresentative, bold: true}, { text: `, ${lcDBObj.licenseSpecialData.representativeAs} `}] : ''
                                 },{text: lcDBObj.requestorName, bold: true}, ' deberá remitir copia de la presente resolución, adjuntando plano de lotificación autorizado con sello y firmas, al Registro Público de la Propiedad y del Comercio del Distrito Judicial de Tizayuca, Hidalgo.\n\n',
 
                                 {text: 'SÉPTIMO. ', bold: true},'Se le apercibe a ',{text: lcDBObj.requestorName, bold: true}, 

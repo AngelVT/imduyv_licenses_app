@@ -407,59 +407,49 @@ export async function generateUrbanRLF(lcDBObj) {
                 layout: docUtils.noBorderNoPadding
             },
             {
+                pageBreak: 'avoid',
                 stack: [
                     {
-                        text:'NOTIFÍQUESE Y CÚMPLASE\nASÍ EN DEFINITIVA LO RESOLVIÓ Y AUTORIZÓ MAESTRO EN AUDITORÍA Y CONTROL INTERNO GUBERNAMENTAL HIPÓLITO ZAMORA SORIA,\nDIRECTOR GENERAL DEL INSTITUTO MUNICIPAL DE DESARROLLO URBANO Y VIVIENDA',
-                        style: ['regular', 'center'],
-                        margin: [0,10,0,10]
+                        text:'NOTIFÍQUESE Y CÚMPLASE\nASÍ EN DEFINITIVA LO RESOLVIÓ Y AUTORIZÓ EL MAESTRO EN AUDITORÍA Y CONTROL INTERNO GUBERNAMENTAL HIPÓLITO ZAMORA SORIA,\nDIRECTOR GENERAL DEL INSTITUTO MUNICIPAL DE DESARROLLO URBANO Y VIVIENDA',
+                        style: 'center',
+                        fontSize: 6,
+                        margin: [0,10,0,50]
                     },
-                    {
+                    /*{
                         columns: [
-                            {width: 30,
-                                text: ''
-                            },
                             docUtils.signaturePresident(lcDBObj.approvalStatus),
                             docUtils.signatureSeal(lcDBObj.approvalStatus),
-                            docUtils.signatureDirector(lcDBObj.approvalStatus),
-                            {
-                                width: 30,
-                                text: '',
-                            }
+                            docUtils.signatureDirector(lcDBObj.approvalStatus)
                         ]
-                    },
+                    },*/
                     {
                         columns: [
-                            {width: 5,
-                                text: ''},
                             {
-                            text: 'I.A.E.V. GRETCHEN ALYNE ATILANO MORENO.\nPRESIDENTA MUNICIPAL CONSTITUCIONAL\nDE TIZAYUCA, HIDALGO.',
+                            text: 'M.A.P.P. SUSANA ARACELI ÁNGELES QUEZADA\nPRESIDENTA MUNICIPAL CONSTITUCIONAL\nDE TIZAYUCA, HIDALGO.',
                             style: 'labelTC'
                         },
-                        {width: 140,
-                            text: ''},
+                        {},
                         {
                             text: 'M.A.C.I.G. HIPÓLITO ZAMORA SORIA.\nDIRECTOR GENERAL DEL INSTITUTO MUNICIPAL\nDE DESARROLLO URBANO Y VIVIENDA.',
                             style: 'labelTC'
-                        },
-                        {width: 5,
-                            text: ''}
+                        }
                         ]
-                    }
-                ]
-            },
-            {
-                margin: [0,30,0,0],
-                columns: [
-                    {
-                        margin: [0,0,30,0],
-                        text: 'Revisó: F.I.G.S.',
-                        fontSize: 6,
-                        alignment: 'right'
                     },
                     {
-                        margin: [30,0,0,0],
-                        text: `Elaboró: ${docUtils.madeBy(lcDBObj.elaboratedBy)}`,
-                        fontSize: 6
+                        margin: [0,30,0,0],
+                        columns: [
+                            {
+                                margin: [0,0,30,0],
+                                text: 'Revisó: F.I.G.S.',
+                                fontSize: 6,
+                                alignment: 'right'
+                            },
+                            {
+                                margin: [30,0,0,0],
+                                text: `Elaboró: ${docUtils.madeBy(lcDBObj.elaboratedBy)}`,
+                                fontSize: 6
+                            }
+                        ]
                     }
                 ]
             }

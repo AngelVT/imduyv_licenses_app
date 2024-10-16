@@ -58,8 +58,10 @@ btnGeoSearch.addEventListener(
     }
 );
 
-typeSelector.addEventListener(
-    'change', () => {
-        setFormFields(parseInt(typeSelector.value));
-    }
-);
+if (typeSelector) {
+    typeSelector.addEventListener(
+        'change', () => {
+            setFormFields(parseInt(typeSelector.value));
+        }
+    );
+}

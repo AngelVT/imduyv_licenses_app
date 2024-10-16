@@ -373,15 +373,15 @@ export async function generateUrbanCRPC(lcDBObj) {
                         text:'NOTIFÍQUESE Y CÚMPLASE\nASÍ EN DEFINITIVA LO RESOLVIÓ Y AUTORIZÓ EL MAESTRO EN AUDITORÍA Y CONTROL INTERNO GUBERNAMENTAL HIPÓLITO ZAMORA SORIA,\nDIRECTOR GENERAL DEL INSTITUTO MUNICIPAL DE DESARROLLO URBANO Y VIVIENDA',
                         style: 'center',
                         fontSize: 6,
-                        margin: [0,10,0,10]
+                        margin: [0,10,0,50]
                     },
-                    {
+                    /*{
                         columns: [
                             docUtils.signaturePresident(lcDBObj.approvalStatus),
                             docUtils.signatureSeal(lcDBObj.approvalStatus),
                             docUtils.signatureDirector(lcDBObj.approvalStatus)
                         ]
-                    },
+                    },*/
                     {
                         columns: [
                             {

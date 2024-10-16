@@ -197,7 +197,7 @@ export async function generateUrbanLF(lcDBObj) {
                                 style: ['regular', 'justify'],
                                 stack: [
                                     {
-                                        ol: [
+                                        stack: [
                                             {
                                                 text: [
                                                     {text: lcDBObj.requestorName, bold: true},
@@ -265,7 +265,7 @@ export async function generateUrbanLF(lcDBObj) {
                         'La autorización se integra por una totalidad de ',
                         {text: lcDBObj.licenseSpecialData.habitacionalLotes, bold: true},
                         ', integrados por una totalidad de ',
-                        {text: lcDBObj.licenseSpecialData.totalManzanas, bold: true},' y ',{text: lcDBObj.licenseSpecialData.totalSurface, bold: true},
+                        {text: lcDBObj.licenseSpecialData.totalManzanas, bold: true},' y ',{text: `${lcDBObj.licenseSpecialData.totalSurface} m²`, bold: true},
                         ' de área de donación, de acuerdo al plano de fraccionamiento que se anexa y que ahora forma parte integral de la misma. Dentro de las obligaciones de ',
                         {text: lcDBObj.requestorName, bold: true},
                         {
@@ -488,7 +488,7 @@ export async function generateUrbanLF(lcDBObj) {
                                 style: 'regular',
                                 text: [{text: 'PRIMERO. ', bold: true},'El Instituto Municipal de Desarrollo Urbano y Vivienda, de Tizayuca, estado de Hidalgo,  resulto competente para conocer y dictaminar  en definitiva sobre la Resolución del Fraccionamiento denominado ',{text: `“${lcDBObj.colony}”`, bold: true},' que dio origen a este trámite.\n\n',
 
-                                {text: 'SEGUNDO. ', bold: true},'A través de esta resolución se autoriza el fraccionamiento denominado ',{text: `“${lcDBObj.colony}”`, bold: true},', con ', {text: lcDBObj.licenseSpecialData.habitacionalLotes, bold: true}, ' ubicado en ',{text: lcDBObj.licenseSpecialData.totalManzanas, bold: true}, ' y ', {text: lcDBObj.licenseSpecialData.totalSurface, bold: true}, ' de área de donación, ubicado en ',{text: docUtils.arrayToText(lcDBObj.licenseSpecialData.location), bold: true},', del ejido de Tizayuca, perteneciente al Municipio de Tizayuca, estado de Hidalgo, de acuerdo al plano del fraccionamiento que se anexa y que ahora forma parte integral de esta resolución.\n\n',
+                                {text: 'SEGUNDO. ', bold: true},'A través de esta resolución se autoriza el fraccionamiento denominado ',{text: `“${lcDBObj.colony}”`, bold: true},', con ', {text: lcDBObj.licenseSpecialData.habitacionalLotes, bold: true}, ' ubicado en ',{text: lcDBObj.licenseSpecialData.totalManzanas, bold: true}, ' y ', {text: `${lcDBObj.licenseSpecialData.totalSurface} m²`, bold: true}, ' de área de donación, ubicado en ',{text: docUtils.arrayToText(lcDBObj.licenseSpecialData.location), bold: true},', del ejido de Tizayuca, perteneciente al Municipio de Tizayuca, estado de Hidalgo, de acuerdo al plano del fraccionamiento que se anexa y que ahora forma parte integral de esta resolución.\n\n',
 
                                 {text: 'TERCERO. ', bold: true},'El uso de suelo autorizado es ',{text: lcDBObj.zone.licenseZone, bold: true},' de acuerdo al Programa Municipal de Desarrollo Urbano y Ordenamiento Territorial de Tizayuca, Hidalgo.\n\n',
 
@@ -496,7 +496,7 @@ export async function generateUrbanLF(lcDBObj) {
 
                                 {text: 'QUINTO. ', bold: true},{text: lcDBObj.requestorName, bold: true},{
                                     text: lcDBObj.legalRepresentative ? [{text: ' a través del C. '}, {text: lcDBObj.legalRepresentative, bold: true}, { text: `, en su carácter de ${lcDBObj.licenseSpecialData.representativeAs}`}] : ''
-                                },', se obliga a entregar los documentos que se obtendrán con posterioridad como consecuencia del cumplimiento de sus obligaciones, y la escritura del área de donación a favor del Municipio de Tizayuca, estado de Hidalgo, por una superficie de ', {text: lcDBObj.licenseSpecialData.totalSurface, bold: true},' y escritura de protocolización de la presene resolución.\n\n',
+                                },', se obliga a entregar los documentos que se obtendrán con posterioridad como consecuencia del cumplimiento de sus obligaciones, y la escritura del área de donación a favor del Municipio de Tizayuca, estado de Hidalgo, por una superficie de ', {text: `${lcDBObj.licenseSpecialData.totalSurface} m²`, bold: true},' y escritura de protocolización de la presene resolución.\n\n',
 
                                 {text: 'SEXTO. ', bold: true},'Remítase copia de la presente resolución, adjuntando plano del Fraccionamiento denominado ',{text: `“${lcDBObj.colony}”`, bold: true},', autorizado, al Registro Público de la propiedad y del Comercio, del distrito judicial de Tizayuca, estado de Hidalgo, de conformidad al articulo 156 fracción V de la Ley de Asentamientos Humanos, Desarrollo Urbano y Ordenamiento Territorial del Estado de Hidalgo.\n\n',
 
@@ -547,60 +547,49 @@ export async function generateUrbanLF(lcDBObj) {
                 layout: docUtils.noBorderNoPadding
             },
             {
+                pageBreak: 'avoid',
                 stack: [
                     {
                         text:'NOTIFÍQUESE Y CÚMPLASE\nASÍ EN DEFINITIVA LO RESOLVIÓ Y AUTORIZÓ EL MAESTRO EN AUDITORÍA Y CONTROL INTERNO GUBERNAMENTAL HIPÓLITO ZAMORA SORIA,\nDIRECTOR GENERAL DEL INSTITUTO MUNICIPAL DE DESARROLLO URBANO Y VIVIENDA',
-                        style: ['regular', 'center'],
-                        margin: [0,10,0,10]
+                        style: 'center',
+                        fontSize: 6,
+                        margin: [0,10,0,50]
                     },
-                    {
+                    /*{
                         columns: [
-                            {width: 30,
-                                text: ''
-                            },
                             docUtils.signaturePresident(lcDBObj.approvalStatus),
                             docUtils.signatureSeal(lcDBObj.approvalStatus),
-                            docUtils.signatureDirector(lcDBObj.approvalStatus),
-                            {
-                                width: 30,
-                                text: '',
-                                alignment: 'left'
-                            }
+                            docUtils.signatureDirector(lcDBObj.approvalStatus)
                         ]
-                    },
+                    },*/
                     {
                         columns: [
-                            {width: 5,
-                                text: ''},
                             {
-                            text: 'I.A.E.V. GRETCHEN ALYNE ATILANO MORENO.\nPRESIDENTA MUNICIPAL CONSTITUCIONAL\nDE TIZAYUCA, HIDALGO.',
+                            text: 'M.A.P.P. SUSANA ARACELI ÁNGELES QUEZADA\nPRESIDENTA MUNICIPAL CONSTITUCIONAL\nDE TIZAYUCA, HIDALGO.',
                             style: 'labelTC'
                         },
-                        {width: 140,
-                            text: ''},
+                        {},
                         {
                             text: 'M.A.C.I.G. HIPÓLITO ZAMORA SORIA.\nDIRECTOR GENERAL DEL INSTITUTO MUNICIPAL\nDE DESARROLLO URBANO Y VIVIENDA.',
                             style: 'labelTC'
-                        },
-                        {width: 5,
-                            text: ''}
+                        }
                         ]
-                    }
-                ]
-            },
-            {
-                margin: [0,30,0,0],
-                columns: [
-                    {
-                        margin: [0,0,30,0],
-                        text: 'Revisó: F.I.G.S.',
-                        fontSize: 6,
-                        alignment: 'right'
                     },
                     {
-                        margin: [30,0,0,0],
-                        text: `Elaboró: ${docUtils.madeBy(lcDBObj.elaboratedBy)}`,
-                        fontSize: 6
+                        margin: [0,30,0,0],
+                        columns: [
+                            {
+                                margin: [0,0,30,0],
+                                text: 'Revisó: F.I.G.S.',
+                                fontSize: 6,
+                                alignment: 'right'
+                            },
+                            {
+                                margin: [30,0,0,0],
+                                text: `Elaboró: ${docUtils.madeBy(lcDBObj.elaboratedBy)}`,
+                                fontSize: 6
+                            }
+                        ]
                     }
                 ]
             }

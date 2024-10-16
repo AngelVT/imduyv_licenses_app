@@ -184,6 +184,19 @@
                         </select>
                     </label>
 
+                    <label class="txt-uppercase">Fecha de solicitud:
+                        <input id="req_date" name="requestDate" required class="w-100 margin-vertical-small input input-interface input-round" type="date">
+                    </label>
+
+                    <label class="txt-uppercase">Fecha de expedicion:
+                        <input id="exp_date" name="expeditionDate" required class="w-100 margin-vertical-small input input-interface input-round" type="date">
+                    </label>
+
+                    <p class="txt-uppercase dis-flex flex-wrap"><span class="w-100">Vigencia: </span>
+                        <label class="w-50"><input class="margin-horizontal-small" type="radio" name="validity" value="1" required>6 meses</label>
+                        <label class="w-50"><input class="margin-horizontal-small" type="radio" name="validity" value="2">12 meses</label>
+                    </p>
+
                     <p class="txt-uppercase dis-flex flex-wrap"><span class="w-100">Tipo de expedicion: </span>
                         <label class="w-50"><input class="margin-horizontal-small" type="radio" name="expeditionType" value="1" required>Nueva</label>
                         <label class="w-50"><input class="margin-horizontal-small" type="radio" name="expeditionType" value="2">Renovación</label>
@@ -194,21 +207,8 @@
                         <label class="w-50"><input class="margin-horizontal-small" type="radio" name="term" value="2">Mediano</label>
                     </p>
 
-                    <p class="txt-uppercase dis-flex flex-wrap"><span class="w-100">Vigencia: </span>
-                        <label class="w-50"><input class="margin-horizontal-small" type="radio" name="validity" value="1" required>6 meses</label>
-                        <label class="w-50"><input class="margin-horizontal-small" type="radio" name="validity" value="2">12 meses</label>
-                    </p>
-
-                    <label class="txt-uppercase">Fecha de solicitud:
-                        <input name="requestDate" required class="w-100 margin-vertical-small input input-interface input-round" type="date">
-                    </label>
-
-                    <label class="txt-uppercase">Fecha de expedicion:
-                        <input name="expeditionDate" required class="w-100 margin-vertical-small input input-interface input-round" type="date">
-                    </label>
-
                     <label class="txt-uppercase">Fecha de vencimiento:
-                        <input name="expirationDate" class="w-100 margin-vertical-small input input-interface input-round" type="date">
+                        <input id="end_date" name="expirationDate" class="w-100 margin-vertical-small input input-interface input-round" type="date">
                     </label>
 
                     <label class="txt-uppercase">Folio de pago:

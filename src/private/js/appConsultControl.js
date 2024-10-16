@@ -6,7 +6,7 @@ function hideShow(id) {
     let fields = document.querySelector(`#result_fields_${id}`);
     resultTop.classList.toggle("border-round");
     resultTop.classList.toggle("border-round-top");
-    resultSave.classList.toggle("dis-none");
+    //resultSave.classList.toggle("dis-none");
     resultDelete.classList.toggle("dis-none");
     resultPrint.classList.toggle("dis-none");
     fields.classList.toggle("dis-none");
@@ -49,11 +49,11 @@ function createResultTop(obj) {
     top.appendChild(topLabel);
 
     topControls.setAttribute('class', 'w-15 dis-flex flex-evenly');
-    span = document.createElement('span');
+    /*span = document.createElement('span');
     span.setAttribute('id', `result_control_save_${obj.id}`);
     span.setAttribute('onclick', `updateResultFull(${obj.id})`);
     span.setAttribute('class', 'bi-floppy txt-large color-primary dis-none result-control');
-    topControls.appendChild(span);
+    topControls.appendChild(span);*/
 
     span = document.createElement('a');
     span.setAttribute('id', `result_control_print_${obj.id}`);
@@ -1081,7 +1081,7 @@ function createUrbanPrintResult(resObj, target) {
 
             resultContent.appendChild(field);
 
-            field = createResultField(resObj.id, 'Numero', 'number', resObj.address, 'text');
+            field = createResultField(resObj.id, 'Numero', 'number', resObj.number, 'text');
 
             resultContent.appendChild(field);
 
@@ -1629,6 +1629,39 @@ function createUrbanPrintResult(resObj, target) {
             resultContent.appendChild(field);
 
             field = createResultTextArea(resObj.id, 'Licencia de Uso de Suelo', 'urbanLUS', resObj.licenseSpecialData.urbanLUS);
+            resultContent.appendChild(field);
+
+            field = createResultField(resObj.id, 'Zona', 'zone', resObj.licenseZone, 'select');
+
+            field.querySelector('select').innerHTML = `
+            <option value="">Seleccione zona ...</option>
+            <option value="19">Agricultura tecnificada</option>
+            <option value="20">Agroindustria</option>
+            <option value="21">Cuerpos de agua</option>
+            <option value="22">Conservación y restauración ambiental</option>
+            <option value="11">Corredor urbano mixto de baja densidad</option>
+            <option value="12">Corredor urbano mixto de media densidad</option>
+            <option value="1">Densidad muy baja (Unifamiliar)</option>
+            <option value="6">Densidad alta (Unifamiliar)</option>
+            <option value="7">Densidad alta (multifamiliar dúplex, tríplex y cuádruplex)</option>
+            <option value="2">Densidad baja (Unifamiliar)</option>
+            <option value="3">Densidad media baja (Unifamiliar)</option>
+            <option value="4">Densidad media (Unifamiliar)</option>
+            <option value="5">Densidad media alta (Unifamiliar)</option>
+            <option value="8">Densidad muy alta 1 (multifamiliar)</option>
+            <option value="9">Densidad muy alta 2</option>
+            <option value="16">Equipamiento Urbano</option>
+            <option value="13">Industria de bajo impacto</option>
+            <option value="15">Industria de gran impacto</option>
+            <option value="14">Industria de medio impacto</option>
+            <option value="17">Infraestructura urbana</option>
+            <option value="10">Mixto</option>
+            <option value="23">Parque Hídrico</option>
+            <option value="18">Reserva territorial futura</option>
+            `
+
+            field.querySelector('select').value = resObj.licenseZone;
+
             resultContent.appendChild(field);
 
             field = createResultField(resObj.id, 'Porcentaje de uso', 'usePercent', resObj.licenseSpecialData.usePercent, 'number');
@@ -2778,7 +2811,7 @@ function generateTableFrom(obj) {
         row.appendChild(surfaceCell);
 
         let firstMeasure = document.createElement('td');
-        firstMeasure.textContent = item.table.distribution[0];
+        firstMeasure.textContent = `${item.table.distribution[0]} ${item.table.measures[0]}`;
         row.appendChild(firstMeasure);
 
         let firstAdjoining = document.createElement('td');
