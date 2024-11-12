@@ -15,7 +15,8 @@ import urbanRoutes from './routes/urban.routes.js';
 import userRoutes from './routes/users.routes.js';
 import authRoutes from './routes/auth.routes.js';
 import appRoutes from './routes/app.routes.js';
-import testRoutes from './routes/test.routes.js'
+import testRoutes from './routes/test.routes.js';
+import administrationRoutes from './routes/administration.routes.js';
 import * as defaultStorage from './libs/setDefaultDirectories.js';
 
 const app = express();
@@ -60,6 +61,8 @@ app.use('/api/urban', urbanRoutes);
 app.use('/api/auth', authRoutes);
 
 app.use('/api/users', userRoutes);
+
+app.use('/api/administration', administrationRoutes);
 
 app.use('/app', appRoutes);
 

@@ -38,11 +38,11 @@ export const AdministrationDetails = pool.define(
     }
 );
 
-/*(async () => {
+(async () => {
     try {
         await pool.sync();
     } catch (error) {
-        consoleLogger.warning("\n  Error synchronizing user models with DB.");
-        logger.error('Error synchronizing user models with DB.');
+        consoleLogger.warning("\n  Error synchronizing administration models with DB.");
+        logger.error('Error synchronizing administration models with DB.');
     }
-})();*/
+})();
