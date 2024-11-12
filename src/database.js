@@ -1,14 +1,16 @@
 import { Sequelize } from "sequelize";
-import config from "./config.js";
 
 import { logger, consoleLogger } from './logger.js';
 
-export const pool =  new Sequelize(config.DB_DATABASE, config.DB_USER, config.DB_PASSWORD, {
-    host: config.DB_HOST,
-    port: config.DB_PORT,
-    dialect: config.DB_DIALECT,
+const DB_PORT = process.env.DB_PORT;
+const DB_DATABASE = process.env.DB_DATABASE;
+
+export const pool =  new Sequelize(DB_DATABASE, process.env.DB_USER, process.env.DB_PASSWORD, {
+    host: process.env.DB_HOST,
+    port: DB_PORT,
+    dialect: process.env.DB_DIALECT,
     logging: false,
-    timezone: config.DB_TIMEZONE
+    timezone: process.env.DB_TIMEZONE
 });
 
 export const checkDB = async () => {
@@ -16,9 +18,9 @@ export const checkDB = async () => {
         await pool.authenticate();
         //console.log("DB connection successful");
         consoleLogger.info("\n  DB connection successful");
-        logger.info('DB connection successful\n    DB: %s\n    Port: %s', config.DB_DATABASE, config.DB_PORT);
+        logger.info('DB connection successful\n    DB: %s\n    Port: %s', DB_DATABASE, DB_PORT);
     } catch (error) {
         consoleLogger.error('\n  Error connecting to the DB');
-        logger.error('DB connection failure\n    DB: %s\n    Port: %s\n    Error: %s', config.DB_DATABASE, config.DB_PORT, error);
+        logger.error('DB connection failure\n    DB: %s\n    Port: %s\n    Error: %s', DB_DATABASE, DB_PORT, error);
     }
 };

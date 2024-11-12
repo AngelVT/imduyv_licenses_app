@@ -1,5 +1,4 @@
 import jwt from 'jsonwebtoken';
-import config from '../config.js';
 import { User, Role, Group } from '../models/Users.models.js';
 
 export const verifyToken = async (req, res, next) => {
@@ -10,7 +9,7 @@ export const verifyToken = async (req, res, next) => {
         return;
     }
 
-    const decoded = jwt.verify(clientToken, config.SECRET)
+    const decoded = jwt.verify(clientToken, process.env.SECRET)
 
     if(!decoded.userID || !decoded.username) {
         res.redirect('/app/login');

@@ -55,7 +55,7 @@ export const signIn = async (req, res) => {
                     break;
             }
 
-            const token = jwt.sign({userID: user.id, username: user.username}, config.SECRET , {
+            const token = jwt.sign({userID: user.id, username: user.username}, process.env.SECRET , {
                 expiresIn: config.TOKENS_EXP
             });
             accessLogger.access('Access successful\n    ID: %d\n    User account: "%s"', user.id, user.username);

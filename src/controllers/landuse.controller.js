@@ -367,6 +367,7 @@ export const createLicense = async (req, res) => {
             year: year,
             requestorName: requestorName,
             attentionName: attentionName,
+            elaboratedBy: req.name,
             requestDate: requestDate,
             address: address,
             number: number,

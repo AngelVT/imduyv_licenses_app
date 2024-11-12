@@ -1,7 +1,7 @@
 import { DataTypes } from "sequelize";
 import { pool } from '../database.js';
 
-import { consoleLogger } from "../logger.js";
+import { consoleLogger, logger } from "../logger.js";
 
 //models for licenses go here
 
@@ -103,6 +103,10 @@ export const LandUseLicense = pool.define(
             allowNull: false
         },
         attentionName: {
+            type: DataTypes.STRING,
+            allowNull: false
+        },
+        elaboratedBy: {
             type: DataTypes.STRING,
             allowNull: false
         },
@@ -395,5 +399,6 @@ UrbanLicense.belongsTo(Validity, {foreignKey: 'licenseValidity'});
         await pool.sync();
     } catch (error) {
         consoleLogger.warning("\n  Error synchronizing licenses with DB.");
+        logger.error('Error synchronizing licenses with DB.');
     }
 })();
