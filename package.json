@@ -6,8 +6,8 @@
   "type": "module",
   "scripts": {
     "dev": "node --env-file=.env --watch src/index.mjs",
-    "test": "node --env-file=.env src/index.js",
-    "start": "node src/index.js"
+    "test": "node --env-file=.env src/index.mjs",
+    "start": "node src/index.mjs"
   },
   "keywords": [],
   "author": "Angel Velazquez Garcia (AngelVT)",
