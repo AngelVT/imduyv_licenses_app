@@ -1,7 +1,8 @@
 import { __dirstorage } from "../../../paths.js";
 import * as docUtils from "../docUtils/utils.js";
+import jwt from 'jsonwebtoken';
 
-export async function generateTest(lcDBObj) {
+export async function generateTest(lcDBObj, host) {
 
     lcDBObj = docUtils.prepareData(lcDBObj);
 
@@ -10,48 +11,31 @@ export async function generateTest(lcDBObj) {
         styles: docUtils.docStyles,
         content: [
             {
-                style: 'formRow',
-                table: {
-                    widths: ['*'],
-                    body: [
-                        [
-                            {text: "SUBDIVISIÓN QUE SE AUTORIZA", style: 'headT', border: docUtils.borderless, margin:[1,2,1,2]}
-                        ],
-                        [
-                            {
-                                border: [true, true, true,false],
-                                /*text: 'IMG'*/
-                                image: await docUtils.fileExist(lcDBObj.fullInvoice, 'urban'),
-                                width: 580,
-                                alignment: 'center'
-                            }
-                        ],
-                        [
-                            {
-                                border: [true, false, true,true],
-                                text: [
-                                    {text: 'Nota: ', style: 'regular', bold: true},
-                                    {text: 'La información descrita corresponde y es responsabilidad del solicitante.', style: 'regular'}
-                                ]
-                            }
-                        ]
-                    ]
-                },
-                layout: docUtils.containerLayout
-            },
-        ],
-        footer: function(currentPage, pageCount) {
-            return {
-                svg: `
-                    <svg width="30" height="66">
-                        <text x="16" y="33" transform="rotate(-90, 15, 33)" text-anchor="middle" font-size="4" font-weight="bold">
-                            <tspan x="16" dy="1.2em">${lcDBObj.fullInvoice}</tspan>
-                            <tspan x="16" dy="1.2em">Pagina ${currentPage} de ${pageCount}</tspan>
-                        </text>
-                    </svg>`,
-                alignment: 'right'
-            };
-        }
+                qr: `http://${host}/test/verify/${genDocToken()}`,
+                alignment: 'center',
+                fit: 150,
+                margin: [0,0,0, 5]
+
+            }
+        ]
     };
     return definition;
+}
+
+function genDocToken() {
+    const token = jwt.sign(
+        {
+            licenseDB: 1,
+            licenseInvoice: 'IMDUYV/DLYCU/C/001/2024',
+            expeditionDate: '2024-11-13',
+            expirationDate: '2025-11-13',
+            licenseInvoice: 1,
+            licenseType: 1,
+            licenseYear: 2024,
+            requestor: 'angel velazquez garcia',
+            billInvoice: 'C-1995'
+        }, 
+        process.env.SECRET_DOC);
+        console.log(token);
+    return token;
 }

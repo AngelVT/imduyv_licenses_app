@@ -1,7 +1,7 @@
 import path from "path";
 import { __dirname } from "../paths.js";
 import pkg from '../../package.json' with {type: "json"};
-import { consoleLogger, requestLogger } from "../logger.js";
+import * as logger from "../libs/loggerFunctions.js";
 import * as geoTool from "../libs/coordinateChecker.js";
 import { Zone } from "../models/License.models.js";
 
@@ -9,8 +9,8 @@ export const goInfo = (req, res) => {
     try {
         res.sendFile(path.join(__dirname, 'public', 'info.html'));
     } catch (error) {
-        console.log('The following error ocurred: ', error);
-        res.status(500).json({msg: "Error on server"});
+        logger.logRequestError('Error loading page due to server side error', error);
+        res.status(500).json({msg: "Error loading resource"});
     }
 };
 
@@ -23,8 +23,8 @@ export const getInfo =(req, res) => {
             author: pkg.author
         });
     } catch (error) {
-        console.log('The following error ocurred: ', error);
-        res.status(500).json({msg: "Error on server"});
+        logger.logRequestError('Error loading page due to server side error', error);
+        res.status(500).json({msg: "Error loading resource"});
     }
 };
 
@@ -32,8 +32,8 @@ export const goLogIn = (req, res) => {
     try {
         res.sendFile(path.join(__dirname, 'public', 'login.html'));
     } catch (error) {
-        console.log('The following error ocurred: ', error);
-        res.status(500).json({msg: "Error on server"});
+        logger.logRequestError('Error loading page due to server side error', error);
+        res.status(500).json({msg: "Error loading resource"});
     }
 };
 
@@ -41,8 +41,8 @@ export const goLandMenu = (req, res) => {
     try {
         res.sendFile(path.join(__dirname, 'private', 'landuse_menu.html'));
     } catch (error) {
-        console.log('The following error ocurred: ', error);
-        res.status(500).json({msg: "Error on server"});
+        logger.logRequestError('Error loading page due to server side error', error);
+        res.status(500).json({msg: "Error loading resource"});
     }
 };
 
@@ -50,8 +50,8 @@ export const goLandRegister = (req, res) => {
     try {
         res.sendFile(path.join(__dirname, 'private', 'landuse_reg.html'));
     } catch (error) {
-        console.log('The following error ocurred: ', error);
-        res.status(500).json({msg: "Error on server"});
+        logger.logRequestError('Error loading page due to server side error', error);
+        res.status(500).json({msg: "Error loading resource"});
     }
 };
 
@@ -59,8 +59,8 @@ export const goLandConsult = (req, res) => {
     try {
         res.sendFile(path.join(__dirname, 'private', 'landuse_consult.html'));
     } catch (error) {
-        console.log('The following error ocurred: ', error);
-        res.status(500).json({msg: "Error on server"});
+        logger.logRequestError('Error loading page due to server side error', error);
+        res.status(500).json({msg: "Error loading resource"});
     }
 };
 
@@ -68,8 +68,8 @@ export const goLandPrint = (req, res) => {
     try {
         res.sendFile(path.join(__dirname, 'private', 'landuse_print.html'));
     } catch (error) {
-        console.log('The following error ocurred: ', error);
-        res.status(500).json({msg: "Error on server"});
+        logger.logRequestError('Error loading page due to server side error', error);
+        res.status(500).json({msg: "Error loading resource"});
     }
 };
 
@@ -77,8 +77,8 @@ export const goUrbanMenu = (req, res) => {
     try {
         res.sendFile(path.join(__dirname, 'private', 'urban_menu.html'));
     } catch (error) {
-        console.log('The following error ocurred: ', error);
-        res.status(500).json({msg: "Error on server"});
+        logger.logRequestError('Error loading page due to server side error', error);
+        res.status(500).json({msg: "Error loading resource"});
     }
 };
 
@@ -86,8 +86,8 @@ export const goUrbanRegister = (req, res) => {
     try {
         res.sendFile(path.join(__dirname, 'private', 'urban_reg.html'));
     } catch (error) {
-        console.log('The following error ocurred: ', error);
-        res.status(500).json({msg: "Error on server"});
+        logger.logRequestError('Error loading page due to server side error', error);
+        res.status(500).json({msg: "Error loading resource"});
     }
 };
 
@@ -95,8 +95,8 @@ export const goUrbanConsult = (req, res) => {
     try {
         res.sendFile(path.join(__dirname, 'private', 'urban_consult.html'));
     } catch (error) {
-        console.log('The following error ocurred: ', error);
-        res.status(500).json({msg: "Error on server"});
+        logger.logRequestError('Error loading page due to server side error', error);
+        res.status(500).json({msg: "Error loading resource"});
     }
 };
 
@@ -104,8 +104,8 @@ export const goUrbanPrint = (req, res) => {
     try {
         res.sendFile(path.join(__dirname, 'private', 'urban_print.html'));
     } catch (error) {
-        console.log('The following error ocurred: ', error);
-        res.status(500).json({msg: "Error on server"});
+        logger.logRequestError('Error loading page due to server side error', error);
+        res.status(500).json({msg: "Error loading resource"});
     }
 };
 
@@ -113,8 +113,8 @@ export const goMainMenu = (req, res) => {
     try {
         res.sendFile(path.join(__dirname, 'private', 'main_menu.html'));
     } catch (error) {
-        console.log('The following error ocurred: ', error);
-        res.status(500).json({msg: "Error on server"});
+        requestLogger.error('Page request failed due to server side error:\n    Error: %s', error);
+        res.status(500).json({msg: "Error loading resource"});
     }
 };
 
@@ -152,8 +152,8 @@ export const getZoneInfo = async (req, res) => {
         res.status(200).json({ msg: "Location found", georeference: coord.reverse(), data });
         return;
     } catch (error) {
-        consoleLogger.error('\n  Request failed due to server side error:\n  Error: %s', error)
-        requestLogger.error('Request failed due to server side error:\n    Error: %s', error);
-        res.status(500).json({msg: "Internal server error"});
+        logger.logConsoleError('Zone Info request failed due to server side error', error);
+        logger.logRequestError('Zone Info request failed due to server side error', error);
+        res.status(500).json({msg: "Error getting the requested zone information."});
     }
 };

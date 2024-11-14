@@ -1,7 +1,7 @@
 import { DataTypes } from "sequelize";
 import { pool } from '../database.js';
 
-import { consoleLogger, logger } from "../logger.js";
+import * as logger from "../libs/loggerFunctions.js";
 
 export const AdministrationDetails = pool.define(
     'administration_details', {
@@ -42,7 +42,7 @@ export const AdministrationDetails = pool.define(
     try {
         await pool.sync();
     } catch (error) {
-        consoleLogger.warning("\n  Error synchronizing administration models with DB.");
-        logger.error('Error synchronizing administration models with DB.');
+        logger.logConsoleWarning("Error synchronizing administration models with DB", `     -${error}`);
+        logger.logServerWarning('Error synchronizing administration models with DB', `-${error}`);
     }
 })();

@@ -3,14 +3,15 @@ import config from "../config.js";
 import { User, Group } from '../models/Users.models.js';
 import * as passCrypt from '../libs/passwordCrypt.js';
 
-import { accessLogger } from '../logger.js';
+import * as logger from '../libs/loggerFunctions.js';
 
 export const signIn = async (req, res) => {
     try {
         const { username, password} = req.body;
 
         if (!username || !password) {
-            accessLogger.attempt('Failed access due to no password or username');
+            logger.logAccessWarning(`Access attempt with a not existent account`, `User provided -> ${!username ? 'No' : username}
+        Password Provided -> ${!password ? 'No' : 'Yes'}`);
             res.status(400).json({
                 msgType: "Error",
                 msg: "Required information was not provided"
@@ -28,7 +29,7 @@ export const signIn = async (req, res) => {
         });
 
         if(user == null) {
-            accessLogger.attempt('Failed access due to user account "%s" does not exist', username);
+            logger.logAccessWarning(`Access attempt with a not existent account`, `User provided -> "${username}"`);
             res.status(401).json({
                 msgType: "Access denied",
             msg: "Incorrect username or password"
@@ -58,7 +59,9 @@ export const signIn = async (req, res) => {
             const token = jwt.sign({userID: user.id, username: user.username}, process.env.SECRET , {
                 expiresIn: config.TOKENS_EXP
             });
-            accessLogger.access('Access successful\n    ID: %d\n    User account: "%s"', user.id, user.username);
+            logger.logAccessInfo(`Access successful`,
+                `Account ID -> ${user.id}
+        Account -> ${user.username}`);
             res.cookie("access_token", token, {httpOnly: true,
                 secure: true,
                 signed: true,
@@ -68,7 +71,9 @@ export const signIn = async (req, res) => {
             return;
         }
 
-        accessLogger.attempt('Failed access due to incorrect password or unable to authenticate for:\n    User account: "%s"',username);
+        logger.logAccessWarning(`Access denied due to unable to authenticate account`,
+                `Account ID -> ${user.id}
+        Account -> ${user.username}`);
         
         res.status(401).json({
             msgType: "Access denied",
@@ -76,7 +81,8 @@ export const signIn = async (req, res) => {
         });
         return;
     } catch (error) {
-        console.log(error);
+        logger.logAccessError(`Unexpected access error`,
+            error);
         res.status(500).json({msg: "Error on server"});
     }
 }

@@ -2,7 +2,7 @@ import { User, Role, Group } from "../models/Users.models.js";
 import { Type, Term, Zone, AuthUse, Validity, ExpeditionType, UrbanType } from "../models/License.models.js";
 import { encryptPassword } from "./passwordCrypt.js";
 import config from "../config.js";
-import { consoleLogger, logger } from "../logger.js";
+import * as logger from "./loggerFunctions.js";
 
 export const setDefaultRoles = async () => {
     try {
@@ -19,11 +19,16 @@ export const setDefaultRoles = async () => {
             Role.create({ id: 4, role: 'user'})
         ]);
 
-        consoleLogger.info("\n  Default roles have been set");
-        logger.info("Default roles have been set");
+        logger.logConsoleInfo("Default roles have been set");
+        logger.logServerInfo("Default roles have been set", 
+        `Role -> System
+        Role -> Admin
+        Role -> Moderator
+        Role -> User`);
 
     } catch (error) {
-        consoleLogger.warning(`\n  Error stablishing default user roles:\n    ${error}`);
+        logger.logConsoleWarning(`Error establishing default user roles:\n    ${error}`);
+        logger.logServerWarning(`Error establishing default user roles`, `-${error}`);
     }
 }
 
@@ -41,11 +46,15 @@ export const setDefaultGroups = async () => {
             Group.create({ id: 3, group: 'urban'})
         ]);
 
-        consoleLogger.info("\n  Default groups have been set");
-        logger.info("Default groups have been set");
+        logger.logConsoleInfo("Default groups have been set");
+        logger.logServerInfo("Default groups have been set",
+        `Group -> All
+        Group -> Land Use
+        Group -> Urban`);
 
     } catch (error) {
-        consoleLogger.warning(`\n  Error stablishing default user groups:\n    ${error}`);
+        logger.logConsoleWarning(`Error establishing default user groups:\n    ${error}`);
+        logger.logServerWarning(`Error establishing default user groups`, `-${error}`);
     }
 }
 
@@ -67,11 +76,13 @@ export const setDefaultUsers = async () => {
             groupId: 1
         });
 
-        consoleLogger.info("\n  Default user has been set");
-        logger.info("Default user has been set");
+        logger.logConsoleInfo("Default user has been set");
+        logger.logServerInfo("Default user has been set", 
+        'User name -> Usuario Admin');
 
     } catch (error) {
-        consoleLogger.warning(`\n  Error stablishing default users:\n    ${error}`);
+        logger.logConsoleWarning(`Error establishing default users:\n    ${error}`);
+        logger.logServerWarning(`Error establishing default users`, `-${error}`);
     }
 }
 
@@ -93,11 +104,19 @@ export const setDefaultLicenseTypes = async () => {
             Type.create({id: 7, licenseType: 'DP'})
         ]);
 
-        consoleLogger.info("\n  Default license types have been set");
-        logger.info("Default license types have been set");
+        logger.logConsoleInfo("Default license types have been set");
+        logger.logServerInfo("Default license types have been set",
+        `Land use type -> C
+        Land use type -> LS
+        Land use type -> LC
+        Land use type -> LI
+        Land use type -> LH
+        Land use type -> SEG
+        Land use type -> DP`);
 
     } catch (error) {
-        consoleLogger.warning(`\n  Error stablishing default license types:\n    ${error}`);
+        logger.logConsoleWarning(`Error establishing default land use license types:\n    ${error}`);
+        logger.logServerWarning(`Error establishing default land use license types`, `-${error}`);
     }
 }
 
@@ -115,11 +134,15 @@ export const setDefaultLicenseTerms = async () => {
             Term.create({ id: 3, licenseTerm: 'largo'})
         ]);
 
-        consoleLogger.info("\n  Default license terms have been set");
-        logger.info("Default license terms have been set");
+        logger.logConsoleInfo("Default license terms have been set");
+        logger.logServerInfo("Default license terms have been set", 
+        `Term -> Corto
+        Term -> Mediano
+        Term -> Largo`);
 
     } catch (error) {
-        consoleLogger.warning(`\n  Error stablishing default terms:\n    ${error}`);
+        logger.logConsoleWarning(`Error establishing default terms:\n    ${error}`);
+        logger.logServerWarning(`Error establishing default terms`, `-${error}`);
     }
 }
 
@@ -157,11 +180,35 @@ export const setDefaultLicenseZones = async () => {
             Zone.create({ id: 23, licenseZone: 'Parque Hídrico', licenseKey: 'PH'})
         ]);
 
-        consoleLogger.info("\n  Default license zones have been set");
-        logger.info("Default license zones have been set");
+        logger.logConsoleInfo("\n  Default license zones have been set");
+        logger.logServerInfo("Default license zones have been set",
+        `Zone -> Densidad muy baja (Unifamiliar) Key -> H0.5
+        Zone -> Densidad baja (Unifamiliar) Key -> H1
+        Zone -> Densidad media baja (Unifamiliar) Key -> H1.5
+        Zone -> Densidad media (Unifamiliar) Key -> H2
+        Zone -> Densidad media alta (Unifamiliar) Key -> H2.5
+        Zone -> Densidad alta (Unifamiliar) Key -> H3
+        Zone -> Densidad alta (multifamiliar dúplex, tríplex y cuádruplex) Key -> H3.5
+        Zone -> Densidad muy alta 1 (multifamiliar) Key -> H4
+        Zone -> Densidad muy alta 2 Key -> H5
+        Zone -> Mixto Key -> MI
+        Zone -> Corredor urbano mixto de baja densidad Key -> CUMB
+        Zone -> Corredor urbano mixto de media densidad Key -> CUMM
+        Zone -> Industria de bajo impacto Key -> IB
+        Zone -> Industria de medio impacto Key -> IM
+        Zone -> Industria de gran impacto Key -> IG
+        Zone -> Equipamiento Urbano Key -> EU
+        Zone -> Infraestructura urbana Key -> IU
+        Zone -> Reserva territorial futura Key -> RT
+        Zone -> Agricultura tecnificada Key -> AT
+        Zone -> Agroindustria Key -> AI
+        Zone -> Cuerpos de agua Key -> CA
+        Zone -> Conservación y restauración ambiental Key -> CRA
+        Zone -> Parque Hídrico Key -> PH`);
 
     } catch (error) {
-        consoleLogger.warning(`\n  Error stablishing default zones:\n    ${error}`);
+        logger.logConsoleWarning(`Error establishing default zones:\n    ${error}`);
+        logger.logServerWarning(`Error establishing default zones`, `-${error}`);
     }
 }
 
@@ -229,11 +276,65 @@ export const setDefaultLicenseAuthUses = async () => {
             AuthUse.create({ id: 53, licenseAuthUse: 'Minería y extracción'})
         ]);
 
-        consoleLogger.info("\n  Default license auth uses have been set");
-        logger.info("Default license auth uses have been set");
+        logger.logConsoleInfo("Default license auth uses have been set");
+        logger.logServerInfo("Default license auth uses have been set",
+        `Authorized use -> Unifamiliar, plurifamiliar o multifamiliar
+        Authorized use -> Vivienda campestre o aislada
+        Authorized use -> Comercio básico
+        Authorized use -> Comercio especializado
+        Authorized use -> Comercio de medio impacto
+        Authorized use -> Comercio de impacto
+        Authorized use -> Centros comerciales
+        Authorized use -> Comercio de abasto
+        Authorized use -> Comercio temporal
+        Authorized use -> Servicios básicos
+        Authorized use -> Servicios especializados
+        Authorized use -> Servicios profesionales, técnicos y personales
+        Authorized use -> Talleres de servicio, reparación y mantenimiento
+        Authorized use -> Servicios colectivos
+        Authorized use -> Servicios de publicidad exterior
+        Authorized use -> Oficinas de pequeña escala
+        Authorized use -> Oficinas en general
+        Authorized use -> Centro recreativos y de espectáculos
+        Authorized use -> Centros sociales
+        Authorized use -> Centros deportivos y ecuestres
+        Authorized use -> Turismo
+        Authorized use -> Alojamiento
+        Authorized use -> Salud
+        Authorized use -> Educación
+        Authorized use -> Cultura
+        Authorized use -> Transporte
+        Authorized use -> Áreas verdes y deportivas
+        Authorized use -> Comunicaciones
+        Authorized use -> Servicios urbanos
+        Authorized use -> Religioso
+        Authorized use -> Equipamiento Regional
+        Authorized use -> Asistencia pública
+        Authorized use -> Comercio y abasto
+        Authorized use -> Equipamiento especial
+        Authorized use -> Industria casera
+        Authorized use -> Industria de bajo impacto
+        Authorized use -> Industria de medio impacto
+        Authorized use -> Industria textil
+        Authorized use -> Industria a base de minerales no metálicos
+        Authorized use -> Manufactura de sustancias químicas, productos derivados del petróleo y carbón
+        Authorized use -> Industria no contaminante
+        Authorized use -> Industria grande y/o pesada
+        Authorized use -> Almacenamientos, bodegas y depósitos
+        Authorized use -> Hidráulica
+        Authorized use -> Sanitaria
+        Authorized use -> Electricidad
+        Authorized use -> Gas natural y gas LP
+        Authorized use -> Estaciones de servicio
+        Authorized use -> Telecomunicaciones
+        Authorized use -> Vial
+        Authorized use -> Aprovechamiento Agropecuario
+        Authorized use -> Silvicultura
+        Authorized use -> Minería y extracción`);
 
     } catch (error) {
-        consoleLogger.warning(`\n  Error stablishing default auth uses:\n    ${error}`);
+        logger.logConsoleWarning(`Error establishing default auth uses:\n    ${error}`);
+        logger.logServerWarning(`Error establishing default authorized uses`, `-${error}`);
     }
 }
 
@@ -250,11 +351,14 @@ export const setDefaultLicenseValidities = async () => {
             Validity.create({ id: 2, licenseValidity: 'doce meses'})
         ]);
 
-        consoleLogger.info("\n  Default license validities have been set");
-        logger.info("Default license validities have been set");
+        logger.logConsoleInfo("Default license validities have been set");
+        logger.logServerInfo("Default license validities have been set",
+        `Validity -> Seis meses
+        Validity -> Doce meses`);
 
     } catch (error) {
-        consoleLogger.warning(`\n  Error stablishing default validities:\n    ${error}`);
+        logger.logConsoleWarning(`Error establishing default validities:\n    ${error}`);
+        logger.logServerWarning(`Error establishing default validities`, `-${error}`);
     }
 }
 
@@ -271,12 +375,16 @@ export const setDefaultLicenseExpeditionTypes = async () => {
             ExpeditionType.create({ id: 2, licenseExpType: 'renovacion'})
         ]);
 
-        consoleLogger.info("\n  Default license expedition types have been set");
-        logger.info("Default license expedition types have been set");
+        logger.logConsoleInfo("Default license expedition types have been set");
+        logger.logServerInfo("Default license expedition types have been set",
+        `Expedition type -> Nueva
+        Expedition type -> Renovación`
+        );
 
 
     } catch (error) {
-        consoleLogger.warning(`\n  Error stablishing default expedition types:\n    ${error}`);
+        logger.logConsoleWarning(`Error establishing default expedition types:\n    ${error}`);
+        logger.logServerWarning(`Error establishing default expedition types`, `-${error}`);
     }
 }
 
@@ -299,10 +407,19 @@ export const setDefaultUrbanLicenseTypes = async () => {
             UrbanType.create({ id: 8, licenseType: 'CRPC'})
         ]);
 
-        consoleLogger.info("\n  Default urban license types have been set");
-        logger.info("Default urban license types have been set");
+        logger.logConsoleInfo("Default urban license types have been set");
+        logger.logServerInfo("Default urban license types have been set",
+        `Urban type -> CUS
+        Urban type -> LUS
+        Urban type -> LSUB
+        Urban type -> LFUS
+        Urban type -> PLF
+        Urban type -> LF
+        Urban type -> RLF
+        Urban type -> CRPC`);
 
     } catch (error) {
-        consoleLogger.warning(`\n  Error stablishing default urban types:\n    ${error}`);
+        logger.logConsoleWarning(`Error establishing default urban license types:\n    ${error}`);
+        logger.logServerWarning(`Error establishing default urban license types`, `-${error}`);
     }
 }

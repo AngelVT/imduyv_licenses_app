@@ -1,7 +1,7 @@
 import { DataTypes } from "sequelize";
 import { pool } from '../database.js';
 
-import { consoleLogger, logger } from "../logger.js";
+import * as logger from "../libs/loggerFunctions.js";
 
 //models for licenses go here
 
@@ -398,7 +398,7 @@ UrbanLicense.belongsTo(Validity, {foreignKey: 'licenseValidity'});
     try {
         await pool.sync();
     } catch (error) {
-        consoleLogger.warning("\n  Error synchronizing licenses with DB.");
-        logger.error('Error synchronizing licenses with DB.');
+        logger.logConsoleWarning("Error synchronizing license models with DB", `     -${error}`);
+        logger.logServerWarning('Error synchronizing license models with DB', `-${error}`);
     }
 })();

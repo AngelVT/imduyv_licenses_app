@@ -7,7 +7,6 @@ import fs from 'fs/promises';
 import { __dirname, __dirstorage } from "../paths.js";
 import path from "path";
 import { generateLandInvoice, generateUrbanInvoice } from "../libs/fullInvoiceGen.js";
-import { consoleLogger, requestLogger } from "../logger.js";
 import { statSync } from "fs";
 import { request } from "http";
 
@@ -28,7 +27,7 @@ import { generateTest } from "../models/docs/docUtils/parts.js";
 
 export const test = async (req, res) => {
     try {
-        const def = await generateTest(docUtils.recordExample);
+        const def = await generateTest(docUtils.recordExample, req.headers.host);
 
         const pdfDoc = await printerPDF.createPdfKitDocument(def);
 

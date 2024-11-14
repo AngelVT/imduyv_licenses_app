@@ -4,7 +4,7 @@ import { Op } from 'sequelize';
 
 import { generateUrbanInvoice } from '../libs/fullInvoiceGen.js';
 import { __dirstorage } from '../paths.js';
-import { consoleLogger, requestLogger } from "../logger.js";
+import * as logger from '../libs/loggerFunctions.js';
 import { Term, UrbanLicense, UrbanType, Validity, Zone } from '../models/License.models.js';
 import { validate, validUrbanCriteria } from '../libs/validate.js';
 import { generateUrbanSpecialData } from '../models/docs/docUtils/utils.js';
@@ -43,12 +43,15 @@ export const getLicenses = async (req, res) => {
             e.licenseSpecialData = JSON.parse(e.licenseSpecialData)
         });
 
-        requestLogger.get('Urban get request completed:\n    All record requested');
-
         res.status(200).json({data: licenses});
+
+        logger.logRequestInfo('User get request completed', 
+        `Requestor Name -> ${req.name}
+        Requestor Username -> ${req.username}
+        Requested -> All records`);
     } catch (error) {
-        consoleLogger.error('\n  Request failed due to server side error:\n  Error: %s', error)
-        requestLogger.error('Request failed due to server side error:\n    Error: %s', error);
+        logger.logConsoleError('All urban records request failed due to server side error', error);
+        logger.logRequestError('All urban records request failed due to server side error', error);
         res.status(500).json({msg: "Internal server error"});
     }
 }
@@ -77,12 +80,15 @@ export const getLicense = async (req, res) => {
 
         license.licenseSpecialData = JSON.parse(license.licenseSpecialData);
 
-        requestLogger.get('Urban get request completed:\n    Requested record: %d', id);
-
         res.status(200).json({data: [license]});
+
+        logger.logRequestInfo('Urban get request completed', 
+        `Requestor Name -> ${req.name}
+        Requestor Username -> ${req.username}
+        Requested -> All records`);
     } catch (error) {
-        consoleLogger.error('\n  Request failed due to server side error:\n  Error: %s', error)
-        requestLogger.error('Request failed due to server side error:\n    Error: %s', error);
+        logger.logConsoleError('Urban record request failed due to server side error', error);
+        logger.logRequestError('Urban record request failed due to server side error', error);
         res.status(500).json({msg: "Internal server error"});
     }
 }
@@ -116,14 +122,17 @@ export const getLicenseByInvoice = async (req, res) => {
             return;
         }
 
-        requestLogger.get('Urban get request completed:\n    Requested record: %d', license.id);
-
         license.licenseSpecialData = JSON.parse(license.licenseSpecialData);
 
         res.status(200).json({data: [license]});
+
+        logger.logRequestInfo('Urban get request completed', 
+        `Requestor Name -> ${req.name}
+        Requestor Username -> ${req.username}
+        Requested -> Record ${license.fullInvoice}`);
     } catch (error) {
-        consoleLogger.error('\n  Request failed due to server side error:\n  Error: %s', error)
-        requestLogger.error('Request failed due to server side error:\n    Error: %s', error);
+        logger.logConsoleError('Urban record request failed due to server side error', error);
+        logger.logRequestError('Urban record request failed due to server side error', error);
         res.status(500).json({msg: "Internal server error"});
     }
 }
@@ -155,16 +164,19 @@ export const getLicenseByType = async (req, res) => {
             return;
         }
 
-        requestLogger.get('Urban get request completed:\n    Requested record: %d', licenses.id);
-
         for (let license of licenses) {
             license.licenseSpecialData = JSON.parse(license.licenseSpecialData);
         }
 
         res.status(200).json({data: licenses});
+
+        logger.logRequestInfo('Urban get request completed', 
+        `Requestor Name -> ${req.name}
+        Requestor Username -> ${req.username}
+        Requested -> Records type ${type} of ${year}`);
     } catch (error) {
-        consoleLogger.error('\n  Request failed due to server side error:\n  Error: %s', error)
-        requestLogger.error('Request failed due to server side error:\n    Error: %s', error);
+        logger.logConsoleError('Urban record by type request failed due to server side error', error);
+        logger.logRequestError('Urban record by type request failed due to server side error', error);
         res.status(500).json({msg: "Internal server error"});
     }
 }
@@ -209,16 +221,19 @@ export const getLicenseBy = async (req, res) => {
             return;
         }
 
-        requestLogger.get('Urban get request completed:\n    Requested record: %d', licenses.id);
-
         for (let license of licenses) {
             license.licenseSpecialData = JSON.parse(license.licenseSpecialData);
         }
 
         res.status(200).json({data: licenses});
+
+        logger.logRequestInfo('Urban get request completed', 
+        `Requestor Name -> ${req.name}
+        Requestor Username -> ${req.username}
+        Requested -> Records with ${parameter} similar to ${value}`);
     } catch (error) {
-        consoleLogger.error('\n  Request failed due to server side error:\n  Error: %s', error)
-        requestLogger.error('Request failed due to server side error:\n    Error: %s', error);
+        logger.logConsoleError('Urban record by attribute request failed due to server side error', error);
+        logger.logRequestError('Urban record by attribute request failed due to server side error', error);
         res.status(500).json({msg: "Internal server error"});
     }
 }
@@ -356,12 +371,15 @@ export const createLicense = async (req, res) => {
             }));
         }
 
-        requestLogger.create('Urban creation request completed:\n    Record: %s\n    Invoice: %s', newLicense.id, newLicense.fullInvoice)
-
         res.status(200).json({ createdAt: newLicense.createdAt, fullInvoice: newLicense.fullInvoice, dbInvoice: newLicense.invoice});
+
+        logger.logRequestInfo('Urban create request completed', 
+        `Requestor Name -> ${req.name}
+        Requestor Username -> ${req.username}
+        Created -> Record ${newLicense.fullInvoice}`);
     } catch (error) {
-        consoleLogger.error('\n  Request failed due to server side error:\n  Error: %s', error)
-        requestLogger.error('Request failed due to server side error:\n    Error: %s', error);
+        logger.logConsoleError('Urban create request failed due to server side error', error);
+        logger.logRequestError('Urban create request failed due to server side error', error);
         res.status(500).json({msg: "Internal server error"});
     }
 }
@@ -595,12 +613,15 @@ export const updateLicense = async (req, res) => {
             }
         }
 
-        requestLogger.update('Urban update request completed:\n    Record: %s\n    Invoice: %s', modifiedLicense.id, modifiedLicense.fullInvoice);
-
         res.status(200).json({msg: "Record updated successfully", affectedRecord: modifiedLicense.fullInvoice});
+
+        logger.logRequestInfo('Urban update request completed', 
+        `Requestor Name -> ${req.name}
+        Requestor Username -> ${req.username}
+        Updated -> Record ${modifiedLicense.fullInvoice}`);
     } catch (error) {
-        consoleLogger.error('\n  Request failed due to server side error:\n  Error: %s', error)
-        requestLogger.error('Request failed due to server side error:\n    Error: %s', error);
+        logger.logConsoleError('Urban update request failed due to server side error', error);
+        logger.logRequestError('Urban update request failed due to server side error', error);
         res.status(500).json({msg: "Internal server error"});
     }
     
@@ -619,12 +640,15 @@ export const deleteLicense = async (req, res) => {
 
         license.destroy();
 
-        requestLogger.delete('Urban delete request completed:\n    Record: %s\n    Invoice: %s', license.id, license.fullInvoice);
-
         res.status(200).json({msg: "Record deleted successfully"});
+
+        logger.logRequestInfo('Urban delete request completed', 
+        `Requestor Name -> ${req.name}
+        Requestor Username -> ${req.username}
+        Deleted -> Record ${license.fullInvoice}`);
     } catch (error) {
-        consoleLogger.error('\n  Request failed due to server side error:\n  Error: %s', error)
-        requestLogger.error('Request failed due to server side error:\n    Error: %s', error);
+        logger.logConsoleError('Urban delete request failed due to server side error', error);
+        logger.logRequestError('Urban delete request failed due to server side error', error);
         res.status(500).json({msg: "Internal server error"});
     }
 }
@@ -665,8 +689,6 @@ export const getLicensePDF= async (req, res) => {
             res.status(404).json({ msg: "The requested data does not exist or is unavailable" });
             return;
         }
-
-        requestLogger.get('Urban get request completed:\n    Requested record: %d', license.id);
 
         license.licenseSpecialData = JSON.parse(license.licenseSpecialData);
 
@@ -709,9 +731,14 @@ export const getLicensePDF= async (req, res) => {
         pdfDoc.info.Title = license.fullInvoice;
         pdfDoc.pipe(res);
         pdfDoc.end();
+
+        logger.logRequestInfo('Urban get PDF request completed', 
+        `Requestor Name -> ${req.name}
+        Requestor Username -> ${req.username}
+        Requested -> Record ${license.fullInvoice}`);
     } catch (error) {
-        consoleLogger.error('\n  Request failed due to server side error:\n  Error: %s', error)
-        requestLogger.error('Request failed due to server side error:\n    Error: %s', error);
+        logger.logConsoleError('Urban get PDF request failed due to server side error', error);
+        logger.logRequestError('Urban get PDF request failed due to server side error', error);
         res.status(500).json({msg: "Internal server error"});
     }
 }

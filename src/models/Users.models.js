@@ -1,7 +1,7 @@
 import { DataTypes } from 'sequelize';
 import { pool } from '../database.js';
 
-import { consoleLogger, logger } from '../logger.js';
+import * as logger from "../libs/loggerFunctions.js";
 
 export const User = pool.define(
     'user', {
@@ -47,7 +47,7 @@ User.belongsTo(Group);
     try {
         await pool.sync();
     } catch (error) {
-        consoleLogger.warning("\n  Error synchronizing user models with DB.");
-        logger.error('Error synchronizing user models with DB.');
+        logger.logConsoleWarning("Error synchronizing user models with DB", `     -${error}`);
+        logger.logServerWarning('Error synchronizing user models with DB', `-${error}`);
     }
 })();

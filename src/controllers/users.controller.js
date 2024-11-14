@@ -1,5 +1,5 @@
 import { User, Group, Role } from "../models/Users.models.js";
-import { consoleLogger, requestLogger } from "../logger.js";
+import * as logger from "../libs/loggerFunctions.js";
 import { validateUserInfo } from '../libs/validate.js'
 import * as passCrypt from '../libs/passwordCrypt.js';
 
@@ -20,16 +20,20 @@ export const getUsers = async (req, res) => {
         });
 
         if(users == null) {
-            res.status(404).json({ msg: "The requested data does not exist or is unavailable" });
+            res.status(404).json({ msg: "The requested user does not exist or is unavailable" });
             return;
         }
 
-        requestLogger.get('User get request completed:\n    All records requested');
-
         res.status(200).json({ data: users});
+
+        logger.logRequestInfo('User get request completed', 
+        `Requestor ID -> ${req.userID}
+        Requestor Name -> ${req.name}
+        Requestor Username -> ${req.username}
+        Requested -> All records`);
     } catch (error) {
-        consoleLogger.error('\n  Request failed due to server side error:\n  Error: %s', error)
-        requestLogger.error('Request failed due to server side error:\n    Error: %s', error);
+        logger.logConsoleError('User all records delete request failed due to server side error', error);
+        logger.logRequestError('User all records delete request failed due to server side error', error);
         res.status(500).json({msg: "Internal server error"});
     }
 }
@@ -52,16 +56,22 @@ export const getUser = async (req, res) => {
         });
 
         if(user == null) {
-            res.status(404).json({ msg: "The requested data does not exist or is unavailable" });
+            res.status(404).json({ msg: "The requested user does not exist or is unavailable" });
             return;
         }
 
-        requestLogger.get('User get request completed:\n    Requested record: %s\n    Name: %s\n    Username: %s', user.id, user.name, user.username);
-
         res.status(200).json({ data: user});
+
+        logger.logRequestInfo('User get request completed', 
+        `Requestor ID -> ${req.userID}
+        Requestor Name -> ${req.name}
+        Requestor Username -> ${req.username}
+        Requested -> User: 
+                    Name -> ${user.name}
+                    Username -> ${user.username}`);
     } catch (error) {
-        consoleLogger.error('\n  Request failed due to server side error:\n  Error: %s', error)
-        requestLogger.error('Request failed due to server side error:\n    Error: %s', error);
+        logger.logConsoleError('User record request failed due to server side error', error);
+        logger.logRequestError('User record request failed due to server side error', error);
         res.status(500).json({msg: "Internal server error"});
     }
 }
@@ -73,7 +83,7 @@ export const createUser = async (req, res) => {
         if (!name || !username || !password || !role || !group) {
             res.status(400).json({
                 msgType: "Error",
-                msg: "Required information was not provided"
+                msg: "Required information for user creation was not provided"
             });
             return;
         }
@@ -95,7 +105,7 @@ export const createUser = async (req, res) => {
         } else {
             res.status(200).json({
                 msgType: "Not processed",
-                msg: "The user already exist please try a different one"
+                msg: "The username is already in use please try a different one"
             });
             return;
         }
@@ -120,10 +130,17 @@ export const createUser = async (req, res) => {
             msg: "User successfully created",
             createdUser: user
         });
-        return;
+        
+        logger.logRequestInfo('User create request completed', 
+        `Requestor ID -> ${req.userID}
+        Requestor Name -> ${req.name}
+        Requestor Username -> ${req.username}
+        Created -> User:
+                    Name -> ${user.name}
+                    Username -> ${user.username}`);
     } catch (error) {
-        consoleLogger.error('\n  Request failed due to server side error:\n  Error: %s', error)
-        requestLogger.error('Request failed due to server side error:\n    Error: %s', error);
+        logger.logConsoleError('User record create request failed due to server side error', error);
+        logger.logRequestError('User record create request failed due to server side error', error);
         res.status(500).json({msg: "Internal server error"});
     }
 }
@@ -139,7 +156,7 @@ export const updateUser = async (req, res) => {
         consoleLogger.devInfo(modifiedUser);
 
         if(modifiedUser == null) {
-            res.status(404).json({ msg: "The requested data does not exist or is unavailable" });
+            res.status(404).json({ msg: "The requested user does not exist or is unavailable" });
             return;
         }
 
@@ -162,12 +179,18 @@ export const updateUser = async (req, res) => {
             groupId: group
         })
 
-        requestLogger.get('User update request completed:\n    Requested user: %s\n    Name: %s\n    Username: %s', modifiedUser.id, modifiedUser.name, modifiedUser.username);
-
         res.status(200).json({ msg: "User updated successfully"});
+
+        logger.logRequestInfo('User update request completed', 
+        `Requestor ID -> ${req.userID}
+        Requestor Name -> ${req.name}
+        Requestor Username -> ${req.username}
+        Updated -> User:
+                    Name -> ${modifiedUser.name}
+                    Username -> ${modifiedUser.username}`);
     } catch (error) {
-        consoleLogger.error('\n  Request failed due to server side error:\n  Error: %s', error)
-        requestLogger.error('Request failed due to server side error:\n    Error: %s', error);
+        logger.logConsoleError('User record update request failed due to server side error', error);
+        logger.logRequestError('User record update request failed due to server side error', error);
         res.status(500).json({msg: "Internal server error"});
     }
 }
@@ -179,18 +202,24 @@ export const deleteUser = async (req, res) => {
         const deletedUser = await User.findByPk(id);
 
         if(deletedUser == null) {
-            res.status(404).json({ msg: "The requested data does not exist or is unavailable" });
+            res.status(404).json({ msg: "The requested user does not exist or is unavailable" });
             return;
         }
 
         deletedUser.destroy();
 
-        requestLogger.delete('User delete request completed:\n    Record: %s\n    Name: %s\n    Username: %s', deletedUser.id, deletedUser.name, deletedUser.username);
-
         res.status(200).json({msg: "Record deleted successfully"});
+
+        logger.logRequestInfo('User update request completed', 
+        `Requestor ID -> ${req.userID}
+        Requestor Name -> ${req.name}
+        Requestor Username -> ${req.username}
+        Deleted -> User:
+                    Name -> ${deletedUser.name}
+                    Username -> ${deletedUser.username}`);
     } catch (error) {
-        consoleLogger.error('\n  Request failed due to server side error:\n  Error: %s', error)
-        requestLogger.error('Request failed due to server side error:\n    Error: %s', error);
+        logger.logConsoleError('User record delete request failed due to server side error', error);
+        logger.logRequestError('User record delete request failed due to server side error', error);
         res.status(500).json({msg: "Internal server error"});
     }
 }
@@ -215,8 +244,8 @@ export const getUserInfo = async (req, res) => {
             group: user.group.group
         });
     } catch (error) {
-        consoleLogger.error('\n  Request failed due to server side error:\n  Error: %s', error)
-        requestLogger.error('Request failed due to server side error:\n    Error: %s', error);
+        logger.logConsoleError('User record request failed due to server side error', error);
+        logger.logRequestError('User record request failed due to server side error', error);
         res.status(500).json({msg: "Internal server error"});
     }
 }

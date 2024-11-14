@@ -1,12 +1,12 @@
 import fs from 'fs';
 import path from 'path';
 import { __dirstorage } from '../paths.js';
-import { consoleLogger, logger, requestLogger } from '../logger.js';
+import * as logger from './loggerFunctions.js';
 
 export const setDefaultDirectories = async () => {
-    createDirectory('assets/land', "Land use")
-    createDirectory('assets/urban', "Urban")
-    createDirectory('official', "Officials")
+    createDirectory('assets/land', "Land use");
+    createDirectory('assets/urban', "Urban");
+    createDirectory('official', "Officials");
 }
 
 function createDirectory(dir, subject) {
@@ -16,15 +16,15 @@ function createDirectory(dir, subject) {
         if (err) {
             fs.mkdir(directoryPath, { recursive: true }, (err) => {
                 if (err) {
-                    logger.error(`Error creating ${subject} storage directory:\n%s`, err);
-                    consoleLogger.error(`\n  Error creating ${subject} storage directory:\n  Error: %s`, err);
+                    logger.logServerError(`Error creating ${subject} storage directory`, err);
+                    logger.logConsoleError(`Error creating ${subject} storage directory`, err);
                 } else {
-                    logger.info(`${subject} storage directory was created`);
-                    consoleLogger.info(`\n  ${subject} storage directory was created`);
+                    logger.logServerInfo(`${subject} storage directory was created`, `Directory for ${subject} -> ${directoryPath}`);
+                    logger.logConsoleInfo(`${subject} storage directory was created`);
                 }
             });
         } else {
-            consoleLogger.info(`\n  ${subject} storage directory already exists`);
+            logger.logConsoleInfo(`${subject} storage directory already exists`);
         }
     });
 }
