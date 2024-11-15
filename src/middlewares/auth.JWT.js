@@ -19,8 +19,7 @@ export const verifyToken = async (req, res, next) => {
         }
 
         const user = await User.findOne({
-            where: { id: decoded.userID, username: decoded.username },
-            attributes: ['id','name','username']
+            where: { id: decoded.userID, username: decoded.username }
         });
 
         if(user === null) {
