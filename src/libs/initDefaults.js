@@ -1,7 +1,6 @@
 import { User, Role, Group } from "../models/Users.models.js";
 import { Type, Term, Zone, AuthUse, Validity, ExpeditionType, UrbanType } from "../models/License.models.js";
 import { encryptPassword } from "./passwordCrypt.js";
-import config from "../config.js";
 import * as logger from "./loggerFunctions.js";
 
 export const setDefaultRoles = async () => {
@@ -66,7 +65,7 @@ export const setDefaultUsers = async () => {
 
         if (count > 0) return;
 
-        const cryptPassword = await encryptPassword(config.SECRET);
+        const cryptPassword = await encryptPassword(process.env.ADMIN_PASSWORD);
 
         const createdUser = await User.create({
             name: "Usuario Admin",
