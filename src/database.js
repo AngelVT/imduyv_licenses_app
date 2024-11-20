@@ -1,6 +1,5 @@
 import { Sequelize } from "sequelize";
 
-import { logger, consoleLogger } from './logger.js';
 import * as loggerFunctions from "./libs/loggerFunctions.js";
 
 const DB_PORT = process.env.DB_PORT;
@@ -38,5 +37,19 @@ export const checkDB = async () => {
         Host -> ${DB_HOST}
         Port -> ${DB_PORT}
         User -> ${DB_USER}`, error);
+    }
+};
+
+export const closeDB = async () => {
+    try {
+        await pool.close();
+        loggerFunctions.logConsoleInfo('DB connection closed successfully');
+        loggerFunctions.logServerInfo('DB connection closed successfully', 
+            `DB -> ${DB_DATABASE}
+            Host -> ${DB_HOST}
+            Port -> ${DB_PORT}`);
+    } catch (error) {
+        loggerFunctions.logConsoleError('Error closing DB connection', error);
+        loggerFunctions.logServerError('Error closing DB connection', error);
     }
 };

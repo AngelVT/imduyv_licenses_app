@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "dev": "node --env-file=.env --watch src/index.mjs",
-    "test": "node --env-file=.env src/index.mjs",
+    "test": "node --env-file=.env src/index.local.mjs",
     "start": "node src/index.mjs"
   },
   "keywords": [],
@@ -21,6 +21,7 @@
     "express": "^4.21.0",
     "fs": "^0.0.1-security",
     "helmet": "^7.1.0",
+    "https": "^1.0.0",
     "imduyv_licencias_app": "file:",
     "jsonwebtoken": "^9.0.2",
     "morgan": "^1.10.0",
