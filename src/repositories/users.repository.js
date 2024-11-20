@@ -56,7 +56,7 @@ export async function saveUser(id, newData) {
 
     await MODIFIED_USER.update(newData);
 
-    return MODIFIED_USER;
+    return await findUserByID(MODIFIED_USER.id);
 }
 
 export async function deleteUser(id) {
@@ -67,5 +67,15 @@ export async function deleteUser(id) {
 
     await DELETED_USER.destroy();
 
-    return true;
+    return DELETED_USER;
+}
+
+export async function userInfo(id) {
+    return await User.findByPk(id, {
+        attributes: ['name'],
+        include: {
+            model: Group,
+            attributes: ['group']
+        }
+    });
 }

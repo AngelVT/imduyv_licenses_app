@@ -7,7 +7,7 @@ export async function requestAllUsers() {
 
     if (USERS == null) {
         return {
-            status: 200,
+            status: 404,
             data: {
                 msg: "There are no records to display."
             },
@@ -29,7 +29,7 @@ export async function requestUser(id) {
 
     if (USER == null) {
         return {
-            status: 400,
+            status: 404,
             data: {
                 msg: "The requested user does not exist."
             },
@@ -147,17 +147,103 @@ export async function requestUserModification(id, requestBody) {
         }
     }
 
+    if (group) {
+        if (!await validateUserRole(role)) {
+            return {
+                status: 400,
+                data: {
+                    msg: "Invalid permission request, role is invalid."
+                },
+                log: "Request failed due to invalid permission request, role was invalid."
+            }
+        }
+    }
+
+    let ENCRYPTED_PASSWORD = '';
+
+    if (password) {
+        ENCRYPTED_PASSWORD = await encryptPassword(password);
+    }
+
+    const newData = {
+        name: name,
+        password: ENCRYPTED_PASSWORD,
+        roleId: role,
+        groupId: group
+    }
+
     const MODIFIED_USER = await userRepo.saveUser(id, newData);
 
     if (MODIFIED_USER == null) {
         return {
-            status: 400,
+            status: 404,
             data: {
                 msg: "The requested user does not exist."
             },
             log: `Request failed due to requested user ${id} does not exist.`
         }
     }
+
+    return {
+        status: 200,
+        data: {
+            user: MODIFIED_USER
+        },
+        log: `Request completed:
+            ID -> ${MODIFIED_USER.id}
+            Name -> ${MODIFIED_USER.name}
+            Username -> ${MODIFIED_USER.username}
+            Role -> ${MODIFIED_USER.roleId}
+            Group -> ${MODIFIED_USER.groupId}`
+    }
+}
+
+export async function requestUserDeletion(id) {
+    const DELETED_USER = await userRepo.deleteUser(id);
+
+    if (DELETED_USER == null) {
+        return {
+            status: 404,
+            data: {
+                msg: "The requested user does not exist."
+            },
+            log: `Request failed due to requested user ${id} does not exist.`
+        }
+    }
+
+    return {
+        status: 200,
+        data: {
+            msg: `User ${id} deleted successfully.`
+        },
+        log: `Request completed:
+            ID -> ${DELETED_USER.id}
+            Name -> ${DELETED_USER.name}
+            Username -> ${DELETED_USER.username}
+            Role -> ${DELETED_USER.roleId}
+            Group -> ${DELETED_USER.groupId}`
+    }
+}
+
+export async function requestUserInfo(id) {
+    const USER = await userRepo.findUserByID(id);
+
+    if (USER == null) {
+        return {
+            status: 404,
+            data: {
+                msg: "The requested user does not exist."
+            }
+        }
+    }
+
+    return {
+        status: 200,
+        data: {
+            name: USER.name,
+            group: USER.group.group
+        }
+    };
 }
 
 async function generateUsername(name, n) {
