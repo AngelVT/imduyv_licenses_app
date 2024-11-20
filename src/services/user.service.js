@@ -123,13 +123,27 @@ export async function requestUserModification(id, requestBody) {
         }
     }
 
-    if (!await validateUserPermissions(role, group)) {
-        return {
-            status: 400,
-            data: {
-                msg: "Invalid permission request, role or group is invalid."
-            },
-            log: "Request failed due to invalid permission request, role or group was invalid."
+    if (role && group) {
+        if (!await validateUserPermissions(role, group)) {
+            return {
+                status: 400,
+                data: {
+                    msg: "Invalid permission request, role or group is invalid."
+                },
+                log: "Request failed due to invalid permission request, role or group was invalid."
+            }
+        }
+    }
+
+    if (role) {
+        if (!await validateUserRole(role)) {
+            return {
+                status: 400,
+                data: {
+                    msg: "Invalid permission request, role is invalid."
+                },
+                log: "Request failed due to invalid permission request, role was invalid."
+            }
         }
     }
 
