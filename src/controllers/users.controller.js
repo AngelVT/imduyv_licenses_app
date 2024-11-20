@@ -2,35 +2,20 @@ import { User, Group, Role } from "../models/Users.models.js";
 import * as logger from "../libs/loggerFunctions.js";
 import { validateUserInfo } from '../libs/validate.js'
 import * as passCrypt from '../libs/passwordCrypt.js';
+import * as userService from '../services/user.service.js';
 
 
 export const getUsers = async (req, res) => {
     try {
-        const users = await User.findAll({
-            include:[
-                {
-                    model: Role,
-                    attributes: ['role']
-                },
-                {
-                    model: Group,
-                    attributes: ['group']
-                }
-            ]
-        });
+        const response = await userService.requestAllUsers();
 
-        if(users == null) {
-            res.status(404).json({ msg: "The requested user does not exist or is unavailable" });
-            return;
-        }
-
-        res.status(200).json({ data: users});
+        res.status(response.status).json(response.data);
 
         logger.logRequestInfo('User get request completed', 
         `Requestor ID -> ${req.userID}
         Requestor Name -> ${req.name}
         Requestor Username -> ${req.username}
-        Requested -> All records`);
+        Get request -> ${response.log}`);
     } catch (error) {
         logger.logConsoleError('User all records delete request failed due to server side error', error);
         logger.logRequestError('User all records delete request failed due to server side error', error);
@@ -40,35 +25,15 @@ export const getUsers = async (req, res) => {
 
 export const getUser = async (req, res) => {
     try {
-        const id = req.params.userID;
+        const response = await userService.requestUser(req.params.userID);
 
-        const user = await User.findByPk(id, {
-            include:[
-                {
-                    model: Role,
-                    attributes: ['role']
-                },
-                {
-                    model: Group,
-                    attributes: ['group']
-                }
-            ]
-        });
-
-        if(user == null) {
-            res.status(404).json({ msg: "The requested user does not exist or is unavailable" });
-            return;
-        }
-
-        res.status(200).json({ data: user});
+        res.status(response.status).json(response.data);
 
         logger.logRequestInfo('User get request completed', 
         `Requestor ID -> ${req.userID}
         Requestor Name -> ${req.name}
         Requestor Username -> ${req.username}
-        Requested -> User: 
-                    Name -> ${user.name}
-                    Username -> ${user.username}`);
+        Get request -> ${response.log}`);
     } catch (error) {
         logger.logConsoleError('User record request failed due to server side error', error);
         logger.logRequestError('User record request failed due to server side error', error);
@@ -78,66 +43,15 @@ export const getUser = async (req, res) => {
 
 export const createUser = async (req, res) => {
     try {
-        const {name, username, password, role, group} = req.body;
+        const response = await userService.requestUserCreation(req.body);
 
-        if (!name || !username || !password || !role || !group) {
-            res.status(400).json({
-                msgType: "Error",
-                msg: "Required information for user creation was not provided"
-            });
-            return;
-        }
-
-        const cryptPassword = await passCrypt.encryptPassword(password);
-
-        const [newUser, created] = await User.findOrCreate({
-            where: { username },
-                defaults: {
-                    name,
-                    username,
-                    password: cryptPassword
-                }
-        });
-
-        if (created) {
-            await newUser.setRole(await Role.findByPk(role));
-            await newUser.setGroup(await Group.findByPk(group));
-        } else {
-            res.status(200).json({
-                msgType: "Not processed",
-                msg: "The username is already in use please try a different one"
-            });
-            return;
-        }
-
-        const user = await User.findOne({
-            where: {id: newUser.id},
-            include: [
-                {
-                    model: Role,
-                    attributes: ['role']
-                },
-                {
-                    model: Group,
-                    attributes: ['group']
-                }
-            ],
-            attributes: ['name','username','createdAt']
-        });
-
-        res.status(201).json({
-            msgType: "Successful",
-            msg: "User successfully created",
-            createdUser: user
-        });
+        res.status(response.status).json(response.data);
         
         logger.logRequestInfo('User create request completed', 
         `Requestor ID -> ${req.userID}
         Requestor Name -> ${req.name}
         Requestor Username -> ${req.username}
-        Created -> User:
-                    Name -> ${user.name}
-                    Username -> ${user.username}`);
+        Create Request -> ${response.log}`);
     } catch (error) {
         logger.logConsoleError('User record create request failed due to server side error', error);
         logger.logRequestError('User record create request failed due to server side error', error);
@@ -147,47 +61,15 @@ export const createUser = async (req, res) => {
 
 export const updateUser = async (req, res) => {
     try {
-        const id = req.params.userID;
+        const response = await userService.requestUserModification(req.params.userID, req.body);
 
-        const {name, username, password, role, group} = req.body;
-
-        const modifiedUser = await User.findByPk(id);
-
-        consoleLogger.devInfo(modifiedUser);
-
-        if(modifiedUser == null) {
-            res.status(404).json({ msg: "The requested user does not exist or is unavailable" });
-            return;
-        }
-
-        const validated = await validateUserInfo({username, role, group});
-
-        if (validated == null) {
-            res.status(400).json({ msg: "Invalid information provided or username already exists." });
-            return;
-        }
-
-        if (password) {
-            password = passCrypt.encryptPassword(password)
-        }
-
-        modifiedUser.update({
-            name: name,
-            username: username,
-            password: password,
-            roleId: role,
-            groupId: group
-        })
-
-        res.status(200).json({ msg: "User updated successfully"});
+        res.status(response.status).json(response.data);
 
         logger.logRequestInfo('User update request completed', 
         `Requestor ID -> ${req.userID}
         Requestor Name -> ${req.name}
         Requestor Username -> ${req.username}
-        Updated -> User:
-                    Name -> ${modifiedUser.name}
-                    Username -> ${modifiedUser.username}`);
+        Update request -> ${response.log}`);
     } catch (error) {
         logger.logConsoleError('User record update request failed due to server side error', error);
         logger.logRequestError('User record update request failed due to server side error', error);

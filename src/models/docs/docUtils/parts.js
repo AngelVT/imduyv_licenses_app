@@ -11,7 +11,7 @@ export async function generateTest(lcDBObj, host) {
         styles: docUtils.docStyles,
         content: [
             {
-                qr: `http://${host}/test/verify/${genDocToken()}`,
+                qr: genDocToken(),
                 alignment: 'center',
                 fit: 150,
                 margin: [0,0,0, 5]

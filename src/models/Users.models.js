@@ -3,15 +3,22 @@ import { pool } from '../database.js';
 
 import * as logger from "../libs/loggerFunctions.js";
 
+// TODO uncomment the email in preparation for public deployment
 export const User = pool.define(
     'user', {
         name: {
             type: DataTypes.STRING(45),
             allowNull: false,
         },
+        /*email: {
+            type: DataTypes.STRING(45),
+            allowNull: false,
+            unique: true
+        },*/
         username: {
             type: DataTypes.STRING(45),
             allowNull: false,
+            unique: true
         },
         password: DataTypes.STRING
     }

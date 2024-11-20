@@ -1,7 +1,6 @@
 import { Router } from "express";
 import { test } from "../controllers/test.controller.js";
 import jwt from 'jsonwebtoken';
-import { error } from "console";
 
 const router = Router();
 
