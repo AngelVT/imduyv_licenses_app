@@ -1,9 +1,5 @@
-import { User, Group, Role } from "../models/Users.models.js";
 import * as logger from "../libs/loggerFunctions.js";
-import { validateUserInfo } from '../libs/validate.js'
-import * as passCrypt from '../libs/passwordCrypt.js';
 import * as userService from '../services/user.service.js';
-import { response } from "express";
 
 
 export const getUsers = async (req, res) => {
@@ -84,7 +80,7 @@ export const deleteUser = async (req, res) => {
 
         res.status(response.status).json(response.data);
 
-        logger.logRequestInfo('User update request completed', 
+        logger.logRequestInfo('User delete request completed', 
         `Requestor ID -> ${req.userID}
         Requestor Name -> ${req.name}
         Requestor Username -> ${req.username}
