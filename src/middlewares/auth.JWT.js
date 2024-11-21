@@ -1,5 +1,6 @@
 import jwt from 'jsonwebtoken';
-import { User, Role, Group } from '../models/Users.models.js';
+import { findUserByIdUsername } from '../repositories/users.repository.js';
+import * as userValid from '../validations/user.validations.js';
 import * as logger from '../libs/loggerFunctions.js';
 
 export const verifyToken = async (req, res, next) => {
@@ -11,25 +12,23 @@ export const verifyToken = async (req, res, next) => {
             return;
         }
 
-        const decoded = jwt.verify(clientToken, process.env.SECRET);
+        const DECODED = jwt.verify(clientToken, process.env.SECRET);
 
-        if(!decoded.userID || !decoded.username) {
+        if(!DECODED.userID || !DECODED.username) {
             res.redirect('/app/login');
             return;
         }
 
-        const user = await User.findOne({
-            where: { id: decoded.userID, username: decoded.username }
-        });
+        const USER = await findUserByIdUsername(DECODED.userID, DECODED.username);
 
-        if(user === null) {
+        if(USER === null) {
             res.redirect('/app/login');
             return;
         }
 
-        req.userID = user.id;
-        req.name = user.name;
-        req.username = user.username;
+        req.userID = USER.id;
+        req.name = USER.name;
+        req.username = USER.username;
         
         next();
     } catch (error) {
@@ -41,24 +40,12 @@ export const verifyToken = async (req, res, next) => {
 
 export const isLandUser = async (req, res, next) => {
     try {
-        const user = await User.findByPk(req.userID, {
-            include: {
-                model: Group,
-                attributes:['group']
-            }
-        });
-    
-        if (user === null) {
-            res.redirect('/app/login');
-            return;
-        }
-    
-        if(user.group.group == 'land_use' || user.group.group == 'all') {
+        if(await userValid.belongToGroup(req.userID, 'land_use')) {
             next();
             return;
         }
         
-        if (user.group.group == 'urban') {
+        if (await userValid.belongToGroup(req.userID, 'urban')) {
             res.redirect('/app/urbanMenu');
             return;
         }
@@ -74,24 +61,12 @@ export const isLandUser = async (req, res, next) => {
 
 export const isUrbanUser = async (req, res, next) => {
     try {
-        const user = await User.findByPk(req.userID, {
-            include: {
-                model: Group,
-                attributes:['group']
-            }
-        });
-    
-        if (user === null) {
-            res.redirect('/app/login');
-            return;
-        }
-    
-        if(user.group.group == 'urban' || user.group.group == 'all') {
+        if(await userValid.belongToGroup(req.userID, 'urban')) {
             next();
             return;
         }
         
-        if (user.group.group == 'land_use') {
+        if (await userValid.belongToGroup(req.userID, 'land_use')) {
             res.redirect('/app/landMenu');
             return;
         }
@@ -107,29 +82,18 @@ export const isUrbanUser = async (req, res, next) => {
 
 export const isAllUser = async (req, res, next) => {
     try {
-        const user = await User.findByPk(req.userID, {
-            include: {
-                model: Group,
-                attributes:['group']
-            }
-        });
-    
-        if (user === null) {
-            res.redirect('/app/login');
-            return;
-        }
-    
-        if(user.group.group == 'all') {
+        if(await userValid.belongToGroup(req.userID, 'all')) {
+            console.log('first filter')
             next();
             return;
         }
     
-        if (user.group.group == 'land_use') {
+        if (await userValid.belongToGroup(req.userID, 'land_use')) {
             res.redirect('/app/landMenu');
             return;
         }
     
-        if (user.group.group == 'urban') {
+        if (await userValid.belongToGroup(req.userID, 'urban')) {
             res.redirect('/app/urbanMenu');
             return;
         }
@@ -145,14 +109,7 @@ export const isAllUser = async (req, res, next) => {
 
 export const isModerator = async (req, res, next) => {
     try {
-        const user = await User.findByPk(req.userID, {
-            include: {
-                model: Role,
-                attributes:['role']
-            }
-        });
-    
-        if (user.role.role == 'moderator' || user.role.role == 'admin' || user.role.role == 'system') {
+        if (await userValid.hasRole(req.userID, 4)) {
             next();
             return;
         }
@@ -167,14 +124,7 @@ export const isModerator = async (req, res, next) => {
 
 export const isAdmin = async (req, res, next) => {
     try {
-        const user = await User.findByPk(req.userID, {
-            include: {
-                model: Role,
-                attributes:['role']
-            }
-        });
-    
-        if (user.role.role == 'admin' || user.role.role == 'system') {
+        if (await userValid.hasRole(req.userID, 2)) {
             next();
             return;
         }
@@ -189,14 +139,7 @@ export const isAdmin = async (req, res, next) => {
 
 export const isSystemAdmin = async (req, res, next) => {
     try {
-        const user = await User.findByPk(req.userID, {
-            include: {
-                model: Role,
-                attributes:['role']
-            }
-        });
-    
-        if (user.role.role == 'system') {
+        if (await userValid.hasRole(req.userID, 1)) {
             next();
             return;
         }

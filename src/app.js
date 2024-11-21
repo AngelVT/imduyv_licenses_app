@@ -8,9 +8,9 @@ import config from './config.js';
 import { __dirname, __dirstorage } from './paths.js';
 import * as defaults from './libs/initDefaults.js';
 import { checkDB } from './database.js';
-import { verifyToken } from './middlewares/auth.JWT.js';
+import { verifyToken, isLandUser, isUrbanUser } from './middlewares/auth.JWT.js';
 
-import launuseRoutes from './routes/landuse.routes.js';
+import landuseRoutes from './routes/landuse.routes.js';
 import urbanRoutes from './routes/urban.routes.js';
 import userRoutes from './routes/users.routes.js';
 import authRoutes from './routes/auth.routes.js';
@@ -50,11 +50,11 @@ app.use(cors({
 // * Stablish access to the web files
 app.use('/public', express.static(path.join(__dirname, 'public')));
 app.use('/private', verifyToken, express.static(path.join(__dirname, 'private')));
-app.use('/urbanStorage', verifyToken, express.static(path.join(__dirstorage, 'assets', 'urban')));
-app.use('/landUseStorage', verifyToken, express.static(path.join(__dirstorage, 'assets', 'land')));
+app.use('/urbanStorage', verifyToken, isUrbanUser, express.static(path.join(__dirstorage, 'assets', 'urban')));
+app.use('/landUseStorage', verifyToken, isLandUser, express.static(path.join(__dirstorage, 'assets', 'land')));
 
 // * Stablish routes
-app.use('/api/landuse', launuseRoutes);
+app.use('/api/landuse', landuseRoutes);
 
 app.use('/api/urban', urbanRoutes);
 

@@ -38,6 +38,12 @@ export async function findUserByUsername(username) {
     });
 }
 
+export async function findUserByIdUsername(id, username) {
+    return await User.findOne({
+        where: { id: id, username: username }
+    });
+}
+
 // TODO in the future this should look for existing combinations of name and email, implement when the project is being prepared for deployment for public access
 export async function saveNewUSER(newUserData) {
     const [NEW_USER, CREATED] = await User.findOrCreate({

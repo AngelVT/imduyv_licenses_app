@@ -1,4 +1,5 @@
-import { User, Group, Role } from "../models/Users.models.js";
+import { Group, Role } from "../models/Users.models.js";
+import { findUserByID } from "../repositories/users.repository.js";
 
 export async function validateUserPermissions(role, group) {
     const ROLE = await Role.findByPk(role);
@@ -33,9 +34,9 @@ export async function validateUserGroup(group) {
 }
 
 export async function hasRole(id, requiredPermission) {
-    const USER = await User.findByPk(id);
+    const USER = await findUserByID(id);
 
-    if (USER.roleId <= requiredPermission) {
+    if (USER.roleId <= requiredPermission && requiredPermission > 0 && USER.roleId > 0) {
         return true;
     }
 
@@ -43,9 +44,11 @@ export async function hasRole(id, requiredPermission) {
 }
 
 export async function belongToGroup(id, requiredGroup) {
-    const USER = await User.findByPk(id);
+    const USER = await findUserByID(id);
 
-    if (USER.group.group == requiredGroup || USER.group.group == 'all') {
+    console.log('provided: ',USER.group.group, 'vs required: ', requiredGroup);
+
+    if (USER.group.group === requiredGroup || USER.group.group === 'all') {
         return true;
     }
 
