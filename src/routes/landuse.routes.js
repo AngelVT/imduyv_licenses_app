@@ -10,17 +10,17 @@ router.get('/', [authenticator.verifyToken , authenticator.isLandUser] , landCon
 
 router.get('/:licenciaID', [authenticator.verifyToken , authenticator.isLandUser] , landControl.getLicense);
 
-router.get('/:getByParameter/value/:value', [authenticator.verifyToken , authenticator.isUrbanUser] , landControl.getLicenseBy);
+router.get('/:getByParameter/value/:value', [authenticator.verifyToken , authenticator.isLandUser] , landControl.getLicenseBy);
 
-router.get('/:type/:invoice/:year', [authenticator.verifyToken , authenticator.isUrbanUser] , landControl.getLicenseByInvoice);
+router.get('/:type/:invoice/:year', [authenticator.verifyToken , authenticator.isLandUser] , landControl.getLicenseByInvoice);
 
-router.get('/:type/:year', [authenticator.verifyToken , authenticator.isUrbanUser] , landControl.getLicenseByType);
+router.get('/:type/:year', [authenticator.verifyToken , authenticator.isLandUser] , landControl.getLicenseByType);
 
 router.post('/', [authenticator.verifyToken , authenticator.isLandUser , authenticator.isModerator, up.single('zoneIMG')] , landControl.createLicense);
 
 router.patch('/:licenciaID', [authenticator.verifyToken , authenticator.isLandUser , authenticator.isModerator, up.single('zoneIMG')] , landControl.updateLicense);
 
-router.delete('/:licenciaID', [authenticator.verifyToken , authenticator.isLandUser , authenticator.isModerator] , landControl.deleteLicense);
+router.delete('/:licenciaID', [authenticator.verifyToken , authenticator.isLandUser , authenticator.isAdmin] , landControl.deleteLicense);
 
 router.get('/PDF/:type/:invoice/:year', [authenticator.verifyToken , authenticator.isLandUser] , landControl.getLicensePDF);
 

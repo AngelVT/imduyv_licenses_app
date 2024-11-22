@@ -20,7 +20,7 @@ router.post('/', [authenticator.verifyToken , authenticator.isUrbanUser , authen
 
 router.patch('/:licenciaID', [authenticator.verifyToken , authenticator.isUrbanUser , authenticator.isModerator, up.fields([{ name: 'zoneIMG', maxCount: 1 }, { name: 'resumeTables', maxCount: 30 }])], urbanControl.updateLicense);
 
-router.delete('/:licenciaID', [authenticator.verifyToken , authenticator.isUrbanUser , authenticator.isModerator] , urbanControl.deleteLicense);
+router.delete('/:licenciaID', [authenticator.verifyToken , authenticator.isUrbanUser , authenticator.isAdmin] , urbanControl.deleteLicense);
 
 router.get('/PDF/:type/:invoice/:year', [authenticator.verifyToken , authenticator.isUrbanUser] , urbanControl.getLicensePDF);
 

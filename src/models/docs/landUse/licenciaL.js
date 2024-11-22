@@ -221,7 +221,7 @@ export async function generateLandUseL(lcDBObj) {
             {
                 stack: [
                     {
-                        text:'NOTIFÍQUESE Y CÚMPLASE\nASÍ EN DEFINITIVA LO RESOLVIÓ Y AUTORIZÓ EL LICENCIADO EN DERECHO JORGE LUIS MARTÍNEZ ÁNGELES,\nDIRECTOR GENERAL DEL INSTITUTO MUNICIPAL DE DESARROLLO URBANO Y VIVIENDA',
+                        text:'NOTIFÍQUESE Y CÚMPLASE\nASÍ EN DEFINITIVA LO RESOLVIÓ Y AUTORIZÓ EL MAESTRO EN AUDITORÍA Y CONTROL INTERNO GUBERNAMENTAL HIPÓLITO ZAMORA SORIA,\nDIRECTOR GENERAL DEL INSTITUTO MUNICIPAL DE DESARROLLO URBANO Y VIVIENDA',
                         style: ['regular', 'center'],
                         margin: [0,10,0,0]
                     },
@@ -253,7 +253,7 @@ export async function generateLandUseL(lcDBObj) {
                         layout: docUtils.noBorderNoPadding
                     },
                     {
-                        text: 'L.D. JORGE LUIS MARTÍNEZ ÁNGELES\nDIRECTOR GENERAL',
+                        text: 'M.A.C.I.G. HIPÓLITO ZAMORA SORIA.\nDIRECTOR GENERAL DEL INSTITUTO MUNICIPAL\nDE DESARROLLO URBANO Y VIVIENDA.',
                         style: 'labelTC'
                     }
                 ]
@@ -321,7 +321,7 @@ export async function generateLandUseL(lcDBObj) {
             {
                 stack: [
                     {
-                        text:'NOTIFÍQUESE Y CÚMPLASE ASÍ EN DEFINITIVA LO RESOLVIÓ Y AUTORIZÓ EL LICENCIADO EN DERECHO JORGE LUIS MARTÍNEZ ÁNGELES,\nDIRECTOR GENERAL DEL INSTITUTO MUNICIPAL DE DESARROLLO URBANO Y VIVIENDA',
+                        text:'NOTIFÍQUESE Y CÚMPLASE ASÍ EN DEFINITIVA LO RESOLVIÓ Y AUTORIZÓ\nEL MAESTRO EN AUDITORÍA Y CONTROL INTERNO GUBERNAMENTAL HIPÓLITO ZAMORA SORIA,\nDIRECTOR GENERAL DEL INSTITUTO MUNICIPAL DE DESARROLLO URBANO Y VIVIENDA',
                         style: ['regular', 'center'],
                         margin: [0,10,0,0]
                     },
@@ -332,7 +332,7 @@ export async function generateLandUseL(lcDBObj) {
                                 [
                                     {
                                         margin: [0,42,0,0],
-                                        text: 'Director General: J.L.M.A.\nElaboró: E.I.R.B.\nRevisó: E.H.A. ',
+                                        text: `Director General: H.Z.S.\nElaboró: ${docUtils.madeBy(lcDBObj.elaboratedBy)}\nRevisó: F.I.G.S.`,
                                         fontSize: 6
                                     },
                                     {},

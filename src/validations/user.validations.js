@@ -46,8 +46,6 @@ export async function hasRole(id, requiredPermission) {
 export async function belongToGroup(id, requiredGroup) {
     const USER = await findUserByID(id);
 
-    console.log('provided: ',USER.group.group, 'vs required: ', requiredGroup);
-
     if (USER.group.group === requiredGroup || USER.group.group === 'all') {
         return true;
     }
