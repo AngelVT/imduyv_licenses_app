@@ -6,7 +6,8 @@
   "type": "module",
   "scripts": {
     "dev": "node --env-file=.env --watch src/index.mjs",
-    "test": "node --env-file=.env src/index.local.mjs",
+    "testlocal": "node --env-file=.env src/index.local.mjs",
+    "test": "node --env-file=.env src/index.mjs",
     "start": "node src/index.mjs",
     "startlocal": "node src/index.local.mjs"
   },

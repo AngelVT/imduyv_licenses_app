@@ -98,7 +98,6 @@ export const consoleLogger = createLogger({
         format.colorize(),
         format.splat(),
         format.simple(),
-        
     ),
     transports: [new transports.Console()]
 });

@@ -2,17 +2,41 @@ import { Sequelize } from "sequelize";
 
 import * as loggerFunctions from "./libs/loggerFunctions.js";
 
-const DB_PORT = process.env.DB_PORT;
-const DB_DATABASE = process.env.DB_DATABASE;
-const DB_HOST = process.env.DB_HOST;
-const DB_USER = process.env.DB_USER;
+const {
+    DB_PORT,
+    DB_HOST,
+    DB_DIALECT,
+    DB_DATABASE,
+    DB_USER,
+    DB_PASSWORD,
+    DB_TIMEZONE
+} = process.env;
 
-export const pool =  new Sequelize(DB_DATABASE, DB_USER, process.env.DB_PASSWORD, {
+if (!DB_PORT ||
+    !DB_HOST ||
+    !DB_DIALECT ||
+    !DB_DATABASE ||
+    !DB_USER ||
+    !DB_PASSWORD ||
+    !DB_TIMEZONE) {
+    loggerFunctions.logConsoleError('Missing required environment variables',
+        `    DB_PORT -> ${DB_PORT ? 'Defined' : 'Not defined'}
+    DB_HOST -> ${DB_HOST ? 'Defined' : 'Not defined'}
+    DB_DIALECT -> ${DB_DIALECT ? 'Defined' : 'Not defined'}
+    DB_DATABASE -> ${DB_DATABASE ? 'Defined' : 'Not defined'}
+    DB_USER -> ${DB_USER ? 'Defined' : 'Not defined'}
+    DB_PASSWORD -> ${DB_PASSWORD ? 'Defined' : 'Not defined'}
+    DB_TIMEZONE -> ${DB_TIMEZONE ? 'Defined' : 'Not defined'}`
+    );
+    process.exit(0);
+}
+
+export const pool =  new Sequelize(DB_DATABASE, DB_USER, DB_PASSWORD, {
     host: DB_HOST,
     port: DB_PORT,
-    dialect: process.env.DB_DIALECT,
+    dialect: DB_DIALECT,
     logging: false,
-    timezone: process.env.DB_TIMEZONE
+    timezone: DB_TIMEZONE
 });
 
 export const checkDB = async () => {

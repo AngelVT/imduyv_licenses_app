@@ -26,6 +26,13 @@ export function logServerInfo(message, details) {
     logger.info(`${message}.\n    Info details:\n        %s`, details);
 }
 
+export function logServerShutdownInfo(message, details) {
+    logger.info(`${message}.\n    Info details:\n        %s`, details);
+    logger.on('finish', ()=> {
+        process.exit(0);
+    });
+}
+
 //access logging functions
 export function logAccessError(message, error) {
     accessLogger.error(`${message}.\n    Error details: %s`, error);
