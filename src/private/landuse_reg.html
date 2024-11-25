@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,20 +14,10 @@
     <script src="/private/js/appRegInterface.js" defer></script>
 
 </head>
-<body class="bg-image bg-image-1">
-    <!--<header class="header header-15">
-        <div class="container bg-complementary-alpha border-primary border-only-bottom dis-flex flex-center-v flex-between padding-horizontal-large">
-            <img class="w-15" src="/img/imduyv_logo_horizontal_primario.png" alt="Logo">
-            <span class="bi-building-fill color-primary txt-xlarge"></span>
-            <div class="w-15 dis-flex flex-column color-primary">
-                <span id="user_name" class="bi-person-circle txt-medium padding-horizontal-medium"> Usuario</span>
-                <span id="logout" class="bi-door-open txt-medium btn"> Cerrar sesión</span>
-            </div>
-        </div>
-    </header>-->
+<body>
     <main>
         <section class="page-full bg-blur">
-            <div class="container shadow-inner padding-large">
+            <article class="container shadow-inner padding-large dis-grid grid-reg">
                 
                 <a href="/app/landMenu" class="back-arrow bi-arrow-left-circle-fill"></a>
                 <span class="bi-building user-info">
@@ -37,210 +27,285 @@
                     </div>
                 </span>
                 
-                <form id="form_reg" class="dis-grid template-3cols container color-primary">
+                <form id="form_reg" class="dis-flex flex-center flex-wrap container color-primary">
 
-                    <label class="txt-uppercase">Tipo de licencia:
-                        <select name="licenseType" required class="w-100 margin-vertical-small input input-interface input-round">
-                            <option value="">Seleccione tipo...</option>
-                            <option value="1">Constancia</option>
-                            <option value="2">Licencia Servicios</option>
-                            <option value="3">Licencia Comercal</option>
-                            <option value="4">Licencia Industria</option>
-                            <option value="5">Licencia Habitacional</option>
-                            <option value="6">Segregado</option>
-                            <option value="7">Derecho de Preferencia</option>
-                        </select>
-                    </label>
+                    <div data-step="1" id="reg_step_1" class="reg-step w-100 dis-flex flex-wrap flex-between">
+                        <h3 class="w-100 txt-center margin-bottom-medium txt-uppercase">Datos del solicitante</h3>
 
-                    <label class="txt-uppercase">Georeferencia (DD):
-                        <input id="f-geo_search" class="w-80 margin-vertical-small input input-interface input-round geo-search" type="text">
-                        <span id="b-geo_search" class="bi-search btn btn-secondary txt-center"></span>
-                    </label>
-
-                    <label class="txt-uppercase">
-                        Herramientas: <br>
-                        <a id="map_tool" href="/private/tools/maps/maps.html#20/19.85072/-98.97995" target="_blank" class="bi-map btn btn-secondary"></a>
-                    </label>
-
-                    <label class="txt-uppercase">Nombre del solicitante:
-                        <input name="requestorName" required class="w-100 margin-vertical-small input input-interface input-round" type="text">
-                    </label>
-
-                    <label class="txt-uppercase">En atención:
-                        <input name="attentionName" required class="w-100 margin-vertical-small input input-interface input-round" type="text">
-                    </label>
-
-                    <label class="txt-uppercase">Calle:
-                        <input name="address" required class="w-100 margin-vertical-small input input-interface input-round" type="text">
-                    </label>
-
-                    <label class="txt-uppercase">Numero:
-                        <input name="number" required class="w-100 margin-vertical-small input input-interface input-round" type="text">
-                    </label>
-
-                    <label class="txt-uppercase">Colonia:
-                        <input name="colony" required class="w-100 margin-vertical-small input input-interface input-round" type="text">
-                    </label>
-
-                    <label class="txt-uppercase">Telefono de contacto:
-                        <input name="contactPhone" required class="w-100 margin-vertical-small input input-interface input-round" type="number">
-                    </label>
-                    
-                    <label class="txt-uppercase">Clave castastral:
-                        <input name="catastralKey" required class="w-100 margin-vertical-small input input-interface input-round" type="number">
-                    </label>
-
-                    <p class="txt-uppercase">Superficie:
-                        <span class="w-100 dis-flex flex-wrap flex-evenly">
-                            <input id="input_surface_in" class="w-75 margin-vertical-small input input-interface input-round-left" type="number">
-                            <select id="input_measure" class="w-30 margin-vertical-small input input-interface input-round-right txt-center">
-                                <option value="m²">m²</option>
-                                <option value="HA">HA</option>
+                        <label class="txt-uppercase w-100">Tipo de licencia:
+                            <select name="licenseType" required class="w-100 margin-vertical-small input input-interface input-round txt-center">
+                                <option value="">Seleccione tipo...</option>
+                                <option value="1">Constancia</option>
+                                <option value="2">Licencia Servicios</option>
+                                <option value="3">Licencia Comercal</option>
+                                <option value="4">Licencia Industria</option>
+                                <option value="5">Licencia Habitacional</option>
+                                <option value="6">Segregado</option>
+                                <option value="7">Derecho de Preferencia</option>
                             </select>
-                            <span id="btn_add_area" class="bi-arrow-right-square-fill txt-small btn"> Añadir area unica</span>
-                            <span id="btn_add_local" class="bi-plus-circle-fill txt-small btn"> Añadir area de local</span>
-                            <span id="btn_clear" class="bi-backspace-fill txt-small btn"> Limpiar</span>
-                        </span>
-                    </p>
-                    
-                    <label class="txt-uppercase">Superficie de aprovechamiento:
-                        <input id="input_surface_out" name="surface" required class="w-100 margin-vertical-small input input-interface input-round" type="text">
-                    </label>
+                        </label>
+    
+                        <label class="txt-uppercase w-30 margin-top-medium">Nombre del solicitante:
+                            <input name="requestorName" required class="w-100 margin-vertical-small input input-interface input-round" type="text">
+                        </label>
+    
+                        <label class="txt-uppercase w-30 margin-top-medium">En atención:
+                            <input name="attentionName" required class="w-100 margin-vertical-small input input-interface input-round" type="text">
+                        </label>
+    
+                        <label class="txt-uppercase w-30 margin-top-medium">Telefono de contacto:
+                            <input name="contactPhone" required class="w-100 margin-vertical-small input input-interface input-round" type="number">
+                        </label>
+                    </div>
 
-                    <label class="txt-uppercase">Georeferencia:
-                        <input id="georeference" name="georeference" required class="w-100 margin-vertical-small input input-interface input-round" type="text" readonly>
-                    </label>
-                    
-                    <label class="txt-uppercase">Zona:
-                        <span class="w-100 dis-flex">
-                            <input id="zone_placeholder" class="w-80 margin-vertical-small input input-interface input-round-left" type="text" readonly>
-                            <input type="hidden" id="field_zone" name="zone" required>
-                            <input id="field_key" class="w-25 margin-vertical-small input input-interface input-round-right txt-center" type="text" readonly>
-                        </span>
+                    <div data-step="2" id="reg_step_2" class="reg-step w-100 dis-flex flex-wrap flex-evenly dis-none">
+                        <h3 class="w-100 txt-center margin-bottom-medium txt-uppercase">Datos del inmueble</h3>
+
+                        <label class="txt-uppercase w-45">Calle:
+                            <input name="address" required class="w-100 margin-vertical-small input input-interface input-round" type="text">
+                        </label>
+    
+                        <label class="txt-uppercase w-45">Numero:
+                            <input name="number" required class="w-100 margin-vertical-small input input-interface input-round" type="text">
+                        </label>
+    
+                        <label class="txt-uppercase w-45">Colonia:
+                            <input name="colony" required class="w-100 margin-vertical-small input input-interface input-round" type="text">
+                        </label>
                         
-                    </label>
+                        <label class="txt-uppercase w-45">Clave castastral:
+                            <input name="catastralKey" required class="w-100 margin-vertical-small input input-interface input-round" type="number">
+                        </label>
+    
+                        <div class="txt-uppercase w-45">Superficie:
+                            <span class="w-100 dis-flex flex-wrap flex-evenly">
+                                <input id="input_surface_in" class="w-75 margin-vertical-small input input-interface input-round-left" type="number">
+                                <select id="input_measure" class="w-30 margin-vertical-small input input-interface input-round-right txt-center">
+                                    <option value="m²">m²</option>
+                                    <option value="HA">HA</option>
+                                </select>
+                                <span id="btn_add_area" class="bi-arrow-right-square-fill txt-small btn"> Añadir area unica</span>
+                                <span id="btn_add_local" class="bi-plus-circle-fill txt-small btn"> Añadir area de local</span>
+                                <span id="btn_clear" class="bi-backspace-fill txt-small btn"> Limpiar</span>
+                            </span>
+                        </div>
+                        
+                        <label class="txt-uppercase w-45">Superficie de aprovechamiento:
+                            <input id="input_surface_out" name="surface" required class="w-100 margin-vertical-small input input-interface input-round" type="text" value=" m²">
+                        </label>
+                    </div>
 
-                    <p class="txt-uppercase">Zonificación: 
-                        <input name="zoneIMG" required class="w-100 margin-vertical-small input input-file" type="file" accept=".jpg, .jpeg, .png">
-                    </p>
+                    <div data-step="3" id="reg_step_3" class="reg-step w-100 dis-flex flex-wrap flex-evenly dis-none">
+                        <h3 class="w-100 txt-center margin-bottom-medium txt-uppercase">Zonificación y autorización</h3>
 
-                    <label class="txt-uppercase">Giro impresión (superficie mayor a 120 m<span style="vertical-align: super; font-size: 8px;">2</span>):
-                        <input name="businessLinePrint" required class="w-100 margin-vertical-small input input-interface input-round" type="text">
-                    </label>
+                        <label class="txt-uppercase w-30">Georeferencia (DD):
+                            <input id="f-geo_search" class="margin-vertical-small input input-interface input-round geo-search" type="text">
+                            <span id="b-geo_search" class="bi-search btn btn-secondary txt-center"></span>
+                        </label>
+    
+                        <label class="txt-uppercase w-30">Georeferencia:
+                            <input id="georeference" name="georeference" required class="w-100 margin-vertical-small input input-interface input-round" type="text" readonly>
+                        </label>
+                        
+                        <label class="txt-uppercase w-30">Zona:
+                            <span class="w-100 dis-flex">
+                                <input id="zone_placeholder" class="w-80 margin-vertical-small input input-interface input-round-left" type="text" readonly>
+                                <input type="hidden" id="field_zone" name="zone" required>
+                                <input id="field_key" class="w-25 margin-vertical-small input input-interface input-round-right txt-center" type="text" readonly>
+                            </span>
+                            
+                        </label>
+    
+                        <label class="txt-uppercase w-30">Giro impresión (superficie mayor a 120 m<span style="vertical-align: super; font-size: 8px;">2</span>):
+                            <input name="businessLinePrint" required class="w-100 margin-vertical-small input input-interface input-round" type="text">
+                        </label>
+    
+                        <label class="txt-uppercase w-30">Giro interno:
+                            <input name="businessLineIntern" required class="w-100 margin-vertical-small input input-interface input-round" type="text">
+                        </label>
+    
+                        <label class="txt-uppercase w-30">Uso autorizado:
+                            <select name="authorizedUse" required class="w-100 margin-vertical-small input input-interface input-round">
+                                <option value="">Selecciona ...</option>
+                                <option value="51">Aprovechamiento Agropecuario</option>
+                                <option value="43">Almacenamientos, bodegas y depósitos</option>
+                                <option value="32">Asistencia pública</option>
+                                <option value="28">Comunicaciones</option>
+                                <option value="3">Comercio básico</option>
+                                <option value="8">Comercio de abasto</option>
+                                <option value="5">Comercio de medio impacto</option>
+                                <option value="6">Comercio de impacto</option>
+                                <option value="4">Comercio especializado</option>
+                                <option value="33">Comercio y abasto</option>
+                                <option value="9">Comercio temporal</option>
+                                <option value="25">Cultura</option>
+                                <option value="24">Educación</option>
+                                <option value="46">Electricidad</option>
+                                <option value="44">Hidráulica</option>
+                                <option value="47">Gas natural y gas LP</option>
+                                <option value="48">Estaciones de servicio</option>
+                                <option value="31">Equipamiento Regional</option>
+                                <option value="34">Equipamiento especial</option>
+                                <option value="10">Servicios básicos</option>
+                                <option value="14">Servicios colectivos</option>
+                                <option value="15">Servicios de publicidad exterior</option>
+                                <option value="29">Servicios urbanos</option>
+                                <option value="11">Servicios especializados</option>
+                                <option value="12">Servicios profesionales, técnicos y personales</option>
+                                <option value="13">Talleres de servicio, reparación y mantenimiento</option>
+                                <option value="21">Turismo</option>
+                                <option value="22">Alojamiento</option>
+                                <option value="23">Salud</option>
+                                <option value="20">Centros deportivos y ecuestres</option>
+                                <option value="7">Centros comerciales</option>
+                                <option value="19">Centros sociales</option>
+                                <option value="18">Centro recreativos y de espectáculos</option>
+                                <option value="52">Silvicultura</option>
+                                <option value="26">Transporte</option>
+                                <option value="30">Religioso</option>
+                                <option value="39">Industria a base de minerales no metálicos</option>
+                                <option value="35">Industria casera</option>
+                                <option value="36">Industria de bajo impacto</option>
+                                <option value="37">Industria de medio impacto</option>
+                                <option value="38">Industria textil</option>
+                                <option value="41">Industria no contaminante</option>
+                                <option value="42">Industria grande y/o pesada</option>
+                                <option value="49">Telecomunicaciones</option>
+                                <option value="50">Vial</option>
+                                <option value="53">Minería y extracción</option>
+                            </select>
+                        </label>
+    
+                        <div class="txt-uppercase w-40 dis-flex flex-center flex-column">Zonificación: 
+                            <input name="zoneIMG" required class="w-100 margin-vertical-small input input-file" type="file" accept=".jpg, .jpeg, .png">
+                            <a id="map_tool" href="/private/tools/maps/maps.html#20/19.85072/-98.97995" target="_blank" class="bi-map btn btn-secondary"> Generar imagen de zonificación</a>
+                        </div>
 
-                    <label class="txt-uppercase">Giro interno:
-                        <input name="businessLineIntern" required class="w-100 margin-vertical-small input input-interface input-round" type="text">
-                    </label>
+                        <label class="txt-uppercase w-40">Inspector:
+                            <input name="inspector" required class="w-100 margin-vertical-small input input-interface input-round" type="text">
+                        </label>
+                    </div>
 
-                    <label class="txt-uppercase">Uso autorizado:
-                        <select name="authorizedUse" required class="w-100 margin-vertical-small input input-interface input-round">
-                            <option value="">Selecciona ...</option>
-                            <option value="51">Aprovechamiento Agropecuario</option>
-                            <option value="43">Almacenamientos, bodegas y depósitos</option>
-                            <option value="32">Asistencia pública</option>
-                            <option value="28">Comunicaciones</option>
-                            <option value="3">Comercio básico</option>
-                            <option value="8">Comercio de abasto</option>
-                            <option value="5">Comercio de medio impacto</option>
-                            <option value="6">Comercio de impacto</option>
-                            <option value="4">Comercio especializado</option>
-                            <option value="33">Comercio y abasto</option>
-                            <option value="9">Comercio temporal</option>
-                            <option value="25">Cultura</option>
-                            <option value="24">Educación</option>
-                            <option value="46">Electricidad</option>
-                            <option value="44">Hidráulica</option>
-                            <option value="47">Gas natural y gas LP</option>
-                            <option value="48">Estaciones de servicio</option>
-                            <option value="31">Equipamiento Regional</option>
-                            <option value="34">Equipamiento especial</option>
-                            <option value="10">Servicios básicos</option>
-                            <option value="14">Servicios colectivos</option>
-                            <option value="15">Servicios de publicidad exterior</option>
-                            <option value="29">Servicios urbanos</option>
-                            <option value="11">Servicios especializados</option>
-                            <option value="12">Servicios profesionales, técnicos y personales</option>
-                            <option value="13">Talleres de servicio, reparación y mantenimiento</option>
-                            <option value="21">Turismo</option>
-                            <option value="22">Alojamiento</option>
-                            <option value="23">Salud</option>
-                            <option value="20">Centros deportivos y ecuestres</option>
-                            <option value="7">Centros comerciales</option>
-                            <option value="19">Centros sociales</option>
-                            <option value="18">Centro recreativos y de espectáculos</option>
-                            <option value="52">Silvicultura</option>
-                            <option value="26">Transporte</option>
-                            <option value="30">Religioso</option>
-                            <option value="39">Industria a base de minerales no metálicos</option>
-                            <option value="35">Industria casera</option>
-                            <option value="36">Industria de bajo impacto</option>
-                            <option value="37">Industria de medio impacto</option>
-                            <option value="38">Industria textil</option>
-                            <option value="41">Industria no contaminante</option>
-                            <option value="42">Industria grande y/o pesada</option>
-                            <option value="49">Telecomunicaciones</option>
-                            <option value="50">Vial</option>
-                            <option value="53">Minería y extracción</option>
-                        </select>
-                    </label>
+                    <div data-step="4" id="reg_step_4" class="reg-step w-100 dis-flex flex-wrap flex-evenly dis-none">
+                        <h3 class="w-100 txt-center margin-bottom-medium txt-uppercase">Vigencias y plazos</h3>
 
-                    <label class="txt-uppercase">Fecha de solicitud:
-                        <input id="req_date" name="requestDate" required class="w-100 margin-vertical-small input input-interface input-round" type="date">
-                    </label>
+                        <label class="txt-uppercase w-30">Fecha de solicitud:
+                            <input id="req_date" name="requestDate" required class="w-100 margin-vertical-small input input-interface input-round" type="date">
+                        </label>
+    
+                        <label class="txt-uppercase w-30">Fecha de expedicion:
+                            <input id="exp_date" name="expeditionDate" required class="w-100 margin-vertical-small input input-interface input-round" type="date">
+                        </label>
+    
+                        <div class="txt-uppercase dis-flex flex-wrap w-30"><span class="w-100">Vigencia: </span>
+                            <label class="w-50"><input class="margin-horizontal-small" type="radio" name="validity" value="1" required>6 meses</label>
+                            <label class="w-50"><input class="margin-horizontal-small" type="radio" name="validity" value="2">12 meses</label>
+                        </div>
+    
+                        <div class="txt-uppercase dis-flex flex-wrap w-30"><span class="w-100">Tipo de expedicion: </span>
+                            <label class="w-50"><input class="margin-horizontal-small" type="radio" name="expeditionType" value="1" required>Nueva</label>
+                            <label class="w-50"><input class="margin-horizontal-small" type="radio" name="expeditionType" value="2">Renovación</label>
+                        </div>
+    
+                        <div class="txt-uppercase dis-flex flex-wrap w-30"><span class="w-100">Plazo: </span>
+                            <label class="w-50"><input class="margin-horizontal-small" type="radio" name="term" value="1" required>Corto</label>
+                            <label class="w-50"><input class="margin-horizontal-small" type="radio" name="term" value="2">Mediano</label>
+                        </div>
+    
+                        <label class="txt-uppercase w-30">Fecha de vencimiento:
+                            <input id="end_date" name="expirationDate" class="w-100 margin-vertical-small input input-interface input-round" type="date">
+                        </label>
+                    </div>
 
-                    <label class="txt-uppercase">Fecha de expedicion:
-                        <input id="exp_date" name="expeditionDate" required class="w-100 margin-vertical-small input input-interface input-round" type="date">
-                    </label>
+                    <div data-step="5" id="reg_step_5" class="reg-step w-100 dis-flex flex-wrap flex-evenly dis-none">
+                        <h3 class="w-100 txt-center margin-bottom-medium txt-uppercase">Información de pago</h3>
 
-                    <p class="txt-uppercase dis-flex flex-wrap"><span class="w-100">Vigencia: </span>
-                        <label class="w-50"><input class="margin-horizontal-small" type="radio" name="validity" value="1" required>6 meses</label>
-                        <label class="w-50"><input class="margin-horizontal-small" type="radio" name="validity" value="2">12 meses</label>
-                    </p>
+                        <label class="txt-uppercase w-20">Folio de pago:
+                            <input name="paymentInvoice" required class="w-100 margin-vertical-small input input-interface input-round" type="number">
+                        </label>
+    
+                        <label class="txt-uppercase w-20">Costo:
+                            <input id="cost" name="cost" required class="w-100 margin-vertical-small input input-interface input-round" type="number">
+                        </label>
+    
+                        <label class="txt-uppercase w-20">Descuento:
+                            <input id="discount" name="discount" required class="w-100 margin-vertical-small input input-interface input-round" type="number" value="0">
+                        </label>
+    
+                        <label class="txt-uppercase w-20">Monto pagado:
+                            <input id="total" name="paymentDone" required class="w-100 margin-vertical-small input input-interface input-round" type="number">
+                        </label>
+                    </div>
 
-                    <p class="txt-uppercase dis-flex flex-wrap"><span class="w-100">Tipo de expedicion: </span>
-                        <label class="w-50"><input class="margin-horizontal-small" type="radio" name="expeditionType" value="1" required>Nueva</label>
-                        <label class="w-50"><input class="margin-horizontal-small" type="radio" name="expeditionType" value="2">Renovación</label>
-                    </p>
+                    <div data-step="6" id="reg_step_6" class="reg-step w-100 dis-flex flex-wrap flex-evenly dis-none bg-secondary-alpha">
+                        <div class="w-50 margin-bottom-small color-black">
+                            <p class="color-primary txt-uppercase txt-bold txt-center margin-bottom-small">Datos del solicitante</p>
 
-                    <p class="txt-uppercase dis-flex flex-wrap"><span class="w-100">Plazo: </span>
-                        <label class="w-50"><input class="margin-horizontal-small" type="radio" name="term" value="1" required>Corto</label>
-                        <label class="w-50"><input class="margin-horizontal-small" type="radio" name="term" value="2">Mediano</label>
-                    </p>
+                            <p class="txt-bold color-complementary">Tipo de licencia: <span class="color-white" id="field_licenseType">N/A</span></p>
+                            <p class="txt-bold color-complementary">Nombre del solicitante: <span class="color-white" id="field_requestorName">N/A</span></p>
+                            <p class="txt-bold color-complementary">En atención: <span class="color-white" id="field_attentionName">N/A</span></p>
+                            <p class="txt-bold color-complementary">Teléfono de contacto: <span class="color-white" id="field_contactPhone">N/A</span></p>
+                        </div>
 
-                    <label class="txt-uppercase">Fecha de vencimiento:
-                        <input id="end_date" name="expirationDate" class="w-100 margin-vertical-small input input-interface input-round" type="date">
-                    </label>
+                        <div class="w-50 margin-bottom-small color-black">
+                            <p class="color-primary txt-uppercase txt-bold txt-center margin-bottom-small">Datos del inmueble</p>
 
-                    <label class="txt-uppercase">Folio de pago:
-                        <input name="paymentInvoice" required class="w-100 margin-vertical-small input input-interface input-round" type="number">
-                    </label>
+                            <p class="txt-bold color-complementary">Calle: <span class="color-white" id="field_address">N/A</span></p>
+                            <p class="txt-bold color-complementary">Numero: <span class="color-white" id="field_number">N/A</span></p>
+                            <p class="txt-bold color-complementary">Colonia: <span class="color-white" id="field_colony">N/A</span></p>
+                            <p class="txt-bold color-complementary">Clave catastral: <span class="color-white" id="field_catastralKey">N/A</span></p>
+                            <p class="txt-bold color-complementary">Superficie de aprovechamiento: <span class="color-white" id="field_surface">N/A</span></p>
 
-                    <label class="txt-uppercase">Costo:
-                        <input name="cost" required class="w-100 margin-vertical-small input input-interface input-round" type="number">
-                    </label>
+                        </div>
 
-                    <label class="txt-uppercase">Descuento:
-                        <input name="discount" required class="w-100 margin-vertical-small input input-interface input-round" type="number">
-                    </label>
+                        <div class="w-50 margin-bottom-small color-black">
+                            <p class="color-primary txt-uppercase txt-bold txt-center margin-bottom-small">Zonificación y autorización</p>
 
-                    <label class="txt-uppercase">Monto pagado:
-                        <input name="paymentDone" required class="w-100 margin-vertical-small input input-interface input-round" type="number">
-                    </label>
+                            <p class="txt-bold color-complementary">Georeferencia: <span class="color-white" id="field_georeference">N/A</span></p>
+                            <p class="txt-bold color-complementary">Zona: <span class="color-white" id="field_zone">N/A</span></p>
+                            <p class="txt-bold color-complementary">Giro impresión (superficie mayor a 120 m2): <span class="color-white" id="field_businessLinePrint">N/A</span></p>
+                            <p class="txt-bold color-complementary">Giro interno: <span class="color-white" id="field_businessLineIntern">N/A</span></p>
+                            <p class="txt-bold color-complementary">Uso autorizado: <span class="color-white" id="field_authorizedUse">N/A</span></p>
+                            <p class="txt-bold color-complementary">Zonificación: <span class="color-white" id="field_zoneIMG">N/A</span></p>
+                            <p class="txt-bold color-complementary">Inspector: <span class="color-white" id="field_inspector">N/A</span></p>
+                        </div>
 
-                    <label class="txt-uppercase">Inspector:
-                        <input name="inspector" required class="w-100 margin-vertical-small input input-interface input-round" type="text">
-                    </label>
+                        <div class="w-50 margin-bottom-small color-black">
+                            <p class="color-primary txt-uppercase txt-bold txt-center margin-bottom-small">Vigencias y plazos</p>
 
-                    <div class="two-col-blank-gap "></div>
-                    <div></div>
+                            <p class="txt-bold color-complementary">Fecha de solicitud: <span class="color-white" id="field_requestDate">N/A</span></p>
+                            <p class="txt-bold color-complementary">Fecha de expedición: <span class="color-white" id="field_expeditionDate">N/A</span></p>
+                            <p class="txt-bold color-complementary">Vigencia: <span class="color-white" id="field_validity">N/A</span></p>
+                            <p class="txt-bold color-complementary">Tipo de expedición: <span class="color-white" id="field_expeditionType">N/A</span></p>
+                            <p class="txt-bold color-complementary">Plazo: <span class="color-white" id="field_term">N/A</span></p>
+                            <p class="txt-bold color-complementary">Fecha de vencimiento: <span class="color-white" id="field_expirationDate">N/A</span></p>
+                        </div>
 
-                    <button type="submit" class="btn btn-secondary-bg">Registrar</button>
+                        <div class="w-100 margin-bottom-medium color-black dis-flex flex-wrap flex-between">
+                            <p class="color-primary txt-uppercase txt-bold txt-center w-100 margin-bottom-small">Información de pago</p>
 
-                    <div class="dis-flex flex-center">
-                        <button type="reset" class="w-90 h-100 btn btn-secondary">Limpiar</button>
+                            <p class="txt-bold color-complementary">Folio de pago: C - <span class="color-white" id="field_paymentInvoice">N/A</span></p>
+                            <p class="txt-bold color-complementary">Costo: $ <span class="color-white" id="field_cost">N/A</span></p>
+                            <p class="txt-bold color-complementary">Descuento: $ <span class="color-white" id="field_discount">N/A</span></p>
+                            <p class="txt-bold color-complementary">Monto pagado: $ <span class="color-white" id="field_paymentDone">N/A</span></p>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary-bg txt-medium w-30">Registrar</button>
+
+                        <button type="reset" class="btn btn-primary txt-medium w-30">Limpiar</button>
                     </div>
                 </form>
-            </div>
+                <div class="step-controls dis-flex flex-center">
+                    <ul class="dis-flex flex-evenly w-100 txt-center color-white txt-large">
+                        <li class="selected bi-person btn" onclick="changeStep(this, 1, 'form_reg', false)"></li>
+                        <li class="bi-building-exclamation btn" onclick="changeStep(this, 2, 'form_reg', false)"></li>
+                        <li class="bi-building-check btn" onclick="changeStep(this, 3, 'form_reg', false)"></li>
+                        <li class="bi-calendar-week btn" onclick="changeStep(this, 4, 'form_reg', false)"></li>
+                        <li class="bi-cash-coin btn" onclick="changeStep(this, 5, 'form_reg', false)"></li>
+                        <li class="bi-check-circle btn" onclick="changeStep(this, 6, 'form_reg', true)"></li>
+                    </ul>
+                </div>
+            </article>
         </section>
     </main>
 </body>

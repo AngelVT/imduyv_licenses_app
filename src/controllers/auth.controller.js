@@ -10,7 +10,7 @@ export const signIn = async (req, res) => {
         const { username, password} = req.body;
 
         if (!username || !password) {
-            logger.logAccessWarning(`Access attempt with a not existent account`, `User provided -> ${!username ? 'No' : username}
+            logger.logAccessWarning(`Access attempt with a no account details`, `User provided -> ${!username ? 'No' : username}
         Password Provided -> ${!password ? 'No' : 'Yes'}`);
             res.status(400).json({
                 msgType: "Error",

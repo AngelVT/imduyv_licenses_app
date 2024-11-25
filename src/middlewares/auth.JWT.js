@@ -83,7 +83,6 @@ export const isUrbanUser = async (req, res, next) => {
 export const isAllUser = async (req, res, next) => {
     try {
         if(await userValid.belongToGroup(req.userID, 'all')) {
-            console.log('first filter')
             next();
             return;
         }
