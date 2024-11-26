@@ -52,7 +52,7 @@ async function getLicensePrint(type, invoice, year) {
             }
         })
         .catch(error => {
-            alert('An error ocurred:\n' + error);
+            alert('An error occurred:\n' + error);
             console.error('Error getting data: ', error)
         });
 }
@@ -232,6 +232,9 @@ async function updateResultField(form, id) {
 
             if (!res.ok) {
                 let response = await res.json();
+
+                form.querySelector('.input-interface').value = form.querySelector('input[type=hidden]').value;
+
                 alert(response.msg);
                 return;
             }

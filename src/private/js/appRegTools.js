@@ -479,3 +479,21 @@ function showCRPC() {
         e.classList.remove("dis-none");
     });
 }
+
+function dateFormatFull(dateNumeric) {
+    let months = [
+        "Enero",
+        "Febrero",
+        "Marzo",
+        "Abril", 
+        "Mayo", 
+        "Junio", 
+        "Julio", 
+        "Agosto", 
+        "Septiembre", 
+        "Octubre", 
+        "Noviembre", 
+        "Diciembre"];
+    let date = dateNumeric.split('-');
+    return `${date[2]} de ${months[parseInt(date[1])-1]} del ${date[0]}`;
+}

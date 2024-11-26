@@ -29,7 +29,7 @@
                 
                 <form id="form_reg" class="dis-flex flex-center flex-wrap container color-primary">
 
-                    <div data-step="1" id="reg_step_1" class="reg-step w-100 dis-flex flex-wrap flex-between">
+                    <div data-step="1" id="reg_step_1" class="reg-step step-box w-100 dis-flex flex-wrap flex-between">
                         <h3 class="w-100 txt-center margin-bottom-medium txt-uppercase">Datos del solicitante</h3>
 
                         <label class="txt-uppercase w-100">Tipo de licencia:
@@ -58,7 +58,7 @@
                         </label>
                     </div>
 
-                    <div data-step="2" id="reg_step_2" class="reg-step w-100 dis-flex flex-wrap flex-evenly dis-none">
+                    <div data-step="2" id="reg_step_2" class="reg-step step-box w-100 dis-flex flex-wrap flex-evenly dis-none">
                         <h3 class="w-100 txt-center margin-bottom-medium txt-uppercase">Datos del inmueble</h3>
 
                         <label class="txt-uppercase w-45">Calle:
@@ -95,7 +95,7 @@
                         </label>
                     </div>
 
-                    <div data-step="3" id="reg_step_3" class="reg-step w-100 dis-flex flex-wrap flex-evenly dis-none">
+                    <div data-step="3" id="reg_step_3" class="reg-step step-box w-100 dis-flex flex-wrap flex-evenly dis-none">
                         <h3 class="w-100 txt-center margin-bottom-medium txt-uppercase">Zonificación y autorización</h3>
 
                         <label class="txt-uppercase w-30">Georeferencia (DD):
@@ -186,7 +186,7 @@
                         </label>
                     </div>
 
-                    <div data-step="4" id="reg_step_4" class="reg-step w-100 dis-flex flex-wrap flex-evenly dis-none">
+                    <div data-step="4" id="reg_step_4" class="reg-step step-box w-100 dis-flex flex-wrap flex-evenly dis-none">
                         <h3 class="w-100 txt-center margin-bottom-medium txt-uppercase">Vigencias y plazos</h3>
 
                         <label class="txt-uppercase w-30">Fecha de solicitud:
@@ -217,7 +217,7 @@
                         </label>
                     </div>
 
-                    <div data-step="5" id="reg_step_5" class="reg-step w-100 dis-flex flex-wrap flex-evenly dis-none">
+                    <div data-step="5" id="reg_step_5" class="reg-step step-box w-100 dis-flex flex-wrap flex-evenly dis-none">
                         <h3 class="w-100 txt-center margin-bottom-medium txt-uppercase">Información de pago</h3>
 
                         <label class="txt-uppercase w-20">Folio de pago:
@@ -225,84 +225,85 @@
                         </label>
     
                         <label class="txt-uppercase w-20">Costo:
-                            <input id="cost" name="cost" required class="w-100 margin-vertical-small input input-interface input-round" type="number">
+                            <input step="any" id="cost" name="cost" required class="w-100 margin-vertical-small input input-interface input-round" type="number" value="0">
                         </label>
     
                         <label class="txt-uppercase w-20">Descuento:
-                            <input id="discount" name="discount" required class="w-100 margin-vertical-small input input-interface input-round" type="number" value="0">
+                            <input step="any" id="discount" name="discount" required class="w-100 margin-vertical-small input input-interface input-round" type="number" value="0">
                         </label>
     
                         <label class="txt-uppercase w-20">Monto pagado:
-                            <input id="total" name="paymentDone" required class="w-100 margin-vertical-small input input-interface input-round" type="number">
+                            <input id="total" name="paymentDone" required readonly class="w-100 margin-vertical-small input input-interface input-round" type="number">
                         </label>
                     </div>
 
-                    <div data-step="6" id="reg_step_6" class="reg-step w-100 dis-flex flex-wrap flex-evenly dis-none bg-secondary-alpha">
-                        <div class="w-50 margin-bottom-small color-black">
-                            <p class="color-primary txt-uppercase txt-bold txt-center margin-bottom-small">Datos del solicitante</p>
-
-                            <p class="txt-bold color-complementary">Tipo de licencia: <span class="color-white" id="field_licenseType">N/A</span></p>
-                            <p class="txt-bold color-complementary">Nombre del solicitante: <span class="color-white" id="field_requestorName">N/A</span></p>
-                            <p class="txt-bold color-complementary">En atención: <span class="color-white" id="field_attentionName">N/A</span></p>
-                            <p class="txt-bold color-complementary">Teléfono de contacto: <span class="color-white" id="field_contactPhone">N/A</span></p>
+                    <div data-step="6" id="reg_step_6" class="reg-step w-100 dis-flex flex-wrap flex-evenly dis-none">
+                        <div class="w-100 dis-flex flex-wrap step-box margin-bottom-large reg-details">
+                            <div class="w-50 margin-bottom-small color-black">
+                                <p class="color-white txt-uppercase txt-bold txt-center padding-vertical-small">Datos del solicitante</p>
+    
+                                <p class="txt-bold color-primary">Tipo de licencia: <span class="color-white" id="field_licenseType">N/A</span></p>
+                                <p class="txt-bold color-primary">Nombre del solicitante: <span class="color-white" id="field_requestorName">N/A</span></p>
+                                <p class="txt-bold color-primary">En atención: <span class="color-white" id="field_attentionName">N/A</span></p>
+                                <p class="txt-bold color-primary">Teléfono de contacto: <span class="color-white" id="field_contactPhone">N/A</span></p>
+                            </div>
+    
+                            <div class="w-50 margin-bottom-small color-black">
+                                <p class="color-white txt-uppercase txt-bold txt-center padding-vertical-small">Datos del inmueble</p>
+    
+                                <p class="txt-bold color-primary">Calle: <span class="color-white" id="field_address">N/A</span></p>
+                                <p class="txt-bold color-primary">Numero: <span class="color-white" id="field_number">N/A</span></p>
+                                <p class="txt-bold color-primary">Colonia: <span class="color-white" id="field_colony">N/A</span></p>
+                                <p class="txt-bold color-primary">Clave catastral: <span class="color-white" id="field_catastralKey">N/A</span></p>
+                                <p class="txt-bold color-primary">Superficie de aprovechamiento: <span class="color-white" id="field_surface">N/A</span></p>
+                            </div>
+    
+                            <div class="w-50 margin-bottom-small color-black">
+                                <p class="color-white txt-uppercase txt-bold txt-center padding-vertical-small">Zonificación y autorización</p>
+    
+                                <p class="txt-bold color-primary">Georeferencia: <span class="color-white" id="field_georeference">N/A</span></p>
+                                <p class="txt-bold color-primary">Zona: <span class="color-white" id="field_zone">N/A</span></p>
+                                <p class="txt-bold color-primary">Giro impresión (superficie mayor a 120 m2): <span class="color-white" id="field_businessLinePrint">N/A</span></p>
+                                <p class="txt-bold color-primary">Giro interno: <span class="color-white" id="field_businessLineIntern">N/A</span></p>
+                                <p class="txt-bold color-primary">Uso autorizado: <span class="color-white" id="field_authorizedUse">N/A</span></p>
+                                <p class="txt-bold color-primary">Zonificación: <span class="color-white" id="field_zoneIMG">N/A</span></p>
+                                <p class="txt-bold color-primary">Inspector: <span class="color-white" id="field_inspector">N/A</span></p>
+                            </div>
+    
+                            <div class="w-50 margin-bottom-small color-black">
+                                <p class="color-white txt-uppercase txt-bold txt-center padding-vertical-small">Vigencias y plazos</p>
+    
+                                <p class="txt-bold color-primary">Fecha de solicitud: <span class="color-white" id="field_requestDate">N/A</span></p>
+                                <p class="txt-bold color-primary">Fecha de expedición: <span class="color-white" id="field_expeditionDate">N/A</span></p>
+                                <p class="txt-bold color-primary">Vigencia: <span class="color-white" id="field_validity">N/A</span></p>
+                                <p class="txt-bold color-primary">Tipo de expedición: <span class="color-white" id="field_expeditionType">N/A</span></p>
+                                <p class="txt-bold color-primary">Plazo: <span class="color-white" id="field_term">N/A</span></p>
+                                <p class="txt-bold color-primary">Fecha de vencimiento: <span class="color-white" id="field_expirationDate">N/A</span></p>
+                            </div>
+    
+                            <div class="w-100 margin-bottom-medium color-black dis-flex flex-between flex-wrap">
+                                <p class="color-white txt-uppercase txt-bold txt-center w-100 padding-vertical-small border-only-top border-primary">Información de pago</p>
+    
+                                <p class="txt-bold color-primary">Folio de pago: C - <span class="color-white" id="field_paymentInvoice">N/A</span></p>
+                                <p class="txt-bold color-primary">Costo: $ <span class="color-white" id="field_cost">N/A</span></p>
+                                <p class="txt-bold color-primary">Descuento: $ <span class="color-white" id="field_discount">N/A</span></p>
+                                <p class="txt-bold color-primary">Monto pagado: $ <span class="color-white" id="field_paymentDone">N/A</span></p>
+                            </div>
                         </div>
 
-                        <div class="w-50 margin-bottom-small color-black">
-                            <p class="color-primary txt-uppercase txt-bold txt-center margin-bottom-small">Datos del inmueble</p>
+                        <button type="submit" class="reg-details btn btn-primary-bg txt-medium w-30 margin-bottom-small">Registrar</button>
 
-                            <p class="txt-bold color-complementary">Calle: <span class="color-white" id="field_address">N/A</span></p>
-                            <p class="txt-bold color-complementary">Numero: <span class="color-white" id="field_number">N/A</span></p>
-                            <p class="txt-bold color-complementary">Colonia: <span class="color-white" id="field_colony">N/A</span></p>
-                            <p class="txt-bold color-complementary">Clave catastral: <span class="color-white" id="field_catastralKey">N/A</span></p>
-                            <p class="txt-bold color-complementary">Superficie de aprovechamiento: <span class="color-white" id="field_surface">N/A</span></p>
-
-                        </div>
-
-                        <div class="w-50 margin-bottom-small color-black">
-                            <p class="color-primary txt-uppercase txt-bold txt-center margin-bottom-small">Zonificación y autorización</p>
-
-                            <p class="txt-bold color-complementary">Georeferencia: <span class="color-white" id="field_georeference">N/A</span></p>
-                            <p class="txt-bold color-complementary">Zona: <span class="color-white" id="field_zone">N/A</span></p>
-                            <p class="txt-bold color-complementary">Giro impresión (superficie mayor a 120 m2): <span class="color-white" id="field_businessLinePrint">N/A</span></p>
-                            <p class="txt-bold color-complementary">Giro interno: <span class="color-white" id="field_businessLineIntern">N/A</span></p>
-                            <p class="txt-bold color-complementary">Uso autorizado: <span class="color-white" id="field_authorizedUse">N/A</span></p>
-                            <p class="txt-bold color-complementary">Zonificación: <span class="color-white" id="field_zoneIMG">N/A</span></p>
-                            <p class="txt-bold color-complementary">Inspector: <span class="color-white" id="field_inspector">N/A</span></p>
-                        </div>
-
-                        <div class="w-50 margin-bottom-small color-black">
-                            <p class="color-primary txt-uppercase txt-bold txt-center margin-bottom-small">Vigencias y plazos</p>
-
-                            <p class="txt-bold color-complementary">Fecha de solicitud: <span class="color-white" id="field_requestDate">N/A</span></p>
-                            <p class="txt-bold color-complementary">Fecha de expedición: <span class="color-white" id="field_expeditionDate">N/A</span></p>
-                            <p class="txt-bold color-complementary">Vigencia: <span class="color-white" id="field_validity">N/A</span></p>
-                            <p class="txt-bold color-complementary">Tipo de expedición: <span class="color-white" id="field_expeditionType">N/A</span></p>
-                            <p class="txt-bold color-complementary">Plazo: <span class="color-white" id="field_term">N/A</span></p>
-                            <p class="txt-bold color-complementary">Fecha de vencimiento: <span class="color-white" id="field_expirationDate">N/A</span></p>
-                        </div>
-
-                        <div class="w-100 margin-bottom-medium color-black dis-flex flex-wrap flex-between">
-                            <p class="color-primary txt-uppercase txt-bold txt-center w-100 margin-bottom-small">Información de pago</p>
-
-                            <p class="txt-bold color-complementary">Folio de pago: C - <span class="color-white" id="field_paymentInvoice">N/A</span></p>
-                            <p class="txt-bold color-complementary">Costo: $ <span class="color-white" id="field_cost">N/A</span></p>
-                            <p class="txt-bold color-complementary">Descuento: $ <span class="color-white" id="field_discount">N/A</span></p>
-                            <p class="txt-bold color-complementary">Monto pagado: $ <span class="color-white" id="field_paymentDone">N/A</span></p>
-                        </div>
-
-                        <button type="submit" class="btn btn-primary-bg txt-medium w-30">Registrar</button>
-
-                        <button type="reset" class="btn btn-primary txt-medium w-30">Limpiar</button>
                     </div>
                 </form>
                 <div class="step-controls dis-flex flex-center">
-                    <ul class="dis-flex flex-evenly w-100 txt-center color-white txt-large">
+                    <ul class="dis-flex flex-evenly w-100 txt-center color-white txt-medium" id="reg_nav">
                         <li class="selected bi-person btn" onclick="changeStep(this, 1, 'form_reg', false)"></li>
                         <li class="bi-building-exclamation btn" onclick="changeStep(this, 2, 'form_reg', false)"></li>
                         <li class="bi-building-check btn" onclick="changeStep(this, 3, 'form_reg', false)"></li>
                         <li class="bi-calendar-week btn" onclick="changeStep(this, 4, 'form_reg', false)"></li>
                         <li class="bi-cash-coin btn" onclick="changeStep(this, 5, 'form_reg', false)"></li>
                         <li class="bi-check-circle btn" onclick="changeStep(this, 6, 'form_reg', true)"></li>
+                        <li class="bi-trash btn" onclick="resetForm('form_reg')"></li>
                     </ul>
                 </div>
             </article>

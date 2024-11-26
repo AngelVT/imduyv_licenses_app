@@ -1,16 +1,13 @@
 function hideShow(id) {
     let resultTop = document.querySelector(`#result_top_${id}`);
-    let resultSave = document.querySelector(`#result_control_save_${id}`);
     let resultDelete = document.querySelector(`#result_control_delete_${id}`);
     let resultPrint = document.querySelector(`#result_control_print_${id}`);
     let fields = document.querySelector(`#result_fields_${id}`);
     resultTop.classList.toggle("border-round");
     resultTop.classList.toggle("border-round-top");
-    //resultSave.classList.toggle("dis-none");
     resultDelete.classList.toggle("dis-none");
     resultPrint.classList.toggle("dis-none");
     fields.classList.toggle("dis-none");
-    fields.classList.toggle("dis-grid");
 }
 
 function createResult(id, top, fields) {
@@ -31,7 +28,7 @@ function createResultTop(obj) {
     let span;
 
     top.setAttribute('id', `result_top_${obj.id}`);
-    top.setAttribute('class', 'w-100 dis-flex flex-between flex-center-v padding-small bg-complementary-alpha border-round controls');
+    top.setAttribute('class', 'w-100 dis-flex flex-between flex-center-v padding-medium bg-complementary-alpha border-round controls');
 
     /*topBtn.setAttribute('onclick', `hideShow(this, ${obj.id})`);
     topBtn.setAttribute('class', 'bi-chevron-bar-down txt-medium color-primary result-control input-none');
@@ -59,13 +56,13 @@ function createResultTop(obj) {
     span.setAttribute('id', `result_control_print_${obj.id}`);
     span.setAttribute('target', '_blank');
     span.setAttribute('href', `/api/urban/PDF/${obj.licenseType}/${obj.invoice}/${obj.year}`);
-    span.setAttribute('class', 'bi-printer txt-large color-primary dis-none result-control');
+    span.setAttribute('class', 'bi-printer txt-medium color-primary dis-none result-control');
     topControls.appendChild(span);
 
     span = document.createElement('span');
     span.setAttribute('id', `result_control_delete_${obj.id}`);
     span.setAttribute('onclick', `deleteResult(${obj.id})`);
-    span.setAttribute('class', 'bi-trash txt-large color-primary dis-none result-control');
+    span.setAttribute('class', 'bi-trash txt-medium color-primary dis-none result-control');
     topControls.appendChild(span);
 
     top.appendChild(topControls);
@@ -76,7 +73,7 @@ function createResultTop(obj) {
 function createResultContent(id) {
     let content = document.createElement('div');
     content.setAttribute('id', `result_fields_${id}`);
-    content.setAttribute('class', 'w-100 dis-none template-4cols-nogap bg-secondary-alpha padding-small border-round-bottom');
+    content.setAttribute('class', 'w-100 dis-none dis-flex flex-center flex-wrap bg-secondary-alpha padding-small border-round-bottom');
     return content;
 }
 
@@ -88,6 +85,7 @@ function createResultField(id, tag, name, value, type) {
     let span;
 
     field.setAttribute('onsubmit', `updateResultField(this, ${id}); return false`);
+    field.setAttribute('class', 'w-30 margin-bottom-small');
 
     label.innerText = tag + ':';
     label.setAttribute('class', 'dis-flex flex-wrap color-primary')
@@ -146,7 +144,7 @@ function createResultTextArea(id, tag, name, value) {
     let span;
 
     field.setAttribute('onsubmit', `updateResultField(this, ${id}); return false`);
-    field.setAttribute('class', 'field-span')
+    field.setAttribute('class', 'w-95 field-span')
 
     label.innerText = tag + ':';
     label.setAttribute('class', 'dis-flex flex-wrap color-primary')
@@ -725,45 +723,149 @@ function createUrbanResult(resObj, target) {
     target.appendChild(newResult);
 }
 
+// nameChanged !!!!! createLandResult
 function createLandResult(resObj, target) {
     let resultContent = createResultContent(resObj.id);
     let field;
+    let fieldGroup;
+    let fieldGroupTittle;
+
+    let resultNav = document.createElement('div');
+    let navButtons = document.createElement('ul');
+    let navButton;
+
+    resultNav.setAttribute('class', 'w-100 step-controls result dis-flex flex-center margin-bottom-medium');
+    resultNav.setAttribute('id', `result_${resObj.id}_nav`);
+    navButtons.setAttribute('class', 'dis-flex flex-evenly w-100 txt-center txt-medium');
+
+    // * Nav button
+    navButton = document.createElement('li');
+    navButton.setAttribute('class', 'selected bi-person btn');
+    navButton.setAttribute('onclick', `resultNavigation(this, ${resObj.id}, 1, 6)`);
+    navButtons.appendChild(navButton);
+
+    // * Nav button
+    navButton = document.createElement('li');
+    navButton.setAttribute('class', 'bi-building-exclamation btn');
+    navButton.setAttribute('onclick', `resultNavigation(this, ${resObj.id}, 2, 6)`);
+    navButtons.appendChild(navButton);
+
+    // * Nav button
+    navButton = document.createElement('li');
+    navButton.setAttribute('class', 'bi-building-check btn');
+    navButton.setAttribute('onclick', `resultNavigation(this, ${resObj.id}, 3, 6)`);
+    navButtons.appendChild(navButton);
+
+    // * Nav button
+    navButton = document.createElement('li');
+    navButton.setAttribute('class', 'bi-calendar-week btn');
+    navButton.setAttribute('onclick', `resultNavigation(this, ${resObj.id}, 4, 6)`);
+    navButtons.appendChild(navButton);
+
+    // * Nav button
+    navButton = document.createElement('li');
+    navButton.setAttribute('class', 'bi-cash-coin btn');
+    navButton.setAttribute('onclick', `resultNavigation(this, ${resObj.id}, 5, 6)`);
+    navButtons.appendChild(navButton);
+
+    // * Nav button
+    navButton = document.createElement('li');
+    navButton.setAttribute('class', 'bi-plus-circle btn');
+    navButton.setAttribute('onclick', `resultNavigation(this, ${resObj.id}, 6, 6)`);
+    navButtons.appendChild(navButton);
+
+    resultNav.appendChild(navButtons);
+
+    resultContent.appendChild(resultNav);
+
+    // * creating field group for requestor information
+    fieldGroup = document.createElement('div');
+    fieldGroup.setAttribute('class', 'w-100 dis-flex flex-wrap flex-evenly');
+    fieldGroup.setAttribute('id', `result_${resObj.id}_group_1`);
+
+    fieldGroupTittle = document.createElement('h3');
+    fieldGroupTittle.setAttribute('class', 'w-100 txt-center txt-medium color-primary txt-bold border-only-bottom border-white txt-uppercase margin-bottom-medium');
+    fieldGroupTittle.innerText = 'Información del solicitante';
+
+    fieldGroup.appendChild(fieldGroupTittle);
 
     field = createResultField(resObj.id, 'Nombre del solicitante', 'requestorName', resObj.requestorName, 'text');
 
-    resultContent.appendChild(field);
+    fieldGroup.appendChild(field);
     
     field = createResultField(resObj.id, 'En atención', 'attentionName', resObj.attentionName, 'text');
 
-    resultContent.appendChild(field);
-
-    field = createResultField(resObj.id, 'Calle', 'address', resObj.address, 'text');
-
-    resultContent.appendChild(field);
-
-    field = createResultField(resObj.id, 'Numero', 'number', resObj.number, 'text');
-
-    resultContent.appendChild(field);
-
-    field = createResultField(resObj.id, 'Colonia', 'colony', resObj.colony, 'text');
-
-    resultContent.appendChild(field);
+    fieldGroup.appendChild(field);
 
     field = createResultField(resObj.id, 'Teléfono de contacto', 'contactPhone', resObj.contactPhone, 'number');
 
-    resultContent.appendChild(field);
+    fieldGroup.appendChild(field);
+
+    resultContent.appendChild(fieldGroup);
+
+    // ! end of requestor field group
+
+    // * creating field group for building information
+    fieldGroup = document.createElement('div');
+    fieldGroup.setAttribute('class', 'w-100 dis-flex flex-wrap flex-evenly dis-none');
+    fieldGroup.setAttribute('id', `result_${resObj.id}_group_2`);
+
+    fieldGroupTittle = document.createElement('h3');
+    fieldGroupTittle.setAttribute('class', 'w-100 txt-center txt-medium color-primary txt-bold border-only-bottom border-white txt-uppercase  margin-bottom-medium');
+    fieldGroupTittle.innerText = 'Información del inmueble';
+
+    fieldGroup.appendChild(fieldGroupTittle);
+
+    field = createResultField(resObj.id, 'Calle', 'address', resObj.address, 'text');
+
+    fieldGroup.appendChild(field);
+
+    field = createResultField(resObj.id, 'Numero', 'number', resObj.number, 'text');
+
+    fieldGroup.appendChild(field);
+
+    field = createResultField(resObj.id, 'Colonia', 'colony', resObj.colony, 'text');
+
+    fieldGroup.appendChild(field);
 
     field = createResultField(resObj.id, 'Clave castastral', 'catastralKey', resObj.catastralKey, 'number');
 
-    resultContent.appendChild(field);
+    fieldGroup.appendChild(field);
 
     field = createResultField(resObj.id, 'Superficie de aprovechamiento', 'surface', resObj.surfaceTotal, 'text');
 
-    resultContent.appendChild(field);
+    fieldGroup.appendChild(field);
+
+    resultContent.appendChild(fieldGroup);
+
+    // ! end of building field group
+
+    // * creating field group for zone and authorization information
+    fieldGroup = document.createElement('div');
+    fieldGroup.setAttribute('class', 'w-100 dis-flex flex-wrap flex-evenly dis-none');
+    fieldGroup.setAttribute('id', `result_${resObj.id}_group_3`);
+
+    fieldGroupTittle = document.createElement('h3');
+    fieldGroupTittle.setAttribute('class', 'w-100 txt-center txt-medium color-primary txt-bold border-only-bottom border-white txt-uppercase margin-bottom-medium');
+    fieldGroupTittle.innerText = 'Zonificación y autorización';
+
+    fieldGroup.appendChild(fieldGroupTittle);
+
+    let imgDiv= document.createElement('div');
+    imgDiv.setAttribute('class', 'w-100 dis-flex flex-center');
+
+    field = document.createElement('img');
+    field.setAttribute('alt', 'Zonificación');
+    field.setAttribute('src', `/landUseStorage/${resObj.fullInvoice}/zone.png`);
+    field.setAttribute('class', 'w-40 margin-bottom-small');
+
+    imgDiv.appendChild(field)
+
+    fieldGroup.appendChild(imgDiv);
 
     field = createResultField(resObj.id, 'Georeferencia', 'georeference', resObj.geoReference, 'text');
 
-    resultContent.appendChild(field);
+    fieldGroup.appendChild(field);
 
     field = createResultField(resObj.id, 'Zona', 'zone', resObj.zone, 'select');
 
@@ -796,19 +898,15 @@ function createLandResult(resObj, target) {
 
     field.querySelector('select').value = resObj.licenseZone;
 
-    resultContent.appendChild(field);
-
-    field = createResultField(resObj.id, 'Zonificación', 'zoneIMG', resObj.fullInvoice, 'file');
-
-    resultContent.appendChild(field);
+    fieldGroup.appendChild(field);
 
     field = createResultField(resObj.id, 'Giro impresión', 'businessLinePrint', resObj.businessLinePrint, 'text');
 
-    resultContent.appendChild(field);
+    fieldGroup.appendChild(field);
 
     field = createResultField(resObj.id, 'Giro interno', 'businessLineIntern', resObj.businessLineIntern, 'text');
 
-    resultContent.appendChild(field);
+    fieldGroup.appendChild(field);
 
     field = createResultField(resObj.id, 'Uso autorizado', 'authorizedUse', resObj.authorizedUse, 'select');
 
@@ -871,7 +969,30 @@ function createLandResult(resObj, target) {
 
     field.querySelector('select').value = resObj.authorizedUse;
 
-    resultContent.appendChild(field);
+    fieldGroup.appendChild(field);
+
+    field = createResultField(resObj.id, 'Zonificación', 'zoneIMG', resObj.fullInvoice, 'file');
+
+    fieldGroup.appendChild(field);
+
+    field = createResultField(resObj.id, 'Inspector', 'inspector', resObj.inspector, 'text');
+
+    fieldGroup.appendChild(field);
+
+    resultContent.appendChild(fieldGroup);
+
+    // ! end of zone field group
+
+    // * creating field group for terms and validities information
+    fieldGroup = document.createElement('div');
+    fieldGroup.setAttribute('class', 'w-100 dis-flex flex-wrap flex-evenly dis-none');
+    fieldGroup.setAttribute('id', `result_${resObj.id}_group_4`);
+
+    fieldGroupTittle = document.createElement('h3');
+    fieldGroupTittle.setAttribute('class', 'w-100 txt-center txt-medium color-primary txt-bold border-only-bottom border-white txt-uppercase margin-bottom-medium');
+    fieldGroupTittle.innerText = 'Vigencias y plazos';
+
+    fieldGroup.appendChild(fieldGroupTittle);
 
     field = createResultField(resObj.id, 'Tipo de expedición', 'expeditionType', resObj.licenseExpeditionType, 'select');
 
@@ -883,7 +1004,7 @@ function createLandResult(resObj, target) {
 
     field.querySelector('select').value = resObj.licenseExpeditionType;
 
-    resultContent.appendChild(field);
+    fieldGroup.appendChild(field);
 
     field = createResultField(resObj.id, 'Plazo', 'term', resObj.licenseTerm, 'select');
 
@@ -896,7 +1017,7 @@ function createLandResult(resObj, target) {
 
     field.querySelector('select').value = resObj.licenseTerm;
 
-    resultContent.appendChild(field);
+    fieldGroup.appendChild(field);
 
     field = createResultField(resObj.id, 'Vigencia', 'validity', resObj.licenseValidity, 'select');
 
@@ -908,86 +1029,105 @@ function createLandResult(resObj, target) {
 
     field.querySelector('select').value = resObj.licenseValidity;
 
-    resultContent.appendChild(field);
-
-    field = document.createElement('div');
-
-    resultContent.appendChild(field);
+    fieldGroup.appendChild(field);
 
     field = createResultField(resObj.id, 'Fecha de solicitud', 'requestDate', resObj.requestDate, 'date');
 
-    resultContent.appendChild(field);
+    fieldGroup.appendChild(field);
 
     field = createResultField(resObj.id, 'Fecha de expedición', 'expeditionDate', resObj.expeditionDate, 'date');
 
-    resultContent.appendChild(field);
+    fieldGroup.appendChild(field);
 
     field = createResultField(resObj.id, 'Fecha de vencimiento', 'expirationDate', resObj.expirationDate, 'date');
 
-    resultContent.appendChild(field);
+    fieldGroup.appendChild(field);
+
+    resultContent.appendChild(fieldGroup);
+
+    // ! end of terms and validities field group
+
+    // * creating field group for payment information
+    fieldGroup = document.createElement('div');
+    fieldGroup.setAttribute('class', 'w-100 dis-flex flex-wrap flex-evenly dis-none');
+    fieldGroup.setAttribute('id', `result_${resObj.id}_group_5`);
+
+    fieldGroupTittle = document.createElement('h3');
+    fieldGroupTittle.setAttribute('class', 'w-100 txt-center txt-medium color-primary txt-bold border-only-bottom border-white txt-uppercase margin-bottom-medium');
+    fieldGroupTittle.innerText = 'Información de pago';
+
+    fieldGroup.appendChild(fieldGroupTittle);
 
     field = createResultField(resObj.id, 'Folio de pago', 'paymentInvoice', resObj.paymentInvoice, 'number');
 
-    resultContent.appendChild(field);
+    fieldGroup.appendChild(field);
 
     field = createResultField(resObj.id, 'Costo', 'cost', resObj.cost, 'number');
 
-    resultContent.appendChild(field);
+    fieldGroup.appendChild(field);
 
     field = createResultField(resObj.id, 'Descuento', 'discount', resObj.discount, 'number');
 
-    resultContent.appendChild(field);
+    fieldGroup.appendChild(field);
 
     field = createResultField(resObj.id, 'Monto pagado', 'paymentDone', resObj.paymentDone, 'number');
 
-    resultContent.appendChild(field);
+    fieldGroup.appendChild(field);
 
-    field = createResultField(resObj.id, 'Inspector', 'inspector', resObj.inspector, 'text');
+    resultContent.appendChild(fieldGroup)
 
-    resultContent.appendChild(field);
+    // ! end of payment field group
+
+    // * creating field group for extra information
+    fieldGroup = document.createElement('div');
+    fieldGroup.setAttribute('class', 'w-100 dis-flex flex-wrap flex-evenly dis-none');
+    fieldGroup.setAttribute('id', `result_${resObj.id}_group_6`);
+
+    fieldGroupTittle = document.createElement('h3');
+    fieldGroupTittle.setAttribute('class', 'w-100 txt-center txt-medium color-primary txt-bold border-only-bottom border-white txt-uppercase margin-bottom-medium');
+    fieldGroupTittle.innerText = 'Información especial';
+
+    fieldGroup.appendChild(fieldGroupTittle);
 
     if (resObj.licenseType == 1) {
         field = createResultField(resObj.id, 'Anexo', 'anexo', resObj.licenseSpecialData.anexo, 'text');
 
-        resultContent.appendChild(field);
+        fieldGroup.appendChild(field);
     }
 
     if (resObj.licenseType >= 2 && resObj.licenseType <=6) {
         field = createResultTextArea(resObj.id, 'Restricciones', 'restrictions', resObj.licenseSpecialData.restrictions);
-        resultContent.appendChild(field);
+        fieldGroup.appendChild(field);
 
         field = createResultTextArea(resObj.id, 'Condicionantes', 'conditions', resObj.licenseSpecialData.conditions.join('\n'));
-        resultContent.appendChild(field);
+        fieldGroup.appendChild(field);
 
         field = createResultField(resObj.id, 'Anexo', 'anexo', resObj.licenseSpecialData.anexo, 'text');
 
-        resultContent.appendChild(field);
+        fieldGroup.appendChild(field);
     }
 
     if (resObj.licenseType == 7) {
         field = createResultField(resObj.id, 'Anexo', 'anexo', resObj.licenseSpecialData.anexo, 'text');
 
-        resultContent.appendChild(field);
+        fieldGroup.appendChild(field);
 
         field = createResultField(resObj.id, 'Parcela', 'parcela', resObj.licenseSpecialData.parcela, 'text');
 
-        resultContent.appendChild(field);
+        fieldGroup.appendChild(field);
 
         field = createResultField(resObj.id, 'Numero de propiedad', 'propertyNo', resObj.licenseSpecialData.propertyNo, 'text');
 
-        resultContent.appendChild(field);
+        fieldGroup.appendChild(field);
 
         field = createResultField(resObj.id, 'Fecha de propiedad', 'propertyDate', resObj.licenseSpecialData.propertyDate, 'date');
 
-        resultContent.appendChild(field);
+        fieldGroup.appendChild(field);
     }
 
-    field = document.createElement('img');
-    field.setAttribute('alt', 'Zonificación');
-    field.setAttribute('src', `/landUseStorage/${resObj.fullInvoice}/zone.png`);
-    field.setAttribute('class', 'land-result-img');
+    resultContent.appendChild(fieldGroup);
 
-    resultContent.appendChild(field);
+    // ! end of extras field group
 
     let newResult = createResult(
         resObj.id,
@@ -1018,7 +1158,7 @@ function createPrintResultTop(id, fullInvoice, invoice, type, year) {
     span.setAttribute('id', `result_control_print_${id}`);
     span.setAttribute('target', '_blank');
     span.setAttribute('href', `/api/urban/PDF/${type}/${invoice}/${year}`);
-    span.setAttribute('class', 'bi-printer txt-large color-primary result-control w-5');
+    span.setAttribute('class', 'bi-printer txt-medium color-primary result-control w-5');
     top.appendChild(span);
 
     return top;
@@ -1027,7 +1167,7 @@ function createPrintResultTop(id, fullInvoice, invoice, type, year) {
 function createPrintResultContent(id) {
     let content = document.createElement('div');
     content.setAttribute('id', `result_fields_${id}`);
-    content.setAttribute('class', 'w-100 dis-grid template-4cols-nogap bg-secondary-alpha padding-small border-round-bottom');
+    content.setAttribute('class', 'w-100 dis-flex flex-center flex-wrap bg-secondary-alpha padding-small border-round-bottom padding-bottom-medium');
     return content;
 }
 
@@ -2103,45 +2243,149 @@ function createUrbanPrintResult(resObj, target) {
     target.appendChild(newResult);
 }
 
+// nameChanged !!!!! createLandPrintResult
 function createLandPrintResult(resObj, target) {
     let resultContent = createPrintResultContent(resObj.id);
     let field;
+    let fieldGroup;
+    let fieldGroupTittle;
+
+    let resultNav = document.createElement('div');
+    let navButtons = document.createElement('ul');
+    let navButton;
+
+    resultNav.setAttribute('class', 'w-100 step-controls result dis-flex flex-center margin-bottom-medium');
+    resultNav.setAttribute('id', `result_${resObj.id}_nav`);
+    navButtons.setAttribute('class', 'dis-flex flex-evenly w-100 txt-center txt-medium');
+
+    // * Nav button
+    navButton = document.createElement('li');
+    navButton.setAttribute('class', 'selected bi-person btn');
+    navButton.setAttribute('onclick', `resultNavigation(this, ${resObj.id}, 1, 6)`);
+    navButtons.appendChild(navButton);
+
+    // * Nav button
+    navButton = document.createElement('li');
+    navButton.setAttribute('class', 'bi-building-exclamation btn');
+    navButton.setAttribute('onclick', `resultNavigation(this, ${resObj.id}, 2, 6)`);
+    navButtons.appendChild(navButton);
+
+    // * Nav button
+    navButton = document.createElement('li');
+    navButton.setAttribute('class', 'bi-building-check btn');
+    navButton.setAttribute('onclick', `resultNavigation(this, ${resObj.id}, 3, 6)`);
+    navButtons.appendChild(navButton);
+
+    // * Nav button
+    navButton = document.createElement('li');
+    navButton.setAttribute('class', 'bi-calendar-week btn');
+    navButton.setAttribute('onclick', `resultNavigation(this, ${resObj.id}, 4, 6)`);
+    navButtons.appendChild(navButton);
+
+    // * Nav button
+    navButton = document.createElement('li');
+    navButton.setAttribute('class', 'bi-cash-coin btn');
+    navButton.setAttribute('onclick', `resultNavigation(this, ${resObj.id}, 5, 6)`);
+    navButtons.appendChild(navButton);
+
+    // * Nav button
+    navButton = document.createElement('li');
+    navButton.setAttribute('class', 'bi-plus-circle btn');
+    navButton.setAttribute('onclick', `resultNavigation(this, ${resObj.id}, 6, 6)`);
+    navButtons.appendChild(navButton);
+
+    resultNav.appendChild(navButtons);
+
+    resultContent.appendChild(resultNav);
+
+    // * creating field group for requestor information
+    fieldGroup = document.createElement('div');
+    fieldGroup.setAttribute('class', 'w-100 dis-flex flex-wrap flex-evenly');
+    fieldGroup.setAttribute('id', `result_${resObj.id}_group_1`);
+
+    fieldGroupTittle = document.createElement('h3');
+    fieldGroupTittle.setAttribute('class', 'w-100 txt-center txt-medium color-primary txt-bold border-only-bottom border-white txt-uppercase margin-bottom-medium');
+    fieldGroupTittle.innerText = 'Información del solicitante';
+
+    fieldGroup.appendChild(fieldGroupTittle);
 
     field = createResultField(resObj.id, 'Nombre del solicitante', 'requestorName', resObj.requestorName, 'text');
 
-    resultContent.appendChild(field);
+    fieldGroup.appendChild(field);
     
     field = createResultField(resObj.id, 'En atención', 'attentionName', resObj.attentionName, 'text');
 
-    resultContent.appendChild(field);
-
-    field = createResultField(resObj.id, 'Calle', 'address', resObj.address, 'text');
-
-    resultContent.appendChild(field);
-
-    field = createResultField(resObj.id, 'Numero', 'number', resObj.number, 'text');
-
-    resultContent.appendChild(field);
-
-    field = createResultField(resObj.id, 'Colonia', 'colony', resObj.colony, 'text');
-
-    resultContent.appendChild(field);
+    fieldGroup.appendChild(field);
 
     field = createResultField(resObj.id, 'Teléfono de contacto', 'contactPhone', resObj.contactPhone, 'number');
 
-    resultContent.appendChild(field);
+    fieldGroup.appendChild(field);
+
+    resultContent.appendChild(fieldGroup);
+
+    // ! end of requestor field group
+
+    // * creating field group for building information
+    fieldGroup = document.createElement('div');
+    fieldGroup.setAttribute('class', 'w-100 dis-flex flex-wrap flex-evenly dis-none');
+    fieldGroup.setAttribute('id', `result_${resObj.id}_group_2`);
+
+    fieldGroupTittle = document.createElement('h3');
+    fieldGroupTittle.setAttribute('class', 'w-100 txt-center txt-medium color-primary txt-bold border-only-bottom border-white txt-uppercase  margin-bottom-medium');
+    fieldGroupTittle.innerText = 'Información del inmueble';
+
+    fieldGroup.appendChild(fieldGroupTittle);
+
+    field = createResultField(resObj.id, 'Calle', 'address', resObj.address, 'text');
+
+    fieldGroup.appendChild(field);
+
+    field = createResultField(resObj.id, 'Numero', 'number', resObj.number, 'text');
+
+    fieldGroup.appendChild(field);
+
+    field = createResultField(resObj.id, 'Colonia', 'colony', resObj.colony, 'text');
+
+    fieldGroup.appendChild(field);
 
     field = createResultField(resObj.id, 'Clave castastral', 'catastralKey', resObj.catastralKey, 'number');
 
-    resultContent.appendChild(field);
+    fieldGroup.appendChild(field);
 
     field = createResultField(resObj.id, 'Superficie de aprovechamiento', 'surface', resObj.surfaceTotal, 'text');
 
-    resultContent.appendChild(field);
+    fieldGroup.appendChild(field);
+
+    resultContent.appendChild(fieldGroup);
+
+    // ! end of building field group
+
+    // * creating field group for zone and authorization information
+    fieldGroup = document.createElement('div');
+    fieldGroup.setAttribute('class', 'w-100 dis-flex flex-wrap flex-evenly dis-none');
+    fieldGroup.setAttribute('id', `result_${resObj.id}_group_3`);
+
+    fieldGroupTittle = document.createElement('h3');
+    fieldGroupTittle.setAttribute('class', 'w-100 txt-center txt-medium color-primary txt-bold border-only-bottom border-white txt-uppercase margin-bottom-medium');
+    fieldGroupTittle.innerText = 'Zonificación y autorización';
+
+    fieldGroup.appendChild(fieldGroupTittle);
+
+    let imgDiv= document.createElement('div');
+    imgDiv.setAttribute('class', 'w-100 dis-flex flex-center');
+
+    field = document.createElement('img');
+    field.setAttribute('alt', 'Zonificación');
+    field.setAttribute('src', `/landUseStorage/${resObj.fullInvoice}/zone.png`);
+    field.setAttribute('class', 'w-40 margin-bottom-small');
+
+    imgDiv.appendChild(field)
+
+    fieldGroup.appendChild(imgDiv);
 
     field = createResultField(resObj.id, 'Georeferencia', 'georeference', resObj.geoReference, 'text');
 
-    resultContent.appendChild(field);
+    fieldGroup.appendChild(field);
 
     field = createResultField(resObj.id, 'Zona', 'zone', resObj.zone, 'select');
 
@@ -2174,19 +2418,15 @@ function createLandPrintResult(resObj, target) {
 
     field.querySelector('select').value = resObj.licenseZone;
 
-    resultContent.appendChild(field);
-
-    field = createResultField(resObj.id, 'Zonificación', 'zoneIMG', resObj.fullInvoice, 'file');
-
-    resultContent.appendChild(field);
+    fieldGroup.appendChild(field);
 
     field = createResultField(resObj.id, 'Giro impresión', 'businessLinePrint', resObj.businessLinePrint, 'text');
 
-    resultContent.appendChild(field);
+    fieldGroup.appendChild(field);
 
     field = createResultField(resObj.id, 'Giro interno', 'businessLineIntern', resObj.businessLineIntern, 'text');
 
-    resultContent.appendChild(field);
+    fieldGroup.appendChild(field);
 
     field = createResultField(resObj.id, 'Uso autorizado', 'authorizedUse', resObj.authorizedUse, 'select');
 
@@ -2249,7 +2489,30 @@ function createLandPrintResult(resObj, target) {
 
     field.querySelector('select').value = resObj.authorizedUse;
 
-    resultContent.appendChild(field);
+    fieldGroup.appendChild(field);
+
+    field = createResultField(resObj.id, 'Zonificación', 'zoneIMG', resObj.fullInvoice, 'file');
+
+    fieldGroup.appendChild(field);
+
+    field = createResultField(resObj.id, 'Inspector', 'inspector', resObj.inspector, 'text');
+
+    fieldGroup.appendChild(field);
+
+    resultContent.appendChild(fieldGroup);
+
+    // ! end of zone field group
+
+    // * creating field group for terms and validities information
+    fieldGroup = document.createElement('div');
+    fieldGroup.setAttribute('class', 'w-100 dis-flex flex-wrap flex-evenly dis-none');
+    fieldGroup.setAttribute('id', `result_${resObj.id}_group_4`);
+
+    fieldGroupTittle = document.createElement('h3');
+    fieldGroupTittle.setAttribute('class', 'w-100 txt-center txt-medium color-primary txt-bold border-only-bottom border-white txt-uppercase margin-bottom-medium');
+    fieldGroupTittle.innerText = 'Vigencias y plazos';
+
+    fieldGroup.appendChild(fieldGroupTittle);
 
     field = createResultField(resObj.id, 'Tipo de expedición', 'expeditionType', resObj.licenseExpeditionType, 'select');
 
@@ -2261,7 +2524,7 @@ function createLandPrintResult(resObj, target) {
 
     field.querySelector('select').value = resObj.licenseExpeditionType;
 
-    resultContent.appendChild(field);
+    fieldGroup.appendChild(field);
 
     field = createResultField(resObj.id, 'Plazo', 'term', resObj.licenseTerm, 'select');
 
@@ -2274,7 +2537,7 @@ function createLandPrintResult(resObj, target) {
 
     field.querySelector('select').value = resObj.licenseTerm;
 
-    resultContent.appendChild(field);
+    fieldGroup.appendChild(field);
 
     field = createResultField(resObj.id, 'Vigencia', 'validity', resObj.licenseValidity, 'select');
 
@@ -2286,86 +2549,105 @@ function createLandPrintResult(resObj, target) {
 
     field.querySelector('select').value = resObj.licenseValidity;
 
-    resultContent.appendChild(field);
-
-    field = document.createElement('div');
-
-    resultContent.appendChild(field);
+    fieldGroup.appendChild(field);
 
     field = createResultField(resObj.id, 'Fecha de solicitud', 'requestDate', resObj.requestDate, 'date');
 
-    resultContent.appendChild(field);
+    fieldGroup.appendChild(field);
 
     field = createResultField(resObj.id, 'Fecha de expedición', 'expeditionDate', resObj.expeditionDate, 'date');
 
-    resultContent.appendChild(field);
+    fieldGroup.appendChild(field);
 
     field = createResultField(resObj.id, 'Fecha de vencimiento', 'expirationDate', resObj.expirationDate, 'date');
 
-    resultContent.appendChild(field);
+    fieldGroup.appendChild(field);
+
+    resultContent.appendChild(fieldGroup);
+
+    // ! end of terms and validities field group
+
+    // * creating field group for payment information
+    fieldGroup = document.createElement('div');
+    fieldGroup.setAttribute('class', 'w-100 dis-flex flex-wrap flex-evenly dis-none');
+    fieldGroup.setAttribute('id', `result_${resObj.id}_group_5`);
+
+    fieldGroupTittle = document.createElement('h3');
+    fieldGroupTittle.setAttribute('class', 'w-100 txt-center txt-medium color-primary txt-bold border-only-bottom border-white txt-uppercase margin-bottom-medium');
+    fieldGroupTittle.innerText = 'Información de pago';
+
+    fieldGroup.appendChild(fieldGroupTittle);
 
     field = createResultField(resObj.id, 'Folio de pago', 'paymentInvoice', resObj.paymentInvoice, 'number');
 
-    resultContent.appendChild(field);
+    fieldGroup.appendChild(field);
 
     field = createResultField(resObj.id, 'Costo', 'cost', resObj.cost, 'number');
 
-    resultContent.appendChild(field);
+    fieldGroup.appendChild(field);
 
     field = createResultField(resObj.id, 'Descuento', 'discount', resObj.discount, 'number');
 
-    resultContent.appendChild(field);
+    fieldGroup.appendChild(field);
 
     field = createResultField(resObj.id, 'Monto pagado', 'paymentDone', resObj.paymentDone, 'number');
 
-    resultContent.appendChild(field);
+    fieldGroup.appendChild(field);
 
-    field = createResultField(resObj.id, 'Inspector', 'inspector', resObj.inspector, 'text');
+    resultContent.appendChild(fieldGroup)
 
-    resultContent.appendChild(field);
+    // ! end of payment field group
+
+    // * creating field group for extra information
+    fieldGroup = document.createElement('div');
+    fieldGroup.setAttribute('class', 'w-100 dis-flex flex-wrap flex-evenly dis-none');
+    fieldGroup.setAttribute('id', `result_${resObj.id}_group_6`);
+
+    fieldGroupTittle = document.createElement('h3');
+    fieldGroupTittle.setAttribute('class', 'w-100 txt-center txt-medium color-primary txt-bold border-only-bottom border-white txt-uppercase margin-bottom-medium');
+    fieldGroupTittle.innerText = 'Información especial';
+
+    fieldGroup.appendChild(fieldGroupTittle);
 
     if (resObj.licenseType == 1) {
         field = createResultField(resObj.id, 'Anexo', 'anexo', resObj.licenseSpecialData.anexo, 'text');
 
-        resultContent.appendChild(field);
+        fieldGroup.appendChild(field);
     }
 
     if (resObj.licenseType >= 2 && resObj.licenseType <=6) {
         field = createResultTextArea(resObj.id, 'Restricciones', 'restrictions', resObj.licenseSpecialData.restrictions);
-        resultContent.appendChild(field);
+        fieldGroup.appendChild(field);
 
         field = createResultTextArea(resObj.id, 'Condicionantes', 'conditions', resObj.licenseSpecialData.conditions.join('\n'));
-        resultContent.appendChild(field);
+        fieldGroup.appendChild(field);
 
         field = createResultField(resObj.id, 'Anexo', 'anexo', resObj.licenseSpecialData.anexo, 'text');
 
-        resultContent.appendChild(field);
+        fieldGroup.appendChild(field);
     }
 
     if (resObj.licenseType == 7) {
         field = createResultField(resObj.id, 'Anexo', 'anexo', resObj.licenseSpecialData.anexo, 'text');
 
-        resultContent.appendChild(field);
+        fieldGroup.appendChild(field);
 
         field = createResultField(resObj.id, 'Parcela', 'parcela', resObj.licenseSpecialData.parcela, 'text');
 
-        resultContent.appendChild(field);
+        fieldGroup.appendChild(field);
 
         field = createResultField(resObj.id, 'Numero de propiedad', 'propertyNo', resObj.licenseSpecialData.propertyNo, 'text');
 
-        resultContent.appendChild(field);
+        fieldGroup.appendChild(field);
 
         field = createResultField(resObj.id, 'Fecha de propiedad', 'propertyDate', resObj.licenseSpecialData.propertyDate, 'date');
 
-        resultContent.appendChild(field);
+        fieldGroup.appendChild(field);
     }
 
-    field = document.createElement('img');
-    field.setAttribute('alt', 'Zonificación');
-    field.setAttribute('src', `/landUseStorage/${resObj.fullInvoice}/zone.png`);
-    field.setAttribute('class', 'land-result-img');
+    resultContent.appendChild(fieldGroup);
 
-    resultContent.appendChild(field);
+    // ! end of extras field group
 
     let newResult = createResult(
         resObj.id,
@@ -2838,4 +3120,19 @@ function generateTableFrom(obj) {
     });
 
     return table;
+}
+
+function resultNavigation(btn, resultId, groupNumber, totalGroups) {
+    let navButtons = document.getElementById(`result_${resultId}_nav`);
+
+    navButtons.querySelectorAll('li').forEach(e => {
+        e.classList.remove('selected');
+    });
+
+    for (let i = 1; i <= totalGroups; i++) {
+        document.getElementById(`result_${resultId}_group_${i}`).classList.add('dis-none');
+    }
+
+    document.getElementById(`result_${resultId}_group_${groupNumber}`).classList.remove('dis-none');
+    btn.classList.add('selected');
 }

@@ -44,12 +44,17 @@ const expirationDate = document.getElementById('end_date');
 
 requestDate.addEventListener('change', () => {
     expeditionDate.value =  setExpeditionDate(requestDate.value);
+    setCustomExpirationDate();
 });
 
 validityInputs.forEach(e => {
     e.addEventListener('change', (event) => {
         expirationDate.value = setExpirationDate(event);
     });
+});
+
+expeditionDate.addEventListener('change', ()=> {
+    setCustomExpirationDate();
 });
 
 function setExpeditionDate(reqDate) {
@@ -63,11 +68,26 @@ function setExpeditionDate(reqDate) {
     return expDate.toISOString().split('T')[0];
 }
 
+function setCustomExpirationDate() {
+    let formData = Object.fromEntries(new FormData(thaForm));
+
+    if(formData.validity){
+        let endDate = new Date(expeditionDate.value);
+
+        formData.validity == 1 ? 
+        endDate.setMonth(endDate.getMonth() + 6) : 
+        endDate.setMonth(endDate.getMonth() + 12);
+
+        expirationDate.value = endDate.toISOString().split('T')[0];
+    }
+}
+
 function setExpirationDate(event) {
     let expDate = expeditionDate.value
 
     if(!expDate || expDate == '') {
-        alert('Es necesario establecer una fecha de expedición');
+        expeditionDate.focus();
+        return;
     }
     
     let endDate = new Date(expDate);
@@ -79,4 +99,205 @@ function setExpirationDate(event) {
         endDate.setMonth(endDate.getMonth() + 12)
         return endDate.toISOString().split('T')[0];
     }
+}
+
+const licenseTypes =[
+    "Constancia",
+    "Licencia Servicios",
+    "Licencia Comercial",
+    "Licencia Industria",
+    "Licencia Habitacional",
+    "Segregado",
+    "Derecho de Preferencia"
+];
+
+const zones = [
+    "Densidad muy baja (Unifamiliar)",
+    "Densidad baja (Unifamiliar)",
+    "Densidad media baja (Unifamiliar)",
+    "Densidad media (Unifamiliar)",
+    "Densidad media alta (Unifamiliar)",
+    "Densidad alta (Unifamiliar)",
+    "Densidad alta (multifamiliar dúplex, tríplex y cuádruplex)",
+    "Densidad muy alta 1 (multifamiliar)",
+    "Densidad muy alta 2",
+    "Mixto",
+    "Corredor urbano mixto de baja densidad",
+    "Corredor urbano mixto de media densidad",
+    "Industria de bajo impacto",
+    "Industria de medio impacto",
+    "Industria de gran impacto",
+    "Equipamiento Urbano",
+    "Infraestructura urbana",
+    "Reserva territorial futura",
+    "Agricultura tecnificada",
+    "Agroindustria",
+    "Cuerpos de agua",
+    "Conservación y restauración ambiental",
+    "Parque Hídrico"
+];
+
+const authUses = [
+    "Unifamiliar, plurifamiliar o multifamiliar",
+    "Vivienda campestre o aislada",
+    "Comercio básico",
+    "Comercio especializado",
+    "Comercio de medio impacto",
+    "Comercio de impacto",
+    "Centros comerciales",
+    "Comercio de abasto",
+    "Comercio temporal",
+    "Servicios básicos",
+    "Servicios especializados",
+    "Servicios profesionales, técnicos y personales",
+    "Talleres de servicio, reparación y mantenimiento",
+    "Servicios colectivos",
+    "Servicios de publicidad exterior",
+    "Oficinas de pequeña escala",
+    "Oficinas en general",
+    "Centro recreativos y de espectáculos",
+    "Centros sociales",
+    "Centros deportivos y ecuestres",
+    "Turismo",
+    "Alojamiento",
+    "Salud",
+    "Educación",
+    "Cultura",
+    "Transporte",
+    "Áreas verdes y deportivas",
+    "Comunicaciones",
+    "Servicios urbanos",
+    "Religioso",
+    "Equipamiento Regional",
+    "Asistencia pública",
+    "Comercio y abasto",
+    "Equipamiento especial",
+    "Industria casera",
+    "Industria de bajo impacto",
+    "Industria de medio impacto",
+    "Industria textil",
+    "Industria a base de minerales no metálicos",
+    "Manufactura de sustancias químicas, productos derivados del petróleo y carbón",
+    "Industria no contaminante",
+    "Industria grande y/o pesada",
+    "Almacenamientos, bodegas y depósitos",
+    "Hidráulica",
+    "Sanitaria",
+    "Electricidad",
+    "Gas natural y gas LP",
+    "Estaciones de servicio",
+    "Telecomunicaciones",
+    "Vial",
+    "Aprovechamiento Agropecuario",
+    "Silvicultura",
+    "Minería y extracción"
+];
+
+const expTypes = [
+    "Nueva",
+    "Renovación"
+];
+
+const terms = [
+    "Corto",
+    "Mediano",
+    "Largo"
+];
+
+const validities = [
+    "6 Meses",
+    "12 Meses"
+];
+
+function changeStep(btn, step, form, checkFields) {
+    let formElement = document.getElementById(form);
+    let regSteps = formElement.querySelectorAll('.reg-step');
+    let thisStep = document.getElementById(`reg_step_${step}`);
+    let buttons = btn.parentElement.querySelectorAll('li');
+
+    if (checkFields) {
+        let fields = formElement.querySelectorAll('[required]');
+
+        for (const e of fields) {
+            if (e.value.trim() === '') {
+
+                regSteps.forEach(
+                    e => e.classList.add('dis-none')
+                );
+
+                let stepContainer = e.closest('.reg-step');
+
+                let stepButton = parseInt(stepContainer.getAttribute('data-step')) - 1
+
+                stepContainer.classList.remove('dis-none');
+
+                buttons.forEach(
+                    e => e.classList.remove('selected'));
+
+                buttons[stepButton].classList.add('selected');
+
+                e.focus();
+
+                return;
+            }
+        }
+
+        let formData = Object.fromEntries(new FormData(formElement));
+
+        formData.licenseType = licenseTypes[formData.licenseType - 1];
+
+        formData.zone = zones[formData.zone - 1];
+
+        formData.authorizedUse = authUses[formData.authorizedUse - 1];
+
+        formData.term = terms[formData.term - 1];
+
+        formData.validity = validities[formData.validity -1];
+
+        formData.expeditionType = expTypes[formData.expeditionType - 1];
+
+        formData.zoneIMG = formData.zoneIMG.size <= 0 ? 'No cargada' : 'Cargada';
+
+        formData.requestDate = dateFormatFull(formData.requestDate);
+
+        formData.expeditionDate = dateFormatFull(formData.expeditionDate);
+
+        formData.expirationDate = dateFormatFull(formData.expirationDate);
+        
+        for (const key in formData) {
+            document.getElementById(`field_${key}`).innerText = formData[key];
+        }
+    }
+
+    buttons.forEach(
+        e => e.classList.remove('selected'));
+
+    btn.classList.toggle('selected');
+
+    regSteps.forEach(e => e.classList.add('dis-none'));
+    thisStep.classList.remove('dis-none');
+}
+
+function resetForm(form) {
+    if(confirm('Seguro que quieres reiniciar el formulario?')) {
+        document.getElementById(form).reset();
+
+        changeStep(document.getElementById('reg_nav').firstChild , 1, form, true);
+    }
+}
+
+const cost = document.getElementById('cost');
+const discount = document.getElementById('discount');
+const total = document.getElementById('total');
+
+cost.addEventListener('input', () => {
+    updateTotalCost();
+});
+
+discount.addEventListener('input', () => {
+    updateTotalCost();
+});
+
+function updateTotalCost() {
+    total.value = parseFloat(cost.value) - parseFloat(discount.value);
 }
