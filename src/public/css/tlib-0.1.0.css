@@ -1645,6 +1645,11 @@ textarea.invissible:focus {
     padding: 2%;
 }
 
+.missing-field {
+    color: red;
+    font-weight: bold;
+}
+
 @media (max-width: 1450px) {
     .btn-column {
         font-size: 4.4rem;

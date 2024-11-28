@@ -218,31 +218,60 @@ function changeStep(btn, step, form, checkFields) {
     if (checkFields) {
         let fields = formElement.querySelectorAll('[required]');
 
-        for (const e of fields) {
-            if (e.value.trim() === '') {
+        let formData = Object.fromEntries(new FormData(formElement));
 
-                regSteps.forEach(
-                    e => e.classList.add('dis-none')
-                );
+        const focusMissing = (e) => {
+            regSteps.forEach(
+                steps => steps.classList.add('dis-none')
+            );
 
-                let stepContainer = e.closest('.reg-step');
+            let stepContainer = e.closest('.reg-step');
 
-                let stepButton = parseInt(stepContainer.getAttribute('data-step')) - 1
+            let stepButton = parseInt(stepContainer.getAttribute('data-step')) - 1
 
-                stepContainer.classList.remove('dis-none');
+            stepContainer.classList.remove('dis-none');
 
-                buttons.forEach(
-                    e => e.classList.remove('selected'));
+            buttons.forEach(
+                buttons => buttons.classList.remove('selected'));
 
-                buttons[stepButton].classList.add('selected');
+            buttons[stepButton].classList.add('selected');
 
-                e.focus();
-
-                return;
-            }
+            e.focus();
         }
 
-        let formData = Object.fromEntries(new FormData(formElement));
+        for (const e of fields) {
+            if (e.value.trim() === '') {
+                focusMissing(e);
+                return;
+            }
+
+            if (!formData.validity && e.getAttribute('name') == 'validity') {
+                focusMissing(e);
+                e.closest('div').classList.add('missing-field');
+                console.log('validity', formData.validity);
+                return;
+            } else {
+                e.closest('div').classList.remove('missing-field');
+            }
+
+            if (!formData.expeditionType && e.getAttribute('name') == 'expeditionType') {
+                focusMissing(e);
+                e.closest('div').classList.add('missing-field');
+                console.log('expeditionType', formData.expeditionType);
+                return;
+            } else {
+                e.closest('div').classList.remove('missing-field');
+            }
+
+            if (!formData.term && e.getAttribute('name') == 'term') {
+                focusMissing(e);
+                e.closest('div').classList.add('missing-field');
+                console.log('term', formData.term);
+                return;
+            } else {
+                e.closest('div').classList.remove('missing-field');
+            }
+        }
 
         formData.licenseType = licenseTypes[formData.licenseType - 1];
 
@@ -265,7 +294,7 @@ function changeStep(btn, step, form, checkFields) {
         formData.expirationDate = dateFormatFull(formData.expirationDate);
         
         for (const key in formData) {
-            document.getElementById(`field_${key}`).innerText = formData[key];
+            document.getElementById(`check_${key}`).innerText = formData[key];
         }
     }
 

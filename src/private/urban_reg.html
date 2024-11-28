@@ -17,7 +17,7 @@
 <body>
     <main>
         <section class="page-full bg-blur">
-            <div class="container shadow-inner padding-large">
+            <article class="container shadow-inner padding-large dis-grid grid-reg">
 
                 <a href="/app/urbanMenu" class="back-arrow bi-arrow-left-circle-fill"></a>
                 <span class="bi-buildings user-info">
@@ -27,142 +27,239 @@
                     </div>
                 </span>
 
-                <form id="form_reg" class="dis-grid template-3cols container color-primary">
+                <form id="form_reg" class="dis-flex flex-center flex-wrap container color-primary">
 
-                    <label class="txt-uppercase">Tipo de licencia:
-                        <select required name="licenseType" class="w-100 margin-vertical-small input input-interface input-round" id="license-type-selector">
-                            <option value="">Seleccione tipo...</option>
-                            <option value="1">Constancia de uso de suelo</option>
-                            <option value="2">Licencia de uso de suelo</option>
-                            <option value="3">Licencia de subdivisión</option>
-                            <option value="4">Licencia de Fusion</option>
-                            <option value="5">Prórroga de licencia de fraccionamiento</option>
-                            <option value="6">Licencia de fraccionamiento</option>
-                            <option value="7">Relotificación de fraccionamiento</option>
-                            <option value="8">Régimen de propiedad en condominio</option>
-                        </select>
-                    </label>
+                    <div data-step="1" id="reg_step_1" class="reg-step step-box w-100 dis-flex flex-wrap flex-between">
+                        <h3 class="w-100 txt-center margin-bottom-medium txt-uppercase">Datos del solicitante</h3>
 
-                    <label class="txt-uppercase">Georeferencia (DD):
-                        <input id="f-geo_search" class="w-80 margin-vertical-small input input-interface input-round geo-search" type="text">
-                        <span id="b-geo_search" class="bi-search btn btn-secondary txt-center"></span>
-                    </label>
+                        <label class="txt-uppercase w-45">Tipo de licencia:
+                            <select required name="licenseType" class="w-100 margin-vertical-small input input-interface input-round" id="license-type-selector">
+                                <option value="">Seleccione tipo...</option>
+                                <option value="1">Constancia de uso de suelo</option>
+                                <option value="2">Licencia de uso de suelo</option>
+                                <option value="3">Licencia de subdivisión</option>
+                                <option value="4">Licencia de Fusion</option>
+                                <option value="5">Prórroga de licencia de fraccionamiento</option>
+                                <option value="6">Licencia de fraccionamiento</option>
+                                <option value="7">Relotificación de fraccionamiento</option>
+                                <option value="8">Régimen de propiedad en condominio</option>
+                            </select>
+                        </label>
 
-                    <label class="txt-uppercase">
-                        Herramientas: <br>
-                        <a id="map_tool" href="/private/tools/maps/maps.html#20/19.85072/-98.97995" target="_blank" class="bi-map btn btn-secondary"></a>
-                    </label>
+                        <label class="txt-uppercase w-45">Nombre del solicitante:
+                            <input required name="requestorName" class="w-100 margin-vertical-small input input-interface input-round" type="text">
+                        </label>
 
-                    <label class="txt-uppercase">Nombre del solicitante:
-                        <input required name="requestorName" class="w-100 margin-vertical-small input input-interface input-round" type="text">
-                    </label>
+                        <label class="dis-none txt-uppercase LF LFUS LSUB LUS PLF CRPC RLF w-30">Domicilio del solicitante:
+                            <input name="requestorAddress" class="w-100 margin-vertical-small input input-interface input-round" type="text">
+                        </label>
 
-                    <label class="dis-none txt-uppercase LF LFUS LSUB LUS PLF CRPC RLF">Domicilio del solicitante:
-                        <input name="requestorAddress" class="w-100 margin-vertical-small input input-interface input-round" type="text">
-                    </label>
+                        <label class="dis-none txt-uppercase LUS LSUB LFUS PLF LF RLF CRPC w-30">Representante:
+                            <input name="legalRepresentative" class="w-100 margin-vertical-small input input-interface input-round" type="text">
+                        </label>
+    
+                        <label class="dis-none txt-uppercase LUS LSUB LFUS PLF LF RLF CRPC w-30">Carácter del Representante:
+                            <input name="representativeAs" class="w-100 margin-vertical-small input input-interface input-round" type="text">
+                        </label>
 
-                    <label class="dis-none txt-uppercase LF LFUS LSUB LUS PLF CRPC RLF">Domicilio del inmueble:
-                        <input name="buildingAddress" class="w-100 margin-vertical-small input input-interface input-round" type="text">
-                    </label>
-
-                    <label class="dis-none txt-uppercase LUS LSUB LFUS PLF LF RLF CRPC">Representante:
-                        <input name="legalRepresentative" class="w-100 margin-vertical-small input input-interface input-round" type="text">
-                    </label>
-
-                    <label class="dis-none txt-uppercase LUS LSUB LFUS PLF LF RLF CRPC">Carácter del Representante:
-                        <input name="representativeAs" class="w-100 margin-vertical-small input input-interface input-round" type="text">
-                    </label>
-                    
-                    <label class="txt-uppercase">Colonia/Asentamiento:
-                        <input required name="colony" class="w-100 margin-vertical-small input input-interface input-round" type="text">
-                    </label>
-                    
-                    <label class="txt-uppercase">Fecha de solicitud:
-                        <input required name="requestDate" class="w-100 margin-vertical-small input input-interface input-round" type="date">
-                    </label>
-
-                    <label class="txt-uppercase">Fecha de expedición:
-                        <input name="expeditionDate" class="w-100 margin-vertical-small input input-interface input-round" type="date">
-                    </label>
-
-                    <label class="txt-uppercase">Fecha de entrega:
-                        <input  name="deliveryDate" class="w-100 margin-vertical-small input input-interface input-round" type="date">
-                    </label>
-
-                    <label class="txt-uppercase">Monto autorizado:
-                        <input name="authorizedQuantity" class="w-100 margin-vertical-small input input-interface input-round" type="number" step="any">
-                    </label>
-
-                    <label class="txt-uppercase">Orden de cobro:
-                        <input name="collectionOrder" placeholder="C-" class="w-100 margin-vertical-small input input-interface input-round" type="number">
-                    </label>
-
-                    <label class="txt-uppercase">Folio y serie de factura:
-                        <input name="billInvoice" placeholder="C-" class="w-100 margin-vertical-small input input-interface input-round" type="text">
-                    </label>
-
-                    <label class="txt-uppercase">Fecha de pago:
-                        <input name="paymentDate" class="w-100 margin-vertical-small input input-interface input-round" type="date">
-                    </label>
-
-                    <label class="txt-uppercase">Nombre de quien recibe:
-                        <input name="receiverName" class="w-100 margin-vertical-small input input-interface input-round" type="text">
-                    </label>
-
-                    <label class="dis-none txt-uppercase CUS">Calle:
-                        <input name="address" class="w-100 margin-vertical-small input input-interface input-round" type="text">
-                    </label>
-
-                    <label class="dis-none txt-uppercase CUS">Numero:
-                        <input name="number" class="w-100 margin-vertical-small input input-interface input-round" type="text">
-                    </label>
-
-                    <label class="dis-none txt-uppercase CUS LUS LSUB LFUS PLF LF">Clave castastral:
-                        <input name="catastralKey" class="w-100 margin-vertical-small input input-interface input-round" type="text">
-                    </label>
-
-                    <label class="dis-none txt-uppercase CUS LUS">Uso de suelo:
-                        <span class="w-100 dis-flex">
-                            <input id="zone_placeholder" class="w-80 margin-vertical-small input input-interface input-round-left" type="text" readonly>
-                            <input type="hidden" id="field_zone" name="zone">
-                            <input id="field_key" class="w-25 margin-vertical-small input input-interface input-round-right txt-center" type="text" readonly>
-                        </span>
-                    </label>
-
-                    <label class="dis-none txt-uppercase CUS LUS LFUS LSUB LF PLF">Superficie total:
-                        <input id="input_surface_out" name="surface" class="w-100 margin-vertical-small input input-interface input-round" type="number" step="any">
-                    </label>
-
-                    <label class="dis-none txt-uppercase CUS">P.C.U.:
-                        <input name="PCU" class="w-100 margin-vertical-small input input-interface input-round" type="text">
-                    </label>
-
-                    <p class="dis-none txt-uppercase CUS LUS LSUB LFUS">Zonificación/División: 
-                        <input name="zoneIMG" class="w-100 margin-vertical-small input-file" type="file" accept=".jpg, .jpeg, .png">
-                    </p>
-
-                    <p class="dis-none txt-uppercase PLF LF RLF CRPC">Cuadros y tablas: 
-                        <input name="resumeTables" class="w-100 margin-vertical-small input-file" type="file" multiple accept=".jpg, .jpeg, .png">
-                    </p>
-
-                    <p class="dis-none txt-uppercase dis-flex flex-wrap CUS"><span class="w-100">Plazo: </span>
-                        <label class="w-50"><input class="margin-horizontal-small" type="radio" name="term" value="1">Corto</label>
-                        <label class="w-50"><input class="margin-horizontal-small" type="radio" name="term" value="2">Mediano</label>
-                    </p>
-
-                    <p class="dis-none txt-uppercase dis-flex flex-wrap CUS LUS LF PLF "><span class="w-100">Vigencia: </span>
-                        <label class="w-50"><input class="margin-horizontal-small" type="radio" name="validity" value="1" >6 meses</label>
-                        <label class="w-50"><input class="margin-horizontal-small" type="radio" name="validity" value="2">12 meses</label>
-                    </p>
-
-                    
-                    <div class="dis-flex flex-evenly w-100 grid-btn-container">
-                        <button type="submit" class="w-45 btn btn-secondary-bg" id="xd">Registrar</button>
-                        <button type="reset" class="w-45 btn btn-secondary">Limpiar</button>
                     </div>
-                    
+
+                    <div data-step="2" id="reg_step_2" class="reg-step step-box w-100 dis-flex flex-wrap flex-evenly dis-none">
+                        <h3 class="w-100 txt-center margin-bottom-medium txt-uppercase">Datos del inmueble</h3>
+
+                        <label class="dis-none txt-uppercase LF LFUS LSUB LUS PLF CRPC RLF w-30">Domicilio del inmueble:
+                            <input name="buildingAddress" class="w-100 margin-vertical-small input input-interface input-round" type="text">
+                        </label>
+
+                        <label class="dis-none txt-uppercase CUS w-30">Calle:
+                            <input name="address" class="w-100 margin-vertical-small input input-interface input-round" type="text">
+                        </label>
+    
+                        <label class="dis-none txt-uppercase CUS w-30">Numero:
+                            <input name="number" class="w-100 margin-vertical-small input input-interface input-round" type="text">
+                        </label>
+
+                        <label class="txt-uppercase w-30">Colonia/Asentamiento:
+                            <input required name="colony" class="w-100 margin-vertical-small input input-interface input-round" type="text">
+                        </label>
+
+                        <label class="dis-none txt-uppercase CUS LUS LSUB LFUS PLF LF w-30">Clave catastral:
+                            <input name="catastralKey" class="w-100 margin-vertical-small input input-interface input-round" type="text">
+                        </label>
+
+                        <label class="dis-none txt-uppercase CUS LUS LFUS LSUB LF PLF w-30">Superficie total:
+                            <input id="input_surface_out" name="surface" class="w-100 margin-vertical-small input input-interface input-round" type="number" step="any">
+                        </label>
+                    </div>
+
+                    <div data-step="3" id="reg_step_3" class="reg-step step-box w-100 dis-flex flex-wrap flex-evenly dis-none">
+                        <h3 class="w-100 txt-center margin-bottom-medium txt-uppercase">Zonificación y autorización</h3>
+
+                        <label class="txt-uppercase w-30">Georeferencia (DD):
+                            <input id="f-geo_search" class="w-80 margin-vertical-small input input-interface input-round geo-search" type="text">
+                            <span id="b-geo_search" class="bi-search btn btn-secondary txt-center"></span>
+                        </label>
+
+                        <label class="dis-none txt-uppercase CUS LUS w-30">Uso de suelo:
+                            <span class="w-100 dis-flex">
+                                <input id="zone_placeholder" class="w-80 margin-vertical-small input input-interface input-round-left" type="text" readonly>
+                                <input type="hidden" id="field_zone" name="zone">
+                                <input id="field_key" class="w-25 margin-vertical-small input input-interface input-round-right txt-center" type="text" readonly>
+                            </span>
+                        </label>
+
+                        <label class="dis-none txt-uppercase CUS w-30">P.C.U.:
+                            <input name="PCU" class="w-100 margin-vertical-small input input-interface input-round" type="text">
+                        </label>
+
+                        <div class="txt-uppercase w-30 dis-flex flex-center flex-column CUS LUS LSUB LFUS dis-none">Zonificación/División: 
+                            <input name="zoneIMG" class="w-100 margin-vertical-small input-file" type="file" accept=".jpg, .jpeg, .png">
+                            <a id="map_tool" href="/private/tools/maps/maps.html#20/19.85072/-98.97995" target="_blank" class="bi-map btn btn-secondary"> Generar imagen de zonificación</a>
+                        </div>
+    
+                        <div class="dis-none txt-uppercase PLF LF RLF CRPC w-30">Cuadros y tablas: 
+                            <input name="resumeTables" class="w-100 margin-vertical-small input-file" type="file" multiple accept=".jpg, .jpeg, .png">
+                        </div>
+                    </div>
+
+                    <div data-step="4" id="reg_step_4" class="reg-step step-box w-100 dis-flex flex-wrap flex-evenly dis-none">
+                        <h3 class="w-100 txt-center margin-bottom-medium txt-uppercase">Vigencias y plazos</h3>
+
+                        <label class="txt-uppercase w-30">Fecha de solicitud:
+                            <input required name="requestDate" class="w-100 margin-vertical-small input input-interface input-round" type="date">
+                        </label>
+    
+                        <label class="txt-uppercase w-30">Fecha de expedición:
+                            <input name="expeditionDate" class="w-100 margin-vertical-small input input-interface input-round" type="date">
+                        </label>
+    
+                        <label class="txt-uppercase w-30">Fecha de entrega:
+                            <input  name="deliveryDate" class="w-100 margin-vertical-small input input-interface input-round" type="date">
+                        </label>
+                        
+                        <label class="txt-uppercase w-30">Nombre de quien recibe:
+                            <input name="receiverName" class="w-100 margin-vertical-small input input-interface input-round" type="text">
+                        </label>
+    
+                        <div class="dis-none txt-uppercase dis-flex flex-wrap CUS LUS LF PLF w-30"><span class="w-100">Vigencia: </span>
+                            <label class="w-50"><input class="margin-horizontal-small" type="radio" name="validity" value="1" >6 meses</label>
+                            <label class="w-50"><input class="margin-horizontal-small" type="radio" name="validity" value="2">12 meses</label>
+                        </div>
+
+                        <div class="dis-none txt-uppercase dis-flex flex-wrap CUS w-30"><span class="w-100">Plazo: </span>
+                            <label class="w-50"><input class="margin-horizontal-small" type="radio" name="term" value="1">Corto</label>
+                            <label class="w-50"><input class="margin-horizontal-small" type="radio" name="term" value="2">Mediano</label>
+                        </div>
+                    </div>
+
+                    <div data-step="5" id="reg_step_5" class="reg-step step-box w-100 dis-flex flex-wrap flex-evenly dis-none">
+                        <h3 class="w-100 txt-center margin-bottom-medium txt-uppercase">Información de pago</h3>
+
+                        <label class="txt-uppercase w-20">Monto autorizado:
+                            <input name="authorizedQuantity" class="w-100 margin-vertical-small input input-interface input-round" type="number" step="any">
+                        </label>
+    
+                        <label class="txt-uppercase w-20">Orden de cobro:
+                            <input name="collectionOrder" placeholder="C-" class="w-100 margin-vertical-small input input-interface input-round" type="number">
+                        </label>
+    
+                        <label class="txt-uppercase w-20">Folio y serie de factura:
+                            <input name="billInvoice" placeholder="C-" class="w-100 margin-vertical-small input input-interface input-round" type="text">
+                        </label>
+    
+                        <label class="txt-uppercase w-20">Fecha de pago:
+                            <input name="paymentDate" class="w-100 margin-vertical-small input input-interface input-round" type="date">
+                        </label>
+                    </div>
+
+                    <div data-step="6" id="reg_step_6" class="reg-step w-100 dis-flex flex-wrap flex-evenly dis-none">
+                        <div id="reg_details" class="w-100 dis-flex flex-wrap step-box margin-bottom-large reg-details">
+                            <div class="w-50 margin-bottom-small color-black">
+                                <p class="color-white txt-uppercase txt-bold txt-center padding-vertical-small">Datos del solicitante</p>
+    
+                                <p class="txt-bold color-primary">Tipo de licencia: <span class="color-white" id="check_licenseType">N/A</span></p>
+
+                                <p class="txt-bold color-primary">Nombre del solicitante: <span class="color-white" id="check_requestorName">N/A</span></p>
+
+                                <p class="txt-bold color-primary LF LFUS LSUB LUS PLF CRPC RLF">Domicilio del solicitante: <span class="color-white" id="check_requestorAddress">N/A</span></p>
+
+                                <p class="txt-bold color-primary LUS LSUB LFUS PLF LF RLF CRPC">Representante: <span class="color-white" id="check_legalRepresentative">N/A</span></p>
+
+                                <p class="txt-bold color-primary LUS LSUB LFUS PLF LF RLF CRPC">Carácter del Representante: <span class="color-white" id="check_representativeAs">N/A</span></p>
+                            </div>
+    
+                            <div class="w-50 margin-bottom-small color-black">
+                                <p class="color-white txt-uppercase txt-bold txt-center padding-vertical-small">Datos del inmueble</p>
+    
+                                <p class="txt-bold color-primary LF LFUS LSUB LUS PLF CRPC RLF">Domicilio del inmueble: <span class="color-white" id="check_buildingAddress">N/A</span></p>
+                                
+                                <p class="txt-bold color-primary CUS">Calle: <span class="color-white" id="check_address">N/A</span></p>
+
+                                <p class="txt-bold color-primary CUS">Numero: <span class="color-white" id="check_number">N/A</span></p>
+
+                                <p class="txt-bold color-primary">Colonia/Asentamiento: <span class="color-white" id="check_colony">N/A</span></p>
+
+                                <p class="txt-bold color-primary CUS LUS LSUB LFUS PLF LF">Clave catastral: <span class="color-white" id="check_catastralKey">N/A</span></p>
+
+                                <p class="txt-bold color-primary CUS LUS LFUS LSUB LF PLF">Superficie total: <span class="color-white" id="check_surface">N/A</span></p>
+                            </div>
+    
+                            <div class="w-50 margin-bottom-small color-black">
+                                <p class="color-white txt-uppercase txt-bold txt-center padding-vertical-small">Zonificación y autorización</p>
+
+                                <p class="txt-bold color-primary CUS LUS">Uso de suelo: <span class="color-white" id="check_zone">N/A</span></p>
+                                
+                                <p class="txt-bold color-primary CUS">P.C.U.: <span class="color-white" id="check_PCU">N/A</span></p>
+
+                                <p class="txt-bold color-primary CUS LUS LSUB LFUS">Zonificación/División: <span class="color-white" id="check_zoneIMG">N/A</span></p>
+
+                                <p class="txt-bold color-primary PLF LF RLF CRPC">Cuadros y tablas: <span class="color-white" id="check_resumeTables">N/A</span></p>
+                            </div>
+    
+                            <div class="w-50 margin-bottom-small color-black">
+                                <p class="color-white txt-uppercase txt-bold txt-center padding-vertical-small">Vigencias y plazos</p>
+    
+                                <p class="txt-bold color-primary">Fecha de solicitud: <span class="color-white" id="check_requestDate">N/A</span></p>
+
+                                <p class="txt-bold color-primary">Fecha de expedición: <span class="color-white" id="check_expeditionDate">N/A</span></p>
+
+                                <p class="txt-bold color-primary">Fecha de entrega: <span class="color-white" id="check_deliveryDate">N/A</span></p>
+
+                                <p class="txt-bold color-primary">Nombre de quien recibe: <span class="color-white" id="check_receiverName">N/A</span></p>
+
+                                <p class="txt-bold color-primary CUS LUS LF PLF">Vigencia: <span class="color-white" id="check_validity">N/A</span></p>
+
+                                <p class="txt-bold color-primary CUS">Plazo: <span class="color-white" id="check_term">N/A</span></p>
+                            </div>
+    
+                            <div class="w-100 margin-bottom-medium color-black dis-flex flex-between flex-wrap">
+                                <p class="color-white txt-uppercase txt-bold txt-center w-100 padding-vertical-small border-only-top border-primary">Información de pago</p>
+    
+                                <p class="txt-bold color-primary">Monto autorizado: $ <span class="color-white" id="check_authorizedQuantity">N/A</span></p>
+
+                                <p class="txt-bold color-primary">Orden de cobro: <span class="color-white" id="check_collectionOrder">N/A</span></p>
+
+                                <p class="txt-bold color-primary">Folio y serie de factura: <span class="color-white" id="check_billInvoice">N/A</span></p>
+
+                                <p class="txt-bold color-primary">Fecha de pago: <span class="color-white" id="check_paymentDate">N/A</span></p>
+                            </div>
+                        </div>
+                        <button type="submit" class="reg-details btn btn-primary-bg txt-medium w-30 margin-bottom-small">Registrar</button>
+                    </div>
                 </form>
-            </div>
+
+                <div class="step-controls dis-flex flex-center">
+                    <ul class="dis-flex flex-evenly w-100 txt-center color-white txt-medium" id="reg_nav">
+                        <li class="selected bi-person btn" onclick="changeStep(this, 1, 'form_reg', false)"></li>
+                        <li class="bi-building-exclamation btn" onclick="changeStep(this, 2, 'form_reg', false)"></li>
+                        <li class="bi-building-check btn" onclick="changeStep(this, 3, 'form_reg', false)"></li>
+                        <li class="bi-calendar-week btn" onclick="changeStep(this, 4, 'form_reg', false)"></li>
+                        <li class="bi-cash-coin btn" onclick="changeStep(this, 5, 'form_reg', false)"></li>
+                        <li class="bi-check-circle btn" onclick="changeStep(this, 6, 'form_reg', true)"></li>
+                        <li class="bi-trash btn" onclick="resetForm('form_reg')"></li>
+                    </ul>
+                </div>
+            </article>
         </section>
     </main>
 </body>
