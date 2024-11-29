@@ -315,4 +315,3 @@ async function deleteResult(id) {
 }
 
 //-------------------------------------------------------------------
-//getLicensesLand();

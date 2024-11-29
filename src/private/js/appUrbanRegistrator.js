@@ -93,25 +93,25 @@ function changeStep(btn, step, form, checkFields) {
     if (checkFields) {
         let fields = formElement.querySelectorAll('[required]');
 
-        for (const e of fields) {
-            if (e.value.trim() === '') {
+        for (const field of fields) {
+            if (field.value.trim() === '') {
 
                 regSteps.forEach(
-                    e => e.classList.add('dis-none')
+                    step => step.classList.add('dis-none')
                 );
 
-                let stepContainer = e.closest('.reg-step');
+                let stepContainer = field.closest('.reg-step');
 
                 let stepButton = parseInt(stepContainer.getAttribute('data-step')) - 1
 
                 stepContainer.classList.remove('dis-none');
 
                 buttons.forEach(
-                    e => e.classList.remove('selected'));
+                    button => button.classList.remove('selected'));
 
                 buttons[stepButton].classList.add('selected');
 
-                e.focus();
+                field.focus();
 
                 return;
             }
@@ -143,7 +143,7 @@ function changeStep(btn, step, form, checkFields) {
     }
 
     buttons.forEach(
-        e => e.classList.remove('selected'));
+        button => button.classList.remove('selected'));
 
     btn.classList.toggle('selected');
 

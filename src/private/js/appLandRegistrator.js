@@ -220,12 +220,12 @@ function changeStep(btn, step, form, checkFields) {
 
         let formData = Object.fromEntries(new FormData(formElement));
 
-        const focusMissing = (e) => {
+        const focusMissing = (field) => {
             regSteps.forEach(
                 steps => steps.classList.add('dis-none')
             );
 
-            let stepContainer = e.closest('.reg-step');
+            let stepContainer = field.closest('.reg-step');
 
             let stepButton = parseInt(stepContainer.getAttribute('data-step')) - 1
 
@@ -236,40 +236,37 @@ function changeStep(btn, step, form, checkFields) {
 
             buttons[stepButton].classList.add('selected');
 
-            e.focus();
+            field.focus();
         }
 
-        for (const e of fields) {
-            if (e.value.trim() === '') {
-                focusMissing(e);
+        for (const field of fields) {
+            if (field.value.trim() === '') {
+                focusMissing(field);
                 return;
             }
 
             if (!formData.validity && e.getAttribute('name') == 'validity') {
-                focusMissing(e);
-                e.closest('div').classList.add('missing-field');
-                console.log('validity', formData.validity);
+                focusMissing(field);
+                field.closest('div').classList.add('missing-field');
                 return;
             } else {
-                e.closest('div').classList.remove('missing-field');
+                field.closest('div').classList.remove('missing-field');
             }
 
             if (!formData.expeditionType && e.getAttribute('name') == 'expeditionType') {
-                focusMissing(e);
-                e.closest('div').classList.add('missing-field');
-                console.log('expeditionType', formData.expeditionType);
+                focusMissing(field);
+                field.closest('div').classList.add('missing-field');
                 return;
             } else {
-                e.closest('div').classList.remove('missing-field');
+                field.closest('div').classList.remove('missing-field');
             }
 
             if (!formData.term && e.getAttribute('name') == 'term') {
-                focusMissing(e);
-                e.closest('div').classList.add('missing-field');
-                console.log('term', formData.term);
+                focusMissing(field);
+                field.closest('div').classList.add('missing-field');
                 return;
             } else {
-                e.closest('div').classList.remove('missing-field');
+                field.closest('div').classList.remove('missing-field');
             }
         }
 
@@ -299,7 +296,7 @@ function changeStep(btn, step, form, checkFields) {
     }
 
     buttons.forEach(
-        e => e.classList.remove('selected'));
+        button => button.classList.remove('selected'));
 
     btn.classList.toggle('selected');
 

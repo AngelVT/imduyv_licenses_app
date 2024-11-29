@@ -28,7 +28,7 @@ function createResultTop(obj) {
     let span;
 
     top.setAttribute('id', `result_top_${obj.id}`);
-    top.setAttribute('class', 'w-100 dis-flex flex-between flex-center-v padding-medium bg-complementary-alpha border-round controls');
+    top.setAttribute('class', 'w-100 dis-flex flex-between flex-center-v padding-small bg-primary-alpha border-round controls');
 
     /*topBtn.setAttribute('onclick', `hideShow(this, ${obj.id})`);
     topBtn.setAttribute('class', 'bi-chevron-bar-down txt-medium color-primary result-control input-none');
@@ -56,13 +56,13 @@ function createResultTop(obj) {
     span.setAttribute('id', `result_control_print_${obj.id}`);
     span.setAttribute('target', '_blank');
     span.setAttribute('href', `/api/urban/PDF/${obj.licenseType}/${obj.invoice}/${obj.year}`);
-    span.setAttribute('class', 'bi-printer txt-medium color-primary dis-none result-control');
+    span.setAttribute('class', 'bi-printer txt-medium color-white dis-none result-control');
     topControls.appendChild(span);
 
     span = document.createElement('span');
     span.setAttribute('id', `result_control_delete_${obj.id}`);
     span.setAttribute('onclick', `deleteResult(${obj.id})`);
-    span.setAttribute('class', 'bi-trash txt-medium color-primary dis-none result-control');
+    span.setAttribute('class', 'bi-trash txt-medium color-white dis-none result-control');
     topControls.appendChild(span);
 
     top.appendChild(topControls);
@@ -73,7 +73,7 @@ function createResultTop(obj) {
 function createResultContent(id) {
     let content = document.createElement('div');
     content.setAttribute('id', `result_fields_${id}`);
-    content.setAttribute('class', 'w-100 dis-none dis-flex flex-center flex-wrap bg-secondary-alpha padding-small border-round-bottom');
+    content.setAttribute('class', 'w-100 dis-none dis-flex flex-center flex-wrap bg-secondary-alpha padding-medium border-round-bottom');
     return content;
 }
 
@@ -144,7 +144,7 @@ function createResultTextArea(id, tag, name, value) {
     let span;
 
     field.setAttribute('onsubmit', `updateResultField(this, ${id}); return false`);
-    field.setAttribute('class', 'w-95 field-span')
+    field.setAttribute('class', 'w-100')
 
     label.innerText = tag + ':';
     label.setAttribute('class', 'dis-flex flex-wrap color-primary')
@@ -161,7 +161,7 @@ function createResultTextArea(id, tag, name, value) {
     label.appendChild(span);
 
     input = document.createElement('textarea');
-    input.setAttribute('class', 'input input-interface input-round-left input-textarea-result');
+    input.setAttribute('class', 'input input-interface input-round-left input-textarea-result w-95');
 
     input.setAttribute('name', name);
     input.value = value;
@@ -169,7 +169,7 @@ function createResultTextArea(id, tag, name, value) {
 
     label.appendChild(input);
 
-    button.setAttribute('class', 'bi-floppy input-side-save ta w-10');
+    button.setAttribute('class', 'bi-floppy input-side-save ta w-5');
 
     label.appendChild(button);
 
@@ -1143,7 +1143,7 @@ function createPrintResultTop(id, fullInvoice, invoice, type, year) {
     let span;
 
     top.setAttribute('id', `result_top_${id}`);
-    top.setAttribute('class', 'w-100 dis-flex flex-between flex-center-v padding-small bg-complementary-alpha border-round-top');
+    top.setAttribute('class', 'w-100 dis-flex flex-between flex-center-v padding-small bg-primary-alpha border-round-top');
 
     topLabel.setAttribute('class', 'color-white txt-bold w-100 txt-center');
     topLabel.innerText = 'Folio: ';
@@ -1158,7 +1158,7 @@ function createPrintResultTop(id, fullInvoice, invoice, type, year) {
     span.setAttribute('id', `result_control_print_${id}`);
     span.setAttribute('target', '_blank');
     span.setAttribute('href', `/api/urban/PDF/${type}/${invoice}/${year}`);
-    span.setAttribute('class', 'bi-printer txt-medium color-primary result-control w-5');
+    span.setAttribute('class', 'bi-printer txt-medium color-white result-control w-5');
     top.appendChild(span);
 
     return top;
@@ -1167,71 +1167,169 @@ function createPrintResultTop(id, fullInvoice, invoice, type, year) {
 function createPrintResultContent(id) {
     let content = document.createElement('div');
     content.setAttribute('id', `result_fields_${id}`);
-    content.setAttribute('class', 'w-100 dis-flex flex-center flex-wrap bg-secondary-alpha padding-small border-round-bottom padding-bottom-medium');
+    content.setAttribute('class', 'w-100 dis-flex flex-center flex-wrap border-all border-primary padding-medium border-round-bottom');
     return content;
 }
 
 function createUrbanPrintResult(resObj, target) {
     let resultContent = createPrintResultContent(resObj.id);
     let field;
+    let fieldGroup;
+    let fieldGroupTittle;
+
+    let resultNav = document.createElement('div');
+    let navButtons = document.createElement('ul');
+    let navButton;
+
+    resultNav.setAttribute('class', 'w-100 step-controls result dis-flex flex-center margin-bottom-medium');
+    resultNav.setAttribute('id', `result_${resObj.id}_nav`);
+    navButtons.setAttribute('class', 'dis-flex flex-evenly w-100 txt-center txt-medium');
+
+    // * Nav button
+    navButton = document.createElement('li');
+    navButton.setAttribute('class', 'selected bi-person btn');
+    navButton.setAttribute('onclick', `resultNavigation(this, ${resObj.id}, 1, 6)`);
+    navButtons.appendChild(navButton);
+
+    // * Nav button
+    navButton = document.createElement('li');
+    navButton.setAttribute('class', 'bi-building-exclamation btn');
+    navButton.setAttribute('onclick', `resultNavigation(this, ${resObj.id}, 2, 6)`);
+    navButtons.appendChild(navButton);
+
+    // * Nav button
+    navButton = document.createElement('li');
+    navButton.setAttribute('class', 'bi-building-check btn');
+    navButton.setAttribute('onclick', `resultNavigation(this, ${resObj.id}, 3, 6)`);
+    navButtons.appendChild(navButton);
+
+    // * Nav button
+    navButton = document.createElement('li');
+    navButton.setAttribute('class', 'bi-calendar-week btn');
+    navButton.setAttribute('onclick', `resultNavigation(this, ${resObj.id}, 4, 6)`);
+    navButtons.appendChild(navButton);
+
+    // * Nav button
+    navButton = document.createElement('li');
+    navButton.setAttribute('class', 'bi-cash-coin btn');
+    navButton.setAttribute('onclick', `resultNavigation(this, ${resObj.id}, 5, 6)`);
+    navButtons.appendChild(navButton);
+
+    // * Nav button
+    navButton = document.createElement('li');
+    navButton.setAttribute('class', 'bi-plus-circle btn');
+    navButton.setAttribute('onclick', `resultNavigation(this, ${resObj.id}, 6, 6)`);
+    navButtons.appendChild(navButton);
+
+    resultNav.appendChild(navButtons);
+
+    resultContent.appendChild(resultNav);
+
+
+    //requestor section start
+    fieldGroup = document.createElement('div');
+    fieldGroup.setAttribute('class', 'w-100 dis-flex flex-wrap flex-evenly');
+    fieldGroup.setAttribute('id', `result_${resObj.id}_group_1`);
+
+    fieldGroupTittle = document.createElement('h3');
+    fieldGroupTittle.setAttribute('class', 'w-100 txt-center txt-medium color-primary txt-bold border-only-bottom border-white txt-uppercase margin-bottom-medium');
+    fieldGroupTittle.innerText = 'Información del solicitante';
+
+    fieldGroup.appendChild(fieldGroupTittle);
 
     field = createResultField(resObj.id, 'Nombre del solicitante', 'requestorName', resObj.requestorName, 'text');
 
-    resultContent.appendChild(field);
+    fieldGroup.appendChild(field);
+
+    if (resObj.licenseType > 1 && resObj.licenseType <= 8) {
+        field = createResultField(resObj.id, 'Domicilio del solicitante', 'requestorAddress', resObj.licenseSpecialData.requestorAddress, 'text');
+        fieldGroup.appendChild(field);
+
+        field = createResultField(resObj.id, 'Representante', 'legalRepresentative', resObj.legalRepresentative, 'text');
+
+        fieldGroup.appendChild(field);
+
+        field = createResultField(resObj.id, 'Carácter del representante', 'representativeAs', resObj.licenseSpecialData.representativeAs, 'text');
+
+        fieldGroup.appendChild(field);
+    }
+
+    resultContent.appendChild(fieldGroup);
+    //requestor section end
+
+    //building section start-------------------------------------------
+    fieldGroup = document.createElement('div');
+    fieldGroup.setAttribute('class', 'w-100 dis-flex flex-wrap flex-evenly dis-none');
+    fieldGroup.setAttribute('id', `result_${resObj.id}_group_2`);
+
+    fieldGroupTittle = document.createElement('h3');
+    fieldGroupTittle.setAttribute('class', 'w-100 txt-center txt-medium color-primary txt-bold border-only-bottom border-white txt-uppercase margin-bottom-medium');
+    fieldGroupTittle.innerText = 'Información del inmueble';
+
+    fieldGroup.appendChild(fieldGroupTittle);
+
+    if (resObj.licenseType >= 2 && resObj.licenseType <= 8) {
+        field = createResultField(resObj.id, 'Domicilio del inmueble', 'buildingAddress', resObj.licenseSpecialData.buildingAddress, 'text');
+        
+    fieldGroup.appendChild(field);
+    }
+
+    if (resObj.licenseType == 1) {
+        field = createResultField(resObj.id, 'Calle', 'address', resObj.address, 'text');
+
+        fieldGroup.appendChild(field);
+
+        field = createResultField(resObj.id, 'Numero', 'number', resObj.number, 'text');
+
+        fieldGroup.appendChild(field);
+    }
 
     field = createResultField(resObj.id, 'Colonia/Asentamiento', 'colony', resObj.colony, 'text');
 
-    resultContent.appendChild(field);
+    fieldGroup.appendChild(field);
 
-    field = createResultField(resObj.id, 'Fecha de Solicitud', 'requestDate', resObj.requestDate, 'date');
+    if (resObj.licenseType >= 1 && resObj.licenseType <= 6) {
+        field = createResultField(resObj.id, 'Clave catastral', 'catastralKey', resObj.catastralKey, 'text');
 
-    resultContent.appendChild(field);
+        fieldGroup.appendChild(field);
 
-    field = createResultField(resObj.id, 'Fecha de expedición', 'expeditionDate', resObj.expeditionDate, 'date');
+        field = createResultField(resObj.id, 'Superficie total', 'surface', resObj.surfaceTotal, 'number');
 
-    resultContent.appendChild(field);
+        fieldGroup.appendChild(field);
+    }
 
-    field = createResultField(resObj.id, 'Fecha de entrega', 'deliveryDate', resObj.deliveryDate, 'date');
+    resultContent.appendChild(fieldGroup);
+    //building section end--------------------------------------------
 
-    resultContent.appendChild(field);
+    //authorization section start-------------------------------------------
+    fieldGroup = document.createElement('div');
+    fieldGroup.setAttribute('class', 'w-100 dis-flex flex-wrap flex-evenly dis-none');
+    fieldGroup.setAttribute('id', `result_${resObj.id}_group_3`);
 
-    field = createResultField(resObj.id, 'Monto autorizado', 'authorizedQuantity', resObj.authorizedQuantity, 'number');
+    fieldGroupTittle = document.createElement('h3');
+    fieldGroupTittle.setAttribute('class', 'w-100 txt-center txt-medium color-primary txt-bold border-only-bottom border-white txt-uppercase margin-bottom-medium');
+    fieldGroupTittle.innerText = 'Zonificación y autorización';
 
-    resultContent.appendChild(field);
+    fieldGroup.appendChild(fieldGroupTittle);
 
-    field = createResultField(resObj.id, 'Orden de cobro', 'collectionOrder', resObj.collectionOrder, 'number');
+    if(resObj.licenseType <= 4) {
+        let imgDiv= document.createElement('div');
+        imgDiv.setAttribute('class', 'w-100 dis-flex flex-center');
 
-    resultContent.appendChild(field);
+        field = document.createElement('img');
+        field.setAttribute('alt', 'Zonificación');
+        field.setAttribute('src', `/urbanStorage/${resObj.fullInvoice}/zone.png`);
+        field.setAttribute('class', 'w-40 margin-bottom-small');
 
-    field = createResultField(resObj.id, 'Folio y serie de factura', 'billInvoice', resObj.billInvoice, 'text');
+        imgDiv.appendChild(field)
 
-    resultContent.appendChild(field);
+        fieldGroup.appendChild(imgDiv);
+    }
 
-    field = createResultField(resObj.id, 'Fecha de pago:', 'paymentDate', resObj.paymentDate, 'date');
+    if (resObj.licenseType == 1 || resObj.licenseType == 2 || resObj.licenseType == 6) {
+        field = createResultField(resObj.id, 'Zona', 'zone', resObj.licenseZone, 'select');
 
-    resultContent.appendChild(field);
-
-    field = createResultField(resObj.id, 'Nombre de quien recibe', 'receiverName', resObj.receiverName, 'text');
-
-    resultContent.appendChild(field);
-
-    switch(resObj.licenseType) {
-        case 1:
-            field = createResultField(resObj.id, 'Calle', 'address', resObj.address, 'text');
-
-            resultContent.appendChild(field);
-
-            field = createResultField(resObj.id, 'Numero', 'number', resObj.number, 'text');
-
-            resultContent.appendChild(field);
-
-            field = createResultField(resObj.id, 'Clave catastral', 'catastralKey', resObj.catastralKey, 'text');
-
-            resultContent.appendChild(field);
-
-            field = createResultField(resObj.id, 'Zona', 'zone', resObj.licenseZone, 'select');
-
-            field.querySelector('select').innerHTML = `
+        field.querySelector('select').innerHTML = `
             <option value="">Seleccione zona ...</option>
             <option value="19">Agricultura tecnificada</option>
             <option value="20">Agroindustria</option>
@@ -1258,199 +1356,510 @@ function createUrbanPrintResult(resObj, target) {
             <option value="18">Reserva territorial futura</option>
             `
 
-            field.querySelector('select').value = resObj.licenseZone;
+        field.querySelector('select').value = resObj.licenseZone;
 
-            resultContent.appendChild(field);
+        fieldGroup.appendChild(field);
+    }
 
-            field = createResultField(resObj.id, 'Superficie total', 'surface', resObj.surfaceTotal, 'number');
+    if (resObj.licenseType == 3 || resObj.licenseType == 4) {
+        field = createResultField(resObj.id, 'Zonificación/División o subdivisión', 'zoneIMG', resObj.fullInvoice, 'file');
 
-            resultContent.appendChild(field);
+        fieldGroup.appendChild(field);
+    }
 
-            field = createResultField(resObj.id, 'Zonificación/División o subdivisión', 'zoneIMG', resObj.fullInvoice, 'file');
+    if (resObj.licenseType == 1) {
+        field = createResultField(resObj.id, 'P.C.U.', 'PCU', resObj.licenseSpecialData.PCU, 'text');
 
-            resultContent.appendChild(field);
+        fieldGroup.appendChild(field);
+    }
 
-            field = createResultField(resObj.id, 'P.C.U.', 'PCU', resObj.licenseSpecialData.PCU, 'text');
+    if (resObj.licenseType >= 5 && resObj.licenseType <= 8) {
+        field = createResultField(resObj.id, 'Tablas/Cuadros resumen', 'resumeTables', resObj.fullInvoice, 'file');
+        fieldGroup.appendChild(field);
+    }
 
-            resultContent.appendChild(field);
+    if (resObj.licenseType == 3 || resObj.licenseType == 4) {
+        field = createResultTextArea(resObj.id, 'Resumen de autorización', 'authorizationResume', resObj.licenseSpecialData.authorizationResume);
+        field.style.marginBottom = '10px';
+        fieldGroup.appendChild(field);
+    }
 
-            field = createResultField(resObj.id, 'Plazo', 'term', resObj.licenseTerm, 'select');
+    if (resObj.licenseType >= 5 && resObj.licenseType <= 8) {
+        field = createResultTextArea(resObj.id, 'Documentos', 'documents', resObj.licenseSpecialData ? resObj.licenseSpecialData.documents.join('\n') : '');
+        fieldGroup.appendChild(field);
+    }
+
+    if (resObj.licenseType >= 5 && resObj.licenseType <= 7) {
+        field = createResultTextArea(resObj.id, 'Ubicación', 'location', resObj.licenseSpecialData ? resObj.licenseSpecialData.location.join('\n') : '');
+        fieldGroup.appendChild(field);
+    }
+
+    if (resObj.licenseType >= 3 && resObj.licenseType <= 8) {
+        field = createResultTextArea(resObj.id, 'Condicionantes', 'conditions', resObj.licenseSpecialData.conditions ? resObj.licenseSpecialData.conditions.join('\n') : '');
+        fieldGroup.appendChild(field);
+    }
+
+    if (resObj.licenseType == 5) {
+        field = createResultTextArea(resObj.id, 'Integridad', 'integrity', resObj.licenseSpecialData.integrity);
+        fieldGroup.appendChild(field);
+
+        field = createResultTextArea(resObj.id, 'Uso autorizado', 'detailedUse', resObj.licenseSpecialData.detailedUse);
+        fieldGroup.appendChild(field);
+    }
+
+    if (resObj.licenseType == 6) {
+        field = createResultTextArea(resObj.id, 'Constancia de Uso de Suelo', 'urbanCUS', resObj.licenseSpecialData.urbanCUS);
+        fieldGroup.appendChild(field);
+
+            field = createResultTextArea(resObj.id, 'Licencia de Uso de Suelo', 'urbanLUS', resObj.licenseSpecialData.urbanLUS);
+        fieldGroup.appendChild(field);
+
+        field = createResultField(resObj.id, 'Lotes Totales', 'habitacionalLotes', resObj.licenseSpecialData.habitacionalLotes, 'text');
+        fieldGroup.appendChild(field);
+
+        field = createResultField(resObj.id, 'Manzanas Totales', 'totalManzanas', resObj.licenseSpecialData.totalManzanas, 'text');
+        fieldGroup.appendChild(field);
+
+        field = createResultField(resObj.id, 'Superficie de donación', 'totalSurface', resObj.licenseSpecialData.totalSurface, 'number');
+        fieldGroup.appendChild(field);
+    }
+
+    if (resObj.licenseType == 7) {
+        field = createResultTextArea(resObj.id, 'Relotificación para', 'lotes', resObj.licenseSpecialData.lotes.join('\n'));
+        fieldGroup.appendChild(field);
+
+        field = createResultTextArea(resObj.id, 'Relotificación resultante', 'resultRelotification', resObj.licenseSpecialData.resultRelotification.join('\n'));
+        fieldGroup.appendChild(field);
+
+        field = createResultTextArea(resObj.id, 'Uso autorizado', 'detailedUse', resObj.licenseSpecialData.detailedUse);
+        fieldGroup.appendChild(field);
+
+        field = createResultField(resObj.id, 'Relotificación', 'totalRelotification', resObj.licenseSpecialData.totalRelotification, 'text');
+        fieldGroup.appendChild(field);
+
+        field = createResultField(resObj.id, 'Folio previo', 'previousInvoice', resObj.licenseSpecialData.previousInvoice, 'text');
+        fieldGroup.appendChild(field);
+
+        field = createResultField(resObj.id, 'Fecha de folio previo', 'previousInvoiceDat', resObj.licenseSpecialData.previousInvoiceDate, 'date');
+        fieldGroup.appendChild(field);
+    }
+
+    if (resObj.licenseType == 8) {
+        field = createResultTextArea(resObj.id, 'Lotes', 'lotes', resObj.licenseSpecialData.lotes.join('\n'));
+        fieldGroup.appendChild(field);
+
+        field = createResultTextArea(resObj.id, 'Manzanas', 'manzanas', resObj.licenseSpecialData.manzanas.join('\n'));
+        fieldGroup.appendChild(field);
+
+        field = createResultField(resObj.id, 'Viviendas', 'households', resObj.licenseSpecialData.households, 'text');
+        fieldGroup.appendChild(field);
+
+        field = createResultField(resObj.id, 'Superficie privativa', 'privateSurface', resObj.licenseSpecialData.privateSurface, 'number');
+        fieldGroup.appendChild(field);
+
+        field = createResultField(resObj.id, 'Superficie común', 'commonSurface', resObj.licenseSpecialData.commonSurface, 'number');
+        fieldGroup.appendChild(field);
+    }
+
+    resultContent.appendChild(fieldGroup);
+    //authorization section end--------------------------------------------
+
+    //validities and terms section start-------------------------------------------
+    fieldGroup = document.createElement('div');
+    fieldGroup.setAttribute('class', 'w-100 dis-flex flex-wrap flex-evenly dis-none');
+    fieldGroup.setAttribute('id', `result_${resObj.id}_group_4`);
+
+    fieldGroupTittle = document.createElement('h3');
+    fieldGroupTittle.setAttribute('class', 'w-100 txt-center txt-medium color-primary txt-bold border-only-bottom border-white txt-uppercase margin-bottom-medium');
+    fieldGroupTittle.innerText = 'Vigencias y plazos';
+
+    fieldGroup.appendChild(fieldGroupTittle);
+
+    field = createResultField(resObj.id, 'Fecha de Solicitud', 'requestDate', resObj.requestDate, 'date');
+
+    fieldGroup.appendChild(field);
+
+    field = createResultField(resObj.id, 'Fecha de expedición', 'expeditionDate', resObj.expeditionDate, 'date');
+
+    fieldGroup.appendChild(field);
+
+    field = createResultField(resObj.id, 'Fecha de entrega', 'deliveryDate', resObj.deliveryDate, 'date');
+
+    fieldGroup.appendChild(field);
+
+    field = createResultField(resObj.id, 'Nombre de quien recibe', 'receiverName', resObj.receiverName, 'text');
+
+    fieldGroup.appendChild(field);
+
+    if (resObj.licenseType == 1 || resObj.licenseType == 2 || resObj.licenseType == 5 || resObj.licenseType == 6) {
+        field = createResultField(resObj.id, 'Vigencia', 'validity', resObj.licenseValidity, 'select');
 
             field.querySelector('select').innerHTML = `
+            <option value="">Selecciona ...</option>
+            <option value="1">6 Meses</option>
+            <option value="2">12 Meses</option>
+            `;
+
+        field.querySelector('select').value = resObj.licenseValidity;
+
+        fieldGroup.appendChild(field);
+    }
+
+    if (resObj.licenseType == 1) {
+        field = createResultField(resObj.id, 'Plazo', 'term', resObj.licenseTerm, 'select');
+
+        field.querySelector('select').innerHTML = `
             <option value="">Selecciona ...</option>
             <option value="1">Corto</option>
             <option value="2">Mediano</option>
             <option value="3">Largo</option>
             `;
 
-            field.querySelector('select').value = resObj.licenseTerm;
+        field.querySelector('select').value = resObj.licenseTerm;
 
-            resultContent.appendChild(field);
+        fieldGroup.appendChild(field);
+    }
 
-            field = createResultField(resObj.id, 'Vigencia', 'validity', resObj.licenseValidity, 'select');
+    resultContent.appendChild(fieldGroup);
+    //validities and terms section end--------------------------------------------
 
-            field.querySelector('select').innerHTML = `
-            <option value="">Selecciona ...</option>
-            <option value="1">6 Meses</option>
-            <option value="2">12 Meses</option>
-            `;
+    //payment section start-------------------------------------------
+    fieldGroup = document.createElement('div');
+    fieldGroup.setAttribute('class', 'w-100 dis-flex flex-wrap flex-evenly dis-none');
+    fieldGroup.setAttribute('id', `result_${resObj.id}_group_5`);
 
-            field.querySelector('select').value = resObj.licenseValidity;
+    fieldGroupTittle = document.createElement('h3');
+    fieldGroupTittle.setAttribute('class', 'w-100 txt-center txt-medium color-primary txt-bold border-only-bottom border-white txt-uppercase margin-bottom-medium');
+    fieldGroupTittle.innerText = 'Información de pago';
 
-            resultContent.appendChild(field);
-            break;
-        case 2:
-            field = createResultField(resObj.id, 'Representante', 'legalRepresentative', resObj.legalRepresentative, 'text');
+    fieldGroup.appendChild(fieldGroupTittle);
 
-            resultContent.appendChild(field);
+    field = createResultField(resObj.id, 'Monto autorizado', 'authorizedQuantity', resObj.authorizedQuantity, 'number');
 
-            field = createResultField(resObj.id, 'Caracter del representante', 'representativeAs', resObj.licenseSpecialData.representativeAs, 'text');
+    fieldGroup.appendChild(field);
 
-            resultContent.appendChild(field);
+    field = createResultField(resObj.id, 'Orden de cobro', 'collectionOrder', resObj.collectionOrder, 'number');
 
-            field = createResultField(resObj.id, 'Domicilio del solicitante', 'requestorAddress', resObj.licenseSpecialData.requestorAddress, 'text');
-            resultContent.appendChild(field);
+    fieldGroup.appendChild(field);
 
-            field = createResultField(resObj.id, 'Domicilio del inmueble', 'buildingAddress', resObj.licenseSpecialData.buildingAddress, 'text');
-            resultContent.appendChild(field);
+    field = createResultField(resObj.id, 'Folio y serie de factura', 'billInvoice', resObj.billInvoice, 'text');
 
-            field = createResultField(resObj.id, 'Clave catastral', 'catastralKey', resObj.catastralKey, 'text');
+    fieldGroup.appendChild(field);
 
-            resultContent.appendChild(field);
+    field = createResultField(resObj.id, 'Fecha de pago', 'paymentDate', resObj.paymentDate, 'date');
 
-            field = createResultField(resObj.id, 'Zona', 'zone', resObj.licenseZone, 'select');
+    fieldGroup.appendChild(field);
 
-            field.querySelector('select').innerHTML = `
-            <option value="">Seleccione zona ...</option>
-            <option value="19">Agricultura tecnificada</option>
-            <option value="20">Agroindustria</option>
-            <option value="21">Cuerpos de agua</option>
-            <option value="22">Conservación y restauración ambiental</option>
-            <option value="11">Corredor urbano mixto de baja densidad</option>
-            <option value="12">Corredor urbano mixto de media densidad</option>
-            <option value="1">Densidad muy baja (Unifamiliar)</option>
-            <option value="6">Densidad alta (Unifamiliar)</option>
-            <option value="7">Densidad alta (multifamiliar dúplex, tríplex y cuádruplex)</option>
-            <option value="2">Densidad baja (Unifamiliar)</option>
-            <option value="3">Densidad media baja (Unifamiliar)</option>
-            <option value="4">Densidad media (Unifamiliar)</option>
-            <option value="5">Densidad media alta (Unifamiliar)</option>
-            <option value="8">Densidad muy alta 1 (multifamiliar)</option>
-            <option value="9">Densidad muy alta 2</option>
-            <option value="16">Equipamiento Urbano</option>
-            <option value="13">Industria de bajo impacto</option>
-            <option value="15">Industria de gran impacto</option>
-            <option value="14">Industria de medio impacto</option>
-            <option value="17">Infraestructura urbana</option>
-            <option value="10">Mixto</option>
-            <option value="23">Parque Hídrico</option>
-            <option value="18">Reserva territorial futura</option>
-            `
+    resultContent.appendChild(fieldGroup);
+    //payment section end--------------------------------------------
 
-            field.querySelector('select').value = resObj.licenseZone;
+    //extras section start-------------------------------------------
+    fieldGroup = document.createElement('div');
+    fieldGroup.setAttribute('class', 'w-100 dis-flex flex-wrap flex-evenly dis-none');
+    fieldGroup.setAttribute('id', `result_${resObj.id}_group_6`);
 
-            resultContent.appendChild(field);
+    fieldGroupTittle = document.createElement('h3');
+    fieldGroupTittle.setAttribute('class', 'w-100 txt-center txt-medium color-primary txt-bold border-only-bottom border-white txt-uppercase margin-bottom-medium');
+    fieldGroupTittle.innerText = 'Información de formato';
 
-            field = createResultField(resObj.id, 'Superficie total', 'surface', resObj.surfaceTotal, 'number');
+    fieldGroup.appendChild(fieldGroupTittle);
 
-            resultContent.appendChild(field);
+    if (resObj.licenseType == 3 || resObj.licenseType == 4) {
+        field = generateTableForm(resObj);
+            fieldGroup.appendChild(field);
 
-            field = createResultField(resObj.id, 'Zonificación/División o subdivisión', 'zoneIMG', resObj.fullInvoice, 'file');
+        field = document.createElement('div');
+        field.setAttribute('class', 'field-span border-round preview-container w-100');
+        field.setAttribute('id', `tha-preview-${resObj.id}`);
+        field.appendChild(generateTableFrom(resObj.licenseSpecialData.actualSituation));
 
-            resultContent.appendChild(field);
+        fieldGroup.appendChild(field);
+    }
 
-            field = createResultField(resObj.id, 'Vigencia', 'validity', resObj.licenseValidity, 'select');
+    if (resObj.licenseType == 2) {
+        field = createResultField(resObj.id, 'Porcentaje de ocupación', 'occupationPercent', resObj.licenseSpecialData.occupationPercent, 'number');
+        fieldGroup.appendChild(field);
+    }
 
-            field.querySelector('select').innerHTML = `
-            <option value="">Selecciona ...</option>
-            <option value="1">6 Meses</option>
-            <option value="2">12 Meses</option>
-            `;
+    if (resObj.licenseType == 2 || resObj.licenseType == 6) {
+        field = createResultField(resObj.id, 'Porcentaje de uso', 'usePercent', resObj.licenseSpecialData.usePercent, 'number');
+        fieldGroup.appendChild(field);
 
-            field.querySelector('select').value = resObj.licenseValidity;
+        field = createResultField(resObj.id, 'Superficie minima por lote', 'surfacePerLote', resObj.licenseSpecialData.surfacePerLote, 'number');
+        fieldGroup.appendChild(field);
 
-            resultContent.appendChild(field);
+        field = createResultField(resObj.id, 'Altura maxima', 'maximumHeight', resObj.licenseSpecialData.maximumHeight, 'text');
+        fieldGroup.appendChild(field);
 
-            field = createResultField(resObj.id, 'Porcentaje de ocupación', 'occupationPercent', resObj.licenseSpecialData.occupationPercent, 'number');
-            resultContent.appendChild(field);
+        field = createResultField(resObj.id, 'Frente mínimo', 'minimalFront', resObj.licenseSpecialData.minimalFront, 'number');
+        fieldGroup.appendChild(field);
 
-            field = createResultField(resObj.id, 'Superficie minima por lote', 'surfacePerLote', resObj.licenseSpecialData.surfacePerLote, 'number');
-            resultContent.appendChild(field);
+        field = createResultField(resObj.id, 'Restricción frontal', 'frontalRestriction', resObj.licenseSpecialData.frontalRestriction, 'number');
+        fieldGroup.appendChild(field);
 
-            field = createResultField(resObj.id, 'Altura maxima', 'maximumHeight', resObj.licenseSpecialData.maximumHeight, 'text');
-            resultContent.appendChild(field);
+        field = createResultField(resObj.id, 'Estacionamientos', 'parkingLots', resObj.licenseSpecialData.parkingLots, 'text');
+        fieldGroup.appendChild(field);
+    }
 
-            field = createResultField(resObj.id, 'Frente mínimo', 'minimalFront', resObj.licenseSpecialData.minimalFront, 'number');
-            resultContent.appendChild(field);
+//saltos de pagina y distribuciones
+    if (resObj.licenseType >= 3 && resObj.licenseType <= 8) {
+        fieldGroupTittle = document.createElement('h3');
+        fieldGroupTittle.setAttribute('class', 'w-100 txt-center txt-regular color-primary txt-bold txt-uppercase margin-vertical-small');
+        fieldGroupTittle.innerText = 'Distribución y saltos de pagina';
 
-            field = createResultField(resObj.id, 'Restricción frontal', 'frontalRestriction', resObj.licenseSpecialData.frontalRestriction, 'number');
-            resultContent.appendChild(field);
+        fieldGroup.appendChild(fieldGroupTittle);
+    }
 
-            field = createResultField(resObj.id, 'Estacionamientos', 'parkingLots', resObj.licenseSpecialData.parkingLots, 'text');
-            resultContent.appendChild(field);
+    if (resObj.licenseType == 3 || resObj.licenseType == 4) {
+        field = createResultField(resObj.id, 'Distribución', 'layout', resObj.licenseSpecialData.layout, 'select');
 
-            field = createResultField(resObj.id, 'Porcentaje de uso', 'usePercent', resObj.licenseSpecialData.usePercent, 'number');
-            resultContent.appendChild(field);
-            break;
-        case 3:
-            field = createResultField(resObj.id, 'Representante', 'legalRepresentative', resObj.legalRepresentative, 'text');
-
-            resultContent.appendChild(field);
-
-            field = createResultField(resObj.id, 'Caracter del representante', 'representativeAs', resObj.licenseSpecialData.representativeAs, 'text');
-
-            resultContent.appendChild(field);
-
-            field = createResultField(resObj.id, 'Domicilio del solicitante', 'requestorAddress', resObj.licenseSpecialData.requestorAddress, 'text');
-            resultContent.appendChild(field);
-
-            field = createResultField(resObj.id, 'Domicilio del inmueble', 'buildingAddress', resObj.licenseSpecialData.buildingAddress, 'text');
-            resultContent.appendChild(field);
-
-            field = createResultField(resObj.id, 'Clave catastral', 'catastralKey', resObj.catastralKey, 'text');
-
-            resultContent.appendChild(field);
-
-            field = createResultField(resObj.id, 'Superficie total', 'surface', resObj.surfaceTotal, 'number');
-
-            resultContent.appendChild(field);
-
-            field = createResultField(resObj.id, 'Zonificación/División o subdivisión', 'zoneIMG', resObj.fullInvoice, 'file');
-
-            resultContent.appendChild(field);
-
-            field = generateTableForm(resObj);
-            resultContent.appendChild(field);
-
-            field = document.createElement('div');
-            field.setAttribute('class', 'field-span border-round preview-container');
-            field.setAttribute('id', `tha-preview-${resObj.id}`);
-            field.appendChild(generateTableFrom(resObj.licenseSpecialData.actualSituation));
-
-            resultContent.appendChild(field);
-
-            field = createResultTextArea(resObj.id, 'Resumen de autorización', 'authorizationResume', resObj.licenseSpecialData.authorizationResume);
-            field.style.marginBottom = '10px';
-            resultContent.appendChild(field);
-
-            field = createResultTextArea(resObj.id, 'Condicionantes', 'conditions', resObj.licenseSpecialData.conditions ? resObj.licenseSpecialData.conditions.join('\n') : '');
-            resultContent.appendChild(field);
-
-            //distribución
-            field = createResultField(resObj.id, 'Distribución', 'layout', resObj.licenseSpecialData.layout, 'select');
-
-            field.querySelector('select').innerHTML = `
+        field.querySelector('select').innerHTML = `
             <option value="">Selecciona ...</option>
             <option value="A">Condicionantes y Restricciones antes de firmas</option>
             <option value="B">Condicionantes y Restricciones después de firmas</option>
             `;
-            field.querySelector('select').value = resObj.licenseSpecialData.layout;
+        field.querySelector('select').value = resObj.licenseSpecialData.layout;
 
-            resultContent.appendChild(field);
+        fieldGroup.appendChild(field);
 
-            //saltos de pagina
+        field = createResultField(resObj.id, 'Salto de pagina antes de Condicionantes', 'pageBreak_1', resObj.licenseSpecialData.pageBreak_1, 'select');
 
-            field = createResultField(resObj.id, 'Salto de pagina antes de Condicionantes', 'pageBreak_1', resObj.licenseSpecialData.pageBreak_1, 'select');
+        field.querySelector('select').innerHTML = `
+            <option value="">Selecciona ...</option>
+            <option value="0">No</option>
+            <option value="1">Si</option>
+            `;
+        field.querySelector('select').value = resObj.licenseSpecialData.pageBreak_1;
+
+        fieldGroup.appendChild(field);
+
+        field = createResultField(resObj.id, 'Salto de pagina antes de Restricciones y Sanciones', 'pageBreak_2', resObj.licenseSpecialData.pageBreak_2, 'select');
+
+        field.querySelector('select').innerHTML = `
+            <option value="">Selecciona ...</option>
+            <option value="0">No</option>
+            <option value="1">Si</option>
+            `;
+        field.querySelector('select').value = resObj.licenseSpecialData.pageBreak_2;
+
+        fieldGroup.appendChild(field);
+
+        field = createResultField(resObj.id, 'Salto de pagina antes de Subdivisión que se Autoriza', 'pageBreak_3', resObj.licenseSpecialData.pageBreak_3, 'select');
+
+        field.querySelector('select').innerHTML = `
+            <option value="">Selecciona ...</option>
+            <option value="0">No</option>
+            <option value="1">Si</option>
+            `;
+        field.querySelector('select').value = resObj.licenseSpecialData.pageBreak_3;
+
+        fieldGroup.appendChild(field);
+    }
+
+    if (resObj.licenseType == 5) {
+        field = createResultField(resObj.id, 'Salto antes de cuadro de superficies por uso de suelo', 'pageBreak_1', resObj.licenseSpecialData.pageBreak_1, 'select');
+
+        field.querySelector('select').innerHTML = `
+            <option value="">Selecciona ...</option>
+            <option value="0">No</option>
+            <option value="1">Si</option>
+            `;
+        field.querySelector('select').value = resObj.licenseSpecialData.pageBreak_1;
+
+        fieldGroup.appendChild(field);
+
+        field = createResultField(resObj.id, 'Salto antes de resumen de manzanas', 'pageBreak_2', resObj.licenseSpecialData.pageBreak_2, 'select');
+
+        field.querySelector('select').innerHTML = `
+            <option value="">Selecciona ...</option>
+            <option value="0">No</option>
+            <option value="1">Si</option>
+            `;
+        field.querySelector('select').value = resObj.licenseSpecialData.pageBreak_2;
+
+        fieldGroup.appendChild(field);
+
+        field = createResultField(resObj.id, 'Salto antes de resumen de por uso', 'pageBreak_3', resObj.licenseSpecialData.pageBreak_3, 'select');
+
+        field.querySelector('select').innerHTML = `
+            <option value="">Selecciona ...</option>
+            <option value="0">No</option>
+            <option value="1">Si</option>
+            `;
+        field.querySelector('select').value = resObj.licenseSpecialData.pageBreak_3;
+
+        fieldGroup.appendChild(field);
+
+        field = createResultField(resObj.id, 'Salto antes de obligaciones', 'pageBreak_4', resObj.licenseSpecialData.pageBreak_4, 'select');
+
+        field.querySelector('select').innerHTML = `
+            <option value="">Selecciona ...</option>
+            <option value="0">No</option>
+            <option value="1">Si</option>
+            `;
+        field.querySelector('select').value = resObj.licenseSpecialData.pageBreak_4;
+
+        fieldGroup.appendChild(field);
+
+        field = createResultField(resObj.id, 'Salto antes de condicionantes', 'pageBreak_5', resObj.licenseSpecialData.pageBreak_5, 'select');
+
+        field.querySelector('select').innerHTML = `
+            <option value="">Selecciona ...</option>
+            <option value="0">No</option>
+            <option value="1">Si</option>
+            `;
+        field.querySelector('select').value = resObj.licenseSpecialData.pageBreak_5;
+
+        fieldGroup.appendChild(field);
+
+        field = createResultField(resObj.id, 'Salto antes de prohibiciones y sanciones', 'pageBreak_6', resObj.licenseSpecialData.pageBreak_6, 'select');
+
+        field.querySelector('select').innerHTML = `
+            <option value="">Selecciona ...</option>
+            <option value="0">No</option>
+            <option value="1">Si</option>
+            `;
+        field.querySelector('select').value = resObj.licenseSpecialData.pageBreak_6;
+
+        fieldGroup.appendChild(field);
+
+        field = createResultField(resObj.id, 'Salto antes de medidas preventivas', 'pageBreak_7', resObj.licenseSpecialData.pageBreak_7, 'select');
+
+        field.querySelector('select').innerHTML = `
+            <option value="">Selecciona ...</option>
+            <option value="0">No</option>
+            <option value="1">Si</option>
+            `;
+        field.querySelector('select').value = resObj.licenseSpecialData.pageBreak_7;
+
+        fieldGroup.appendChild(field);
+
+        field = createResultField(resObj.id, 'Salto antes de resuelve', 'pageBreak_8', resObj.licenseSpecialData.pageBreak_8, 'select');
+
+        field.querySelector('select').innerHTML = `
+            <option value="">Selecciona ...</option>
+            <option value="0">No</option>
+            <option value="1">Si</option>
+            `;
+        field.querySelector('select').value = resObj.licenseSpecialData.pageBreak_8;
+
+        fieldGroup.appendChild(field);
+
+        field = createResultField(resObj.id, 'Salto antes de fundamento jurídico', 'pageBreak_9', resObj.licenseSpecialData.pageBreak_9, 'select');
+
+        field.querySelector('select').innerHTML = `
+            <option value="">Selecciona ...</option>
+            <option value="0">No</option>
+            <option value="1">Si</option>
+            `;
+        field.querySelector('select').value = resObj.licenseSpecialData.pageBreak_9;
+
+        fieldGroup.appendChild(field);
+    }
+
+    if (resObj.licenseType == 6) {
+        field = createResultField(resObj.id, 'Salto antes de cuadro de superficies por uso de suelo', 'pageBreak_1', resObj.licenseSpecialData.pageBreak_1, 'select');
+
+        field.querySelector('select').innerHTML = `
+            <option value="">Selecciona ...</option>
+            <option value="0">No</option>
+            <option value="1">Si</option>
+            `;
+        field.querySelector('select').value = resObj.licenseSpecialData.pageBreak_1;
+
+        fieldGroup.appendChild(field);
+
+        field = createResultField(resObj.id, 'Salto antes de cuadro de distribución por manzanas', 'pageBreak_2', resObj.licenseSpecialData.pageBreak_2, 'select');
+
+        field.querySelector('select').innerHTML = `
+            <option value="">Selecciona ...</option>
+            <option value="0">No</option>
+            <option value="1">Si</option>
+            `;
+        field.querySelector('select').value = resObj.licenseSpecialData.pageBreak_2;
+
+        fieldGroup.appendChild(field);
+
+        field = createResultField(resObj.id, 'Salto antes de donaciones', 'pageBreak_3', resObj.licenseSpecialData.pageBreak_3, 'select');
+
+        field.querySelector('select').innerHTML = `
+            <option value="">Selecciona ...</option>
+            <option value="0">No</option>
+            <option value="1">Si</option>
+            `;
+        field.querySelector('select').value = resObj.licenseSpecialData.pageBreak_3;
+
+            fieldGroup.appendChild(field);
+
+        field = createResultField(resObj.id, 'Salto antes de obligaciones', 'pageBreak_4', resObj.licenseSpecialData.pageBreak_4, 'select');
+
+        field.querySelector('select').innerHTML = `
+            <option value="">Selecciona ...</option>
+            <option value="0">No</option>
+            <option value="1">Si</option>
+            `;
+        field.querySelector('select').value = resObj.licenseSpecialData.pageBreak_4;
+
+        fieldGroup.appendChild(field);
+
+        field = createResultField(resObj.id, 'Salto antes de condicionantes', 'pageBreak_5', resObj.licenseSpecialData.pageBreak_5, 'select');
+
+        field.querySelector('select').innerHTML = `
+            <option value="">Selecciona ...</option>
+            <option value="0">No</option>
+            <option value="1">Si</option>
+            `;
+        field.querySelector('select').value = resObj.licenseSpecialData.pageBreak_5;
+
+        fieldGroup.appendChild(field);
+
+        field = createResultField(resObj.id, 'Salto antes de prohibiciones y sanciones', 'pageBreak_6', resObj.licenseSpecialData.pageBreak_6, 'select');
+
+        field.querySelector('select').innerHTML = `
+            <option value="">Selecciona ...</option>
+            <option value="0">No</option>
+            <option value="1">Si</option>
+            `;
+        field.querySelector('select').value = resObj.licenseSpecialData.pageBreak_6;
+
+        fieldGroup.appendChild(field);
+
+        field = createResultField(resObj.id, 'Salto antes de medidas preventivas', 'pageBreak_7', resObj.licenseSpecialData.pageBreak_7, 'select');
+
+        field.querySelector('select').innerHTML = `
+            <option value="">Selecciona ...</option>
+            <option value="0">No</option>
+            <option value="1">Si</option>
+            `;
+        field.querySelector('select').value = resObj.licenseSpecialData.pageBreak_7;
+
+        fieldGroup.appendChild(field);
+
+        field = createResultField(resObj.id, 'Salto antes de resuelve', 'pageBreak_8', resObj.licenseSpecialData.pageBreak_8, 'select');
+
+        field.querySelector('select').innerHTML = `
+            <option value="">Selecciona ...</option>
+            <option value="0">No</option>
+            <option value="1">Si</option>
+            `;
+        field.querySelector('select').value = resObj.licenseSpecialData.pageBreak_8;
+
+        fieldGroup.appendChild(field);
+
+        field = createResultField(resObj.id, 'Salto antes de fundamento jurídico', 'pageBreak_9', resObj.licenseSpecialData.pageBreak_9, 'select');
+
+        field.querySelector('select').innerHTML = `
+            <option value="">Selecciona ...</option>
+            <option value="0">No</option>
+            <option value="1">Si</option>
+            `;
+        field.querySelector('select').value = resObj.licenseSpecialData.pageBreak_9;
+
+        fieldGroup.appendChild(field);
+    }
+
+    if (resObj.licenseType == 7) {
+        field = createResultField(resObj.id, 'Salto antes de datos generales', 'pageBreak_1', resObj.licenseSpecialData.pageBreak_1, 'select');
 
             field.querySelector('select').innerHTML = `
             <option value="">Selecciona ...</option>
@@ -1459,543 +1868,7 @@ function createUrbanPrintResult(resObj, target) {
             `;
             field.querySelector('select').value = resObj.licenseSpecialData.pageBreak_1;
 
-            resultContent.appendChild(field);
-
-            field = createResultField(resObj.id, 'Salto de pagina antes de Restricciones y Sanciones', 'pageBreak_2', resObj.licenseSpecialData.pageBreak_2, 'select');
-
-            field.querySelector('select').innerHTML = `
-            <option value="">Selecciona ...</option>
-            <option value="0">No</option>
-            <option value="1">Si</option>
-            `;
-            field.querySelector('select').value = resObj.licenseSpecialData.pageBreak_2;
-
-            resultContent.appendChild(field);
-
-            field = createResultField(resObj.id, 'Salto de pagina antes de Subdivisión que se Autoriza', 'pageBreak_3', resObj.licenseSpecialData.pageBreak_3, 'select');
-
-            field.querySelector('select').innerHTML = `
-            <option value="">Selecciona ...</option>
-            <option value="0">No</option>
-            <option value="1">Si</option>
-            `;
-            field.querySelector('select').value = resObj.licenseSpecialData.pageBreak_3;
-
-            resultContent.appendChild(field);
-            break;
-        case 4:
-            field = createResultField(resObj.id, 'Representante', 'legalRepresentative', resObj.legalRepresentative, 'text');
-
-            resultContent.appendChild(field);
-
-            field = createResultField(resObj.id, 'Caracter del representante', 'representativeAs', resObj.licenseSpecialData.representativeAs, 'text');
-
-            resultContent.appendChild(field);
-
-            field = createResultField(resObj.id, 'Domicilio del solicitante', 'requestorAddress', resObj.licenseSpecialData.requestorAddress, 'text');
-            resultContent.appendChild(field);
-
-            field = createResultField(resObj.id, 'Domicilio del inmueble', 'buildingAddress', resObj.licenseSpecialData.buildingAddress, 'text');
-            resultContent.appendChild(field);
-
-            field = createResultField(resObj.id, 'Clave catastral', 'catastralKey', resObj.catastralKey, 'text');
-
-            resultContent.appendChild(field);
-
-            field = createResultField(resObj.id, 'Superficie total', 'surface', resObj.surfaceTotal, 'number');
-
-            resultContent.appendChild(field);
-
-            field = createResultField(resObj.id, 'Zonificación/División o subdivisión', 'zoneIMG', resObj.fullInvoice, 'file');
-
-            resultContent.appendChild(field);
-
-            field = generateTableForm(resObj);
-            resultContent.appendChild(field);
-
-            field = document.createElement('div');
-            field.setAttribute('class', 'field-span border-round preview-container');
-            field.setAttribute('id', `tha-preview-${resObj.id}`);
-            field.appendChild(generateTableFrom(resObj.licenseSpecialData.actualSituation));
-
-            resultContent.appendChild(field);
-
-            field = createResultTextArea(resObj.id, 'Resumen de autorización', 'authorizationResume', resObj.licenseSpecialData.authorizationResume);
-            field.style.marginBottom = '10px';
-            resultContent.appendChild(field);
-
-            field = createResultTextArea(resObj.id, 'Condicionantes', 'conditions', resObj.licenseSpecialData.conditions ? resObj.licenseSpecialData.conditions.join('\n') : '');
-            resultContent.appendChild(field);
-
-            //distribución
-            field = createResultField(resObj.id, 'Distribución', 'layout', resObj.licenseSpecialData.layout, 'select');
-
-            field.querySelector('select').innerHTML = `
-            <option value="">Selecciona ...</option>
-            <option value="A">Condicionantes y Restricciones antes de firmas</option>
-            <option value="B">Condicionantes y Restricciones después de firmas</option>
-            `;
-            field.querySelector('select').value = resObj.licenseSpecialData.layout;
-
-            resultContent.appendChild(field);
-
-            //saltos de pagina
-
-            field = createResultField(resObj.id, 'Salto de pagina antes de Condicionantes', 'pageBreak_1', resObj.licenseSpecialData.pageBreak_1, 'select');
-
-            field.querySelector('select').innerHTML = `
-            <option value="">Selecciona ...</option>
-            <option value="0">No</option>
-            <option value="1">Si</option>
-            `;
-            field.querySelector('select').value = resObj.licenseSpecialData.pageBreak_1;
-
-            resultContent.appendChild(field);
-
-            field = createResultField(resObj.id, 'Salto de pagina antes de Restricciones y Sanciones', 'pageBreak_2', resObj.licenseSpecialData.pageBreak_2, 'select');
-
-            field.querySelector('select').innerHTML = `
-            <option value="">Selecciona ...</option>
-            <option value="0">No</option>
-            <option value="1">Si</option>
-            `;
-            field.querySelector('select').value = resObj.licenseSpecialData.pageBreak_2;
-
-            resultContent.appendChild(field);
-
-            field = createResultField(resObj.id, 'Salto de pagina antes de Subdivisión que se Autoriza', 'pageBreak_3', resObj.licenseSpecialData.pageBreak_3, 'select');
-
-            field.querySelector('select').innerHTML = `
-            <option value="">Selecciona ...</option>
-            <option value="0">No</option>
-            <option value="1">Si</option>
-            `;
-            field.querySelector('select').value = resObj.licenseSpecialData.pageBreak_3;
-
-            resultContent.appendChild(field);
-            break;
-        case 5:
-            field = createResultField(resObj.id, 'Representante', 'legalRepresentative', resObj.legalRepresentative, 'text');
-
-            resultContent.appendChild(field);
-
-            field = createResultField(resObj.id, 'Caracter del representante', 'representativeAs', resObj.licenseSpecialData.representativeAs, 'text');
-
-            resultContent.appendChild(field);
-            
-            field = createResultField(resObj.id, 'Domicilio del solicitante', 'requestorAddress', resObj.licenseSpecialData.requestorAddress, 'text');
-            resultContent.appendChild(field);
-
-            field = createResultField(resObj.id, 'Domicilio del inmueble', 'buildingAddress', resObj.licenseSpecialData.buildingAddress, 'text');
-            resultContent.appendChild(field);
-
-            field = createResultField(resObj.id, 'Clave catastral', 'catastralKey', resObj.catastralKey, 'text');
-
-            resultContent.appendChild(field);
-
-            field = createResultField(resObj.id, 'Superficie total', 'surface', resObj.surfaceTotal, 'number');
-
-            resultContent.appendChild(field);
-
-            field = createResultField(resObj.id, 'Tablas/Cuadros resumen', 'resumeTables', resObj.fullInvoice, 'file');
-            resultContent.appendChild(field);
-
-            field = createResultField(resObj.id, 'Vigencia', 'validity', resObj.licenseValidity, 'select');
-
-            field.querySelector('select').innerHTML = `
-            <option value="">Selecciona ...</option>
-            <option value="1">6 Meses</option>
-            <option value="2">12 Meses</option>
-            `;
-
-            field.querySelector('select').value = resObj.licenseValidity;
-
-            resultContent.appendChild(field);
-
-            field = createResultTextArea(resObj.id, 'Documentos', 'documents', resObj.licenseSpecialData.documents.join('\n'));
-            resultContent.appendChild(field);
-
-            field = createResultTextArea(resObj.id, 'Ubicación', 'location', resObj.licenseSpecialData.location.join('\n'));
-            resultContent.appendChild(field);
-
-            field = createResultTextArea(resObj.id, 'Integridad', 'integrity', resObj.licenseSpecialData.integrity);
-            resultContent.appendChild(field);
-
-            field = createResultTextArea(resObj.id, 'Condicionantes', 'conditions', resObj.licenseSpecialData.conditions.join('\n'));
-            resultContent.appendChild(field);
-
-            field = createResultTextArea(resObj.id, 'Uso autorizado', 'detailedUse', resObj.licenseSpecialData.detailedUse);
-            resultContent.appendChild(field);
-
-            //saltos de pagina
-            field = createResultField(resObj.id, 'Salto antes de cuadro de superficies por uso de suelo', 'pageBreak_1', resObj.licenseSpecialData.pageBreak_1, 'select');
-
-            field.querySelector('select').innerHTML = `
-            <option value="">Selecciona ...</option>
-            <option value="0">No</option>
-            <option value="1">Si</option>
-            `;
-            field.querySelector('select').value = resObj.licenseSpecialData.pageBreak_1;
-
-            resultContent.appendChild(field);
-
-            field = createResultField(resObj.id, 'Salto antes de resumen de manzanas', 'pageBreak_2', resObj.licenseSpecialData.pageBreak_2, 'select');
-
-            field.querySelector('select').innerHTML = `
-            <option value="">Selecciona ...</option>
-            <option value="0">No</option>
-            <option value="1">Si</option>
-            `;
-            field.querySelector('select').value = resObj.licenseSpecialData.pageBreak_2;
-
-            resultContent.appendChild(field);
-
-            field = createResultField(resObj.id, 'Salto antes de resumen de por uso', 'pageBreak_3', resObj.licenseSpecialData.pageBreak_3, 'select');
-
-            field.querySelector('select').innerHTML = `
-            <option value="">Selecciona ...</option>
-            <option value="0">No</option>
-            <option value="1">Si</option>
-            `;
-            field.querySelector('select').value = resObj.licenseSpecialData.pageBreak_3;
-
-            resultContent.appendChild(field);
-
-            field = createResultField(resObj.id, 'Salto antes de obligaciones', 'pageBreak_4', resObj.licenseSpecialData.pageBreak_4, 'select');
-
-            field.querySelector('select').innerHTML = `
-            <option value="">Selecciona ...</option>
-            <option value="0">No</option>
-            <option value="1">Si</option>
-            `;
-            field.querySelector('select').value = resObj.licenseSpecialData.pageBreak_4;
-
-            resultContent.appendChild(field);
-
-            field = createResultField(resObj.id, 'Salto antes de condicionantes', 'pageBreak_5', resObj.licenseSpecialData.pageBreak_5, 'select');
-
-            field.querySelector('select').innerHTML = `
-            <option value="">Selecciona ...</option>
-            <option value="0">No</option>
-            <option value="1">Si</option>
-            `;
-            field.querySelector('select').value = resObj.licenseSpecialData.pageBreak_5;
-
-            resultContent.appendChild(field);
-
-            field = createResultField(resObj.id, 'Salto antes de prohibiciones y sanciones', 'pageBreak_6', resObj.licenseSpecialData.pageBreak_6, 'select');
-
-            field.querySelector('select').innerHTML = `
-            <option value="">Selecciona ...</option>
-            <option value="0">No</option>
-            <option value="1">Si</option>
-            `;
-            field.querySelector('select').value = resObj.licenseSpecialData.pageBreak_6;
-
-            resultContent.appendChild(field);
-
-            field = createResultField(resObj.id, 'Salto antes de medidas preventivas', 'pageBreak_7', resObj.licenseSpecialData.pageBreak_7, 'select');
-
-            field.querySelector('select').innerHTML = `
-            <option value="">Selecciona ...</option>
-            <option value="0">No</option>
-            <option value="1">Si</option>
-            `;
-            field.querySelector('select').value = resObj.licenseSpecialData.pageBreak_7;
-
-            resultContent.appendChild(field);
-
-            field = createResultField(resObj.id, 'Salto antes de resuelve', 'pageBreak_8', resObj.licenseSpecialData.pageBreak_8, 'select');
-
-            field.querySelector('select').innerHTML = `
-            <option value="">Selecciona ...</option>
-            <option value="0">No</option>
-            <option value="1">Si</option>
-            `;
-            field.querySelector('select').value = resObj.licenseSpecialData.pageBreak_8;
-
-            resultContent.appendChild(field);
-
-            field = createResultField(resObj.id, 'Salto antes de fundamento jurídico', 'pageBreak_9', resObj.licenseSpecialData.pageBreak_9, 'select');
-
-            field.querySelector('select').innerHTML = `
-            <option value="">Selecciona ...</option>
-            <option value="0">No</option>
-            <option value="1">Si</option>
-            `;
-            field.querySelector('select').value = resObj.licenseSpecialData.pageBreak_9;
-
-            resultContent.appendChild(field);
-            break;
-        case 6:
-            field = createResultField(resObj.id, 'Representante', 'legalRepresentative', resObj.legalRepresentative, 'text');
-
-            resultContent.appendChild(field);
-
-            field = createResultField(resObj.id, 'Caracter del representante', 'representativeAs', resObj.licenseSpecialData.representativeAs, 'text');
-
-            resultContent.appendChild(field);
-
-            field = createResultField(resObj.id, 'Domicilio del solicitante', 'requestorAddress', resObj.licenseSpecialData.requestorAddress, 'text');
-            resultContent.appendChild(field);
-
-            field = createResultField(resObj.id, 'Domicilio del inmueble', 'buildingAddress', resObj.licenseSpecialData.buildingAddress, 'text');
-            resultContent.appendChild(field);
-
-            field = createResultField(resObj.id, 'Clave catastral', 'catastralKey', resObj.catastralKey, 'text');
-
-            resultContent.appendChild(field);
-
-            field = createResultField(resObj.id, 'Superficie total', 'surface', resObj.surfaceTotal, 'number');
-
-            resultContent.appendChild(field);
-
-            field = createResultField(resObj.id, 'Tablas/Cuadros resumen', 'resumeTables', resObj.fullInvoice, 'file');
-            resultContent.appendChild(field);
-
-            field = createResultField(resObj.id, 'Vigencia', 'validity', resObj.licenseValidity, 'select');
-
-            field.querySelector('select').innerHTML = `
-            <option value="">Selecciona ...</option>
-            <option value="1">6 Meses</option>
-            <option value="2">12 Meses</option>
-            `;
-
-            field.querySelector('select').value = resObj.licenseValidity;
-
-            resultContent.appendChild(field);
-
-            field = createResultTextArea(resObj.id, 'Constancia de Uso de Suelo', 'urbanCUS', resObj.licenseSpecialData.urbanCUS);
-            resultContent.appendChild(field);
-
-            field = createResultTextArea(resObj.id, 'Licencia de Uso de Suelo', 'urbanLUS', resObj.licenseSpecialData.urbanLUS);
-            resultContent.appendChild(field);
-
-            field = createResultField(resObj.id, 'Zona', 'zone', resObj.licenseZone, 'select');
-
-            field.querySelector('select').innerHTML = `
-            <option value="">Seleccione zona ...</option>
-            <option value="19">Agricultura tecnificada</option>
-            <option value="20">Agroindustria</option>
-            <option value="21">Cuerpos de agua</option>
-            <option value="22">Conservación y restauración ambiental</option>
-            <option value="11">Corredor urbano mixto de baja densidad</option>
-            <option value="12">Corredor urbano mixto de media densidad</option>
-            <option value="1">Densidad muy baja (Unifamiliar)</option>
-            <option value="6">Densidad alta (Unifamiliar)</option>
-            <option value="7">Densidad alta (multifamiliar dúplex, tríplex y cuádruplex)</option>
-            <option value="2">Densidad baja (Unifamiliar)</option>
-            <option value="3">Densidad media baja (Unifamiliar)</option>
-            <option value="4">Densidad media (Unifamiliar)</option>
-            <option value="5">Densidad media alta (Unifamiliar)</option>
-            <option value="8">Densidad muy alta 1 (multifamiliar)</option>
-            <option value="9">Densidad muy alta 2</option>
-            <option value="16">Equipamiento Urbano</option>
-            <option value="13">Industria de bajo impacto</option>
-            <option value="15">Industria de gran impacto</option>
-            <option value="14">Industria de medio impacto</option>
-            <option value="17">Infraestructura urbana</option>
-            <option value="10">Mixto</option>
-            <option value="23">Parque Hídrico</option>
-            <option value="18">Reserva territorial futura</option>
-            `
-
-            field.querySelector('select').value = resObj.licenseZone;
-
-            resultContent.appendChild(field);
-
-            field = createResultField(resObj.id, 'Porcentaje de uso', 'usePercent', resObj.licenseSpecialData.usePercent, 'number');
-            resultContent.appendChild(field);
-
-            field = createResultField(resObj.id, 'Superficie minima por lote', 'surfacePerLote', resObj.licenseSpecialData.surfacePerLote, 'number');
-            resultContent.appendChild(field);
-
-            field = createResultField(resObj.id, 'Altura maxima', 'maximumHeight', resObj.licenseSpecialData.maximumHeight, 'text');
-            resultContent.appendChild(field);
-
-            field = createResultField(resObj.id, 'Frente mínimo', 'minimalFront', resObj.licenseSpecialData.minimalFront, 'number');
-            resultContent.appendChild(field);
-
-            field = createResultField(resObj.id, 'Restricción frontal', 'frontalRestriction', resObj.licenseSpecialData.frontalRestriction, 'number');
-            resultContent.appendChild(field);
-
-            field = createResultField(resObj.id, 'Estacionamientos', 'parkingLots', resObj.licenseSpecialData.parkingLots, 'text');
-            resultContent.appendChild(field);
-
-            field = createResultTextArea(resObj.id, 'Ubicación', 'location', resObj.licenseSpecialData.location.join('\n'));
-            resultContent.appendChild(field);
-
-            field = createResultTextArea(resObj.id, 'Documentos', 'documents', resObj.licenseSpecialData.documents.join('\n'));
-            resultContent.appendChild(field);
-
-            field = createResultTextArea(resObj.id, 'Condicionantes', 'conditions', resObj.licenseSpecialData.conditions.join('\n'));
-            resultContent.appendChild(field);
-
-            field = createResultField(resObj.id, 'Lotes Totales', 'habitacionalLotes', resObj.licenseSpecialData.habitacionalLotes, 'text');
-            resultContent.appendChild(field);
-
-            field = createResultField(resObj.id, 'Manzanas Totales', 'totalManzanas', resObj.licenseSpecialData.totalManzanas, 'text');
-            resultContent.appendChild(field);
-
-            field = createResultField(resObj.id, 'Superficie de donación', 'totalSurface', resObj.licenseSpecialData.totalSurface, 'number');
-            resultContent.appendChild(field);
-
-            //saltos de pagina
-            field = createResultField(resObj.id, 'Salto antes de cuadro de superficies por uso de suelo', 'pageBreak_1', resObj.licenseSpecialData.pageBreak_1, 'select');
-
-            field.querySelector('select').innerHTML = `
-            <option value="">Selecciona ...</option>
-            <option value="0">No</option>
-            <option value="1">Si</option>
-            `;
-            field.querySelector('select').value = resObj.licenseSpecialData.pageBreak_1;
-
-            resultContent.appendChild(field);
-
-            field = createResultField(resObj.id, 'Salto antes de cuadro de distribución por manzanas', 'pageBreak_2', resObj.licenseSpecialData.pageBreak_2, 'select');
-
-            field.querySelector('select').innerHTML = `
-            <option value="">Selecciona ...</option>
-            <option value="0">No</option>
-            <option value="1">Si</option>
-            `;
-            field.querySelector('select').value = resObj.licenseSpecialData.pageBreak_2;
-
-            resultContent.appendChild(field);
-
-            field = createResultField(resObj.id, 'Salto antes de donaciones', 'pageBreak_3', resObj.licenseSpecialData.pageBreak_3, 'select');
-
-            field.querySelector('select').innerHTML = `
-            <option value="">Selecciona ...</option>
-            <option value="0">No</option>
-            <option value="1">Si</option>
-            `;
-            field.querySelector('select').value = resObj.licenseSpecialData.pageBreak_3;
-
-            resultContent.appendChild(field);
-
-            field = createResultField(resObj.id, 'Salto antes de obligaciones', 'pageBreak_4', resObj.licenseSpecialData.pageBreak_4, 'select');
-
-            field.querySelector('select').innerHTML = `
-            <option value="">Selecciona ...</option>
-            <option value="0">No</option>
-            <option value="1">Si</option>
-            `;
-            field.querySelector('select').value = resObj.licenseSpecialData.pageBreak_4;
-
-            resultContent.appendChild(field);
-
-            field = createResultField(resObj.id, 'Salto antes de condicionantes', 'pageBreak_5', resObj.licenseSpecialData.pageBreak_5, 'select');
-
-            field.querySelector('select').innerHTML = `
-            <option value="">Selecciona ...</option>
-            <option value="0">No</option>
-            <option value="1">Si</option>
-            `;
-            field.querySelector('select').value = resObj.licenseSpecialData.pageBreak_5;
-
-            resultContent.appendChild(field);
-
-            field = createResultField(resObj.id, 'Salto antes de prohibiciones y sanciones', 'pageBreak_6', resObj.licenseSpecialData.pageBreak_6, 'select');
-
-            field.querySelector('select').innerHTML = `
-            <option value="">Selecciona ...</option>
-            <option value="0">No</option>
-            <option value="1">Si</option>
-            `;
-            field.querySelector('select').value = resObj.licenseSpecialData.pageBreak_6;
-
-            resultContent.appendChild(field);
-
-            field = createResultField(resObj.id, 'Salto antes de medidas preventivas', 'pageBreak_7', resObj.licenseSpecialData.pageBreak_7, 'select');
-
-            field.querySelector('select').innerHTML = `
-            <option value="">Selecciona ...</option>
-            <option value="0">No</option>
-            <option value="1">Si</option>
-            `;
-            field.querySelector('select').value = resObj.licenseSpecialData.pageBreak_7;
-
-            resultContent.appendChild(field);
-
-            field = createResultField(resObj.id, 'Salto antes de resuelve', 'pageBreak_8', resObj.licenseSpecialData.pageBreak_8, 'select');
-
-            field.querySelector('select').innerHTML = `
-            <option value="">Selecciona ...</option>
-            <option value="0">No</option>
-            <option value="1">Si</option>
-            `;
-            field.querySelector('select').value = resObj.licenseSpecialData.pageBreak_8;
-
-            resultContent.appendChild(field);
-
-            field = createResultField(resObj.id, 'Salto antes de fundamento jurídico', 'pageBreak_9', resObj.licenseSpecialData.pageBreak_9, 'select');
-
-            field.querySelector('select').innerHTML = `
-            <option value="">Selecciona ...</option>
-            <option value="0">No</option>
-            <option value="1">Si</option>
-            `;
-            field.querySelector('select').value = resObj.licenseSpecialData.pageBreak_9;
-
-            resultContent.appendChild(field);
-            break;
-        case 7:
-            field = createResultField(resObj.id, 'Representante', 'legalRepresentative', resObj.legalRepresentative, 'text');
-
-            resultContent.appendChild(field);
-
-            field = createResultField(resObj.id, 'Caracter del representante', 'representativeAs', resObj.licenseSpecialData.representativeAs, 'text');
-
-            resultContent.appendChild(field);
-
-            field = createResultField(resObj.id, 'Domicilio del solicitante', 'requestorAddress', resObj.licenseSpecialData.requestorAddress, 'text');
-            resultContent.appendChild(field);
-
-            field = createResultField(resObj.id, 'Domicilio del inmueble', 'buildingAddress', resObj.licenseSpecialData.buildingAddress, 'text');
-            resultContent.appendChild(field);
-
-            field = createResultField(resObj.id, 'Tablas/Cuadros resumen', 'resumeTables', resObj.fullInvoice, 'file');
-            resultContent.appendChild(field);
-
-            field = createResultField(resObj.id, 'Relotificación', 'totalRelotification', resObj.licenseSpecialData.totalRelotification, 'text');
-            resultContent.appendChild(field);
-
-            field = createResultTextArea(resObj.id, 'Relotificación para', 'lotes', resObj.licenseSpecialData.lotes.join('\n'));
-            resultContent.appendChild(field);
-
-            field = createResultTextArea(resObj.id, 'Documentos', 'documents', resObj.licenseSpecialData.documents.join('\n'));
-            resultContent.appendChild(field);
-
-            field = createResultTextArea(resObj.id, 'Ubicación', 'location', resObj.licenseSpecialData.location.join('\n'));
-            resultContent.appendChild(field);
-
-            field = createResultTextArea(resObj.id, 'Condicionantes', 'conditions', resObj.licenseSpecialData.conditions.join('\n'));
-            resultContent.appendChild(field);
-
-            field = createResultField(resObj.id, 'Folio previo', 'previousInvoice', resObj.licenseSpecialData.previousInvoice, 'text');
-            resultContent.appendChild(field);
-
-            field = createResultField(resObj.id, 'Fecha de folio previo', 'previousInvoiceDat', resObj.licenseSpecialData.previousInvoiceDate, 'date');
-            resultContent.appendChild(field);
-
-            field = createResultTextArea(resObj.id, 'Relotificación resultante', 'resultRelotification', resObj.licenseSpecialData.resultRelotification.join('\n'));
-            resultContent.appendChild(field);
-
-            field = createResultTextArea(resObj.id, 'Uso autorizado', 'detailedUse', resObj.licenseSpecialData.detailedUse);
-            resultContent.appendChild(field);
-
-            //saltos de pagina
-            field = createResultField(resObj.id, 'Salto antes de datos generales', 'pageBreak_1', resObj.licenseSpecialData.pageBreak_1, 'select');
-
-            field.querySelector('select').innerHTML = `
-            <option value="">Selecciona ...</option>
-            <option value="0">No</option>
-            <option value="1">Si</option>
-            `;
-            field.querySelector('select').value = resObj.licenseSpecialData.pageBreak_1;
-
-            resultContent.appendChild(field);
+            fieldGroup.appendChild(field);
 
             field = createResultField(resObj.id, 'Salto antes de resumen de relotificacion', 'pageBreak_2', resObj.licenseSpecialData.pageBreak_2, 'select');
 
@@ -2006,7 +1879,7 @@ function createUrbanPrintResult(resObj, target) {
             `;
             field.querySelector('select').value = resObj.licenseSpecialData.pageBreak_2;
 
-            resultContent.appendChild(field);
+            fieldGroup.appendChild(field);
 
             field = createResultField(resObj.id, 'Salto antes de obligaciones', 'pageBreak_3', resObj.licenseSpecialData.pageBreak_3, 'select');
 
@@ -2017,7 +1890,7 @@ function createUrbanPrintResult(resObj, target) {
             `;
             field.querySelector('select').value = resObj.licenseSpecialData.pageBreak_3;
 
-            resultContent.appendChild(field);
+            fieldGroup.appendChild(field);
 
             field = createResultField(resObj.id, 'Salto antes de condicionantes', 'pageBreak_4', resObj.licenseSpecialData.pageBreak_4, 'select');
 
@@ -2028,7 +1901,7 @@ function createUrbanPrintResult(resObj, target) {
             `;
             field.querySelector('select').value = resObj.licenseSpecialData.pageBreak_4;
 
-            resultContent.appendChild(field);
+            fieldGroup.appendChild(field);
 
             field = createResultField(resObj.id, 'Salto antes de prohibiciones y sanciones', 'pageBreak_5', resObj.licenseSpecialData.pageBreak_5, 'select');
 
@@ -2039,7 +1912,7 @@ function createUrbanPrintResult(resObj, target) {
             `;
             field.querySelector('select').value = resObj.licenseSpecialData.pageBreak_5;
 
-            resultContent.appendChild(field);
+            fieldGroup.appendChild(field);
 
             field = createResultField(resObj.id, 'Salto antes de medidas preventivas', 'pageBreak_6', resObj.licenseSpecialData.pageBreak_6, 'select');
 
@@ -2050,7 +1923,7 @@ function createUrbanPrintResult(resObj, target) {
             `;
             field.querySelector('select').value = resObj.licenseSpecialData.pageBreak_6;
 
-            resultContent.appendChild(field);
+            fieldGroup.appendChild(field);
 
             field = createResultField(resObj.id, 'Salto antes de resuelve', 'pageBreak_7', resObj.licenseSpecialData.pageBreak_7, 'select');
 
@@ -2061,7 +1934,7 @@ function createUrbanPrintResult(resObj, target) {
             `;
             field.querySelector('select').value = resObj.licenseSpecialData.pageBreak_7;
 
-            resultContent.appendChild(field);
+            fieldGroup.appendChild(field);
 
             field = createResultField(resObj.id, 'Salto antes de fundamento jurídico', 'pageBreak_8', resObj.licenseSpecialData.pageBreak_8, 'select');
 
@@ -2072,49 +1945,11 @@ function createUrbanPrintResult(resObj, target) {
             `;
             field.querySelector('select').value = resObj.licenseSpecialData.pageBreak_8;
 
-            resultContent.appendChild(field);
-            break;
-        case 8:
-            field = createResultField(resObj.id, 'Representante', 'legalRepresentative', resObj.legalRepresentative, 'text');
+            fieldGroup.appendChild(field);
+    }
 
-            resultContent.appendChild(field);
-
-            field = createResultField(resObj.id, 'Caracter del representante', 'representativeAs', resObj.licenseSpecialData.representativeAs, 'text');
-
-            resultContent.appendChild(field);
-
-            field = createResultField(resObj.id, 'Domicilio del solicitante', 'requestorAddress', resObj.licenseSpecialData.requestorAddress, 'text');
-            resultContent.appendChild(field);
-
-            field = createResultField(resObj.id, 'Domicilio del inmueble', 'buildingAddress', resObj.licenseSpecialData.buildingAddress, 'text');
-            resultContent.appendChild(field);
-
-            field = createResultField(resObj.id, 'Tablas/Cuadros resumen', 'resumeTables', resObj.fullInvoice, 'file');
-            resultContent.appendChild(field);
-
-            field = createResultField(resObj.id, 'Viviendas', 'households', resObj.licenseSpecialData.households, 'text');
-            resultContent.appendChild(field);
-
-            field = createResultTextArea(resObj.id, 'Documentos', 'documents', resObj.licenseSpecialData.documents.join('\n'));
-            resultContent.appendChild(field);
-
-            field = createResultTextArea(resObj.id, 'Lotes', 'lotes', resObj.licenseSpecialData.lotes.join('\n'));
-            resultContent.appendChild(field);
-
-            field = createResultTextArea(resObj.id, 'Manzanas', 'manzanas', resObj.licenseSpecialData.manzanas.join('\n'));
-            resultContent.appendChild(field);
-
-            field = createResultTextArea(resObj.id, 'Condicionantes', 'conditions', resObj.licenseSpecialData.conditions.join('\n'));
-            resultContent.appendChild(field);
-
-            field = createResultField(resObj.id, 'Superficie privativa', 'privateSurface', resObj.licenseSpecialData.privateSurface, 'number');
-            resultContent.appendChild(field);
-
-            field = createResultField(resObj.id, 'Superficie común', 'commonSurface', resObj.licenseSpecialData.commonSurface, 'number');
-            resultContent.appendChild(field);
-
-            //saltos de pagina
-            field = createResultField(resObj.id, 'Salto antes de resumen de areas', 'pageBreak_1', resObj.licenseSpecialData.pageBreak_1, 'select');
+    if (resObj.licenseType == 8) {
+        field = createResultField(resObj.id, 'Salto antes de resumen de areas', 'pageBreak_1', resObj.licenseSpecialData.pageBreak_1, 'select');
 
             field.querySelector('select').innerHTML = `
             <option value="">Selecciona ...</option>
@@ -2123,7 +1958,7 @@ function createUrbanPrintResult(resObj, target) {
             `;
             field.querySelector('select').value = resObj.licenseSpecialData.pageBreak_1;
 
-            resultContent.appendChild(field);
+            fieldGroup.appendChild(field);
 
             field = createResultField(resObj.id, 'Salto antes de resumen de lotes', 'pageBreak_2', resObj.licenseSpecialData.pageBreak_2, 'select');
 
@@ -2134,7 +1969,7 @@ function createUrbanPrintResult(resObj, target) {
             `;
             field.querySelector('select').value = resObj.licenseSpecialData.pageBreak_2;
 
-            resultContent.appendChild(field);
+            fieldGroup.appendChild(field);
 
             field = createResultField(resObj.id, 'Salto antes de resumen por lote', 'pageBreak_3', resObj.licenseSpecialData.pageBreak_3, 'select');
 
@@ -2145,7 +1980,7 @@ function createUrbanPrintResult(resObj, target) {
             `;
             field.querySelector('select').value = resObj.licenseSpecialData.pageBreak_3;
 
-            resultContent.appendChild(field);
+            fieldGroup.appendChild(field);
 
             field = createResultField(resObj.id, 'Salto antes de considerandos parte 2', 'pageBreak_4', resObj.licenseSpecialData.pageBreak_4, 'select');
 
@@ -2156,7 +1991,7 @@ function createUrbanPrintResult(resObj, target) {
             `;
             field.querySelector('select').value = resObj.licenseSpecialData.pageBreak_4;
 
-            resultContent.appendChild(field);
+            fieldGroup.appendChild(field);
 
             field = createResultField(resObj.id, 'Salto antes de prohibiciones y sanciones', 'pageBreak_5', resObj.licenseSpecialData.pageBreak_5, 'select');
 
@@ -2167,7 +2002,7 @@ function createUrbanPrintResult(resObj, target) {
             `;
             field.querySelector('select').value = resObj.licenseSpecialData.pageBreak_5;
 
-            resultContent.appendChild(field);
+            fieldGroup.appendChild(field);
 
             field = createResultField(resObj.id, 'Salto antes de obligaciones', 'pageBreak_6', resObj.licenseSpecialData.pageBreak_6, 'select');
 
@@ -2178,7 +2013,7 @@ function createUrbanPrintResult(resObj, target) {
             `;
             field.querySelector('select').value = resObj.licenseSpecialData.pageBreak_6;
 
-            resultContent.appendChild(field);
+            fieldGroup.appendChild(field);
 
             field = createResultField(resObj.id, 'Salto antes de condicionantes', 'pageBreak_7', resObj.licenseSpecialData.pageBreak_7, 'select');
 
@@ -2189,7 +2024,7 @@ function createUrbanPrintResult(resObj, target) {
             `;
             field.querySelector('select').value = resObj.licenseSpecialData.pageBreak_7;
 
-            resultContent.appendChild(field);
+            fieldGroup.appendChild(field);
 
             field = createResultField(resObj.id, 'Salto antes de medidas preventivas', 'pageBreak_8', resObj.licenseSpecialData.pageBreak_8, 'select');
 
@@ -2200,7 +2035,7 @@ function createUrbanPrintResult(resObj, target) {
             `;
             field.querySelector('select').value = resObj.licenseSpecialData.pageBreak_8;
 
-            resultContent.appendChild(field);
+            fieldGroup.appendChild(field);
 
             field = createResultField(resObj.id, 'Salto antes de resuelve', 'pageBreak_9', resObj.licenseSpecialData.pageBreak_9, 'select');
 
@@ -2211,7 +2046,7 @@ function createUrbanPrintResult(resObj, target) {
             `;
             field.querySelector('select').value = resObj.licenseSpecialData.pageBreak_9;
 
-            resultContent.appendChild(field);
+            fieldGroup.appendChild(field);
 
             field = createResultField(resObj.id, 'Salto antes de fundamento jurídico', 'pageBreak_10', resObj.licenseSpecialData.pageBreak_10, 'select');
 
@@ -2222,18 +2057,11 @@ function createUrbanPrintResult(resObj, target) {
             `;
             field.querySelector('select').value = resObj.licenseSpecialData.pageBreak_10;
 
-            resultContent.appendChild(field);
-            break;
+            fieldGroup.appendChild(field);
     }
 
-    if(resObj.licenseType <= 4) {
-        field = document.createElement('img');
-        field.setAttribute('alt', 'Zonificación');
-        field.setAttribute('src', `/urbanStorage/${resObj.fullInvoice}/zone.png?${new Date().getTime()}`);
-        field.setAttribute('class', 'urban-print-result-img ');
-
-        resultContent.appendChild(field);
-    }
+    resultContent.appendChild(fieldGroup);
+    //extras section end--------------------------------------------
 
     let newResult = createResult(
         resObj.id,

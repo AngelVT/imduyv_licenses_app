@@ -320,4 +320,3 @@ async function deleteResult(id) {
 }
 
 //-------------------------------------------------------------------
-//getLicensesUrban();
