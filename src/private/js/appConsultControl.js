@@ -1217,7 +1217,7 @@ function createUrbanPrintResult(resObj, target) {
 
     // * Nav button
     navButton = document.createElement('li');
-    navButton.setAttribute('class', 'bi-plus-circle btn');
+    navButton.setAttribute('class', `bi-plus-circle btn ${resObj.licenseType == 1 || resObj.licenseType == 2 || resObj.licenseType == 6 ? 'dis-none' : ''}`);
     navButton.setAttribute('onclick', `resultNavigation(this, ${resObj.id}, 6, 6)`);
     navButtons.appendChild(navButton);
 
@@ -1423,6 +1423,31 @@ function createUrbanPrintResult(resObj, target) {
         field = createResultField(resObj.id, 'Superficie de donación', 'totalSurface', resObj.licenseSpecialData.totalSurface, 'number');
         fieldGroup.appendChild(field);
     }
+    
+    if (resObj.licenseType == 2) {
+        field = createResultField(resObj.id, 'Porcentaje de ocupación', 'occupationPercent', resObj.licenseSpecialData.occupationPercent, 'number');
+        fieldGroup.appendChild(field);
+    }
+
+    if (resObj.licenseType == 2 || resObj.licenseType == 6) {
+        field = createResultField(resObj.id, 'Porcentaje de uso', 'usePercent', resObj.licenseSpecialData.usePercent, 'number');
+        fieldGroup.appendChild(field);
+
+        field = createResultField(resObj.id, 'Superficie minima por lote', 'surfacePerLote', resObj.licenseSpecialData.surfacePerLote, 'number');
+        fieldGroup.appendChild(field);
+
+        field = createResultField(resObj.id, 'Altura maxima', 'maximumHeight', resObj.licenseSpecialData.maximumHeight, 'text');
+        fieldGroup.appendChild(field);
+
+        field = createResultField(resObj.id, 'Frente mínimo', 'minimalFront', resObj.licenseSpecialData.minimalFront, 'number');
+        fieldGroup.appendChild(field);
+
+        field = createResultField(resObj.id, 'Restricción frontal', 'frontalRestriction', resObj.licenseSpecialData.frontalRestriction, 'number');
+        fieldGroup.appendChild(field);
+
+        field = createResultField(resObj.id, 'Estacionamientos', 'parkingLots', resObj.licenseSpecialData.parkingLots, 'text');
+        fieldGroup.appendChild(field);
+    }
 
     if (resObj.licenseType == 7) {
         field = createResultTextArea(resObj.id, 'Relotificación para', 'lotes', resObj.licenseSpecialData.lotes.join('\n'));
@@ -1573,31 +1598,6 @@ function createUrbanPrintResult(resObj, target) {
         field.setAttribute('id', `tha-preview-${resObj.id}`);
         field.appendChild(generateTableFrom(resObj.licenseSpecialData.actualSituation));
 
-        fieldGroup.appendChild(field);
-    }
-
-    if (resObj.licenseType == 2) {
-        field = createResultField(resObj.id, 'Porcentaje de ocupación', 'occupationPercent', resObj.licenseSpecialData.occupationPercent, 'number');
-        fieldGroup.appendChild(field);
-    }
-
-    if (resObj.licenseType == 2 || resObj.licenseType == 6) {
-        field = createResultField(resObj.id, 'Porcentaje de uso', 'usePercent', resObj.licenseSpecialData.usePercent, 'number');
-        fieldGroup.appendChild(field);
-
-        field = createResultField(resObj.id, 'Superficie minima por lote', 'surfacePerLote', resObj.licenseSpecialData.surfacePerLote, 'number');
-        fieldGroup.appendChild(field);
-
-        field = createResultField(resObj.id, 'Altura maxima', 'maximumHeight', resObj.licenseSpecialData.maximumHeight, 'text');
-        fieldGroup.appendChild(field);
-
-        field = createResultField(resObj.id, 'Frente mínimo', 'minimalFront', resObj.licenseSpecialData.minimalFront, 'number');
-        fieldGroup.appendChild(field);
-
-        field = createResultField(resObj.id, 'Restricción frontal', 'frontalRestriction', resObj.licenseSpecialData.frontalRestriction, 'number');
-        fieldGroup.appendChild(field);
-
-        field = createResultField(resObj.id, 'Estacionamientos', 'parkingLots', resObj.licenseSpecialData.parkingLots, 'text');
         fieldGroup.appendChild(field);
     }
 
