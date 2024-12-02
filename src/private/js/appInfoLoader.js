@@ -9,10 +9,24 @@ async function getUserData() {
         if (res.ok) {
             labelUser.innerHTML = ` ${response.name}`;
             const mm = document.getElementById('mm');
+            const administration = document.getElementById('admin_link');
+            const sysadmin = document.getElementById('sys_link');
 
             if(mm){
                 if (response.group == 'all') {
-                    mm.style.display = 'inline-block'
+                    mm.classList.remove('dis-none');
+                }
+            }
+
+            if (administration) {
+                if (response.role == 'admin' || response.role == 'system') {
+                    administration.classList.remove('dis-none');
+                }
+            }
+
+            if (sysadmin) {
+                if (response.role == 'system') {
+                    sysadmin.classList.remove('dis-none');
                 }
             }
             return;

@@ -63,7 +63,7 @@ export async function requestUserCreation(requestBody) {
         }
     }
 
-    if (validateName(name)) {
+    if (!validateName(name)) {
         return {
             status: 400,
             data: {
@@ -133,7 +133,7 @@ export async function requestUserModification(id, requestBody) {
         }
     }
 
-    if (validateName(name)) {
+    if (!validateName(name)) {
         return {
             status: 400,
             data: {
@@ -179,7 +179,7 @@ export async function requestUserModification(id, requestBody) {
         }
     }
 
-    let ENCRYPTED_PASSWORD = '';
+    let ENCRYPTED_PASSWORD = undefined;
 
     if (password) {
         ENCRYPTED_PASSWORD = await encryptPassword(password);
@@ -261,7 +261,8 @@ export async function requestUserInfo(id) {
         status: 200,
         data: {
             name: USER.name,
-            group: USER.group.group
+            group: USER.group.group,
+            role: USER.role.role
         }
     };
 }

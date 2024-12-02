@@ -31,4 +31,8 @@ router.get('/urbanConsult', [authenticator.verifyToken , authenticator.isUrbanUs
 
 router.get('/urbanPrint', [authenticator.verifyToken , authenticator.isUrbanUser] , appControl.goUrbanPrint);
 
+router.get('/sysadmin', [authenticator.verifyToken , authenticator.isSystemAdmin] , appControl.goSystemMenu);
+
+router.get('/userRegister', [authenticator.verifyToken , authenticator.isSystemAdmin] , appControl.goUserRegister);
+
 export default router;

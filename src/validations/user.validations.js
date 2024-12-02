@@ -54,7 +54,8 @@ export async function belongToGroup(id, requiredGroup) {
 }
 
 export function validateName(name) {
-    if (name.split(' ').length <= 2) {
+    let nameLength = name.split(' ').length;
+    if (nameLength <= 2) {
         return false;
     }
 

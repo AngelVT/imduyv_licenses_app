@@ -343,12 +343,22 @@ export function generateDSMCTable(situationArray, subject) {
 export function generateLegalRepresentativeField(representative, representativeAs) {
     if (representative) {
         return [
-            {text: `${representativeAs}: `, style: 'labelT', border: borderless},
+            {text: `${capitalize(representativeAs)}: `, style: 'labelT', border: borderless},
             field(representative, borderless, null,'center', 7)
         ];
     }
 
     return [{text: '', border: borderless},{text: '', border: borderless}];
+}
+
+function capitalize(str) {
+    return str
+    .split(' ')
+    .map(word => {
+        return word.charAt(0).toLocaleUpperCase() +
+            word.slice(1).toLocaleLowerCase();
+    })
+    .join(' ');
 }
 
 function generateSubTable(tableObj) {

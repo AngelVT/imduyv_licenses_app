@@ -1158,6 +1158,10 @@ body {
     transition: .2s ease-in-out;
 }
 
+.user-info>div a {
+    color: inherit;
+}
+
 .user-info:hover>div {
     width: fit-content;
     height: fit-content;

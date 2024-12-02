@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/public/libs/bootstrap-icons-1.11.3/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="/public/css/tlib-0.1.0.css">
+    <title>Registrar usuario</title>
+    <link rel="shortcut icon" href="/public/img/sys_icon.svg" type="image/x-icon">
+    <script src="/private/js/appLogout.js" defer></script>
+    <script src="/private/js/appInfoLoader.js" defer></script>
+</head>
+<body>
+    <main class="page-full menu bg-blur dis-flex flex-center">
+        <a href="/app/sysadmin" class="back-arrow bi-arrow-left-circle-fill"></a>
+        <span class="bi-buildings-fill user-info">
+            <div class="border-round color-white">
+                <span id="user_name" class="bi-person-circle padding-horizontal-small"> Usuario</span>
+                <a id="admin_link" href="/app/administration" class="dis-none"><span class="bi-bank btn"> Administración</span></a>
+                <span id="logout" class="bi-door-open btn"> Cerrar sesión</span>
+            </div>
+        </span>
+        <form class="w-50 dis-flex flex-between flex-wrap color-primary">
+
+            <section class="step-box w-100 dis-flex flex-between flex-wrap">
+                <label class="txt-uppercase w-100 margin-vertical-small">Nombre:
+                    <input class="w-100 input input-interface input-round" type="text" name="name" required>
+                </label>
+    
+                <label class="txt-uppercase w-45 margin-vertical-small">Contraseña:
+                    <input class="w-100 input input-interface input-round" type="password" name="password" required>
+                </label>
+    
+                <label class="txt-uppercase w-45 margin-vertical-small">Confirmar contraseña:
+                    <input class="w-100 input input-interface input-round" type="password">
+                </label>
+    
+                <div class="w-45 dis-flex flex-column margin-vertical-small">
+                    <span class="w-100 txt-uppercase txt-center">Grupo:</span>
+                    
+                    <label class="margin-vertical-small"> 
+                        <input type="radio" name="group" value="1" required> Todos
+                    </label>
+    
+                    <label class="margin-vertical-small">
+                        <input type="radio" name="group" value="2"> Uso de suelo 
+                    </label>
+    
+                    <label class="margin-vertical-small">
+                        <input type="radio" name="group" value="3"> Acciones urbanas 
+                    </label>
+                </div>
+    
+                <div class="w-45 dis-flex flex-column margin-vertical-small">
+                    <span class="w-100 txt-uppercase txt-center">Rol:</span>
+    
+                    <label class="margin-vertical-small">
+                        <input type="radio" name="role" value="1" required> System
+                    </label>
+    
+                    <label class="margin-vertical-small">
+                        <input type="radio" name="role" value="2"> Administrador
+                    </label>
+    
+                    <label class="margin-vertical-small">
+                        <input type="radio" name="role" value="3"> Moderador
+                    </label>
+    
+                    <label class="margin-vertical-small">
+                        <input type="radio" name="role" value="4"> Usuario
+                    </label>
+                </div>
+            </section>
+
+            <button class="w-45 h-20 btn btn-primary-bg txt-medium margin-vertical-small" type="submit">Registrar</button>
+            <button class="w-45 h-20 btn btn-secondary txt-medium margin-vertical-small" type="reset">Limpiar</button>
+        </form>
+    </main>
+</body>
+</html>

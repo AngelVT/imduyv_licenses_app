@@ -118,6 +118,24 @@ export const goMainMenu = (req, res) => {
     }
 };
 
+export const goSystemMenu = (req, res) => {
+    try {
+        res.sendFile(path.join(__dirname, 'private', 'sys_menu.html'));
+    } catch (error) {
+        logger.logRequestError('Error loading page due to server side error', error);
+        res.status(500).json({msg: "Error loading resource"});
+    }
+};
+
+export const goUserRegister = (req, res) => {
+    try {
+        res.sendFile(path.join(__dirname, 'private', 'user_reg.html'));
+    } catch (error) {
+        logger.logRequestError('Error loading page due to server side error', error);
+        res.status(500).json({msg: "Error loading resource"});
+    }
+};
+
 export const getZoneInfo = async (req, res) => {
     try {
         const georeference = req.params.coordinates;
