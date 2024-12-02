@@ -1,6 +1,6 @@
 import * as userRepo from "../repositories/users.repository.js";
 import { encryptPassword } from '../libs/passwordCrypt.js';
-import { validateUserPermissions, validateUserGroup, validateUserRole } from "../validations/user.validations.js";
+import { validateUserPermissions, validateUserGroup, validateUserRole, validateName } from "../validations/user.validations.js";
 
 export async function requestAllUsers() {
     const USERS = await userRepo.findAllUsers();
@@ -60,6 +60,16 @@ export async function requestUserCreation(requestBody) {
                 msg: "Required information for user creation was not provided."
             },
             log: "Request failed due to required information for user creation was not provided."
+        }
+    }
+
+    if (validateName(name)) {
+        return {
+            status: 400,
+            data: {
+                msg: "Invalid name provide a name with at least name first and last name"
+            },
+            log: "Request failed due to invalid name provided name must include name first name last name and middle name"
         }
     }
 
@@ -123,6 +133,16 @@ export async function requestUserModification(id, requestBody) {
         }
     }
 
+    if (validateName(name)) {
+        return {
+            status: 400,
+            data: {
+                msg: "Invalid name provide a name with at least name first and last name"
+            },
+            log: "Request failed due to invalid name provided name must include name first name last name and middle name"
+        }
+    }
+
     if (role && group) {
         if (!await validateUserPermissions(role, group)) {
             return {
@@ -148,7 +168,7 @@ export async function requestUserModification(id, requestBody) {
     }
 
     if (group) {
-        if (!await validateUserRole(role)) {
+        if (!await validateUserGroup(role)) {
             return {
                 status: 400,
                 data: {

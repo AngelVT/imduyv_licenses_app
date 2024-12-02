@@ -52,3 +52,11 @@ export async function belongToGroup(id, requiredGroup) {
 
     return false;
 }
+
+export function validateName(name) {
+    if (name.split(' ').length <= 2) {
+        return false;
+    }
+
+    return true
+}
