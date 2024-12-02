@@ -31,7 +31,7 @@ if (!APP_PORT ||
     SECRET -> ${SECRET ? 'Defined' : 'Not defined'}
     SECRET_DOC -> ${SECRET_DOC ? 'Defined' : 'Not defined'}`
     );
-    process.exit();
+    process.exit(1);
 }
 
 let privateKey, certificate;

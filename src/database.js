@@ -28,7 +28,7 @@ if (!DB_PORT ||
     DB_PASSWORD -> ${DB_PASSWORD ? 'Defined' : 'Not defined'}
     DB_TIMEZONE -> ${DB_TIMEZONE ? 'Defined' : 'Not defined'}`
     );
-    process.exit(0);
+    process.exit(1);
 }
 
 export const pool =  new Sequelize(DB_DATABASE, DB_USER, DB_PASSWORD, {
