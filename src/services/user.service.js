@@ -79,7 +79,7 @@ export async function requestUserCreation(requestBody) {
 
 // TODO this block in the future should also add an email to the object provided to the function
     const NEW_USER = await userRepo.saveNewUSER({
-        name: name,
+        name: capitalizeName(name),
         username: USERNAME,
         password: ENCRYPTED_PASSWORD,
         roleId: role,
@@ -261,4 +261,11 @@ async function generateUsername(name, n) {
     }
 
     return generateUsername(name, n + 1);
+}
+
+function capitalizeName(name) {
+    return name
+        .split(' ')
+        .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+        .join(' ');
 }
