@@ -166,7 +166,7 @@ export async function requestUserModification(id, requestBody) {
     }
 
     const newData = {
-        name: name,
+        name: capitalizeName(name),
         password: ENCRYPTED_PASSWORD,
         roleId: role,
         groupId: group
