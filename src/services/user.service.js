@@ -166,7 +166,7 @@ export async function requestUserModification(id, requestBody) {
     }
 
     const newData = {
-        name: capitalizeName(name),
+        name: name ? capitalizeName(name) : undefined,
         password: ENCRYPTED_PASSWORD,
         roleId: role,
         groupId: group
@@ -266,6 +266,6 @@ async function generateUsername(name, n) {
 function capitalizeName(name) {
     return name
         .split(' ')
-        .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+        .map(word => word.charAt(0).toLocaleUpperCase() + word.slice(1).toLocaleLowerCase())
         .join(' ');
 }
