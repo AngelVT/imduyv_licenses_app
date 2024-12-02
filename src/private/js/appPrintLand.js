@@ -18,9 +18,9 @@ formSearchByInvoicePrint.addEventListener('submit',
 
 async function getLicensePrint(type, invoice, year) {
     await fetch(`/api/landuse/${type}/${invoice}/${year}`, {
-        method: 'GET',
-        credentials: 'include'
-    })
+            method: 'GET',
+            credentials: 'include'
+        })
         .then(async res => {
             if (res.ok) {
                 let content = res.headers.get('Content-Type');
@@ -38,7 +38,7 @@ async function getLicensePrint(type, invoice, year) {
 
                 response.data.forEach(element => {
                     resultPrint.innerHTML = '';
-                    createLandPrintResult(element, resultPrint);
+                    createLandResult(element, resultPrint, true, true);
                     PDF.setAttribute('src', `/api/landuse/PDF/${type}/${invoice}/${year}?${new Date().getTime()}`)
                 });
 
@@ -55,123 +55,6 @@ async function getLicensePrint(type, invoice, year) {
             alert('An error occurred:\n' + error);
             console.error('Error getting data: ', error)
         });
-}
-
-function fillDataPrint(element) {
-    for (const key in element) {
-
-        if (typeof element[key] === 'object') {
-            for (const subKey in element[key]) {
-
-                if (document.querySelector(`#f-${subKey}`)) {
-                    document.querySelector(`#f-${subKey}`).innerText = element[key][subKey];
-                }
-            }
-        } else {
-            if (key == 'fullInvoice') {
-                element[key] = element[key].replaceAll('_', '/');
-            }
-
-            if (key.match('Date')) {
-                let date = new Date(element[key]);
-                element[key] = `${date.getDate() + 1}/${(date.getMonth() + 1) < 10 ? '0'+(date.getMonth() + 1): (date.getMonth() + 1)}/${date.getFullYear()}`;
-            }
-
-            if (document.querySelector(`#f-${key}`)) {
-
-                if (document.querySelector(`#f-${key}`).tagName == 'IMG') {
-                    document.querySelector(`#f-${key}`).setAttribute('src', `/landUseStorage/${element[key]}`);
-                } else {
-                    document.querySelector(`#f-${key}`).innerText = element[key];
-                }
-            }
-
-            if (document.querySelector(`.cf-${key}`)) {
-                document.querySelectorAll(`.cf-${key}`).forEach(
-                    item => {
-                        if (item.tagName == "IMG") {
-                            item.setAttribute('src', `/landUseStorage/${element[key]}`);
-                        } else {
-                            item.innerText = element[key];
-                        }
-                    }
-                );
-            }
-        }
-    }
-}
-
-function changeFormatLand(formatNo) {
-    let totalPages = document.querySelector('#total-pages');
-
-    if (formatNo == 1) {
-        document.querySelector('#f-licenseType').textContent = "Constancia de uso de suelo";
-        document.querySelectorAll('.formL').forEach(
-            item => {
-                item.classList.add('hidden');
-            }
-        );
-
-        document.querySelectorAll('.formDP').forEach(
-            item => {
-                item.classList.add('hidden');
-            }
-        );
-
-        document.querySelectorAll('.formC').forEach(
-            item => {
-                item.classList.remove('hidden');
-            }
-        );
-        totalPages.innerText = 1;
-        return;
-    }
-
-    if (formatNo >= 2 && formatNo <= 6) {
-        document.querySelector('#f-licenseType').textContent = "Licencia de uso de suelo";
-        document.querySelectorAll('.formC').forEach(
-            item => {
-                item.classList.add('hidden');
-            }
-        );
-
-        document.querySelectorAll('.formDP').forEach(
-            item => {
-                item.classList.add('hidden');
-            }
-        );
-
-        document.querySelectorAll('.formL').forEach(
-            item => {
-                item.classList.remove('hidden');
-            }
-        );
-        totalPages.innerText = 2;
-        return;
-    }
-
-    if (formatNo == 7) {
-        document.querySelector('#f-licenseType').textContent = "Derecho de preferencia";
-        document.querySelectorAll('.formC').forEach(
-            item => {
-                item.classList.add('hidden');
-            }
-        );
-
-        document.querySelectorAll('.formL').forEach(
-            item => {
-                item.classList.add('hidden');
-            }
-        );
-
-        document.querySelectorAll('.formDP').forEach(
-            item => {
-                item.classList.remove('hidden');
-            }
-        );
-        totalPages.innerText = 2;
-        return;
-    }
 }
 
 async function updateResultField(form, id) {

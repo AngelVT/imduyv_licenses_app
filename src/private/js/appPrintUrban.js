@@ -38,7 +38,7 @@ async function getLicensePrint(type, invoice, year) {
 
                 response.data.forEach(element => {
                     resultPrint.innerHTML = '';
-                    createUrbanPrintResult(element, resultPrint);
+                    createUrbanResult(element, resultPrint, true);
                     PDF.setAttribute('src', `/api/urban/PDF/${type}/${invoice}/${year}?${new Date().getTime()}`)
                 });
 
@@ -183,43 +183,5 @@ async function updateResultTables(form, id) {
         .catch(error => {
             alert('An error ocurred:\n' + error);
             console.error('Error updating data: ', error);
-        });
-}
-
-async function deleteResult(id) {
-    let registro = document.querySelector(`#result_invoice_${id}`).innerText;
-    let mensaje = `
-    ¿Seguro que quieres eliminar el registro ${registro}?\n
-    El esta acción no se puede deshacer.`
-
-    if (!confirm(mensaje)) {
-        return;
-    }
-
-    await fetch(`/api/urban/${id}`, {
-            method: 'DELETE',
-            credentials: 'include',
-        })
-        .then(res => {
-            if(res.ok){
-                let content = res.headers.get('Content-Type');
-                if (content.includes('text/html')) {
-                    location.href = res.url;
-                    return;
-                }
-                
-                document.querySelector(`#result_${id}`).remove();
-                return;
-            }
-
-            if (!res.ok) {
-                let response = res.json();
-                alert(response.msg);
-                return;
-            }
-        })
-        .catch(error => {
-            alert('An error ocurred:\n' + error);
-            console.error('Error deleting registry: ', error)
         });
 }
