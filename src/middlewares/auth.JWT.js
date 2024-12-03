@@ -29,11 +29,27 @@ export const verifyToken = async (req, res, next) => {
         req.userID = USER.id;
         req.name = USER.name;
         req.username = USER.username;
+        req.isPasswordResetRequired = USER.requiredPasswordReset;
         
         next();
     } catch (error) {
         logger.logConsoleError('Error during token verification', error);
         logger.logAccessError('Error during token verification', error);
+        res.status(500).json({msg: "Access denied, error during authentication process"});
+    }
+}
+
+export const requiresPasswordUpdate = async (req, res, next) => {
+    try {
+        if (req.isPasswordResetRequired) {
+            res.redirect('/app/passwordReset');
+            return;
+        }
+        
+        next();
+    } catch (error) {
+        logger.logConsoleError('Error during password change required verification', error);
+        logger.logAccessError('Error during password change required verification', error);
         res.status(500).json({msg: "Access denied, error during authentication process"});
     }
 }

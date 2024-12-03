@@ -6,16 +6,16 @@ const router = Router();
 
 router.get('/info', authenticator.verifyToken , userControl.getUserInfo);
 
-router.get('/', [authenticator.verifyToken , authenticator.isModerator] ,userControl.getUsers);
+router.get('/', [authenticator.verifyToken, authenticator.requiresPasswordUpdate , authenticator.isModerator] ,userControl.getUsers);
 
-router.get('/:userID', [authenticator.verifyToken , authenticator.isModerator] ,userControl.getUser);
+router.get('/:userID', [authenticator.verifyToken, authenticator.requiresPasswordUpdate , authenticator.isModerator] ,userControl.getUser);
 
-router.post('/' , [authenticator.verifyToken , authenticator.isSystemAdmin] ,userControl.createUser);
+router.post('/' , [authenticator.verifyToken, authenticator.requiresPasswordUpdate , authenticator.isSystemAdmin] ,userControl.createUser);
 
-router.patch('/:userID', [authenticator.verifyToken , authenticator.isSystemAdmin] ,userControl.updateUser);
+router.patch('/:userID', [authenticator.verifyToken, authenticator.requiresPasswordUpdate , authenticator.isSystemAdmin] ,userControl.updateUser);
 
-router.delete('/:userID', [authenticator.verifyToken , authenticator.isSystemAdmin] ,userControl.deleteUser);
+router.delete('/:userID', [authenticator.verifyToken, authenticator.requiresPasswordUpdate , authenticator.isSystemAdmin] ,userControl.deleteUser);
 
-router.get('/QR/:QR', [authenticator.verifyToken , authenticator.isSystemAdmin] ,userControl.getUserQR);
+router.get('/QR/:QR', [authenticator.verifyToken, authenticator.requiresPasswordUpdate , authenticator.isSystemAdmin] ,userControl.getUserQR);
 
 export default router;

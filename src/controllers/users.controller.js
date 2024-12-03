@@ -14,8 +14,8 @@ export const getUsers = async (req, res) => {
         Requestor Username -> ${req.username}
         Get request -> ${response.log}`);
     } catch (error) {
-        logger.logConsoleError('User all records delete request failed due to server side error', error);
-        logger.logRequestError('User all records delete request failed due to server side error', error);
+        logger.logConsoleError('User all records request failed due to server side error', error);
+        logger.logRequestError('User all records request failed due to server side error', error);
         res.status(500).json({msg: "Internal server error"});
     }
 }

@@ -23,7 +23,7 @@ form.addEventListener(
 
             if(!res.ok){
                 const response = await res.json();
-                alert(`${response.msgType} \n ${response.msg}`);
+                alert(`Access denied\n${response.msg}`);
                 document.querySelector('#in_pass').value = '';
                 return;
             }

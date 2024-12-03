@@ -1,8 +1,10 @@
 import { User, Group, Role } from "../models/Users.models.js";
 
+const USER_ATTRIBUTES = ['id', 'name', 'username', 'requiredPasswordReset', 'roleId', 'groupId', 'createdAt'];
+
 export async function findAllUsers() {
     return await User.findAll({
-        attributes: ['id', 'name', 'username', 'roleId', 'groupId', 'createdAt'],
+        attributes: USER_ATTRIBUTES,
         include:[
             {
                 model: Role,
@@ -18,7 +20,7 @@ export async function findAllUsers() {
 
 export async function findUserByID(id) {
     return await User.findByPk(id, {
-        attributes: ['id', 'name', 'username', 'roleId', 'groupId', 'createdAt'],
+        attributes: USER_ATTRIBUTES,
         include:[
             {
                 model: Role,
@@ -34,13 +36,17 @@ export async function findUserByID(id) {
 
 export async function findUserByUsername(username) {
     return await User.findOne({
-        where: {username: username}
+        where: {username: username},
+        include: {
+            model: Group,
+            attributes: ['group']
+        }
     });
 }
 
 export async function findUserByIdUsername(id, username) {
     return await User.findOne({
-        where: { id: id, username: username }
+        where: { id: id, username: username },
     });
 }
 

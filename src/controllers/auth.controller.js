@@ -1,90 +1,49 @@
-import jwt from 'jsonwebtoken';
-import config from "../config.js";
-import { User, Group } from '../models/Users.models.js';
-import * as passCrypt from '../libs/passwordCrypt.js';
-
+import { requestPasswordReset, requestSignIn } from '../services/auth.service.js';
 import * as logger from '../libs/loggerFunctions.js';
+import config from '../config.js';
 
 export const signIn = async (req, res) => {
     try {
-        const { username, password} = req.body;
+        const response = await requestSignIn(req.body);
 
-        if (!username || !password) {
-            logger.logAccessWarning(`Access attempt with a no account details`, `User provided -> ${!username ? 'No' : username}
-        Password Provided -> ${!password ? 'No' : 'Yes'}`);
-            res.status(400).json({
-                msgType: "Error",
-                msg: "Required information was not provided"
-            });
-            return;
-        }
-        
-        const user = await User.findOne({
-            where: { username },
-            attributes: ['id','username','password'],
-            include: {
-                model: Group,
-                attributes:['group']
-            }
-        });
-
-        if(user == null) {
-            logger.logAccessWarning(`Access attempt with a not existent account`, `User provided -> "${username}"`);
-            res.status(401).json({
-                msgType: "Access denied",
-            msg: "Incorrect username or password"
-            });
-            return;
-        }
-
-        if (await passCrypt.comparePassword(password, user.password)) {
-            let redirection;
-            switch (user.group.group) {
-                case 'all':
-                    redirection = '/app/mainMenu'
-                    break;
-                case 'land_use':
-                    redirection = '/app/landMenu'
-                    break;
-            
-                case 'urban':
-                    redirection = '/app/urbanMenu'
-                    break;
-                    
-                default:
-                    redirection = '/app/login'
-                    break;
-            }
-
-            const token = jwt.sign({userID: user.id, username: user.username}, process.env.SECRET , {
-                expiresIn: config.TOKENS_EXP
-            });
-            logger.logAccessInfo(`Access successful`,
-                `Account ID -> ${user.id}
-        Account -> ${user.username}`);
-        
-            res.cookie("access_token", token, {httpOnly: true,
+        if (response.data.token && response.data.redirection) {
+            res.cookie("access_token", response.data.token, {httpOnly: true,
                 secure: true,
                 signed: true,
                 sameSite: 'strict',
-                maxAge: config.TOKENS_EXP 
-            }).status(200).redirect(redirection);
-            return;
+                maxAge: config.TOKENS_EXP
+            }).status(response.status).redirect(response.data.redirection);
+        } else {
+            res.status(response.status).json(response.data);
         }
 
-        logger.logAccessWarning(`Access denied due to unable to authenticate account`,
-                `Account ID -> ${user.id}
-        Account -> ${user.username}`);
-        
-        res.status(401).json({
-            msgType: "Access denied",
-            msg: "Incorrect username or password"
-        });
-        return;
+        logger.logAccessInfo('sign in completed', 
+            `Requestor ID -> ${req.userID}
+            Requestor Name -> ${req.name}
+            Requestor Username -> ${req.username}
+            Get request -> ${response.log}`);
     } catch (error) {
-        logger.logAccessError(`Unexpected access error`,
-            error);
-        res.status(500).json({msg: "Error on server"});
+        logger.logConsoleError('Sign in request failed due to server side error', error);
+        logger.logRequestError('Sign in request failed due to server side error', error);
+        res.status(500).json({msg: "Internal server error"});
+    }
+}
+
+export const passwordReset = async (req, res) => {
+    try {
+        const response = await requestPasswordReset(req);
+
+        res.status(response.status).json(response.data);
+
+        logger.logAccessInfo('sign in completed', 
+            `Requestor ID -> ${req.userID}
+            Requestor Name -> ${req.name}
+            Requestor Username -> ${req.username}
+            Get request -> ${response.log}`);
+    } catch (error) {
+        logger.logConsoleError('Sign in request failed due to server side error', error);
+        logger.logRequestError('Sign in request failed due to server side error', error);
+        res.status(500).json({msg: "Internal server error"});
     }
 }
 

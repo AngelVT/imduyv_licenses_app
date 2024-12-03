@@ -37,6 +37,15 @@ export const goLogIn = (req, res) => {
     }
 };
 
+export const goPasswordReset = (req, res) => {
+    try {
+        res.sendFile(path.join(__dirname, 'private', 'password_reset.html'));
+    } catch (error) {
+        logger.logRequestError('Error loading page due to server side error', error);
+        res.status(500).json({msg: "Error loading resource"});
+    }
+};
+
 export const goLandMenu = (req, res) => {
     try {
         res.sendFile(path.join(__dirname, 'private', 'landuse_menu.html'));

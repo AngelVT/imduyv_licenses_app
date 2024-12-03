@@ -6,22 +6,22 @@ import { up } from "../multerUp.js";
 
 const router = Router();
 
-router.get('/', [authenticator.verifyToken , authenticator.isUrbanUser] , urbanControl.getLicenses);
+router.get('/', [authenticator.verifyToken, authenticator.requiresPasswordUpdate , authenticator.isUrbanUser] , urbanControl.getLicenses);
 
-router.get('/:licenciaID', [authenticator.verifyToken , authenticator.isUrbanUser] , urbanControl.getLicense);
+router.get('/:licenciaID', [authenticator.verifyToken, authenticator.requiresPasswordUpdate , authenticator.isUrbanUser] , urbanControl.getLicense);
 
-router.get('/:getByParameter/value/:value', [authenticator.verifyToken , authenticator.isUrbanUser] , urbanControl.getLicenseBy);
+router.get('/:getByParameter/value/:value', [authenticator.verifyToken, authenticator.requiresPasswordUpdate , authenticator.isUrbanUser] , urbanControl.getLicenseBy);
 
-router.get('/:type/:invoice/:year', [authenticator.verifyToken , authenticator.isUrbanUser] , urbanControl.getLicenseByInvoice);
+router.get('/:type/:invoice/:year', [authenticator.verifyToken, authenticator.requiresPasswordUpdate , authenticator.isUrbanUser] , urbanControl.getLicenseByInvoice);
 
-router.get('/:type/:year', [authenticator.verifyToken , authenticator.isUrbanUser] , urbanControl.getLicenseByType);
+router.get('/:type/:year', [authenticator.verifyToken, authenticator.requiresPasswordUpdate , authenticator.isUrbanUser] , urbanControl.getLicenseByType);
 
-router.post('/', [authenticator.verifyToken , authenticator.isUrbanUser , authenticator.isModerator, up.fields([{ name: 'zoneIMG', maxCount: 1 }, { name: 'resumeTables', maxCount: 30 }])] , urbanControl.createLicense);
+router.post('/', [authenticator.verifyToken, authenticator.requiresPasswordUpdate , authenticator.isUrbanUser , authenticator.isModerator, up.fields([{ name: 'zoneIMG', maxCount: 1 }, { name: 'resumeTables', maxCount: 30 }])] , urbanControl.createLicense);
 
-router.patch('/:licenciaID', [authenticator.verifyToken , authenticator.isUrbanUser , authenticator.isModerator, up.fields([{ name: 'zoneIMG', maxCount: 1 }, { name: 'resumeTables', maxCount: 30 }])], urbanControl.updateLicense);
+router.patch('/:licenciaID', [authenticator.verifyToken, authenticator.requiresPasswordUpdate , authenticator.isUrbanUser , authenticator.isModerator, up.fields([{ name: 'zoneIMG', maxCount: 1 }, { name: 'resumeTables', maxCount: 30 }])], urbanControl.updateLicense);
 
-router.delete('/:licenciaID', [authenticator.verifyToken , authenticator.isUrbanUser , authenticator.isAdmin] , urbanControl.deleteLicense);
+router.delete('/:licenciaID', [authenticator.verifyToken, authenticator.requiresPasswordUpdate , authenticator.isUrbanUser , authenticator.isAdmin] , urbanControl.deleteLicense);
 
-router.get('/PDF/:type/:invoice/:year', [authenticator.verifyToken , authenticator.isUrbanUser] , urbanControl.getLicensePDF);
+router.get('/PDF/:type/:invoice/:year', [authenticator.verifyToken, authenticator.requiresPasswordUpdate , authenticator.isUrbanUser] , urbanControl.getLicensePDF);
 
 export default router;
