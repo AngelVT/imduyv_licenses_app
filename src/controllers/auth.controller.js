@@ -48,11 +48,10 @@ export const passwordReset = async (req, res) => {
 }
 
 export const logOut = (req, res) => {
-    res.cookie("access_token", {"id": "none"}, {httpOnly: true,
+    res.clearCookie("access_token", {httpOnly: true,
         secure: true,
         signed: true,
-        sameSite: 'strict',
-        maxAge: 1
-    }).status(500).redirect('/app/login');
+        sameSite: 'strict'
+    }).status(302).redirect('/app/login');
     return;
 }
