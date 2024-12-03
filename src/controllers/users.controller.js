@@ -1,6 +1,6 @@
 import * as logger from "../libs/loggerFunctions.js";
 import * as userService from '../services/user.service.js';
-
+import { printerPDF } from "../libs/pdfUtil.js";
 
 export const getUsers = async (req, res) => {
     try {
@@ -88,6 +88,35 @@ export const deleteUser = async (req, res) => {
     } catch (error) {
         logger.logConsoleError('User record delete request failed due to server side error', error);
         logger.logRequestError('User record delete request failed due to server side error', error);
+        res.status(500).json({msg: "Internal server error"});
+    }
+}
+
+export const getUserQR = async (req, res) => {
+    try {
+        const response = await userService.requestUserQR(req.params.QR);
+
+        if (response.data.def) {
+            const pdfDoc = printerPDF.createPdfKitDocument(response.data.def);
+
+            res.setHeader('Content-Type', 'application/pdf');
+            res.setHeader('Content-Disposition', `attachment; filename="${response.data.user}.pdf"`);
+        
+            pdfDoc.info.Title = 'User QR';
+            pdfDoc.pipe(res);
+            pdfDoc.end();
+        } else {
+            res.status(response.status).json(response.data);
+        }
+
+        logger.logRequestInfo('User QR request completed', 
+        `Requestor ID -> ${req.userID}
+        Requestor Name -> ${req.name}
+        Requestor Username -> ${req.username}
+        QR request -> ${response.log}`);
+    } catch (error) {
+        logger.logConsoleError('User QR request failed due to server side error', error);
+        logger.logRequestError('User QR request failed due to server side error', error);
         res.status(500).json({msg: "Internal server error"});
     }
 }

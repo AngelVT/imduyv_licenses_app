@@ -9,32 +9,31 @@
     <link rel="shortcut icon" href="/public/img/sys_icon.svg" type="image/x-icon">
     <script src="/private/js/appLogout.js" defer></script>
     <script src="/private/js/appInfoLoader.js" defer></script>
+    <script src="/private/js/appUserRegistrator.js" defer></script>
 </head>
 <body>
     <main class="page-full menu bg-blur dis-flex flex-center">
         <a href="/app/sysadmin" class="back-arrow bi-arrow-left-circle-fill"></a>
+        <a id="downloader" href="/test" target="_blank" class="dis-none">QR</a>
         <span class="bi-buildings-fill user-info">
             <div class="border-round color-white">
                 <span id="user_name" class="bi-person-circle padding-horizontal-small"> Usuario</span>
-                <a id="admin_link" href="/app/administration" class="dis-none"><span class="bi-bank btn"> Administración</span></a>
+                <a target="_blank" id="admin_link" href="/app/administration" class="dis-none"><span class="bi-bank btn"> Administración</span></a>
                 <span id="logout" class="bi-door-open btn"> Cerrar sesión</span>
             </div>
         </span>
-        <form class="w-50 dis-flex flex-between flex-wrap color-primary">
+        <form id="user_reg_form" class="w-50 dis-flex flex-between flex-wrap color-primary">
 
             <section class="step-box w-100 dis-flex flex-between flex-wrap">
                 <label class="txt-uppercase w-100 margin-vertical-small">Nombre:
                     <input class="w-100 input input-interface input-round" type="text" name="name" required>
                 </label>
-    
-                <label class="txt-uppercase w-45 margin-vertical-small">Contraseña:
-                    <input class="w-100 input input-interface input-round" type="password" name="password" required>
+
+                <label class="txt-uppercase w-100 margin-vertical-small">Contraseña:
+                    <input class="w-100 input input-interface input-round margin-bottom-small" type="password" name="password">
+                    <p class="txt-small txt-center">Si se deja vació el sistema generara una contraseña aleatoria.</p>
                 </label>
-    
-                <label class="txt-uppercase w-45 margin-vertical-small">Confirmar contraseña:
-                    <input class="w-100 input input-interface input-round" type="password">
-                </label>
-    
+
                 <div class="w-45 dis-flex flex-column margin-vertical-small">
                     <span class="w-100 txt-uppercase txt-center">Grupo:</span>
                     

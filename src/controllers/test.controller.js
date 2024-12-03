@@ -32,6 +32,7 @@ export const test = async (req, res) => {
         const pdfDoc = await printerPDF.createPdfKitDocument(def);
 
         res.setHeader('Content-Type', 'application/pdf');
+        //res.setHeader('Content-Disposition', `attachment; filename="QR.pdf"`);
         pdfDoc.info.Title = 'IMDUYV/DLYCU/C/001/2024';
         pdfDoc.pipe(res);
         pdfDoc.end();

@@ -1,6 +1,7 @@
 import * as userRepo from "../repositories/users.repository.js";
 import { encryptPassword } from '../libs/passwordCrypt.js';
 import { validateUserPermissions, validateUserGroup, validateUserRole, validateName } from "../validations/user.validations.js";
+import jwt from 'jsonwebtoken';
 
 export async function requestAllUsers() {
     const USERS = await userRepo.findAllUsers();
@@ -51,9 +52,11 @@ export async function requestUser(id) {
 
 export async function requestUserCreation(requestBody) {
 
+    console.log(requestBody)
+
     const { name, password, role, group } = requestBody;
 
-    if (!name || !password || !role || !group) {
+    if (!name || !role || !group) {
         return {
             status: 400,
             data: {
@@ -85,7 +88,13 @@ export async function requestUserCreation(requestBody) {
 
     const USERNAME = await generateUsername(name, 0);
 
-    const ENCRYPTED_PASSWORD = await encryptPassword(password);
+    const PASSWORD = password ? password : passwordGen();
+
+    const ENCRYPTED_PASSWORD = await encryptPassword(PASSWORD);
+
+    const QR_TOKEN = jwt.sign({name: NEW_USER.name, username: NEW_USER.username, password: PASSWORD}, process.env.SECRET , {
+        expiresIn: '5m'
+    });
 
 // TODO this block in the future should also add an email to the object provided to the function
     const NEW_USER = await userRepo.saveNewUSER({
@@ -109,7 +118,8 @@ export async function requestUserCreation(requestBody) {
     return {
         status: 200,
         data: {
-            user: NEW_USER
+            user: NEW_USER,
+            userQR: QR_TOKEN
         },
         log: `Request completed:
             ID -> ${NEW_USER.id}
@@ -267,6 +277,50 @@ export async function requestUserInfo(id) {
     };
 }
 
+export async function requestUserQR(qrToken) {
+    let USER_INFO;
+
+    try {
+        USER_INFO = jwt.decode(qrToken);
+    } catch (error) {
+        return {
+            status: 400,
+            data: {
+                msg: "Invalid token"
+            },
+            log: `Request failed due to an invalid token was provided.`
+        }
+    }
+
+    return {
+        data: {
+            def: generateUserQR(USER_INFO.name, USER_INFO.username, USER_INFO.password),
+            user: USER_INFO.username
+        },
+        log: `Request completed:
+            Name -> ${USER_INFO.name}
+            Username -> ${USER_INFO.username}`
+    }
+}
+
+function generateUserQR(name ,username, password) {
+    return {
+        pageSize: {
+            width: 160,
+            height: 160
+        },
+        pageMargins: [ 5, 5, 5, 5 ],
+        content: [
+            {
+                qr: `Nombre: ${name}\nUsuario: ${username}\nContrasena: ${password}`,
+                alignment: 'center',
+                eccLevel: 'M',
+                fit: 150,
+            }
+        ]
+    };
+}
+
 async function generateUsername(name, n) {
     const NAME = name.split(' ');
 
@@ -274,7 +328,7 @@ async function generateUsername(name, n) {
         NAME[0].slice(0, 2) +
         NAME[1].charAt(0) +
         NAME[2].slice(0, 3) +
-        (n == 0 ? '' : n <= 9 ? '0' + n : n)
+        (n == 0 ? '' : n.toString().padStart(3, '0'))
     ).toLowerCase();
 
     if (await userRepo.findUserByUsername(username) == null) {
@@ -289,4 +343,14 @@ function capitalizeName(name) {
         .split(' ')
         .map(word => word.charAt(0).toLocaleUpperCase() + word.slice(1).toLocaleLowerCase())
         .join(' ');
+}
+
+function passwordGen() {
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    let password = '';
+    for (let i = 0; i < 12; i++) {
+        const randomIndex = Math.floor(Math.random() * characters.length);
+        password += characters[randomIndex];
+    }
+    return password;
 }

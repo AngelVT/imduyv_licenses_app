@@ -1,25 +1,26 @@
-import { __dirstorage } from "../../../paths.js";
+import path from "path";
+
 import * as docUtils from "../docUtils/utils.js";
 import jwt from 'jsonwebtoken';
+import { __dirname } from "../../../paths.js";
 
 export async function generateTest(lcDBObj, host) {
-
-    lcDBObj = docUtils.prepareData(lcDBObj);
-
-    var definition = {
-        pageMargins: [ 5, 60, 5, 70 ],
+    return {
+        pageSize: {
+            width: 160,
+            height: 160
+        },
+        pageMargins: [ 5, 5, 5, 5 ],
         styles: docUtils.docStyles,
         content: [
             {
-                qr: genDocToken(),
+                qr: `Nombre: AngelVelazquez Garcia\nUsuario: angvar\nContrasena: 123456789012`,
                 alignment: 'center',
+                eccLevel: 'M',
                 fit: 150,
-                margin: [0,0,0, 5]
-
             }
         ]
     };
-    return definition;
 }
 
 function genDocToken() {

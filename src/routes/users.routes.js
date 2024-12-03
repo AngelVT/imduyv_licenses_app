@@ -16,4 +16,6 @@ router.patch('/:userID', [authenticator.verifyToken , authenticator.isSystemAdmi
 
 router.delete('/:userID', [authenticator.verifyToken , authenticator.isSystemAdmin] ,userControl.deleteUser);
 
+router.get('/QR/:QR', [authenticator.verifyToken , authenticator.isSystemAdmin] ,userControl.getUserQR);
+
 export default router;

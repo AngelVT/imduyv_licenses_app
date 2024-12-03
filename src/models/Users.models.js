@@ -20,7 +20,15 @@ export const User = pool.define(
             allowNull: false,
             unique: true
         },
-        password: DataTypes.STRING
+        password: {
+            type: DataTypes.STRING,
+            allowNull: false
+        },
+        requiredPasswordReset: {
+            type: DataTypes.BOOLEAN,
+            allowNull: true,
+            defaultValue: true
+        },
     }
 );
 

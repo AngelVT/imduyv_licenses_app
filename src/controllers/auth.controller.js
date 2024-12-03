@@ -62,6 +62,7 @@ export const signIn = async (req, res) => {
             logger.logAccessInfo(`Access successful`,
                 `Account ID -> ${user.id}
         Account -> ${user.username}`);
+        
             res.cookie("access_token", token, {httpOnly: true,
                 secure: true,
                 signed: true,
