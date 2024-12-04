@@ -35,6 +35,8 @@ router.get('/sysadmin', [authenticator.verifyToken, authenticator.requiresPasswo
 
 router.get('/userRegister', [authenticator.verifyToken, authenticator.requiresPasswordUpdate , authenticator.isSystemAdmin] , appControl.goUserRegister);
 
+router.get('/userConsult', [authenticator.verifyToken, authenticator.requiresPasswordUpdate , authenticator.isSystemAdmin] , appControl.goUserConsult);
+
 router.get('/passwordReset', authenticator.verifyToken , appControl.goPasswordReset);
 
 export default router;

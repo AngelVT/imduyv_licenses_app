@@ -41,10 +41,12 @@ export const verifyToken = async (req, res, next) => {
 
 export const requiresPasswordUpdate = async (req, res, next) => {
     try {
-        if (req.isPasswordResetRequired) {
-            res.redirect('/app/passwordReset');
-            return;
+        if (typeof req.isPasswordResetRequired !== 'boolean') {
+            return res.redirect('/');
         }
+
+        if (req.isPasswordResetRequired)
+            return res.redirect('/app/passwordReset');
         
         next();
     } catch (error) {

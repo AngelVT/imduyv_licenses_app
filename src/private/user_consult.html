@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/public/libs/bootstrap-icons-1.11.3/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="/public/css/tlib-0.1.0.css">
+    <title>Administra usuarios</title>
+    <link rel="shortcut icon" href="/public/img/sys_icon.svg" type="image/x-icon">
+    <script src="/private/js/appLogout.js" defer></script>
+    <script src="/private/js/appInfoLoader.js" defer></script>
+    <script src="/private/js/appConsultControl.js" defer></script>
+    <script src="/private/js/appUserConsult.js" defer></script>
+</head>
+<body>
+    <main class="padding-horizontal-large">
+        <a href="/app/sysadmin" class="back-arrow bi-arrow-left-circle-fill"></a>
+        <span class="bi-buildings-fill user-info">
+            <div class="border-round color-white">
+                <span id="user_name" class="bi-person-circle padding-horizontal-small"> Usuario</span>
+                <a target="_blank" id="admin_link" href="/app/administration" class="dis-none"><span class="bi-bank btn"> Administración</span></a>
+                <span id="logout" class="bi-door-open btn"> Cerrar sesión</span>
+            </div>
+        </span>
+
+        <nav class="dis-flex flex-around w-100 margin-bottom-small padding-small border-primary border-only-left border-only-bottom border-only-right border-round-bottom controls">
+
+            <form id="form_by_name" class="dis-flex flex-wrap flex-center-h w-25">
+                <input name="name" class="input input-secondary input-interface input-round w-100" type="text" placeholder="nombre" required>
+
+                <button class="btn btn-primary margin-top-small" type="submit">Buscar por nombre</button>
+                
+            </form>
+            
+            <form id="form_by_username" class="dis-flex flex-wrap flex-center-h w-25">
+                <input name="username" class="input input-secondary input-interface input-round w-100" type="text" placeholder="Usuario ..." required>
+
+                <button class="btn btn-primary margin-top-small" type="submit">Buscar por usuario</button>
+                
+            </form>
+
+            <form id="form_by_group" class="dis-flex flex-wrap flex-center-h w-25">
+                <select name="group" class="input input-secondary input-interface input-round w-100" required>
+                    <option value="">Seleccione grupo ...</option>
+                    <option value="1">Todos</option>
+                    <option value="2">Uso de suelo</option>
+                    <option value="3">Acciones urbanas</option>
+                </select>
+
+                <button class="btn btn-primary margin-top-small" type="submit">Buscar por grupo</button>
+                
+            </form>
+        </nav>
+
+        <section id="user_results" class="results-container">
+        </section>
+    </main>
+</body>
+</html>

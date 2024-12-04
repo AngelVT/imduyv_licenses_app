@@ -3,10 +3,13 @@ function hideShow(id) {
     let resultDelete = document.querySelector(`#result_control_delete_${id}`);
     let resultPrint = document.querySelector(`#result_control_print_${id}`);
     let fields = document.querySelector(`#result_fields_${id}`);
+
+    if (resultPrint) {
+        resultPrint.classList.toggle("dis-none");
+    }
     resultTop.classList.toggle("border-round");
     resultTop.classList.toggle("border-round-top");
     resultDelete.classList.toggle("dis-none");
-    resultPrint.classList.toggle("dis-none");
     fields.classList.toggle("dis-none");
 }
 
@@ -67,6 +70,36 @@ function createResultTop(obj, isPrint, isLandUse) {
     return top;
 }
 
+function createUserResultTop(obj) {
+    let top = document.createElement('div');
+    let topLabel = document.createElement('p');
+    let topControls = document.createElement('div');
+    let span;
+
+    top.setAttribute('id', `result_top_${obj.id}`);
+    top.setAttribute('class', `w-100 dis-flex flex-between flex-center-v padding-small bg-primary border-round controls`);
+
+    topLabel.setAttribute('class', `color-white txt-bold w-100 txt-center result-label`);
+
+    topLabel.setAttribute('onclick', `hideShow(${obj.id})`);
+
+    topLabel.innerText = `${obj.name} | ${obj.username}`;
+
+    top.appendChild(topLabel);
+
+    topControls.setAttribute('class', 'w-15 dis-flex flex-evenly');
+
+    span = document.createElement('span');
+    span.setAttribute('id', `result_control_delete_${obj.id}`);
+    span.setAttribute('onclick', `deleteResult(${obj.id})`);
+    span.setAttribute('class', 'bi-trash txt-medium color-white dis-none result-control');
+    topControls.appendChild(span);
+
+    top.appendChild(topControls);
+
+    return top;
+}
+
 function createResultContent(id, isPrint) {
     let content = document.createElement('div');
     content.setAttribute('id', `result_fields_${id}`);
@@ -120,12 +153,35 @@ function createResultField(id, tag, name, value, type) {
         input.setAttribute('name', name);
         input.setAttribute('value', value);
         input.setAttribute('required','');
+
+        if (type == 'checkbox') {
+            input.checked = value;
+            
+            input.removeAttribute('name');
+            input.removeAttribute('value');
+            input.removeAttribute('required');
+
+            input.setAttribute('class', 'w-85');
+            input.setAttribute('onchange', `document.getElementById('${name}_${id}').value = this.checked`);
+
+            let trueInput = document.createElement('input');
+
+            trueInput.setAttribute('type', 'hidden');
+            trueInput.setAttribute('value', value);
+            trueInput.setAttribute('name', name);
+            trueInput.setAttribute('id', `${name}_${id}`);
+
+            label.appendChild(trueInput);
+        }
     }
 
     label.appendChild(input);
 
     button.setAttribute('class', 'bi-floppy input-side-save w-10');
 
+    if (type ==  'file' || type == 'checkbox')
+        button.style.borderRadius =  '15px';
+    
     label.appendChild(button);
 
     field.appendChild(label);

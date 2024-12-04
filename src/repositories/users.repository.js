@@ -37,10 +37,16 @@ export async function findUserByID(id) {
 export async function findUserByUsername(username) {
     return await User.findOne({
         where: {username: username},
-        include: {
-            model: Group,
-            attributes: ['group']
-        }
+        include:[
+            {
+                model: Role,
+                attributes: ['role']
+            },
+            {
+                model: Group,
+                attributes: ['group']
+            }
+        ]
     });
 }
 

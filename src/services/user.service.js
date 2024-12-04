@@ -92,10 +92,6 @@ export async function requestUserCreation(requestBody) {
 
     const ENCRYPTED_PASSWORD = await encryptPassword(PASSWORD);
 
-    const QR_TOKEN = jwt.sign({name: NEW_USER.name, username: NEW_USER.username, password: PASSWORD}, process.env.SECRET , {
-        expiresIn: '5m'
-    });
-
 // TODO this block in the future should also add an email to the object provided to the function
     const NEW_USER = await userRepo.saveNewUSER({
         name: capitalizeName(name),
@@ -114,6 +110,10 @@ export async function requestUserCreation(requestBody) {
             log: `Request failed due to user ${USERNAME} already exist.`
         }
     }
+
+    const QR_TOKEN = jwt.sign({name: NEW_USER.name, username: NEW_USER.username, password: PASSWORD}, process.env.SECRET , {
+        expiresIn: '5m'
+    });
 
     return {
         status: 200,
@@ -147,7 +147,7 @@ export async function requestUserModification(id, requestBody) {
         return {
             status: 400,
             data: {
-                msg: "Invalid name provide a name with at least name first and last name"
+                msg: "Invalid name provide a name with at least name first, and last name"
             },
             log: "Request failed due to invalid name provided name must include name first name last name and middle name"
         }

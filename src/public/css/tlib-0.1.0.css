@@ -1335,7 +1335,7 @@ body {
     margin-bottom: 10px;
 }
 
-#results_container {
+.results-container {
     display: flex;
     flex-direction: column;
     width: 100%;
