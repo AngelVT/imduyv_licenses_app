@@ -38,6 +38,60 @@ export const getUser = async (req, res) => {
     }
 }
 
+export const getUserByName = async (req, res) => {
+    try {
+        const response = await userService.requestUserByName(req.params.name);
+
+        res.status(response.status).json(response.data);
+
+        logger.logRequestInfo('User get request completed', 
+        `Requestor ID -> ${req.userID}
+        Requestor Name -> ${req.name}
+        Requestor Username -> ${req.username}
+        Get request -> ${response.log}`);
+    } catch (error) {
+        logger.logConsoleError('User record request failed due to server side error', error);
+        logger.logRequestError('User record request failed due to server side error', error);
+        res.status(500).json({msg: "Internal server error"});
+    }
+}
+
+export const getUserByUsername = async (req, res) => {
+    try {
+        const response = await userService.requestUserByUsername(req.params.username);
+
+        res.status(response.status).json(response.data);
+
+        logger.logRequestInfo('User get request completed', 
+        `Requestor ID -> ${req.userID}
+        Requestor Name -> ${req.name}
+        Requestor Username -> ${req.username}
+        Get request -> ${response.log}`);
+    } catch (error) {
+        logger.logConsoleError('User record request failed due to server side error', error);
+        logger.logRequestError('User record request failed due to server side error', error);
+        res.status(500).json({msg: "Internal server error"});
+    }
+}
+
+export const getUserByGroup = async (req, res) => {
+    try {
+        const response = await userService.requestUserByGroup(req.params.group);
+
+        res.status(response.status).json(response.data);
+
+        logger.logRequestInfo('User get request completed', 
+        `Requestor ID -> ${req.userID}
+        Requestor Name -> ${req.name}
+        Requestor Username -> ${req.username}
+        Get request -> ${response.log}`);
+    } catch (error) {
+        logger.logConsoleError('User record request failed due to server side error', error);
+        logger.logRequestError('User record request failed due to server side error', error);
+        res.status(500).json({msg: "Internal server error"});
+    }
+}
+
 export const createUser = async (req, res) => {
     try {
         const response = await userService.requestUserCreation(req.body);

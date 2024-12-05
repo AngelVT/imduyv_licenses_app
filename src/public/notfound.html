@@ -7,13 +7,14 @@
     <link rel="stylesheet" href="/public/css/tlib-0.1.0.css">
     <title>404 not found</title>
     <link rel="shortcut icon" href="/public/img/imduy_icono_blanco.png" type="image/x-icon">
+    <script src="/public/js/error.js" defer></script>
 </head>
 <body>
     <main>
         <section class="page-full bg-blur">
             <div class="container dis-flex flex-center flex-column">
-                <img class="w-80 margin-bottom-xlarge img-shadow" src="/public/img/404-01.svg" alt="">
-                <p class="txt-large color-primary">El recurso no existe o no esta disponible</p>
+                <img id="image" class="w-80 margin-bottom-xlarge img-shadow" src="/public/img/404-01.svg" alt="">
+                <p class="txt-large color-primary" id="message">El recurso no existe o no esta disponible</p>
                 <a href="/app/login" class="btn btn-primary txt-large margin-vertical-small"><span class="bi-house-fill"></span></a>
             </div>
             

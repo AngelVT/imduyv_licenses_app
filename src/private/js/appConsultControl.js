@@ -79,9 +79,10 @@ function createUserResultTop(obj) {
     top.setAttribute('id', `result_top_${obj.id}`);
     top.setAttribute('class', `w-100 dis-flex flex-between flex-center-v padding-small bg-primary border-round controls`);
 
-    topLabel.setAttribute('class', `color-white txt-bold w-100 txt-center result-label`);
+    topLabel.setAttribute('class', `${obj.locked ? 'bi-lock-fill ' : 'bi-unlock-fill '}color-white txt-bold w-100 txt-center result-label`);
 
     topLabel.setAttribute('onclick', `hideShow(${obj.id})`);
+    topLabel.setAttribute('id', `result_user_${obj.id}`);
 
     topLabel.innerText = `${obj.name} | ${obj.username}`;
 

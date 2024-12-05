@@ -1,52 +1,68 @@
 import { User, Group, Role } from "../models/Users.models.js";
+import { Op } from "sequelize";
 
-const USER_ATTRIBUTES = ['id', 'name', 'username', 'requiredPasswordReset', 'roleId', 'groupId', 'createdAt'];
+const USER_ATTRIBUTES = ['id', 'name', 'username', 'requiredPasswordReset', 'locked', 'roleId', 'groupId', 'createdAt'];
+
+const USER_MODELS = [
+    {
+        model: Role,
+        attributes: ['role']
+    },
+    {
+        model: Group,
+        attributes: ['group']
+    }
+]
 
 export async function findAllUsers() {
     return await User.findAll({
         attributes: USER_ATTRIBUTES,
-        include:[
-            {
-                model: Role,
-                attributes: ['role']
-            },
-            {
-                model: Group,
-                attributes: ['group']
-            }
-        ]
+        include: USER_MODELS
     });
 }
 
 export async function findUserByID(id) {
     return await User.findByPk(id, {
         attributes: USER_ATTRIBUTES,
-        include:[
-            {
-                model: Role,
-                attributes: ['role']
-            },
-            {
-                model: Group,
-                attributes: ['group']
+        include: USER_MODELS
+    });
+}
+
+export async function findUsersByName(name) {
+    return await User.findAll({
+        where: {
+            name: {
+                [Op.like]: `%${name}%`
             }
-        ]
+        },
+        attributes: USER_ATTRIBUTES,
+        include: USER_MODELS
     });
 }
 
 export async function findUserByUsername(username) {
     return await User.findOne({
         where: {username: username},
-        include:[
-            {
-                model: Role,
-                attributes: ['role']
-            },
-            {
-                model: Group,
-                attributes: ['group']
-            }
-        ]
+        attributes: USER_ATTRIBUTES,
+        include: USER_MODELS
+    });
+}
+
+export async function findUsersByGroup(group) {
+    return await User.findAll({
+        where: { groupId: group },
+        attributes: USER_ATTRIBUTES,
+        include: USER_MODELS
+    });
+}
+
+export async function findUsername(username) {
+    return await User.findOne({
+        where: {username: username},
+        include: {
+            model: Group,
+            attributes: ['group']
+        }
     });
 }
 
@@ -96,4 +112,14 @@ export async function userInfo(id) {
             attributes: ['group']
         }
     });
+}
+
+export async function getGroupName(group) {
+    const GROUP = await Group.findByPk(group);
+
+    if (GROUP == null) {
+        return 'invalid'
+    }
+
+    return GROUP.group;
 }

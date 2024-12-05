@@ -1,8 +1,8 @@
-import { findUserByUsername, findUserByIdUsername, saveUser } from "../repositories/users.repository.js";
+import { findUsername, findUserByIdUsername, saveUser } from "../repositories/users.repository.js";
 import { comparePassword, encryptPassword } from "../libs/passwordCrypt.js";
 import config from "../config.js";
 import jwt from 'jsonwebtoken';
-import * as authValidations from "../validations/auth.valudation.js";
+import * as authValidations from "../validations/auth.validation.js";
 
 export async function requestSignIn(requestBody) {
     const { username, password } = requestBody;
@@ -19,7 +19,7 @@ export async function requestSignIn(requestBody) {
         }
     }
 
-    const USER = await findUserByUsername(username);
+    const USER = await findUsername(username);
 
     if (USER == null) {
         return {

@@ -68,8 +68,8 @@ export const setDefaultUsers = async () => {
         const cryptPassword = await encryptPassword(process.env.ADMIN_PASSWORD);
 
         const createdUser = await User.create({
-            name: "Usuario Admin",
-            username: "dev",
+            name: "Administrador De Sistema",
+            username: "sysadmin",
             password: cryptPassword,
             roleId: 1,
             groupId: 1

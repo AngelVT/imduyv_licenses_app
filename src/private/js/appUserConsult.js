@@ -4,6 +4,30 @@ const formSearchName = document.getElementById('form_by_name');
 const formSearchUsername = document.getElementById('form_by_username');
 const formSearchGroup = document.getElementById('form_by_group');
 
+formSearchName.addEventListener('submit', event => {
+    event.preventDefault();
+
+    let name = Object.fromEntries(new FormData(formSearchName)).name;
+
+    getUserByName(name);
+});
+
+formSearchUsername.addEventListener('submit', event => {
+    event.preventDefault();
+
+    let username = Object.fromEntries(new FormData(formSearchUsername)).username;
+
+    getUserByUsername(username);
+});
+
+formSearchGroup.addEventListener('submit', event => {
+    event.preventDefault();
+
+    let group = Object.fromEntries(new FormData(formSearchGroup)).group;
+
+    getUserByGroup(group);
+});
+
 async function getAllUsers() {
     fetch('/api/users', {
         method: 'GET',
@@ -45,9 +69,120 @@ async function getAllUsers() {
     });
 }
 
-getAllUsers();
+async function getUserByName(name) {
+    const urlName = encodeURIComponent(name);
+    
+    fetch(`/api/users/byName/${urlName}`, {
+        method: 'GET',
+        credentials: 'include'
+    })
+    .then(async res => {
+        if(res.ok){
+            let content = res.headers.get('Content-Type');
+            if (content.includes('text/html')) {
+                location.href = res.url;
+                return;
+            }
+    
+            let response = await res.json();
+    
+            resultContainer.innerHTML = '';
+    
+            response.users.forEach(element => {
+                createUserResult(element, resultContainer);
+            });
+            return;
+        }
+    
+        if (!res.ok) {
+            let response = await res.json();
+            alert(response.msg);
+            return;
+        }
+    })
+    .catch(error => {
+        alert('An error ocurred:\n' + error);
+        console.error('Error getting data: ', error)
+    });
+}
+
+async function getUserByUsername(username) {
+    fetch(`/api/users/byUsername/${username}`, {
+        method: 'GET',
+        credentials: 'include'
+    })
+    .then(async res => {
+        if(res.ok){
+            let content = res.headers.get('Content-Type');
+            if (content.includes('text/html')) {
+                location.href = res.url;
+                return;
+            }
+    
+            let response = await res.json();
+    
+            resultContainer.innerHTML = '';
+    
+            createUserResult(response.user, resultContainer);
+            return;
+        }
+    
+        if (!res.ok) {
+            let response = await res.json();
+            alert(response.msg);
+            return;
+        }
+    })
+    .catch(error => {
+        alert('An error ocurred:\n' + error);
+        console.error('Error getting data: ', error)
+    });
+}
+
+async function getUserByGroup(group) {
+    fetch(`/api/users/byGroup/${group}`, {
+        method: 'GET',
+        credentials: 'include'
+    })
+    .then(async res => {
+        if(res.ok){
+            let content = res.headers.get('Content-Type');
+            if (content.includes('text/html')) {
+                location.href = res.url;
+                return;
+            }
+    
+            let response = await res.json();
+    
+            resultContainer.innerHTML = '';
+    
+            response.users.forEach(element => {
+                createUserResult(element, resultContainer);
+            });
+    
+            return;
+        }
+    
+        if (!res.ok) {
+            let response = await res.json();
+            alert(response.msg);
+            return;
+        }
+    })
+    .catch(error => {
+        alert('An error ocurred:\n' + error);
+        console.error('Error getting data: ', error)
+    });
+}
 
 async function updateResultField(form, id) {
+    let registro = document.getElementById(`result_user_${id}`).innerText;
+    let field = form.querySelector('label').innerText.toLowerCase().split(':')[0].replaceAll(':', '');
+
+    if (!confirm(`Estas seguro de que quieres modificar el ${field} para el usuario ${registro}`)) {
+        return
+    }
+
     const formFields = new FormData(form);
 
     const formData = Object.fromEntries(formFields);
@@ -60,7 +195,7 @@ async function updateResultField(form, id) {
         }
     }
 
-    await fetch('/test/testBody', {
+    await fetch(`/api/users/${id}`, {
         method: 'PATCH',
         headers: {
             'Content-Type': 'application/json'
@@ -70,12 +205,25 @@ async function updateResultField(form, id) {
     })
     .then(async res => {
         if(res.ok) {
-            console.log('Correct')
+            let content = res.headers.get('Content-Type');
+            if (content.includes('text/html')) {
+                location.href = res.url;
+                return;
+            }
+
+            if (form.querySelector('.input-interface')) {
+                form.querySelector('input[type=hidden]').value = form.querySelector('.input-interface').value;
+            }
+            
+            alert(`Cambios guardados exitosamente para el usuario ${registro}`);
             return;
         }
 
-        console.log('failed')
-        return;
+        if (!res.ok) {
+            let response = await res.json();
+            alert(response.msg);
+            return;
+        }
     })
     .catch(error => {
         alert('An error ocurred:\n' + error);

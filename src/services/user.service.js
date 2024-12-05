@@ -50,10 +50,84 @@ export async function requestUser(id) {
     };
 }
 
+export async function requestUserByName(name) {
+    const NAME = decodeURIComponent(name);
+
+    console.log(NAME)
+
+    const USERS = await userRepo.findUsersByName(NAME);
+
+    if (USERS == null || USERS.length == 0) {
+        return {
+            status: 404,
+            data: {
+                msg: `There are no matching results with name: ${NAME}.`
+            },
+            log: `Request failed due to there are no users with name matching ${NAME}.`
+        }
+    }
+
+    return {
+        status: 200,
+        data: {
+            users: USERS
+        },
+        log: `Request completed:
+            Users with name like -> ${NAME}`
+    };
+}
+
+export async function requestUserByUsername(username) {
+    const USER = await userRepo.findUserByUsername(username);
+
+    if (USER == null) {
+        return {
+            status: 404,
+            data: {
+                msg: `The requested user ${username} does not exist.`
+            },
+            log: `Request failed due to requested user ${username} does not exist.`
+        }
+    }
+
+    return {
+        status: 200,
+        data: {
+            user: USER
+        },
+        log: `Request completed:
+            ID -> ${USER.id}
+            Name -> ${USER.name}
+            Username -> ${USER.username}`
+    };
+}
+
+export async function requestUserByGroup(group) {
+    const GROUP_NAME = await userRepo.getGroupName(group);
+
+    const USERS = await userRepo.findUsersByGroup(group);
+
+    if (USERS == null || USERS.length == 0) {
+        return {
+            status: 404,
+            data: {
+                msg: `The there are no users from the requested group ${GROUP_NAME}.`
+            },
+            log: `Request failed due no records of users from group ${GROUP_NAME}.`
+        }
+    }
+
+    return {
+        status: 200,
+        data: {
+            users: USERS
+        },
+        log: `Request completed:
+            Users from group -> ${GROUP_NAME}`
+    };
+}
+
 export async function requestUserCreation(requestBody) {
-
-    console.log(requestBody)
-
     const { name, password, role, group } = requestBody;
 
     if (!name || !role || !group) {
@@ -131,9 +205,9 @@ export async function requestUserCreation(requestBody) {
 }
 
 export async function requestUserModification(id, requestBody) {
-    const { name, password, role, group } = requestBody;
+    const { name, password, role, group, requiredPasswordReset, locked } = requestBody;
 
-    if (!name && !password && !role && !group) {
+    if (!name && !password && !role && !group && !requiredPasswordReset && !locked) {
         return {
             status: 400,
             data: {
@@ -143,13 +217,15 @@ export async function requestUserModification(id, requestBody) {
         }
     }
 
-    if (!validateName(name)) {
-        return {
-            status: 400,
-            data: {
-                msg: "Invalid name provide a name with at least name first, and last name"
-            },
-            log: "Request failed due to invalid name provided name must include name first name last name and middle name"
+    if (name) {
+        if (!validateName(name)) {
+            return {
+                status: 400,
+                data: {
+                    msg: "Invalid name provide a name with at least name first, and last name"
+                },
+                log: "Request failed due to invalid name provided name must include name first name last name and middle name"
+            }
         }
     }
 
@@ -178,7 +254,7 @@ export async function requestUserModification(id, requestBody) {
     }
 
     if (group) {
-        if (!await validateUserGroup(role)) {
+        if (!await validateUserGroup(group)) {
             return {
                 status: 400,
                 data: {
@@ -198,6 +274,8 @@ export async function requestUserModification(id, requestBody) {
     const newData = {
         name: name ? capitalizeName(name) : undefined,
         password: ENCRYPTED_PASSWORD,
+        requiredPasswordReset: ENCRYPTED_PASSWORD ? true : requiredPasswordReset ? requiredPasswordReset : undefined,
+        locked: locked ? locked : undefined,
         roleId: role,
         groupId: group
     }
@@ -331,7 +409,7 @@ async function generateUsername(name, n) {
         (n == 0 ? '' : n.toString().padStart(3, '0'))
     ).toLowerCase();
 
-    if (await userRepo.findUserByUsername(username) == null) {
+    if (await userRepo.findUsername(username) == null) {
         return username;
     }
 
@@ -348,7 +426,7 @@ function capitalizeName(name) {
 function passwordGen() {
     const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
     let password = '';
-    for (let i = 0; i < 12; i++) {
+    for (let i = 0; i < 8; i++) {
         const randomIndex = Math.floor(Math.random() * characters.length);
         password += characters[randomIndex];
     }

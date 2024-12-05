@@ -6,16 +6,22 @@ const router = Router();
 
 router.get('/info', authenticator.verifyToken , userControl.getUserInfo);
 
-router.get('/', [authenticator.verifyToken, authenticator.requiresPasswordUpdate , authenticator.isModerator] ,userControl.getUsers);
+router.get('/', [authenticator.verifyToken, authenticator.accountIntegrity , authenticator.isModerator] ,userControl.getUsers);
 
-router.get('/:userID', [authenticator.verifyToken, authenticator.requiresPasswordUpdate , authenticator.isModerator] ,userControl.getUser);
+router.get('/:userID', [authenticator.verifyToken, authenticator.accountIntegrity , authenticator.isModerator] ,userControl.getUser);
 
-router.post('/' , [authenticator.verifyToken, authenticator.requiresPasswordUpdate , authenticator.isSystemAdmin] ,userControl.createUser);
+router.get('/byName/:name', [authenticator.verifyToken, authenticator.accountIntegrity , authenticator.isModerator] ,userControl.getUserByName);
 
-router.patch('/:userID', [authenticator.verifyToken, authenticator.requiresPasswordUpdate , authenticator.isSystemAdmin] ,userControl.updateUser);
+router.get('/byUsername/:username', [authenticator.verifyToken, authenticator.accountIntegrity , authenticator.isModerator] ,userControl.getUserByUsername);
 
-router.delete('/:userID', [authenticator.verifyToken, authenticator.requiresPasswordUpdate , authenticator.isSystemAdmin] ,userControl.deleteUser);
+router.get('/byGroup/:group', [authenticator.verifyToken, authenticator.accountIntegrity , authenticator.isModerator] ,userControl.getUserByGroup);
 
-router.get('/QR/:QR', [authenticator.verifyToken, authenticator.requiresPasswordUpdate , authenticator.isSystemAdmin] ,userControl.getUserQR);
+router.post('/' , [authenticator.verifyToken, authenticator.accountIntegrity , authenticator.isSystemAdmin] ,userControl.createUser);
+
+router.patch('/:userID', [authenticator.verifyToken, authenticator.accountIntegrity , authenticator.isSystemAdmin] ,userControl.updateUser);
+
+router.delete('/:userID', [authenticator.verifyToken, authenticator.accountIntegrity , authenticator.isSystemAdmin] ,userControl.deleteUser);
+
+router.get('/QR/:QR', [authenticator.verifyToken, authenticator.accountIntegrity , authenticator.isSystemAdmin] ,userControl.getUserQR);
 
 export default router;

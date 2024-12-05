@@ -29,6 +29,11 @@ export const User = pool.define(
             allowNull: true,
             defaultValue: true
         },
+        locked: {
+            type: DataTypes.BOOLEAN,
+            allowNull: true,
+            defaultValue: false
+        },
     }
 );
 

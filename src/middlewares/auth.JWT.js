@@ -30,6 +30,7 @@ export const verifyToken = async (req, res, next) => {
         req.name = USER.name;
         req.username = USER.username;
         req.isPasswordResetRequired = USER.requiredPasswordReset;
+        req.isLocked = USER.locked;
         
         next();
     } catch (error) {
@@ -39,10 +40,18 @@ export const verifyToken = async (req, res, next) => {
     }
 }
 
-export const requiresPasswordUpdate = async (req, res, next) => {
+export const accountIntegrity = async (req, res, next) => {
     try {
-        if (typeof req.isPasswordResetRequired !== 'boolean') {
-            return res.redirect('/');
+        if (typeof req.isPasswordResetRequired !== 'boolean' || typeof req.isLocked !== 'boolean') {
+            return res.redirect('/?msg=Acceso invalido&code=401');
+        }
+
+        if (req.isLocked) {
+            return res.clearCookie("access_token", {httpOnly: true,
+                secure: true,
+                signed: true,
+                sameSite: 'strict'
+            }).status(401).redirect('/?msg=Tu cuenta esta bloqueada&code=401');
         }
 
         if (req.isPasswordResetRequired)
