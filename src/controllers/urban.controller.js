@@ -570,6 +570,7 @@ export const updateLicense = async (req, res) => {
             authorizedQuantity: authorizedQuantity,
             deliveryDate: deliveryDate,
             receiverName: receiverName,
+            lastModifiedBy: req.name,
             licenseSpecialData: newSpecialData
         });
 
