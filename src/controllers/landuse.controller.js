@@ -515,6 +515,7 @@ export const updateLicense = async (req, res) => {
         await modifiedLicense.update({
             requestorName: requestorName,
             attentionName: attentionName,
+            lastModifiedBy: req.name,
             requestDate: requestDate,
             address: address,
             number: number,
