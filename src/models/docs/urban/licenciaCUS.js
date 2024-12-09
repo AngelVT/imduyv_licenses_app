@@ -41,7 +41,7 @@ export async function generateUrbanC(lcDBObj) {
                         [
                             {
                                 table: {
-                                    widths: ['auto', '*'],
+                                    widths: [70, '*'],
                                     body: [
                                         [
                                             {text: 'Nombre: ', style: 'labelT', border: docUtils.borderless},
@@ -64,27 +64,19 @@ export async function generateUrbanC(lcDBObj) {
                             },
                             {
                                 table: {
-                                    widths: ['auto', '*', 'auto', 90],
+                                    widths: [60, '*'],
                                     body: [
                                         [
-                                            {text: 'Calle: ', style: 'labelT', border: docUtils.borderless},
-                                            docUtils.field(lcDBObj.address, docUtils.borderless, 3, 'center', 7),
-                                            {},
-                                            {}
+                                            {text: 'Domicilio: ', style: 'labelT', border: docUtils.borderless},
+                                            docUtils.field(lcDBObj.licenseSpecialData.buildingAddress.toUpperCase(), docUtils.borderless, null, 'center', 7)
                                         ],
                                         [
                                             {text: 'Clave Catastral: ', style: 'labelT', border: docUtils.borderless},
-                                            docUtils.field(lcDBObj.catastralKey, docUtils.borderless, 1, 'center', 6),
-                                            {text: 'Numero: ', style: 'labelT', border: docUtils.borderless},
-                                            docUtils.field(lcDBObj.number, docUtils.borderless, 1, 'center', 6)
-                                        ],
-                                        [
-                                            {text: 'Colonia: ', style: 'labelT', border: docUtils.borderless},
-                                            docUtils.field(lcDBObj.colony, docUtils.borderless, 3, 'center', 7),{},{}
+                                            docUtils.field(lcDBObj.catastralKey, docUtils.borderless,null, 'center', 6)
                                         ],
                                         [
                                             {text: 'Superficie Total: ', style: 'labelT', border: docUtils.borderless},
-                                            docUtils.field(`${lcDBObj.surfaceTotal} m²`, docUtils.borderless, 3, 'center', 7),{},{}
+                                            docUtils.field(`${lcDBObj.surfaceTotal} m²`, docUtils.borderless, null, 'center', 7)
                                         ]
                                     ]
                                 },
@@ -134,6 +126,34 @@ export async function generateUrbanC(lcDBObj) {
                                             {},{},{},{},{},{},{},{}
                                         ],
                                         [
+                                            {text: 'Porcentaje de ocupación:', style: 'labelTC', border: docUtils.borderless, colSpan: 2},
+                                            {},
+                                            docUtils.field(`${lcDBObj.licenseSpecialData.occupationPercent}%`, docUtils.borderless, 2, 'center', 7),
+                                            {},
+                                            {text: 'Sup. mínima por lote:', style: 'labelTC', border: docUtils.borderless, colSpan: 2},
+                                            {},
+                                            docUtils.field(`${lcDBObj.licenseSpecialData.surfacePerLote} m²`, docUtils.borderless, 2, 'center', 7),
+                                            {},
+                                            {text: 'Altura máxima:', style: 'labelTC', border: docUtils.borderless, colSpan: 2},
+                                            {},
+                                            docUtils.field(lcDBObj.licenseSpecialData.maximumHeight, docUtils.borderless, 2, 'center', 7),
+                                            {}
+                                        ],
+                                        [
+                                            {text: 'Frente mínimo:', style: 'labelTC', border: docUtils.borderless, colSpan: 3},
+                                            {},
+                                            {},
+                                            docUtils.field(`${lcDBObj.licenseSpecialData.minimalFront} m`, docUtils.borderless, 3, 'center', 7),
+                                            {},
+                                            {},
+                                            {text: 'Restricción frontal:', style: 'labelTC', border: docUtils.borderless, colSpan: 3},
+                                            {},
+                                            {},
+                                            docUtils.field(`${lcDBObj.licenseSpecialData.frontalRestriction} m`, docUtils.borderless, 3, 'center', 7),
+                                            {},
+                                            {}
+                                        ],
+                                        [
                                             {text: 'La expedición de constancia de uso de suelo: tiene como objeto establecer los usos y destinos de un predio con base en lo previsto en el Programa Municipal de Desarrollo Urbano y Ordenamiento Territorial de Tizayuca, lo cual no autoriza su modificación, construcción o alteración.', style: 'labelTC', border: docUtils.borderless, colSpan: 12},
                                             {},{},{},{},{},{},{},{},{},{},{}
                                         ]
@@ -154,7 +174,7 @@ export async function generateUrbanC(lcDBObj) {
                             widths: ['*'],
                             body: [
                                 [
-                                    {text: "03PE09 - MAPA DE ZONIFICACIÓN", style: 'headT', border: docUtils.borderless, margin:[1,2,1,2]}
+                                    {text: `03PE09 - MAPA DE ZONIFICACIÓN - ${lcDBObj.geoReference}`, style: 'headT', border: docUtils.borderless, margin:[1,2,1,2]}
                                 ],
                                 [
                                     {
@@ -172,7 +192,7 @@ export async function generateUrbanC(lcDBObj) {
                     {
                         margin: [0,0,5,0],
                         stack: [
-                            { text: 'Que el solicitante con los documentos anexados a su escrito inicial ha dado cumplimiento con los requisitos técnicos y legales que obran en el expediente radicado en este Instituto Municipal de Desarrollo Urbano y Vivienda, de Tizayuca, Hidalgo, acredita la propiedad del inmueble motivo de la solicitud firmada para obtener la Constancia de Uso de Suelo, así como de la visita de inspección de campo, misma que permite la localización y ubicación del Inmueble materia de este trámite.', style: 'regular', margin: [0,0,0,25],alignment: 'justify' },
+                            { text: 'Que el solicitante con los documentos anexados a su escrito inicial ha dado cumplimiento con los requisitos técnicos y legales que obran en el expediente radicado en este Instituto Municipal de Desarrollo Urbano y Vivienda, de Tizayuca, Hidalgo, acredita la propiedad del inmueble motivo de la solicitud firmada para obtener la Constancia de Uso de Suelo, así como de la visita de inspección de campo, misma que permite la localización y ubicación del Inmueble materia de este trámite.', style: 'regular', margin: [0,0,0,5],alignment: 'justify' },
                             { text: 'Personal técnico adscrito al referido Instituto, realizo visita de inspección en campo al Inmueble de que solicita la Constancia de Uso de Suelo, emitiendo opinión técnica positiva.', style: 'regular', margin: [0,0,0,15], alignment: 'justify' }
                         ]
                     }
@@ -226,10 +246,9 @@ export async function generateUrbanC(lcDBObj) {
                     {
                         text:'NOTIFÍQUESE Y CÚMPLASE\nASÍ EN DEFINITIVA LO RESOLVIÓ Y FIRMA EL MAESTRO EN AUDITORÍA Y CONTROL INTERNO GUBERNAMENTAL HIPÓLITO ZAMORA SORIA,\nDIRECTOR GENERAL DEL INSTITUTO MUNICIPAL DE DESARROLLO URBANO Y VIVIENDA',
                         style: ['regular', 'center'],
-                        margin: [0,10,0,0]
+                        margin: [0,10,0,100]
                     },
                     {
-                            margin: [0,52,0,0],
                             text: `Elaboró: ${docUtils.madeBy(lcDBObj.elaboratedBy)}\nRevisó: F.I.G.S.`,
                             fontSize: 6
                     },

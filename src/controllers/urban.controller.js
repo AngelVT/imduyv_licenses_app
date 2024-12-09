@@ -10,14 +10,14 @@ import { validate, validUrbanCriteria } from '../libs/validate.js';
 import { generateUrbanSpecialData } from '../models/docs/docUtils/utils.js';
 
 import { printerPDF } from "../libs/pdfUtil.js";
-import { generateUrbanC } from "../models/docs/urban/constanciaU.js";
+import { generateUrbanC } from "../models/docs/urban/licenciaCUS.js";
 import { generateUrbanLUS } from "../models/docs/urban/licenciaLUS.js";
 import { generateUrbanLSUB } from "../models/docs/urban/licenciaLSUB.js";
 import { generateUrbanLFUS } from "../models/docs/urban/licenciaLFUS.js";
 import { generateUrbanCRPC } from "../models/docs/urban/licenciaCRPC.js";
 import { generateUrbanLF } from '../models/docs/urban/licenciaLF.js';
 import { generateUrbanPLF } from '../models/docs/urban/licenciaPLF.js';
-import { generateUrbanRLF } from '../models/docs/urban/urbanRLF.js';
+import { generateUrbanRLF } from '../models/docs/urban/licenciaRLF.js';
 
 export const getLicenses = async (req, res) => {
     try {
@@ -257,6 +257,7 @@ export const createLicense = async (req, res) => {
             address,
             number,
             catastralKey,
+            georeference,
             licenseTerm,
             surface,
             zone,
@@ -276,7 +277,7 @@ export const createLicense = async (req, res) => {
 
         const files = req.files;
 
-        if (!licenseType || !requestorName || !requestDate) {
+        if (!licenseType || !requestorName || !georeference) {
             res.status(400).json({ msg: "There is missing information" });
             return;
         }
@@ -315,6 +316,7 @@ export const createLicense = async (req, res) => {
             number: number,
             colony: colony,
             catastralKey: catastralKey,
+            geoReference: georeference,
             licenseTerm: licenseTerm,
             surfaceTotal: surface,
             licenseZone: zone ? zone : 1,
@@ -402,7 +404,8 @@ export const updateLicense = async (req, res) => {
                 key == 'manzanas' ||
                 key == 'actualSituation' ||
                 key == 'actualAuthorizedFS' ||
-                key == 'representativeAs') {
+                key == 'representativeAs' ||
+                key == 'antecedent') {
                     console.log("Skipped", typeof key, key)
             } else {
                 req.body[key] = req.body[key].toLowerCase();
@@ -454,6 +457,8 @@ export const updateLicense = async (req, res) => {
             detailedUse,
             urbanLUS,
             urbanCUS,
+            antecedent,
+            antecedentType,
             habitacionalLotes,
             totalManzanas,
             totalSurface,
@@ -519,6 +524,8 @@ export const updateLicense = async (req, res) => {
         newSpecialData.detailedUse = detailedUse ? detailedUse : newSpecialData.detailedUse;
         newSpecialData.urbanCUS = urbanCUS ? urbanCUS : newSpecialData.urbanCUS;
         newSpecialData.urbanLUS = urbanLUS ? urbanLUS : newSpecialData.urbanLUS;
+        newSpecialData.antecedent = antecedent ? antecedent : newSpecialData.antecedent;
+        newSpecialData.antecedentType = antecedentType ? antecedentType : newSpecialData.antecedentType;
         newSpecialData.habitacionalLotes = habitacionalLotes ? habitacionalLotes : newSpecialData.habitacionalLotes;
         newSpecialData.totalManzanas = totalManzanas ? totalManzanas : newSpecialData.totalManzanas;
         newSpecialData.totalSurface = totalSurface ? totalSurface : newSpecialData.totalSurface;
@@ -565,8 +572,6 @@ export const updateLicense = async (req, res) => {
             receiverName: receiverName,
             licenseSpecialData: newSpecialData
         });
-
-        console.log(modifiedLicense.legalRepresentative);
 
         if (files) {
             const destination = path.join(__dirstorage, 'assets', 'urban', modifiedLicense.fullInvoice, 'zone.png');

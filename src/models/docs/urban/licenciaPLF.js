@@ -41,7 +41,7 @@ export async function generateUrbanPLF(lcDBObj) {
                         [
                             {
                                 table: {
-                                    widths: ['auto', '*'],
+                                    widths: [70, '*'],
                                     body: [
                                         [
                                             {text: 'Nombre: ', style: 'labelT', border: docUtils.borderless},
@@ -65,7 +65,7 @@ export async function generateUrbanPLF(lcDBObj) {
                             },
                             {
                                 table: {
-                                    widths: ['auto', '*'],
+                                    widths: [60, '*'],
                                     body: [
                                         [
                                             {text: 'Domicilio: ', style: 'labelT', border: docUtils.borderless},
@@ -73,7 +73,7 @@ export async function generateUrbanPLF(lcDBObj) {
                                         ],
                                         [
                                             {text: 'Clave Catastral: ', style: 'labelT', border: docUtils.borderless},
-                                            docUtils.field(lcDBObj.catastralKey, docUtils.borderless, 1, 'center', 7),
+                                            docUtils.field(lcDBObj.catastralKey, docUtils.borderless, 1, 'center', 6),
                                         ],
                                         [
                                             {text: 'Superficie Total: ', style: 'labelT', border: docUtils.borderless},
@@ -451,9 +451,9 @@ export async function generateUrbanPLF(lcDBObj) {
                     {
                         text:'NOTIFÍQUESE Y CÚMPLASE\nASÍ EN DEFINITIVA LO RESOLVIÓ Y AUTORIZÓ EL MAESTRO EN AUDITORÍA Y CONTROL INTERNO GUBERNAMENTAL HIPÓLITO ZAMORA SORIA,\nDIRECTOR GENERAL DEL INSTITUTO MUNICIPAL DE DESARROLLO URBANO Y VIVIENDA',
                         style: ['regular', 'center'],
-                        margin: [0,10,0,10]
+                        margin: [0,10,0,100]
                     },
-                    {
+                    /*{
                         columns: [
                             {width: 30,
                                 text: ''
@@ -466,7 +466,7 @@ export async function generateUrbanPLF(lcDBObj) {
                                 text: '',
                             }
                         ]
-                    },
+                    },*/
                     {
                         columns: [
                             {width: 5,

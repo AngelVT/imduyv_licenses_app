@@ -10,7 +10,7 @@ import { validate, validLandCriteria } from '../libs/validate.js';
 import { generateLandSpecialData } from '../models/docs/docUtils/utils.js';
 
 import { printerPDF } from "../libs/pdfUtil.js";
-import{ generateLandUseC } from "../models/docs/landUse/constanciaLU.js";
+import{ generateLandUseC } from "../models/docs/landUse/licenciaC.js";
 import{ generateLandUseL } from "../models/docs/landUse/licenciaL.js";
 import{ generateLandUseDP } from "../models/docs/landUse/licenciaDP.js";
 

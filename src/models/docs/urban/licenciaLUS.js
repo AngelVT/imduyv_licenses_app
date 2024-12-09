@@ -1,6 +1,8 @@
 import { __dirstorage } from "../../../paths.js";
 import * as docUtils from "../docUtils/utils.js";
 
+const antecedents = ['SUBDIVISIÓN', 'FUSIÓN'];
+
 export async function generateUrbanLUS(lcDBObj) {
 
     lcDBObj = docUtils.prepareData(lcDBObj);
@@ -41,7 +43,7 @@ export async function generateUrbanLUS(lcDBObj) {
                         [
                             {
                                 table: {
-                                    widths: ['auto', '*'],
+                                    widths: [70, '*'],
                                     body: [
                                         [
                                             {text: 'Nombre: ', style: 'labelT', border: docUtils.borderless},
@@ -69,7 +71,7 @@ export async function generateUrbanLUS(lcDBObj) {
                             },
                             {
                                 table: {
-                                    widths: ['auto', '*'],
+                                    widths: [60, '*'],
                                     body: [
                                         [
                                             {text: 'Domicilio: ', style: 'labelT', border: docUtils.borderless},
@@ -77,7 +79,7 @@ export async function generateUrbanLUS(lcDBObj) {
                                         ],
                                         [
                                             {text: 'Clave Catastral: ', style: 'labelT', border: docUtils.borderless},
-                                            docUtils.field(lcDBObj.catastralKey, docUtils.borderless, 1, 'center', 7),
+                                            docUtils.field(lcDBObj.catastralKey, docUtils.borderless, 1, 'center', 6),
                                         ],
                                         [
                                             {text: 'Superficie Total: ', style: 'labelT', border: docUtils.borderless},
@@ -202,9 +204,9 @@ export async function generateUrbanLUS(lcDBObj) {
                     {
                         text:'NOTIFÍQUESE Y CÚMPLASE\nASÍ EN DEFINITIVA LO RESOLVIÓ Y AUTORIZÓ EL MAESTRO EN AUDITORÍA Y CONTROL INTERNO GUBERNAMENTAL HIPÓLITO ZAMORA SORIA,\nDIRECTOR GENERAL DEL INSTITUTO MUNICIPAL DE DESARROLLO URBANO Y VIVIENDA',
                         style: ['regular', 'center'],
-                        margin: [0,10,0,10]
+                        margin: [0,10,0,100]
                     },
-                    {
+                    /*{
                         columns: [
                             {width: 30,
                                 text: ''
@@ -218,7 +220,7 @@ export async function generateUrbanLUS(lcDBObj) {
                                 alignment: 'left'
                             }
                         ]
-                    },
+                    },*/
                     {
                         columns: [
                             {width: 5,
@@ -246,7 +248,7 @@ export async function generateUrbanLUS(lcDBObj) {
                     widths: ['*'],
                     body: [
                         [
-                            {text: "MAPA DE ZONIFICACIÓN", style: 'headT', border: docUtils.borderless, margin:[1,2,1,2]}
+                            {text: `MAPA DE ZONIFICACIÓN - ${lcDBObj.geoReference}`, style: 'headT', border: docUtils.borderless, margin:[1,2,1,2]}
                         ],
                         [
                             {
@@ -271,12 +273,17 @@ export async function generateUrbanLUS(lcDBObj) {
                             {
                                 type: 'lower-alpha',
                                 ol: [
-                                    'Para que se construyan las obras de urbanización y de vivienda, deberá tramitar y contar con la licencia de construcción emitida por la Secretaría de Obras Públicas Municipales de Tizayuca, debiendo acompañar los proyectos ejecutivos de agua potable, drenaje sanitario y pluvial, planos de niveles y rasantes con la aprobación correspondiente; así como de las especificaciones de los materiales a usarse en la urbanización.',
                                     'La presente no autoriza acciones urbanas ni construcción de obras que generen impacto social en su entorno inmediato.',
+                                    lcDBObj.licenseSpecialData.antecedent ? {
+                                        text: [
+                                            'La presente autorización, es únicamente para el trámite de ', { text: antecedents[lcDBObj.licenseSpecialData.antecedentType], bold: true },
+                                            ' de acuerdo con la licencia número: ',
+                                            { text: lcDBObj.licenseSpecialData.antecedent, bold: true },
+                                            ' emitida por este Instituto, no se autoriza: venta de lotes, construcción u otra acción urbana que no corresponda a la actual autorización.'], }
+                                            : undefined,
+                                    'En caso de requerir Licencia de Uso de Suelo especifico deberá de tramitarla en este Instituto, ya que se emite únicamente para el trámite de subdivisión.',
                                     'Acatar la normativa y restricciones de la zonificación secundaria que determina el documento técnico del Programa Municipal de Desarrollo Urbano y Ordenamiento Territorial de Tizayuca.',
-                                    'El Instituto Municipal de Desarrollo Urbano y Vivienda se reserva el derecho de revocar la presente, en caso de incumplimiento a cualquiera de las condiciones establecidas en la misma',
-                                    'Dar cumplimiento a las acciones y condiciones emitidas por la Secretaria de Obras Públicas del Municipio de, así como a lo dispuesto por la Comisión de Agua y Alcantarillado del Municipio de Tizayuca Hidalgo CAAMTH.',
-                                    'El propietario está obligado a dejar 30% de la superficie neta de cada lote libre de construcción para absorción de agua pluvial, lo anterior estará asentado en los contratos de compra – venta.'
+                                    'El Instituto Municipal de Desarrollo Urbano y Vivienda se reserva el derecho de revocar la presente, en caso de incumplimiento a cualquiera de las condicionantes establecidas en la misma.'
                                 ],
                                 fontSize: 6,
                                 alignment: 'justify'

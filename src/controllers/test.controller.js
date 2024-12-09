@@ -1,28 +1,9 @@
-import { User , Role , Group} from "../models/Users.models.js";
-import { UrbanLicense, LandUseLicense, AuthUse, Type} from "../models/License.models.js";
-import * as passCrypt from '../libs/passwordCrypt.js';
-import jwt from 'jsonwebtoken';
-import config from "../config.js";
 import fs from 'fs/promises';
 import { __dirname, __dirstorage } from "../paths.js";
 import path from "path";
-import { generateLandInvoice, generateUrbanInvoice } from "../libs/fullInvoiceGen.js";
-import { statSync } from "fs";
-import { request } from "http";
 
-import { printerPDF } from "../libs/pdfUtil.js";
-import { generateLandUseC } from "../models/docs/landUse/constanciaLU.js";
-import { generateLandUseL } from "../models/docs/landUse/licenciaL.js";
-import { generateLandUseDP } from "../models/docs/landUse/licenciaDP.js";
+import { printerPDF } from "../libs/pdfUtil.js"
 import * as docUtils from "../models/docs/docUtils/utils.js";
-import { generateUrbanC } from "../models/docs/urban/constanciaU.js";
-import { generateUrbanLUS } from "../models/docs/urban/licenciaLUS.js";
-import { generateUrbanLSUB } from "../models/docs/urban/licenciaLSUB.js";
-import { generateUrbanLFUS } from "../models/docs/urban/licenciaLFUS.js";
-import { generateUrbanCRPC } from "../models/docs/urban/licenciaCRPC.js";
-import { generateUrbanLF } from "../models/docs/urban/licenciaLF.js";
-import { generateUrbanPLF } from "../models/docs/urban/licenciaPLF.js";
-import { generateUrbanRLF } from "../models/docs/urban/urbanRLF.js";
 import { generateTest } from "../models/docs/docUtils/parts.js";
 
 export const test = async (req, res) => {

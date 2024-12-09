@@ -86,7 +86,7 @@ export async function generateUrbanLFUS(lcDBObj) {
                         [
                             {
                                 table: {
-                                    widths: ['auto', '*'],
+                                    widths: [70, '*'],
                                     body: [
                                         [
                                             {text: 'Nombre: ', style: 'labelT', border: docUtils.borderless},
@@ -106,7 +106,7 @@ export async function generateUrbanLFUS(lcDBObj) {
                             },
                             {
                                 table: {
-                                    widths: ['auto', '*'],
+                                    widths: [60, '*'],
                                     body: [
                                         [
                                             {text: 'Domicilio: ', style: 'labelT', border: docUtils.borderless},
@@ -114,7 +114,7 @@ export async function generateUrbanLFUS(lcDBObj) {
                                         ],
                                         [
                                             {text: 'Clave Catastral: ', style: 'labelT', border: docUtils.borderless},
-                                            docUtils.field(lcDBObj.catastralKey, docUtils.borderless, 1, 'center', 7),
+                                            docUtils.field(lcDBObj.catastralKey, docUtils.borderless, 1, 'center', 6),
                                         ],
                                         [
                                             {text: 'Superficie Total: ', style: 'labelT', border: docUtils.borderless},
@@ -224,7 +224,7 @@ export async function generateUrbanLFUS(lcDBObj) {
                         text:'NOTIFÍQUESE Y CÚMPLASE\nASÍ EN DEFINITIVA LO RESOLVIÓ Y AUTORIZÓ EL MAESTRO EN AUDITORÍA Y CONTROL INTERNO GUBERNAMENTAL HIPÓLITO ZAMORA SORIA,\nDIRECTOR GENERAL DEL INSTITUTO MUNICIPAL DE DESARROLLO URBANO Y VIVIENDA',
                         style: 'center',
                         fontSize: 6,
-                        margin: [0,10,0,50]
+                        margin: [0,10,0,100]
                     },
                     /*{
                         columns: [
@@ -297,7 +297,7 @@ export async function generateUrbanLFUS(lcDBObj) {
             },
             {
                 stack: [
-                    { text: 'El solicitante, con los documentos anexados a su escrito inicial, ha dado cumplimiento con los requisitos técnicos y legales que obran en el expediente radicado en este Instituto Municipal de Desarrollo Urbano y Vivienda, acredita la propiedad del inmueble motivo de la solicitud de Licencia de Subdivisión, así como de la visita de inspección de campo, misma que permite la localización y ubicación del inmueble, materia de este trámite.', style: 'regular', margin: [0,0,0,25],alignment: 'justify' },
+                    { text: 'El solicitante, con los documentos anexados a su escrito inicial, ha dado cumplimiento con los requisitos técnicos y legales que obran en el expediente radicado en este Instituto Municipal de Desarrollo Urbano y Vivienda, acredita la propiedad del inmueble motivo de la solicitud de Licencia de Subdivisión, así como de la visita de inspección de campo, misma que permite la localización y ubicación del inmueble, materia de este trámite.', style: 'regular', margin: [0,0,0,5],alignment: 'justify' },
                     { text: 'Personal técnico adscrito al referido Instituto, realizó visita de inspección en campo al inmueble del que solicita la Licencia de Subdivisión, emitiendo opinión técnica positiva. Por tanto, se autorizan los planos de Subdivisión exhibidos por el solicitante, los cuales forman parte integrante de esta autorización.', style: 'regular', margin: [0,0,0,15], alignment: 'justify' }
                 ]
             },

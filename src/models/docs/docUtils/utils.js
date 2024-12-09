@@ -321,15 +321,16 @@ export function generateDSMCTable(situationArray, subject) {
 
     for(let i of situationArray) {
         let arr = [
-            {text: i.description, style: ['boldCenter', 'regularSmall'], margin:[0,3,0,0]},
-            {text: i.surface, style: ['boldCenter', 'regularSmall'], margin:[0,3,0,0]},
+            {text: i.description, style: ['boldCenter', 'regularSmall'], margin:[0,3,0,0], border: [false,true,false, true]},
+            {text: i.surface, style: ['boldCenter', 'regularSmall'], margin:[0,3,0,0], border: [false,true,false, true]},
             {
                 colSpan: 2,
                 table: {
                     widths: [100,'*'],
                     body: generateSubTable(i.table)
                 },
-                layout: subTable
+                layout: subTable,
+                border: [false, false, false, true]
             },
             {}
     ]
@@ -363,23 +364,45 @@ function capitalize(str) {
 
 function generateSubTable(tableObj) {
     let subBody = []
+    let hasBottomBorder = true;
 
     for (let i = 0; i < tableObj.distribution.length; i++) {
         let row;
+        hasBottomBorder = tableObj.distribution[i].includes('*') ? false : true;
+        tableObj.distribution[i] = tableObj.distribution[i].replaceAll('*','');
         if (i == 0) {
             row = [
-                {text: `${tableObj.distribution[i]} ${tableObj.measures[i]}`, style: 'regularSmall', border: [false, false, true, true], margin:[2,0,0,0]},
-                {text: `${tableObj.adjoining[i]}`, style: 'regularSmall', border: [true, false, false, true], margin:[2,0,0,0]}
+                {
+                    text: [
+                        {
+                            text:`${tableObj.distribution[i]} `,
+                            bold: true
+                        },{text:`${tableObj.measures[i]}`}
+                    ],
+                    style: 'regularSmall', border: [false, false, false, hasBottomBorder],
+                    margin:[2,0,0,0]
+                },
+                {text: `${tableObj.adjoining[i]}`, style: 'regularSmall', border: [false, false, false, hasBottomBorder], margin:[2,0,0,0]}
             ]
         } else if (i == tableObj.distribution.length - 1) {
             row = [
-                {text: `${tableObj.distribution[i]} ${tableObj.measures[i]}`, style: 'regularSmall', border: [false, true, true, false], margin:[2,0,0,0]},
-                {text: `${tableObj.adjoining[i]}`, style: 'regularSmall', border: [true, true, false, false], margin:[2,0,0,0]}
+                {text: [
+                    {
+                        text:`${tableObj.distribution[i]} `,
+                        bold: true
+                    },{text:`${tableObj.measures[i]}`}
+                ], style: 'regularSmall', border: [false, false, false, false], margin:[2,0,0,0]},
+                {text: `${tableObj.adjoining[i]}`, style: 'regularSmall', border: [false, false, false, false], margin:[2,0,0,0]}
             ]
         } else {
             row = [
-                {text: `${tableObj.distribution[i]} ${tableObj.measures[i]}`, style: 'regularSmall', border: [false, true, true, true], margin:[2,0,0,0]},
-                {text: `${tableObj.adjoining[i]}`, style: 'regularSmall', border: [true, true, false, true], margin:[2,0,0,0]}
+                {text: [
+                    {
+                        text:`${tableObj.distribution[i]} `,
+                        bold: true
+                    },{text:`${tableObj.measures[i]}`}
+                ], style: 'regularSmall', border: [false,false, false, hasBottomBorder], margin:[2,0,0,0]},
+                {text: `${tableObj.adjoining[i]}`, style: 'regularSmall', border: [false, false, false, hasBottomBorder], margin:[2,0,0,0]}
             ]
         }
         subBody.push(row);
@@ -570,7 +593,15 @@ export const recordExample = {
 export function generateUrbanSpecialData(type) {
     switch(type) {
         case 1:
-            return { PCU: "PCU" }
+            return {
+                buildingAddress: "Domicilio",
+                PCU: "PCU",
+                occupationPercent: 0,
+                surfacePerLote: 0,
+                maximumHeight: "Ej: 9 metros o 3 niveles",
+                minimalFront: 0.00,
+                frontalRestriction: 0.0,
+            }
         case 2:
             return {
                 representativeAs: "Representante Legal",
@@ -895,7 +926,7 @@ export function generateLandSpecialData(type) {
 
     if (type == 1) {
         return {
-            anexo:" "
+            anexo:" ",
         }
     }
 

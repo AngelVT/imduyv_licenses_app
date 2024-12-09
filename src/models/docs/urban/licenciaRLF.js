@@ -41,7 +41,7 @@ export async function generateUrbanRLF(lcDBObj) {
                         [
                             {
                                 table: {
-                                    widths: ['auto', '*'],
+                                    widths: [70, '*'],
                                     body: [
                                         [
                                             {text: 'Nombre: ', style: 'labelT', border: docUtils.borderless},
@@ -65,7 +65,7 @@ export async function generateUrbanRLF(lcDBObj) {
                             },
                             {
                                 table: {
-                                    widths: ['auto', '*'],
+                                    widths: [60, '*'],
                                     body: [
                                         [
                                             {text: 'Domicilio: ', style: 'labelT', border: docUtils.borderless},
@@ -413,7 +413,7 @@ export async function generateUrbanRLF(lcDBObj) {
                         text:'NOTIFÍQUESE Y CÚMPLASE\nASÍ EN DEFINITIVA LO RESOLVIÓ Y AUTORIZÓ EL MAESTRO EN AUDITORÍA Y CONTROL INTERNO GUBERNAMENTAL HIPÓLITO ZAMORA SORIA,\nDIRECTOR GENERAL DEL INSTITUTO MUNICIPAL DE DESARROLLO URBANO Y VIVIENDA',
                         style: 'center',
                         fontSize: 6,
-                        margin: [0,10,0,50]
+                        margin: [0,10,0,100]
                     },
                     /*{
                         columns: [
@@ -428,7 +428,6 @@ export async function generateUrbanRLF(lcDBObj) {
                             text: 'M.A.P.P. SUSANA ARACELI ÁNGELES QUEZADA\nPRESIDENTA MUNICIPAL CONSTITUCIONAL\nDE TIZAYUCA, HIDALGO.',
                             style: 'labelTC'
                         },
-                        {},
                         {
                             text: 'M.A.C.I.G. HIPÓLITO ZAMORA SORIA.\nDIRECTOR GENERAL DEL INSTITUTO MUNICIPAL\nDE DESARROLLO URBANO Y VIVIENDA.',
                             style: 'labelTC'

@@ -1653,6 +1653,32 @@ textarea.invissible:focus {
     font-weight: bold;
 }
 
+.tooltip {
+    position: relative;
+    display: inline-block;
+}
+
+.tooltip-text {
+    font-size: 2rem;
+    visibility: hidden;
+    color: var(--white);
+    text-align: center;
+    position: absolute;
+    bottom: 100%; 
+    left: 50%;
+    transform: translateX(-50%);
+    white-space: nowrap;
+    z-index: 1;
+    opacity: 0%;
+    transition: ease-in-out .2s;
+}
+
+.tooltip:hover .tooltip-text {
+    visibility: visible;
+    opacity: 100%;
+}
+
+
 @media (max-width: 1450px) {
     .btn-column {
         font-size: 4.4rem;

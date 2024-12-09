@@ -318,7 +318,7 @@ export async function generateLandUseDP(lcDBObj) {
                     widths: ['*'],
                     body: [
                         [
-                            {text: "03PE09 - MAPA DE ZONIFICACIÓN", style: 'headT', border: docUtils.borderless, margin:[1,2,1,2]}
+                            {text: `03PE09 - MAPA DE ZONIFICACIÓN - ${lcDBObj.geoReference}`, style: 'headT', border: docUtils.borderless, margin:[1,2,1,2]}
                         ],
                         [
                             {

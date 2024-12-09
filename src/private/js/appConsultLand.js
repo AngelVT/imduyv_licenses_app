@@ -335,6 +335,7 @@ function generateLandFields(resObj, resultContent) {
     let resultNav = document.createElement('div');
     let navButtons = document.createElement('ul');
     let navButton;
+    let navButtonTooltip;
 
     resultNav.setAttribute('class', 'w-100 step-controls result dis-flex flex-center margin-bottom-medium');
     resultNav.setAttribute('id', `result_${resObj.id}_nav`);
@@ -342,38 +343,62 @@ function generateLandFields(resObj, resultContent) {
 
     // * Nav button
     navButton = document.createElement('li');
-    navButton.setAttribute('class', 'selected bi-person btn');
+    navButton.setAttribute('class', 'tooltip selected bi-person btn');
     navButton.setAttribute('onclick', `resultNavigation(this, ${resObj.id}, 1, 6)`);
+    navButtonTooltip = document.createElement('span');
+    navButtonTooltip.setAttribute('class', 'tooltip-text');
+    navButtonTooltip.innerText = 'Datos del solicitante';
+    navButton.appendChild(navButtonTooltip);
     navButtons.appendChild(navButton);
 
     // * Nav button
     navButton = document.createElement('li');
-    navButton.setAttribute('class', 'bi-building-exclamation btn');
+    navButton.setAttribute('class', 'tooltip bi-building btn');
     navButton.setAttribute('onclick', `resultNavigation(this, ${resObj.id}, 2, 6)`);
+    navButtonTooltip = document.createElement('span');
+    navButtonTooltip.setAttribute('class', 'tooltip-text');
+    navButtonTooltip.innerText = 'Datos del inmueble';
+    navButton.appendChild(navButtonTooltip);
     navButtons.appendChild(navButton);
 
     // * Nav button
     navButton = document.createElement('li');
-    navButton.setAttribute('class', 'bi-building-check btn');
+    navButton.setAttribute('class', 'tooltip bi-shield-check btn');
     navButton.setAttribute('onclick', `resultNavigation(this, ${resObj.id}, 3, 6)`);
+    navButtonTooltip = document.createElement('span');
+    navButtonTooltip.setAttribute('class', 'tooltip-text');
+    navButtonTooltip.innerText = 'Zonificación y autorización';
+    navButton.appendChild(navButtonTooltip);
     navButtons.appendChild(navButton);
 
     // * Nav button
     navButton = document.createElement('li');
-    navButton.setAttribute('class', 'bi-calendar-week btn');
+    navButton.setAttribute('class', 'tooltip bi-calendar-week btn');
     navButton.setAttribute('onclick', `resultNavigation(this, ${resObj.id}, 4, 6)`);
+    navButtonTooltip = document.createElement('span');
+    navButtonTooltip.setAttribute('class', 'tooltip-text');
+    navButtonTooltip.innerText = 'Vigencias y plazos';
+    navButton.appendChild(navButtonTooltip);
     navButtons.appendChild(navButton);
 
     // * Nav button
     navButton = document.createElement('li');
-    navButton.setAttribute('class', 'bi-cash-coin btn');
+    navButton.setAttribute('class', 'tooltip bi-cash-coin btn');
     navButton.setAttribute('onclick', `resultNavigation(this, ${resObj.id}, 5, 6)`);
+    navButtonTooltip = document.createElement('span');
+    navButtonTooltip.setAttribute('class', 'tooltip-text');
+    navButtonTooltip.innerText = 'Información de pago';
+    navButton.appendChild(navButtonTooltip);
     navButtons.appendChild(navButton);
 
     // * Nav button
     navButton = document.createElement('li');
-    navButton.setAttribute('class', 'bi-plus-circle btn');
+    navButton.setAttribute('class', 'tooltip bi-plus-circle btn');
     navButton.setAttribute('onclick', `resultNavigation(this, ${resObj.id}, 6, 6)`);
+    navButtonTooltip = document.createElement('span');
+    navButtonTooltip.setAttribute('class', 'tooltip-text');
+    navButtonTooltip.innerText = 'Datos de especiales';
+    navButton.appendChild(navButtonTooltip);
     navButtons.appendChild(navButton);
 
     resultNav.appendChild(navButtons);

@@ -41,7 +41,7 @@ export async function generateUrbanLF(lcDBObj) {
                         [
                             {
                                 table: {
-                                    widths: ['auto', '*'],
+                                    widths: [70, '*'],
                                     body: [
                                         [
                                             {text: 'Nombre: ', style: 'labelT', border: docUtils.borderless},
@@ -65,7 +65,7 @@ export async function generateUrbanLF(lcDBObj) {
                             },
                             {
                                 table: {
-                                    widths: ['auto', '*'],
+                                    widths: [60, '*'],
                                     body: [
                                         [
                                             {text: 'Domicilio: ', style: 'labelT', border: docUtils.borderless},
@@ -73,7 +73,7 @@ export async function generateUrbanLF(lcDBObj) {
                                         ],
                                         [
                                             {text: 'Clave Catastral: ', style: 'labelT', border: docUtils.borderless},
-                                            docUtils.field(lcDBObj.catastralKey, docUtils.borderless, 1, 'center', 7),
+                                            docUtils.field(lcDBObj.catastralKey, docUtils.borderless, 1, 'center', 6),
                                         ],
                                         [
                                             {text: 'Superficie Total: ', style: 'labelT', border: docUtils.borderless},
@@ -553,7 +553,7 @@ export async function generateUrbanLF(lcDBObj) {
                         text:'NOTIFÍQUESE Y CÚMPLASE\nASÍ EN DEFINITIVA LO RESOLVIÓ Y AUTORIZÓ EL MAESTRO EN AUDITORÍA Y CONTROL INTERNO GUBERNAMENTAL HIPÓLITO ZAMORA SORIA,\nDIRECTOR GENERAL DEL INSTITUTO MUNICIPAL DE DESARROLLO URBANO Y VIVIENDA',
                         style: 'center',
                         fontSize: 6,
-                        margin: [0,10,0,50]
+                        margin: [0,10,0,100]
                     },
                     /*{
                         columns: [

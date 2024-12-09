@@ -300,13 +300,27 @@
 
                 <div class="step-controls dis-flex flex-center">
                     <ul class="dis-flex flex-evenly w-100 txt-center color-white txt-medium" id="reg_nav">
-                        <li class="selected bi-person btn" onclick="changeStep(this, 1, 'form_reg', false)"></li>
-                        <li class="bi-building-exclamation btn" onclick="changeStep(this, 2, 'form_reg', false)"></li>
-                        <li class="bi-building-check btn" onclick="changeStep(this, 3, 'form_reg', false)"></li>
-                        <li class="bi-calendar-week btn" onclick="changeStep(this, 4, 'form_reg', false)"></li>
-                        <li class="bi-cash-coin btn" onclick="changeStep(this, 5, 'form_reg', false)"></li>
-                        <li class="bi-check-circle btn" onclick="changeStep(this, 6, 'form_reg', true)"></li>
-                        <li class="bi-trash btn" onclick="resetForm('form_reg')"></li>
+                        <li class="tooltip selected bi-person btn" onclick="changeStep(this, 1, 'form_reg', false)">
+                            <span class="tooltip-text">Datos del solicitante</span>
+                        </li>
+                        <li class="tooltip bi-building btn" onclick="changeStep(this, 2, 'form_reg', false)">
+                            <span class="tooltip-text">Datos del inmueble</span>
+                        </li>
+                        <li class="tooltip bi-shield-check btn" onclick="changeStep(this, 3, 'form_reg', false)">
+                            <span class="tooltip-text">Zonificación y autorización</span>
+                        </li>
+                        <li class="tooltip bi-calendar-week btn" onclick="changeStep(this, 4, 'form_reg', false)">
+                            <span class="tooltip-text">Vigencias y plazos</span>
+                        </li>
+                        <li class="tooltip bi-cash-coin btn" onclick="changeStep(this, 5, 'form_reg', false)">
+                            <span class="tooltip-text">Información de pago</span>
+                        </li>
+                        <li class="tooltip bi-check-circle btn" onclick="changeStep(this, 6, 'form_reg', true)">
+                            <span class="tooltip-text">Verificar</span>
+                        </li>
+                        <li class="tooltip bi-trash btn" onclick="resetForm('form_reg')">
+                            <span class="tooltip-text">Reiniciar</span>
+                        </li>
                     </ul>
                 </div>
             </article>

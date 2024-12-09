@@ -302,15 +302,6 @@ export const UrbanLicense = pool.define(
             allowNull: true,
             defaultValue: 'New record'
         },
-        address: {
-            type: DataTypes.STRING,
-            allowNull: true
-        },
-        number: {
-            type: DataTypes.STRING,
-            allowNull: true,
-            defaultValue: 'S/N'
-        },
         colony: {
             type: DataTypes.STRING,
             allowNull: true
@@ -318,6 +309,10 @@ export const UrbanLicense = pool.define(
         catastralKey: {
             type: DataTypes.STRING,
             allowNull: true
+        },
+        geoReference: {
+            type: DataTypes.STRING,
+            allowNull: false
         },
         licenseTerm: {
             type: DataTypes.INTEGER,

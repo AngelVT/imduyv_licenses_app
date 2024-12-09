@@ -340,6 +340,7 @@ function generateUrbanFields(resObj, resultContent) {
     let resultNav = document.createElement('div');
     let navButtons = document.createElement('ul');
     let navButton;
+    let navButtonTooltip;
 
     resultNav.setAttribute('class', 'w-100 step-controls result dis-flex flex-center margin-bottom-medium');
     resultNav.setAttribute('id', `result_${resObj.id}_nav`);
@@ -347,38 +348,62 @@ function generateUrbanFields(resObj, resultContent) {
 
     // * Nav button
     navButton = document.createElement('li');
-    navButton.setAttribute('class', 'selected bi-person btn');
+    navButton.setAttribute('class', 'tooltip selected bi-person btn');
     navButton.setAttribute('onclick', `resultNavigation(this, ${resObj.id}, 1, 6)`);
+    navButtonTooltip = document.createElement('span');
+    navButtonTooltip.setAttribute('class', 'tooltip-text');
+    navButtonTooltip.innerText = 'Datos del solicitante';
+    navButton.appendChild(navButtonTooltip);
     navButtons.appendChild(navButton);
 
     // * Nav button
     navButton = document.createElement('li');
-    navButton.setAttribute('class', 'bi-building-exclamation btn');
+    navButton.setAttribute('class', 'tooltip bi-building btn');
     navButton.setAttribute('onclick', `resultNavigation(this, ${resObj.id}, 2, 6)`);
+    navButtonTooltip = document.createElement('span');
+    navButtonTooltip.setAttribute('class', 'tooltip-text');
+    navButtonTooltip.innerText = 'Datos del inmueble';
+    navButton.appendChild(navButtonTooltip);
     navButtons.appendChild(navButton);
 
     // * Nav button
     navButton = document.createElement('li');
-    navButton.setAttribute('class', 'bi-building-check btn');
+    navButton.setAttribute('class', 'tooltip bi-shield-check btn');
     navButton.setAttribute('onclick', `resultNavigation(this, ${resObj.id}, 3, 6)`);
+    navButtonTooltip = document.createElement('span');
+    navButtonTooltip.setAttribute('class', 'tooltip-text');
+    navButtonTooltip.innerText = 'Zonificación y autorización';
+    navButton.appendChild(navButtonTooltip);
     navButtons.appendChild(navButton);
 
     // * Nav button
     navButton = document.createElement('li');
-    navButton.setAttribute('class', 'bi-calendar-week btn');
+    navButton.setAttribute('class', 'tooltip bi-calendar-week btn');
     navButton.setAttribute('onclick', `resultNavigation(this, ${resObj.id}, 4, 6)`);
+    navButtonTooltip = document.createElement('span');
+    navButtonTooltip.setAttribute('class', 'tooltip-text');
+    navButtonTooltip.innerText = 'Vigencias y plazos';
+    navButton.appendChild(navButtonTooltip);
     navButtons.appendChild(navButton);
 
     // * Nav button
     navButton = document.createElement('li');
-    navButton.setAttribute('class', 'bi-cash-coin btn');
+    navButton.setAttribute('class', 'tooltip bi-cash-coin btn');
     navButton.setAttribute('onclick', `resultNavigation(this, ${resObj.id}, 5, 6)`);
+    navButtonTooltip = document.createElement('span');
+    navButtonTooltip.setAttribute('class', 'tooltip-text');
+    navButtonTooltip.innerText = 'Información de pago';
+    navButton.appendChild(navButtonTooltip);
     navButtons.appendChild(navButton);
 
     // * Nav button
     navButton = document.createElement('li');
-    navButton.setAttribute('class', `bi-plus-circle btn ${resObj.licenseType == 1 || resObj.licenseType == 2 || resObj.licenseType == 6 ? 'dis-none' : ''}`);
+    navButton.setAttribute('class', `tooltip bi-plus-circle btn ${resObj.licenseType == 1 || resObj.licenseType == 2 || resObj.licenseType == 6 ? 'dis-none' : ''}`);
     navButton.setAttribute('onclick', `resultNavigation(this, ${resObj.id}, 6, 6)`);
+    navButtonTooltip = document.createElement('span');
+    navButtonTooltip.setAttribute('class', 'tooltip-text');
+    navButtonTooltip.innerText = 'Datos de formato';
+    navButton.appendChild(navButtonTooltip);
     navButtons.appendChild(navButton);
 
     resultNav.appendChild(navButtons);
@@ -428,25 +453,15 @@ function generateUrbanFields(resObj, resultContent) {
 
     fieldGroup.appendChild(fieldGroupTittle);
 
-    if (resObj.licenseType >= 2 && resObj.licenseType <= 8) {
-        field = createResultField(resObj.id, 'Domicilio del inmueble', 'buildingAddress', resObj.licenseSpecialData.buildingAddress, 'text');
+    field = createResultField(resObj.id, 'Domicilio del inmueble', 'buildingAddress', resObj.licenseSpecialData.buildingAddress, 'text');
         
     fieldGroup.appendChild(field);
-    }
 
-    if (resObj.licenseType == 1) {
-        field = createResultField(resObj.id, 'Calle', 'address', resObj.address, 'text');
-
-        fieldGroup.appendChild(field);
-
-        field = createResultField(resObj.id, 'Numero', 'number', resObj.number, 'text');
+    if (resObj.licenseType >= 6 && resObj.licenseType <= 8) {
+        field = createResultField(resObj.id, 'Colonia/Asentamiento', 'colony', resObj.colony, 'text');
 
         fieldGroup.appendChild(field);
     }
-
-    field = createResultField(resObj.id, 'Colonia/Asentamiento', 'colony', resObj.colony, 'text');
-
-    fieldGroup.appendChild(field);
 
     if (resObj.licenseType >= 1 && resObj.licenseType <= 6) {
         field = createResultField(resObj.id, 'Clave catastral', 'catastralKey', resObj.catastralKey, 'text');
@@ -484,6 +499,10 @@ function generateUrbanFields(resObj, resultContent) {
         imgDiv.appendChild(field)
 
         fieldGroup.appendChild(imgDiv);
+
+        field = createResultField(resObj.id, 'Zonificación/División o subdivisión', 'zoneIMG', resObj.fullInvoice, 'file');
+
+        fieldGroup.appendChild(field);
     }
 
     if (resObj.licenseType == 1 || resObj.licenseType == 2 || resObj.licenseType == 6) {
@@ -517,18 +536,6 @@ function generateUrbanFields(resObj, resultContent) {
             `
 
         field.querySelector('select').value = resObj.licenseZone;
-
-        fieldGroup.appendChild(field);
-    }
-
-    if (resObj.licenseType == 3 || resObj.licenseType == 4) {
-        field = createResultField(resObj.id, 'Zonificación/División o subdivisión', 'zoneIMG', resObj.fullInvoice, 'file');
-
-        fieldGroup.appendChild(field);
-    }
-
-    if (resObj.licenseType == 1) {
-        field = createResultField(resObj.id, 'P.C.U.', 'PCU', resObj.licenseSpecialData.PCU, 'text');
 
         fieldGroup.appendChild(field);
     }
@@ -567,6 +574,27 @@ function generateUrbanFields(resObj, resultContent) {
         fieldGroup.appendChild(field);
     }
 
+    if (resObj.licenseType == 1) {
+        field = createResultField(resObj.id, 'P.C.U.', 'PCU', resObj.licenseSpecialData.PCU, 'text');
+
+        fieldGroup.appendChild(field);
+
+        field = createResultField(resObj.id, 'Porcentaje de ocupación', 'occupationPercent', resObj.licenseSpecialData.occupationPercent, 'number');
+        fieldGroup.appendChild(field);
+
+        field = createResultField(resObj.id, 'Superficie minima por lote', 'surfacePerLote', resObj.licenseSpecialData.surfacePerLote, 'number');
+        fieldGroup.appendChild(field);
+
+        field = createResultField(resObj.id, 'Altura maxima', 'maximumHeight', resObj.licenseSpecialData.maximumHeight, 'text');
+        fieldGroup.appendChild(field);
+
+        field = createResultField(resObj.id, 'Frente mínimo', 'minimalFront', resObj.licenseSpecialData.minimalFront, 'number');
+        fieldGroup.appendChild(field);
+
+        field = createResultField(resObj.id, 'Restricción frontal', 'frontalRestriction', resObj.licenseSpecialData.frontalRestriction, 'number');
+        fieldGroup.appendChild(field);
+    }
+
     if (resObj.licenseType == 6) {
         field = createResultTextArea(resObj.id, 'Constancia de Uso de Suelo', 'urbanCUS', resObj.licenseSpecialData.urbanCUS);
         fieldGroup.appendChild(field);
@@ -584,13 +612,8 @@ function generateUrbanFields(resObj, resultContent) {
         fieldGroup.appendChild(field);
     }
 
-    if (resObj.licenseType == 2) {
-        field = createResultField(resObj.id, 'Porcentaje de ocupación', 'occupationPercent', resObj.licenseSpecialData.occupationPercent, 'number');
-        fieldGroup.appendChild(field);
-    }
-
     if (resObj.licenseType == 2 || resObj.licenseType == 6) {
-        field = createResultField(resObj.id, 'Porcentaje de uso', 'usePercent', resObj.licenseSpecialData.usePercent, 'number');
+        field = createResultField(resObj.id, 'Porcentaje de ocupación', 'occupationPercent', resObj.licenseSpecialData.occupationPercent, 'number');
         fieldGroup.appendChild(field);
 
         field = createResultField(resObj.id, 'Superficie minima por lote', 'surfacePerLote', resObj.licenseSpecialData.surfacePerLote, 'number');
@@ -606,6 +629,22 @@ function generateUrbanFields(resObj, resultContent) {
         fieldGroup.appendChild(field);
 
         field = createResultField(resObj.id, 'Estacionamientos', 'parkingLots', resObj.licenseSpecialData.parkingLots, 'text');
+        fieldGroup.appendChild(field);
+    }
+
+    if (resObj.licenseType == 2) {
+        field = createResultField(resObj.id, 'Licencia antecedente', 'antecedent', resObj.licenseSpecialData.antecedent, 'text');
+        fieldGroup.appendChild(field);
+
+        field = createResultField(resObj.id, 'Tipo de antecedente', 'antecedentType', resObj.licenseSpecialData.antecedentType, 'select');
+
+        field.querySelector('select').innerHTML = `
+            <option value="">Seleccione ...</option>
+            <option value="0">Subdivision</option>
+            <option value="1">Fusion</option>`
+
+        field.querySelector('select').value = resObj.licenseSpecialData.antecedentType;
+
         fieldGroup.appendChild(field);
     }
 
