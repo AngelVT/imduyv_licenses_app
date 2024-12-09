@@ -229,29 +229,9 @@ export async function generateUrbanC(lcDBObj) {
                         margin: [0,10,0,0]
                     },
                     {
-                        table: {
-                            widths: ['*','auto','*'],
-                            body: [
-                                [
-                                    {
-                                        margin: [0,52,0,0],
-                                        text: `Elaboró: ${docUtils.madeBy(lcDBObj.elaboratedBy)}\nRevisó: F.I.G.S.`,
-                                        fontSize: 6
-                                    },
-                                    docUtils.signatureDirector(lcDBObj.approvalStatus),
-                                    {
-                                        columns: [
-                                            docUtils.signatureSeal(lcDBObj.approvalStatus),
-                                            {
-                                                text: '',
-                                                alignment: 'right'
-                                            }
-                                        ]
-                                    }
-                                ],
-                            ]
-                        },
-                        layout: docUtils.noBorderNoPadding
+                            margin: [0,52,0,0],
+                            text: `Elaboró: ${docUtils.madeBy(lcDBObj.elaboratedBy)}\nRevisó: F.I.G.S.`,
+                            fontSize: 6
                     },
                     {
                         text: 'M.A.C.I.G. HIPÓLITO ZAMORA SORIA.\nDIRECTOR GENERAL',

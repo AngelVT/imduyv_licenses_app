@@ -245,7 +245,7 @@ function changeStep(btn, step, form, checkFields) {
                 return;
             }
 
-            if (!formData.validity && e.getAttribute('name') == 'validity') {
+            if (!formData.validity && field.getAttribute('name') == 'validity') {
                 focusMissing(field);
                 field.closest('div').classList.add('missing-field');
                 return;
@@ -253,7 +253,7 @@ function changeStep(btn, step, form, checkFields) {
                 field.closest('div').classList.remove('missing-field');
             }
 
-            if (!formData.expeditionType && e.getAttribute('name') == 'expeditionType') {
+            if (!formData.expeditionType && field.getAttribute('name') == 'expeditionType') {
                 focusMissing(field);
                 field.closest('div').classList.add('missing-field');
                 return;
@@ -261,7 +261,7 @@ function changeStep(btn, step, form, checkFields) {
                 field.closest('div').classList.remove('missing-field');
             }
 
-            if (!formData.term && e.getAttribute('name') == 'term') {
+            if (!formData.term && field.getAttribute('name') == 'term') {
                 focusMissing(field);
                 field.closest('div').classList.add('missing-field');
                 return;

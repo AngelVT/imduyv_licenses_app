@@ -73,7 +73,7 @@ export const cellLayout = {
 export const docStyles = {
     headT: {
         color: 'white',
-        fillColor: '#920000',
+        fillColor: '#832339',
         fontSize: 7,
         bold: true,
         alignment: 'center',

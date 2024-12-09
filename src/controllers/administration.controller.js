@@ -1,4 +1,4 @@
-import { AdministrationDetails } from "../models/Administration.models.js";
+
 
 export const getPeriods = async (req, res) => {
     res.send().json({

@@ -35,11 +35,11 @@ export const passwordReset = async (req, res) => {
 
         res.status(response.status).json(response.data);
 
-        logger.logAccessInfo('sign in completed', 
+        logger.logAccessInfo('Sign in completed', 
             `Requestor ID -> ${req.userID}
             Requestor Name -> ${req.name}
             Requestor Username -> ${req.username}
-            Get request -> ${response.log}`);
+            Password reset request -> ${response.log}`);
     } catch (error) {
         logger.logConsoleError('Sign in request failed due to server side error', error);
         logger.logRequestError('Sign in request failed due to server side error', error);

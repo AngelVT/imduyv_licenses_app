@@ -231,10 +231,10 @@ export async function generateLandUseL(lcDBObj) {
                             body: [
                                 [
                                     {},
-                                    docUtils.signatureDirector(lcDBObj.approvalStatus),
+                                    {},
                                     {
                                         columns: [
-                                            docUtils.signatureSeal(lcDBObj.approvalStatus),
+                                            {},
                                             {
                                                 svg: `
                                                     <svg width="30" height="84">

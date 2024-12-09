@@ -3,25 +3,55 @@ import { pool } from '../database.js';
 
 import * as logger from "../libs/loggerFunctions.js";
 
-export const AdministrationDetails = pool.define(
-    'administration_details', {
+export const MunicipalAdministration = pool.define(
+    'municipal_administration', {
         municipalPresident: {
             type: DataTypes.STRING,
             allowNull: false
         },
-        instituteDirector: {
+        administrationStart: {
+            type: DataTypes.DATEONLY,
+            allowNull: false
+        },
+        administrationEnd: {
+            type: DataTypes.DATEONLY,
+            allowNull: false
+        }
+    },{
+        timestamps: false
+    }
+);
+
+export const InstituteAdministration = pool.define(
+    'institute_administration', {
+        directorName: {
             type: DataTypes.STRING,
             allowNull: false
         },
-        instituteDTittle: {
+        directorTittle: {
             type: DataTypes.STRING,
             allowNull: false
         },
-        instituteDTittleShort: {
+        directorTittleShort: {
             type: DataTypes.STRING,
             allowNull: false
         },
-        licensesDirector: {
+        administrationStart: {
+            type: DataTypes.DATEONLY,
+            allowNull: false
+        },
+        administrationEnd: {
+            type: DataTypes.DATEONLY,
+            allowNull: false
+        }
+    },{
+        timestamps: false
+    }
+);
+
+export const LicensesAdministration = pool.define(
+    'licenses_administration', {
+        directorName: {
             type: DataTypes.STRING,
             allowNull: false
         },

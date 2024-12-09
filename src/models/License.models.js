@@ -112,7 +112,8 @@ export const LandUseLicense = pool.define(
         },
         lastModifiedBy: {
             type: DataTypes.STRING,
-            allowNull: false
+            allowNull: true,
+            defaultValue: 'New record'
         },
         requestDate: {
             type: DataTypes.DATEONLY,
@@ -298,7 +299,8 @@ export const UrbanLicense = pool.define(
         },
         lastModifiedBy: {
             type: DataTypes.STRING,
-            allowNull: false
+            allowNull: true,
+            defaultValue: 'New record'
         },
         address: {
             type: DataTypes.STRING,

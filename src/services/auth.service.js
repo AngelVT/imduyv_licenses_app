@@ -103,6 +103,18 @@ export async function requestPasswordReset(request) {
         }
     }
 
+    if (await comparePassword(newPassword, USER.password)) {
+        return {
+            status: 400,
+            data: {
+                msg: "The new password cannot be the current one."
+            },
+            log: `Password reset attempt with same current password:
+                    User id -> ${USER.id}
+                    Username -> ${USER.username}`
+        }
+    }
+
     if(!authValidations.validatePassword(newPassword)) {
         return {
             status: 400,
