@@ -2,24 +2,26 @@ import fs from 'fs/promises';
 import { __dirname, __dirstorage } from "../paths.js";
 import path from "path";
 
-import { printerPDF } from "../libs/pdfUtil.js"
-import * as docUtils from "../models/docs/docUtils/utils.js";
-import { generateTest } from "../models/docs/docUtils/parts.js";
+import { Op, where } from 'sequelize';
+import { LandUseLicense } from '../models/License.models.js'
 
 export const test = async (req, res) => {
     try {
-        const def = await generateTest(docUtils.recordExample, req.headers.host);
+        const RES = await LandUseLicense.findOne(
+            {
+                where: {
+                    [Op.and]: [
+                        { requestDate: { [Op.lte]: '2025-06-09' } },
+                        { expirationDate: { [Op.gte]: '2025-06-09' } }
+                    ]
+                }
+            }
+        );
 
-        const pdfDoc = await printerPDF.createPdfKitDocument(def);
-
-        res.setHeader('Content-Type', 'application/pdf');
-        //res.setHeader('Content-Disposition', `attachment; filename="QR.pdf"`);
-        pdfDoc.info.Title = 'IMDUYV/DLYCU/C/001/2024';
-        pdfDoc.pipe(res);
-        pdfDoc.end();
+        res.status(200).json(RES);
     } catch (error) {
         console.log('Tha error: ', error);
-        res.status(500).json({msg: "Error on server"});
+        res.status(500).json({ msg: "Error on server" });
     }
 }
 
@@ -30,7 +32,7 @@ export const testFile = async (req, res, next) => {
         res.sendFile(filePath);
     } catch (error) {
         console.log('Tha error: ', error);
-        res.status(500).json({msg: "Error on server"});
+        res.status(500).json({ msg: "Error on server" });
     }
 }
 
@@ -40,29 +42,29 @@ export const testScript = async (req, res, next) => {
         const destination = path.join(__dirstorage, 'test.js');
 
         const json = JSON.stringify({
-                "type": "create:compacting",
-                "heatRequirement": "heated",
-                "ingredients": [
-                    {
-                        "item": "minecraft:gold_ingot"
-                    },
-                    {
-                        "item": "minecraft:gold_ingot"
-                    },
-                    {
-                        "item": "minecraft:netherite_scrap"
-                    },
-                    {
-                        "item": "minecraft:netherite_scrap"
-                    }
-                ],
-                "results": [
-                    {
-                        "item": "minecraft:netherite_ingot",
-                        "count": 1
-                    }
-                ]
-            });
+            "type": "create:compacting",
+            "heatRequirement": "heated",
+            "ingredients": [
+                {
+                    "item": "minecraft:gold_ingot"
+                },
+                {
+                    "item": "minecraft:gold_ingot"
+                },
+                {
+                    "item": "minecraft:netherite_scrap"
+                },
+                {
+                    "item": "minecraft:netherite_scrap"
+                }
+            ],
+            "results": [
+                {
+                    "item": "minecraft:netherite_ingot",
+                    "count": 1
+                }
+            ]
+        });
 
         const script = `
 ServerEvents.recipes(event => {
@@ -81,6 +83,6 @@ ServerEvents.recipes(event => {
         res.status(200).sendFile(destination);
     } catch (error) {
         console.log('Tha error: ', error);
-        res.status(500).json({msg: "Error on server"});
+        res.status(500).json({ msg: "Error on server" });
     }
 }
