@@ -39,4 +39,6 @@ router.get('/userConsult', [authenticator.verifyToken, authenticator.accountInte
 
 router.get('/passwordReset', authenticator.verifyToken , appControl.goPasswordReset);
 
+router.get('/administration', [authenticator.verifyToken, authenticator.accountIntegrity , authenticator.isAdmin] , appControl.goAdministrationMenu);
+
 export default router;

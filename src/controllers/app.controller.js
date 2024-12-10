@@ -154,6 +154,15 @@ export const goUserConsult = (req, res) => {
     }
 };
 
+export const goAdministrationMenu = (req, res) => {
+    try {
+        res.sendFile(path.join(__dirname, 'private', 'administration_panel.html'));
+    } catch (error) {
+        logger.logRequestError('Error loading page due to server side error', error);
+        res.status(500).json({msg: "Error loading resource"});
+    }
+};
+
 export const getZoneInfo = async (req, res) => {
     try {
         const georeference = req.params.coordinates;

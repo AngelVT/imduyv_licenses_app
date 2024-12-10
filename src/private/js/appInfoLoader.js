@@ -11,6 +11,8 @@ async function getUserData() {
             const mm = document.getElementById('mm');
             const administration = document.getElementById('admin_link');
             const sysadmin = document.getElementById('sys_link');
+            const urbanInvoiceForm = document.getElementById('invoice_form_urban');
+            const landInvoiceForm = document.getElementById('invoice_form_land');
 
             if(mm){
                 if (response.group == 'all') {
@@ -27,6 +29,18 @@ async function getUserData() {
             if (sysadmin) {
                 if (response.role == 'system') {
                     sysadmin.classList.remove('dis-none');
+                }
+            }
+
+            if (urbanInvoiceForm) {
+                if (response.group == 'urban') {
+                    landInvoiceForm.classList.add('dis-none');
+                }
+            }
+
+            if (landInvoiceForm) {
+                if (response.group == 'land_use') {
+                    urbanInvoiceForm.classList.add('dis-none');
                 }
             }
             return;

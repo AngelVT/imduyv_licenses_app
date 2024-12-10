@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/public/libs/bootstrap-icons-1.11.3/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="/public/css/tlib-0.1.0.css">
+    <title>System admin</title>
+    <link rel="shortcut icon" href="/public/img/admin_icon.svg" type="image/x-icon">
+    <script src="/private/js/appLogout.js" defer></script>
+    <script src="/private/js/appInfoLoader.js" defer></script>
+    <script src="/private/js/appAdministrationPanel.js" defer></script>
+</head>
+<body>
+    <main class="page bg-blur padding-large admin-panel">
+        <span class="bi-buildings-fill user-info">
+            <div class="border-round color-white">
+                <span id="user_name" class="bi-person-circle padding-horizontal-small"> Usuario</span>
+                <a target="_blank" id="sys_link" href="/app/sysadmin" class="dis-none"><span class="bi-cup-hot btn"> System administration</span></a>
+                <span id="logout" class="bi-door-open btn"> Cerrar sesión</span>
+            </div>
+        </span>
+
+        <ul id="top_menu" class="dis-flex padding-horizontal-small">
+            <li id="invoice_btn" class="txt-medium bi-journal-bookmark-fill menu-tab tooltip">
+                <span class="tooltip-text txt-smalls">Contador de Folios</span>
+            </li>
+            <li id="municipal_btn" class="txt-medium bi-award menu-tab tooltip">
+                <span class="tooltip-text txt-smalls">Administración Municipio</span>
+            </li>
+            <li id="institute_btn" class="txt-medium bi-building menu-tab tooltip">
+                <span class="tooltip-text txt-smalls">Dirección del Instituto</span>
+            </li>
+            <li id="license_btn" class="txt-medium bi-file-earmark-post menu-tab tooltip">
+                <span class="tooltip-text txt-smalls">Dirección de Licencias</span>
+            </li>
+        </ul>
+
+        <section id="panel_container" class="border-only-top border-primary">
+
+            <article class="" id="admin_invoices">
+                <h2 class="w-100 txt-center margin-vertical-small color-primary">Folios de conteo</h2>
+
+                <div class="w-100 dis-flex flex-evenly margin-bottom-small color-black txt-smalls instructions">
+                    <div class="w-45 txt-justify">
+                        <p class="margin-bottom-small">Antes de comenzar a utilizar el sistema, es necesario determinar los folios iniciales para cada uno de los <strong class="color-primary">15 formatos</strong> de registros que se manejan. Sigue estos pasos:</p>
+
+                        <ul class="margin-left-medium">
+                            <li class="margin-bottom-small"><strong class="color-primary">Identifica el último folio</strong> de cada tipo que se haya generado <strong class="color-primary">fuera del sistema</strong>.</li>
+                            <li class="margin-bottom-small">Por ejemplo: si el último folio del tipo <strong class="color-primary">C</strong> es <strong class="color-primary">150</strong>, este será el valor que deberás indicar.</li>
+                            <li class="margin-bottom-small">Ingresa estos folios en su campo correspondiente. El sistema comenzará a generar automáticamente los folios a partir del siguiente número (en este ejemplo, el próximo sería <strong class="color-primary">151</strong>).</li>
+                        </ul>
+                    </div>
+                    <div class="w-45 txt-justify">
+                        <p class="bi-exclamation-diamond-fill color-warning txt-bold margin-bottom-small"> Importante:</p>
+                        <ul class="margin-left-medium">
+                            <li class="margin-bottom-small">Esta configuración solo se realiza <strong class="color-primary">una vez</strong> y <strong class="color-primary">no se puede modificar</strong> posteriormente.</li>
+                            <li class="margin-bottom-small">Asegúrate de ingresar los valores correctamente antes de confirmar.</li>
+                        </ul>
+                    
+                        <p class="margin-bottom-small">Si tienes dudas, consulta antes de proceder.</p>
+                    </div>
+                </div>
+
+                <div class="w-95 dis-flex flex-wrap flex-evenly admin-forms">
+
+                    <form id="invoice_form_land" class="w-45 dis-flex flex-evenly flex-wrap color-primary txt-bold">
+                        <h1 class="w-100 txt-center margin-vertical-small color-primary">Licencias de uso de suelo</h1>
+
+                        <label class="w-30 dis-flex flex-wrap flex-center-v margin-bottom-small"><span class="w-35">Año: </span>
+                            <input class="w-65 input input-round input-interface" type="number" required name="year">
+                        </label>
+                        <label class="w-30 dis-flex flex-center-v margin-bottom-small"> <span class="w-35">C: </span>
+                            <input class="w-65 input input-round input-interface" type="number" required name="C">
+                        </label>
+                        <label class="w-30 dis-flex flex-center-v margin-bottom-small"> <span class="w-35">LS: </span>
+                            <input class="w-65 input input-round input-interface" type="number" required name="LS">
+                        </label>
+                        <label class="w-30 dis-flex flex-center-v margin-bottom-small"> <span class="w-35">LC: </span>
+                            <input class="w-65 input input-round input-interface" type="number" required name="LC">
+                        </label>
+                        <label class="w-30 dis-flex flex-center-v margin-bottom-small"> <span class="w-35">LI: </span>
+                            <input class="w-65 input input-round input-interface" type="number" required name="LI">
+                        </label>
+                        <label class="w-30 dis-flex flex-center-v margin-bottom-small"> <span class="w-35">LH: </span>
+                            <input class="w-65 input input-round input-interface" type="number" required name="LH">
+                        </label>
+                        <label class="w-30 dis-flex flex-center-v margin-bottom-small"> <span class="w-35">SEG: </span>
+                            <input class="w-65 input input-round input-interface" type="number" required name="SEG">
+                        </label>
+                        <label class="w-30 dis-flex flex-center-v margin-bottom-small"> <span class="w-35">DP: </span>
+                            <input class="w-65 input input-round input-interface" type="number" required name="DP">
+                        </label>
+                        <button class="w-80 btn btn-primary margin-vertical-medium" type="submit">Establecer</button>
+                    </form>
+
+                    <form id="invoice_form_urban" class="w-45 dis-flex flex-evenly flex-wrap color-primary txt-bold">
+                        <h1 class="w-100 txt-center margin-vertical-small color-primary">Tramites de acciones urbanas</h1>
+
+                        <label class="w-30 dis-flex flex-wrap flex-center-v margin-bottom-small"><span class="w-35">Año: </span>
+                            <input class="w-65 input input-round input-interface" type="number" required name="year">
+                        </label>
+                        <label class="w-30 dis-flex flex-center-v margin-bottom-small"> <span class="w-35">CUS: </span>
+                            <input class="w-65 input input-round input-interface" type="number" required name="CUS">
+                        </label>
+                        <label class="w-30 dis-flex flex-center-v margin-bottom-small"> <span class="w-35">LUS: </span>
+                            <input class="w-65 input input-round input-interface" type="number" required name="LUS">
+                        </label>
+                        <label class="w-30 dis-flex flex-center-v margin-bottom-small"> <span class="w-35">LSUB: </span>
+                            <input class="w-65 input input-round input-interface" type="number" required name="LSUB">
+                        </label>
+                        <label class="w-30 dis-flex flex-center-v margin-bottom-small"> <span class="w-35">LFUS: </span>
+                            <input class="w-65 input input-round input-interface" type="number" required name="LFUS">
+                        </label>
+                        <label class="w-30 dis-flex flex-center-v margin-bottom-small"> <span class="w-35">PLF: </span>
+                            <input class="w-65 input input-round input-interface" type="number" required name="PLF">
+                        </label>
+                        <label class="w-30 dis-flex flex-center-v margin-bottom-small"> <span class="w-35">LF: </span>
+                            <input class="w-65 input input-round input-interface" type="number" required name="LF">
+                        </label>
+                        <label class="w-30 dis-flex flex-center-v margin-bottom-small"> <span class="w-35">RLF: </span>
+                            <input class="w-65 input input-round input-interface" type="number" required name="RLF">
+                        </label>
+                        <label class="w-30 dis-flex flex-center-v margin-bottom-small"> <span class="w-35">CRPC: </span>
+                            <input class="w-65 input input-round input-interface" type="number" required name="CRPC">
+                        </label>
+                        <button class="w-80 btn btn-primary margin-vertical-medium" type="submit">Establecer</button>
+                    </form>
+                </div>
+            </article>
+
+            <article class="dis-none" id="admin_municipal">
+                <h2 class="w-100 txt-center margin-vertical-small color-primary">Administración municipal</h2>
+
+                <form id="municipal_form" class="dis-flex flex-evenly flex-wrap color-primary">
+                    <label class="w-30"> Nombre de presidenta(e) municipal:
+                        <input class="w-100 input input-interface input-round" type="text" name="municipalPresident" placeholder="Ej: M.A.P.P. Gretchen Alyne Atilano Moreno" required>
+                    </label>
+
+                    <label class="w-30"> Fecha de inicio:
+                        <input class="w-100 input input-interface input-round" type="date" name="administrationStart" required>
+                    </label>
+
+                    <label class="w-30"> Fecha de finalización:
+                        <input class="w-100 input input-interface input-round" type="date" name="administrationEnd" required>
+                    </label>
+                    <button class="w-60 btn btn-primary margin-vertical-medium" type="submit">Establecer Periodo</button>
+                </form>
+            </article>
+
+            <article class="dis-none" id="admin_institute">
+                <h2 class="w-100 txt-center margin-vertical-small color-primary">Dirección del instituto</h2>
+
+                <form id="institute_form" class="dis-flex flex-evenly flex-wrap color-primary">
+                    <label class="w-30"> Nombre de director(a) del instituto:
+                        <input class="w-100 input input-interface input-round" type="text" name="directorName" required placeholder="Ej: Hipólito Zamora Soria">
+                    </label>
+
+                    <label class="w-30">Titulo:
+                        <input class="w-100 input input-interface input-round" type="text" name="directorTittle" required placeholder="Ej: Maestro en Auditoría y Control Interno Gubernamental">
+                    </label>
+
+                    <label class="w-30">Titulo abreviado:
+                        <input class="w-100 input input-interface input-round" type="text" name="directorTittleShort" required placeholder="Ej: M.A.C.I.G.">
+                    </label>
+
+                    <label class="w-30"> Fecha de inicio:
+                        <input class="w-100 input input-interface input-round" type="date" name="administrationStart" required>
+                    </label>
+
+                    <label class="w-30"> Fecha de finalización:
+                        <input class="w-100 input input-interface input-round" type="date" name="administrationEnd" required>
+                    </label>
+                    <button class="w-60 btn btn-primary margin-vertical-medium" type="submit">Establecer Periodo</button>
+                </form>
+            </article>
+
+            <article class="dis-none" id="admin_direction">
+                <h2 class="w-100 txt-center margin-vertical-small color-primary">Dirección de Licencias</h2>
+
+                <form id="license_form" class="dis-flex flex-evenly flex-wrap color-primary">
+                    <label class="w-30"> Nombre de director(a) de licencias:
+                        <input class="w-100 input input-interface input-round" type="text" name="directorName" required placeholder="Ej: Fernando Irving Garcia Samperio">
+                    </label>
+
+                    <label class="w-30"> Fecha de inicio:
+                        <input class="w-100 input input-interface input-round" type="date" name="administrationStart" required>
+                    </label>
+
+                    <label class="w-30"> Fecha de finalización:
+                        <input class="w-100 input input-interface input-round" type="date" name="administrationEnd" required>
+                    </label>
+                    <button class="w-60 btn btn-primary margin-vertical-medium" type="submit">Establecer Periodo</button>
+                </form>
+            </article>
+
+        </section>
+    </main>
+</body>
+</html>

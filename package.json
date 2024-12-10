@@ -6,10 +6,11 @@
   "type": "module",
   "scripts": {
     "dev": "node --env-file=.env --watch src/index.mjs",
-    "testlocal": "node --env-file=.env src/index.local.mjs",
+    "devLocal": "node --env-file=.env --watch src/index.local.mjs",
+    "testLocal": "node --env-file=.env src/index.local.mjs",
     "test": "node --env-file=.env src/index.mjs",
     "start": "node src/index.mjs",
-    "startlocal": "node src/index.local.mjs"
+    "startLocal": "node src/index.local.mjs"
   },
   "keywords": [],
   "author": "Angel Velazquez Garcia (AngelVT)",

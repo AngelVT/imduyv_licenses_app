@@ -6,8 +6,9 @@
     --secondary_alpha: #998454ce;
     --complementary_alpha: #757575ce;
     --page-background: #A7B8BD;
-    --white: #fff;
-    --black: #000;
+    --warning: #ffee00;
+    --white: #F5F5F5;
+    --black: #121212;
     --small: .8rem;
     --regular: 1.6rem;
     --medium: 3.2rem;
@@ -71,6 +72,10 @@ body {
 
 .color-white {
     color: var(--white);
+}
+
+.color-warning {
+    color: var(--warning);
 }
 
 /*-------------------------------------------------------------------------*/
@@ -262,6 +267,10 @@ body {
 
 .txt-regular {
     font-size: 1.6rem;
+}
+
+.txt-smalls {
+    font-size: 1.4rem;
 }
 
 .txt-small {
@@ -1673,11 +1682,37 @@ textarea.invissible:focus {
     transition: ease-in-out .2s;
 }
 
+.tooltip-text.txt-smalls {
+    font-size: 1.4rem;
+}
+
 .tooltip:hover .tooltip-text {
     visibility: visible;
     opacity: 100%;
 }
 
+.menu-tab {
+    list-style: none;
+    border: 1px dotted var(--primary);
+    border-bottom: none;
+    padding: .8rem 1rem;
+    border-radius: 15px 15px 0px 0px;
+    color: var(--primary);
+    transition: ease-in-out 0.2s;
+    cursor: pointer;
+    margin: 0 .5rem;
+}
+
+.menu-tab:hover {
+    transform: scale(1.05);
+}
+
+.menu-tab.selected {
+    border: 1px solid var(--primary);
+    border-radius: 15px 15px 0px 0px;
+    color: var(--white);
+    background-color: var(--primary);
+}
 
 @media (max-width: 1450px) {
     .btn-column {
@@ -1774,6 +1809,14 @@ textarea.invissible:focus {
     .reg-step > * {
         width: 100%;
     }
+
+    .admin-forms, .instructions {
+        flex-direction: column;
+    }
+
+    .admin-forms > *, .instructions > * {
+        width: 100%;
+    }
 }
 
 @media (max-width: 599px) {
@@ -1849,5 +1892,21 @@ textarea.invissible:focus {
 
     .field-span {
         grid-column: span 1;
+    }
+
+    .admin-panel {
+        padding: 6.4rem 3%;
+    }
+
+    .admin-forms  label {
+        flex-wrap: wrap;
+    }
+
+    .admin-forms  label > span {
+        width: 100%;
+    }
+
+    .admin-forms label > input {
+        width: 100%;
     }
 }
