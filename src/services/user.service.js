@@ -322,7 +322,7 @@ export async function requestUserDeletion(id) {
     return {
         status: 200,
         data: {
-            msg: `User ${id} deleted successfully.`
+            msg: `User ${DELETED_USER.username} deleted successfully.`
         },
         log: `Request completed:
             ID -> ${DELETED_USER.id}

@@ -27,7 +27,7 @@ export async function saveNewMunicipalPeriod(newPeriod) {
 }
 
 export async function saveMunicipalPeriod(id, newData) {
-    const MODIFIED_PERIOD = await findMunicipalAdminById(id);
+    const MODIFIED_PERIOD = await findMunicipalPeriodById(id);
     
     if(MODIFIED_PERIOD == null)
         return null;
@@ -59,6 +59,30 @@ export async function getMunicipalPeriodByDate(date) {
             }
         }
     );
+}
+
+export async function verifyNewPeriod(id, start, end) {
+    console.log(start, ' - ', end)
+    const OVERLAPPING_COUNT = await MunicipalAdministration.count({
+        where: {
+            [Op.and]: [
+                {
+                    administrationEnd: { [Op.gte]: start },
+                    administrationStart: { [Op.lte]: end }
+                },
+                {
+                    id: { [Op.not]: id } 
+                }
+            ]
+        }
+    });
+    
+    if (OVERLAPPING_COUNT > 0) {
+        console.log(OVERLAPPING_COUNT);
+        return false;
+    }
+
+    return true
 }
 
 // * Institute Administration Periods
