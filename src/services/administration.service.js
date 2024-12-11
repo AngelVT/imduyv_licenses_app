@@ -109,7 +109,7 @@ export async function requestMunicipalPeriodUpdate(id, body) {
         const START = administrationStart ? administrationStart : PERIOD.administrationStart;
         const END = administrationEnd ? administrationEnd : PERIOD.administrationEnd;
 
-        if (!await periodRepo.verifyNewPeriod(id, START, END)) {
+        if (!await periodRepo.verifyNewMunicipalPeriod(id, START, END)) {
             return {
                 status: 400,
                 data: {

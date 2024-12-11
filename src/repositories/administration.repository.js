@@ -61,8 +61,7 @@ export async function getMunicipalPeriodByDate(date) {
     );
 }
 
-export async function verifyNewPeriod(id, start, end) {
-    console.log(start, ' - ', end)
+export async function verifyNewMunicipalPeriod(id, start, end) {
     const OVERLAPPING_COUNT = await MunicipalAdministration.count({
         where: {
             [Op.and]: [
@@ -78,7 +77,6 @@ export async function verifyNewPeriod(id, start, end) {
     });
     
     if (OVERLAPPING_COUNT > 0) {
-        console.log(OVERLAPPING_COUNT);
         return false;
     }
 
