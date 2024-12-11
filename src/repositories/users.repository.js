@@ -85,12 +85,14 @@ export async function saveNewUSER(newUserData) {
 export async function saveUser(id, newData) {
     const MODIFIED_USER = await findUserByID(id);
     
-    if(MODIFIED_USER == null)
-        return null;
+    if(MODIFIED_USER == null) return null;
 
     await MODIFIED_USER.update(newData);
 
-    return await findUserByID(MODIFIED_USER.id);
+    if (newData.groupId || newData.roleId)
+        await MODIFIED_USER.reload({include: USER_MODELS});
+
+    return MODIFIED_USER;
 }
 
 export async function deleteUser(id) {

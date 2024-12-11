@@ -11,11 +11,13 @@ export const MunicipalAdministration = pool.define(
         },
         administrationStart: {
             type: DataTypes.DATEONLY,
-            allowNull: false
+            allowNull: false,
+            unique: true
         },
         administrationEnd: {
             type: DataTypes.DATEONLY,
-            allowNull: false
+            allowNull: false,
+            unique: true
         }
     },{
         timestamps: false
@@ -38,11 +40,13 @@ export const InstituteAdministration = pool.define(
         },
         administrationStart: {
             type: DataTypes.DATEONLY,
-            allowNull: false
+            allowNull: false,
+            unique: true
         },
         administrationEnd: {
             type: DataTypes.DATEONLY,
-            allowNull: false
+            allowNull: false,
+            unique: true
         }
     },{
         timestamps: false
@@ -57,11 +61,13 @@ export const LicensesAdministration = pool.define(
         },
         administrationStart: {
             type: DataTypes.DATEONLY,
-            allowNull: false
+            allowNull: false,
+            unique: true
         },
         administrationEnd: {
             type: DataTypes.DATEONLY,
-            allowNull: false
+            allowNull: false,
+            unique: true
         }
     },{
         timestamps: false
