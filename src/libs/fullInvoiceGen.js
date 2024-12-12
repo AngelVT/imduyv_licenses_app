@@ -86,7 +86,7 @@ export const generateUrbanInvoice = async (licenseType, year) => {
         type = types.licenseType;
     } else {
         invoice = invoices[0].invoice + 1;
-        type = invoices[0].urbanType.licenseType;
+        type = invoices[0].urban_type.licenseType;
     }
     
     if (invoice <= 9) {

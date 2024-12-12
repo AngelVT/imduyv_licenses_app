@@ -44,7 +44,7 @@ export const Zone = pool.define(
 );
 
 export const AuthUse = pool.define(
-    'authUse', {
+    'authorized_use', {
         licenseAuthUse: {
             type: DataTypes.STRING,
             allowNull: false
@@ -66,7 +66,7 @@ export const Validity = pool.define(
 );
 
 export const ExpeditionType = pool.define(
-    'expeditionType', {
+    'expedition_type', {
         licenseExpType: {
             type: DataTypes.STRING,
             allowNull: false
@@ -77,7 +77,7 @@ export const ExpeditionType = pool.define(
 );
 
 export const LandUseLicense = pool.define(
-    'landUseLicense',{
+    'landUse_license',{
         fullInvoice: {
             type: DataTypes.STRING,
             allowNull: false
@@ -249,7 +249,7 @@ LandUseLicense.belongsTo(Validity, {foreignKey: 'licenseValidity'});
 LandUseLicense.belongsTo(ExpeditionType, {foreignKey: 'licenseExpeditionType'});
 
 export const UrbanType = pool.define(
-    'urbanType', {
+    'urban_type', {
         licenseType: {
             type: DataTypes.STRING,
             allowNull: false
@@ -260,7 +260,7 @@ export const UrbanType = pool.define(
 );
 
 export const UrbanLicense = pool.define(
-    'urbanLicense', {
+    'urban_license', {
         fullInvoice: {
             type: DataTypes.STRING,
             allowNull: false

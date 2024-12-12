@@ -24,7 +24,7 @@ thaForm.addEventListener(
                     alert(`
                     Licencia registrada: ${response.fullInvoice}
                     Folio: ${response.dbInvoice}`);
-                    thaForm.reset();
+                    resetFormAuto(thaForm);
                     return;
                 }
                 alert("Registro no exitoso");
@@ -310,6 +310,12 @@ function resetForm(form) {
 
         changeStep(document.getElementById('reg_nav').firstChild , 1, form, true);
     }
+}
+
+function resetFormAuto(form){
+    form.reset();
+
+    changeStep(document.getElementById('reg_nav').firstChild , 1, form.getAttribute('id'), true);
 }
 
 const cost = document.getElementById('cost');
