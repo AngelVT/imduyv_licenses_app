@@ -1,4 +1,5 @@
-import * as periodRepo from '../repositories/administration.repository.js'
+import * as periodRepo from '../repositories/administration.repository.js';
+import { capitalizeName } from './user.service.js';
 
 
 // * Municipal Administration Periods
@@ -35,7 +36,7 @@ export async function requestMunicipalPeriods() {
         return {
             status: 404,
             data: {
-                periods: "No municipal periods found"
+                msg: "No municipal periods found"
             },
             log: "Request completed all periods requested, none found"
         }
@@ -62,6 +63,8 @@ export async function requestMunicipalPeriodCreate(body) {
             log: "Request failed due to missing required information for registration"
         }
     }
+
+    body.municipalPresident = capitalizeName(municipalPresident);
 
     const NEW_PERIOD = await periodRepo.saveNewMunicipalPeriod(body);
 
@@ -122,6 +125,9 @@ export async function requestMunicipalPeriodUpdate(id, body) {
         }
     }
 
+    if (municipalPresident)
+        body.municipalPresident = capitalizeName(municipalPresident);
+
     const MODIFIED_PERIOD = await periodRepo.saveMunicipalPeriod(id, body);
 
     if (MODIFIED_PERIOD == null) {
@@ -177,102 +183,361 @@ export async function requestMunicipalPeriodDelete(id) {
 
 // * Institute Administration Periods
 export async function requestInstitutePeriod(id) {
+    const PERIOD = await periodRepo.findInstitutePeriodById(id);
+
+    if (PERIOD == null) {
+        return {
+            status: 404,
+            data: {
+                msg: "Requested period not found"
+            },
+            log: `Request completed, no results to show:
+                Requested period -> ${id}`
+        }
+    }
+
     return {
         status: 200,
         data: {
-            msg: "Testing get institute period"
+            period: PERIOD
         },
-        log: "Test going get institute period"
+        log: `Request completed: 
+            Requested period -> ${PERIOD.id}
+            Period Start -> ${PERIOD.administrationStart}
+            Period End -> ${PERIOD.administrationEnd}`
     }
 }
 
 export async function requestInstitutePeriods() {
+    const PERIODS = await periodRepo.findAllInstitutePeriods();
+
+    if (PERIODS.length == 0) {
+        return {
+            status: 404,
+            data: {
+                msg: "No institute periods found"
+            },
+            log: "Request completed all periods requested, none found"
+        }
+    }
+
     return {
         status: 200,
         data: {
-            msg: "Testing get all institute period"
+            periods: PERIODS
         },
-        log: "Test going get all institute period"
+        log: "Request completed all periods requested"
     }
 }
 
 export async function requestInstitutePeriodCreate(body) {
+    const {directorName, directorTittle, directorTittleShort , administrationStart, administrationEnd } = body;
+
+    if (!directorName ||  !directorTittle || !directorTittleShort ||!administrationStart || !administrationEnd) {
+        return {
+            status: 400,
+            data: {
+                msg: "Missing information to complete the registration"
+            },
+            log: "Request failed due to missing required information for registration"
+        }
+    }
+
+    body.directorName = capitalizeName(directorName);
+
+    const NEW_PERIOD = await periodRepo.saveNewInstitutePeriod(body);
+
+    if (NEW_PERIOD == null) {
+        return {
+            status: 400,
+            data: {
+                msg: "Unable to register period due to overlapping periods please check your information again."
+            },
+            log: `Request failed period due to overlapping periods:
+                Period Start -> ${administrationStart}
+                Period End -> ${administrationEnd}`
+        }
+    }
+
     return {
         status: 200,
         data: {
-            msg: "Testing create institute period"
+            period: NEW_PERIOD
         },
-        log: "Test going create institute period"
+        log: `New municipal period created:
+            Id -> ${NEW_PERIOD.id}
+            Director -> ${NEW_PERIOD.directorName}
+            Director Title -> ${NEW_PERIOD.directorTittle}
+            Period Start -> ${NEW_PERIOD.administrationStart}
+            Period End -> ${NEW_PERIOD.administrationEnd}`
     }
 }
 
 export async function requestInstitutePeriodUpdate(id, body) {
+    const {directorName, directorTittle, directorTittleShort, administrationStart, administrationEnd } = body;
+    
+    if (!directorName &&  !directorTittle && !directorTittleShort && !administrationStart && !administrationEnd) {
+        return {
+            status: 400,
+            data: {
+                msg: "Missing information to complete the update"
+            },
+            log: "Request failed due to missing required information for update"
+        }
+    }
+
+    const PERIOD = await periodRepo.findInstitutePeriodById(id);
+
+    if (administrationStart || administrationEnd) {
+        const START = administrationStart ? administrationStart : PERIOD.administrationStart;
+        const END = administrationEnd ? administrationEnd : PERIOD.administrationEnd;
+
+        if (!await periodRepo.verifyNewInstitutePeriod(id, START, END)) {
+            return {
+                status: 400,
+                data: {
+                    msg: "Unable to update period due to overlapping periods please check your information again."
+                },
+                log: `Request failed period due to overlapping periods:
+                    Period Start -> ${administrationStart ? administrationStart : 'Not provided'}
+                    Period End -> ${administrationEnd ? administrationEnd : 'Not provided'}`
+            }
+        }
+    }
+
+    if (directorName)
+        body.directorName = capitalizeName(directorName);
+
+    const MODIFIED_PERIOD = await periodRepo.saveInstitutePeriod(id, body);
+
+    if (MODIFIED_PERIOD == null) {
+        return {
+            status: 404,
+            data: {
+                msg: "Requested period not found, unable to update"
+            },
+            log: `Request completed, no record to update:
+                Requested period -> ${id}`
+        }
+    }
+
     return {
         status: 200,
         data: {
-            msg: "Testing update institute period"
+            period: MODIFIED_PERIOD
         },
-        log: "Test going update institute period"
+        log: `Request completed, period modified:
+            Id -> ${MODIFIED_PERIOD.id}
+            Director -> ${MODIFIED_PERIOD.directorName}
+            Director Title -> ${MODIFIED_PERIOD.directorTittle}
+            Period Start -> ${MODIFIED_PERIOD.administrationStart}
+            Period End -> ${MODIFIED_PERIOD.administrationEnd}`
     }
 }
 
 export async function requestInstitutePeriodDelete(id) {
+    const DELETED_PERIOD = await periodRepo.deleteInstitutePeriod(id);
+
+    if (DELETED_PERIOD == null) {
+        return {
+            status: 404,
+            data: {
+                msg: "Requested period not found, unable to delete"
+            },
+            log: `Request completed, no record to delete:
+                Requested period -> ${id}`
+        }
+    }
+
     return {
         status: 200,
         data: {
-            msg: "Testing delete institute period"
+            msg: `Period ${DELETED_PERIOD.administrationStart} - ${DELETED_PERIOD.administrationEnd} deleted successfully`
         },
-        log: "Test going delete institute period"
+        log:`Request completed, period deleted:
+            Id -> ${DELETED_PERIOD.id}
+            Director -> ${DELETED_PERIOD.directorName}
+            Director Title -> ${DELETED_PERIOD.directorTittle}
+            Period Start -> ${DELETED_PERIOD.administrationStart}
+            Period End -> ${DELETED_PERIOD.administrationEnd}`
     }
 }
 
 // * Licenses Direction Administration Periods
 export async function requestLicensesPeriod(id) {
+    const PERIOD = await periodRepo.findLicensesPeriodById(id);
+
+    if (PERIOD == null) {
+        return {
+            status: 404,
+            data: {
+                msg: "Requested period not found"
+            },
+            log: `Request completed, no results to show:
+                Requested period -> ${id}`
+        }
+    }
+
     return {
         status: 200,
         data: {
-            msg: "Testing get licenses period"
+            period: PERIOD
         },
-        log: "Test going get licenses period"
+        log: `Request completed: 
+            Requested period -> ${PERIOD.id}
+            Period Start -> ${PERIOD.administrationStart}
+            Period End -> ${PERIOD.administrationEnd}`
     }
 }
 
 export async function requestLicensesPeriods() {
+    const PERIODS = await periodRepo.findAllLicensesPeriods();
+
+    if (PERIODS.length == 0) {
+        return {
+            status: 404,
+            data: {
+                msg: "No licenses periods found"
+            },
+            log: "Request completed all periods requested, none found"
+        }
+    }
+
     return {
         status: 200,
         data: {
-            msg: "Testing get all licenses period"
+            periods: PERIODS
         },
-        log: "Test going get all licenses period"
+        log: "Request completed all periods requested"
     }
 }
 
 export async function requestLicensesPeriodCreate(body) {
+    const { directorName, administrationStart, administrationEnd } = body;
+
+    if (!directorName || !administrationStart || !administrationEnd) {
+        return {
+            status: 400,
+            data: {
+                msg: "Missing information to complete the registration"
+            },
+            log: "Request failed due to missing required information for registration"
+        }
+    }
+
+    body.directorName = capitalizeName(directorName);
+
+    const NEW_PERIOD = await periodRepo.saveNewLicensesPeriod(body);
+
+    if (NEW_PERIOD == null) {
+        return {
+            status: 400,
+            data: {
+                msg: "Unable to register period due to overlapping periods please check your information again."
+            },
+            log: `Request failed period due to overlapping periods:
+                Period Start -> ${administrationStart}
+                Period End -> ${administrationEnd}`
+        }
+    }
+
     return {
         status: 200,
         data: {
-            msg: "Testing create licenses period"
+            period: NEW_PERIOD
         },
-        log: "Test going create licenses period"
+        log: `New municipal period created:
+            Id -> ${NEW_PERIOD.id}
+            President -> ${NEW_PERIOD.directorName}
+            Period Start -> ${NEW_PERIOD.administrationStart}
+            Period End -> ${NEW_PERIOD.administrationEnd}`
     }
 }
 
 export async function requestLicensesPeriodUpdate(id, body) {
+    const { directorName, administrationStart, administrationEnd } = body;
+    
+    if (!directorName && !administrationStart && !administrationEnd) {
+        return {
+            status: 400,
+            data: {
+                msg: "Missing information to complete the update"
+            },
+            log: "Request failed due to missing required information for update"
+        }
+    }
+
+    const PERIOD = await periodRepo.findLicensesPeriodById(id);
+
+    if (administrationStart || administrationEnd) {
+        const START = administrationStart ? administrationStart : PERIOD.administrationStart;
+        const END = administrationEnd ? administrationEnd : PERIOD.administrationEnd;
+
+        if (!await periodRepo.verifyNewLicensesPeriod(id, START, END)) {
+            return {
+                status: 400,
+                data: {
+                    msg: "Unable to update period due to overlapping periods please check your information again."
+                },
+                log: `Request failed period due to overlapping periods:
+                    Period Start -> ${administrationStart ? administrationStart : 'Not provided'}
+                    Period End -> ${administrationEnd ? administrationEnd : 'Not provided'}`
+            }
+        }
+    }
+
+    if (directorName)
+        body.directorName = capitalizeName(directorName);
+
+    const MODIFIED_PERIOD = await periodRepo.saveLicensesPeriod(id, body);
+
+    if (MODIFIED_PERIOD == null) {
+        return {
+            status: 404,
+            data: {
+                msg: "Requested period not found, unable to update"
+            },
+            log: `Request completed, no record to update:
+                Requested period -> ${id}`
+        }
+    }
+
     return {
         status: 200,
         data: {
-            msg: "Testing update licenses period"
+            period: MODIFIED_PERIOD
         },
-        log: "Test going update licenses period"
+        log: `Request completed, period modified:
+            Id -> ${MODIFIED_PERIOD.id}
+            President -> ${MODIFIED_PERIOD.directorName}
+            Period Start -> ${MODIFIED_PERIOD.administrationStart}
+            Period End -> ${MODIFIED_PERIOD.administrationEnd}`
     }
 }
 
 export async function requestLicensesPeriodDelete(id) {
+    const DELETED_PERIOD = await periodRepo.deleteLicensesPeriod(id);
+
+    if (DELETED_PERIOD == null) {
+        return {
+            status: 404,
+            data: {
+                msg: "Requested period not found, unable to delete"
+            },
+            log: `Request completed, no record to delete:
+                Requested period -> ${id}`
+        }
+    }
+
     return {
         status: 200,
         data: {
-            msg: "Testing delete licenses period"
+            msg: `Period ${DELETED_PERIOD.administrationStart} - ${DELETED_PERIOD.administrationEnd} deleted successfully`
         },
-        log: "Test going delete licenses period"
+        log:`Request completed, period deleted:
+            Id -> ${DELETED_PERIOD.id}
+            President -> ${DELETED_PERIOD.directorName}
+            Period Start -> ${DELETED_PERIOD.administrationStart}
+            Period End -> ${DELETED_PERIOD.administrationEnd}`
     }
 }

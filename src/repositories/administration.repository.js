@@ -143,6 +143,28 @@ export async function getInstitutePeriodByDate(date) {
     );
 }
 
+export async function verifyNewInstitutePeriod(id, start, end) {
+    const OVERLAPPING_COUNT = await InstituteAdministration.count({
+        where: {
+            [Op.and]: [
+                {
+                    administrationEnd: { [Op.gte]: start },
+                    administrationStart: { [Op.lte]: end }
+                },
+                {
+                    id: { [Op.not]: id } 
+                }
+            ]
+        }
+    });
+    
+    if (OVERLAPPING_COUNT > 0) {
+        return false;
+    }
+
+    return true
+}
+
 // * Licenses Direction Administration Periods
 export async function findAllLicensesPeriods() {
     return await LicensesAdministration.findAll();
@@ -201,4 +223,26 @@ export async function getLicensesPeriodByDate(date) {
             }
         }
     );
+}
+
+export async function verifyNewLicensesPeriod(id, start, end) {
+    const OVERLAPPING_COUNT = await InstituteAdministration.count({
+        where: {
+            [Op.and]: [
+                {
+                    administrationEnd: { [Op.gte]: start },
+                    administrationStart: { [Op.lte]: end }
+                },
+                {
+                    id: { [Op.not]: id } 
+                }
+            ]
+        }
+    });
+    
+    if (OVERLAPPING_COUNT > 0) {
+        return false;
+    }
+
+    return true
 }

@@ -416,7 +416,7 @@ async function generateUsername(name, n) {
     return generateUsername(name, n + 1);
 }
 
-function capitalizeName(name) {
+export function capitalizeName(name) {
     return name
         .split(' ')
         .map(word => word.charAt(0).toLocaleUpperCase() + word.slice(1).toLocaleLowerCase())
