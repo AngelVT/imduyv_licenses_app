@@ -41,7 +41,7 @@ licenseBtn.addEventListener('click', () => {
     licensePanel.classList.remove('dis-none');
 });
 
-landForm.addEventListener('submit', event => {
+landForm.addEventListener('submit', async event => {
     event.preventDefault();
 
     const data = Object.fromEntries(new FormData(landForm));
@@ -49,7 +49,7 @@ landForm.addEventListener('submit', event => {
     console.log(data);
 });
 
-urbanForm.addEventListener('submit', event => {
+urbanForm.addEventListener('submit', async event => {
     event.preventDefault();
 
     const data = Object.fromEntries(new FormData(urbanForm));
@@ -57,15 +57,46 @@ urbanForm.addEventListener('submit', event => {
     console.log(data);
 });
 
-municipalForm.addEventListener('submit', event => {
+municipalForm.addEventListener('submit', async event => {
     event.preventDefault();
 
     const data = Object.fromEntries(new FormData(municipalForm));
 
-    console.log(data);
+    await fetch(`/api/administration/municipalPeriod`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        credentials: 'include',
+        body: JSON.stringify(data)
+    })
+        .then(async res => {
+            if (res.ok) {
+                let content = res.headers.get('Content-Type');
+                if (content.includes('text/html')) {
+                    location.href = res.url;
+                    return;
+                }
+                
+                let response = await res.json();
+
+                alert(`
+                Periodo municipal registrado:
+                Presidenta(e): ${response.period.municipalPresident}
+                Inicio: ${response.period.administrationStart}
+                Finalización: ${response.period.administrationStart}`);
+                municipalForm.reset();
+                return;
+            }
+            alert(res.msg);
+            return;
+        })
+        .catch(error => {
+            console.error('Error during fetch: ', error)
+        });
 });
 
-instituteForm.addEventListener('submit', event => {
+instituteForm.addEventListener('submit', async event => {
     event.preventDefault();
 
     const data = Object.fromEntries(new FormData(instituteForm));
@@ -73,7 +104,7 @@ instituteForm.addEventListener('submit', event => {
     console.log(data);
 });
 
-licenseForm.addEventListener('submit', event => {
+licenseForm.addEventListener('submit', async event => {
     event.preventDefault();
 
     const data = Object.fromEntries(new FormData(licenseForm));
