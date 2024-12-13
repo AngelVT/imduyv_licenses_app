@@ -1,7 +1,7 @@
 import { User, Role, Group } from "../models/Users.models.js";
 import { Type, Term, Zone, AuthUse, Validity, ExpeditionType, UrbanType } from "../models/License.models.js";
-import { encryptPassword } from "./passwordCrypt.js";
-import * as logger from "./loggerFunctions.js";
+import { encryptPassword } from "../utilities/password.utilities.js";
+import * as logger from "../utilities/logger.utilities.js";
 
 export const setDefaultRoles = async () => {
     try {

@@ -1,6 +1,6 @@
 import { requestPasswordReset, requestSignIn } from '../services/auth.service.js';
-import * as logger from '../libs/loggerFunctions.js';
-import config from '../config.js';
+import * as logger from '../utilities/logger.utilities.js';
+import config from '../configuration/general.configuration.js';
 
 export const signIn = async (req, res) => {
     try {

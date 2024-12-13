@@ -1,5 +1,5 @@
 import * as userRepo from "../repositories/users.repository.js";
-import { encryptPassword } from '../libs/passwordCrypt.js';
+import { encryptPassword } from '../utilities/password.utilities.js';
 import { validateUserPermissions, validateUserGroup, validateUserRole, validateName } from "../validations/user.validations.js";
 import jwt from 'jsonwebtoken';
 

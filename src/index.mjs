@@ -1,6 +1,6 @@
-import * as loggerFunctions from './libs/loggerFunctions.js';
+import * as loggerFunctions from './utilities/logger.utilities.js';
 import app from './app.js';
-import { closeDB } from './database.js';
+import { closeDB } from './configuration/database.configuration.js';
 
 const { 
     APP_PORT,

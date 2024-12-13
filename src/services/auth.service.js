@@ -1,6 +1,6 @@
 import { findUsername, findUserByIdUsername, saveUser } from "../repositories/users.repository.js";
-import { comparePassword, encryptPassword } from "../libs/passwordCrypt.js";
-import config from "../config.js";
+import { comparePassword, encryptPassword } from "../utilities/password.utilities.js";
+import config from "../configuration/general.configuration.js";
 import jwt from 'jsonwebtoken';
 import * as authValidations from "../validations/auth.validation.js";
 

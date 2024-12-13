@@ -1,7 +1,7 @@
 import { DataTypes } from 'sequelize';
-import { pool } from '../database.js';
+import { pool } from '../configuration/database.configuration.js';
 
-import * as logger from "../libs/loggerFunctions.js";
+import * as logger from "../utilities/logger.utilities.js";
 
 // TODO uncomment the email in preparation for public deployment
 export const User = pool.define(

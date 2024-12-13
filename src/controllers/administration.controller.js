@@ -1,5 +1,5 @@
 import * as periodsService from '../services/administration.service.js';
-import * as logger from '../libs/loggerFunctions.js';
+import * as logger from '../utilities/logger.utilities.js';
 
 
 // * Municipal Administration Periods

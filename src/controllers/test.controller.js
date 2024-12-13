@@ -1,8 +1,8 @@
 import fs from 'fs/promises';
-import { __dirname, __dirstorage } from "../paths.js";
+import { __dirname, __dirstorage } from "../path.configuration.js";
 import path from "path";
 
-import { Op, where } from 'sequelize';
+import { Op } from 'sequelize';
 import { LandUseLicense } from '../models/License.models.js'
 
 export const test = async (req, res) => {

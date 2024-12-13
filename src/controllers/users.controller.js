@@ -1,6 +1,6 @@
-import * as logger from "../libs/loggerFunctions.js";
+import * as logger from "../utilities/logger.utilities.js";
 import * as userService from '../services/user.service.js';
-import { printerPDF } from "../libs/pdfUtil.js";
+import { printerPDF } from "../utilities/pdf.utilities.js";
 
 export const getUsers = async (req, res) => {
     try {

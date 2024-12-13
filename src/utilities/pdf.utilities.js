@@ -1,5 +1,5 @@
 import PdfPrinter from 'pdfmake';
-import { __dirname } from '../paths.js';
+import { __dirname } from '../path.configuration.js';
 import path from 'path';
 
 const fonts = {

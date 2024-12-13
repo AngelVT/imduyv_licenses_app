@@ -3,13 +3,13 @@ import path from 'path';
 import { Op } from 'sequelize';
 
 import { generateUrbanInvoice } from '../libs/fullInvoiceGen.js';
-import { __dirstorage } from '../paths.js';
-import * as logger from '../libs/loggerFunctions.js';
+import { __dirstorage } from '../path.configuration.js';
+import * as logger from '../utilities/logger.utilities.js';
 import { Term, UrbanLicense, UrbanType, Validity, Zone } from '../models/License.models.js';
 import { validate, validUrbanCriteria } from '../libs/validate.js';
 import { generateUrbanSpecialData } from '../models/docs/docUtils/utils.js';
 
-import { printerPDF } from "../libs/pdfUtil.js";
+import { printerPDF } from "../utilities/pdf.utilities.js";
 import { generateUrbanC } from "../models/docs/urban/licenciaCUS.js";
 import { generateUrbanLUS } from "../models/docs/urban/licenciaLUS.js";
 import { generateUrbanLSUB } from "../models/docs/urban/licenciaLSUB.js";

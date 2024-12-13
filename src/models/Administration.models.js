@@ -1,7 +1,7 @@
 import { DataTypes } from "sequelize";
-import { pool } from '../database.js';
+import { pool } from '../configuration/database.configuration.js';
 
-import * as logger from "../libs/loggerFunctions.js";
+import * as logger from "../utilities/logger.utilities.js";
 
 export const MunicipalAdministration = pool.define(
     'municipal_administration', {

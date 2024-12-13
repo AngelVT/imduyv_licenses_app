@@ -1,7 +1,7 @@
 import path from "path";
-import { __dirname } from "../paths.js";
+import { __dirname } from "../path.configuration.js";
 import pkg from '../../package.json' with {type: "json"};
-import * as logger from "../libs/loggerFunctions.js";
+import * as logger from "../utilities/logger.utilities.js";
 import * as geoTool from "../libs/coordinateChecker.js";
 import { Zone } from "../models/License.models.js";
 

@@ -4,10 +4,11 @@ import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import path from 'path';
 
-import config from './config.js';
-import { __dirname, __dirstorage } from './paths.js';
-import * as defaults from './libs/initDefaults.js';
-import { checkDB } from './database.js';
+import config from './configuration/general.configuration.js';
+import { __dirname, __dirstorage } from './path.configuration.js';
+import { checkDB } from './configuration/database.configuration.js';
+import * as defaults from './configuration/databaseValues.configuration.js';
+import { setDefaultDirectories } from './configuration/storage.configuration.js';
 import { verifyToken, isLandUser, isUrbanUser } from './middlewares/auth.JWT.js';
 
 import landuseRoutes from './routes/landuse.routes.js';
@@ -17,7 +18,6 @@ import authRoutes from './routes/auth.routes.js';
 import appRoutes from './routes/app.routes.js';
 import testRoutes from './routes/test.routes.js';
 import administrationRoutes from './routes/administration.routes.js';
-import * as defaultStorage from './libs/setDefaultDirectories.js';
 
 const app = express();
 
@@ -33,7 +33,7 @@ defaults.setDefaultLicenseAuthUses();
 defaults.setDefaultLicenseValidities();
 defaults.setDefaultLicenseExpeditionTypes();
 defaults.setDefaultUrbanLicenseTypes();
-defaultStorage.setDefaultDirectories();
+setDefaultDirectories();
 
 app.use(express.json({ limit: '5mb' }));
 app.use(express.urlencoded({ limit: '10mb', extended: true }));

@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken';
 import { findUserByIdUsername } from '../repositories/users.repository.js';
 import * as userValid from '../validations/user.validations.js';
-import * as logger from '../libs/loggerFunctions.js';
+import * as logger from '../utilities/logger.utilities.js';
 
 export const verifyToken = async (req, res, next) => {
     try {

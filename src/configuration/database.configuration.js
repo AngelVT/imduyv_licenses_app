@@ -1,6 +1,6 @@
 import { Sequelize } from "sequelize";
 
-import * as loggerFunctions from "./libs/loggerFunctions.js";
+import * as loggerFunctions from "../utilities/logger.utilities.js";
 
 const {
     DB_PORT,

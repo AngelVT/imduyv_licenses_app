@@ -1,4 +1,4 @@
-import { accessLogger, logger, requestLogger, consoleLogger } from "../logger.js";
+import { accessLogger, logger, requestLogger, consoleLogger } from "../configuration/logger.configuration.js";
 
 //console logging functions
 export function logConsoleError(message, error) {

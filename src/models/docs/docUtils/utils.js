@@ -1,4 +1,4 @@
-import { __dirstorage, __dirname } from "../../../paths.js";
+import { __dirstorage, __dirname } from "../../../path.configuration.js";
 import path from "path";
 import fs from 'fs';
 

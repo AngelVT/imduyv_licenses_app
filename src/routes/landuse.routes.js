@@ -2,7 +2,7 @@ import { Router } from "express";
 import * as landControl from '../controllers/landuse.controller.js';
 import * as authenticator from '../middlewares/auth.JWT.js';
 
-import { up } from "../multerUp.js";
+import { up } from "../configuration/upload.configuration.js";
 
 const router = Router();
 

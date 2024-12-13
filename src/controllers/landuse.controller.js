@@ -3,13 +3,13 @@ import path from 'path';
 import { Op } from 'sequelize';
 
 import { generateLandInvoice } from '../libs/fullInvoiceGen.js';
-import { __dirstorage } from '../paths.js';
-import * as logger from '../libs/loggerFunctions.js';
+import { __dirstorage } from '../path.configuration.js';
+import * as logger from '../utilities/logger.utilities.js';
 import { LandUseLicense, Type, Term, Zone, AuthUse, Validity, ExpeditionType } from '../models/License.models.js';
 import { validate, validLandCriteria } from '../libs/validate.js';
 import { generateLandSpecialData } from '../models/docs/docUtils/utils.js';
 
-import { printerPDF } from "../libs/pdfUtil.js";
+import { printerPDF } from "../utilities/pdf.utilities.js";
 import{ generateLandUseC } from "../models/docs/landUse/licenciaC.js";
 import{ generateLandUseL } from "../models/docs/landUse/licenciaL.js";
 import{ generateLandUseDP } from "../models/docs/landUse/licenciaDP.js";

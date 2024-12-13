@@ -1,4 +1,4 @@
-import { __dirstorage } from "../../../paths.js";
+import { __dirstorage } from "../../../path.configuration.js";
 import * as docUtils from "../docUtils/utils.js";
 
 export async function generateLandUseDP(lcDBObj) {

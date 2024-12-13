@@ -1,9 +1,9 @@
 import app from './app.js';
 import https from 'https';
 import fs from 'fs';
-import { closeDB } from './database.js';
+import { closeDB } from './configuration/database.configuration.jsW';
 
-import * as loggerFunctions from './libs/loggerFunctions.js';
+import * as loggerFunctions from './utilities/logger.utilities.js';
 
 const { 
     APP_PORT,

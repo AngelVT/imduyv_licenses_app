@@ -2,7 +2,7 @@ import { Router } from "express";
 import * as urbanControl from '../controllers/urban.controller.js';
 import * as authenticator from '../middlewares/auth.JWT.js';
 
-import { up } from "../multerUp.js";
+import { up } from "../configuration/upload.configuration.js";
 
 const router = Router();
 
