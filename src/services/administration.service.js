@@ -1,5 +1,6 @@
 import * as periodRepo from '../repositories/administration.repository.js';
 import { capitalizeName } from './user.service.js';
+import { validateDates, validatePeriod } from '../validations/administration.validations.js';
 
 
 // * Municipal Administration Periods
@@ -64,6 +65,26 @@ export async function requestMunicipalPeriodCreate(body) {
         }
     }
 
+    if (!validateDates(administrationStart) || !validateDates(administrationEnd)) {
+        return {
+            status: 400,
+            data: {
+                msg: "Invalid dates provided"
+            },
+            log: "Request failed due to invalid dates were provided"
+        }
+    }
+
+    if (!validatePeriod(administrationStart, administrationEnd)) {
+        return {
+            status: 400,
+            data: {
+                msg: "Invalid period provided, start end date must be after the start date"
+            },
+            log: "Request failed due to invalid dates were provided"
+        }
+    }
+
     body.municipalPresident = capitalizeName(municipalPresident);
 
     const NEW_PERIOD = await periodRepo.saveNewMunicipalPeriod(body);
@@ -106,11 +127,45 @@ export async function requestMunicipalPeriodUpdate(id, body) {
         }
     }
 
+    if (administrationStart) {
+        if (!validateDates(administrationStart)) {
+            return {
+                status: 400,
+                data: {
+                    msg: "Invalid dates provided"
+                },
+                log: "Request failed due to invalid dates were provided"
+            }
+        }
+    }
+
+    if (administrationEnd) {
+        if (!validateDates(administrationEnd)) {
+            return {
+                status: 400,
+                data: {
+                    msg: "Invalid dates provided"
+                },
+                log: "Request failed due to invalid dates were provided"
+            }
+        }
+    }
+
     const PERIOD = await periodRepo.findMunicipalPeriodById(id);
 
     if (administrationStart || administrationEnd) {
         const START = administrationStart ? administrationStart : PERIOD.administrationStart;
         const END = administrationEnd ? administrationEnd : PERIOD.administrationEnd;
+    
+        if (!validatePeriod(START, END)) {
+            return {
+                status: 400,
+                data: {
+                    msg: "Invalid period provided, start end date must be after the start date"
+                },
+                log: "Request failed due to invalid dates were provided"
+            }
+        }
 
         if (!await periodRepo.verifyNewMunicipalPeriod(id, START, END)) {
             return {
@@ -243,6 +298,26 @@ export async function requestInstitutePeriodCreate(body) {
         }
     }
 
+    if (!validateDates(administrationStart) || !validateDates(administrationEnd)) {
+        return {
+            status: 400,
+            data: {
+                msg: "Invalid dates provided"
+            },
+            log: "Request failed due to invalid dates were provided"
+        }
+    }
+
+    if (!validatePeriod(administrationStart, administrationEnd)) {
+        return {
+            status: 400,
+            data: {
+                msg: "Invalid period provided, start end date must be after the start date"
+            },
+            log: "Request failed due to invalid dates were provided"
+        }
+    }
+
     body.directorName = capitalizeName(directorName);
 
     const NEW_PERIOD = await periodRepo.saveNewInstitutePeriod(body);
@@ -286,11 +361,45 @@ export async function requestInstitutePeriodUpdate(id, body) {
         }
     }
 
+    if (administrationStart) {
+        if (!validateDates(administrationStart)) {
+            return {
+                status: 400,
+                data: {
+                    msg: "Invalid dates provided"
+                },
+                log: "Request failed due to invalid dates were provided"
+            }
+        }
+    }
+
+    if (administrationEnd) {
+        if (!validateDates(administrationEnd)) {
+            return {
+                status: 400,
+                data: {
+                    msg: "Invalid dates provided"
+                },
+                log: "Request failed due to invalid dates were provided"
+            }
+        }
+    }
+
     const PERIOD = await periodRepo.findInstitutePeriodById(id);
 
     if (administrationStart || administrationEnd) {
         const START = administrationStart ? administrationStart : PERIOD.administrationStart;
         const END = administrationEnd ? administrationEnd : PERIOD.administrationEnd;
+
+        if (!validatePeriod(START, END)) {
+            return {
+                status: 400,
+                data: {
+                    msg: "Invalid period provided, start end date must be after the start date"
+                },
+                log: "Request failed due to invalid dates were provided"
+            }
+        }
 
         if (!await periodRepo.verifyNewInstitutePeriod(id, START, END)) {
             return {
@@ -425,6 +534,26 @@ export async function requestLicensesPeriodCreate(body) {
         }
     }
 
+    if (!validateDates(administrationStart) || !validateDates(administrationEnd)) {
+        return {
+            status: 400,
+            data: {
+                msg: "Invalid dates provided"
+            },
+            log: "Request failed due to invalid dates were provided"
+        }
+    }
+
+    if (!validatePeriod(administrationStart, administrationEnd)) {
+        return {
+            status: 400,
+            data: {
+                msg: "Invalid period provided, start end date must be after the start date"
+            },
+            log: "Request failed due to invalid dates were provided"
+        }
+    }
+
     body.directorName = capitalizeName(directorName);
 
     const NEW_PERIOD = await periodRepo.saveNewLicensesPeriod(body);
@@ -467,11 +596,45 @@ export async function requestLicensesPeriodUpdate(id, body) {
         }
     }
 
+    if (administrationStart) {
+        if (!validateDates(administrationStart)) {
+            return {
+                status: 400,
+                data: {
+                    msg: "Invalid dates provided"
+                },
+                log: "Request failed due to invalid dates were provided"
+            }
+        }
+    }
+
+    if (administrationEnd) {
+        if (!validateDates(administrationEnd)) {
+            return {
+                status: 400,
+                data: {
+                    msg: "Invalid dates provided"
+                },
+                log: "Request failed due to invalid dates were provided"
+            }
+        }
+    }
+
     const PERIOD = await periodRepo.findLicensesPeriodById(id);
 
     if (administrationStart || administrationEnd) {
         const START = administrationStart ? administrationStart : PERIOD.administrationStart;
         const END = administrationEnd ? administrationEnd : PERIOD.administrationEnd;
+
+        if (!validatePeriod(START, END)) {
+            return {
+                status: 400,
+                data: {
+                    msg: "Invalid period provided, start end date must be after the start date"
+                },
+                log: "Request failed due to invalid dates were provided"
+            }
+        }
 
         if (!await periodRepo.verifyNewLicensesPeriod(id, START, END)) {
             return {

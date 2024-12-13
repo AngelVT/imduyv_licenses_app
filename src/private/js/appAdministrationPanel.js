@@ -62,6 +62,12 @@ municipalForm.addEventListener('submit', async event => {
 
     const data = Object.fromEntries(new FormData(municipalForm));
 
+    if (!validatePeriod(data.administrationStart, data.administrationEnd)) {
+        alert('La fecha de finalización debe ser posterior a la fecha de inicio.')
+        return;
+    }
+
+
     await fetch(`/api/administration/municipalPeriod`, {
         method: 'POST',
         headers: {
@@ -84,11 +90,11 @@ municipalForm.addEventListener('submit', async event => {
                 Periodo municipal registrado:
                 Presidenta(e): ${response.period.municipalPresident}
                 Inicio: ${response.period.administrationStart}
-                Finalización: ${response.period.administrationStart}`);
+                Finalización: ${response.period.administrationEnd}`);
                 municipalForm.reset();
                 return;
             }
-            alert(res.msg);
+            alert('Registro fallido');
             return;
         })
         .catch(error => {
@@ -101,7 +107,44 @@ instituteForm.addEventListener('submit', async event => {
 
     const data = Object.fromEntries(new FormData(instituteForm));
 
-    console.log(data);
+    if (!validatePeriod(data.administrationStart, data.administrationEnd)) {
+        alert('La fecha de finalización debe ser posterior a la fecha de inicio.')
+        return;
+    }
+
+    await fetch(`/api/administration/institutePeriod`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        credentials: 'include',
+        body: JSON.stringify(data)
+    })
+        .then(async res => {
+            let response = await res.json();
+            if (res.ok) {
+                let content = res.headers.get('Content-Type');
+                if (content.includes('text/html')) {
+                    location.href = res.url;
+                    return;
+                }
+
+                alert(`
+                Periodo institucional registrado:
+                Director(a): ${response.period.directorName}
+                Titulo: ${response.period.directorTittle}
+                Titulo abreviado: ${response.period.directorTittleShort}
+                Inicio: ${response.period.administrationStart}
+                Finalización: ${response.period.administrationEnd}`);
+                instituteForm.reset();
+                return;
+            }
+            alert(response.msg);
+            return;
+        })
+        .catch(error => {
+            console.error('Error during fetch: ', error)
+        });
 });
 
 licenseForm.addEventListener('submit', async event => {
@@ -109,7 +152,42 @@ licenseForm.addEventListener('submit', async event => {
 
     const data = Object.fromEntries(new FormData(licenseForm));
 
-    console.log(data);
+    if (!validatePeriod(data.administrationStart, data.administrationEnd)) {
+        alert('La fecha de finalización debe ser posterior a la fecha de inicio,verifica la validez de las fechas proporcionadas.')
+        return;
+    }
+
+    await fetch(`/api/administration/licensesPeriod`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        credentials: 'include',
+        body: JSON.stringify(data)
+    })
+        .then(async res => {
+            let response = await res.json();
+            if (res.ok) {
+                let content = res.headers.get('Content-Type');
+                if (content.includes('text/html')) {
+                    location.href = res.url;
+                    return;
+                }
+
+                alert(`
+                Periodo institucional registrado:
+                Director(a): ${response.period.directorName}
+                Inicio: ${response.period.administrationStart}
+                Finalización: ${response.period.administrationEnd}`);
+                licenseForm.reset();
+                return;
+            }
+            alert(response.msg);
+            return;
+        })
+        .catch(error => {
+            console.error('Error during fetch: ', error)
+        });
 });
 
 function hideAndUnselectAll() {
@@ -121,3 +199,18 @@ function hideAndUnselectAll() {
     })
 }
 
+function validatePeriod(start, end) {
+    const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
+    if (!dateRegex.test(start) || !dateRegex.test(end)) {
+        return false;
+    }
+
+    const START_DATE = new Date(start);
+    const END_DATE = new Date(end);
+
+    if (isNaN(START_DATE.getTime()) || isNaN(END_DATE.getTime())) {
+        return false;
+    }
+
+    return START_DATE < END_DATE;
+}
