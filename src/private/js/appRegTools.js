@@ -136,20 +136,17 @@ function setKey(zone, target) {
 }
 
 async function setData(targets, coord) {
-    let data = await getGeoInfo(coord.replaceAll('/',','));
+    let geoRefData = await getGeoInfo(coord.replaceAll('/',','));
 
-    if(!data) {
-        alert("Error al cargar la información asociada a la georeferencia solicitada");
-        return;
-    }
+    if(!geoRefData) return;
 
-    targets.numericZone.value = data.data.numericZone;
-    targets.zone.value = data.data.zone;
-    targets.key.value = data.data.key;
-    targets.tool.setAttribute('href', `/private/tools/maps/maps.html#20/${data.georeference.join('/')}`);
+    targets.numericZone.value = geoRefData.data.numericZone;
+    targets.zone.value = geoRefData.data.zone;
+    targets.key.value = geoRefData.data.key;
+    targets.tool.setAttribute('href', `/private/tools/maps/maps.html#20/${geoRefData.georeference.join('/')}`);
 
     if(document.querySelector('#georeference')) {
-        document.querySelector('#georeference').value = data.georeference.join();
+        document.querySelector('#georeference').value = geoRefData.georeference.join();
     }
 }
 
@@ -157,13 +154,18 @@ async function getGeoInfo(georef) {
     try {
         let res = await fetch(`/app/georef/${georef}`);
         let response = await res.json();
-        
-        if(response.data) {
+
+        if (res.ok) {
             return response;
         }
-        return null;
+        
+        if (response.msg) {
+            alert(response.msg)
+            return;
+        }
     } catch (error) {
         console.error('Error getting georef data', error);
+        alert("Error al consultar georeferencia", error);
         return null;
     }
 }

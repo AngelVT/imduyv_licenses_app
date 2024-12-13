@@ -2,8 +2,7 @@ import path from "path";
 import { __dirname } from "../path.configuration.js";
 import pkg from '../../package.json' with {type: "json"};
 import * as logger from "../utilities/logger.utilities.js";
-import * as geoTool from "../libs/coordinateChecker.js";
-import { Zone } from "../models/License.models.js";
+import { requestCoordinateCheck } from "../services/app.service.js";
 
 export const goInfo = (req, res) => {
     try {
@@ -165,37 +164,9 @@ export const goAdministrationMenu = (req, res) => {
 
 export const getZoneInfo = async (req, res) => {
     try {
-        const georeference = req.params.coordinates;
+        const response = await requestCoordinateCheck(req.params.coordinates);
 
-        let coord = geoTool.invertCoords(georeference);
-
-        let result = geoTool.check(coord);
-
-        if (!result) {
-            res.status(404).json({ msg: "The location requested does not exist in the database" });
-            return;
-        }
-
-        const zone = await Zone.findOne({
-            where: {
-                licenseKey: result.key
-            }
-        });
-
-        if (!zone) {
-            res.status(404).json({ msg: "The location seems to be out of scope" });
-            return;
-        }
-
-        const data = {
-            numericZone: zone.id,
-            zone: zone.licenseZone,
-            key: zone.licenseKey,
-            term: result.term
-        }
-
-        res.status(200).json({ msg: "Location found", georeference: coord.reverse(), data });
-        return;
+        res.status(response.status).json(response.data);
     } catch (error) {
         logger.logConsoleError('Zone Info request failed due to server side error', error);
         logger.logRequestError('Zone Info request failed due to server side error', error);
