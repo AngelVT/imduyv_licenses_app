@@ -29,8 +29,8 @@ export const verifyToken = async (req, res, next) => {
         req.userID = USER.id;
         req.name = USER.name;
         req.username = USER.username;
-        req.isPasswordResetRequired = USER.requiredPasswordReset;
-        req.isLocked = USER.locked;
+        req.isPasswordResetRequired = Boolean(USER.requiredPasswordReset);
+        req.isLocked = Boolean(USER.locked);
         
         next();
     } catch (error) {

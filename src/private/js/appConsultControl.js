@@ -156,7 +156,7 @@ function createResultField(id, tag, name, value, type) {
         input.setAttribute('required','');
 
         if (type == 'checkbox') {
-            input.checked = value;
+            input.checked = Boolean(value);
             
             input.removeAttribute('name');
             input.removeAttribute('value');

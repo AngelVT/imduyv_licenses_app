@@ -180,7 +180,7 @@ async function updateResultField(form, id) {
     let field = form.querySelector('label').innerText.toLowerCase().split(':')[0].replaceAll(':', '');
 
     if (!confirm(`Estas seguro de que quieres modificar el ${field} para el usuario ${registro}`)) {
-        return
+        return;
     }
 
     const formFields = new FormData(form);
@@ -188,7 +188,6 @@ async function updateResultField(form, id) {
     const formData = Object.fromEntries(formFields);
 
     if (formData.password) {
-        console.log(formData)
         if (!validatePassword(formData.password)) {
             alert('La contraseña no cumple con los requisitos mínimos')
             return;
