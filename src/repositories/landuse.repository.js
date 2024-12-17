@@ -1,4 +1,4 @@
-import { LandUseLicense } from "../models/License.models";
+import { LandUseLicense, Type, Term, Zone, AuthUse, Validity, ExpeditionType } from "../models/License.models.js";
 import { Op } from "sequelize";
 
 const LAND_USE_MODELS = [
@@ -36,7 +36,7 @@ export async function findAllLandLicenses() {
     });
 }
 
-export async function findLandLicense(id) {
+export async function findLandLicenseId(id) {
     return await LandUseLicense.findByPk(id, {
         include: LAND_USE_MODELS,
         raw: true,
@@ -123,4 +123,35 @@ export async function deleteLandLicense(id) {
     await DELETED_LICENSE.destroy();
 
     return DELETED_LICENSE;
+}
+
+export async function getLicenseEspecialData(id) {
+    return await LandUseLicense.findByPk(id, {
+        attributes: ['fullInvoice','licenseSpecialData'],
+        raw: true,
+        nest: true
+    });
+}
+
+export async function getLatestInvoice(type, year) {
+    return await LandUseLicense.findAll({
+        where: {
+            licenseType: type,
+            year: year
+        },
+        order: [
+            ['invoice', 'DESC']
+        ],
+        attributes: ['invoice', 'year'],
+        include: {
+            model: Type,
+            attributes: ['licenseType']
+        }
+    });
+}
+
+export async function getLicenseType(id) {
+    return await Type.findByPk(id, {
+        attributes: ['licenseType']
+    });
 }

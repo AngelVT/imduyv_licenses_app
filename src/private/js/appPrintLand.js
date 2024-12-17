@@ -31,17 +31,11 @@ async function getLicensePrint(type, invoice, year) {
 
                 let response = await res.json();
 
-                if (response.data.length == 0) {
-                    alert('No hay resultados que coincida con la búsqueda');
-                    return;
-                }
+                resultPrint.innerHTML = '';
 
-                response.data.forEach(element => {
-                    resultPrint.innerHTML = '';
-                    createLandResult(element, resultPrint, true, true);
-                    PDF.setAttribute('src', `/api/landuse/PDF/${type}/${invoice}/${year}?${new Date().getTime()}`)
-                });
+                createLandResult(response.license, resultPrint, true, true);
 
+                PDF.setAttribute('src', `/api/landuse/PDF/${type}/${invoice}/${year}?${new Date().getTime()}`)
                 return;
             }
 

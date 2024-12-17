@@ -55,16 +55,14 @@ async function getLicense(type, invoice, year) {
 
                 let response = await res.json();
 
-                if (response.data.length == 0) {
+                if (!response.license) {
                     alert('No hay resultados que coincida con la búsqueda');
                     return;
                 }
 
                 resultContainer.innerHTML = '';
 
-                response.data.forEach(element => {
-                    createLandResult(element, resultContainer, false, true);
-                });
+                createLandResult(response.license, resultContainer, false, true);
 
                 return;
             }
@@ -96,14 +94,14 @@ async function getLicenseByType(type, year) {
 
                 let response = await res.json();
 
-                if (response.data.length == 0) {
+                if (response.licenses.length == 0) {
                     alert('No hay resultados que coincida con la búsqueda');
                     return;
                 }
 
                 resultContainer.innerHTML = '';
 
-                response.data.forEach(element => {
+                response.licenses.forEach(element => {
                     createLandResult(element, resultContainer, false, true);
                 });
 
@@ -137,17 +135,16 @@ async function getLicenseBy(param, value) {
 
                 let response = await res.json();
 
-                if (response.data.length == 0) {
+                if (response.licenses.length == 0) {
                     alert('No hay resultados que coincida con la búsqueda');
                     return;
                 }
 
                 resultContainer.innerHTML = '';
 
-                response.data.forEach(element => {
+                response.licenses.forEach(element => {
                     createLandResult(element, resultContainer, false, true);
                 });
-
                 return;
             }
 
@@ -178,14 +175,14 @@ async function getLicensesLand() {
 
                 let response = await res.json();
 
-                if (response.data.length == 0) {
+                if (response.licenses.length == 0) {
                     alert('No hay resultados que coincida con la búsqueda');
                     return;
                 }
 
                 resultContainer.innerHTML = '';
 
-                response.data.forEach(element => {
+                response.licenses.forEach(element => {
                     createLandResult(element, resultContainer, false, true);
                 });
 

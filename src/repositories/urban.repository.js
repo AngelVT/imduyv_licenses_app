@@ -1,4 +1,4 @@
-import { UrbanLicense } from "../models/License.models.js";
+import { UrbanLicense, UrbanType, Zone, Term, Validity } from "../models/License.models.js";
 import { Op } from "sequelize";
 
 const URBAN_MODELS = [
@@ -9,6 +9,14 @@ const URBAN_MODELS = [
     {
         model: Zone,
         attributes: ['licenseZone', 'licenseKey']
+    },
+    {
+        model: Term,
+        attributes: ['licenseTerm']
+    },
+    {
+        model: Validity,
+        attributes: ['licenseValidity']
     }
 ];
 

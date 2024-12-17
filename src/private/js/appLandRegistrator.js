@@ -22,8 +22,8 @@ thaForm.addEventListener(
                     let response = await res.json();
 
                     alert(`
-                    Licencia registrada: ${response.fullInvoice}
-                    Folio: ${response.dbInvoice}`);
+                    Licencia registrada: ${response.license.fullInvoice}
+                    Folio: ${response.license.invoice}`);
                     resetFormAuto(thaForm);
                     return;
                 }
