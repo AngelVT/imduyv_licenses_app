@@ -193,7 +193,7 @@ export async function fileExist(location, group) {
 export function prepareData(lcDBObj) {
     lcDBObj.fullInvoice = lcDBObj.fullInvoice.replaceAll('_','/');
 
-    for (const key in lcDBObj.dataValues) {
+    for (const key in lcDBObj) {
         if(typeof lcDBObj[key] == 'string') {
             lcDBObj[key] = lcDBObj[key].toUpperCase();
         }

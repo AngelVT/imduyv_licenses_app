@@ -50,7 +50,7 @@ export async function generateUrbanRLF(lcDBObj) {
                                         docUtils.generateLegalRepresentativeField(lcDBObj.legalRepresentative, lcDBObj.licenseSpecialData.representativeAs),
                                         [
                                             {text: 'Domicilio: ', style: 'labelT', border: docUtils.borderless},
-                                            docUtils.field(lcDBObj.licenseSpecialData.requestorAddress.toUpperCase(), docUtils.borderless, null,'center', 7),
+                                            docUtils.field(lcDBObj.licenseSpecialData.requestorAddress, docUtils.borderless, null,'center', 7),
                                         ],
                                         [
                                             {text: 'Fecha de Solicitud: ', style: 'labelT', border: docUtils.borderless},
@@ -69,11 +69,11 @@ export async function generateUrbanRLF(lcDBObj) {
                                     body: [
                                         [
                                             {text: 'Domicilio: ', style: 'labelT', border: docUtils.borderless},
-                                            docUtils.field(lcDBObj.licenseSpecialData.buildingAddress.toUpperCase(), docUtils.borderless, 1, 'center', 7)
+                                            docUtils.field(lcDBObj.licenseSpecialData.buildingAddress, docUtils.borderless, 1, 'center', 7)
                                         ],
                                         [
                                             {text: 'Manzana y lotes: ', style: 'labelT', border: docUtils.borderless},
-                                            docUtils.field(docUtils.arrayToText(lcDBObj.licenseSpecialData.lotes).toUpperCase(), docUtils.borderless, 1, 'center', 7)
+                                            docUtils.field(docUtils.arrayToText(lcDBObj.licenseSpecialData.lotes), docUtils.borderless, 1, 'center', 7)
                                         ]
                                     ]
                                 },

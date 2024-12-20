@@ -49,7 +49,7 @@ export async function generateLandUseC(lcDBObj) {
                                         ],
                                         [
                                             {text: 'En Atención: ', style: 'labelT', border: docUtils.borderless},
-                                            docUtils.field(lcDBObj.attentionName.toUpperCase(), docUtils.borderless, null,null, 7),
+                                            docUtils.field(lcDBObj.attentionName, docUtils.borderless, null,null, 7),
                                         ],
                                         [
                                             {text: '', border: docUtils.borderless},
