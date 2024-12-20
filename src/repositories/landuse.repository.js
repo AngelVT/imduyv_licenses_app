@@ -146,12 +146,16 @@ export async function getLatestInvoice(type, year) {
         include: {
             model: Type,
             attributes: ['licenseType']
-        }
+        },
+        raw: true,
+        nest: true
     });
 }
 
 export async function getLicenseType(id) {
     return await Type.findByPk(id, {
-        attributes: ['licenseType']
+        attributes: ['licenseType'],
+        raw: true,
+        nest: true
     });
 }

@@ -335,7 +335,7 @@ export async function requestLandLicenseUpdate(id, licenseData, file, requestor)
         };
     }
 
-    let newSpecialData = JSON.parse(SPECIAL_DATA.licenseSpecialData);
+    let newSpecialData = specialDataToJSON(SPECIAL_DATA).licenseSpecialData;
 
     newSpecialData.anexo = anexo ? anexo : newSpecialData.anexo;
     newSpecialData.restrictions = restrictions ? restrictions : newSpecialData.restrictions;
@@ -374,7 +374,7 @@ export async function requestLandLicenseUpdate(id, licenseData, file, requestor)
     }
 
     if (file) {
-        landUtils.saveZoneImage(file, SPECIAL_DATA.fullInvoice);
+        await landUtils.saveZoneImage(file, SPECIAL_DATA.fullInvoice);
     }
     
     const MODIFIED_LICENSE = await landRepo.saveLandLicense(id, NEW_DATA);

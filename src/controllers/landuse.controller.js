@@ -106,7 +106,11 @@ export const getLicenseBy = async (req, res) => {
 
 export const createLicense = async (req, res) => {
     try {
-        const response = await landService.requestLandLicenseCreate(req.body, req.file, req.name);
+        const DATA = req.body;
+        const FILE = req.file;
+        const REQUESTOR = req.name;
+
+        const response = await landService.requestLandLicenseCreate(DATA, FILE, REQUESTOR);
         
         res.status(response.status).json(response.data);
 
@@ -127,8 +131,9 @@ export const updateLicense = async (req, res) => {
         const ID = req.params.licenciaID;
         const DATA = req.body;
         const FILE = req.file;
+        const REQUESTOR = req.name
 
-        const response = await landService.requestLandLicenseUpdate(ID, DATA, FILE, req.name);
+        const response = await landService.requestLandLicenseUpdate(ID, DATA, FILE, REQUESTOR);
 
         res.status(response.status).json(response.data);
 

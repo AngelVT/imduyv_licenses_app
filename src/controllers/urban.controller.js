@@ -1,6 +1,5 @@
 import fs from 'fs';
 import path from 'path';
-import { Op } from 'sequelize';
 
 import { generateUrbanInvoice } from '../libs/fullInvoiceGen.js';
 import { __dirstorage } from '../path.configuration.js';
@@ -10,45 +9,19 @@ import { validate, validUrbanCriteria } from '../libs/validate.js';
 import { generateUrbanSpecialData } from '../models/docs/docUtils/utils.js';
 
 import { printerPDF } from "../utilities/pdf.utilities.js";
-import { generateUrbanC } from "../models/docs/urban/licenciaCUS.js";
-import { generateUrbanLUS } from "../models/docs/urban/licenciaLUS.js";
-import { generateUrbanLSUB } from "../models/docs/urban/licenciaLSUB.js";
-import { generateUrbanLFUS } from "../models/docs/urban/licenciaLFUS.js";
-import { generateUrbanCRPC } from "../models/docs/urban/licenciaCRPC.js";
-import { generateUrbanLF } from '../models/docs/urban/licenciaLF.js';
-import { generateUrbanPLF } from '../models/docs/urban/licenciaPLF.js';
-import { generateUrbanRLF } from '../models/docs/urban/licenciaRLF.js';
+import * as urbanService from '../services/urban.service.js'
 
 export const getLicenses = async (req, res) => {
     try {
-        const licenses = await UrbanLicense.findAll({
-            include: [
-                {
-                    model: UrbanType,
-                    attributes: ['licenseType']
-                },
-                {
-                    model: Zone,
-                    attributes: ['licenseZone', 'licenseKey']
-                }
-            ]
-        });
 
-        if(licenses == null) {
-            res.status(404).json({ msg: "The requested data does not exist or is unavailable" });
-            return;
-        }
+        const response = await urbanService.requestAllUrbanLicenses();
 
-        licenses.forEach(e => {
-            e.licenseSpecialData = JSON.parse(e.licenseSpecialData)
-        });
-
-        res.status(200).json({data: licenses});
+        res.status(response.status).json(response.data);
 
         logger.logRequestInfo('User get request completed', 
         `Requestor Name -> ${req.name}
         Requestor Username -> ${req.username}
-        Requested -> All records`);
+        Get request -> ${response.log}`);
     } catch (error) {
         logger.logConsoleError('All urban records request failed due to server side error', error);
         logger.logRequestError('All urban records request failed due to server side error', error);
@@ -58,34 +31,16 @@ export const getLicenses = async (req, res) => {
 
 export const getLicense = async (req, res) => {
     try {
-        const id = req.params.licenciaID;
+        const ID = req.params.licenciaID;
 
-        const license = await UrbanLicense.findByPk( id ,{
-            include: [
-                {
-                    model: UrbanType,
-                    attributes: ['licenseType']
-                },
-                {
-                    model: Zone,
-                    attributes: ['licenseZone', 'licenseKey']
-                }
-            ]
-        });
+        const response = await urbanService.requestUrbanLicenseById(ID);
 
-        if(license == null) {
-            res.status(404).json({ msg: "The requested data does not exist or is unavailable" });
-            return;
-        }
-
-        license.licenseSpecialData = JSON.parse(license.licenseSpecialData);
-
-        res.status(200).json({data: [license]});
+        res.status(response.status).json(response.data);
 
         logger.logRequestInfo('Urban get request completed', 
         `Requestor Name -> ${req.name}
         Requestor Username -> ${req.username}
-        Requested -> All records`);
+        Get request -> ${response.log}`);
     } catch (error) {
         logger.logConsoleError('Urban record request failed due to server side error', error);
         logger.logRequestError('Urban record request failed due to server side error', error);
@@ -95,41 +50,18 @@ export const getLicense = async (req, res) => {
 
 export const getLicenseByInvoice = async (req, res) => {
     try {
-        const type = req.params.type;
-        const invoice = req.params.invoice;
-        const year = req.params.year;
+        const TYPE = req.params.type;
+        const INVOICE = req.params.invoice;
+        const YEAR = req.params.year;
 
-        const license = await UrbanLicense.findOne({
-            where: {
-                licenseType: type,
-                invoice: invoice,
-                year: year
-            },
-            include: [
-                {
-                    model: UrbanType,
-                    attributes: ['licenseType']
-                },
-                {
-                    model: Zone,
-                    attributes: ['licenseZone', 'licenseKey']
-                }
-            ]
-        });
+        const response = await urbanService.requestUrbanLicenseByInvoice(TYPE, INVOICE, YEAR);
 
-        if(license == null) {
-            res.status(404).json({ msg: "The requested data does not exist or is unavailable" });
-            return;
-        }
-
-        license.licenseSpecialData = JSON.parse(license.licenseSpecialData);
-
-        res.status(200).json({data: [license]});
+        res.status(response.status).json(response.data);
 
         logger.logRequestInfo('Urban get request completed', 
         `Requestor Name -> ${req.name}
         Requestor Username -> ${req.username}
-        Requested -> Record ${license.fullInvoice}`);
+        Get request -> ${response.log}`);
     } catch (error) {
         logger.logConsoleError('Urban record request failed due to server side error', error);
         logger.logRequestError('Urban record request failed due to server side error', error);
@@ -139,41 +71,17 @@ export const getLicenseByInvoice = async (req, res) => {
 
 export const getLicenseByType = async (req, res) => {
     try {
-        const type = req.params.type;
-        const year = req.params.year;
+        const TYPE = req.params.type;
+        const YEAR = req.params.year;
 
-        const licenses = await UrbanLicense.findAll({
-            where: {
-                licenseType: type,
-                year: year
-            },
-            include: [
-                {
-                    model: UrbanType,
-                    attributes: ['licenseType']
-                },
-                {
-                    model: Zone,
-                    attributes: ['licenseZone', 'licenseKey']
-                }
-            ]
-        });
+        const response = await urbanService.requestUrbanLicenseByType(TYPE, YEAR)
 
-        if(licenses == null) {
-            res.status(404).json({ msg: "The requested data does not exist or is unavailable" });
-            return;
-        }
-
-        for (let license of licenses) {
-            license.licenseSpecialData = JSON.parse(license.licenseSpecialData);
-        }
-
-        res.status(200).json({data: licenses});
+        res.status(response.status).json(response.data);
 
         logger.logRequestInfo('Urban get request completed', 
         `Requestor Name -> ${req.name}
         Requestor Username -> ${req.username}
-        Requested -> Records type ${type} of ${year}`);
+        Get request -> ${response.log}`);
     } catch (error) {
         logger.logConsoleError('Urban record by type request failed due to server side error', error);
         logger.logRequestError('Urban record by type request failed due to server side error', error);
@@ -183,54 +91,17 @@ export const getLicenseByType = async (req, res) => {
 
 export const getLicenseBy = async (req, res) => {
     try {
-        const parameter = req.params.getByParameter;
-        const value = req.params.value;
+        const PARAMETER = req.params.getByParameter;
+        const VALUE = req.params.value;
 
-        let validated;
+        const response = await urbanService.requestUrbanLicenseByParameter(PARAMETER, VALUE);
 
-        for (const key in validUrbanCriteria) {
-            if (key === parameter) {
-                validated = true
-            }
-        }
-
-        if (!validated) {
-            res.status(400).json({ msg: "Invalid information provided." });
-            return;
-        }
-
-        const criteria = {};
-        criteria[parameter] = { [Op.like]: `%${value}%` };
-
-        const licenses = await UrbanLicense.findAll({
-            where: criteria,
-            include: [
-                {
-                    model: UrbanType,
-                    attributes: ['licenseType']
-                },
-                {
-                    model: Zone,
-                    attributes: ['licenseZone', 'licenseKey']
-                }
-            ]
-        });
-
-        if(licenses == null) {
-            res.status(404).json({ msg: "The requested data does not exist or is unavailable" });
-            return;
-        }
-
-        for (let license of licenses) {
-            license.licenseSpecialData = JSON.parse(license.licenseSpecialData);
-        }
-
-        res.status(200).json({data: licenses});
+        res.status(response.status).json(response.data);
 
         logger.logRequestInfo('Urban get request completed', 
         `Requestor Name -> ${req.name}
         Requestor Username -> ${req.username}
-        Requested -> Records with ${parameter} similar to ${value}`);
+        Get request -> ${response.log}`);
     } catch (error) {
         logger.logConsoleError('Urban record by attribute request failed due to server side error', error);
         logger.logRequestError('Urban record by attribute request failed due to server side error', error);
@@ -240,145 +111,18 @@ export const getLicenseBy = async (req, res) => {
 
 export const createLicense = async (req, res) => {
     try {
-        const date = new Date;
+        const BODY = req.body;
+        const FILES = req.files;
+        const REQUESTOR = req.name;
 
-        const year = date.getFullYear();
+        const response = await urbanService.requestUrbanLicenseCreate(BODY, FILES, REQUESTOR);
 
-        for (const key in req.body) {
-            req.body[key] = req.body[key].toLowerCase();
-        }
-
-        const {
-            licenseType,
-            requestorName,
-            legalRepresentative,
-            requestDate,
-            colony,
-            address,
-            number,
-            catastralKey,
-            georeference,
-            licenseTerm,
-            surface,
-            zone,
-            expeditionDate,
-            licenseValidity,
-            collectionOrder,
-            paymentDate,
-            billInvoice,
-            authorizedQuantity,
-            deliveryDate,
-            receiverName,
-            PCU,
-            representativeAs,
-            requestorAddress,
-            buildingAddress
-        } = req.body;
-
-        const files = req.files;
-
-        if (!licenseType || !requestorName || !georeference) {
-            res.status(400).json({ msg: "There is missing information" });
-            return;
-        }
-
-        const invoice = await generateUrbanInvoice(licenseType, year);
-
-        if (invoice == null) {
-            res.status(400).json({ msg: "Invalid information provided." });
-            return;
-        }
-
-        const validated = await validate({urbanType: licenseType});
-
-        if (validated == null) {
-            res.status(400).json({ msg: "Invalid information provided." });
-            return;
-        }
-
-        const licenseSpecialData = generateUrbanSpecialData(parseInt(licenseType));
-
-        licenseSpecialData.PCU = PCU ? PCU.toUpperCase() : licenseSpecialData.PCU;
-        licenseSpecialData.representativeAs = representativeAs ? representativeAs : licenseSpecialData.representativeAs;
-        licenseSpecialData.requestorAddress = requestorAddress ? requestorAddress : licenseSpecialData.requestorAddress;
-        licenseSpecialData.buildingAddress = buildingAddress ? buildingAddress : licenseSpecialData.buildingAddress;
-
-        const newLicense = await UrbanLicense.create({
-            fullInvoice: invoice.lcID,
-            invoice: invoice.invoice,
-            licenseType: licenseType,
-            year: year,
-            requestDate: requestDate,
-            requestorName: requestorName,
-            legalRepresentative: legalRepresentative,
-            elaboratedBy: req.name,
-            address: address,
-            number: number,
-            colony: colony,
-            catastralKey: catastralKey,
-            geoReference: georeference,
-            licenseTerm: licenseTerm,
-            surfaceTotal: surface,
-            licenseZone: zone ? zone : 1,
-            expeditionDate: expeditionDate,
-            licenseValidity: licenseValidity,
-            collectionOrder: collectionOrder,
-            paymentDate: paymentDate,
-            billInvoice: billInvoice,
-            authorizedQuantity: authorizedQuantity,
-            deliveryDate: deliveryDate,
-            receiverName: receiverName,
-            observations: 'none',
-            licenseSpecialData: licenseSpecialData
-        });
-
-        const destination = path.join(__dirstorage, 'assets', 'urban', newLicense.fullInvoice, 'zone.png');
-        const directory = path.dirname(destination);
-
-        await new Promise((resolve, reject) => {
-            fs.mkdir(directory, { recursive: true }, (err) => {
-                if (err) {
-                    return reject(err);
-                }
-                resolve();
-            });
-        });
-
-        if (files.zoneIMG) {
-            await new Promise((resolve, reject) => {
-                fs.writeFile(destination, files.zoneIMG[0].buffer, (err) => {
-                    if (err) {
-                        return reject(err);
-                    }
-                    resolve();
-                });
-            });
-        }
-
-        if(files.resumeTables) {
-            await Promise.all(files.resumeTables.map(e => {
-                const currentDestination = path.join(__dirstorage, 'assets', 'urban', newLicense.fullInvoice, e.originalname.toLowerCase());
-                return new Promise((resolve, reject) => {
-                    if (e.originalname.toLowerCase().includes('tabla_s')) {
-                        fs.writeFile(currentDestination, e.buffer, (err) => {
-                            if (err) {
-                                return reject(err);
-                            }
-                            resolve();
-                        });
-                    } else {
-                        resolve();
-                    }
-                });
-            }));
-        }
-
-        res.status(200).json({ createdAt: newLicense.createdAt, fullInvoice: newLicense.fullInvoice, dbInvoice: newLicense.invoice});
+        res.status(response.status).json(response.data);
 
         logger.logRequestInfo('Urban create request completed', 
         `Requestor Name -> ${req.name}
         Requestor Username -> ${req.username}
-        Created -> Record ${newLicense.fullInvoice}`);
+        Create request -> ${response.log}`);
     } catch (error) {
         logger.logConsoleError('Urban create request failed due to server side error', error);
         logger.logRequestError('Urban create request failed due to server side error', error);
@@ -388,7 +132,8 @@ export const createLicense = async (req, res) => {
 
 export const updateLicense = async (req, res) => {
     try {
-        const id = req.params.licenciaID;
+        /*const id = req.params.licenciaID;
+
         const files = req.files;
 
         for (const key in req.body) {
@@ -476,7 +221,7 @@ export const updateLicense = async (req, res) => {
             pageBreak_7,
             pageBreak_8,
             pageBreak_9,
-            pageBreak_10,
+            pageBreak_10
         } = req.body;
 
         let { legalRepresentative } = req.body;
@@ -617,14 +362,21 @@ export const updateLicense = async (req, res) => {
                     });
                 }));
             }
-        }
+        }*/
 
-        res.status(200).json({msg: "Record updated successfully", affectedRecord: modifiedLicense.fullInvoice});
+        const ID = req.params.licenciaID;
+        const BODY = req.body;
+        const FILES = req.files;
+        const REQUESTOR = req.name;
+
+        const response = await urbanService.requestUrbanLicenseUpdate(ID, BODY, FILES, REQUESTOR);
+
+        res.status(response.status).json(response.data);
 
         logger.logRequestInfo('Urban update request completed', 
         `Requestor Name -> ${req.name}
         Requestor Username -> ${req.username}
-        Updated -> Record ${modifiedLicense.fullInvoice}`);
+        Updated -> Record ${response.log}`);
     } catch (error) {
         logger.logConsoleError('Urban update request failed due to server side error', error);
         logger.logRequestError('Urban update request failed due to server side error', error);
@@ -635,23 +387,16 @@ export const updateLicense = async (req, res) => {
 
 export const deleteLicense = async (req, res) => {
     try {
-        const id = req.params.licenciaID;
+        const ID = req.params.licenciaID;
 
-        const license = await UrbanLicense.findByPk(id);
+        const response = await urbanService.requestUrbanLicenseDelete(ID);
 
-        if (license == null) {
-            res.status(404).json({ msg: "The requested data does not exist or is unavailable" });
-            return;
-        }
-
-        license.destroy();
-
-        res.status(200).json({msg: "Record deleted successfully"});
+        res.status(response.status).json(response.data);
 
         logger.logRequestInfo('Urban delete request completed', 
         `Requestor Name -> ${req.name}
         Requestor Username -> ${req.username}
-        Deleted -> Record ${license.fullInvoice}`);
+        Delete request -> ${response.log}`);
     } catch (error) {
         logger.logConsoleError('Urban delete request failed due to server side error', error);
         logger.logRequestError('Urban delete request failed due to server side error', error);
@@ -661,119 +406,30 @@ export const deleteLicense = async (req, res) => {
 
 export const getLicensePDF= async (req, res) => {
     try {
-        const type = req.params.type;
-        const invoice = req.params.invoice;
-        const year = req.params.year;
+        const TYPE = parseInt(req.params.type);
+        const INVOICE = parseInt(req.params.invoice);
+        const YEAR = parseInt(req.params.year);
 
-        const license = await UrbanLicense.findOne({
-            where: {
-                licenseType: type,
-                invoice: invoice,
-                year: year
-            },
-            include: [
-                {
-                    model: UrbanType,
-                    attributes: ['licenseType']
-                },
-                {
-                    model: Zone,
-                    attributes: ['licenseZone', 'licenseKey']
-                },
-                {
-                    model: Term,
-                    attributes: ['licenseTerm']
-                },
-                {
-                    model: Validity,
-                    attributes: ['licenseValidity']
-                }
-            ]
-        });
+        const response = await urbanService.requestPDFDefinition(TYPE, INVOICE, YEAR);
 
-        if(license == null) {
-            res.status(404).json({ msg: "The requested data does not exist or is unavailable" });
-            return;
+        if (!response.data.definition) {
+            return res.status(response.status).json(response.data);
         }
 
-        license.licenseSpecialData = JSON.parse(license.licenseSpecialData);
-
-        let def
-
-        switch (parseInt(type)) {
-            case 1:
-                def = await generateUrbanC(license);
-                break;
-            case 2:
-                def = await generateUrbanLUS(license);
-                break;
-            case 3:
-                def = await generateUrbanLSUB(license);
-                break;
-            case 4:
-                def = await generateUrbanLFUS(license);
-                break;
-            case 5:
-                def = await generateUrbanPLF(license);
-                break;
-            case 6:
-                def = await generateUrbanLF(license);
-                break;
-            case 7:
-                def = await generateUrbanRLF(license);
-                break;
-            case 8:
-                def = await generateUrbanCRPC(license);
-                break;
-        
-            default:
-                def = await generateUrbanC(license);
-                break;
-        }
-
-        const pdfDoc = await printerPDF.createPdfKitDocument(def);
+        const pdfDoc = printerPDF.createPdfKitDocument(response.data.definition);
 
         res.setHeader('Content-Type', 'application/pdf');
-        pdfDoc.info.Title = license.fullInvoice;
+        pdfDoc.info.Title = response.data.fullInvoice;
         pdfDoc.pipe(res);
         pdfDoc.end();
 
         logger.logRequestInfo('Urban get PDF request completed', 
         `Requestor Name -> ${req.name}
         Requestor Username -> ${req.username}
-        Requested -> Record ${license.fullInvoice}`);
+        PDF request -> ${response.log}`);
     } catch (error) {
         logger.logConsoleError('Urban get PDF request failed due to server side error', error);
         logger.logRequestError('Urban get PDF request failed due to server side error', error);
         res.status(500).json({msg: "Internal server error"});
     }
-}
-
-async function deleteFiles(directory) {
-    return new Promise((resolve, reject) => {
-        fs.readdir(directory, (err, files) => {
-            if (err) {
-                return reject(err);
-            }
-
-            let deletePromises = files
-                .filter(file => file.startsWith('tabla_') || file.startsWith('area_'))
-                .map(file => {
-                    return new Promise((resolve, reject) => {
-                        fs.unlink(path.join(directory, file), err => {
-                            if (err) {
-                                console.error(`Error deleting file ${file}:`, err);
-                                return reject(err);
-                            }
-                            console.log(`Deleted file ${file}`);
-                            resolve();
-                        });
-                    });
-                });
-
-            Promise.all(deletePromises)
-                .then(resolve)
-                .catch(reject);
-        });
-    });
 }

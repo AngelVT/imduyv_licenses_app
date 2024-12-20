@@ -31,16 +31,11 @@ async function getLicensePrint(type, invoice, year) {
 
                 let response = await res.json();
 
-                if (response.data.length == 0) {
-                    alert('No hay resultados que coincida con la búsqueda');
-                    return;
-                }
+                resultPrint.innerHTML = '';
+                
+                createUrbanResult(response.license, resultPrint, true);
 
-                response.data.forEach(element => {
-                    resultPrint.innerHTML = '';
-                    createUrbanResult(element, resultPrint, true);
-                    PDF.setAttribute('src', `/api/urban/PDF/${type}/${invoice}/${year}?${new Date().getTime()}`)
-                });
+                PDF.setAttribute('src', `/api/urban/PDF/${type}/${invoice}/${year}?${new Date().getTime()}`);
 
                 return;
             }

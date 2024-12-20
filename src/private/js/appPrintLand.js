@@ -35,7 +35,7 @@ async function getLicensePrint(type, invoice, year) {
 
                 createLandResult(response.license, resultPrint, true, true);
 
-                PDF.setAttribute('src', `/api/landuse/PDF/${type}/${invoice}/${year}?${new Date().getTime()}`)
+                PDF.setAttribute('src', `/api/landuse/PDF/${type}/${invoice}/${year}?${new Date().getTime()}`);
                 return;
             }
 

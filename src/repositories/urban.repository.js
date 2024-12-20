@@ -116,3 +116,38 @@ export async function deleteUrbanLicense(id) {
 
     return DELETED_LICENSE;
 }
+
+export async function getLicenseEspecialData(id) {
+    return await UrbanLicense.findByPk(id, {
+        attributes: ['fullInvoice','licenseSpecialData'],
+        raw: true,
+        nest: true
+    });
+}
+
+export async function getLatestInvoice(type, year) {
+    return await UrbanLicense.findAll({
+        where: {
+            licenseType: type,
+            year: year
+        },
+        order: [
+            ['invoice', 'DESC']
+        ],
+        attributes: ['invoice', 'year'],
+        include: {
+            model: UrbanType,
+            attributes: ['licenseType']
+        },
+        raw: true,
+        nest: true
+    });
+}
+
+export async function getLicenseType(id) {
+    return await UrbanType.findByPk(id, {
+        attributes: ['licenseType'],
+        raw: true,
+        nest: true
+    });
+}

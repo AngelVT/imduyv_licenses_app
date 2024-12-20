@@ -1,5 +1,5 @@
 import path from "path";
-import fs from 'fs';
+import { promises as fs} from 'fs';
 import { __dirstorage } from "../path.configuration.js";
 
 import { getLatestInvoice, getLicenseType } from "../repositories/landuse.repository.js";
@@ -63,20 +63,17 @@ export function generateSpecialData(type) {
 }
 
 export async function saveZoneImage(file, fullInvoice) {
-    const destination = path.join(__dirstorage, 'assets', 'land', fullInvoice, 'zone.png');
-    const directory = path.dirname(destination);
+    try {
+        const destination = path.join(__dirstorage, 'assets', 'land', fullInvoice, 'zone.png');
 
-    fs.mkdir(directory, { recursive: true }, (err) => {
-        if (err) {
-            return false;
-        }
+        const directory = path.dirname(destination);
 
-        fs.writeFile(destination, file.buffer, (err) => {
-            if (err) {
-                return false;
-            }
-        });
-    });
+        await fs.mkdir(directory, { recursive: true });
 
-    return true
+        await fs.writeFile(destination, file.buffer);
+
+        return true
+    } catch (error) {
+        return false;
+    }
 }

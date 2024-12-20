@@ -5,6 +5,8 @@ export function validateParameter(parameter) {
         fullInvoice: {},
         requestorName: {},
         attentionName: {},
+        elaboratedBy: {},
+        lastModifiedBy: {},
         address: {},
         number: {},
         colony: {},

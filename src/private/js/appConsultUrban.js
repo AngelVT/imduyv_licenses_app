@@ -55,16 +55,9 @@ async function getLicense(type, invoice, year) {
 
                 let response = await res.json();
 
-                if (response.data.length == 0) {
-                    alert('No hay resultados que coincida con la búsqueda');
-                    return;
-                }
-
                 resultContainer.innerHTML = '';
 
-                response.data.forEach(element => {
-                    createUrbanResult(element, resultContainer, false);
-                });
+                createUrbanResult(response.license, resultContainer, false);
 
                 return;
             }
@@ -96,14 +89,14 @@ async function getLicenseByType(type, year) {
 
                 let response = await res.json();
 
-                if (response.data.length == 0) {
+                if (response.licenses.length == 0) {
                     alert('No hay resultados que coincida con la búsqueda');
                     return;
                 }
 
                 resultContainer.innerHTML = '';
 
-                response.data.forEach(element => {
+                response.licenses.forEach(element => {
                     console.log(element.specialData);
                     createUrbanResult(element, resultContainer, false);
                 });
@@ -138,14 +131,14 @@ async function getLicenseBy(param, value) {
 
                 let response = await res.json();
 
-                if (response.data.length == 0) {
+                if (response.licenses.length == 0) {
                     alert('No hay resultados que coincida con la búsqueda');
                     return;
                 }
 
                 resultContainer.innerHTML = '';
 
-                response.data.forEach(element => {
+                response.licenses.forEach(element => {
                     createUrbanResult(element, resultContainer, false);
                 });
 
@@ -179,14 +172,14 @@ async function getLicensesUrban() {
 
                 let response = await res.json();
 
-                if (response.data.length == 0) {
+                if (response.licenses.length == 0) {
                     alert('No hay resultados para mostrar');
                     return;
                 }
 
                 resultContainer.innerHTML = '';
 
-                response.data.forEach(element => {
+                response.licenses.forEach(element => {
                     createUrbanResult(element, resultContainer, false);
                 });
 
