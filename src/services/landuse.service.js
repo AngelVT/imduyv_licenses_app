@@ -1,7 +1,10 @@
 import * as landRepo from '../repositories/landuse.repository.js';
-import { specialDataToJSON } from '../utilities/json.utilities.js';
 import * as landValidate from '../validations/landuse.validations.js';
 import * as landUtils from '../utilities/landuse.utilities.js';
+import { specialDataToJSON } from '../utilities/json.utilities.js';
+import { generateLandUseC } from "../models/docs/landUse/licenciaC.js";
+import { generateLandUseL } from "../models/docs/landUse/licenciaL.js";
+import { generateLandUseDP } from "../models/docs/landUse/licenciaDP.js";
 
 export async function requestAllLandLicenses() {
 
@@ -407,4 +410,43 @@ export async function requestLandLicenseDelete(id) {
             ID -> ${DELETED_LICENSE.id}
             Invoice -> ${DELETED_LICENSE.fullInvoice}`
     }
+}
+
+export async function requestPDFDefinition(type, invoice, year) {
+    let LICENSE = await landRepo.findLandLicenseInvoice(type, invoice, year);
+
+    if (LICENSE == null) {
+        return {
+            status: 404,
+            data: {
+                msg: "There requested land use record does not exist"
+            },
+            log: `Request completed record ${type}/${invoice}/${year} not found`
+        };
+    }
+
+    LICENSE = specialDataToJSON(LICENSE);
+
+    let DEFINITION
+
+    if (type == 1) {
+        DEFINITION = await generateLandUseC(LICENSE);
+    }
+
+    if (type >= 2 && type <= 6) {
+        DEFINITION = await generateLandUseL(LICENSE);
+    }
+
+    if (type == 7) {
+        DEFINITION = await generateLandUseDP(LICENSE);
+    }
+
+    return {
+        status: 200,
+        data: {
+            fullInvoice: LICENSE.fullInvoice,
+            definition: DEFINITION
+        },
+        log: `Request completed, PDF generated for record ${LICENSE.id}:${LICENSE.fullInvoice}`
+    };
 }

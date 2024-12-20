@@ -1,18 +1,5 @@
-import fs from 'fs';
-import path from 'path';
-import { Op } from 'sequelize';
-
-import { generateLandInvoice } from '../libs/fullInvoiceGen.js';
-import { __dirstorage } from '../path.configuration.js';
 import * as logger from '../utilities/logger.utilities.js';
-import { LandUseLicense, Type, Term, Zone, AuthUse, Validity, ExpeditionType } from '../models/License.models.js';
-import { validate, validLandCriteria } from '../libs/validate.js';
-import { generateLandSpecialData } from '../models/docs/docUtils/utils.js';
-
 import { printerPDF } from "../utilities/pdf.utilities.js";
-import{ generateLandUseC } from "../models/docs/landUse/licenciaC.js";
-import{ generateLandUseL } from "../models/docs/landUse/licenciaL.js";
-import{ generateLandUseDP } from "../models/docs/landUse/licenciaDP.js";
 import * as landService from '../services/landuse.service.js';
 
 export const getLicenses = async (req, res) => {
@@ -179,69 +166,20 @@ export const deleteLicense = async (req, res) => {
 
 export const getLicensePDF= async (req, res) => {
     try {
-        const type = parseInt(req.params.type);
-        const invoice = req.params.invoice;
-        const year = req.params.year;
+        const TYPE = parseInt(req.params.type);
+        const INVOICE = parseInt(req.params.invoice);
+        const YEAR = parseInt(req.params.year);
 
-        const license = await LandUseLicense.findOne({
-            where: {
-                licenseType: type,
-                invoice: invoice,
-                year: year
-            },
-            include: [
-                {
-                    model: Type,
-                    attributes: ['licenseType']
-                },
-                {
-                    model: Term,
-                    attributes: ['licenseTerm']
-                },
-                {
-                    model: Zone,
-                    attributes: ['licenseZone', 'licenseKey']
-                },
-                {
-                    model: AuthUse,
-                    attributes: ['licenseAuthUse']
-                },
-                {
-                    model: Validity,
-                    attributes: ['licenseValidity']
-                },
-                {
-                    model: ExpeditionType,
-                    attributes: ['licenseExpType']
-                }
-            ]
-        });
+        const response = await landService.requestPDFDefinition(TYPE, INVOICE, YEAR);
 
-        if(license == null) {
-            res.status(404).json({ msg: "The requested data does not exist or is unavailable" });
-            return;
+        if (!response.data.definition) {
+            return res.status(response.status).json(response.data);
         }
 
-        license.licenseSpecialData = JSON.parse(license.licenseSpecialData);
-
-        let def
-
-        if (type == 1) {
-            def = await generateLandUseC(license);
-        }
-
-        if (type >= 2 && type <= 6) {
-            def = await generateLandUseL(license);
-        }
-
-        if (type == 7) {
-            def = await generateLandUseDP(license);
-        }
-
-        const pdfDoc = await printerPDF.createPdfKitDocument(def);
+        const pdfDoc = printerPDF.createPdfKitDocument(response.data.definition);
 
         res.setHeader('Content-Type', 'application/pdf');
-        pdfDoc.info.Title = license.fullInvoice;
+        pdfDoc.info.Title = response.data.fullInvoice;
         pdfDoc.pipe(res);
         pdfDoc.end();
 
@@ -249,7 +187,7 @@ export const getLicensePDF= async (req, res) => {
         `Requestor ID -> ${req.userID}
         Requestor Name -> ${req.name}
         Requestor Username -> ${req.username}
-        Requested -> Record ${license.fullInvoice}`);
+        PDF request -> ${response.log}`);
     } catch (error) {
         logger.logConsoleError('Land record PDF request failed due to server side error', error);
         logger.logRequestError('Land record PDF request failed due to server side error', error);
