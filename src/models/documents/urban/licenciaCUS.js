@@ -1,5 +1,5 @@
 import { __dirstorage } from "../../../path.configuration.js";
-import * as docUtils from "../docUtils/utils.js";
+import * as docUtils from "../../../utilities/document.utilities.js";
 
 export async function generateUrbanC(lcDBObj) {
 

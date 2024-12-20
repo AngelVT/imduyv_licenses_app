@@ -1,7 +1,7 @@
 import { __dirstorage } from "../../../path.configuration.js";
-import * as docUtils from "../docUtils/utils.js";
+import * as docUtils from "../../../utilities/document.utilities.js";
 
-export async function generateLandUseL(lcDBObj) {
+export async function generateLandUseDP(lcDBObj) {
 
     lcDBObj = docUtils.prepareData(lcDBObj);
 
@@ -130,29 +130,13 @@ export async function generateLandUseL(lcDBObj) {
                                             docUtils.field(lcDBObj.zone.licenseKey, docUtils.borderless, 1, 'center',6)
                                         ],
                                         [
-                                            {text: 'Uso de suelo permitido: ', style: 'labelTC', border: docUtils.borderless, colSpan: 3},
-                                            {},{},
-                                            docUtils.field(lcDBObj.authorized_use.licenseAuthUse, docUtils.borderless, 9, 'center', 7),
-                                            {},{},{},{},{},{},{},{}
-                                        ],
-                                        [
-                                            {text: 'Giro: ', style: 'labelT', border: docUtils.borderless, colSpan: 1},
-                                            docUtils.field(lcDBObj.businessLinePrint, docUtils.borderless, 2, 'center', 7),
-                                            {},
-                                            {
-                                                colSpan: 9,
-                                                rowSpan: 2,
-                                                text: 'LA AUTORIZACIÓN DE LICENCIA DE USO DE SUELO: TIENE COMO OBJETO AUTORIZAR EL USO O DESTINO DE UN PREDIO O INMUEBLE, ESTABLECIENDO SUS CONDICIONES DE APROVECHAMIENTO DE CONFORMIDAD CON LOS PROGRAMAS, REGLAMENTOS Y NORMATIVIDAD APLICABLE EN MATERIA DE DESARROLLO URBANO Y ORDENAMIENTO TERRITORIAL.',
-                                                fontSize: 6,
-                                                style: 'labelTC',
-                                                margin:[0,4,0,0],
-                                                border: docUtils.borderless
-                                            },
-                                            {},{},{},{},{},{},{},{}
+                                            docUtils.voidCell(),
+                                            docUtils.field('DERECHO DE PREFERENCIA', docUtils.borderless, 10, 'boldCenter', 8),
+                                            {},{},{},{},{},{},{},{},{},docUtils.voidCell()
                                         ],
                                         [
                                             {text: 'Superficie: ', style: 'labelT', border: docUtils.borderless, colSpan: 1},
-                                            docUtils.field(lcDBObj.surfaceTotal, docUtils.borderless, 2, null, 6),{},{},{},{},{},{},{},{},{},{}
+                                            docUtils.field(lcDBObj.surfaceTotal, docUtils.borderless, 2, null, 6),{},docUtils.voidCell(9),{},{},{},{},{},{},{},{}
                                         ]
                                     ]
                                 },
@@ -168,13 +152,37 @@ export async function generateLandUseL(lcDBObj) {
                 table: {
                     widths: ['*'],
                     body: [
-                        [{text: "RESTRICCIONES Y SANCIONES", style: 'headT', border: docUtils.borderless}],
+                        [{text: "CONSIDERANDO", style: 'headT', border: docUtils.borderless}],
                         [
                             {
                                 table: {
                                     widths: ['*'],
                                     body: [
-                                        [{text: lcDBObj.licenseSpecialData.restrictions, fontSize: 6, border: docUtils.borderless, alignment: 'justify'}]
+                                        [{  type: 'upper-alpha',
+                                            style: 'regular',
+                                            border: docUtils.borderless,
+                                            separator: ')',
+                                            ol: [
+                                                    {
+                                                        text: [
+                                                            {text: 'Que el solicitante el C. '},
+                                                            {text: lcDBObj.requestorName, bold: true},
+                                                            {text: ', con los documentos que se anexan a su escrito inicial, acredita la propiedad del inmueble motivo de la solicitud del '},
+                                                            {text: 'DERECHO DE PREFERENCIA', bold: true},
+                                                            {text: ', así mismo de la inspección realizada en campo, se permite comprobar la localización y ubicación del inmueble que es motivo de la solicitud.'}
+                                                        ]
+                                                    },
+                                                    {
+                                                        text: [
+                                                            {text: 'En virtud de que la parcela '},
+                                                            {text: lcDBObj.licenseSpecialData.parcela, bold: true},
+                                                            {text: ', del Ejido de Tizayuca, Hidalgo, de acuerdo al Plano 03PE01 - Políticas Territoriales, Plano 03PE10 - Etapas de Desarrollo, 03PE09-Zonificación Secundaria, se encuentra dentro del polígono identificado con un uso de suelo '},
+                                                            {text: lcDBObj.zone.licenseZone, bold: true},
+                                                            {text: `, "${lcDBObj.zone.licenseKey}"`, bold: true},
+                                                        ]
+                                                    }
+                                            ]
+                                        }]
                                     ]
                                 },
                                 layout: docUtils.formLayout
@@ -189,9 +197,54 @@ export async function generateLandUseL(lcDBObj) {
                 table: {
                     widths: ['*'],
                     body: [
-                        [{text: "FUNDAMENTO JURÍDICO", style: 'headT', border: docUtils.borderless}],
+                        [{text: "RESOLUTIVO", style: 'headT', border: docUtils.borderless}],
                         [
-                            {text: "Lo anterior con fundamento en lo dispuesto en los artículos 27 párrafo tercero, 73 fracción XXIX-c, 115 fracción V, inciso d y e, de la Constitución Política de los Estados Unidos Mexicanos; artículos 115, 141, fracción XVII, incisos a, c, d, e y g de la Constitución Política para el Estado de Hidalgo; los artículos 1 fracción IV, 6,, fracción II, II, XII, XV y XVII, 52 fracción I y VII, 59, 60, 66 y 68 de la Ley General de Asentamientos Humanos, Ordenamiento Territorial y Desarrollo Urbano; los artículos 1, 2, 4 fracción XIX, 5, 7, 8 fracción VII, 9, fracción I y V, 54, 55, 56, 132, 133, 134, 135, 136, 137, 138, 139, 146, 147, 156 fracción VI, 159 y demás aplicables de la Ley de Asentamientos Humanos, Desarrollo Urbano y Ordenamiento Territorial para el Estado de Hidalgo; artículos 25, 32, 69 y 70 y demás aplicables del Reglamento de la Ley de Asentamientos Humanos, Desarrollo Urbano y Ordenamiento Territorial para el Estado de Hidalgo; artículos 56 fracción I inciso p, fracción II inciso k, 60 fracción I inciso h, II inciso e, f, g y m, 117 fracción IV de la Ley Orgánica Municipal del Estado de Hidalgo; a efecto de dar cumplimiento a lo ordenado por el seno de cabildo la creación del Instituto Municipal de Desarrollo Urbano y Vivienda, Tizayuca, Estado de Hidalgo, con fecha 15 de agosto de 2006, y habiéndose publicado la versión abreviada en el Periódico Oficial del estado el 28 de agosto y 04 de diciembre de 2006, y la actualización del Programa Municipal de Desarrollo Urbano y Ordenamiento Territorial de Tizayuca, Hidalgo publicado en el Periódico Oficial de Gobierno del estado de Hidalgo en el tomo CLIV alcance uno al Periódico Oficial de fecha 28 de noviembre de 2022, mismo que se encuentra inscrito en el Registro Público de la Propiedad y del Comercio del Distrito Judicial de Tizayuca, Estado de Hidalgo, bajo el Acto publicitario No. 2,194 con Registro de entrada 26250-2022-0, con fecha de asiento 07 de diciembre de 2022. ", style: 'regularSmall', alignment: 'justify'}
+                            {
+                                table: {
+                                    widths: ['*'],
+                                    body: [
+                                        [{  
+                                            style: 'regular',
+                                            border: docUtils.borderless,
+                                            stack: [
+                                                    {
+                                                        text: [
+                                                            {text: 'PRIMERO. ', bold: true},
+                                                            {text: 'Que el solicitante el C. '},
+                                                            {text: lcDBObj.requestorName, bold: true},
+                                                            {text: ', con los documentos que se anexan a su escrito inicial, acredita la propiedad del inmueble motivo de la solicitud del '},
+                                                            {text: 'DERECHO DE PREFERENCIA', bold: true},
+                                                            {text: ', así mismo de la inspección realizada en campo, se permite comprobar la localización y ubicación del inmueble que es motivo de la solicitud.\n\n'}
+                                                        ]
+                                                    },
+                                                    {
+                                                        text: [
+                                                            {text: 'SEGUNDO. ', bold: true},
+                                                            {text: 'Este Instituto '},
+                                                            {text: 'NO', bold: true},
+                                                            {text: ' ejercerá el DERECHO DE PREFERENCIA, respecto de la parcela '},
+                                                            {text: lcDBObj.licenseSpecialData.parcela, bold: true},
+                                                            {text: ' del ejido de Tizayuca, Hidalgo, la cual ampara con el título de propiedad '},
+                                                            {text: lcDBObj.licenseSpecialData.propertyNo, bold: true},
+                                                            {text: ' de fecha '},
+                                                            {text: docUtils.dateFormatFull(lcDBObj.licenseSpecialData.propertyDate)},
+                                                            {text: '.\n\n'}
+                                                        ]
+                                                    },
+                                                    {
+                                                        text: [
+                                                            {text: 'TERCERO. ', bold: true},
+                                                            {text: 'Así mismo se le informa que dicha parcela cuenta, dentro de las normas de compatibilidad y aprovechamiento PLANO 03PE01 - POLÍTICAS TERRITORIALES, PLANO 03PE10 -ETAPAS DE DESARROLLO, 03PE09 -ZONIFICACIÓN SECUNDARIA, con un '},
+                                                            {text: lcDBObj.zone.licenseZone, bold: true},
+                                                            {text: `, "${lcDBObj.zone.licenseKey}"`, bold: true},
+                                                        ]
+                                                    }
+                                            ]
+                                        }]
+                                    ]
+                                },
+                                layout: docUtils.formLayout
+                            }
                         ]
                     ]
                 },
@@ -206,9 +259,9 @@ export async function generateLandUseL(lcDBObj) {
                             {},
                             docUtils.field(lcDBObj.expeditionDate, docUtils.borderless, 2, 'center',7),
                             {},
-                            {text: 'Vigencia: ', style: 'labelTC', colSpan: 2},
                             {},
-                            docUtils.field(lcDBObj.validity.licenseValidity, docUtils.borderless, 2, 'center',7),
+                            {},
+                            {},
                             {},
                             {text: 'Folio de pago: ', style: 'labelTC', colSpan: 2},
                             {},
@@ -231,10 +284,10 @@ export async function generateLandUseL(lcDBObj) {
                             body: [
                                 [
                                     {},
-                                    {},
+                                    docUtils.signatureDirector(lcDBObj.approvalStatus),
                                     {
                                         columns: [
-                                            {},
+                                            docUtils.signatureSeal(lcDBObj.approvalStatus),
                                             {
                                                 svg: `
                                                     <svg width="30" height="84">
@@ -294,7 +347,7 @@ export async function generateLandUseL(lcDBObj) {
                 table: {
                     widths: ['*'],
                     body: [
-                        [{text: "CONDICIONANTES", style: 'headT', border: docUtils.borderless}],
+                        [{text: "FUNDAMENTO JURÍDICO", style: 'headT', border: docUtils.borderless}],
                         [
                             {
                                 table: {
@@ -303,10 +356,9 @@ export async function generateLandUseL(lcDBObj) {
                                         [
                                             {
                                                 type: 'lower-alpha',
-                                                ol: lcDBObj.licenseSpecialData.conditions,
-                                                fontSize: 6,
-                                                border: docUtils.borderless,
-                                                alignment: 'justify'
+                                                text: 'Lo anterior con fundamento en lo dispuesto en los artículos 100, 102 parrafo segundo, 103, 104, 193 de la Ley de Asentamiento Humanos, Desarrollo Urbano y Ordenamiento Territorial. ',
+                                                style: 'labelTC',
+                                                border: docUtils.borderless
                                             }
                                         ]
                                     ]

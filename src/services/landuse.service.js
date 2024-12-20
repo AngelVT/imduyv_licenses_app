@@ -2,9 +2,9 @@ import * as landRepo from '../repositories/landuse.repository.js';
 import * as landValidate from '../validations/landuse.validations.js';
 import * as landUtils from '../utilities/landuse.utilities.js';
 import { specialDataToJSON } from '../utilities/json.utilities.js';
-import { generateLandUseC } from "../models/docs/landUse/licenciaC.js";
-import { generateLandUseL } from "../models/docs/landUse/licenciaL.js";
-import { generateLandUseDP } from "../models/docs/landUse/licenciaDP.js";
+import { generateLandUseC } from "../models/documents/landUse/licenciaC.js";
+import { generateLandUseL } from "../models/documents/landUse/licenciaL.js";
+import { generateLandUseDP } from "../models/documents/landUse/licenciaDP.js";
 
 export async function requestAllLandLicenses() {
 

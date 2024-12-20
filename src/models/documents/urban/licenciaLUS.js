@@ -1,67 +1,24 @@
 import { __dirstorage } from "../../../path.configuration.js";
-import * as docUtils from "../docUtils/utils.js";
+import * as docUtils from "../../../utilities/document.utilities.js";
 
-export async function generateUrbanLFUS(lcDBObj) {
+const antecedents = ['SUBDIVISIÓN', 'FUSIÓN'];
+
+export async function generateUrbanLUS(lcDBObj) {
 
     lcDBObj = docUtils.prepareData(lcDBObj);
 
-    const conditionsPart = {
-        style: 'formRow',
-        pageBreak: lcDBObj.licenseSpecialData.pageBreak_1 == 1 ? 'before' : 'avoid',
-        table: {
-            widths: ['*'],
-            body: [
-                [
-                    {text: "CONDICIONANTES", style: 'headT', border: docUtils.borderless}
-                ],
-                [
-                    {
-                        type: 'lower-alpha',
-                        ol: lcDBObj.licenseSpecialData.conditions ? lcDBObj.licenseSpecialData.conditions.join('\n\n*').split('*') : ["..."],
-                        fontSize: 6
-                    }
-                ]
-            ]
-        },
-        layout: docUtils.containerLayout
-    };
-    const restrictionsPart = {
-        style: 'formRow',
-        pageBreak: lcDBObj.licenseSpecialData.pageBreak_2 == 1 ? 'before' : 'avoid',
-        table: {
-            widths: ['*'],
-            body: [
-                [
-                    {text: "RESTRICCIONES Y SANCIONES", style: 'headT', border: docUtils.borderless}
-                ],
-                [
-                    {
-                        ul: [
-                            'La presente no autoriza acciones urbanas que generen impacto social en su entorno inmediato conforme a lo establecido en el artículo 139 de la Ley de Asentamientos Humanos, Desarrollo Urbano y Ordenamiento Territorial del Estado de Hidalgo y al artículo 71 del Reglamento de la Ley de Asentamientos Humanos, Desarrollo Urbano y Ordenamiento Territorial del Estado de Hidalgo.',
-                            'Acatar la normativa y restricciones de la zonificación secundaria que determina el documento técnico del Programa Municipal de Desarrollo Urbano y Ordenamiento Territorial de Tizayuca.',
-                            'El presente documento es intransferible y aplicación durante su vigencia es exclusivamente para los inmuebles autorizados y del propietario acreditado, dejando de surtir efecto alguno si por cualquier título legal se transfiere el uso, destino o dominio del predio y solo refiere el uso de suelo de la acción urbana competencia de este Instituto Municipal de Desarrollo Urbano y Vivienda, de Tizayuca, estado de Hidalgo y por ningún motivo constituye un permiso para la realización de obras, ni reconoce ni valida la personalidad jurídica, legitima la propiedad y/o tenencia de la tierra, ni tampoco es vinculante con autorizaciones competencia de otras autoridades federales, estatales y/o municipales, quienes en su caso resolverán lo conducente respecto a permisos, licencias y dictámenes entre otros.',
-                            'El Instituto Municipal de Desarrollo Urbano y Vivienda se reserva el derecho de revocar la presente, en caso de incumplimiento a cualquiera de las condiciones establecidas en la misma.'
-                        ],
-                        fontSize: 6
-                    }
-                ]
-            ]
-        },
-        layout: docUtils.containerLayout
-    };
-
     var definition = {
-        pageMargins: [ 5, 40, 5, 40 ],
+        pageMargins: [ 5, 60, 5, 60 ],
         styles: docUtils.docStyles,
         content: [
             {
                 text: "\"2024, año de Felipe Carrillo Puerto, Benemérito, Revolucionario y defensor del Mayab\"",
                 alignment: 'center',
                 fontSize: 8,
-                margin: [0,0,0,10]
+                margin: [0, 0, 0, 10],
             },
             {
-                text: "LICENCIA DE FUSIÓN",
+                text: "LICENCIA DE USO DE SUELO",
                 alignment: 'center',
                 fontSize: 16,
                 bold: true
@@ -71,7 +28,7 @@ export async function generateUrbanLFUS(lcDBObj) {
                 alignment: 'right',
                 fontSize: 12,
                 bold: true,
-                margin: [0,10,0,0]
+                margin: [0,10,0,10]
             },
             {
                 style: 'formRow',
@@ -92,10 +49,18 @@ export async function generateUrbanLFUS(lcDBObj) {
                                             {text: 'Nombre: ', style: 'labelT', border: docUtils.borderless},
                                             docUtils.field(lcDBObj.requestorName, docUtils.borderless, null,'center', 7)
                                         ],
-                                        docUtils.generateLegalRepresentativeField(lcDBObj.legalRepresentative, lcDBObj.licenseSpecialData.representativeAs),
                                         [
                                             {text: 'Domicilio: ', style: 'labelT', border: docUtils.borderless},
-                                            docUtils.field(lcDBObj.licenseSpecialData.buildingAddress, docUtils.borderless, null,'center', 7),
+                                            docUtils.field(lcDBObj.licenseSpecialData.requestorAddress, docUtils.borderless, null,'center', 7),
+                                        ],
+                                        docUtils.generateLegalRepresentativeField(lcDBObj.legalRepresentative, lcDBObj.licenseSpecialData.representativeAs),
+                                        [
+                                            {text: '', border: docUtils.borderless},
+                                            {text: '', border: docUtils.borderless}
+                                        ],
+                                        [
+                                            {text: 'Fecha de Solicitud: ', style: 'labelT', border: docUtils.borderless},
+                                            docUtils.field(docUtils.dateFormatFull(lcDBObj.requestDate), docUtils.borderless, null,'center', 7)
                                         ]
                                     ]
                                 },
@@ -135,24 +100,50 @@ export async function generateUrbanLFUS(lcDBObj) {
                     widths: ['*'],
                     body: [
                         [
-                            {text: "CONSIDERANDOS", style: 'headT', border: docUtils.borderless}
+                            {text: "NORMAS DE COMPATIBILIDADES Y APROVECHAMIENTO", style: 'headT', border: docUtils.borderless}
                         ],
                         [
                             {
-                                border: [true, true, true, false],
                                 table: {
-                                    widths: [90,90,100.5,'*'],
-                                    body: docUtils.generateDSMCTable(lcDBObj.licenseSpecialData.actualSituation, 'SITUACIÓN ACTUAL')
-                                },layout: docUtils.subTable
-                            }
-                        ],
-                        [
-                            {
-                                border: [true, false, true,true],
-                                text: [
-                                    {text: 'Nota: ', style: 'regular', bold: true},
-                                    {text: 'La información descrita corresponde y es responsabilidad del solicitante.', style: 'regular'}
-                                ]
+                                    widths: ['*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*'],
+                                    body: [
+                                        [
+                                            {text: 'Uso de suelo permitido:', style: 'labelTC', border: docUtils.borderless, colSpan: 3},
+                                            {},{},
+                                            docUtils.field(lcDBObj.zone.licenseZone, docUtils.borderless, 9, 'center', 7),
+                                            {},{},{},{},{},{},{},{}
+                                        ],
+                                        [
+                                            {text: 'Porcentaje de ocupación:', style: 'labelTC', border: docUtils.borderless, colSpan: 2},
+                                            {},
+                                            docUtils.field(`${lcDBObj.licenseSpecialData.occupationPercent}%`, docUtils.borderless, 2, 'center', 7),
+                                            {},
+                                            {text: 'Sup. mínima por lote:', style: 'labelTC', border: docUtils.borderless, colSpan: 2},
+                                            {},
+                                            docUtils.field(`${lcDBObj.licenseSpecialData.surfacePerLote} m²`, docUtils.borderless, 2, 'center', 7),
+                                            {},
+                                            {text: 'Altura máxima:', style: 'labelTC', border: docUtils.borderless, colSpan: 2},
+                                            {},
+                                            docUtils.field(lcDBObj.licenseSpecialData.maximumHeight, docUtils.borderless, 2, 'center', 7),
+                                            {}
+                                        ],
+                                        [
+                                            {text: 'Frente mínimo:', style: 'labelTC', border: docUtils.borderless, colSpan: 2},
+                                            {},
+                                            docUtils.field(`${lcDBObj.licenseSpecialData.minimalFront} m`, docUtils.borderless, 2, 'center', 7),
+                                            {},
+                                            {text: 'Restricción frontal:', style: 'labelTC', border: docUtils.borderless, colSpan: 2},
+                                            {},
+                                            docUtils.field(`${lcDBObj.licenseSpecialData.frontalRestriction} m`, docUtils.borderless, 2, 'center', 7),
+                                            {},
+                                            {text: 'Estacionamientos:', style: 'labelTC', border: docUtils.borderless, colSpan: 2},
+                                            {},
+                                            docUtils.field(lcDBObj.licenseSpecialData.parkingLots, docUtils.borderless, 2, 'center', 7),
+                                            {}
+                                        ]
+                                    ]
+                                },
+                                layout: docUtils.formLayout
                             }
                         ]
                     ]
@@ -162,44 +153,31 @@ export async function generateUrbanLFUS(lcDBObj) {
             {
                 style: 'formRow',
                 table: {
-                    widths: ['*'],
+                    widths: ['*','*','*'],
                     body: [
                         [
-                            {text: "RESOLUCIÓN", style: 'headT', border: docUtils.borderless}
+                            {text: "CUADRO DE SUPERFICIES POR USO DE SUELO", style: 'headT', border: docUtils.borderless, colSpan: 3},{},{}
                         ],
                         [
-                            {
-                                border: [true, true, true, false],
-                                table: {
-                                    widths: [90,90,100.5,'*'],
-                                    body: docUtils.generateDSMCTable(lcDBObj.licenseSpecialData.actualAuthorizedFS, 'FUSIÓN QUE SE AUTORIZA')
-                                },layout: docUtils.subTable
-                            }
+                            {text: "Área total del terreno", style: 'labelTC'},
+                            {text: "Uso de suelo", style: 'labelTC'},
+                            {text: "%", style: 'labelTC'}
                         ],
                         [
-                            {
-                                border: [true, false, true, false],
-                                text: lcDBObj.licenseSpecialData.authorizationResume,
-                                alignment: 'center',
-                                fontSize: 5,
-                                bold: true
-                            }
-                        ],
-                        [
-                            {
-                                border: [true, false, true,true],
-                                text: [
-                                    {text: 'Nota: ', style: 'regular', bold: true},
-                                    {text: 'La información descrita corresponde y es responsabilidad del solicitante.', style: 'regular'}
-                                ]
-                            }
+                            {text: `${lcDBObj.surfaceTotal} m²`, style: ['center', 'regular']},
+                            {text: lcDBObj.zone.licenseZone, style: ['center', 'regular']},
+                            {text: lcDBObj.licenseSpecialData.usePercent, style: ['center', 'regular']}
                         ]
                     ]
                 },
                 layout: docUtils.containerLayout
             },
-            lcDBObj.licenseSpecialData.layout == "A" ? conditionsPart : {},
-            lcDBObj.licenseSpecialData.layout == "A" ? restrictionsPart : {},
+            {
+                margin: [0, 15, 0, 20],
+                style: ['formRow', 'regular'],
+                text: 'El solicitante, con los documentos anexados a su escrito inicial, ha dado cumplimiento con los requisitos técnicos y legales que obran en el expediente radicado en este Instituto Municipal de Desarrollo Urbano y Vivienda, acredita la propiedad del inmueble motivo de la solicitud de Licencia de Uso de Suelo.Personal técnico adscrito al referido Instituto, realizó visita de inspección en campo al inmueble del que solicita la Licencia de Uso de Suelo, emitiendo opinión técnica positiva.',
+                alignment: 'justify',
+            },
             {
                 style: 'formRow',
                 table: {
@@ -208,22 +186,24 @@ export async function generateUrbanLFUS(lcDBObj) {
                         [{text: 'Fecha de Expedición: ', style: 'labelTC', colSpan: 2},
                             {},
                             docUtils.field(docUtils.dateFormatFull(lcDBObj.expeditionDate), docUtils.borderless, 2, 'center',6),
-                            {},{},{},{},{},
+                            {},
+                            {text: 'Vigencia: ', style: 'labelTC', colSpan: 2},
+                            {},
+                            docUtils.field(lcDBObj.validity.licenseValidity, docUtils.borderless, 2, 'center',7),
+                            {},
                             {text: 'Folio de pago: ', style: 'labelTC', colSpan: 2},
                             {},
-                            docUtils.field(lcDBObj.billInvoice, docUtils.borderless, 2, 'center',6),
+                            docUtils.field(lcDBObj.billInvoice, docUtils.borderless, 2, 'center',7),
                             {}]
                     ]
                 },
                 layout: docUtils.noBorderNoPadding
             },
             {
-                pageBreak: 'avoid',
                 stack: [
                     {
                         text:'NOTIFÍQUESE Y CÚMPLASE\nASÍ EN DEFINITIVA LO RESOLVIÓ Y AUTORIZÓ EL MAESTRO EN AUDITORÍA Y CONTROL INTERNO GUBERNAMENTAL HIPÓLITO ZAMORA SORIA,\nDIRECTOR GENERAL DEL INSTITUTO MUNICIPAL DE DESARROLLO URBANO Y VIVIENDA',
-                        style: 'center',
-                        fontSize: 6,
+                        style: ['regular', 'center'],
                         margin: [0,10,0,100]
                     },
                     /*{
@@ -236,7 +216,8 @@ export async function generateUrbanLFUS(lcDBObj) {
                             docUtils.signatureDirector(lcDBObj.approvalStatus),
                             {
                                 width: 30,
-                                text: ''
+                                text: '',
+                                alignment: 'left'
                             }
                         ]
                     },*/
@@ -246,15 +227,13 @@ export async function generateUrbanLFUS(lcDBObj) {
                                 text: ''},
                             {
                             text: 'I.A.E.V. GRETCHEN ALYNE ATILANO MORENO.\nPRESIDENTA MUNICIPAL CONSTITUCIONAL\nDE TIZAYUCA, HIDALGO.',
-                            style: 'labelTC',
-                            fontSize: 6
+                            style: 'labelTC'
                         },
                         {width: 140,
                             text: ''},
                         {
                             text: 'M.A.C.I.G. HIPÓLITO ZAMORA SORIA.\nDIRECTOR GENERAL DEL INSTITUTO MUNICIPAL\nDE DESARROLLO URBANO Y VIVIENDA.',
-                            style: 'labelTC',
-                            fontSize: 6
+                            style: 'labelTC'
                         },
                         {width: 5,
                             text: ''}
@@ -262,44 +241,57 @@ export async function generateUrbanLFUS(lcDBObj) {
                     }
                 ]
             },
-            lcDBObj.licenseSpecialData.layout == "B" ? conditionsPart : {},
-            lcDBObj.licenseSpecialData.layout == "B" ? restrictionsPart : {},
             {
                 style: 'formRow',
-                pageBreak: lcDBObj.licenseSpecialData.pageBreak_3 == 1 ? 'before' : 'avoid',
+                pageBreak: 'before',
                 table: {
                     widths: ['*'],
                     body: [
                         [
-                            {text: "FUSIÓN QUE SE AUTORIZA", style: 'headT', border: docUtils.borderless, margin:[1,2,1,2]}
+                            {text: `MAPA DE ZONIFICACIÓN - ${lcDBObj.geoReference}`, style: 'headT', border: docUtils.borderless, margin:[1,2,1,2]}
                         ],
                         [
                             {
-                                border: [true, true, true,false],
                                 /*text: 'IMG'*/
+                                border: docUtils.borderless,
                                 image: await docUtils.fileExist(lcDBObj.fullInvoice, 'urban'),
                                 width: 580,
                                 alignment: 'center'
                             }
-                        ],
+                        ]
+                    ]
+                },
+                layout: docUtils.noBorderNoPadding
+            },
+            {
+                style: 'formRow',
+                table: {
+                    widths: ['*'],
+                    body: [
+                        [{text: "PROHIBICIONES Y SANCIONES", style: 'headT', border: docUtils.borderless}],
                         [
                             {
-                                border: [true, false, true,true],
-                                text: [
-                                    {text: 'Nota: ', style: 'regular', bold: true},
-                                    {text: 'La información descrita corresponde y es responsabilidad del solicitante.', style: 'regular'}
-                                ]
+                                type: 'lower-alpha',
+                                ol: [
+                                    'La presente no autoriza acciones urbanas ni construcción de obras que generen impacto social en su entorno inmediato.',
+                                    lcDBObj.licenseSpecialData.antecedent ? {
+                                        text: [
+                                            'La presente autorización, es únicamente para el trámite de ', { text: antecedents[lcDBObj.licenseSpecialData.antecedentType], bold: true },
+                                            ' de acuerdo con la licencia número: ',
+                                            { text: lcDBObj.licenseSpecialData.antecedent, bold: true },
+                                            ' emitida por este Instituto, no se autoriza: venta de lotes, construcción u otra acción urbana que no corresponda a la actual autorización.'], }
+                                            : undefined,
+                                    'En caso de requerir Licencia de Uso de Suelo especifico deberá de tramitarla en este Instituto, ya que se emite únicamente para el trámite de subdivisión.',
+                                    'Acatar la normativa y restricciones de la zonificación secundaria que determina el documento técnico del Programa Municipal de Desarrollo Urbano y Ordenamiento Territorial de Tizayuca.',
+                                    'El Instituto Municipal de Desarrollo Urbano y Vivienda se reserva el derecho de revocar la presente, en caso de incumplimiento a cualquiera de las condicionantes establecidas en la misma.'
+                                ],
+                                fontSize: 6,
+                                alignment: 'justify'
                             }
                         ]
                     ]
                 },
                 layout: docUtils.containerLayout
-            },
-            {
-                stack: [
-                    { text: 'El solicitante, con los documentos anexados a su escrito inicial, ha dado cumplimiento con los requisitos técnicos y legales que obran en el expediente radicado en este Instituto Municipal de Desarrollo Urbano y Vivienda, acredita la propiedad del inmueble motivo de la solicitud de Licencia de Subdivisión, así como de la visita de inspección de campo, misma que permite la localización y ubicación del inmueble, materia de este trámite.', style: 'regular', margin: [0,0,0,5],alignment: 'justify' },
-                    { text: 'Personal técnico adscrito al referido Instituto, realizó visita de inspección en campo al inmueble del que solicita la Licencia de Subdivisión, emitiendo opinión técnica positiva. Por tanto, se autorizan los planos de Subdivisión exhibidos por el solicitante, los cuales forman parte integrante de esta autorización.', style: 'regular', margin: [0,0,0,15], alignment: 'justify' }
-                ]
             },
             {
                 style: 'formRow',

@@ -2,14 +2,14 @@ import * as urbanRepo from '../repositories/urban.repository.js';
 import * as urbanValidate from '../validations/urban.validations.js';
 import * as urbanUtils from '../utilities/urban.utilities.js'
 import { specialDataToJSON } from '../utilities/json.utilities.js';
-import { generateUrbanC } from "../models/docs/urban/licenciaCUS.js";
-import { generateUrbanLUS } from "../models/docs/urban/licenciaLUS.js";
-import { generateUrbanLSUB } from "../models/docs/urban/licenciaLSUB.js";
-import { generateUrbanLFUS } from "../models/docs/urban/licenciaLFUS.js";
-import { generateUrbanCRPC } from "../models/docs/urban/licenciaCRPC.js";
-import { generateUrbanLF } from '../models/docs/urban/licenciaLF.js';
-import { generateUrbanPLF } from '../models/docs/urban/licenciaPLF.js';
-import { generateUrbanRLF } from '../models/docs/urban/licenciaRLF.js';
+import { generateUrbanC } from "../models/documents/urban/licenciaCUS.js";
+import { generateUrbanLUS } from "../models/documents/urban/licenciaLUS.js";
+import { generateUrbanLSUB } from "../models/documents/urban/licenciaLSUB.js";
+import { generateUrbanLFUS } from "../models/documents/urban/licenciaLFUS.js";
+import { generateUrbanCRPC } from "../models/documents/urban/licenciaCRPC.js";
+import { generateUrbanLF } from '../models/documents/urban/licenciaLF.js';
+import { generateUrbanPLF } from '../models/documents/urban/licenciaPLF.js';
+import { generateUrbanRLF } from '../models/documents/urban/licenciaRLF.js';
 
 export async function requestAllUrbanLicenses() {
     let LICENSES = await urbanRepo.findAllUrbanLicenses();

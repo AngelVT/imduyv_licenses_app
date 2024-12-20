@@ -1,13 +1,13 @@
 import { __dirstorage } from "../../../path.configuration.js";
-import * as docUtils from "../docUtils/utils.js";
+import * as docUtils from "../../../utilities/document.utilities.js";
 
-export async function generateUrbanLSUB(lcDBObj) {
+export async function generateUrbanLFUS(lcDBObj) {
 
     lcDBObj = docUtils.prepareData(lcDBObj);
 
     const conditionsPart = {
-        pageBreak: lcDBObj.licenseSpecialData.pageBreak_1 == 1 ? 'before' : 'avoid',
         style: 'formRow',
+        pageBreak: lcDBObj.licenseSpecialData.pageBreak_1 == 1 ? 'before' : 'avoid',
         table: {
             widths: ['*'],
             body: [
@@ -61,7 +61,7 @@ export async function generateUrbanLSUB(lcDBObj) {
                 margin: [0,0,0,10]
             },
             {
-                text: "LICENCIA DE SUBDIVISIÓN",
+                text: "LICENCIA DE FUSIÓN",
                 alignment: 'center',
                 fontSize: 16,
                 bold: true
@@ -95,7 +95,7 @@ export async function generateUrbanLSUB(lcDBObj) {
                                         docUtils.generateLegalRepresentativeField(lcDBObj.legalRepresentative, lcDBObj.licenseSpecialData.representativeAs),
                                         [
                                             {text: 'Domicilio: ', style: 'labelT', border: docUtils.borderless},
-                                            docUtils.field(lcDBObj.licenseSpecialData.requestorAddress, docUtils.borderless, null,'center', 7),
+                                            docUtils.field(lcDBObj.licenseSpecialData.buildingAddress, docUtils.borderless, null,'center', 7),
                                         ]
                                     ]
                                 },
@@ -150,8 +150,8 @@ export async function generateUrbanLSUB(lcDBObj) {
                             {
                                 border: [true, false, true,true],
                                 text: [
-                                    {text: 'Nota: ', style: 'regularSmall', bold: true},
-                                    {text: 'La información descrita corresponde y es responsabilidad del solicitante.', style: 'regularSmall'}
+                                    {text: 'Nota: ', style: 'regular', bold: true},
+                                    {text: 'La información descrita corresponde y es responsabilidad del solicitante.', style: 'regular'}
                                 ]
                             }
                         ]
@@ -172,7 +172,7 @@ export async function generateUrbanLSUB(lcDBObj) {
                                 border: [true, true, true, false],
                                 table: {
                                     widths: [90,90,100.5,'*'],
-                                    body: docUtils.generateDSMCTable(lcDBObj.licenseSpecialData.actualAuthorizedFS, 'SUBDIVISIÓN QUE SE AUTORIZA')
+                                    body: docUtils.generateDSMCTable(lcDBObj.licenseSpecialData.actualAuthorizedFS, 'FUSIÓN QUE SE AUTORIZA')
                                 },layout: docUtils.subTable
                             }
                         ],
@@ -180,8 +180,8 @@ export async function generateUrbanLSUB(lcDBObj) {
                             {
                                 border: [true, false, true, false],
                                 text: lcDBObj.licenseSpecialData.authorizationResume,
-                                fontSize: 5,
                                 alignment: 'center',
+                                fontSize: 5,
                                 bold: true
                             }
                         ],
@@ -189,8 +189,8 @@ export async function generateUrbanLSUB(lcDBObj) {
                             {
                                 border: [true, false, true,true],
                                 text: [
-                                    {text: 'Nota: ', style: 'regularSmall', bold: true},
-                                    {text: 'La información descrita corresponde y es responsabilidad del solicitante.', style: 'regularSmall'}
+                                    {text: 'Nota: ', style: 'regular', bold: true},
+                                    {text: 'La información descrita corresponde y es responsabilidad del solicitante.', style: 'regular'}
                                 ]
                             }
                         ]
@@ -271,7 +271,7 @@ export async function generateUrbanLSUB(lcDBObj) {
                     widths: ['*'],
                     body: [
                         [
-                            {text: "SUBDIVISIÓN QUE SE AUTORIZA", style: 'headT', border: docUtils.borderless, margin:[1,2,1,2]}
+                            {text: "FUSIÓN QUE SE AUTORIZA", style: 'headT', border: docUtils.borderless, margin:[1,2,1,2]}
                         ],
                         [
                             {
