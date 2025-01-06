@@ -7,6 +7,11 @@ export async function generateUrbanLUS(lcDBObj) {
 
     lcDBObj = docUtils.prepareData(lcDBObj);
 
+    const INSTITUTE_DIRECTOR_SIGNATURE = await docUtils.getDirectorNameSignature(lcDBObj.requestDate);
+    const INSTITUTE_DIRECTOR_TITTLE = await docUtils.getDirectorNameTittle(lcDBObj.requestDate);
+    const LICENSES_DIRECTOR = await docUtils.getLicensesDirectorName(lcDBObj.requestDate);
+    const MUNICIPAL_PRESIDENT = await docUtils.getPresidentName(lcDBObj.requestDate);
+
     var definition = {
         pageMargins: [ 5, 60, 5, 60 ],
         styles: docUtils.docStyles,
@@ -202,7 +207,7 @@ export async function generateUrbanLUS(lcDBObj) {
             {
                 stack: [
                     {
-                        text:'NOTIFÍQUESE Y CÚMPLASE\nASÍ EN DEFINITIVA LO RESOLVIÓ Y AUTORIZÓ EL MAESTRO EN AUDITORÍA Y CONTROL INTERNO GUBERNAMENTAL HIPÓLITO ZAMORA SORIA,\nDIRECTOR GENERAL DEL INSTITUTO MUNICIPAL DE DESARROLLO URBANO Y VIVIENDA',
+                        text:`NOTIFÍQUESE Y CÚMPLASE\nASÍ EN DEFINITIVA LO RESOLVIÓ Y AUTORIZÓ ${INSTITUTE_DIRECTOR_TITTLE},\nDIRECTOR GENERAL DEL INSTITUTO MUNICIPAL DE DESARROLLO URBANO Y VIVIENDA`,
                         style: ['regular', 'center'],
                         margin: [0,10,0,100]
                     },
@@ -226,13 +231,13 @@ export async function generateUrbanLUS(lcDBObj) {
                             {width: 5,
                                 text: ''},
                             {
-                            text: 'I.A.E.V. GRETCHEN ALYNE ATILANO MORENO.\nPRESIDENTA MUNICIPAL CONSTITUCIONAL\nDE TIZAYUCA, HIDALGO.',
+                            text: `${MUNICIPAL_PRESIDENT}.\nPRESIDENTA MUNICIPAL CONSTITUCIONAL\nDE TIZAYUCA, HIDALGO.`,
                             style: 'labelTC'
                         },
                         {width: 140,
                             text: ''},
                         {
-                            text: 'M.A.C.I.G. HIPÓLITO ZAMORA SORIA.\nDIRECTOR GENERAL DEL INSTITUTO MUNICIPAL\nDE DESARROLLO URBANO Y VIVIENDA.',
+                            text: `${INSTITUTE_DIRECTOR_SIGNATURE}.\nDIRECTOR GENERAL DEL INSTITUTO MUNICIPAL\nDE DESARROLLO URBANO Y VIVIENDA.`,
                             style: 'labelTC'
                         },
                         {width: 5,
@@ -311,7 +316,7 @@ export async function generateUrbanLUS(lcDBObj) {
                 columns: [
                     {
                         margin: [0,0,30,0],
-                        text: 'Revisó: F.I.G.S.',
+                        text: `Revisó: ${LICENSES_DIRECTOR}`,
                         fontSize: 6,
                         alignment: 'right'
                     },

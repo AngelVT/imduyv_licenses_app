@@ -5,6 +5,11 @@ export async function generateLandUseDP(lcDBObj) {
 
     lcDBObj = docUtils.prepareData(lcDBObj);
 
+    const INSTITUTE_DIRECTOR_SIGNATURE = await docUtils.getDirectorNameSignature(lcDBObj.requestDate);
+    const INSTITUTE_DIRECTOR_TITTLE = await docUtils.getDirectorNameTittle(lcDBObj.requestDate);
+    const INSTITUTE_DIRECTOR_SHORT = await docUtils.getDirectorNameShort(lcDBObj.requestDate);
+    const LICENSES_DIRECTOR = await docUtils.getLicensesDirectorName(lcDBObj.requestDate);
+
     var definition = {
         pageMargins: [ 5, 60, 5, 10 ],
         styles: docUtils.docStyles,
@@ -274,7 +279,7 @@ export async function generateLandUseDP(lcDBObj) {
             {
                 stack: [
                     {
-                        text:'NOTIFÍQUESE Y CÚMPLASE\nASÍ EN DEFINITIVA LO RESOLVIÓ Y AUTORIZÓ EL MAESTRO EN AUDITORÍA Y CONTROL INTERNO GUBERNAMENTAL HIPÓLITO ZAMORA SORIA,\nDIRECTOR GENERAL DEL INSTITUTO MUNICIPAL DE DESARROLLO URBANO Y VIVIENDA',
+                        text:`NOTIFÍQUESE Y CÚMPLASE\nASÍ EN DEFINITIVA LO RESOLVIÓ Y AUTORIZÓ ${INSTITUTE_DIRECTOR_TITTLE},\nDIRECTOR GENERAL DEL INSTITUTO MUNICIPAL DE DESARROLLO URBANO Y VIVIENDA`,
                         style: ['regular', 'center'],
                         margin: [0,10,0,0]
                     },
@@ -306,7 +311,7 @@ export async function generateLandUseDP(lcDBObj) {
                         layout: docUtils.noBorderNoPadding
                     },
                     {
-                        text: 'M.A.C.I.G. HIPÓLITO ZAMORA SORIA.\nDIRECTOR GENERAL DEL INSTITUTO MUNICIPAL\nDE DESARROLLO URBANO Y VIVIENDA.',
+                        text: `${INSTITUTE_DIRECTOR_SIGNATURE}.\nDIRECTOR GENERAL DEL INSTITUTO MUNICIPAL\nDE DESARROLLO URBANO Y VIVIENDA.`,
                         style: 'labelTC'
                     }
                 ]
@@ -373,7 +378,7 @@ export async function generateLandUseDP(lcDBObj) {
             {
                 stack: [
                     {
-                        text:'NOTIFÍQUESE Y CÚMPLASE ASÍ EN DEFINITIVA LO RESOLVIÓ Y AUTORIZÓ\nEL MAESTRO EN AUDITORÍA Y CONTROL INTERNO GUBERNAMENTAL HIPÓLITO ZAMORA SORIA,\nDIRECTOR GENERAL DEL INSTITUTO MUNICIPAL DE DESARROLLO URBANO Y VIVIENDA',
+                        text:`NOTIFÍQUESE Y CÚMPLASE\nASÍ EN DEFINITIVA LO RESOLVIÓ Y AUTORIZÓ ${INSTITUTE_DIRECTOR_TITTLE},\nDIRECTOR GENERAL DEL INSTITUTO MUNICIPAL DE DESARROLLO URBANO Y VIVIENDA`,
                         style: ['regular', 'center'],
                         margin: [0,10,0,0]
                     },
@@ -384,7 +389,7 @@ export async function generateLandUseDP(lcDBObj) {
                                 [
                                     {
                                         margin: [0,42,0,0],
-                                        text: `Director General: H.Z.S.\nElaboró: ${docUtils.madeBy(lcDBObj.elaboratedBy)}\nRevisó: F.I.G.S.`,
+                                        text: `Director General: ${INSTITUTE_DIRECTOR_SHORT}\nElaboró: ${docUtils.madeBy(lcDBObj.elaboratedBy)}\nRevisó: ${LICENSES_DIRECTOR}`,
                                         fontSize: 6
                                     },
                                     {},

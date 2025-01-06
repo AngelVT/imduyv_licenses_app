@@ -5,6 +5,11 @@ export async function generateUrbanRLF(lcDBObj) {
 
     lcDBObj = docUtils.prepareData(lcDBObj);
 
+    const INSTITUTE_DIRECTOR_SIGNATURE = await docUtils.getDirectorNameSignature(lcDBObj.requestDate);
+    const INSTITUTE_DIRECTOR_TITTLE = await docUtils.getDirectorNameTittle(lcDBObj.requestDate);
+    const LICENSES_DIRECTOR = await docUtils.getLicensesDirectorName(lcDBObj.requestDate);
+    const MUNICIPAL_PRESIDENT = await docUtils.getPresidentName(lcDBObj.requestDate);
+
     var definition = {
         pageMargins: [ 5, 60, 5, 60 ],
         styles: docUtils.docStyles,
@@ -410,7 +415,7 @@ export async function generateUrbanRLF(lcDBObj) {
                 pageBreak: 'avoid',
                 stack: [
                     {
-                        text:'NOTIFÍQUESE Y CÚMPLASE\nASÍ EN DEFINITIVA LO RESOLVIÓ Y AUTORIZÓ EL MAESTRO EN AUDITORÍA Y CONTROL INTERNO GUBERNAMENTAL HIPÓLITO ZAMORA SORIA,\nDIRECTOR GENERAL DEL INSTITUTO MUNICIPAL DE DESARROLLO URBANO Y VIVIENDA',
+                        text:`NOTIFÍQUESE Y CÚMPLASE\nASÍ EN DEFINITIVA LO RESOLVIÓ Y AUTORIZÓ ${INSTITUTE_DIRECTOR_TITTLE},\nDIRECTOR GENERAL DEL INSTITUTO MUNICIPAL DE DESARROLLO URBANO Y VIVIENDA`,
                         style: 'center',
                         fontSize: 6,
                         margin: [0,10,0,100]
@@ -425,11 +430,11 @@ export async function generateUrbanRLF(lcDBObj) {
                     {
                         columns: [
                             {
-                            text: 'M.A.P.P. SUSANA ARACELI ÁNGELES QUEZADA\nPRESIDENTA MUNICIPAL CONSTITUCIONAL\nDE TIZAYUCA, HIDALGO.',
+                            text: `${MUNICIPAL_PRESIDENT}.\nPRESIDENTA MUNICIPAL CONSTITUCIONAL\nDE TIZAYUCA, HIDALGO.`,
                             style: 'labelTC'
                         },
                         {
-                            text: 'M.A.C.I.G. HIPÓLITO ZAMORA SORIA.\nDIRECTOR GENERAL DEL INSTITUTO MUNICIPAL\nDE DESARROLLO URBANO Y VIVIENDA.',
+                            text: `${INSTITUTE_DIRECTOR_SIGNATURE}.\nDIRECTOR GENERAL DEL INSTITUTO MUNICIPAL\nDE DESARROLLO URBANO Y VIVIENDA.`,
                             style: 'labelTC'
                         }
                         ]
@@ -439,7 +444,7 @@ export async function generateUrbanRLF(lcDBObj) {
                         columns: [
                             {
                                 margin: [0,0,30,0],
-                                text: 'Revisó: F.I.G.S.',
+                                text: `Revisó: ${LICENSES_DIRECTOR}`,
                                 fontSize: 6,
                                 alignment: 'right'
                             },

@@ -1,6 +1,7 @@
 import { __dirstorage, __dirname } from "../path.configuration.js";
 import path from "path";
 import fs from 'fs';
+import { getMunicipalPeriodByDate, getInstitutePeriodByDate, getLicensesPeriodByDate } from "../repositories/administration.repository.js";
 
 export const borderless = [false,false,false,false];
 
@@ -352,6 +353,77 @@ export function generateLegalRepresentativeField(representative, representativeA
     return [{text: '', border: borderless},{text: '', border: borderless}];
 }
 
+export function generateDistributionTable(lotes, manzanas) {
+    let table = [
+        [
+            {text: "CUADRO DE DISTRIBUCIÓN POR MANZANAS", style: 'headT', border: borderless, colSpan: 2},{}
+        ],
+        [
+            {text: "LOTE", style: 'labelTC'},
+            {text: "MANZANA", style: 'labelTC'}
+        ]
+    ]
+
+    for (let i = 0; i < lotes.length; i++) {
+        table.push([
+            {text: lotes[i], style: ['center', 'regular']},
+            {text: manzanas[i], style: ['left', 'regular']}
+        ]);
+    }
+
+    return table
+}
+
+export async function getPresidentName(date) {
+    const PERIOD = await getMunicipalPeriodByDate(date);
+
+    if (PERIOD == null) {
+        return "No definido"
+    }
+
+    return PERIOD.municipalPresident.toUpperCase();
+}
+
+export async function getDirectorNameTittle(date) {
+    const PERIOD = await getInstitutePeriodByDate(date);
+
+    if (PERIOD == null) {
+        return "No definido"
+    }
+
+    return `${PERIOD.directorTittle} ${PERIOD.directorName}`.toUpperCase();
+}
+
+export async function getDirectorNameSignature(date) {
+    const PERIOD = await getInstitutePeriodByDate(date);
+
+    if (PERIOD == null) {
+        return "No definido"
+    }
+
+    return `${PERIOD.directorTittleShort} ${PERIOD.directorName}`.toUpperCase();
+}
+
+export async function getDirectorNameShort(date) {
+    const PERIOD = await getInstitutePeriodByDate(date);
+
+    if (PERIOD == null) {
+        return "No definido"
+    }
+
+    return madeBy(capitalize(PERIOD.directorName));
+}
+
+export async function getLicensesDirectorName(date) {
+    const PERIOD = await getLicensesPeriodByDate(date);
+
+    if (PERIOD == null) {
+        return "No definido"
+    }
+
+    return madeBy(capitalize(PERIOD.directorName));
+}
+
 function capitalize(str) {
     return str
     .split(' ')
@@ -409,25 +481,4 @@ function generateSubTable(tableObj) {
     }
 
     return subBody
-}
-
-export function generateDistributionTable(lotes, manzanas) {
-    let table = [
-        [
-            {text: "CUADRO DE DISTRIBUCIÓN POR MANZANAS", style: 'headT', border: borderless, colSpan: 2},{}
-        ],
-        [
-            {text: "LOTE", style: 'labelTC'},
-            {text: "MANZANA", style: 'labelTC'}
-        ]
-    ]
-
-    for (let i = 0; i < lotes.length; i++) {
-        table.push([
-            {text: lotes[i], style: ['center', 'regular']},
-            {text: manzanas[i], style: ['left', 'regular']}
-        ]);
-    }
-
-    return table
 }

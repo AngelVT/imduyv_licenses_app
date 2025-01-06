@@ -391,7 +391,7 @@ function generateUrbanFields(resObj, resultContent) {
 
     // * Nav button
     navButton = document.createElement('li');
-    navButton.setAttribute('class', `tooltip bi-plus-circle btn ${resObj.licenseType == 1 || resObj.licenseType == 2 || resObj.licenseType == 6 ? 'dis-none' : ''}`);
+    navButton.setAttribute('class', `tooltip bi-plus-circle btn ${resObj.licenseType == 1 || resObj.licenseType == 2 ? 'dis-none' : ''}`);
     navButton.setAttribute('onclick', `resultNavigation(this, ${resObj.id}, 6, 6)`);
     navButtonTooltip = document.createElement('span');
     navButtonTooltip.setAttribute('class', 'tooltip-text');

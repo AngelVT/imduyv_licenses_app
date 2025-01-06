@@ -5,6 +5,10 @@ export async function generateUrbanC(lcDBObj) {
 
     lcDBObj = docUtils.prepareData(lcDBObj);
 
+    const INSTITUTE_DIRECTOR_SIGNATURE = await docUtils.getDirectorNameSignature(lcDBObj.requestDate);
+    const INSTITUTE_DIRECTOR_TITTLE = await docUtils.getDirectorNameTittle(lcDBObj.requestDate);
+    const LICENSES_DIRECTOR = await docUtils.getLicensesDirectorName(lcDBObj.requestDate);
+
     var definition = {
         pageMargins: [ 5, 60, 5, 60 ],
         styles: docUtils.docStyles,
@@ -103,9 +107,9 @@ export async function generateUrbanC(lcDBObj) {
                                         [
                                             docUtils.field("PLANO 03PE01 - POLÍTICAS TERRITORIALES", docUtils.borderless, 4, 'boldCenter', 7),
                                             {},{},{},
-                                            docUtils.field("PLANO 03PE01 - POLÍTICAS TERRITORIALES", docUtils.borderless, 4, 'boldCenter', 7),
+                                            docUtils.field("PLANO 03PE10 - ETAPAS DE DESARROLLO", docUtils.borderless, 4, 'boldCenter', 7),
                                             {},{},{},
-                                            docUtils.field("PLANO 03PE01 - POLÍTICAS TERRITORIALES", docUtils.borderless, 4, 'boldCenter', 7),
+                                            docUtils.field("PLANO 03PE09 - ZONIFICACIÓN SECUNDARIA", docUtils.borderless, 4, 'boldCenter', 7),
                                             {},{},{}
                                         ],
                                         [
@@ -244,16 +248,16 @@ export async function generateUrbanC(lcDBObj) {
             {
                 stack: [
                     {
-                        text:'NOTIFÍQUESE Y CÚMPLASE\nASÍ EN DEFINITIVA LO RESOLVIÓ Y FIRMA EL MAESTRO EN AUDITORÍA Y CONTROL INTERNO GUBERNAMENTAL HIPÓLITO ZAMORA SORIA,\nDIRECTOR GENERAL DEL INSTITUTO MUNICIPAL DE DESARROLLO URBANO Y VIVIENDA',
+                        text:`NOTIFÍQUESE Y CÚMPLASE\nASÍ EN DEFINITIVA LO RESOLVIÓ Y AUTORIZÓ ${INSTITUTE_DIRECTOR_TITTLE},\nDIRECTOR GENERAL DEL INSTITUTO MUNICIPAL DE DESARROLLO URBANO Y VIVIENDA`,
                         style: ['regular', 'center'],
                         margin: [0,10,0,100]
                     },
                     {
-                            text: `Elaboró: ${docUtils.madeBy(lcDBObj.elaboratedBy)}\nRevisó: F.I.G.S.`,
+                            text: `Elaboró: ${docUtils.madeBy(lcDBObj.elaboratedBy)}\nRevisó: ${LICENSES_DIRECTOR}`,
                             fontSize: 6
                     },
                     {
-                        text: 'M.A.C.I.G. HIPÓLITO ZAMORA SORIA.\nDIRECTOR GENERAL',
+                        text: `${INSTITUTE_DIRECTOR_SIGNATURE}\nDIRECTOR GENERAL`,
                         style: 'labelTC'
                     }
                 ]

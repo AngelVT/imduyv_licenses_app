@@ -3,11 +3,17 @@ import { Op } from 'sequelize';
 
 // * Municipal Administration Periods
 export async function findAllMunicipalPeriods() {
-    return await MunicipalAdministration.findAll();
+    return await MunicipalAdministration.findAll({
+        raw: true,
+        nest: true
+    });
 }
 
 export async function findMunicipalPeriodById(id) {
-    return await MunicipalAdministration.findByPk(id);
+    return await MunicipalAdministration.findByPk(id, {
+        raw: true,
+        nest: true
+    });
 }
 
 export async function saveNewMunicipalPeriod(newPeriod) {
@@ -20,7 +26,9 @@ export async function saveNewMunicipalPeriod(newPeriod) {
                 }
             ]
         },
-        defaults: newPeriod
+        defaults: newPeriod,
+        raw: true,
+        nest: true
     });
 
     return CREATED ? NEW_PERIOD : null;
@@ -56,7 +64,9 @@ export async function getMunicipalPeriodByDate(date) {
                     { administrationStart: { [Op.lte]: date } },
                     { administrationEnd: { [Op.gte]: date } }
                 ]
-            }
+            },
+            raw: true,
+            nest: true
         }
     );
 }
@@ -85,11 +95,17 @@ export async function verifyNewMunicipalPeriod(id, start, end) {
 
 // * Institute Administration Periods
 export async function findAllInstitutePeriods() {
-    return await InstituteAdministration.findAll();
+    return await InstituteAdministration.findAll({
+        raw: true,
+        nest:true
+    });
 }
 
 export async function findInstitutePeriodById(id) {
-    return await InstituteAdministration.findByPk(id);
+    return await InstituteAdministration.findByPk(id, {
+        raw: true,
+        nest: true
+    });
 }
 
 export async function saveNewInstitutePeriod(newPeriod) {
@@ -102,7 +118,9 @@ export async function saveNewInstitutePeriod(newPeriod) {
                 }
             ]
         },
-        defaults: newPeriod
+        defaults: newPeriod,
+        raw: true,
+        nest: true
     });
 
     return CREATED ? NEW_PERIOD : null;
@@ -138,7 +156,9 @@ export async function getInstitutePeriodByDate(date) {
                     { administrationStart: { [Op.lte]: date } },
                     { administrationEnd: { [Op.gte]: date } }
                 ]
-            }
+            },
+            raw: true,
+            nest: true
         }
     );
 }
@@ -167,11 +187,17 @@ export async function verifyNewInstitutePeriod(id, start, end) {
 
 // * Licenses Direction Administration Periods
 export async function findAllLicensesPeriods() {
-    return await LicensesAdministration.findAll();
+    return await LicensesAdministration.findAll({
+        raw: true,
+        nest: true
+    });
 }
 
 export async function findLicensesPeriodById(id) {
-    return await LicensesAdministration.findByPk(id);
+    return await LicensesAdministration.findByPk(id, {
+        raw: true,
+        nest: true
+    });
 }
 
 export async function saveNewLicensesPeriod(newPeriod) {
@@ -184,7 +210,9 @@ export async function saveNewLicensesPeriod(newPeriod) {
                 }
             ]
         },
-        defaults: newPeriod
+        defaults: newPeriod,
+        raw: true,
+        nest: true
     });
 
     return CREATED ? NEW_PERIOD : null;
@@ -220,7 +248,9 @@ export async function getLicensesPeriodByDate(date) {
                     { administrationStart: { [Op.lte]: date } },
                     { administrationEnd: { [Op.gte]: date } }
                 ]
-            }
+            },
+            raw: true,
+            nest: true
         }
     );
 }
