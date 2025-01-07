@@ -192,3 +192,23 @@ export const getLicensePDF= async (req, res) => {
         res.status(500).json({msg: "Internal server error"});
     }
 }
+
+export const setLicenseStartInvoices = async (req, res) => {
+    try {
+        const BODY = req.body;
+
+        const response = await urbanService.requestInvoiceSet(BODY);
+
+        res.status(response.status).json(response.data);
+
+        logger.logRequestInfo('Urban start invoices set request completed', 
+        `Requestor ID -> ${req.userID}
+        Requestor Name -> ${req.name}
+        Requestor Username -> ${req.username}
+        Delete Request -> ${response.log}`);
+    } catch (error) {
+        logger.logConsoleError('Urban start invoices request failed due to server side error', error);
+        logger.logRequestError('Urban start invoices request failed due to server side error', error);
+        res.status(500).json({msg: "Internal server error"});
+    }
+} 

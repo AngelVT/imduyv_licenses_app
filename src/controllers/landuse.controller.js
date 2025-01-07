@@ -169,7 +169,7 @@ export const deleteLicense = async (req, res) => {
     }
 }
 
-export const getLicensePDF= async (req, res) => {
+export const getLicensePDF = async (req, res) => {
     try {
         const TYPE = parseInt(req.params.type);
         const INVOICE = parseInt(req.params.invoice);
@@ -199,3 +199,23 @@ export const getLicensePDF= async (req, res) => {
         res.status(500).json({msg: "Internal server error"});
     }
 }
+
+export const setLicenseStartInvoices = async (req, res) => {
+    try {
+        const BODY = req.body;
+
+        const response = await landService.requestInvoiceSet(BODY);
+
+        res.status(response.status).json(response.data);
+
+        logger.logRequestInfo('Land use start invoices set request completed', 
+        `Requestor ID -> ${req.userID}
+        Requestor Name -> ${req.name}
+        Requestor Username -> ${req.username}
+        Delete Request -> ${response.log}`);
+    } catch (error) {
+        logger.logConsoleError('Land use start invoices request failed due to server side error', error);
+        logger.logRequestError('Land use start invoices request failed due to server side error', error);
+        res.status(500).json({msg: "Internal server error"});
+    }
+} 

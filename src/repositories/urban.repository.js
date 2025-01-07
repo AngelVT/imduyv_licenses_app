@@ -1,5 +1,6 @@
 import { UrbanLicense, UrbanType, Zone, Term, Validity } from "../models/License.models.js";
 import { Op } from "sequelize";
+import { generateSpecialData } from "../utilities/urban.utilities.js";
 
 const URBAN_MODELS = [
     {
@@ -150,4 +151,27 @@ export async function getLicenseType(id) {
         raw: true,
         nest: true
     });
+}
+
+export async function saveStartInvoice(invoice, type, year) {
+    const TYPE = await getType(type);
+    const START_INVOICE = await UrbanLicense.create({
+        fullInvoice: `IMDUyV_DLyCU_GENERIC_${invoice.toString().padStart(3, '0')}_${year}`,
+        invoice: invoice,
+        licenseType: TYPE,
+        year: year,
+        requestorName: 'Placeholder',
+        elaboratedBy: 'Placeholder',
+        geoReference: 'Placeholder',
+        licenseSpecialData: generateSpecialData(TYPE)
+    });
+}
+
+async function getType(type) {
+    const TYPE = await UrbanType.findOne({
+        where: { licenseType: type},
+        raw: true
+    });
+
+    return TYPE.id
 }

@@ -580,3 +580,56 @@ export async function requestPDFDefinition(type, invoice, year) {
         log: `Request completed, PDF generated for record ${LICENSE.id}:${LICENSE.fullInvoice}`
     };
 }
+
+export async function requestInvoiceSet(body) {
+    const { CUS, LUS, LSUB, LFUS, PLF, LF, RLF, CRPC } = body
+
+    if (!CUS && !LUS && !LSUB && !LFUS && !PLF && !LF && !RLF && !CRPC) {
+        return {
+            status: 400,
+            data: {
+                msg: "Unable to set invoices due to missing information"
+            },
+            log: `Request not completed due to missing information`
+        };
+    }
+
+    if (await urbanValidate.existingLicenses()) {
+        return {
+            status: 400,
+            data: {
+                msg: "Unable to set invoices due to there are invoices already registered."
+            },
+            log: `Request not completed due to there are invoices already registered`
+        };
+    }
+
+    for (const key in body) {
+        if (urbanValidate.checkType(key)) {
+            await urbanRepo.saveStartInvoice(body[key], key, new Date().getFullYear());
+        }
+    }
+
+    return {
+        status: 200,
+        data: {
+            invoices: `CUS: ${CUS}
+                LUS: ${LUS}
+                LSUB: ${LSUB}
+                LFUS: ${LFUS}
+                PLF: ${PLF}
+                LF: ${LF}
+                RLF: ${RLF}
+                CRPC: ${CRPC}`
+        },
+        log: `Request completed start invoices set:
+            CUS  --> ${CUS}
+            LUS  --> ${LUS}
+            LSUB --> ${LSUB}
+            LFUS --> ${LFUS}
+            PLF  --> ${PLF}
+            LF   --> ${LF}
+            RLF  --> ${RLF}
+            CRPC --> ${CRPC}`
+    };
+}

@@ -1,5 +1,6 @@
 import { LandUseLicense, Type, Term, Zone, AuthUse, Validity, ExpeditionType } from "../models/License.models.js";
 import { Op } from "sequelize";
+import { generateSpecialData } from "../utilities/landuse.utilities.js";
 
 const LAND_USE_MODELS = [
     {
@@ -158,4 +159,49 @@ export async function getLicenseType(id) {
         raw: true,
         nest: true
     });
+}
+
+export async function saveStartInvoice(invoice, type, year) {
+    const TYPE = await getType(type);
+    const START_INVOICE = await LandUseLicense.create({
+        fullInvoice: `IMDUyV_DLyCU_GENERIC_${invoice.toString().padStart(3, '0')}_${year}`,
+        invoice: invoice,
+        licenseType: TYPE,
+        year: year,
+        requestorName: 'Placeholder',
+        attentionName: 'Placeholder',
+        elaboratedBy: 'Placeholder',
+        requestDate: '1999-01-01',
+        address: 'Placeholder',
+        number: 'Placeholder',
+        colony: 'Placeholder',
+        surfaceTotal: 'Placeholder',
+        catastralKey: 'Placeholder',
+        licenseTerm: 1,
+        geoReference: 'Placeholder',
+        licenseZone: 1,
+        authorizedUse: 1,
+        businessLinePrint: 'Placeholder',
+        businessLineIntern: 'Placeholder',
+        expeditionDate: '1999-01-01',
+        licenseValidity: 1,
+        paymentInvoice: 'Placeholder',
+        expirationDate: '1999-01-01',
+        licenseExpeditionType: 1,
+        contactPhone: 7700000000,
+        cost: 0,
+        discount: 0,
+        paymentDone: 0,
+        inspector: 'Placeholder',
+        licenseSpecialData: generateSpecialData(TYPE)
+    });
+}
+
+async function getType(type) {
+    const TYPE = await Type.findOne({
+        where: { licenseType: type},
+        raw: true
+    });
+
+    return TYPE.id
 }

@@ -24,4 +24,6 @@ router.delete('/:licenciaID', [authenticator.verifyToken, authenticator.accountI
 
 router.get('/PDF/:type/:invoice/:year', [authenticator.verifyToken, authenticator.accountIntegrity , authenticator.isUrbanUser] , urbanControl.getLicensePDF);
 
+router.post('/setInvoices', [authenticator.verifyToken, authenticator.accountIntegrity , authenticator.isLandUser, authenticator.isAdmin], urbanControl.setLicenseStartInvoices);
+
 export default router;

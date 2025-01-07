@@ -1,4 +1,4 @@
-import { Type, Term, Zone, AuthUse, Validity, ExpeditionType } from "../models/License.models.js";
+import { Type, Term, Zone, AuthUse, Validity, ExpeditionType, LandUseLicense } from "../models/License.models.js";
 
 export function validateParameter(parameter) {
     const VALID_PARAMETERS = {
@@ -72,6 +72,29 @@ export async function validateModels(models) {
         if(expeditionTypes == null) {
             return false;
         }
+    }
+
+    return true;
+}
+
+export async function existingLicenses() {
+    const COUNT = await LandUseLicense.count();
+
+    if(COUNT > 0)
+        return true;
+
+    return false;
+}
+
+export async function checkType(type) {
+    const TYPE = await Type.findOne({
+        where: {
+            licenseType: type
+        }
+    });
+
+    if (TYPE == null) {
+        return false;
     }
 
     return true;

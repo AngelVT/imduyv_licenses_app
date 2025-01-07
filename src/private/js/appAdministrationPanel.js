@@ -46,7 +46,35 @@ landForm.addEventListener('submit', async event => {
 
     const data = Object.fromEntries(new FormData(landForm));
 
-    console.log(data);
+    await fetch(`/api/landuse/setInvoices`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        credentials: 'include',
+        body: JSON.stringify(data)
+    })
+        .then(async res => {
+            let response = await res.json();
+            if (res.ok) {
+                let content = res.headers.get('Content-Type');
+                if (content.includes('text/html')) {
+                    location.href = res.url;
+                    return;
+                }
+
+                alert(`
+                Folios iniciales establecidos exitosamente:
+                ${response.invoices}`);
+                landForm.reset();
+                return;
+            }
+            alert(response.msg);
+            return;
+        })
+        .catch(error => {
+            console.error('Error during fetch: ', error)
+        });
 });
 
 urbanForm.addEventListener('submit', async event => {
@@ -54,7 +82,35 @@ urbanForm.addEventListener('submit', async event => {
 
     const data = Object.fromEntries(new FormData(urbanForm));
 
-    console.log(data);
+    await fetch(`/api/urban/setInvoices`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        credentials: 'include',
+        body: JSON.stringify(data)
+    })
+        .then(async res => {
+            let response = await res.json();
+            if (res.ok) {
+                let content = res.headers.get('Content-Type');
+                if (content.includes('text/html')) {
+                    location.href = res.url;
+                    return;
+                }
+
+                alert(`
+                Folios iniciales establecidos exitosamente:
+                ${response.invoices}`);
+                urbanForm.reset();
+                return;
+            }
+            alert(response.msg);
+            return;
+        })
+        .catch(error => {
+            console.error('Error during fetch: ', error)
+        });
 });
 
 municipalForm.addEventListener('submit', async event => {

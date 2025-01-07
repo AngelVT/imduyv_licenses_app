@@ -1,4 +1,4 @@
-import { UrbanType, Term, Zone, Validity } from "../models/License.models.js";
+import { UrbanType, Term, Zone, Validity, UrbanLicense } from "../models/License.models.js";
 
 export function validateParameter(parameter) {
     const VALID_PARAMETERS = {
@@ -49,6 +49,29 @@ export async function validateModels(models) {
         if(validities == null) {
             return false;
         }
+    }
+
+    return true;
+}
+
+export async function existingLicenses() {
+    const COUNT = await UrbanLicense.count();
+
+    if(COUNT > 0)
+        return true;
+
+    return false;
+}
+
+export async function checkType(type) {
+    const TYPE = await UrbanType.findOne({
+        where: {
+            licenseType: type
+        }
+    });
+
+    if (TYPE == null) {
+        return false;
     }
 
     return true;

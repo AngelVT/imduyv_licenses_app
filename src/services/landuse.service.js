@@ -450,3 +450,54 @@ export async function requestPDFDefinition(type, invoice, year) {
         log: `Request completed, PDF generated for record ${LICENSE.id}:${LICENSE.fullInvoice}`
     };
 }
+
+export async function requestInvoiceSet(body) {
+    const { C, DP, LC, LH, LI, LS, SEG } = body
+
+    if (!C && !DP && !LC && !LH && !LI && !LS && !SEG) {
+        return {
+            status: 400,
+            data: {
+                msg: "Unable to set invoices due to missing information"
+            },
+            log: `Request not completed due to missing information`
+        };
+    }
+
+    if (await landValidate.existingLicenses()) {
+        return {
+            status: 400,
+            data: {
+                msg: "Unable to set invoices due to there are invoices already registered."
+            },
+            log: `Request not completed due to there are invoices already registered`
+        };
+    }
+
+    for (const key in body) {
+        if (landValidate.checkType(key)) {
+            await landRepo.saveStartInvoice(body[key], key, new Date().getFullYear());
+        }
+    }
+
+    return {
+        status: 200,
+        data: {
+            invoices: `C: ${C}
+                DP: ${DP}
+                LC: ${LC}
+                LH: ${LH}
+                LI: ${LI}
+                LS: ${LS}
+                SEG: ${SEG}`
+        },
+        log: `Request completed start invoices set:
+            C   --> ${C}
+            DP  --> ${DP}
+            LC  --> ${LC}
+            LH  --> ${LH}
+            LI  --> ${LI}
+            LS  --> ${LS}
+            SEG --> ${SEG}`
+    };
+}
