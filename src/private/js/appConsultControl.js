@@ -13,6 +13,15 @@ function hideShow(id) {
     fields.classList.toggle("dis-none");
 }
 
+function hideShowPeriod(id) {
+    let resultTop = document.querySelector(`#result_top_${id}`);
+    let fields = document.querySelector(`#result_fields_${id}`);
+
+    fields.classList.toggle("dis-none");
+    resultTop.classList.toggle("border-round");
+    resultTop.classList.toggle("border-round-top");
+}
+
 function createResult(id, top, fields) {
     let result = document.createElement('div');
     result.setAttribute('id', `result_${id}`);
@@ -101,10 +110,40 @@ function createUserResultTop(obj) {
     return top;
 }
 
+function createResultPeriodTop(obj, periodType) {
+    let top = document.createElement('div');
+    let topLabel = document.createElement('p');
+    let span;
+
+    top.setAttribute('id', `result_top_${obj.id}`);
+    top.setAttribute('class', `w-100 dis-flex flex-between flex-center-v padding-small bg-primary border-round controls`);
+
+    topLabel.setAttribute('class', `color-white txt-bold w-100 txt-center result-label`);
+
+    topLabel.setAttribute('onclick', `hideShowPeriod(${obj.id})`);
+
+    topLabel.innerText = 'Periodo: ';
+    span = document.createElement('span');
+    span.setAttribute('id', `result_period_${periodType}_${obj.id}`);
+    span.innerText = `${obj.administrationStart} - ${obj.administrationEnd}`;
+    topLabel.appendChild(span);
+
+    top.appendChild(topLabel);
+
+    return top;
+}
+
 function createResultContent(id, isPrint) {
     let content = document.createElement('div');
     content.setAttribute('id', `result_fields_${id}`);
     content.setAttribute('class', `w-100${isPrint ? ' ' : ' dis-none '}dis-flex flex-center flex-wrap border-all border-primary padding-medium border-round-bottom`);
+    return content;
+}
+
+function createResultPeriodContent(id) {
+    let content = document.createElement('div');
+    content.setAttribute('id', `result_fields_${id}`);
+    content.setAttribute('class', `w-100 dis-none dis-flex flex-center flex-wrap border-all border-primary padding-medium border-round-bottom`);
     return content;
 }
 
@@ -116,6 +155,88 @@ function createResultField(id, tag, name, value, type) {
     let span;
 
     field.setAttribute('onsubmit', `updateResultField(this, ${id}); return false`);
+    field.setAttribute('class', 'w-30 margin-bottom-small');
+
+    label.innerText = tag + ':';
+    label.setAttribute('class', 'dis-flex flex-wrap color-primary')
+
+    input = document.createElement('input');
+    input.setAttribute('type', 'hidden');
+    input.setAttribute('value', value);
+
+    label.appendChild(input);
+
+    span = document.createElement('span');
+    span.setAttribute('class', 'w-100');
+
+    label.appendChild(span);
+
+    if (type == 'select') {
+        input = document.createElement('select');
+        input.setAttribute('class', 'w-85 input input-interface input-round-left');
+        input.setAttribute('name', name);
+        input.setAttribute('required','');
+    } else {
+        input = document.createElement('input');
+        if(type == 'file') {
+            input.setAttribute('class', 'w-85 input-file');
+            input.setAttribute('multiple', '');
+        } else {
+            input.setAttribute('class', 'w-85 input input-interface input-round-left');
+        }
+
+        if(type == 'number') {
+            input.setAttribute('step', 'any');
+        }
+
+        input.setAttribute('type', type);
+        input.setAttribute('name', name);
+        input.setAttribute('value', value);
+        input.setAttribute('required','');
+
+        if (type == 'checkbox') {
+            input.checked = Boolean(value);
+            
+            input.removeAttribute('name');
+            input.removeAttribute('value');
+            input.removeAttribute('required');
+
+            input.setAttribute('class', 'w-85');
+            input.setAttribute('onchange', `document.getElementById('${name}_${id}').value = this.checked`);
+
+            let trueInput = document.createElement('input');
+
+            trueInput.setAttribute('type', 'hidden');
+            trueInput.setAttribute('value', value);
+            trueInput.setAttribute('name', name);
+            trueInput.setAttribute('id', `${name}_${id}`);
+
+            label.appendChild(trueInput);
+        }
+    }
+
+    label.appendChild(input);
+
+    button.setAttribute('class', 'bi-floppy input-side-save w-10');
+
+    if (type ==  'file' || type == 'checkbox')
+        button.style.borderRadius =  '15px';
+    
+    label.appendChild(button);
+
+    field.appendChild(label);
+
+    return field;
+}
+
+function createResultPeriodField(id, tag, name, value, type, url, periodType) {
+    let field = document.createElement('form');
+    let label = document.createElement('label');
+    let button = document.createElement('button');
+    let input;
+    let span;
+
+    field.setAttribute('onsubmit', `updateResultField(this, ${id}, '${url}', '${periodType}'); return false`);
     field.setAttribute('class', 'w-30 margin-bottom-small');
 
     label.innerText = tag + ':';

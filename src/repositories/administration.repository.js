@@ -35,7 +35,7 @@ export async function saveNewMunicipalPeriod(newPeriod) {
 }
 
 export async function saveMunicipalPeriod(id, newData) {
-    const MODIFIED_PERIOD = await findMunicipalPeriodById(id);
+    const MODIFIED_PERIOD = await MunicipalAdministration.findByPk(id);
     
     if(MODIFIED_PERIOD == null)
         return null;
@@ -127,7 +127,7 @@ export async function saveNewInstitutePeriod(newPeriod) {
 }
 
 export async function saveInstitutePeriod(id, newData) {
-    const MODIFIED_PERIOD = await findInstitutePeriodById(id);
+    const MODIFIED_PERIOD = await InstituteAdministration.findByPk(id);
     
     if(MODIFIED_PERIOD == null)
         return null;
@@ -219,7 +219,7 @@ export async function saveNewLicensesPeriod(newPeriod) {
 }
 
 export async function saveLicensesPeriod(id, newData) {
-    const MODIFIED_PERIOD = await findLicensesPeriodById(id);
+    const MODIFIED_PERIOD = await LicensesAdministration.findByPk(id);
     
     if(MODIFIED_PERIOD == null)
         return null;
