@@ -69,7 +69,7 @@ app.use('/app', appRoutes);
 app.use('/test', testRoutes);
 
 app.use((req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'notfound.html'));
+    res.sendFile(path.join(__dirname, 'resources','public', 'notfound.html'));
 });
 
 export default app;
