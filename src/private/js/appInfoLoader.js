@@ -32,17 +32,41 @@ async function getUserData() {
                 }
             }
 
-            if (urbanInvoiceForm) {
+            if (urbanInvoiceForm && landInvoiceForm) {
                 if (response.group == 'urban') {
                     landInvoiceForm.classList.add('dis-none');
+                    const URBAN_EXIST= await checkInvoices('/api/urban/check', urbanInvoiceForm);
+
+                    if (URBAN_EXIST) {
+                        invoicePanel.classList.add('dis-none');
+                        invoiceBtn.classList.add('dis-none');
+                        municipalBtn.click();
+                    }
+                }
+
+                if (response.group == 'land_use') {
+                    urbanInvoiceForm.classList.add('dis-none');
+                    const LAND_EXIST= await checkInvoices('/api/landUse/check', landInvoiceForm);
+
+                    if (LAND_EXIST) {
+                        invoicePanel.classList.add('dis-none');
+                        invoiceBtn.classList.add('dis-none');
+                        municipalBtn.click();
+                    }
+                }
+
+                if (response.group == 'all') {
+                    const LAND_EXIST = await checkInvoices('/api/landUse/check', landInvoiceForm);
+                    const URBAN_EXIST = await checkInvoices('/api/urban/check', urbanInvoiceForm);
+
+                    if (LAND_EXIST && URBAN_EXIST) {
+                        invoicePanel.classList.add('dis-none');
+                        invoiceBtn.classList.add('dis-none');
+                        municipalBtn.click();
+                    }
                 }
             }
 
-            if (landInvoiceForm) {
-                if (response.group == 'land_use') {
-                    urbanInvoiceForm.classList.add('dis-none');
-                }
-            }
             return;
         }
         
@@ -54,3 +78,21 @@ async function getUserData() {
 }
 
 getUserData();
+
+async function checkInvoices(url, target) {
+    try {
+        const res = await fetch(url, { method: 'GET',});
+
+        const response = await res.json();
+
+        if(res.ok) {
+            if (response.existing)
+                target.classList.add('dis-none');
+            return response.existing
+        }
+
+        return false
+    } catch (error) {
+        console.log(error);
+    }
+}

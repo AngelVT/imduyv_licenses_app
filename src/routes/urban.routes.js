@@ -8,13 +8,15 @@ const router = Router();
 
 router.get('/', [authenticator.verifyToken, authenticator.accountIntegrity , authenticator.isUrbanUser] , urbanControl.getLicenses);
 
-router.get('/:licenciaID', [authenticator.verifyToken, authenticator.accountIntegrity , authenticator.isUrbanUser] , urbanControl.getLicense);
+router.get('/id/:licenciaID', [authenticator.verifyToken, authenticator.accountIntegrity , authenticator.isUrbanUser] , urbanControl.getLicense);
 
-router.get('/:getByParameter/value/:value', [authenticator.verifyToken, authenticator.accountIntegrity , authenticator.isUrbanUser] , urbanControl.getLicenseBy);
+router.get('/param/:getByParameter/value/:value', [authenticator.verifyToken, authenticator.accountIntegrity , authenticator.isUrbanUser] , urbanControl.getLicenseBy);
 
-router.get('/:type/:invoice/:year', [authenticator.verifyToken, authenticator.accountIntegrity , authenticator.isUrbanUser] , urbanControl.getLicenseByInvoice);
+router.get('/t/:type/i/:invoice/y/:year', [authenticator.verifyToken, authenticator.accountIntegrity , authenticator.isUrbanUser] , urbanControl.getLicenseByInvoice);
 
-router.get('/:type/:year', [authenticator.verifyToken, authenticator.accountIntegrity , authenticator.isUrbanUser] , urbanControl.getLicenseByType);
+router.get('/t/:type/y/:year', [authenticator.verifyToken, authenticator.accountIntegrity , authenticator.isUrbanUser] , urbanControl.getLicenseByType);
+
+router.get('/check', [authenticator.verifyToken, authenticator.accountIntegrity , authenticator.isUrbanUser] , urbanControl.checkInvoices);
 
 router.post('/', [authenticator.verifyToken, authenticator.accountIntegrity , authenticator.isUrbanUser , authenticator.isModerator, up.fields([{ name: 'zoneIMG', maxCount: 1 }, { name: 'resumeTables', maxCount: 30 }])] , urbanControl.createLicense);
 
@@ -24,6 +26,6 @@ router.delete('/:licenciaID', [authenticator.verifyToken, authenticator.accountI
 
 router.get('/PDF/:type/:invoice/:year', [authenticator.verifyToken, authenticator.accountIntegrity , authenticator.isUrbanUser] , urbanControl.getLicensePDF);
 
-router.post('/setInvoices', [authenticator.verifyToken, authenticator.accountIntegrity , authenticator.isLandUser, authenticator.isAdmin], urbanControl.setLicenseStartInvoices);
+router.post('/setInvoices', [authenticator.verifyToken, authenticator.accountIntegrity , authenticator.isUrbanUser, authenticator.isAdmin], urbanControl.setLicenseStartInvoices);
 
 export default router;

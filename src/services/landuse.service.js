@@ -38,7 +38,7 @@ export async function requestLandLicenseById(id) {
         return {
             status: 404,
             data: {
-                msg: "There requested land use record does not exist"
+                msg: "The requested land use record does not exist"
             },
             log: `Request completed record ${id} not found`
         };
@@ -499,5 +499,25 @@ export async function requestInvoiceSet(body) {
             LI  --> ${LI}
             LS  --> ${LS}
             SEG --> ${SEG}`
+    };
+}
+
+export async function requestInvoiceCheck() {
+    if (await landValidate.existingLicenses()) {
+        return {
+            status: 200,
+            data: {
+                existing: true
+            },
+            log: `Request completed invoices already registered`
+        };
+    }
+
+    return {
+        status: 400,
+        data: {
+            existing: false
+        },
+        log: `Request completed no invoices invoices registered`
     };
 }

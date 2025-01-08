@@ -633,3 +633,23 @@ export async function requestInvoiceSet(body) {
             CRPC --> ${CRPC}`
     };
 }
+
+export async function requestInvoiceCheck() {
+    if (await urbanValidate.existingLicenses()) {
+        return {
+            status: 200,
+            data: {
+                existing: true
+            },
+            log: `Request completed invoices already registered`
+        };
+    }
+
+    return {
+        status: 400,
+        data: {
+            existing: false
+        },
+        log: `Request completed no invoices invoices registered`
+    };
+}
