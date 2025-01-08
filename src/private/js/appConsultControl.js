@@ -62,7 +62,7 @@ function createResultTop(obj, isPrint, isLandUse) {
     span = document.createElement('a');
     span.setAttribute('id', `result_control_print_${obj.id}`);
     span.setAttribute('target', '_blank');
-    span.setAttribute('href', `/api/${isLandUse ? 'landuse' : 'urban'}/PDF/${obj.licenseType}/${obj.invoice}/${obj.year}`);
+    span.setAttribute('href', `/api/${isLandUse ? 'landuse' : 'urban'}/PDF/t/${obj.licenseType}/i/${obj.invoice}/y/${obj.year}`);
     span.setAttribute('class', `bi-printer txt-medium color-white${isPrint ? ' ' : ' dis-none '}result-control`);
     topControls.appendChild(span);
 

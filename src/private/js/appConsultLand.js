@@ -41,7 +41,7 @@ formSearchByType.addEventListener('submit',
 );
 
 async function getLicense(type, invoice, year) {
-    await fetch(`/api/landuse/${type}/${invoice}/${year}`, {
+    await fetch(`/api/landuse/t/${type}/i/${invoice}/y/${year}`, {
             method: 'GET',
             credentials: 'include'
         })
@@ -80,7 +80,7 @@ async function getLicense(type, invoice, year) {
 }
 
 async function getLicenseByType(type, year) {
-    await fetch(`/api/landuse/${type}/${year}`, {
+    await fetch(`/api/landuse/t/${type}/y/${year}`, {
             method: 'GET',
             credentials: 'include'
         })
@@ -121,7 +121,7 @@ async function getLicenseByType(type, year) {
 }
 
 async function getLicenseBy(param, value) {
-    await fetch(`/api/landuse/${param}/value/${value}`, {
+    await fetch(`/api/landuse/param/${param}/value/${value}`, {
             method: 'GET',
             credentials: 'include'
         })

@@ -77,8 +77,6 @@ async function getUserData() {
     }
 }
 
-getUserData();
-
 async function checkInvoices(url, target) {
     try {
         const res = await fetch(url, { method: 'GET',});
@@ -96,3 +94,5 @@ async function checkInvoices(url, target) {
         console.log(error);
     }
 }
+
+getUserData();

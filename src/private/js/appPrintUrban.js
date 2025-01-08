@@ -17,7 +17,7 @@ formSearchByInvoicePrint.addEventListener('submit',
 );
 
 async function getLicensePrint(type, invoice, year) {
-    await fetch(`/api/urban/${type}/${invoice}/${year}`, {
+    await fetch(`/api/urban/t/${type}/i/${invoice}/y/${year}`, {
             method: 'GET',
             credentials: 'include'
         })
@@ -35,7 +35,7 @@ async function getLicensePrint(type, invoice, year) {
                 
                 createUrbanResult(response.license, resultPrint, true);
 
-                PDF.setAttribute('src', `/api/urban/PDF/${type}/${invoice}/${year}?${new Date().getTime()}`);
+                PDF.setAttribute('src', `/api/urban/PDF/i/${type}/i/${invoice}/y/${year}?${new Date().getTime()}`);
 
                 return;
             }

@@ -41,7 +41,7 @@ formSearchByType.addEventListener('submit',
 );
 
 async function getLicense(type, invoice, year) {
-    await fetch(`/api/urban/${type}/${invoice}/${year}`, {
+    await fetch(`/api/urban/t/${type}/i/${invoice}/y/${year}`, {
             method: 'GET',
             credentials: 'include'
         })
@@ -75,7 +75,7 @@ async function getLicense(type, invoice, year) {
 }
 
 async function getLicenseByType(type, year) {
-    await fetch(`/api/urban/${type}/${year}`, {
+    await fetch(`/api/urban/t/${type}/y/${year}`, {
             method: 'GET',
             credentials: 'include'
         })
@@ -117,7 +117,7 @@ async function getLicenseByType(type, year) {
 }
 
 async function getLicenseBy(param, value) {
-    await fetch(`/api/urban/${param}/value/${value}`, {
+    await fetch(`/api/urban/param/${param}/value/${value}`, {
             method: 'GET',
             credentials: 'include'
         })

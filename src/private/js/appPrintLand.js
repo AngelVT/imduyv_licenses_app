@@ -17,7 +17,7 @@ formSearchByInvoicePrint.addEventListener('submit',
 );
 
 async function getLicensePrint(type, invoice, year) {
-    await fetch(`/api/landuse/${type}/${invoice}/${year}`, {
+    await fetch(`/api/landuse/t/${type}/i/${invoice}/y/${year}`, {
             method: 'GET',
             credentials: 'include'
         })
@@ -35,7 +35,7 @@ async function getLicensePrint(type, invoice, year) {
 
                 createLandResult(response.license, resultPrint, true, true);
 
-                PDF.setAttribute('src', `/api/landuse/PDF/${type}/${invoice}/${year}?${new Date().getTime()}`);
+                PDF.setAttribute('src', `/api/landuse/PDF/t/${type}/i/${invoice}/y/${year}?${new Date().getTime()}`);
                 return;
             }
 
