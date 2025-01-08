@@ -1,7 +1,7 @@
 import app from './app.js';
 import https from 'https';
 import fs from 'fs';
-import { closeDB } from './configuration/database.configuration.jsW';
+import { closeDB } from './configuration/database.configuration.js';
 
 import * as loggerFunctions from './utilities/logger.utilities.js';
 
