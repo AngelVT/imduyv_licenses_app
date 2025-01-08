@@ -6,7 +6,7 @@ import { requestCoordinateCheck } from "../services/app.service.js";
 
 export const goInfo = (req, res) => {
     try {
-        res.sendFile(path.join(__dirname, 'public', 'info.html'));
+        res.sendFile(path.join(__dirname, 'resources', 'public', 'info.html'));
     } catch (error) {
         logger.logRequestError('Error loading page due to server side error', error);
         res.status(500).json({msg: "Error loading resource"});
@@ -29,7 +29,7 @@ export const getInfo =(req, res) => {
 
 export const goLogIn = (req, res) => {
     try {
-        res.sendFile(path.join(__dirname, 'public', 'login.html'));
+        res.sendFile(path.join(__dirname, 'resources', 'public', 'login.html'));
     } catch (error) {
         logger.logRequestError('Error loading page due to server side error', error);
         res.status(500).json({msg: "Error loading resource"});
@@ -38,7 +38,7 @@ export const goLogIn = (req, res) => {
 
 export const goPasswordReset = (req, res) => {
     try {
-        res.sendFile(path.join(__dirname, 'private', 'password_reset.html'));
+        res.sendFile(path.join(__dirname, 'resources', 'private', 'password_reset.html'));
     } catch (error) {
         logger.logRequestError('Error loading page due to server side error', error);
         res.status(500).json({msg: "Error loading resource"});
@@ -47,7 +47,7 @@ export const goPasswordReset = (req, res) => {
 
 export const goLandMenu = (req, res) => {
     try {
-        res.sendFile(path.join(__dirname, 'private', 'landuse_menu.html'));
+        res.sendFile(path.join(__dirname, 'resources', 'private', 'landuse_menu.html'));
     } catch (error) {
         logger.logRequestError('Error loading page due to server side error', error);
         res.status(500).json({msg: "Error loading resource"});
@@ -56,7 +56,7 @@ export const goLandMenu = (req, res) => {
 
 export const goLandRegister = (req, res) => {
     try {
-        res.sendFile(path.join(__dirname, 'private', 'landuse_reg.html'));
+        res.sendFile(path.join(__dirname, 'resources', 'private', 'landuse_reg.html'));
     } catch (error) {
         logger.logRequestError('Error loading page due to server side error', error);
         res.status(500).json({msg: "Error loading resource"});
@@ -65,7 +65,7 @@ export const goLandRegister = (req, res) => {
 
 export const goLandConsult = (req, res) => {
     try {
-        res.sendFile(path.join(__dirname, 'private', 'landuse_consult.html'));
+        res.sendFile(path.join(__dirname, 'resources', 'private', 'landuse_consult.html'));
     } catch (error) {
         logger.logRequestError('Error loading page due to server side error', error);
         res.status(500).json({msg: "Error loading resource"});
@@ -74,7 +74,7 @@ export const goLandConsult = (req, res) => {
 
 export const goLandPrint = (req, res) => {
     try {
-        res.sendFile(path.join(__dirname, 'private', 'landuse_print.html'));
+        res.sendFile(path.join(__dirname, 'resources', 'private', 'landuse_print.html'));
     } catch (error) {
         logger.logRequestError('Error loading page due to server side error', error);
         res.status(500).json({msg: "Error loading resource"});
@@ -83,7 +83,7 @@ export const goLandPrint = (req, res) => {
 
 export const goUrbanMenu = (req, res) => {
     try {
-        res.sendFile(path.join(__dirname, 'private', 'urban_menu.html'));
+        res.sendFile(path.join(__dirname, 'resources', 'private', 'urban_menu.html'));
     } catch (error) {
         logger.logRequestError('Error loading page due to server side error', error);
         res.status(500).json({msg: "Error loading resource"});
@@ -92,7 +92,7 @@ export const goUrbanMenu = (req, res) => {
 
 export const goUrbanRegister = (req, res) => {
     try {
-        res.sendFile(path.join(__dirname, 'private', 'urban_reg.html'));
+        res.sendFile(path.join(__dirname, 'resources', 'private', 'urban_reg.html'));
     } catch (error) {
         logger.logRequestError('Error loading page due to server side error', error);
         res.status(500).json({msg: "Error loading resource"});
@@ -101,7 +101,7 @@ export const goUrbanRegister = (req, res) => {
 
 export const goUrbanConsult = (req, res) => {
     try {
-        res.sendFile(path.join(__dirname, 'private', 'urban_consult.html'));
+        res.sendFile(path.join(__dirname, 'resources', 'private', 'urban_consult.html'));
     } catch (error) {
         logger.logRequestError('Error loading page due to server side error', error);
         res.status(500).json({msg: "Error loading resource"});
@@ -110,7 +110,7 @@ export const goUrbanConsult = (req, res) => {
 
 export const goUrbanPrint = (req, res) => {
     try {
-        res.sendFile(path.join(__dirname, 'private', 'urban_print.html'));
+        res.sendFile(path.join(__dirname, 'resources', 'private', 'urban_print.html'));
     } catch (error) {
         logger.logRequestError('Error loading page due to server side error', error);
         res.status(500).json({msg: "Error loading resource"});
@@ -119,7 +119,7 @@ export const goUrbanPrint = (req, res) => {
 
 export const goMainMenu = (req, res) => {
     try {
-        res.sendFile(path.join(__dirname, 'private', 'main_menu.html'));
+        res.sendFile(path.join(__dirname, 'resources', 'private', 'main_menu.html'));
     } catch (error) {
         requestLogger.error('Page request failed due to server side error:\n    Error: %s', error);
         res.status(500).json({msg: "Error loading resource"});
@@ -128,7 +128,7 @@ export const goMainMenu = (req, res) => {
 
 export const goSystemMenu = (req, res) => {
     try {
-        res.sendFile(path.join(__dirname, 'private', 'sys_menu.html'));
+        res.sendFile(path.join(__dirname, 'resources', 'private', 'sys_menu.html'));
     } catch (error) {
         logger.logRequestError('Error loading page due to server side error', error);
         res.status(500).json({msg: "Error loading resource"});
@@ -137,7 +137,7 @@ export const goSystemMenu = (req, res) => {
 
 export const goUserRegister = (req, res) => {
     try {
-        res.sendFile(path.join(__dirname, 'private', 'user_reg.html'));
+        res.sendFile(path.join(__dirname, 'resources', 'private', 'user_reg.html'));
     } catch (error) {
         logger.logRequestError('Error loading page due to server side error', error);
         res.status(500).json({msg: "Error loading resource"});
@@ -146,7 +146,7 @@ export const goUserRegister = (req, res) => {
 
 export const goUserConsult = (req, res) => {
     try {
-        res.sendFile(path.join(__dirname, 'private', 'user_consult.html'));
+        res.sendFile(path.join(__dirname, 'resources', 'private', 'user_consult.html'));
     } catch (error) {
         logger.logRequestError('Error loading page due to server side error', error);
         res.status(500).json({msg: "Error loading resource"});
@@ -155,7 +155,7 @@ export const goUserConsult = (req, res) => {
 
 export const goAdministrationMenu = (req, res) => {
     try {
-        res.sendFile(path.join(__dirname, 'private', 'administration_panel.html'));
+        res.sendFile(path.join(__dirname, 'resources', 'private', 'administration_panel.html'));
     } catch (error) {
         logger.logRequestError('Error loading page due to server side error', error);
         res.status(500).json({msg: "Error loading resource"});

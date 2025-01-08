@@ -125,7 +125,7 @@ function createResultPeriodTop(obj, periodType) {
     topLabel.innerText = 'Periodo: ';
     span = document.createElement('span');
     span.setAttribute('id', `result_period_${periodType}_${obj.id}`);
-    span.innerText = `${obj.administrationStart} - ${obj.administrationEnd}`;
+    span.innerText = `${obj.administrationStart.replaceAll('-', '/')} - ${obj.administrationEnd.replaceAll('-', '/')}`;
     topLabel.appendChild(span);
 
     top.appendChild(topLabel);

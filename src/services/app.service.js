@@ -1,5 +1,5 @@
 import { point, booleanPointInPolygon } from '@turf/turf';
-import { ZONE_DATA } from "../private/js/appZonesData.js";
+import { ZONE_DATA } from "../resources/private/js/appZonesData.js";
 import { Zone } from "../models/License.models.js";
 
 export async function requestCoordinateCheck(coordinates) {
