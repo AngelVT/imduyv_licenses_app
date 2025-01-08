@@ -45,15 +45,8 @@
                                     <option value="8">Régimen de propiedad en condominio</option>
                                 </select>
                                 <input name="byInvoice" class="input input-secondary input-interface border-secondary w-20" type="number" placeholder="folio" required>
-                                <select name="byInvoiceYear" class="input input-secondary input-interface input-round-right w-40" required>
+                                <select id="print_year_select" name="byInvoiceYear" class="input input-secondary input-interface input-round-right w-40" required>
                                     <option value="">Seleccione año ...</option>
-                                    <option value="2024">2024</option>
-                                    <option value="2025">2025</option>
-                                    <option value="2026">2026</option>
-                                    <option value="2027">2027</option>
-                                    <option value="2028">2028</option>
-                                    <option value="2029">2029</option>
-                                    <option value="2030">2030</option>
                                 </select>
         
                                 <button class="btn btn-primary margin-top-small" type="submit">Buscar</button>
@@ -75,5 +68,16 @@
             </div>
         </section>
     </main>
+    <script>
+        const YEAR_SELECTOR = document.getElementById('print_year_select');
+        const YEAR = new Date().getFullYear();
+
+        for (let i = YEAR; i >= 2024; i--) {
+            let option = document.createElement('option');
+            option.value = i;
+            option.innerText = i;
+            YEAR_SELECTOR.appendChild(option);
+        }
+    </script>
 </body>
 </html>

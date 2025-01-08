@@ -58,15 +58,8 @@
                             <option value="7">Derecho de Preferencia</option>
                         </select>
                         <input name="byInvoice" class="input input-secondary input-interface border-secondary w-20" type="number" placeholder="folio" required>
-                        <select name="byInvoiceYear" class="input input-secondary input-interface input-round-right w-40" required>
+                        <select id="invoice_year_select" name="byInvoiceYear" class="input input-secondary input-interface input-round-right w-40" required>
                             <option value="">Seleccione año ...</option>
-                            <option value="2024">2024</option>
-                            <option value="2025">2025</option>
-                            <option value="2026">2026</option>
-                            <option value="2027">2027</option>
-                            <option value="2028">2028</option>
-                            <option value="2029">2029</option>
-                            <option value="2030">2030</option>
                         </select>
 
                         <button class="btn btn-primary margin-top-small" type="submit">Buscar por folio</button>
@@ -84,15 +77,8 @@
                             <option value="6">Segregado</option>
                             <option value="7">Derecho de Preferencia</option>
                         </select>
-                        <select name="byTypeYear" class="input input-secondary input-interface input-round-right w-50" required>
+                        <select id="type_year_select" name="byTypeYear" class="input input-secondary input-interface input-round-right w-50" required>
                             <option value="">Seleccione año ...</option>
-                            <option value="2024">2024</option>
-                            <option value="2025">2025</option>
-                            <option value="2026">2026</option>
-                            <option value="2027">2027</option>
-                            <option value="2028">2028</option>
-                            <option value="2029">2029</option>
-                            <option value="2030">2030</option>
                         </select>
 
                         <button class="btn btn-primary margin-top-small" type="submit">Buscar por tipo y año</button>
@@ -107,5 +93,24 @@
             </div>
         </section>
     </main>
+    <script>
+        const INVOICE_YEAR_SELECTOR = document.getElementById('invoice_year_select');
+        const TYPE_YEAR_SELECTOR = document.getElementById('type_year_select');
+        const YEAR = new Date().getFullYear();
+
+        for (let i = YEAR; i >= 2024; i--) {
+            let option = document.createElement('option');
+            option.value = i;
+            option.innerText = i;
+            INVOICE_YEAR_SELECTOR.appendChild(option);
+        }
+
+        for (let i = YEAR; i >= 2024; i--) {
+            let option = document.createElement('option');
+            option.value = i;
+            option.innerText = i;
+            TYPE_YEAR_SELECTOR.appendChild(option);
+        }
+    </script>
 </body>
 </html>
