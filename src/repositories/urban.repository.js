@@ -156,7 +156,7 @@ export async function getLicenseType(id) {
 export async function saveStartInvoice(invoice, type, year) {
     const TYPE = await getType(type);
     const START_INVOICE = await UrbanLicense.create({
-        fullInvoice: `IMDUyV_DLyCU_GENERIC_${invoice.toString().padStart(3, '0')}_${year}`,
+        fullInvoice: `IMDUyV_DLyCU_SYS_${invoice.toString().padStart(3, '0')}_${year}`,
         invoice: invoice,
         licenseType: TYPE,
         year: year,
