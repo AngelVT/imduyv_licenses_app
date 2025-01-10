@@ -25,7 +25,7 @@ async function getMunicipalPeriods() {
 
                 return;
             }
-            alert(response.msg);
+            console.log(response.msg);
             return;
         })
         .catch(error => {
@@ -56,7 +56,7 @@ async function getInstitutePeriods() {
 
                 return;
             }
-            alert(response.msg);
+            console.log(response.msg);
             return;
         })
         .catch(error => {
@@ -87,7 +87,7 @@ async function getLicensesPeriods() {
 
                 return;
             }
-            alert(response.msg);
+            console.log(response.msg);
             return;
         })
         .catch(error => {

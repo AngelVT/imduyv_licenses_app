@@ -54,7 +54,9 @@ export function generateSpecialData(type) {
                 minimalFront: 0.00,
                 frontalRestriction: 0.0,
                 parkingLots: "Ej: 1 Cajón por lote",
-                usePercent: 0
+                usePercent: 0,
+                antecedentType: "0",
+                antecedent: "IMDUyV/DLyCU/####/###/####"
             }
         case 3:
             return {
@@ -357,6 +359,30 @@ export function generateSpecialData(type) {
                 "pageBreak_8": 0,
                 "pageBreak_9": 0,
                 "pageBreak_10": 1,
+            }
+        case 9:
+            return {
+                "PCU": "PCU",
+                "representativeAs": "Representante Legal",
+                "buildingAddress": "Domicilio",
+                "occupationPercent": 0,
+                "surfacePerLote": 0,
+                "maximumHeight": "Ej: 9 metros o 3 niveles",
+                "minimalFront": 0,
+                "frontalRestriction": 0,
+                "parkingLots": "Ej: 1 Cajón por lote",
+                "usePercent": 0,
+                "conditions": [
+                    "Por lo que hace al uso HABITACIONAL, una vez autorizado, deberá ser permitido con base en la matriz de compatibilidad del Programa Municipal de Desarrollo Urbano y Ordenamiento Territorial de Tizayuca, Hidalgo.",
+                    "La presente no autoriza acciones urbanas ni construcción de obras que generen impacto social en su entorno inmediato.",
+                    "Para realizar obras de construcción, deberá tramitar y contar con licencia de construcción emitida por la Secretaría de Obras Públicas del Municipio de Tizayuca.",
+                    "El propietario está obligado a dejar 30% de la superficie neta de cada lote libre de construcción para absorción de agua pluvial.",
+                    "Se prohíbe la colocación de cualquier publicidad fuera y frente del predio.",
+                    "No se podrá destinar el uso de suelo para fines comerciales, si no solo el establecido en esta licencia.",
+                    "No se deberá ocupar la banqueta (vía pública) para realizar maniobras en su proceso constructivo.",
+                    "Acatar la normativa y restricciones de la zonificación secundaria que determina el documento técnico del Programa Municipal de Desarrollo Urbano y Ordenamiento Territorial de Tizayuca.",
+                    "El Instituto Municipal de Desarrollo Urbano y Vivienda se reserva el derecho de revocar la presente, en caso de incumplimiento a cualquiera de las condiciones establecidas en la misma."
+                ]
             }
     }
 }

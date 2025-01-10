@@ -433,11 +433,11 @@ export async function requestPDFDefinition(type, invoice, year) {
         DEFINITION = await generateLandUseC(LICENSE);
     }
 
-    if (type >= 2 && type <= 6) {
+    if (type >= 2 && type <= 5) {
         DEFINITION = await generateLandUseL(LICENSE);
     }
 
-    if (type == 7) {
+    if (type == 6) {
         DEFINITION = await generateLandUseDP(LICENSE);
     }
 
@@ -452,9 +452,9 @@ export async function requestPDFDefinition(type, invoice, year) {
 }
 
 export async function requestInvoiceSet(body) {
-    const { C, DP, LC, LH, LI, LS, SEG } = body
+    const { C, DP, LC, LI, LS, SEG } = body
 
-    if (!C && !DP && !LC && !LH && !LI && !LS && !SEG) {
+    if (!C && !DP && !LC && !LI && !LS && !SEG) {
         return {
             status: 400,
             data: {
@@ -486,7 +486,6 @@ export async function requestInvoiceSet(body) {
             invoices: `C: ${C}
                 DP: ${DP}
                 LC: ${LC}
-                LH: ${LH}
                 LI: ${LI}
                 LS: ${LS}
                 SEG: ${SEG}`
@@ -495,7 +494,6 @@ export async function requestInvoiceSet(body) {
             C   --> ${C}
             DP  --> ${DP}
             LC  --> ${LC}
-            LH  --> ${LH}
             LI  --> ${LI}
             LS  --> ${LS}
             SEG --> ${SEG}`

@@ -10,6 +10,7 @@ import { generateUrbanCRPC } from "../models/documents/urban/licenciaCRPC.js";
 import { generateUrbanLF } from '../models/documents/urban/licenciaLF.js';
 import { generateUrbanPLF } from '../models/documents/urban/licenciaPLF.js';
 import { generateUrbanRLF } from '../models/documents/urban/licenciaRLF.js';
+import { generateUrbanLUH } from '../models/documents/urban/licenciaLUH.js'
 
 export async function requestAllUrbanLicenses() {
     let LICENSES = await urbanRepo.findAllUrbanLicenses();
@@ -447,6 +448,8 @@ export async function requestUrbanLicenseUpdate(id, licenseData, files, requesto
     newSpecialData.pageBreak_9 = pageBreak_9 ? parseInt(pageBreak_9) : newSpecialData.pageBreak_9;
     newSpecialData.pageBreak_10 = pageBreak_10 ? parseInt(pageBreak_10) : newSpecialData.pageBreak_10;
 
+    newSpecialData.antecedent = newSpecialData.antecedent == '-' ? null : newSpecialData.antecedent;
+
     const NEW_DATA ={
         requestDate: requestDate,
         requestorName: requestorName,
@@ -569,6 +572,9 @@ export async function requestPDFDefinition(type, invoice, year) {
         case 8:
             DEFINITION = await generateUrbanCRPC(LICENSE);
             break;
+        case 9:
+            DEFINITION = await generateUrbanLUH(LICENSE);
+            break;
     }
 
     return {
@@ -582,9 +588,9 @@ export async function requestPDFDefinition(type, invoice, year) {
 }
 
 export async function requestInvoiceSet(body) {
-    const { CUS, LUS, LSUB, LFUS, PLF, LF, RLF, CRPC } = body
+    const { CUS, LUS, LSUB, LFUS, PLF, LF, RLF, CRPC, LUH } = body
 
-    if (!CUS && !LUS && !LSUB && !LFUS && !PLF && !LF && !RLF && !CRPC) {
+    if (!CUS && !LUS && !LSUB && !LFUS && !PLF && !LF && !RLF && !CRPC && !LUH) {
         return {
             status: 400,
             data: {
@@ -620,7 +626,8 @@ export async function requestInvoiceSet(body) {
                 PLF: ${PLF}
                 LF: ${LF}
                 RLF: ${RLF}
-                CRPC: ${CRPC}`
+                CRPC: ${CRPC}
+                LUH: ${LUH}`
         },
         log: `Request completed start invoices set:
             CUS  --> ${CUS}
@@ -630,7 +637,8 @@ export async function requestInvoiceSet(body) {
             PLF  --> ${PLF}
             LF   --> ${LF}
             RLF  --> ${RLF}
-            CRPC --> ${CRPC}`
+            CRPC --> ${CRPC}
+            LUH --> ${LUH}`
     };
 }
 

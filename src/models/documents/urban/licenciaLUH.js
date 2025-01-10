@@ -52,10 +52,6 @@ export async function generateUrbanLUH(lcDBObj) {
                                             { text: 'Nombre: ', style: 'labelT', border: docUtils.borderless },
                                             docUtils.field(lcDBObj.requestorName, docUtils.borderless, null, 'center', 7)
                                         ],
-                                        [
-                                            { text: 'Domicilio: ', style: 'labelT', border: docUtils.borderless },
-                                            docUtils.field(lcDBObj.licenseSpecialData.requestorAddress, docUtils.borderless, null, 'center', 7),
-                                        ],
                                         docUtils.generateLegalRepresentativeField(lcDBObj.legalRepresentative, lcDBObj.licenseSpecialData.representativeAs),
                                         [
                                             { text: 'Fecha de Solicitud: ', style: 'labelT', border: docUtils.borderless },

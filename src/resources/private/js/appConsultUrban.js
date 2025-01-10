@@ -391,7 +391,7 @@ function generateUrbanFields(resObj, resultContent) {
 
     // * Nav button
     navButton = document.createElement('li');
-    navButton.setAttribute('class', `tooltip bi-plus-circle btn ${resObj.licenseType == 1 || resObj.licenseType == 2 ? 'dis-none' : ''}`);
+    navButton.setAttribute('class', `tooltip bi-plus-circle btn ${resObj.licenseType == 1 || resObj.licenseType == 2 || resObj.licenseType == 9 ? 'dis-none' : ''}`);
     navButton.setAttribute('onclick', `resultNavigation(this, ${resObj.id}, 6, 6)`);
     navButtonTooltip = document.createElement('span');
     navButtonTooltip.setAttribute('class', 'tooltip-text');
@@ -456,7 +456,7 @@ function generateUrbanFields(resObj, resultContent) {
         fieldGroup.appendChild(field);
     }
 
-    if (resObj.licenseType >= 1 && resObj.licenseType <= 6) {
+    if (resObj.licenseType >= 1 && resObj.licenseType <= 6 || resObj.licenseType == 9) {
         field = createResultField(resObj.id, 'Clave catastral', 'catastralKey', resObj.catastralKey, 'text');
 
         fieldGroup.appendChild(field);
@@ -480,7 +480,7 @@ function generateUrbanFields(resObj, resultContent) {
 
     fieldGroup.appendChild(fieldGroupTittle);
 
-    if(resObj.licenseType <= 4) {
+    if(resObj.licenseType <= 4 || resObj.licenseType == 9) {
         let imgDiv= document.createElement('div');
         imgDiv.setAttribute('class', 'w-100 dis-flex flex-center');
 
@@ -498,7 +498,7 @@ function generateUrbanFields(resObj, resultContent) {
         fieldGroup.appendChild(field);
     }
 
-    if (resObj.licenseType == 1 || resObj.licenseType == 2 || resObj.licenseType == 6) {
+    if (resObj.licenseType == 1 || resObj.licenseType == 2 || resObj.licenseType == 6 || resObj.licenseType == 9) {
         field = createResultField(resObj.id, 'Zona', 'zone', resObj.licenseZone, 'select');
 
         field.querySelector('select').innerHTML = `
@@ -605,7 +605,7 @@ function generateUrbanFields(resObj, resultContent) {
         fieldGroup.appendChild(field);
     }
 
-    if (resObj.licenseType == 2 || resObj.licenseType == 6) {
+    if (resObj.licenseType == 2 || resObj.licenseType == 6 || resObj.licenseType == 9) {
         field = createResultField(resObj.id, 'Porcentaje de ocupación', 'occupationPercent', resObj.licenseSpecialData.occupationPercent, 'number');
         fieldGroup.appendChild(field);
 
@@ -625,10 +625,12 @@ function generateUrbanFields(resObj, resultContent) {
         fieldGroup.appendChild(field);
     }
 
-    if (resObj.licenseType == 2) {
-        field = createResultField(resObj.id, 'Licencia antecedente', 'antecedent', resObj.licenseSpecialData.antecedent, 'text');
+    if (resObj.licenseType == 9) {
+        field = createResultTextArea(resObj.id, 'Condicionantes', 'conditions', resObj.licenseSpecialData.conditions ? resObj.licenseSpecialData.conditions.join('\n') : '');
         fieldGroup.appendChild(field);
+    }
 
+    if (resObj.licenseType == 2) {
         field = createResultField(resObj.id, 'Tipo de antecedente', 'antecedentType', resObj.licenseSpecialData.antecedentType, 'select');
 
         field.querySelector('select').innerHTML = `
@@ -638,6 +640,9 @@ function generateUrbanFields(resObj, resultContent) {
 
         field.querySelector('select').value = resObj.licenseSpecialData.antecedentType;
 
+        fieldGroup.appendChild(field);
+        
+        field = createResultField(resObj.id, 'Licencia antecedente', 'antecedent', resObj.licenseSpecialData.antecedent, 'text');
         fieldGroup.appendChild(field);
     }
 
@@ -708,7 +713,7 @@ function generateUrbanFields(resObj, resultContent) {
 
     fieldGroup.appendChild(field);
 
-    if (resObj.licenseType == 1 || resObj.licenseType == 2 || resObj.licenseType == 5 || resObj.licenseType == 6) {
+    if (resObj.licenseType == 1 || resObj.licenseType == 2 || resObj.licenseType == 5 || resObj.licenseType == 6 || resObj.licenseType == 9) {
         field = createResultField(resObj.id, 'Vigencia', 'validity', resObj.licenseValidity, 'select');
 
             field.querySelector('select').innerHTML = `
@@ -722,7 +727,7 @@ function generateUrbanFields(resObj, resultContent) {
         fieldGroup.appendChild(field);
     }
 
-    if (resObj.licenseType == 1) {
+    if (resObj.licenseType == 1 || resObj.licenseType == 9) {
         field = createResultField(resObj.id, 'Plazo', 'term', resObj.licenseTerm, 'select');
 
         field.querySelector('select').innerHTML = `
@@ -783,7 +788,7 @@ function generateUrbanFields(resObj, resultContent) {
 
     if (resObj.licenseType == 3 || resObj.licenseType == 4) {
         field = generateTableForm(resObj);
-            fieldGroup.appendChild(field);
+        fieldGroup.appendChild(field);
 
         field = document.createElement('div');
         field.setAttribute('class', 'field-span border-round preview-container w-100');

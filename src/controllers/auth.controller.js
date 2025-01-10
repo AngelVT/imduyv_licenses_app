@@ -11,7 +11,7 @@ export const signIn = async (req, res) => {
                 secure: true,
                 signed: true,
                 sameSite: 'strict',
-                maxAge: config.TOKENS_EXP
+                maxAge: config.COOKIE_EXP
             }).status(response.status).redirect(response.data.redirection);
         } else {
             res.status(response.status).json(response.data);

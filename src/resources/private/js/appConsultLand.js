@@ -719,7 +719,7 @@ function generateLandFields(resObj, resultContent) {
         fieldGroup.appendChild(field);
     }
 
-    if (resObj.licenseType >= 2 && resObj.licenseType <=6) {
+    if (resObj.licenseType >= 2 && resObj.licenseType <=5) {
         field = createResultTextArea(resObj.id, 'Restricciones', 'restrictions', resObj.licenseSpecialData.restrictions);
         fieldGroup.appendChild(field);
 
@@ -731,7 +731,7 @@ function generateLandFields(resObj, resultContent) {
         fieldGroup.appendChild(field);
     }
 
-    if (resObj.licenseType == 7) {
+    if (resObj.licenseType == 6) {
         field = createResultField(resObj.id, 'Anexo', 'anexo', resObj.licenseSpecialData.anexo, 'text');
 
         fieldGroup.appendChild(field);
