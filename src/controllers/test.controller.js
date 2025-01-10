@@ -1,6 +1,6 @@
 import { __dirname, __dirstorage } from "../path.configuration.js";
 import { printerPDF } from "../utilities/pdf.utilities.js";
-import { generateUrbanLUH } from "../models/documents/urban/licenciaLH.js";
+import { generateUrbanLUH } from "../models/documents/urban/licenciaLUH.js";
 
 export const test = async (req, res) => {
     try {
