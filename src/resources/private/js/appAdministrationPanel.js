@@ -67,6 +67,7 @@ landForm.addEventListener('submit', async event => {
                 Folios iniciales establecidos exitosamente:
                 ${response.invoices}`);
                 landForm.reset();
+                landForm.classList.add('dis-none');
                 return;
             }
             alert(response.msg);
@@ -103,6 +104,7 @@ urbanForm.addEventListener('submit', async event => {
                 Folios iniciales establecidos exitosamente:
                 ${response.invoices}`);
                 urbanForm.reset();
+                urbanForm.classList.add('dis-none');
                 return;
             }
             alert(response.msg);

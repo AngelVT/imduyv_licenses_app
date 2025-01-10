@@ -24,7 +24,7 @@ router.patch('/:licenciaID', [authenticator.verifyToken, authenticator.accountIn
 
 router.delete('/:licenciaID', [authenticator.verifyToken, authenticator.accountIntegrity , authenticator.isUrbanUser , authenticator.isAdmin] , urbanControl.deleteLicense);
 
-router.get('/PDF/:type/:invoice/:year', [authenticator.verifyToken, authenticator.accountIntegrity , authenticator.isUrbanUser] , urbanControl.getLicensePDF);
+router.get('/PDF/t/:type/i/:invoice/y/:year', [authenticator.verifyToken, authenticator.accountIntegrity , authenticator.isUrbanUser] , urbanControl.getLicensePDF);
 
 router.post('/setInvoices', [authenticator.verifyToken, authenticator.accountIntegrity , authenticator.isUrbanUser, authenticator.isAdmin], urbanControl.setLicenseStartInvoices);
 

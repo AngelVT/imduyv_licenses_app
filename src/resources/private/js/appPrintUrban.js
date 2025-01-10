@@ -35,7 +35,7 @@ async function getLicensePrint(type, invoice, year) {
                 
                 createUrbanResult(response.license, resultPrint, true);
 
-                PDF.setAttribute('src', `/api/urban/PDF/i/${type}/i/${invoice}/y/${year}?${new Date().getTime()}`);
+                PDF.setAttribute('src', `/api/urban/PDF/t/${type}/i/${invoice}/y/${year}?${new Date().getTime()}`);
 
                 return;
             }
