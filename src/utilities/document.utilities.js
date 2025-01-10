@@ -3,72 +3,72 @@ import path from "path";
 import fs from 'fs';
 import { getMunicipalPeriodByDate, getInstitutePeriodByDate, getLicensesPeriodByDate } from "../repositories/administration.repository.js";
 
-export const borderless = [false,false,false,false];
+export const borderless = [false, false, false, false];
 
 export const formLayout = {
-    paddingLeft: function(i, node) { return 1; },
-    paddingRight: function(i, node) { return 1; },
-    paddingTop: function(i, node) { return 1; },
-    paddingBottom: function(i, node) { return 1; },
-    hLineWidth: function(i, node) { return 0.5; },
-    vLineWidth: function(i, node) { return 0.5; },
-    hLineColor: function(i, node) { return '#000'; },
-    vLineColor: function(i, node) { return '#000'; }
+    paddingLeft: function (i, node) { return 1; },
+    paddingRight: function (i, node) { return 1; },
+    paddingTop: function (i, node) { return 1; },
+    paddingBottom: function (i, node) { return 1; },
+    hLineWidth: function (i, node) { return 0.5; },
+    vLineWidth: function (i, node) { return 0.5; },
+    hLineColor: function (i, node) { return '#000'; },
+    vLineColor: function (i, node) { return '#000'; }
 }
 
 export const containerLayout = {
-    paddingLeft: function(i, node) { return 2; },
-    paddingRight: function(i, node) { return 2; },
-    paddingTop: function(i, node) { return 2; },
-    paddingBottom: function(i, node) { return 2; },
-    hLineWidth: function(i, node) { return 0.5; },
-    vLineWidth: function(i, node) { return 0.5; },
-    hLineColor: function(i, node) { return '#000'; },
-    vLineColor: function(i, node) { return '#000'; }
+    paddingLeft: function (i, node) { return 2; },
+    paddingRight: function (i, node) { return 2; },
+    paddingTop: function (i, node) { return 2; },
+    paddingBottom: function (i, node) { return 2; },
+    hLineWidth: function (i, node) { return 0.5; },
+    vLineWidth: function (i, node) { return 0.5; },
+    hLineColor: function (i, node) { return '#000'; },
+    vLineColor: function (i, node) { return '#000'; }
 }
 
 export const noBorderNoPadding = {
-    paddingLeft: function(i, node) { return 0; },
-    paddingRight: function(i, node) { return 0; },
-    paddingTop: function(i, node) { return 0; },
-    paddingBottom: function(i, node) { return 0; },
-    hLineWidth: function(i, node) { return 0; },
-    vLineWidth: function(i, node) { return 0; },
-    hLineColor: function(i, node) { return '#000'; },
-    vLineColor: function(i, node) { return '#000'; }
+    paddingLeft: function (i, node) { return 0; },
+    paddingRight: function (i, node) { return 0; },
+    paddingTop: function (i, node) { return 0; },
+    paddingBottom: function (i, node) { return 0; },
+    hLineWidth: function (i, node) { return 0; },
+    vLineWidth: function (i, node) { return 0; },
+    hLineColor: function (i, node) { return '#000'; },
+    vLineColor: function (i, node) { return '#000'; }
 }
 
 export const NoPadding = {
-    paddingLeft: function(i, node) { return 0; },
-    paddingRight: function(i, node) { return 0; },
-    paddingTop: function(i, node) { return 0; },
-    paddingBottom: function(i, node) { return 0; },
-    hLineWidth: function(i, node) { return 0.5; },
-    vLineWidth: function(i, node) { return 0.5; },
-    hLineColor: function(i, node) { return '#000'; },
-    vLineColor: function(i, node) { return '#000'; }
+    paddingLeft: function (i, node) { return 0; },
+    paddingRight: function (i, node) { return 0; },
+    paddingTop: function (i, node) { return 0; },
+    paddingBottom: function (i, node) { return 0; },
+    hLineWidth: function (i, node) { return 0.5; },
+    vLineWidth: function (i, node) { return 0.5; },
+    hLineColor: function (i, node) { return '#000'; },
+    vLineColor: function (i, node) { return '#000'; }
 }
 
 export const subTable = {
-    paddingLeft: function(i, node) { return 0; },
-    paddingRight: function(i, node) { return 0; },
-    paddingTop: function(i, node) { return 0; },
-    paddingBottom: function(i, node) { return 0; },
-    hLineWidth: function(i, node) { return 0.5; },
-    vLineWidth: function(i, node) { return 0.5; },
-    hLineColor: function(i, node) { return '#757575'; },
-    vLineColor: function(i, node) { return '#757575'; }
+    paddingLeft: function (i, node) { return 0; },
+    paddingRight: function (i, node) { return 0; },
+    paddingTop: function (i, node) { return 0; },
+    paddingBottom: function (i, node) { return 0; },
+    hLineWidth: function (i, node) { return 0.5; },
+    vLineWidth: function (i, node) { return 0.5; },
+    hLineColor: function (i, node) { return '#757575'; },
+    vLineColor: function (i, node) { return '#757575'; }
 }
 
 export const cellLayout = {
-    paddingLeft: function(i, node) { return 2; },
-    paddingRight: function(i, node) { return 2; },
-    paddingTop: function(i, node) { return 1; },
-    paddingBottom: function(i, node) { return 1; },
-    hLineWidth: function(i, node) { return 0.5; },
-    vLineWidth: function(i, node) { return 0.5; },
-    hLineColor: function(i, node) { return '#000'; },
-    vLineColor: function(i, node) { return '#000'; }
+    paddingLeft: function (i, node) { return 2; },
+    paddingRight: function (i, node) { return 2; },
+    paddingTop: function (i, node) { return 1; },
+    paddingBottom: function (i, node) { return 1; },
+    hLineWidth: function (i, node) { return 0.5; },
+    vLineWidth: function (i, node) { return 0.5; },
+    hLineColor: function (i, node) { return '#000'; },
+    vLineColor: function (i, node) { return '#000'; }
 }
 
 export const docStyles = {
@@ -106,7 +106,7 @@ export const docStyles = {
         alignment: 'justify'
     },
     formRow: {
-        margin: [0,0,0,5]
+        margin: [0, 0, 0, 5]
     },
     regular: {
         fontSize: 7
@@ -126,12 +126,12 @@ export function field(text, borders, span, style, fontSize) {
     return {
         colSpan: span,
         border: borders,
-        table: {widths: ['*'],body: [[{text: text, fontSize: fontSize, style: style}]]},layout: cellLayout
+        table: { widths: ['*'], body: [[{ text: text, fontSize: fontSize, style: style }]] }, layout: cellLayout
     }
 }
 
 export function voidCell(span) {
-    return {colSpan: span,border: borderless, text: ''}
+    return { colSpan: span, border: borderless, text: '' }
 }
 
 export async function loadChart(fullInvoice, sourcePattern) {
@@ -142,7 +142,15 @@ export async function loadChart(fullInvoice, sourcePattern) {
     return new Promise((resolve, reject) => {
         fs.readdir(dir, (err, files) => {
             if (err) {
-                return reject(err);
+                images = [
+                    {
+                        text: [
+                            { text: 'Nota: ', style: 'regular', bold: true },
+                            { text: 'La información descrita corresponde y es responsabilidad del solicitante.', style: 'regular' }
+                        ]
+                    }
+                ]
+                return resolve(images);
             }
 
             const matchedFiles = files.filter(file => pattern.test(file));
@@ -177,11 +185,11 @@ export async function loadChart(fullInvoice, sourcePattern) {
 
 export async function fileExist(location, group) {
     let fileDirectory = path.join(__dirstorage, 'assets', group, location.replaceAll('/', '_'), 'zone.png');
-    
+
     const defaultPath = path.join(__dirname, 'resources', 'public', 'img', '404.jpg');
 
     return new Promise((resolve, reject) => {
-        fs.access(fileDirectory,(err) => {
+        fs.access(fileDirectory, (err) => {
             if (err) {
                 return resolve(defaultPath);
             }
@@ -192,10 +200,10 @@ export async function fileExist(location, group) {
 }
 
 export function prepareData(lcDBObj) {
-    lcDBObj.fullInvoice = lcDBObj.fullInvoice.replaceAll('_','/');
+    lcDBObj.fullInvoice = lcDBObj.fullInvoice.replaceAll('_', '/');
 
     for (const key in lcDBObj) {
-        if(typeof lcDBObj[key] == 'string') {
+        if (typeof lcDBObj[key] == 'string') {
             lcDBObj[key] = lcDBObj[key].toUpperCase();
         }
     }
@@ -204,11 +212,11 @@ export function prepareData(lcDBObj) {
         lcDBObj.term.licenseTerm = lcDBObj.term.licenseTerm.toUpperCase();
     }
 
-    if(lcDBObj.validity) {
+    if (lcDBObj.validity) {
         lcDBObj.validity.licenseValidity = lcDBObj.validity.licenseValidity.toUpperCase();
     }
 
-    if(lcDBObj.expeditionType) {
+    if (lcDBObj.expeditionType) {
         lcDBObj.expeditionType.licenseExpType = lcDBObj.expeditionType.licenseExpType.toUpperCase();
     }
 
@@ -220,17 +228,20 @@ export function dateFormatFull(dateNumeric) {
         "Enero",
         "Febrero",
         "Marzo",
-        "Abril", 
-        "Mayo", 
-        "Junio", 
-        "Julio", 
-        "Agosto", 
-        "Septiembre", 
-        "Octubre", 
-        "Noviembre", 
+        "Abril",
+        "Mayo",
+        "Junio",
+        "Julio",
+        "Agosto",
+        "Septiembre",
+        "Octubre",
+        "Noviembre",
         "Diciembre"];
+    if (!dateNumeric) {
+        return "Fecha no definida";
+    }
     let date = dateNumeric.split('-');
-    return `${date[2]} de ${months[parseInt(date[1])-1]} del ${date[0]}`;
+    return `${date[2]} de ${months[parseInt(date[1]) - 1]} del ${date[0]}`;
 }
 
 export function arrayToText(array) {
@@ -243,53 +254,53 @@ export function arrayToText(array) {
 }
 
 export function signaturePresident(status) {
-    if(status) {
+    if (status) {
         return {
             image: path.join(__dirstorage, 'official', 'firmaB.png'),
-            fit: ['*',70],
+            fit: ['*', 70],
             alignment: 'center',
-            margin: [0,10,0,0]
+            margin: [0, 10, 0, 0]
         }
     }
     return {
         image: path.join(__dirstorage, 'official', 'firma_blank.png'),
-        fit: ['*',70],
+        fit: ['*', 70],
         alignment: 'center',
-        margin: [0,10,0,0]
+        margin: [0, 10, 0, 0]
     }
 }
 
 export function signatureDirector(status) {
-    if(status) {
+    if (status) {
         return {
             image: path.join(__dirstorage, 'official', 'firma.png'),
-            fit: ['*',70],
+            fit: ['*', 70],
             alignment: 'center',
-            margin: [0,10,0,0]
+            margin: [0, 10, 0, 0]
         }
     }
     return {
         image: path.join(__dirstorage, 'official', 'firma_blank.png'),
-        fit: ['*',70],
+        fit: ['*', 70],
         alignment: 'center',
-        margin: [0,10,0,0]
+        margin: [0, 10, 0, 0]
     }
 }
 
 export function signatureSeal(status) {
-    if(status) {
+    if (status) {
         return {
             image: path.join(__dirstorage, 'official', 'sello.png'),
-            fit: ['*',70],
+            fit: ['*', 70],
             alignment: 'center',
-            margin: [0,10,0,0]
+            margin: [0, 10, 0, 0]
         }
     }
     return {
         image: path.join(__dirstorage, 'official', 'sello_blank.png'),
-        fit: ['*',70],
+        fit: ['*', 70],
         alignment: 'center',
-        margin: [0,10,0,0]
+        margin: [0, 10, 0, 0]
     }
 }
 
@@ -310,31 +321,31 @@ export function generateDSMCTable(situationArray, subject) {
                 colSpan: 4,
                 style: 'headST',
                 border: borderless
-            },{},{},{}
+            }, {}, {}, {}
         ],
         [
-            {text: 'DESCRIPCIÓN', style: ['boldCenter', 'regularSmall']},
-            {text: 'SUPERFICIE', style: ['boldCenter', 'regularSmall']},
-            {text: 'MEDIDAS', style: ['boldCenter', 'regularSmall']},
-            {text: 'COLINDANCIAS', style: ['boldCenter', 'regularSmall']}
+            { text: 'DESCRIPCIÓN', style: ['boldCenter', 'regularSmall'] },
+            { text: 'SUPERFICIE', style: ['boldCenter', 'regularSmall'] },
+            { text: 'MEDIDAS', style: ['boldCenter', 'regularSmall'] },
+            { text: 'COLINDANCIAS', style: ['boldCenter', 'regularSmall'] }
         ]
     ]
 
-    for(let i of situationArray) {
+    for (let i of situationArray) {
         let arr = [
-            {text: i.description, style: ['boldCenter', 'regularSmall'], margin:[0,3,0,0], border: [false,true,false, true]},
-            {text: i.surface, style: ['boldCenter', 'regularSmall'], margin:[0,3,0,0], border: [false,true,false, true]},
+            { text: i.description, style: ['boldCenter', 'regularSmall'], margin: [0, 3, 0, 0], border: [false, true, false, true] },
+            { text: i.surface, style: ['boldCenter', 'regularSmall'], margin: [0, 3, 0, 0], border: [false, true, false, true] },
             {
                 colSpan: 2,
                 table: {
-                    widths: [100,'*'],
+                    widths: [100, '*'],
                     body: generateSubTable(i.table)
                 },
                 layout: subTable,
                 border: [false, false, false, true]
             },
             {}
-    ]
+        ]
 
         body.push(arr)
     }
@@ -345,29 +356,29 @@ export function generateDSMCTable(situationArray, subject) {
 export function generateLegalRepresentativeField(representative, representativeAs) {
     if (representative) {
         return [
-            {text: `${capitalize(representativeAs)}: `, style: 'labelT', border: borderless},
-            field(representative, borderless, null,'center', 7)
+            { text: `${capitalize(representativeAs)}: `, style: 'labelT', border: borderless },
+            field(representative, borderless, null, 'center', 7)
         ];
     }
 
-    return [{text: '', border: borderless},{text: '', border: borderless}];
+    return [{ text: '', border: borderless }, { text: '', border: borderless }];
 }
 
 export function generateDistributionTable(lotes, manzanas) {
     let table = [
         [
-            {text: "CUADRO DE DISTRIBUCIÓN POR MANZANAS", style: 'headT', border: borderless, colSpan: 2},{}
+            { text: "CUADRO DE DISTRIBUCIÓN POR MANZANAS", style: 'headT', border: borderless, colSpan: 2 }, {}
         ],
         [
-            {text: "LOTE", style: 'labelTC'},
-            {text: "MANZANA", style: 'labelTC'}
+            { text: "LOTE", style: 'labelTC' },
+            { text: "MANZANA", style: 'labelTC' }
         ]
     ]
 
     for (let i = 0; i < lotes.length; i++) {
         table.push([
-            {text: lotes[i], style: ['center', 'regular']},
-            {text: manzanas[i], style: ['left', 'regular']}
+            { text: lotes[i], style: ['center', 'regular'] },
+            { text: manzanas[i], style: ['left', 'regular'] }
         ]);
     }
 
@@ -426,12 +437,12 @@ export async function getLicensesDirectorName(date) {
 
 function capitalize(str) {
     return str
-    .split(' ')
-    .map(word => {
-        return word.charAt(0).toLocaleUpperCase() +
-            word.slice(1).toLocaleLowerCase();
-    })
-    .join(' ');
+        .split(' ')
+        .map(word => {
+            return word.charAt(0).toLocaleUpperCase() +
+                word.slice(1).toLocaleLowerCase();
+        })
+        .join(' ');
 }
 
 function generateSubTable(tableObj) {
@@ -441,40 +452,44 @@ function generateSubTable(tableObj) {
     for (let i = 0; i < tableObj.distribution.length; i++) {
         let row;
         hasBottomBorder = tableObj.distribution[i].includes('*') ? false : true;
-        tableObj.distribution[i] = tableObj.distribution[i].replaceAll('*','');
+        tableObj.distribution[i] = tableObj.distribution[i].replaceAll('*', '');
         if (i == 0) {
             row = [
                 {
                     text: [
                         {
-                            text:`${tableObj.distribution[i]} `,
+                            text: `${tableObj.distribution[i]} `,
                             bold: true
-                        },{text:`${tableObj.measures[i]}`}
+                        }, { text: `${tableObj.measures[i]}` }
                     ],
                     style: 'regularSmall', border: [false, false, false, hasBottomBorder],
-                    margin:[2,0,0,0]
+                    margin: [2, 0, 0, 0]
                 },
-                {text: `${tableObj.adjoining[i]}`, style: 'regularSmall', border: [false, false, false, hasBottomBorder], margin:[2,0,0,0]}
+                { text: `${tableObj.adjoining[i]}`, style: 'regularSmall', border: [false, false, false, hasBottomBorder], margin: [2, 0, 0, 0] }
             ]
         } else if (i == tableObj.distribution.length - 1) {
             row = [
-                {text: [
-                    {
-                        text:`${tableObj.distribution[i]} `,
-                        bold: true
-                    },{text:`${tableObj.measures[i]}`}
-                ], style: 'regularSmall', border: [false, false, false, false], margin:[2,0,0,0]},
-                {text: `${tableObj.adjoining[i]}`, style: 'regularSmall', border: [false, false, false, false], margin:[2,0,0,0]}
+                {
+                    text: [
+                        {
+                            text: `${tableObj.distribution[i]} `,
+                            bold: true
+                        }, { text: `${tableObj.measures[i]}` }
+                    ], style: 'regularSmall', border: [false, false, false, false], margin: [2, 0, 0, 0]
+                },
+                { text: `${tableObj.adjoining[i]}`, style: 'regularSmall', border: [false, false, false, false], margin: [2, 0, 0, 0] }
             ]
         } else {
             row = [
-                {text: [
-                    {
-                        text:`${tableObj.distribution[i]} `,
-                        bold: true
-                    },{text:`${tableObj.measures[i]}`}
-                ], style: 'regularSmall', border: [false,false, false, hasBottomBorder], margin:[2,0,0,0]},
-                {text: `${tableObj.adjoining[i]}`, style: 'regularSmall', border: [false, false, false, hasBottomBorder], margin:[2,0,0,0]}
+                {
+                    text: [
+                        {
+                            text: `${tableObj.distribution[i]} `,
+                            bold: true
+                        }, { text: `${tableObj.measures[i]}` }
+                    ], style: 'regularSmall', border: [false, false, false, hasBottomBorder], margin: [2, 0, 0, 0]
+                },
+                { text: `${tableObj.adjoining[i]}`, style: 'regularSmall', border: [false, false, false, hasBottomBorder], margin: [2, 0, 0, 0] }
             ]
         }
         subBody.push(row);
