@@ -98,9 +98,8 @@ export const setDefaultLicenseTypes = async () => {
             Type.create({id: 2, licenseType: 'LS'}),
             Type.create({id: 3, licenseType: 'LC'}),
             Type.create({id: 4, licenseType: 'LI'}),
-            Type.create({id: 5, licenseType: 'LH'}),
-            Type.create({id: 6, licenseType: 'SEG'}),
-            Type.create({id: 7, licenseType: 'DP'})
+            Type.create({id: 5, licenseType: 'SEG'}),
+            Type.create({id: 6, licenseType: 'DP'}),
         ]);
 
         logger.logConsoleInfo("Default license types have been set");
@@ -109,7 +108,6 @@ export const setDefaultLicenseTypes = async () => {
         Land use type -> LS
         Land use type -> LC
         Land use type -> LI
-        Land use type -> LH
         Land use type -> SEG
         Land use type -> DP`);
 
@@ -403,7 +401,8 @@ export const setDefaultUrbanLicenseTypes = async () => {
             UrbanType.create({ id: 5, licenseType: 'PLF'}),
             UrbanType.create({ id: 6, licenseType: 'LF'}),
             UrbanType.create({ id: 7, licenseType: 'RLF'}),
-            UrbanType.create({ id: 8, licenseType: 'CRPC'})
+            UrbanType.create({ id: 8, licenseType: 'CRPC'}),
+            UrbanType.create({ id: 9, licenseType: 'LUH'})
         ]);
 
         logger.logConsoleInfo("Default urban license types have been set");
@@ -415,7 +414,8 @@ export const setDefaultUrbanLicenseTypes = async () => {
         Urban type -> PLF
         Urban type -> LF
         Urban type -> RLF
-        Urban type -> CRPC`);
+        Urban type -> CRPC
+        Urban type -> LUH`);
 
     } catch (error) {
         logger.logConsoleWarning(`Error establishing default urban license types:\n    ${error}`);
