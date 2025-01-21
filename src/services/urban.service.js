@@ -472,7 +472,7 @@ export async function requestUrbanLicenseUpdate(id, licenseData, files, requesto
     }
 
     if (files.zoneIMG) {
-        if (!await urbanUtils.saveZoneImage(files.zoneIMG, INVOICE_INFO.fullInvoice)) {
+        if (!await urbanUtils.saveZoneImage(files.zoneIMG, SPECIAL_DATA.fullInvoice)) {
             return {
                 status: 400,
                 data: {
@@ -484,7 +484,7 @@ export async function requestUrbanLicenseUpdate(id, licenseData, files, requesto
     }
 
     if (files.resumeTables) {
-        if (!await urbanUtils.saveLicenseCharts(files.resumeTables, INVOICE_INFO.fullInvoice)) {
+        if (!await urbanUtils.saveLicenseCharts(files.resumeTables, SPECIAL_DATA.fullInvoice)) {
             return {
                 status: 400,
                 data: {
