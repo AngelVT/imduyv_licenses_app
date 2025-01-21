@@ -18,7 +18,7 @@ export async function generateInvoiceInformation(licenseType, year) {
     if (INVOICES.length == 0) {
         numericInvoice = 1;
 
-        const types = getLicenseType(licenseType);
+        const types = await getLicenseType(licenseType);
 
         type = types.licenseType;
     } else {

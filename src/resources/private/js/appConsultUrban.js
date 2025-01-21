@@ -567,6 +567,12 @@ function generateUrbanFields(resObj, resultContent) {
         fieldGroup.appendChild(field);
     }
 
+    if (resObj.licenseType == 9) {
+        field = createResultField(resObj.id, 'P.C.U.', 'PCU', resObj.licenseSpecialData.PCU, 'text');
+
+        fieldGroup.appendChild(field);
+    }
+
     if (resObj.licenseType == 1) {
         field = createResultField(resObj.id, 'P.C.U.', 'PCU', resObj.licenseSpecialData.PCU, 'text');
 
