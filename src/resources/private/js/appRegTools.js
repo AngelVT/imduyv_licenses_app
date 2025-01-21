@@ -203,6 +203,10 @@ function setFormFields(formFieldSet) {
         case 8:
             showCRPC();
             break;
+
+        case 9:
+            showLUH();
+            break;
     
         default:
             alert("Error cambiado formato");
@@ -236,6 +240,10 @@ function showCUS() {
     });
 
     document.querySelectorAll('.CRPC').forEach(e => {
+        e.classList.add("dis-none");
+    });
+
+    document.querySelectorAll('.LUH').forEach(e => {
         e.classList.add("dis-none");
     });
 
@@ -273,6 +281,10 @@ function showLUS() {
         e.classList.add("dis-none");
     });
 
+    document.querySelectorAll('.LUH').forEach(e => {
+        e.classList.add("dis-none");
+    });
+
     document.querySelectorAll('.LUS').forEach(e => {
         e.classList.remove("dis-none");
     });
@@ -304,6 +316,10 @@ function showLSUB() {
     });
 
     document.querySelectorAll('.CRPC').forEach(e => {
+        e.classList.add("dis-none");
+    });
+
+    document.querySelectorAll('.LUH').forEach(e => {
         e.classList.add("dis-none");
     });
 
@@ -341,6 +357,10 @@ function showLFUS() {
         e.classList.add("dis-none");
     });
 
+    document.querySelectorAll('.LUH').forEach(e => {
+        e.classList.add("dis-none");
+    });
+
     document.querySelectorAll('.LFUS').forEach(e => {
         e.classList.remove("dis-none");
     });
@@ -372,6 +392,10 @@ function showPLF() {
     });
 
     document.querySelectorAll('.CRPC').forEach(e => {
+        e.classList.add("dis-none");
+    });
+
+    document.querySelectorAll('.LUH').forEach(e => {
         e.classList.add("dis-none");
     });
 
@@ -409,6 +433,10 @@ function showLF() {
         e.classList.add("dis-none");
     });
 
+    document.querySelectorAll('.LUH').forEach(e => {
+        e.classList.add("dis-none");
+    });
+
     document.querySelectorAll('.LF').forEach(e => {
         e.classList.remove("dis-none");
     });
@@ -440,6 +468,10 @@ function showRLF() {
     });
 
     document.querySelectorAll('.CRPC').forEach(e => {
+        e.classList.add("dis-none");
+    });
+
+    document.querySelectorAll('.LUH').forEach(e => {
         e.classList.add("dis-none");
     });
 
@@ -477,7 +509,49 @@ function showCRPC() {
         e.classList.add("dis-none");
     });
 
+    document.querySelectorAll('.LUH').forEach(e => {
+        e.classList.add("dis-none");
+    });
+
     document.querySelectorAll('.CRPC').forEach(e => {
+        e.classList.remove("dis-none");
+    });
+}
+
+function showLUH() {
+    document.querySelectorAll('.LUS').forEach(e => {
+        e.classList.add("dis-none");
+    });
+    
+    document.querySelectorAll('.LSUB').forEach(e => {
+        e.classList.add("dis-none");
+    });
+
+    document.querySelectorAll('.LFUS').forEach(e => {
+        e.classList.add("dis-none");
+    });
+    
+    document.querySelectorAll('.PLF').forEach(e => {
+        e.classList.add("dis-none");
+    });
+
+    document.querySelectorAll('.LF').forEach(e => {
+        e.classList.add("dis-none");
+    });
+
+    document.querySelectorAll('.RLF').forEach(e => {
+        e.classList.add("dis-none");
+    });
+
+    document.querySelectorAll('.CRPC').forEach(e => {
+        e.classList.add("dis-none");
+    });
+
+    document.querySelectorAll('.CUS').forEach(e => {
+        e.classList.add("dis-none");
+    });
+
+    document.querySelectorAll('.LUH').forEach(e => {
         e.classList.remove("dis-none");
     });
 }

@@ -450,7 +450,7 @@ function generateUrbanFields(resObj, resultContent) {
         
     fieldGroup.appendChild(field);
 
-    if (resObj.licenseType >= 6 && resObj.licenseType <= 8) {
+    if (resObj.licenseType >= 5 && resObj.licenseType <= 8) {
         field = createResultField(resObj.id, 'Colonia/Asentamiento', 'colony', resObj.colony, 'text');
 
         fieldGroup.appendChild(field);
