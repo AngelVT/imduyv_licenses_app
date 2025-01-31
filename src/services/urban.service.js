@@ -233,6 +233,16 @@ export async function requestUrbanLicenseCreate(body, files, requestor) {
     }
 
     if (files.zoneIMG) {
+        if (!urbanValidate.validateFile(files.zoneIMG)) {
+            return {
+                status: 400,
+                data: {
+                    msg: "Error saving files to server, only png files are allowed."
+                },
+                log: `Error saving files in the server due to non PNG file`
+            };
+        }
+
         if (!await urbanUtils.saveZoneImage(files.zoneIMG, INVOICE_INFO.fullInvoice)) {
             return {
                 status: 400,
@@ -245,6 +255,16 @@ export async function requestUrbanLicenseCreate(body, files, requestor) {
     }
 
     if (files.resumeTables) {
+        if (!urbanValidate.validateFile(files.resumeTables)) {
+            return {
+                status: 400,
+                data: {
+                    msg: "Error saving files to server, only png files are allowed."
+                },
+                log: `Error saving files in the server due to non PNG file`
+            };
+        }
+
         if (!await urbanUtils.saveLicenseCharts(files.resumeTables, INVOICE_INFO.fullInvoice)) {
             return {
                 status: 400,
@@ -472,6 +492,16 @@ export async function requestUrbanLicenseUpdate(id, licenseData, files, requesto
     }
 
     if (files.zoneIMG) {
+        if (!urbanValidate.validateFile(files.zoneIMG)) {
+            return {
+                status: 400,
+                data: {
+                    msg: "Error saving files to server, only png files are allowed."
+                },
+                log: `Error saving files in the server due to non PNG file`
+            };
+        }
+
         if (!await urbanUtils.saveZoneImage(files.zoneIMG, SPECIAL_DATA.fullInvoice)) {
             return {
                 status: 400,
@@ -484,6 +514,16 @@ export async function requestUrbanLicenseUpdate(id, licenseData, files, requesto
     }
 
     if (files.resumeTables) {
+        if (!urbanValidate.validateFile(files.resumeTables)) {
+            return {
+                status: 400,
+                data: {
+                    msg: "Error saving files to server, only png files are allowed."
+                },
+                log: `Error saving files in the server due to non PNG file`
+            };
+        }
+
         if (!await urbanUtils.saveLicenseCharts(files.resumeTables, SPECIAL_DATA.fullInvoice)) {
             return {
                 status: 400,

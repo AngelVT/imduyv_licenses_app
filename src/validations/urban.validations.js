@@ -76,3 +76,12 @@ export async function checkType(type) {
 
     return true;
 }
+
+export function validateFile(files) {
+    for (const file of files) {
+        if (file.mimetype !== 'image/png') {
+            return false
+        }
+    }
+    return true;
+}

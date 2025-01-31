@@ -27,7 +27,8 @@ thaForm.addEventListener(
                     resetFormAuto(thaForm);
                     return;
                 }
-                alert("Registro no exitoso");
+                let response = await res.json();
+                alert(`Registro no exitoso\n${response.msg}`);
                 return;
             })
             .catch(error => {

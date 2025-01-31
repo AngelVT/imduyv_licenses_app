@@ -231,6 +231,16 @@ export async function requestLandLicenseCreate(body, file, requestor) {
         licenseSpecialData: SPECIAL_DATA
     }
 
+    if (!landValidate.validateFile(file)) {
+        return {
+            status: 400,
+            data: {
+                msg: "Error saving files to server, only png files are allowed."
+            },
+            log: `Error saving files in the server due to non PNG file`
+        };
+    }
+
     if (!await landUtils.saveZoneImage(file, INVOICE_INFO.fullInvoice)) {
         return {
             status: 400,
@@ -374,6 +384,16 @@ export async function requestLandLicenseUpdate(id, licenseData, file, requestor)
     }
 
     if (file) {
+        if (!landValidate.validateFile(file)) {
+            return {
+                status: 400,
+                data: {
+                    msg: "Error saving files to server, only png files are allowed."
+                },
+                log: `Error saving files in the server due to non PNG file`
+            };
+        }
+        
         await landUtils.saveZoneImage(file, SPECIAL_DATA.fullInvoice);
     }
     

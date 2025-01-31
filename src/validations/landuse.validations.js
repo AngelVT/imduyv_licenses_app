@@ -99,3 +99,11 @@ export async function checkType(type) {
 
     return true;
 }
+
+export function validateFile(file) {
+    if (file.mimetype !== 'image/png') {
+        return false
+    }
+    
+    return true;
+}
