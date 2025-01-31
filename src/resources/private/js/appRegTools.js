@@ -143,6 +143,9 @@ async function setData(targets, coord) {
     targets.numericZone.value = geoRefData.data.numericZone;
     targets.zone.value = geoRefData.data.zone;
     targets.key.value = geoRefData.data.key;
+    if(targets.PCU) {
+        targets.PCU.value = geoRefData.data.PCU
+    }
     targets.tool.setAttribute('href', `/private/tools/maps/maps.html#20/${geoRefData.georeference.join('/')}`);
 
     if(document.querySelector('#georeference')) {

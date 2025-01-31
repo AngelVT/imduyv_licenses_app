@@ -1,5 +1,6 @@
 const fieldKey = document.getElementById('field_key');
 const fieldZone = document.getElementById('field_zone');
+const fieldPCU = document.getElementById('pcu_field');
 const fieldZonePlaceholder = document.getElementById('zone_placeholder')
 
 const fieldSurfaceIn = document.getElementById('input_surface_in');
@@ -52,6 +53,7 @@ btnGeoSearch.addEventListener(
             numericZone: fieldZone,
             zone: fieldZonePlaceholder,
             key: fieldKey,
+            PCU: fieldPCU ? fieldPCU : undefined,
             tool: toolMap
         };
         await setData(targets, fieldGeoRef.value);

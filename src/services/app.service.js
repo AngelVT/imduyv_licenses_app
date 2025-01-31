@@ -1,5 +1,6 @@
 import { point, booleanPointInPolygon } from '@turf/turf';
 import { ZONE_DATA } from "../resources/private/js/appZonesData.js";
+import { PCU_DATA } from "../resources/private/js/appPCUData.js";
 import { Zone } from "../models/License.models.js";
 
 export async function requestCoordinateCheck(coordinates) {
@@ -27,6 +28,7 @@ export async function requestCoordinateCheck(coordinates) {
     const POINT_CHECK = point(COORDINATES);
 
     let coordinateData;
+    let coordinatePCU;
 
     for (let element of ZONE_DATA.features) {
         let isInside = booleanPointInPolygon(POINT_CHECK, element);
@@ -35,7 +37,14 @@ export async function requestCoordinateCheck(coordinates) {
         }
     }
 
-    if (!coordinateData) {
+    for (let element of PCU_DATA.features) {
+        let isInside = booleanPointInPolygon(POINT_CHECK, element);
+        if (isInside) {
+            coordinatePCU = element.properties;
+        }
+    }
+
+    if (!coordinateData || !coordinatePCU) {
         return {
             status: 404,
             data: {
@@ -67,7 +76,8 @@ export async function requestCoordinateCheck(coordinates) {
             data: {
                 numericZone: ZONE.id,
                 zone: ZONE.licenseZone,
-                key: ZONE.licenseKey
+                key: ZONE.licenseKey,
+                PCU: coordinatePCU.CALIF
             }
         }
     }
