@@ -77,6 +77,9 @@ export async function requestCoordinateCheck(coordinates) {
                 numericZone: ZONE.id,
                 zone: ZONE.licenseZone,
                 key: ZONE.licenseKey,
+                COS: coordinateData.COS,
+                alt_max: coordinateData.alt_max,
+                niveles: coordinateData.niveles,
                 PCU: coordinatePCU.CALIF
             }
         }

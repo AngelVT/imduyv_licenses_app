@@ -1,6 +1,9 @@
 const fieldKey = document.getElementById('field_key');
 const fieldZone = document.getElementById('field_zone');
 const fieldPCU = document.getElementById('pcu_field');
+const fieldCOS = document.getElementById('COS');
+const fieldALT = document.getElementById('alt_max');
+const fieldNiveles = document.getElementById('niveles');
 const fieldZonePlaceholder = document.getElementById('zone_placeholder')
 
 const fieldSurfaceIn = document.getElementById('input_surface_in');
@@ -53,6 +56,9 @@ btnGeoSearch.addEventListener(
             numericZone: fieldZone,
             zone: fieldZonePlaceholder,
             key: fieldKey,
+            COS: fieldCOS,
+            alt_max: fieldALT,
+            niveles: fieldNiveles,
             PCU: fieldPCU ? fieldPCU : undefined,
             tool: toolMap
         };

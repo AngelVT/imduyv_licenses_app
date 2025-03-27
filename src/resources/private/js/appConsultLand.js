@@ -532,6 +532,18 @@ function generateLandFields(resObj, resultContent) {
 
     fieldGroup.appendChild(field);
 
+    field = createResultField(resObj.id, 'COS', 'COS', resObj.licenseSpecialData.COS, 'text');
+
+    fieldGroup.appendChild(field);
+
+    field = createResultField(resObj.id, 'Altura Maxima', 'alt_max', resObj.licenseSpecialData.COS, 'text');
+
+    fieldGroup.appendChild(field);
+
+    field = createResultField(resObj.id, 'Niveles', 'niveles', resObj.licenseSpecialData.niveles, 'text');
+
+    fieldGroup.appendChild(field);
+
     field = createResultField(resObj.id, 'Uso autorizado', 'authorizedUse', resObj.authorizedUse, 'select');
 
     field.querySelector('select').innerHTML = `

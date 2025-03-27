@@ -15,7 +15,7 @@ export async function generateLandUseDP(lcDBObj) {
         styles: docUtils.docStyles,
         content: [
             {
-                text: "\"2024, año de Felipe Carrillo Puerto, Benemérito, Revolucionario y defensor del Mayab\"",
+                text: "\"2025, año de la mujer indígena\"",
                 alignment: 'center',
                 fontSize: 8,
                 margin: [0,0,0,10]
@@ -133,6 +133,19 @@ export async function generateLandUseDP(lcDBObj) {
                                             {},{},{},{},{},{},
                                             {text: 'Clave: ', style: 'labelTC', border: docUtils.borderless},
                                             docUtils.field(lcDBObj.zone.licenseKey, docUtils.borderless, 1, 'center',6)
+                                        ],
+                                        [
+                                            {text: 'COS: ', style: 'labelTC', border: docUtils.borderless, colSpan: 2},
+                                            {},
+                                            docUtils.field(`${lcDBObj.licenseSpecialData.COS}%`, docUtils.borderless, 2, 'center', 6),
+                                            {},
+                                            {text: 'ALTURA MAXIMA: ', style: 'labelTC', border: docUtils.borderless, colSpan: 2},
+                                            {},
+                                            docUtils.field(`${lcDBObj.licenseSpecialData.alt_max} M`, docUtils.borderless, 2, 'center', 6),
+                                            {},
+                                            {text: 'NIVELES: ', style: 'labelTC', border: docUtils.borderless, colSpan: 2},{},
+                                            docUtils.field(`${lcDBObj.licenseSpecialData.niveles}`, docUtils.borderless, 2, 'center', 6),
+                                            {},
                                         ],
                                         [
                                             docUtils.voidCell(),
@@ -270,7 +283,7 @@ export async function generateLandUseDP(lcDBObj) {
                             {},
                             {text: 'Folio de pago: ', style: 'labelTC', colSpan: 2},
                             {},
-                            docUtils.field(`C-${lcDBObj.paymentInvoice}`, docUtils.borderless, 2, 'center',7),
+                            docUtils.field(lcDBObj.paymentInvoice, docUtils.borderless, 2, 'center',7),
                             {}]
                     ]
                 },

@@ -171,10 +171,13 @@ export async function requestLandLicenseCreate(body, file, requestor) {
         cost,
         discount,
         paymentDone,
-        inspector
+        inspector,
+        COS,
+        alt_max,
+        niveles
     } = body;
     
-    if (!licenseType || !requestorName|| !attentionName|| !address|| !number|| !colony|| !contactPhone|| !catastralKey|| !surface|| !georeference|| !zone|| !businessLinePrint|| !businessLineIntern|| !authorizedUse|| !expeditionType|| !term|| !validity|| !requestDate|| !expeditionDate|| !expirationDate|| !paymentInvoice|| !cost|| !discount|| !paymentDone|| !inspector || !file) {
+    if (!licenseType || !requestorName|| !attentionName|| !address|| !number|| !colony|| !contactPhone|| !catastralKey|| !surface|| !georeference|| !zone|| !businessLinePrint|| !businessLineIntern|| !authorizedUse|| !expeditionType|| !term|| !validity|| !requestDate|| !expeditionDate|| !expirationDate|| !paymentInvoice|| !cost|| !discount|| !paymentDone|| !inspector || !COS || !alt_max || !niveles|| !file) {
         return {
             status: 400,
             data: {
@@ -197,6 +200,12 @@ export async function requestLandLicenseCreate(body, file, requestor) {
     const INVOICE_INFO = await landUtils.generateInvoiceInformation(licenseType, YEAR);
 
     const SPECIAL_DATA = landUtils.generateSpecialData(licenseType);
+
+    SPECIAL_DATA.COS = COS;
+    SPECIAL_DATA.alt_max = alt_max;
+    SPECIAL_DATA.niveles = niveles;
+
+    console.log(SPECIAL_DATA);
 
     const NEW_LICENSE_DATA = {
         fullInvoice: INVOICE_INFO.fullInvoice,
@@ -310,10 +319,13 @@ export async function requestLandLicenseUpdate(id, licenseData, file, requestor)
         conditions,
         parcela,
         propertyNo,
-        propertyDate
+        propertyDate,
+        COS,
+        alt_max,
+        niveles
     } = licenseData;
 
-    if (!requestorName && !attentionName && !address && !number && !colony && !contactPhone && !catastralKey && !surface && !georeference && !zone && !businessLinePrint && !businessLineIntern && !authorizedUse && !expeditionType && !term && !validity && !requestDate && !expeditionDate && !expirationDate && !paymentInvoice && !cost && !discount && !paymentDone && !inspector && !anexo && !restrictions && !conditions && !parcela && !propertyNo && !propertyDate && !file) {
+    if (!requestorName && !attentionName && !address && !number && !colony && !contactPhone && !catastralKey && !surface && !georeference && !zone && !businessLinePrint && !businessLineIntern && !authorizedUse && !expeditionType && !term && !validity && !requestDate && !expeditionDate && !expirationDate && !paymentInvoice && !cost && !discount && !paymentDone && !inspector && !anexo && !restrictions && !conditions && !parcela && !propertyNo && !propertyDate && !COS && !alt_max && !niveles && !file) {
         return {
             status: 400,
             data: {
@@ -353,6 +365,9 @@ export async function requestLandLicenseUpdate(id, licenseData, file, requestor)
     newSpecialData.parcela = parcela ? parcela : newSpecialData.parcela;
     newSpecialData.propertyNo = propertyNo ? propertyNo : newSpecialData.propertyNo;
     newSpecialData.propertyDate = propertyDate ? propertyDate : newSpecialData.propertyDate;
+    newSpecialData.COS = COS ? COS : newSpecialData.COS;
+    newSpecialData.alt_max = alt_max ? alt_max : newSpecialData.alt_max;
+    newSpecialData.niveles = niveles ? niveles : newSpecialData.niveles;
 
     const NEW_DATA ={
         requestorName: requestorName,
