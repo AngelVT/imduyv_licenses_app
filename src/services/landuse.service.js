@@ -137,6 +137,30 @@ export async function requestLandLicenseByParameter(parameter, value) {
     };
 }
 
+export async function requestLandLicenseByPrintInvoice(printInvoice) {
+    let LICENSE = await landRepo.findLandLicensePrintInvoice(printInvoice);
+
+    if (LICENSE == null) {
+        return {
+            status: 404,
+            data: {
+                msg: "The requested land use record does not exist"
+            },
+            log: `Request completed record with print invoice ${printInvoice} not found`
+        };
+    }
+
+    LICENSE = specialDataToJSON(LICENSE);
+
+    return {
+        status: 200,
+        data: {
+            license: LICENSE
+        },
+        log: `Request completed record ${LICENSE.id}:${LICENSE.fullInvoice} requested`
+    };
+}
+
 export async function requestLandLicenseCreate(body, file, requestor) {
     const DATE = new Date;
 
@@ -290,6 +314,7 @@ export async function requestLandLicenseUpdate(id, licenseData, file, requestor)
     }
 
     const {
+        licensePrintInvoice,
         requestorName,
         attentionName,
         address,
@@ -325,7 +350,7 @@ export async function requestLandLicenseUpdate(id, licenseData, file, requestor)
         niveles
     } = licenseData;
 
-    if (!requestorName && !attentionName && !address && !number && !colony && !contactPhone && !catastralKey && !surface && !georeference && !zone && !businessLinePrint && !businessLineIntern && !authorizedUse && !expeditionType && !term && !validity && !requestDate && !expeditionDate && !expirationDate && !paymentInvoice && !cost && !discount && !paymentDone && !inspector && !anexo && !restrictions && !conditions && !parcela && !propertyNo && !propertyDate && !COS && !alt_max && !niveles && !file) {
+    if (!licensePrintInvoice && !requestorName && !attentionName && !address && !number && !colony && !contactPhone && !catastralKey && !surface && !georeference && !zone && !businessLinePrint && !businessLineIntern && !authorizedUse && !expeditionType && !term && !validity && !requestDate && !expeditionDate && !expirationDate && !paymentInvoice && !cost && !discount && !paymentDone && !inspector && !anexo && !restrictions && !conditions && !parcela && !propertyNo && !propertyDate && !COS && !alt_max && !niveles && !file) {
         return {
             status: 400,
             data: {
@@ -370,6 +395,7 @@ export async function requestLandLicenseUpdate(id, licenseData, file, requestor)
     newSpecialData.niveles = niveles ? niveles : newSpecialData.niveles;
 
     const NEW_DATA ={
+        licensePrintInvoice: licensePrintInvoice,
         requestorName: requestorName,
         attentionName: attentionName,
         lastModifiedBy: requestor,
@@ -413,6 +439,26 @@ export async function requestLandLicenseUpdate(id, licenseData, file, requestor)
     }
     
     const MODIFIED_LICENSE = await landRepo.saveLandLicense(id, NEW_DATA);
+
+    if (MODIFIED_LICENSE === 400) {
+        return {
+            status: 400,
+            data: {
+                msg: "The print invoice is unique to each license the invoice you are trying to register already exist."
+            },
+            log: `Error updating the invoice provided in the request already exist`
+        };
+    }
+
+    if (MODIFIED_LICENSE === 500) {
+        return {
+            status: 500,
+            data: {
+                msg: `Error updating information for license ${id}`
+            },
+            log: `Error updating information for license ${id}`
+        };
+    }
 
     return {
         status: 200,

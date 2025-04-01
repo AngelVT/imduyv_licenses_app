@@ -15,7 +15,7 @@ export async function generateLandUseDP(lcDBObj) {
         styles: docUtils.docStyles,
         content: [
             {
-                text: "\"2025, año de la mujer indígena\"",
+                text: await docUtils.getYearLegend(lcDBObj.year),
                 alignment: 'center',
                 fontSize: 8,
                 margin: [0,0,0,10]

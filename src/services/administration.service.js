@@ -1,6 +1,7 @@
 import * as periodRepo from '../repositories/administration.repository.js';
 import { capitalizeName } from './user.service.js';
 import { validateDates, validatePeriod } from '../validations/administration.validations.js';
+import { DATE } from 'sequelize';
 
 
 // * Municipal Administration Periods
@@ -702,5 +703,153 @@ export async function requestLicensesPeriodDelete(id) {
             President -> ${DELETED_PERIOD.directorName}
             Period Start -> ${DELETED_PERIOD.administrationStart}
             Period End -> ${DELETED_PERIOD.administrationEnd}`
+    }
+}
+
+// * Licenses Year Legend
+export async function requestYearLegend(id) {
+    const LEGEND = await periodRepo.findYearLegendById(id);
+
+    if (LEGEND == null) {
+        return {
+            status: 404,
+            data: {
+                msg: "Requested year legend not found"
+            },
+            log: `Request completed, no results to show:
+                Requested year legend -> ${id}`
+        }
+    }
+
+    return {
+        status: 200,
+        data: {
+            legend: LEGEND
+        },
+        log: `Request completed: 
+            Requested legend -> ${LEGEND.id}
+            Legend -> "${LEGEND.year}, ${LEGEND.year_legend}"`
+    }
+}
+
+export async function requestYearLegends() {
+    const LEGENDS = await periodRepo.findAllYearLegends();
+
+    if (LEGENDS.length == 0) {
+        return {
+            status: 404,
+            data: {
+                msg: "No year legends found"
+            },
+            log: "Request completed all year legends requested, none found"
+        }
+    }
+
+    return {
+        status: 200,
+        data: {
+            legends: LEGENDS
+        },
+        log: "Request completed all year legends requested"
+    }
+}
+
+export async function requestYearLegendCreate(body) {
+    const { year_legend } = body;
+
+    if (!year_legend) {
+        return {
+            status: 400,
+            data: {
+                msg: "Missing information to complete the registration"
+            },
+            log: "Request failed due to missing required information for registration"
+        }
+    }
+
+    const YEAR = new Date().getFullYear();
+
+    const NEW_LEGEND = await periodRepo.saveNewYearLegend(YEAR, year_legend);
+
+    if (NEW_LEGEND == null) {
+        return {
+            status: 400,
+            data: {
+                msg: `Unable to register year legend due to a legend for ${YEAR} year already exists.`
+            },
+            log: `Unable to register year legend due to a legend for ${YEAR} year already exists.`
+        }
+    }
+
+    return {
+        status: 200,
+        data: {
+            legend: NEW_LEGEND
+        },
+        log: `New  year legend created:
+            Id -> ${NEW_LEGEND.id}
+            Legend -> ${NEW_LEGEND.year}, ${NEW_LEGEND.year_legend}`
+    }
+}
+
+export async function requestYearLegendUpdate(id, body) {
+    const { year_legend } = body;
+    
+    if (!year_legend) {
+        return {
+            status: 400,
+            data: {
+                msg: "Missing information to complete the update"
+            },
+            log: "Request failed due to missing required information for update"
+        }
+    }
+
+    const MODIFIED_LEGEND = await periodRepo.saveYearLegend(id, year_legend);
+
+    if (MODIFIED_LEGEND == null) {
+        return {
+            status: 404,
+            data: {
+                msg: "Requested year legend not found, unable to update"
+            },
+            log: `Request completed, no record to update:
+                Requested period -> ${id}`
+        }
+    }
+
+    return {
+        status: 200,
+        data: {
+            legend: MODIFIED_LEGEND
+        },
+        log: `Request completed, period modified:
+            Id -> ${MODIFIED_LEGEND.id}
+            Legend -> "${MODIFIED_LEGEND.year}, ${MODIFIED_LEGEND.year_legend}"`
+    }
+}
+
+export async function requestYearLegendDelete(id) {
+    const DELETED_LEGEND = await periodRepo.deleteYearLegend(id);
+
+    if (DELETED_LEGEND == null) {
+        return {
+            status: 404,
+            data: {
+                msg: "Requested year legend not found, unable to delete"
+            },
+            log: `Request completed, no record to delete:
+                Requested year legend -> ${id}`
+        }
+    }
+
+    return {
+        status: 200,
+        data: {
+            msg: `Year legend "${DELETED_LEGEND.year}, ${DELETED_LEGEND.year_legend}" deleted successfully`
+        },
+        log:`Request completed, year legend deleted:
+            Id -> ${DELETED_LEGEND.id}
+            Year Legend -> "${DELETED_LEGEND.year}, ${DELETED_LEGEND.year_legend}"`
     }
 }

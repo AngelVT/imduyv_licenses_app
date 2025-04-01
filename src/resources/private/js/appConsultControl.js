@@ -133,6 +133,29 @@ function createResultPeriodTop(obj, periodType) {
     return top;
 }
 
+function createResultYearLegendTop(obj, periodType) {
+    let top = document.createElement('div');
+    let topLabel = document.createElement('p');
+    let span;
+
+    top.setAttribute('id', `result_top_${obj.id}`);
+    top.setAttribute('class', `w-100 dis-flex flex-between flex-center-v padding-small bg-primary border-round controls`);
+
+    topLabel.setAttribute('class', `color-white txt-bold w-100 txt-center result-label`);
+
+    topLabel.setAttribute('onclick', `hideShowPeriod(${obj.id})`);
+
+    topLabel.innerText = 'Leyenda: ';
+    span = document.createElement('span');
+    span.setAttribute('id', `result_period_${periodType}_${obj.id}`);
+    span.innerText = `${obj.year}, ${obj.year_legend}`;
+    topLabel.appendChild(span);
+
+    top.appendChild(topLabel);
+
+    return top;
+}
+
 function createResultContent(id, isPrint) {
     let content = document.createElement('div');
     content.setAttribute('id', `result_fields_${id}`);

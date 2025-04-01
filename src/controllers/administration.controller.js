@@ -274,3 +274,94 @@ export const deleteLicensePeriod = async (req, res) => {
         res.status(500).json({msg: "Internal server error"});
     }
 }
+
+// * Licenses Year Legends
+export const getYearLegend = async (req, res) => {
+    try {
+        const response = await periodsService.requestYearLegends();
+
+        res.status(response.status).json(response.data);
+
+        logger.logRequestInfo('Year legend get all request completed', 
+        `Requestor ID -> ${req.userID}
+        Requestor Name -> ${req.name}
+        Requestor Username -> ${req.username}
+        Get all request -> ${response.log}`);
+    } catch (error) {
+        logger.logConsoleError('Year legend get all request failed due to server side error', error);
+        logger.logRequestError('Year legend get all request failed due to server side error', error);
+        res.status(500).json({msg: "Internal server error"});
+    }
+}
+
+export const getYearLegends = async (req, res) => {
+    try {
+        const response = await periodsService.requestYearLegends();
+
+        res.status(response.status).json(response.data);
+
+        logger.logRequestInfo('Year legend get request completed', 
+        `Requestor ID -> ${req.userID}
+        Requestor Name -> ${req.name}
+        Requestor Username -> ${req.username}
+        Get request -> ${response.log}`);
+    } catch (error) {
+        logger.logConsoleError('Year legend get request failed due to server side error', error);
+        logger.logRequestError('Year legend get request failed due to server side error', error);
+        res.status(500).json({msg: "Internal server error"});
+    }
+}
+
+export const createYearLegend= async (req, res) => {
+    try {
+        const response = await periodsService.requestYearLegendCreate(req.body);
+
+        res.status(response.status).json(response.data);
+
+        logger.logRequestInfo('Year legend create request completed', 
+        `Requestor ID -> ${req.userID}
+        Requestor Name -> ${req.name}
+        Requestor Username -> ${req.username}
+        Create request -> ${response.log}`);
+    } catch (error) {
+        logger.logConsoleError('Year legend create request failed due to server side error', error);
+        logger.logRequestError('Year legend create request failed due to server side error', error);
+        res.status(500).json({msg: "Internal server error"});
+    }
+}
+
+export const updateYearLegend = async (req, res) => {
+    try {
+        const response = await periodsService.requestYearLegendUpdate(req.params.id, req.body);
+
+        res.status(response.status).json(response.data);
+
+        logger.logRequestInfo('Year legend update request completed', 
+        `Requestor ID -> ${req.userID}
+        Requestor Name -> ${req.name}
+        Requestor Username -> ${req.username}
+        Update request -> ${response.log}`);
+    } catch (error) {
+        logger.logConsoleError('Year legend update request failed due to server side error', error);
+        logger.logRequestError('Year legend update request failed due to server side error', error);
+        res.status(500).json({msg: "Internal server error"});
+    }
+}
+
+export const deleteYearLegend = async (req, res) => {
+    try {
+        const response = await periodsService.requestYearLegendDelete(req.params.id);
+
+        res.status(response.status).json(response.data);
+
+        logger.logRequestInfo('Year legend delete request completed', 
+        `Requestor ID -> ${req.userID}
+        Requestor Name -> ${req.name}
+        Requestor Username -> ${req.username}
+        Delete request -> ${response.log}`);
+    } catch (error) {
+        logger.logConsoleError('Year legend delete request failed due to server side error', error);
+        logger.logRequestError('Year legend delete request failed due to server side error', error);
+        res.status(500).json({msg: "Internal server error"});
+    }
+}

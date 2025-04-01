@@ -1,4 +1,4 @@
-import { MunicipalAdministration, InstituteAdministration, LicensesAdministration } from '../models/Administration.models.js';
+import { MunicipalAdministration, InstituteAdministration, LicensesAdministration, YearOf } from '../models/Administration.models.js';
 import { Op } from 'sequelize';
 
 // * Municipal Administration Periods
@@ -46,7 +46,7 @@ export async function saveMunicipalPeriod(id, newData) {
 }
 
 export async function deleteMunicipalPeriod(id) {
-    const DELETED_PERIOD = await findMunicipalPeriodById(id);
+    const DELETED_PERIOD = await MunicipalAdministration.findByPk(id);
 
     if(DELETED_PERIOD == null)
         return null
@@ -138,7 +138,7 @@ export async function saveInstitutePeriod(id, newData) {
 }
 
 export async function deleteInstitutePeriod(id) {
-    const DELETED_PERIOD = await findInstitutePeriodById(id);
+    const DELETED_PERIOD = await InstituteAdministration.findByPk(id);
 
     if(DELETED_PERIOD == null)
         return null
@@ -230,7 +230,7 @@ export async function saveLicensesPeriod(id, newData) {
 }
 
 export async function deleteLicensesPeriod(id) {
-    const DELETED_PERIOD = await findLicensesPeriodById(id);
+    const DELETED_PERIOD = await LicensesAdministration.findByPk(id);
 
     if(DELETED_PERIOD == null)
         return null
@@ -275,4 +275,69 @@ export async function verifyNewLicensesPeriod(id, start, end) {
     }
 
     return true
+}
+
+// * Licenses Year legend
+export async function findAllYearLegends() {
+    return await YearOf.findAll({
+        raw: true,
+        nest: true
+    });
+}
+
+export async function findYearLegendById(id) {
+    return await YearOf.findByPk(id, {
+        raw: true,
+        nest: true
+    });
+}
+
+export async function getYearLegendByYear(year) {
+    return await YearOf.findOne({
+        where: {
+            year: year
+        },
+        raw: true,
+        nest: true
+    });
+}
+
+export async function saveNewYearLegend(year, yearLegend) {
+    const [NEW_LEGEND, CREATED] = await YearOf.findOrCreate({
+        where: {
+            year: year
+        },
+        defaults: {
+            year: year,
+            year_legend: yearLegend
+        },
+        raw: true,
+        nest: true
+    });
+
+    return CREATED ? NEW_LEGEND : null;
+}
+
+export async function saveYearLegend(id, yearLegend) {
+    const MODIFIED_LEGEND = await YearOf.findByPk(id);
+    
+    if(MODIFIED_LEGEND == null)
+        return null;
+
+    await MODIFIED_LEGEND.update({
+        year_legend: yearLegend
+    });
+
+    return MODIFIED_LEGEND;
+}
+
+export async function deleteYearLegend(id) {
+    const DELETED_LEGEND = await YearOf.findByPk(id);
+
+    if(DELETED_LEGEND == null)
+        return null
+
+    await DELETED_LEGEND.destroy();
+
+    return DELETED_LEGEND;
 }

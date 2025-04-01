@@ -74,11 +74,18 @@ export const LicensesAdministration = pool.define(
     }
 );
 
-(async () => {
-    try {
-        await pool.sync();
-    } catch (error) {
-        logger.logConsoleWarning("Error synchronizing administration models with DB", `     -${error}`);
-        logger.logServerWarning('Error synchronizing administration models with DB', `-${error}`);
+export const YearOf = pool.define(
+    'year_of', {
+        year: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+            unique: true
+        },
+        year_legend: {
+            type: DataTypes.STRING,
+            allowNull: false,
+        }
+    },{
+        timestamps: false
     }
-})();
+);

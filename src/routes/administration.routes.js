@@ -37,4 +37,15 @@ router.patch('/licensesPeriod/:id', [authenticator.verifyToken, authenticator.ac
 
 router.delete('/licensesPeriod/:id', [authenticator.verifyToken, authenticator.accountIntegrity, authenticator.isAdmin], administrationControl.deleteLicensePeriod);
 
+// * Licenses year legends
+router.get('/yearLegend/:id', [authenticator.verifyToken, authenticator.accountIntegrity, authenticator.isAdmin], administrationControl.getYearLegend);
+
+router.get('/yearLegend', [authenticator.verifyToken, authenticator.accountIntegrity, authenticator.isAdmin], administrationControl.getYearLegends);
+
+router.post('/yearLegend', [authenticator.verifyToken, authenticator.accountIntegrity, authenticator.isAdmin], administrationControl.createYearLegend);
+
+router.patch('/yearLegend/:id', [authenticator.verifyToken, authenticator.accountIntegrity, authenticator.isAdmin], administrationControl.updateYearLegend);
+
+router.delete('/yearLegend/:id', [authenticator.verifyToken, authenticator.accountIntegrity, authenticator.isAdmin], administrationControl.deleteYearLegend);
+
 export default router;

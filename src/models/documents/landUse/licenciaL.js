@@ -15,7 +15,7 @@ export async function generateLandUseL(lcDBObj) {
         styles: docUtils.docStyles,
         content: [
             {
-                text: "\"2025, año de la mujer indígena\"",
+                text: await docUtils.getYearLegend(lcDBObj.year),
                 alignment: 'center',
                 fontSize: 8,
                 margin: [0,0,0,10]
@@ -128,30 +128,21 @@ export async function generateLandUseL(lcDBObj) {
                                         [
                                             {text: 'Plazo: ', style: 'labelTC', border: docUtils.borderless},
                                             docUtils.field(lcDBObj.term.licenseTerm, docUtils.borderless, 1, 'center', 6),
-                                            {text: 'Zona: ', style: 'labelTC', border: docUtils.borderless},
-                                            docUtils.field(lcDBObj.zone.licenseZone, docUtils.borderless, 7, 'center', 7),
-                                            {},{},{},{},{},{},
+                                            {text: 'COS: ', style: 'labelTC', border: docUtils.borderless},
+                                            docUtils.field(`${lcDBObj.licenseSpecialData.COS}%`, docUtils.borderless, 1, 'center', 7),
+                                            {text: 'Altura maxima: ', style: 'labelTC', border: docUtils.borderless, colSpan: 2},
+                                            {},
+                                            docUtils.field(`${lcDBObj.licenseSpecialData.alt_max} M`, docUtils.borderless, 2, 'center', 6),
+                                            {},
+                                            {text: 'Niveles: ', style: 'labelTC', border: docUtils.borderless},
+                                            docUtils.field(lcDBObj.licenseSpecialData.niveles, docUtils.borderless, 1, 'center', 6),
                                             {text: 'Clave: ', style: 'labelTC', border: docUtils.borderless},
                                             docUtils.field(lcDBObj.zone.licenseKey, docUtils.borderless, 1, 'center',6)
                                         ],
                                         [
-                                            {text: 'COS: ', style: 'labelTC', border: docUtils.borderless, colSpan: 2},
-                                            {},
-                                            docUtils.field(`${lcDBObj.licenseSpecialData.COS}%`, docUtils.borderless, 2, 'center', 6),
-                                            {},
-                                            {text: 'ALTURA MAXIMA: ', style: 'labelTC', border: docUtils.borderless, colSpan: 2},
-                                            {},
-                                            docUtils.field(`${lcDBObj.licenseSpecialData.alt_max} M`, docUtils.borderless, 2, 'center', 6),
-                                            {},
-                                            {text: 'NIVELES: ', style: 'labelTC', border: docUtils.borderless, colSpan: 2},
-                                            {},
-                                            docUtils.field(`${lcDBObj.licenseSpecialData.niveles}`, docUtils.borderless, 2, 'center', 6),
-                                            {},
-                                        ],
-                                        [
                                             {text: 'Uso de suelo permitido: ', style: 'labelTC', border: docUtils.borderless, colSpan: 3},
                                             {},{},
-                                            docUtils.field(lcDBObj.authorized_use.licenseAuthUse, docUtils.borderless, 9, 'center', 7),
+                                            docUtils.field(lcDBObj.zone.licenseZone, docUtils.borderless, 9, 'center', 7),
                                             {},{},{},{},{},{},{},{}
                                         ],
                                         [

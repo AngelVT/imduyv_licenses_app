@@ -1,9 +1,11 @@
+import { pool } from "./database.configuration.js";
 import { User, Role, Group } from "../models/Users.models.js";
-import { Type, Term, Zone, AuthUse, Validity, ExpeditionType, UrbanType } from "../models/License.models.js";
+import { Type, Term, Zone, AuthUse, Validity, ExpeditionType, UrbanType, LandUseLicense, UrbanLicense } from "../models/License.models.js";
+import { InstituteAdministration, LicensesAdministration, MunicipalAdministration, YearOf } from "../models/Administration.models.js";
 import { encryptPassword } from "../utilities/password.utilities.js";
 import * as logger from "../utilities/logger.utilities.js";
 
-export const setDefaultRoles = async () => {
+const setDefaultRoles = async () => {
     try {
         await Role.sync();
 
@@ -31,7 +33,7 @@ export const setDefaultRoles = async () => {
     }
 }
 
-export const setDefaultGroups = async () => {
+const setDefaultGroups = async () => {
     try {
         await Group.sync();
 
@@ -57,7 +59,7 @@ export const setDefaultGroups = async () => {
     }
 }
 
-export const setDefaultUsers = async () => {
+const setDefaultUsers = async () => {
     try {
         await User.sync();
 
@@ -85,7 +87,7 @@ export const setDefaultUsers = async () => {
     }
 }
 
-export const setDefaultLicenseTypes = async () => {
+const setDefaultLicenseTypes = async () => {
     try {
         await Type.sync();
 
@@ -117,7 +119,7 @@ export const setDefaultLicenseTypes = async () => {
     }
 }
 
-export const setDefaultLicenseTerms = async () => {
+const setDefaultLicenseTerms = async () => {
     try {
         await Term.sync();
 
@@ -143,7 +145,7 @@ export const setDefaultLicenseTerms = async () => {
     }
 }
 
-export const setDefaultLicenseZones = async () => {
+const setDefaultLicenseZones = async () => {
     try {
         await Zone.sync();
 
@@ -209,7 +211,7 @@ export const setDefaultLicenseZones = async () => {
     }
 }
 
-export const setDefaultLicenseAuthUses = async () => {
+const setDefaultLicenseAuthUses = async () => {
     try {
         await AuthUse.sync();
 
@@ -335,7 +337,7 @@ export const setDefaultLicenseAuthUses = async () => {
     }
 }
 
-export const setDefaultLicenseValidities = async () => {
+const setDefaultLicenseValidities = async () => {
     try {
         await Validity.sync();
 
@@ -359,7 +361,7 @@ export const setDefaultLicenseValidities = async () => {
     }
 }
 
-export const setDefaultLicenseExpeditionTypes = async () => {
+const setDefaultLicenseExpeditionTypes = async () => {
     try {
         await ExpeditionType.sync();
 
@@ -385,7 +387,7 @@ export const setDefaultLicenseExpeditionTypes = async () => {
     }
 }
 
-export const setDefaultUrbanLicenseTypes = async () => {
+const setDefaultUrbanLicenseTypes = async () => {
     try {
         await UrbanType.sync();
 
@@ -421,4 +423,32 @@ export const setDefaultUrbanLicenseTypes = async () => {
         logger.logConsoleWarning(`Error establishing default urban license types:\n    ${error}`);
         logger.logServerWarning(`Error establishing default urban license types`, `-${error}`);
     }
+}
+
+const syncModels = async () => {
+    try {
+        await LandUseLicense.sync();
+        await UrbanLicense.sync();
+        await MunicipalAdministration.sync();
+        await InstituteAdministration.sync();
+        await LicensesAdministration.sync();
+        await YearOf.sync();
+    } catch (error) {
+        logger.logConsoleWarning(`Error synchronizing models:\n    ${error}`);
+        logger.logServerWarning(`Error synchronizing models`, `-${error}`);
+    }
+}
+
+export const setDBDefaults = async () => {
+    await setDefaultRoles();
+    await setDefaultGroups();
+    await setDefaultUsers();
+    await setDefaultLicenseTypes();
+    await setDefaultLicenseTerms();
+    await setDefaultLicenseZones();
+    await setDefaultLicenseAuthUses();
+    await setDefaultLicenseValidities();
+    await setDefaultLicenseExpeditionTypes();
+    await setDefaultUrbanLicenseTypes();
+    await syncModels();
 }

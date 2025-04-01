@@ -7,7 +7,7 @@ import path from 'path';
 import config from './configuration/general.configuration.js';
 import { __dirname, __dirstorage } from './path.configuration.js';
 import { checkDB } from './configuration/database.configuration.js';
-import * as defaults from './configuration/databaseValues.configuration.js';
+import { setDBDefaults } from './configuration/databaseValues.configuration.js';
 import { setDefaultDirectories } from './configuration/storage.configuration.js';
 import { verifyToken, isLandUser, isUrbanUser } from './middlewares/auth.JWT.js';
 
@@ -23,16 +23,7 @@ const app = express();
 
 checkDB();
 
-defaults.setDefaultRoles();
-defaults.setDefaultGroups();
-defaults.setDefaultUsers();
-defaults.setDefaultLicenseTypes();
-defaults.setDefaultLicenseTerms();
-defaults.setDefaultLicenseZones();
-defaults.setDefaultLicenseAuthUses();
-defaults.setDefaultLicenseValidities();
-defaults.setDefaultLicenseExpeditionTypes();
-defaults.setDefaultUrbanLicenseTypes();
+setDBDefaults();
 setDefaultDirectories();
 
 app.use(express.json({ limit: '5mb' }));

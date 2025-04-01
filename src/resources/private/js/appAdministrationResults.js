@@ -1,6 +1,7 @@
 const municipalResults = document.getElementById('municipal_results');
 const instituteResults = document.getElementById('institute_results');
 const licenseResults = document.getElementById('license_results');
+const yearLegendResults = document.getElementById('year_legend_results');
 
 async function getMunicipalPeriods() {
     await fetch(`/api/administration/municipalPeriod`, {
@@ -95,11 +96,44 @@ async function getLicensesPeriods() {
         });
 }
 
+async function getYearLegends() {
+    await fetch(`/api/administration/yearLegend`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        credentials: 'include'
+    })
+        .then(async res => {
+            let response = await res.json();
+            if (res.ok) {
+                let content = res.headers.get('Content-Type');
+                if (content.includes('text/html')) {
+                    location.href = res.url;
+                    return;
+                }
+
+                for (const element of response.legends) {
+                    createYearLegendResult(element, yearLegendResults)
+                }
+
+                return;
+            }
+            console.log(response.msg);
+            return;
+        })
+        .catch(error => {
+            console.error('Error during fetch: ', error)
+        });
+}
+
 getMunicipalPeriods();
 
 getInstitutePeriods();
 
 getLicensesPeriods();
+
+getYearLegends();
 
 async function updateResultField(form, id, url, periodType) {
     let registro = document.querySelector(`#result_period_${periodType}_${id}`).innerText;
@@ -246,6 +280,27 @@ function generateLicenseFields(resObj, resultContent) {
     resultContent.appendChild(field);
 
     field = createResultPeriodField(resObj.id, 'Fecha de finalización', 'administrationEnd', resObj.administrationEnd, 'date', '/api/administration/licensesPeriod', 'license');
+    resultContent.appendChild(field);
+
+    return resultContent;
+}
+
+// * -----------------------------------------------------------------------------------
+function createYearLegendResult(resObj, target) {
+    let resultContent = generateYearLegendFields(resObj, createResultPeriodContent(resObj.id));
+
+    let newResult = createResult(
+        resObj.id,
+        createResultYearLegendTop(resObj, 'year_legend'), 
+        resultContent);
+
+    target.appendChild(newResult);
+}
+
+function generateYearLegendFields(resObj, resultContent) {
+    let field;
+
+    field = createResultPeriodField(resObj.id, 'Leyenda del año', 'year_legend', resObj.year_legend, 'text', '/api/administration/yearLegend', 'year_legend');
     resultContent.appendChild(field);
 
     return resultContent;

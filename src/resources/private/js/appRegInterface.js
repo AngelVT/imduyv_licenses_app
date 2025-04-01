@@ -4,7 +4,8 @@ const fieldPCU = document.getElementById('pcu_field');
 const fieldCOS = document.getElementById('COS');
 const fieldALT = document.getElementById('alt_max');
 const fieldNiveles = document.getElementById('niveles');
-const fieldZonePlaceholder = document.getElementById('zone_placeholder')
+const fieldZonePlaceholder = document.getElementById('zone_placeholder');
+const fieldTerm = document.getElementById('term');
 
 const fieldSurfaceIn = document.getElementById('input_surface_in');
 const fieldSurfaceOut = document.getElementById('input_surface_out');
@@ -56,6 +57,7 @@ btnGeoSearch.addEventListener(
             numericZone: fieldZone,
             zone: fieldZonePlaceholder,
             key: fieldKey,
+            term: fieldTerm,
             COS: fieldCOS,
             alt_max: fieldALT,
             niveles: fieldNiveles,

@@ -2,6 +2,7 @@ const invoiceBtn = document.getElementById('invoice_btn');
 const municipalBtn = document.getElementById('municipal_btn');
 const instituteBtn = document.getElementById('institute_btn');
 const licenseBtn = document.getElementById('license_btn');
+const yearLegendBtn = document.getElementById('year_legend_btn');
 
 const menuBtns = document.getElementById('top_menu').querySelectorAll('li');
 const menuPanels = document.getElementById('panel_container').querySelectorAll('article');
@@ -11,11 +12,13 @@ const urbanForm = document.getElementById('invoice_form_urban');
 const municipalForm = document.getElementById('municipal_form');
 const instituteForm = document.getElementById('institute_form');
 const licenseForm = document.getElementById('license_form');
+const yearLegendForm = document.getElementById('year_legend_form');
 
 const invoicePanel = document.getElementById('admin_invoices');
 const municipalPanel = document.getElementById('admin_municipal');
 const institutePanel = document.getElementById('admin_institute');
 const licensePanel = document.getElementById('admin_direction');
+const yearLegendPanel = document.getElementById('year_legend');
 
 invoiceBtn.addEventListener('click', () => {
     hideAndUnselectAll();
@@ -39,6 +42,12 @@ licenseBtn.addEventListener('click', () => {
     hideAndUnselectAll();
     licenseBtn.classList.add('selected');
     licensePanel.classList.remove('dis-none');
+});
+
+yearLegendBtn.addEventListener('click', () => {
+    hideAndUnselectAll();
+    yearLegendBtn.classList.add('selected');
+    yearLegendPanel.classList.remove('dis-none');
 });
 
 landForm.addEventListener('submit', async event => {
@@ -237,6 +246,42 @@ licenseForm.addEventListener('submit', async event => {
                 Director(a): ${response.period.directorName}
                 Inicio: ${response.period.administrationStart}
                 Finalización: ${response.period.administrationEnd}`);
+                licenseForm.reset();
+                return;
+            }
+            alert(response.msg);
+            return;
+        })
+        .catch(error => {
+            console.error('Error during fetch: ', error)
+        });
+});
+
+yearLegendForm.addEventListener('submit', async event => {
+    event.preventDefault();
+
+    const data = Object.fromEntries(new FormData(yearLegendForm));
+
+    await fetch(`/api/administration/yearLegend`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        credentials: 'include',
+        body: JSON.stringify(data)
+    })
+        .then(async res => {
+            let response = await res.json();
+            if (res.ok) {
+                let content = res.headers.get('Content-Type');
+                if (content.includes('text/html')) {
+                    location.href = res.url;
+                    return;
+                }
+
+                alert(`
+                Leyenda registrada:
+                "${response.legend.year}, ${response.legend.year_legend}"`);
                 licenseForm.reset();
                 return;
             }

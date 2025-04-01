@@ -45,6 +45,17 @@ export async function findLandLicenseId(id) {
     });
 }
 
+export async function findLandLicensePrintInvoice(printInvoice) {
+    return await LandUseLicense.findOne({
+        where: {
+            licensePrintInvoice: printInvoice
+        },
+        include: LAND_USE_MODELS,
+        raw: true,
+        nest: true
+    });
+}
+
 export async function findLandLicenseInvoice(type, invoice, year) {
     return await LandUseLicense.findOne({
         where: {
@@ -105,7 +116,14 @@ export async function saveLandLicense(id, newData) {
 
     if (MODIFIED_LICENSE == null) return null;
 
-    await MODIFIED_LICENSE.update(newData);
+    try {
+        await MODIFIED_LICENSE.update(newData);
+    } catch (error) {
+        if (error.name === 'SequelizeUniqueConstraintError') {
+            return 400
+        }
+        return 500
+    }
 
     if (newData.zone || newData.authorizedUse || newData.validity || newData.expeditionType || newData.term) {
         await MODIFIED_LICENSE.reload({include: LAND_USE_MODELS});

@@ -62,12 +62,3 @@ export const Group = pool.define(
 
 User.belongsTo(Role);
 User.belongsTo(Group);
-
-(async () => {
-    try {
-        await pool.sync();
-    } catch (error) {
-        logger.logConsoleWarning("Error synchronizing user models with DB", `     -${error}`);
-        logger.logServerWarning('Error synchronizing user models with DB', `-${error}`);
-    }
-})();

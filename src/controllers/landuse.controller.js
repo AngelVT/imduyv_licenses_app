@@ -104,6 +104,26 @@ export const getLicenseBy = async (req, res) => {
     }
 }
 
+export const getLicenseByPrintInvoice = async (req, res) => {
+    try {
+        const PRINT_INVOICE = parseInt(req.params.printInvoice);
+
+        const response = await landService.requestLandLicenseByPrintInvoice(PRINT_INVOICE);
+
+        res.status(response.status).json(response.data);
+
+        logger.logRequestInfo('Land use get request completed', 
+        `Requestor ID -> ${req.userID}
+        Requestor Name -> ${req.name}
+        Requestor Username -> ${req.username}
+        Get request -> ${response.log}`);
+    } catch (error) {
+        logger.logConsoleError('Land records by attribute request failed due to server side error', error);
+        logger.logRequestError('Land records by attribute request failed due to server side error', error);
+        res.status(500).json({msg: "Internal server error"});
+    }
+}
+
 export const createLicense = async (req, res) => {
     try {
         const DATA = req.body;

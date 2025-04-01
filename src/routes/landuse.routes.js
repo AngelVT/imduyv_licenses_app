@@ -16,6 +16,8 @@ router.get('/t/:type/i/:invoice/y/:year', [authenticator.verifyToken, authentica
 
 router.get('/t/:type/y/:year', [authenticator.verifyToken, authenticator.accountIntegrity , authenticator.isLandUser] , landControl.getLicenseByType);
 
+router.get('/pi/:printInvoice', [authenticator.verifyToken, authenticator.accountIntegrity , authenticator.isLandUser] , landControl.getLicenseByPrintInvoice);
+
 router.get('/check', [authenticator.verifyToken, authenticator.accountIntegrity , authenticator.isLandUser] , landControl.checkInvoices);
 
 router.post('/', [authenticator.verifyToken, authenticator.accountIntegrity , authenticator.isLandUser , authenticator.isModerator, up.single('zoneIMG')] , landControl.createLicense);

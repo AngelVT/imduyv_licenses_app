@@ -1,7 +1,7 @@
 import { __dirstorage, __dirname } from "../path.configuration.js";
 import path from "path";
 import fs from 'fs';
-import { getMunicipalPeriodByDate, getInstitutePeriodByDate, getLicensesPeriodByDate } from "../repositories/administration.repository.js";
+import { getMunicipalPeriodByDate, getInstitutePeriodByDate, getLicensesPeriodByDate, getYearLegendByYear } from "../repositories/administration.repository.js";
 
 export const borderless = [false, false, false, false];
 
@@ -433,6 +433,16 @@ export async function getLicensesDirectorName(date) {
     }
 
     return madeBy(capitalize(PERIOD.directorName));
+}
+
+export async function getYearLegend(year) {
+    const LEGEND = await getYearLegendByYear(year);
+
+    if (!LEGEND) {
+        return `"${year}, legenda del año no definida."`
+    }
+
+    return `"${LEGEND.year}, ${LEGEND.year_legend}"`
 }
 
 function capitalize(str) {

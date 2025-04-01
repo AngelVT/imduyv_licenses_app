@@ -1,7 +1,7 @@
 import { point, booleanPointInPolygon } from '@turf/turf';
 import { ZONE_DATA } from "../resources/data/appZonesData.js";
 import { PCU_DATA } from "../resources/data/appPCUData.js";
-import { Zone } from "../models/License.models.js";
+import { Zone, Term } from "../models/License.models.js";
 
 export async function requestCoordinateCheck(coordinates) {
     if (!coordinates) {
@@ -53,6 +53,12 @@ export async function requestCoordinateCheck(coordinates) {
         }
     }
 
+    const TERM = await Term.findOne({
+        where: {
+            licenseTerm: coordinateData.Plazo.toLowerCase()
+        }
+    });
+
     const ZONE = await Zone.findOne({
         where: {
             licenseKey: coordinateData.Clave
@@ -77,6 +83,8 @@ export async function requestCoordinateCheck(coordinates) {
                 numericZone: ZONE.id,
                 zone: ZONE.licenseZone,
                 key: ZONE.licenseKey,
+                numericTerm: TERM.id,
+                term: TERM.licenseTerm,
                 COS: coordinateData.COS,
                 alt_max: coordinateData.alt_max,
                 niveles: coordinateData.niveles,

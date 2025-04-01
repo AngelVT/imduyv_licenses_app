@@ -98,6 +98,11 @@ export const LandUseLicense = pool.define(
             type: DataTypes.INTEGER,
             allowNull: false
         },
+        licensePrintInvoice: {
+            type: DataTypes.INTEGER,
+            allowNull: true,
+            unique: true
+        },
         requestorName: {
             type: DataTypes.STRING,
             allowNull: false
@@ -398,12 +403,3 @@ UrbanLicense.belongsTo(UrbanType, {foreignKey: 'licenseType'});
 UrbanLicense.belongsTo(Zone, {foreignKey: 'licenseZone'});
 UrbanLicense.belongsTo(Term, {foreignKey: 'licenseTerm'});
 UrbanLicense.belongsTo(Validity, {foreignKey: 'licenseValidity'});
-
-(async () => {
-    try {
-        await pool.sync();
-    } catch (error) {
-        logger.logConsoleWarning("Error synchronizing license models with DB", `     -${error}`);
-        logger.logServerWarning('Error synchronizing license models with DB', `-${error}`);
-    }
-})();

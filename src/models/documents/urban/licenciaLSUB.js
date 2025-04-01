@@ -60,7 +60,7 @@ export async function generateUrbanLSUB(lcDBObj) {
         styles: docUtils.docStyles,
         content: [
             {
-                text: "\"2024, año de Felipe Carrillo Puerto, Benemérito, Revolucionario y defensor del Mayab\"",
+                text: await docUtils.getYearLegend(lcDBObj.year),
                 alignment: 'center',
                 fontSize: 8,
                 margin: [0,0,0,10]
