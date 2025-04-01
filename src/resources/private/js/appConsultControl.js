@@ -13,9 +13,9 @@ function hideShow(id) {
     fields.classList.toggle("dis-none");
 }
 
-function hideShowPeriod(id) {
-    let resultTop = document.querySelector(`#result_top_${id}`);
-    let fields = document.querySelector(`#result_fields_${id}`);
+function hideShowPeriod(id, periodType) {
+    let resultTop = document.querySelector(`#result_${periodType}_top_${id}`);
+    let fields = document.querySelector(`#result_${periodType}_fields_${id}`);
 
     fields.classList.toggle("dis-none");
     resultTop.classList.toggle("border-round");
@@ -115,12 +115,12 @@ function createResultPeriodTop(obj, periodType) {
     let topLabel = document.createElement('p');
     let span;
 
-    top.setAttribute('id', `result_top_${obj.id}`);
+    top.setAttribute('id', `result_${periodType}_top_${obj.id}`);
     top.setAttribute('class', `w-100 dis-flex flex-between flex-center-v padding-small bg-primary border-round controls`);
 
     topLabel.setAttribute('class', `color-white txt-bold w-100 txt-center result-label`);
 
-    topLabel.setAttribute('onclick', `hideShowPeriod(${obj.id})`);
+    topLabel.setAttribute('onclick', `hideShowPeriod(${obj.id}, '${periodType}')`);
 
     topLabel.innerText = 'Periodo: ';
     span = document.createElement('span');
@@ -138,12 +138,12 @@ function createResultYearLegendTop(obj, periodType) {
     let topLabel = document.createElement('p');
     let span;
 
-    top.setAttribute('id', `result_top_${obj.id}`);
+    top.setAttribute('id', `result_${periodType}_top_${obj.id}`);
     top.setAttribute('class', `w-100 dis-flex flex-between flex-center-v padding-small bg-primary border-round controls`);
 
     topLabel.setAttribute('class', `color-white txt-bold w-100 txt-center result-label`);
 
-    topLabel.setAttribute('onclick', `hideShowPeriod(${obj.id})`);
+    topLabel.setAttribute('onclick', `hideShowPeriod(${obj.id}, '${periodType}')`);
 
     topLabel.innerText = 'Leyenda: ';
     span = document.createElement('span');
@@ -163,9 +163,9 @@ function createResultContent(id, isPrint) {
     return content;
 }
 
-function createResultPeriodContent(id) {
+function createResultPeriodContent(id, periodType) {
     let content = document.createElement('div');
-    content.setAttribute('id', `result_fields_${id}`);
+    content.setAttribute('id', `result_${periodType}_fields_${id}`);
     content.setAttribute('class', `w-100 dis-none dis-flex flex-center flex-wrap border-all border-primary padding-medium border-round-bottom`);
     return content;
 }

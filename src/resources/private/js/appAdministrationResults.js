@@ -200,7 +200,7 @@ async function updateResultField(form, id, url, periodType) {
 
 // * -----------------------------------------------------------------------------------
 function createMunicipalResult(resObj, target) {
-    let resultContent = generateMunicipalFields(resObj, createResultPeriodContent(resObj.id));
+    let resultContent = generateMunicipalFields(resObj, createResultPeriodContent(resObj.id, 'municipal'));
 
     let newResult = createResult(
         resObj.id,
@@ -227,7 +227,7 @@ function generateMunicipalFields(resObj, resultContent) {
 
 // * -----------------------------------------------------------------------------------
 function createInstituteResult(resObj, target) {
-    let resultContent = generateInstituteFields(resObj, createResultPeriodContent(resObj.id));
+    let resultContent = generateInstituteFields(resObj, createResultPeriodContent(resObj.id, 'institute'));
 
     let newResult = createResult(
         resObj.id,
@@ -260,7 +260,7 @@ function generateInstituteFields(resObj, resultContent) {
 
 // * -----------------------------------------------------------------------------------
 function createLicenseResult(resObj, target) {
-    let resultContent = generateLicenseFields(resObj, createResultPeriodContent(resObj.id));
+    let resultContent = generateLicenseFields(resObj, createResultPeriodContent(resObj.id, 'license'));
 
     let newResult = createResult(
         resObj.id,
@@ -287,7 +287,7 @@ function generateLicenseFields(resObj, resultContent) {
 
 // * -----------------------------------------------------------------------------------
 function createYearLegendResult(resObj, target) {
-    let resultContent = generateYearLegendFields(resObj, createResultPeriodContent(resObj.id));
+    let resultContent = generateYearLegendFields(resObj, createResultPeriodContent(resObj.id, 'year_legend'));
 
     let newResult = createResult(
         resObj.id,
