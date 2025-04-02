@@ -5,6 +5,24 @@ import { InstituteAdministration, LicensesAdministration, MunicipalAdministratio
 import { encryptPassword } from "../utilities/password.utilities.js";
 import * as logger from "../utilities/logger.utilities.js";
 
+const createSchemas = async () => {
+    try {
+        pool.query('CREATE SCHEMA IF NOT EXISTS users');
+        pool.query('CREATE SCHEMA IF NOT EXISTS administration');
+        pool.query('CREATE SCHEMA IF NOT EXISTS licenses');
+
+        logger.logConsoleInfo("Schemas established successfully");
+        logger.logServerInfo("Schemas established successfully", 
+        `Schema -> users
+        Schema -> administration
+        Schema  -> licenses`);
+
+    } catch (error) {
+        logger.logConsoleWarning(`Error establishing schemas:\n    ${error}`);
+        logger.logServerWarning(`Error establishing schemas`, `-${error}`);
+    }
+}
+
 const setDefaultRoles = async () => {
     try {
         await Role.sync();
@@ -440,6 +458,7 @@ const syncModels = async () => {
 }
 
 export const setDBDefaults = async () => {
+    await createSchemas();
     await setDefaultRoles();
     await setDefaultGroups();
     await setDefaultUsers();

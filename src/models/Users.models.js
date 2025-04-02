@@ -1,64 +1,64 @@
 import { DataTypes } from 'sequelize';
 import { pool } from '../configuration/database.configuration.js';
 
-import * as logger from "../utilities/logger.utilities.js";
-
 // TODO uncomment the email in preparation for public deployment
 export const User = pool.define(
     'user', {
-        name: {
-            type: DataTypes.STRING(45),
-            allowNull: false,
-        },
-        /*email: {
-            type: DataTypes.STRING(45),
-            allowNull: false,
-            unique: true
-        },*/
-        username: {
-            type: DataTypes.STRING(45),
-            allowNull: false,
-            unique: true
-        },
-        password: {
-            type: DataTypes.STRING,
-            allowNull: false
-        },
-        requiredPasswordReset: {
-            type: DataTypes.BOOLEAN,
-            allowNull: true,
-            defaultValue: true
-        },
-        locked: {
-            type: DataTypes.BOOLEAN,
-            allowNull: true,
-            defaultValue: false
-        },
-    }
-);
+    name: {
+        type: DataTypes.STRING(45),
+        allowNull: false,
+    },
+    /*email: {
+        type: DataTypes.STRING(45),
+        allowNull: false,
+        unique: true
+    },*/
+    username: {
+        type: DataTypes.STRING(45),
+        allowNull: false,
+        unique: true
+    },
+    password: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
+    requiredPasswordReset: {
+        type: DataTypes.BOOLEAN,
+        allowNull: true,
+        defaultValue: true
+    },
+    locked: {
+        type: DataTypes.BOOLEAN,
+        allowNull: true,
+        defaultValue: false
+    },
+}, {
+    schema: 'users'
+});
 
 export const Role = pool.define(
     'role', {
-        role: {
+    role: {
         type: DataTypes.STRING(45),
         allowNull: false,
         unique: true
     }
-},{
-        timestamps: false
+}, {
+    timestamps: false,
+    schema: 'users'
 });
 
 export const Group = pool.define(
-        'group', {
-            group: {
-                type: DataTypes.STRING(45),
-                allowNull: false,
-                unique:true
-            }
-        },{
-            timestamps: false
-        }
-    );
+    'group', {
+    group: {
+        type: DataTypes.STRING(45),
+        allowNull: false,
+        unique: true
+    }
+}, {
+    timestamps: false,
+    schema: 'users'
+});
 
 User.belongsTo(Role);
 User.belongsTo(Group);

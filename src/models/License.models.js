@@ -1,405 +1,405 @@
 import { DataTypes } from "sequelize";
 import { pool } from '../configuration/database.configuration.js';
 
-import * as logger from "../utilities/logger.utilities.js";
-
 //models for licenses go here
 
 export const Type = pool.define(
     'type', {
-        licenseType: {
-            type: DataTypes.STRING,
-            allowNull: false
-        }
-    },{
-        timestamps: false
+    licenseType: {
+        type: DataTypes.STRING,
+        allowNull: false
     }
-);
+}, {
+    timestamps: false,
+    schema: 'licenses'
+});
 
 export const Term = pool.define(
     'term', {
-        licenseTerm: {
-            type: DataTypes.STRING,
-            allowNull: false
-        }
-    },{
-        timestamps: false
+    licenseTerm: {
+        type: DataTypes.STRING,
+        allowNull: false
     }
-);
+}, {
+    timestamps: false,
+    schema: 'licenses'
+});
 
 export const Zone = pool.define(
     'zone', {
-        licenseZone: {
-            type: DataTypes.STRING,
-            allowNull: false
-        },
-        licenseKey: {
-            type: DataTypes.STRING,
-            allowNull: false
-        }
-
-    },{
-        timestamps: false
+    licenseZone: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
+    licenseKey: {
+        type: DataTypes.STRING,
+        allowNull: false
     }
-);
+
+}, {
+    timestamps: false,
+    schema: 'licenses'
+});
 
 export const AuthUse = pool.define(
     'authorized_use', {
-        licenseAuthUse: {
-            type: DataTypes.STRING,
-            allowNull: false
-        }
-    },{
-        timestamps: false
+    licenseAuthUse: {
+        type: DataTypes.STRING,
+        allowNull: false
     }
-);
+}, {
+    timestamps: false,
+    schema: 'licenses'
+});
 
 export const Validity = pool.define(
     'validity', {
-        licenseValidity: {
-            type: DataTypes.STRING,
-            allowNull: false
-        }
-    },{
-        timestamps: false
+    licenseValidity: {
+        type: DataTypes.STRING,
+        allowNull: false
     }
-);
+}, {
+    timestamps: false,
+    schema: 'licenses'
+});
 
 export const ExpeditionType = pool.define(
     'expedition_type', {
-        licenseExpType: {
-            type: DataTypes.STRING,
-            allowNull: false
-        }
-    },{
-        timestamps: false
+    licenseExpType: {
+        type: DataTypes.STRING,
+        allowNull: false
     }
-);
+}, {
+    timestamps: false,
+    schema: 'licenses'
+});
 
 export const LandUseLicense = pool.define(
-    'landUse_license',{
-        fullInvoice: {
-            type: DataTypes.STRING,
-            allowNull: false
+    'landUse_license', {
+    fullInvoice: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
+    invoice: {
+        type: DataTypes.INTEGER,
+        allowNull: false
+    },
+    licenseType: {
+        type: DataTypes.INTEGER,
+        references: {
+            model: Type,
+            key: 'id'
         },
-        invoice: {
-            type: DataTypes.INTEGER,
-            allowNull: false
+        allowNull: false
+    },
+    year: {
+        type: DataTypes.INTEGER,
+        allowNull: false
+    },
+    licensePrintInvoice: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
+        unique: true
+    },
+    requestorName: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
+    attentionName: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
+    elaboratedBy: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
+    lastModifiedBy: {
+        type: DataTypes.STRING,
+        allowNull: true,
+        defaultValue: 'New record'
+    },
+    requestDate: {
+        type: DataTypes.DATEONLY,
+        allowNull: false
+    },
+    address: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
+    number: {
+        type: DataTypes.STRING,
+        allowNull: true,
+        defaultValue: 'S/N'
+    },
+    colony: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
+    surfaceTotal: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
+    catastralKey: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
+    licenseTerm: {
+        type: DataTypes.INTEGER,
+        references: {
+            model: Term,
+            key: 'id'
         },
-        licenseType: {
-            type: DataTypes.INTEGER,
-            references: {
-                model: Type,
-                key: 'id'
-            },
-            allowNull: false
+        allowNull: false
+    },
+    geoReference: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
+    licenseZone: {
+        type: DataTypes.INTEGER,
+        references: {
+            model: Zone,
+            key: 'id'
         },
-        year: {
-            type: DataTypes.INTEGER,
-            allowNull: false
+        allowNull: false
+    },
+    authorizedUse: {
+        type: DataTypes.INTEGER,
+        references: {
+            model: AuthUse,
+            key: 'id'
         },
-        licensePrintInvoice: {
-            type: DataTypes.INTEGER,
-            allowNull: true,
-            unique: true
+        allowNull: false
+    },
+    businessLinePrint: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
+    businessLineIntern: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
+    expeditionDate: {
+        type: DataTypes.DATEONLY,
+        allowNull: false
+    },
+    licenseValidity: {
+        type: DataTypes.INTEGER,
+        references: {
+            model: Validity,
+            key: 'id'
         },
-        requestorName: {
-            type: DataTypes.STRING,
-            allowNull: false
+        allowNull: false
+    },
+    paymentInvoice: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
+    expirationDate: {
+        type: DataTypes.DATEONLY,
+        allowNull: false
+    },
+    licenseExpeditionType: {
+        type: DataTypes.INTEGER,
+        references: {
+            model: ExpeditionType,
+            key: 'id'
         },
-        attentionName: {
-            type: DataTypes.STRING,
-            allowNull: false
-        },
-        elaboratedBy: {
-            type: DataTypes.STRING,
-            allowNull: false
-        },
-        lastModifiedBy: {
-            type: DataTypes.STRING,
-            allowNull: true,
-            defaultValue: 'New record'
-        },
-        requestDate: {
-            type: DataTypes.DATEONLY,
-            allowNull: false
-        },
-        address: {
-            type: DataTypes.STRING,
-            allowNull: false
-        },
-        number: {
-            type: DataTypes.STRING,
-            allowNull: true,
-            defaultValue: 'S/N'
-        },
-        colony: {
-            type: DataTypes.STRING,
-            allowNull: false
-        },
-        surfaceTotal: {
-            type: DataTypes.STRING,
-            allowNull: false
-        },
-        catastralKey: {
-            type: DataTypes.STRING,
-            allowNull: false
-        },
-        licenseTerm: {
-            type: DataTypes.INTEGER,
-            references: {
-                model: Term,
-                key: 'id'
-            },
-            allowNull: false
-        },
-        geoReference: {
-            type: DataTypes.STRING,
-            allowNull: false
-        },
-        licenseZone: {
-            type: DataTypes.INTEGER,
-            references: {
-                model: Zone,
-                key: 'id'
-            },
-            allowNull: false
-        },
-        authorizedUse: {
-            type: DataTypes.INTEGER,
-            references: {
-                model: AuthUse,
-                key:'id'
-            },
-            allowNull: false
-        },
-        businessLinePrint: {
-            type: DataTypes.STRING,
-            allowNull: false
-        },
-        businessLineIntern: {
-            type: DataTypes.STRING,
-            allowNull: false
-        },
-        expeditionDate: {
-            type: DataTypes.DATEONLY,
-            allowNull: false
-        },
-        licenseValidity: {
-            type: DataTypes.INTEGER,
-            references: {
-                model: Validity,
-                key: 'id'
-            },
-            allowNull: false
-        },
-        paymentInvoice: {
-            type: DataTypes.STRING,
-            allowNull: false
-        },
-        expirationDate: {
-            type: DataTypes.DATEONLY,
-            allowNull: false
-        },
-        licenseExpeditionType: {
-            type: DataTypes.INTEGER,
-            references: {
-                model: ExpeditionType,
-                key: 'id'
-            },
-            allowNull: false
-        },
-        contactPhone: {
-            type: DataTypes.BIGINT,
-            allowNull: false
-        },
-        cost: {
-            type: DataTypes.FLOAT,
-            allowNull: false
-        },
-        discount: {
-            type: DataTypes.FLOAT,
-            allowNull: false
-        },
-        paymentDone: {
-            type: DataTypes.FLOAT,
-            allowNull: false
-        },
-        inspector: {
-            type: DataTypes.STRING,
-            allowNull: false
-        },
-        licenseSpecialData: {
-            type: DataTypes.JSON,
-            allowNull: true
-        },
-        approvalStatus: {
-            type: DataTypes.BOOLEAN,
-            allowNull: true,
-            defaultValue: false
-        },
-        active: {
-            type: DataTypes.BOOLEAN,
-            allowNull: true,
-            defaultValue: true
-        }
+        allowNull: false
+    },
+    contactPhone: {
+        type: DataTypes.BIGINT,
+        allowNull: false
+    },
+    cost: {
+        type: DataTypes.FLOAT,
+        allowNull: false
+    },
+    discount: {
+        type: DataTypes.FLOAT,
+        allowNull: false
+    },
+    paymentDone: {
+        type: DataTypes.FLOAT,
+        allowNull: false
+    },
+    inspector: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
+    licenseSpecialData: {
+        type: DataTypes.JSON,
+        allowNull: true
+    },
+    approvalStatus: {
+        type: DataTypes.BOOLEAN,
+        allowNull: true,
+        defaultValue: false
+    },
+    active: {
+        type: DataTypes.BOOLEAN,
+        allowNull: true,
+        defaultValue: true
     }
-);
+}, {
+    schema: 'licenses'
+});
 
-LandUseLicense.belongsTo(Type, {foreignKey: 'licenseType'});
-LandUseLicense.belongsTo(Term, {foreignKey: 'licenseTerm'});
-LandUseLicense.belongsTo(Zone, {foreignKey: 'licenseZone'});
-LandUseLicense.belongsTo(AuthUse, {foreignKey: 'authorizedUse'});
-LandUseLicense.belongsTo(Validity, {foreignKey: 'licenseValidity'});
-LandUseLicense.belongsTo(ExpeditionType, {foreignKey: 'licenseExpeditionType'});
+LandUseLicense.belongsTo(Type, { foreignKey: 'licenseType' });
+LandUseLicense.belongsTo(Term, { foreignKey: 'licenseTerm' });
+LandUseLicense.belongsTo(Zone, { foreignKey: 'licenseZone' });
+LandUseLicense.belongsTo(AuthUse, { foreignKey: 'authorizedUse' });
+LandUseLicense.belongsTo(Validity, { foreignKey: 'licenseValidity' });
+LandUseLicense.belongsTo(ExpeditionType, { foreignKey: 'licenseExpeditionType' });
 
 export const UrbanType = pool.define(
     'urban_type', {
-        licenseType: {
-            type: DataTypes.STRING,
-            allowNull: false
-        }
-    },{
-        timestamps: false
+    licenseType: {
+        type: DataTypes.STRING,
+        allowNull: false
     }
-);
+}, {
+    timestamps: false,
+    schema: 'licenses'
+});
 
 export const UrbanLicense = pool.define(
     'urban_license', {
-        fullInvoice: {
-            type: DataTypes.STRING,
-            allowNull: false
+    fullInvoice: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
+    invoice: {
+        type: DataTypes.INTEGER,
+        allowNull: false
+    },
+    licenseType: {
+        type: DataTypes.INTEGER,
+        references: {
+            model: UrbanType,
+            key: 'id'
         },
-        invoice: {
-            type: DataTypes.INTEGER,
-            allowNull: false
+        allowNull: false
+    },
+    year: {
+        type: DataTypes.INTEGER,
+        allowNull: false
+    },
+    requestDate: {
+        type: DataTypes.DATEONLY,
+        allowNull: true
+    },
+    requestorName: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
+    legalRepresentative: {
+        type: DataTypes.STRING,
+        allowNull: true
+    },
+    elaboratedBy: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
+    lastModifiedBy: {
+        type: DataTypes.STRING,
+        allowNull: true,
+        defaultValue: 'New record'
+    },
+    colony: {
+        type: DataTypes.STRING,
+        allowNull: true
+    },
+    catastralKey: {
+        type: DataTypes.STRING,
+        allowNull: true
+    },
+    geoReference: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
+    licenseTerm: {
+        type: DataTypes.INTEGER,
+        references: {
+            model: Term,
+            key: 'id'
         },
-        licenseType: {
-            type: DataTypes.INTEGER,
-            references: {
-                model: UrbanType,
-                key: 'id'
-            },
-            allowNull: false
+        defaultValue: 1,
+        allowNull: true
+    },
+    surfaceTotal: {
+        type: DataTypes.STRING,
+        allowNull: true
+    },
+    licenseZone: {
+        type: DataTypes.INTEGER,
+        references: {
+            model: Zone,
+            key: 'id'
         },
-        year: {
-            type: DataTypes.INTEGER,
-            allowNull: false
+        defaultValue: 1,
+        allowNull: true
+    },
+    expeditionDate: {
+        type: DataTypes.DATEONLY,
+        allowNull: true
+    },
+    licenseValidity: {
+        type: DataTypes.INTEGER,
+        references: {
+            model: Validity,
+            key: 'id'
         },
-        requestDate: {
-            type: DataTypes.DATEONLY,
-            allowNull: true
-        },
-        requestorName: {
-            type: DataTypes.STRING,
-            allowNull: false
-        },
-        legalRepresentative: {
-            type: DataTypes.STRING,
-            allowNull: true
-        },
-        elaboratedBy: {
-            type: DataTypes.STRING,
-            allowNull: false
-        },
-        lastModifiedBy: {
-            type: DataTypes.STRING,
-            allowNull: true,
-            defaultValue: 'New record'
-        },
-        colony: {
-            type: DataTypes.STRING,
-            allowNull: true
-        },
-        catastralKey: {
-            type: DataTypes.STRING,
-            allowNull: true
-        },
-        geoReference: {
-            type: DataTypes.STRING,
-            allowNull: false
-        },
-        licenseTerm: {
-            type: DataTypes.INTEGER,
-            references: {
-                model: Term,
-                key: 'id'
-            },
-            defaultValue: 1,
-            allowNull: true
-        },
-        surfaceTotal: {
-            type: DataTypes.STRING,
-            allowNull: true
-        },
-        licenseZone: {
-            type: DataTypes.INTEGER,
-            references: {
-                model: Zone,
-                key: 'id'
-            },
-            defaultValue: 1,
-            allowNull: true
-        },
-        expeditionDate: {
-            type: DataTypes.DATEONLY,
-            allowNull: true
-        },
-        licenseValidity: {
-            type: DataTypes.INTEGER,
-            references: {
-                model: Validity,
-                key: 'id'
-            },
-            defaultValue: 1,
-            allowNull: true
-        },
-        collectionOrder: {
-            type: DataTypes.INTEGER,
-            allowNull: true
-        },
-        paymentDate: {
-            type: DataTypes.DATEONLY,
-            allowNull: true
-        },
-        billInvoice: {
-            type: DataTypes.STRING,
-            allowNull: true
-        },
-        authorizedQuantity: {
-            type: DataTypes.FLOAT,
-            allowNull: true
-        },
-        deliveryDate: {
-            type: DataTypes.DATEONLY,
-            allowNull: true
-        },
-        receiverName: {
-            type: DataTypes.STRING,
-            allowNull: true
-        },
-        observations: {
-            type: DataTypes.STRING,
-            allowNull: true
-        },
-        licenseSpecialData: {
-            type: DataTypes.JSON,
-            allowNull: true
-        },
-        approvalStatus: {
-            type: DataTypes.BOOLEAN,
-            allowNull: true,
-            defaultValue: false
-        },
-        active: {
-            type: DataTypes.BOOLEAN,
-            allowNull: true,
-            defaultValue: true
-        }
+        defaultValue: 1,
+        allowNull: true
+    },
+    collectionOrder: {
+        type: DataTypes.INTEGER,
+        allowNull: true
+    },
+    paymentDate: {
+        type: DataTypes.DATEONLY,
+        allowNull: true
+    },
+    billInvoice: {
+        type: DataTypes.STRING,
+        allowNull: true
+    },
+    authorizedQuantity: {
+        type: DataTypes.FLOAT,
+        allowNull: true
+    },
+    deliveryDate: {
+        type: DataTypes.DATEONLY,
+        allowNull: true
+    },
+    receiverName: {
+        type: DataTypes.STRING,
+        allowNull: true
+    },
+    observations: {
+        type: DataTypes.STRING,
+        allowNull: true
+    },
+    licenseSpecialData: {
+        type: DataTypes.JSON,
+        allowNull: true
+    },
+    approvalStatus: {
+        type: DataTypes.BOOLEAN,
+        allowNull: true,
+        defaultValue: false
+    },
+    active: {
+        type: DataTypes.BOOLEAN,
+        allowNull: true,
+        defaultValue: true
     }
-);
+}, {
+    schema: 'licenses'
+});
 
-UrbanLicense.belongsTo(UrbanType, {foreignKey: 'licenseType'});
-UrbanLicense.belongsTo(Zone, {foreignKey: 'licenseZone'});
-UrbanLicense.belongsTo(Term, {foreignKey: 'licenseTerm'});
-UrbanLicense.belongsTo(Validity, {foreignKey: 'licenseValidity'});
+UrbanLicense.belongsTo(UrbanType, { foreignKey: 'licenseType' });
+UrbanLicense.belongsTo(Zone, { foreignKey: 'licenseZone' });
+UrbanLicense.belongsTo(Term, { foreignKey: 'licenseTerm' });
+UrbanLicense.belongsTo(Validity, { foreignKey: 'licenseValidity' });
