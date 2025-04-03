@@ -145,9 +145,14 @@
                             <label class="w-50"><input class="margin-horizontal-small" type="radio" name="validity" value="2">12 meses</label>
                         </div>
 
-                        <div class="dis-none txt-uppercase dis-flex flex-wrap CUS LUH w-30"><span class="w-100">Plazo: </span>
-                            <label class="w-50"><input class="margin-horizontal-small" type="radio" name="term" value="1">Corto</label>
-                            <label class="w-50"><input class="margin-horizontal-small" type="radio" name="term" value="2">Mediano</label>
+                        <div class="txt-uppercase dis-flex flex-wrap w-30"><span class="w-100">Plazo: </span>
+                            <select id="term" name="term" required class="w-100 margin-vertical-small input input-interface input-round">
+                                <option>Seleccionar ...</option>
+                                <option value="1">Corto</option>
+                                <option value="2">Mediano</option>
+                                <option value="3">Largo</option>
+                                <option value="4">N/A</option>
+                            </select>
                         </div>
                     </div>
 

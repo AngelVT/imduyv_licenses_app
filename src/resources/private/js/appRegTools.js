@@ -143,10 +143,18 @@ async function setData(targets, coord) {
     targets.numericZone.value = geoRefData.data.numericZone;
     targets.zone.value = geoRefData.data.zone;
     targets.key.value = geoRefData.data.key;
-    targets.term.value = geoRefData.data.numericTerm;
-    targets.COS.value = geoRefData.data.COS;
-    targets.alt_max.value = geoRefData.data.alt_max;
-    targets.niveles.value = geoRefData.data.niveles;
+    if (targets.term) {
+        targets.term.value = geoRefData.data.numericTerm;
+    }
+    if (targets.COS) {
+        targets.COS.value = geoRefData.data.COS;
+    }
+    if(targets.alt_max) {
+        targets.alt_max.value = geoRefData.data.alt_max;
+    }
+    if (targets.niveles) {
+        targets.niveles.value = geoRefData.data.niveles;
+    }
     if(targets.PCU) {
         targets.PCU.value = geoRefData.data.PCU
     }

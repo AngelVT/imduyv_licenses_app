@@ -44,7 +44,7 @@ export async function requestCoordinateCheck(coordinates) {
         }
     }
 
-    if (!coordinateData || !coordinatePCU) {
+    if (!coordinateData) {
         return {
             status: 404,
             data: {
@@ -55,7 +55,7 @@ export async function requestCoordinateCheck(coordinates) {
 
     const TERM = await Term.findOne({
         where: {
-            licenseTerm: coordinateData.Plazo.toLowerCase()
+            licenseTerm: coordinateData.Plazo ? coordinateData.Plazo.toLowerCase() : 'n/a'
         }
     });
 
@@ -88,7 +88,7 @@ export async function requestCoordinateCheck(coordinates) {
                 COS: coordinateData.COS,
                 alt_max: coordinateData.alt_max,
                 niveles: coordinateData.niveles,
-                PCU: coordinatePCU.CALIF
+                PCU: coordinatePCU ? coordinatePCU.CALIF : '-'
             }
         }
     }
