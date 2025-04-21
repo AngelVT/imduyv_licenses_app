@@ -43,6 +43,8 @@ const requestDate = document.getElementById('req_date');
 const expeditionDate = document.getElementById('exp_date');
 const expirationDate = document.getElementById('end_date');
 
+resetFormAuto(thaForm);
+
 requestDate.addEventListener('change', () => {
     expeditionDate.value =  setExpeditionDate(requestDate.value);
     setCustomExpirationDate();

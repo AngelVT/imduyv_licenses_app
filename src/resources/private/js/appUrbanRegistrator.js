@@ -1,5 +1,7 @@
 const thaForm = document.getElementById('form_reg');
 
+resetFormAuto(thaForm);
+
 thaForm.addEventListener(
     'submit', async event => {
         event.preventDefault();
