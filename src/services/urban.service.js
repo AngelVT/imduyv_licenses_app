@@ -175,6 +175,8 @@ export async function requestUrbanLicenseCreate(body, files, requestor) {
         requestorAddress,
         buildingAddress
     } = body;
+
+    console.log(body, 'Body');
     
     if (!licenseType || !requestorName || !georeference) {
         return {
@@ -210,23 +212,23 @@ export async function requestUrbanLicenseCreate(body, files, requestor) {
         invoice: INVOICE_INFO.numericInvoice,
         licenseType: licenseType,
         year: YEAR,
-        requestDate: requestDate,
+        requestDate: requestDate ? requestDate : null,
         requestorName: requestorName,
-        legalRepresentative: legalRepresentative,
+        legalRepresentative: legalRepresentative ? legalRepresentative : null,
         elaboratedBy: requestor,
-        colony: colony,
-        catastralKey: catastralKey,
+        colony: colony ? colony : null,
+        catastralKey: catastralKey ? catastralKey : null,
         geoReference: georeference,
-        licenseTerm: licenseTerm,
-        surfaceTotal: surface,
-        licenseZone: zone,
-        expeditionDate: expeditionDate,
-        licenseValidity: licenseValidity,
-        collectionOrder: collectionOrder,
-        paymentDate: paymentDate,
-        billInvoice: billInvoice,
-        authorizedQuantity: authorizedQuantity,
-        deliveryDate: deliveryDate,
+        licenseTerm: licenseTerm ? licenseTerm : null,
+        surfaceTotal: surface ? surface : null,
+        licenseZone: zone ? zone : null,
+        expeditionDate: expeditionDate ? expeditionDate : null,
+        licenseValidity: licenseValidity ? licenseValidity : null,
+        collectionOrder: collectionOrder ? collectionOrder : null,
+        paymentDate: paymentDate ? paymentDate : null,
+        billInvoice: billInvoice ? billInvoice :null,
+        authorizedQuantity: authorizedQuantity ? authorizedQuantity : null,
+        deliveryDate: deliveryDate ? deliveryDate : null,
         receiverName: receiverName,
         observations: 'none',
         licenseSpecialData: SPECIAL_DATA

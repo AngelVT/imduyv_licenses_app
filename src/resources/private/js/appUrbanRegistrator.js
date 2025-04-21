@@ -45,7 +45,8 @@ const licenseTypes = [
     "Prórroga de licencia de fraccionamiento",
     "Licencia de fraccionamiento",
     "Relotificación de fraccionamiento",
-    "Régimen de propiedad en condominio"
+    "Régimen de propiedad en condominio",
+    "Licencia habitacional"
 ];
 
 const zones = [
