@@ -175,8 +175,6 @@ export async function requestUrbanLicenseCreate(body, files, requestor) {
         requestorAddress,
         buildingAddress
     } = body;
-
-    console.log(body, 'Body');
     
     if (!licenseType || !requestorName || !georeference) {
         return {

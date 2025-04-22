@@ -135,7 +135,7 @@ export const isAllUser = async (req, res, next) => {
 
 export const isModerator = async (req, res, next) => {
     try {
-        if (await userValid.hasRole(req.userID, 4)) {
+        if (await userValid.hasRole(req.userID, 3)) {
             next();
             return;
         }
