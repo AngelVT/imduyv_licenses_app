@@ -208,15 +208,15 @@ export function prepareData(lcDBObj) {
         }
     }
 
-    if (lcDBObj.term) {
+    if (lcDBObj.term && lcDBObj.term.licenseTerm !== null) {
         lcDBObj.term.licenseTerm = lcDBObj.term.licenseTerm.toUpperCase();
     }
 
-    if (lcDBObj.validity) {
+    if (lcDBObj.validity && lcDBObj.validity.licenseValidity !== null) {
         lcDBObj.validity.licenseValidity = lcDBObj.validity.licenseValidity.toUpperCase();
     }
 
-    if (lcDBObj.expeditionType) {
+    if (lcDBObj.expeditionType && lcDBObj.expeditionType.licenseExpType !== null) {
         lcDBObj.expeditionType.licenseExpType = lcDBObj.expeditionType.licenseExpType.toUpperCase();
     }
 
