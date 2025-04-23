@@ -220,6 +220,18 @@ export function prepareData(lcDBObj) {
         lcDBObj.expeditionType.licenseExpType = lcDBObj.expeditionType.licenseExpType.toUpperCase();
     }
 
+    if (lcDBObj.licenseSpecialData.requestorAddress) {
+        lcDBObj.licenseSpecialData.requestorAddress = lcDBObj.licenseSpecialData.requestorAddress.toUpperCase();
+    }
+
+    if (lcDBObj.licenseSpecialData.buildingAddress) {
+        lcDBObj.licenseSpecialData.buildingAddress = lcDBObj.licenseSpecialData.buildingAddress.toUpperCase();
+    }
+
+    if (lcDBObj.licenseSpecialData.representativeAs) {
+        lcDBObj.licenseSpecialData.representativeAs = lcDBObj.licenseSpecialData.representativeAs.toLowerCase();
+    }
+
     return lcDBObj;
 }
 

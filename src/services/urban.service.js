@@ -148,7 +148,9 @@ export async function requestUrbanLicenseCreate(body, files, requestor) {
     const YEAR = DATE.getFullYear();
 
     for (const key in body) {
-        body[key] = body[key].toLowerCase();
+        if (key !== 'PCU') {
+            body[key] = body[key].toLowerCase();
+        }
     }
 
     const {
