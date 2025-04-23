@@ -183,15 +183,6 @@ export async function generateUrbanLSUB(lcDBObj) {
                         ],
                         [
                             {
-                                border: [true, false, true, false],
-                                text: lcDBObj.licenseSpecialData.authorizationResume,
-                                fontSize: 5,
-                                alignment: 'center',
-                                bold: true
-                            }
-                        ],
-                        [
-                            {
                                 border: [true, false, true,true],
                                 text: [
                                     {text: 'Nota: ', style: 'regularSmall', bold: true},
@@ -202,6 +193,13 @@ export async function generateUrbanLSUB(lcDBObj) {
                     ]
                 },
                 layout: docUtils.containerLayout
+            },
+            {
+                style: 'formRow',
+                text: lcDBObj.licenseSpecialData.authorizationResume,
+                alignment: 'center',
+                fontSize: 6,
+                bold: true
             },
             lcDBObj.licenseSpecialData.layout == "A" ? conditionsPart : {},
             lcDBObj.licenseSpecialData.layout == "A" ? restrictionsPart : {},
@@ -226,8 +224,8 @@ export async function generateUrbanLSUB(lcDBObj) {
                 pageBreak: 'avoid',
                 stack: [
                     {
-                        text:`NOTIFÍQUESE Y CÚMPLASE\nASÍ EN DEFINITIVA LO RESOLVIÓ Y AUTORIZÓ ${INSTITUTE_DIRECTOR_TITTLE},\nDIRECTOR GENERAL DEL INSTITUTO MUNICIPAL DE DESARROLLO URBANO Y VIVIENDA`,
-                        style: 'center',
+                        text:`NOTIFÍQUESE Y CÚMPLASE\nASÍ EN DEFINITIVA LO RESOLVIÓ Y AUTORIZÓ ${INSTITUTE_DIRECTOR_SIGNATURE},\nDIRECTOR GENERAL DEL INSTITUTO MUNICIPAL DE DESARROLLO URBANO Y VIVIENDA`,
+                        style: 'boldCenter',
                         fontSize: 6,
                         margin: [0,10,0,100]
                     },
@@ -247,21 +245,21 @@ export async function generateUrbanLSUB(lcDBObj) {
                     },*/
                     {
                         columns: [
-                            {width: 5,
+                            {width: 50,
                                 text: ''},
                             {
                             text: `${MUNICIPAL_PRESIDENT}.\nPRESIDENTA MUNICIPAL CONSTITUCIONAL\nDE TIZAYUCA, HIDALGO.`,
                             style: 'labelTC',
-                            fontSize: 6
+                            fontSize: 8
                         },
-                        {width: 140,
+                        {width: 0,
                             text: ''},
                         {
                             text: `${INSTITUTE_DIRECTOR_SIGNATURE}.\nDIRECTOR GENERAL DEL INSTITUTO MUNICIPAL\nDE DESARROLLO URBANO Y VIVIENDA.`,
                             style: 'labelTC',
-                            fontSize: 6
+                            fontSize: 8
                         },
-                        {width: 5,
+                        {width: 50,
                             text: ''}
                         ]
                     }
@@ -279,13 +277,13 @@ export async function generateUrbanLSUB(lcDBObj) {
                             {text: "SUBDIVISIÓN QUE SE AUTORIZA", style: 'headT', border: docUtils.borderless, margin:[1,2,1,2]}
                         ],
                         [
-                            {
+                            await docUtils.fileExist(lcDBObj.fullInvoice, 'urban')
+                            /*{
                                 border: [true, true, true,false],
-                                /*text: 'IMG'*/
                                 image: await docUtils.fileExist(lcDBObj.fullInvoice, 'urban'),
                                 width: 580,
                                 alignment: 'center'
-                            }
+                            }*/
                         ],
                         [
                             {

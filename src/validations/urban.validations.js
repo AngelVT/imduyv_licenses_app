@@ -78,9 +78,11 @@ export async function checkType(type) {
 }
 
 export function validateFile(files) {
+    const allowedMimeTypes = ['image/png', 'image/svg+xml'];
+
     for (const file of files) {
-        if (file.mimetype !== 'image/png') {
-            return false
+        if (!allowedMimeTypes.includes(file.mimetype)) {
+            return false;
         }
     }
     return true;

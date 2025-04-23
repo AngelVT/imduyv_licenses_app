@@ -184,7 +184,7 @@ export async function loadChart(fullInvoice, sourcePattern) {
 }
 
 export async function fileExist(location, group) {
-    let fileDirectory = path.join(__dirstorage, 'assets', group, location.replaceAll('/', '_'), 'zone.png');
+    /*let fileDirectory = path.join(__dirstorage, 'assets', group, location.replaceAll('/', '_'), 'zone.png');
 
     const defaultPath = path.join(__dirname, 'resources', 'public', 'img', '404.jpg');
 
@@ -196,7 +196,42 @@ export async function fileExist(location, group) {
 
             return resolve(fileDirectory);
         });
-    });
+    });*/
+    const extensions = ['.png', '.jpg', '.jpeg', '.svg']; // add more if needed
+    const basePath = path.join(__dirstorage, 'assets', group, location.replaceAll('/', '_'));
+    const defaultPath = path.join(__dirname, 'resources', 'public', 'img', '404.jpg');
+
+    for (const ext of extensions) {
+        const filePath = path.join(basePath, `zone${ext}`);
+        try {
+            await fs.promises.access(filePath);
+            if (ext === '.svg') {
+                const svgText = await fs.promises.readFile(filePath, 'utf8');
+                console.log(svgText, 'SVG')
+                return {
+                    border: [true, true, true,false],
+                    svg: svgText,
+                    width: 580
+                };
+            }
+
+            return {
+                border: [true, true, true,false],
+                image: filePath,
+                width: 580,
+                alignment: 'center'
+            };
+        } catch (err) {
+            // File doesn't exist, try the next extension
+        }
+    }
+
+    return {
+        border: [true, true, true,false],
+        image: defaultPath,
+        width: 580,
+        alignment: 'center'
+    };
 }
 
 export function prepareData(lcDBObj) {
@@ -487,7 +522,7 @@ function generateSubTable(tableObj) {
                     style: 'regularSmall', border: [false, false, false, hasBottomBorder],
                     margin: [2, 0, 0, 0]
                 },
-                { text: `${tableObj.adjoining[i]}`, style: 'regularSmall', border: [false, false, false, hasBottomBorder], margin: [2, 0, 0, 0] }
+                { text: `${tableObj.adjoining[i].includes('/') ? tableObj.adjoining[i].replaceAll('/', '\n') : tableObj.adjoining[i]}`, style: 'regularSmall', border: [false, false, false, hasBottomBorder], margin: [2, 0, 0, 0] }
             ]
         } else if (i == tableObj.distribution.length - 1) {
             row = [
@@ -499,7 +534,7 @@ function generateSubTable(tableObj) {
                         }, { text: `${tableObj.measures[i]}` }
                     ], style: 'regularSmall', border: [false, false, false, false], margin: [2, 0, 0, 0]
                 },
-                { text: `${tableObj.adjoining[i]}`, style: 'regularSmall', border: [false, false, false, false], margin: [2, 0, 0, 0] }
+                { text: `${tableObj.adjoining[i].includes('/') ? tableObj.adjoining[i].replaceAll('/', '\n') : tableObj.adjoining[i]}`, style: 'regularSmall', border: [false, false, false, false], margin: [2, 0, 0, 0] }
             ]
         } else {
             row = [
@@ -511,7 +546,7 @@ function generateSubTable(tableObj) {
                         }, { text: `${tableObj.measures[i]}` }
                     ], style: 'regularSmall', border: [false, false, false, hasBottomBorder], margin: [2, 0, 0, 0]
                 },
-                { text: `${tableObj.adjoining[i]}`, style: 'regularSmall', border: [false, false, false, hasBottomBorder], margin: [2, 0, 0, 0] }
+                { text: `${tableObj.adjoining[i].includes('/') ? tableObj.adjoining[i].replaceAll('/', '\n') : tableObj.adjoining[i]}`, style: 'regularSmall', border: [false, false, false, hasBottomBorder], margin: [2, 0, 0, 0] }
             ]
         }
         subBody.push(row);

@@ -454,8 +454,9 @@ export async function generateUrbanPLF(lcDBObj) {
             {
                 stack: [
                     {
-                        text:`NOTIFÍQUESE Y CÚMPLASE\nASÍ EN DEFINITIVA LO RESOLVIÓ Y AUTORIZÓ ${INSTITUTE_DIRECTOR_TITTLE},\nDIRECTOR GENERAL DEL INSTITUTO MUNICIPAL DE DESARROLLO URBANO Y VIVIENDA`,
-                        style: ['regular', 'center'],
+                        text:`NOTIFÍQUESE Y CÚMPLASE\nASÍ EN DEFINITIVA LO RESOLVIÓ Y AUTORIZÓ ${INSTITUTE_DIRECTOR_SIGNATURE},\nDIRECTOR GENERAL DEL INSTITUTO MUNICIPAL DE DESARROLLO URBANO Y VIVIENDA`,
+                        style: 'boldCenter',
+                        fontSize: 6,
                         margin: [0,10,0,100]
                     },
                     /*{
@@ -474,19 +475,21 @@ export async function generateUrbanPLF(lcDBObj) {
                     },*/
                     {
                         columns: [
-                            {width: 5,
+                            {width: 50,
                                 text: ''},
                             {
                             text: `${MUNICIPAL_PRESIDENT}.\nPRESIDENTA MUNICIPAL CONSTITUCIONAL\nDE TIZAYUCA, HIDALGO.`,
-                            style: 'labelTC'
+                            style: 'labelTC',
+                            fontSize: 8
                         },
-                        {width: 140,
+                        {width: 0,
                             text: ''},
                         {
                             text: `${INSTITUTE_DIRECTOR_SIGNATURE}.\nDIRECTOR GENERAL DEL INSTITUTO MUNICIPAL\nDE DESARROLLO URBANO Y VIVIENDA.`,
-                            style: 'labelTC'
+                            style: 'labelTC',
+                            fontSize: 8
                         },
-                        {width: 5,
+                        {width: 50,
                             text: ''}
                         ]
                     }

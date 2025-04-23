@@ -6,7 +6,6 @@ export async function generateUrbanLF(lcDBObj) {
     lcDBObj = docUtils.prepareData(lcDBObj);
 
     const INSTITUTE_DIRECTOR_SIGNATURE = await docUtils.getDirectorNameSignature(lcDBObj.requestDate);
-    const INSTITUTE_DIRECTOR_TITTLE = await docUtils.getDirectorNameTittle(lcDBObj.requestDate);
     const LICENSES_DIRECTOR = await docUtils.getLicensesDirectorName(lcDBObj.requestDate);
     const MUNICIPAL_PRESIDENT = await docUtils.getPresidentName(lcDBObj.requestDate);
 
@@ -555,8 +554,8 @@ export async function generateUrbanLF(lcDBObj) {
                 pageBreak: 'avoid',
                 stack: [
                     {
-                        text:`NOTIFÍQUESE Y CÚMPLASE\nASÍ EN DEFINITIVA LO RESOLVIÓ Y AUTORIZÓ ${INSTITUTE_DIRECTOR_TITTLE},\nDIRECTOR GENERAL DEL INSTITUTO MUNICIPAL DE DESARROLLO URBANO Y VIVIENDA`,
-                        style: 'center',
+                        text:`NOTIFÍQUESE Y CÚMPLASE\nASÍ EN DEFINITIVA LO RESOLVIÓ Y AUTORIZÓ ${INSTITUTE_DIRECTOR_SIGNATURE},\nDIRECTOR GENERAL DEL INSTITUTO MUNICIPAL DE DESARROLLO URBANO Y VIVIENDA`,
+                        style: 'boldCenter',
                         fontSize: 6,
                         margin: [0,10,0,100]
                     },
@@ -569,15 +568,22 @@ export async function generateUrbanLF(lcDBObj) {
                     },*/
                     {
                         columns: [
+                            {width: 50,
+                                text: ''},
                             {
                             text: `${MUNICIPAL_PRESIDENT}.\nPRESIDENTA MUNICIPAL CONSTITUCIONAL\nDE TIZAYUCA, HIDALGO.`,
-                            style: 'labelTC'
+                            style: 'labelTC',
+                            fontSize: 8
                         },
-                        {},
+                        {width: 0,
+                            text: ''},
                         {
                             text: `${INSTITUTE_DIRECTOR_SIGNATURE}.\nDIRECTOR GENERAL DEL INSTITUTO MUNICIPAL\nDE DESARROLLO URBANO Y VIVIENDA.`,
-                            style: 'labelTC'
-                        }
+                            style: 'labelTC',
+                            fontSize: 8
+                        },
+                        {width: 50,
+                            text: ''}
                         ]
                     },
                     {

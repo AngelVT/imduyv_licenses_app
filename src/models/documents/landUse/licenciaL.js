@@ -278,13 +278,14 @@ export async function generateLandUseL(lcDBObj) {
                             {text: `03PE09 - MAPA DE ZONIFICACIÓN - ${lcDBObj.geoReference}`, style: 'headT', border: docUtils.borderless, margin:[1,2,1,2]}
                         ],
                         [
-                            {
-                                /*text: 'IMG'*/
+                            await docUtils.fileExist(lcDBObj.fullInvoice, 'land')
+                            /*{
+                                text: 'IMG'
                                 border: docUtils.borderless,
                                 image: await docUtils.fileExist(lcDBObj.fullInvoice, 'land'),
                                 width: 586,
                                 alignment: 'center'
-                            }
+                            }*/
                         ]
                     ]
                 },

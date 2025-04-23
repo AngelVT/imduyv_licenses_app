@@ -6,7 +6,6 @@ export async function generateUrbanC(lcDBObj) {
     lcDBObj = docUtils.prepareData(lcDBObj);
 
     const INSTITUTE_DIRECTOR_SIGNATURE = await docUtils.getDirectorNameSignature(lcDBObj.requestDate);
-    const INSTITUTE_DIRECTOR_TITTLE = await docUtils.getDirectorNameTittle(lcDBObj.requestDate);
     const LICENSES_DIRECTOR = await docUtils.getLicensesDirectorName(lcDBObj.requestDate);
 
     var definition = {
@@ -181,13 +180,14 @@ export async function generateUrbanC(lcDBObj) {
                                     {text: `03PE09 - MAPA DE ZONIFICACIÓN - ${lcDBObj.geoReference}`, style: 'headT', border: docUtils.borderless, margin:[1,2,1,2]}
                                 ],
                                 [
-                                    {
-                                        /*text: 'IMG'*/
+                                    await docUtils.fileExist(lcDBObj.fullInvoice, 'urban')
+                                    /*{
+                                        /*text: 'IMG'
                                         border: docUtils.borderless,
                                         image: await docUtils.fileExist(lcDBObj.fullInvoice, 'urban'),
                                         width: 290,
                                         alignment: 'center'
-                                    }
+                                    }*/
                                 ]
                             ]
                         },
@@ -248,8 +248,9 @@ export async function generateUrbanC(lcDBObj) {
             {
                 stack: [
                     {
-                        text:`NOTIFÍQUESE Y CÚMPLASE\nASÍ EN DEFINITIVA LO RESOLVIÓ Y AUTORIZÓ ${INSTITUTE_DIRECTOR_TITTLE},\nDIRECTOR GENERAL DEL INSTITUTO MUNICIPAL DE DESARROLLO URBANO Y VIVIENDA`,
-                        style: ['regular', 'center'],
+                        text:`NOTIFÍQUESE Y CÚMPLASE\nASÍ EN DEFINITIVA LO RESOLVIÓ Y AUTORIZÓ ${INSTITUTE_DIRECTOR_SIGNATURE},\nDIRECTOR GENERAL DEL INSTITUTO MUNICIPAL DE DESARROLLO URBANO Y VIVIENDA`,
+                        style: 'boldCenter',
+                        fontSize: 6,
                         margin: [0,10,0,100]
                     },
                     {
@@ -258,7 +259,8 @@ export async function generateUrbanC(lcDBObj) {
                     },
                     {
                         text: `${INSTITUTE_DIRECTOR_SIGNATURE}\nDIRECTOR GENERAL`,
-                        style: 'labelTC'
+                        style: 'labelTC',
+                        fontSize: 8
                     }
                 ]
             }

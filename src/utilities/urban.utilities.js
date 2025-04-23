@@ -388,16 +388,28 @@ export function generateSpecialData(type) {
 }
 
 export async function saveZoneImage(file, fullInvoice) {
-    try {
-        const destination = path.join(__dirstorage, 'assets', 'urban', fullInvoice, 'zone.png');
+    const EXT = file[0].originalname.split('.').pop();
+    const folderPath = path.join(__dirstorage, 'assets', 'urban', fullInvoice);
+    const destination = path.join(folderPath, `zone.${EXT}`);
+    const pattern = /^zone\.[^\\/]+$/;
 
-        await ensureDirectoryExists(path.dirname(destination));
+    try {
+        await ensureDirectoryExists(folderPath);
+
+        const files = await fs.readdir(folderPath);
+        const matchedFiles = files.filter(name => pattern.test(name));
+
+        await Promise.all(
+            matchedFiles.map(filename =>
+                fs.unlink(path.join(folderPath, filename))
+            )
+        );
 
         await fs.writeFile(destination, file[0].buffer);
 
         return true;
-
     } catch (error) {
+        console.error('Error saving zone image:', error);
         return false;
     }
 }
