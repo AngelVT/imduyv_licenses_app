@@ -265,6 +265,52 @@ async function updateResultField(form, id) {
         });
 }
 
+async function updateResultTables(form, id) {
+    let registro = document.querySelector(`#result_invoice_${id}`).innerText;
+
+    const formData = new FormData(form);
+
+    let data = Object.fromEntries(formData);
+
+    for (const key in data) {
+        data = data[key];
+    }
+
+    let mensaje = `¿Seguro que quieres modificar las tablas de situación actual y subdivisión o fusión que se autoriza para el registro ${registro}?`
+
+    if (!confirm(mensaje)) {
+        return;
+    }
+
+    await fetch(`/api/urban/${id}`, {
+            method: 'PATCH',
+            credentials: 'include',
+            body: formData
+        })
+        .then(async res => {
+            if(res.ok) {
+                let content = res.headers.get('Content-Type');
+                if (content.includes('text/html')) {
+                    location.href = res.url;
+                    return;
+                }
+                
+                alert(`Cambios guardados exitosamente para el registro: ${registro}`);
+                return;
+            }
+
+            if (!res.ok) {
+                let response = await res.json();
+                alert(response.msg);
+                return;
+            }
+        })
+        .catch(error => {
+            alert('An error ocurred:\n' + error);
+            console.error('Error updating data: ', error);
+        });
+}
+
 async function updateResultFull(id) {
     console.log('updating everything');
     let fields = document.querySelector(`#result_fields_${id}`).children;

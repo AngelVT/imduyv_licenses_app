@@ -207,7 +207,6 @@ export async function fileExist(location, group) {
             await fs.promises.access(filePath);
             if (ext === '.svg') {
                 const svgText = await fs.promises.readFile(filePath, 'utf8');
-                console.log(svgText, 'SVG')
                 return {
                     border: [true, true, true,false],
                     svg: svgText,
