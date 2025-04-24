@@ -139,7 +139,7 @@ export async function generateUrbanC(lcDBObj) {
                                             {},
                                             {text: 'Altura máxima:', style: 'labelTC', border: docUtils.borderless, colSpan: 2},
                                             {},
-                                            docUtils.field(lcDBObj.licenseSpecialData.maximumHeight, docUtils.borderless, 2, 'center', 7),
+                                            docUtils.field(`${lcDBObj.licenseSpecialData.maximumHeight} metros o ${lcDBObj.licenseSpecialData.levels} niveles`, docUtils.borderless, 2, 'center', 7),
                                             {}
                                         ],
                                         [

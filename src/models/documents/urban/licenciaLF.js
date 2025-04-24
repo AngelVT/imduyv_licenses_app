@@ -154,7 +154,7 @@ export async function generateUrbanLF(lcDBObj) {
                                         [
                                             {text: 'Porcentaje de ocupación:', style: 'labelTC', border: docUtils.borderless, colSpan: 2},
                                             {},
-                                            docUtils.field(`${lcDBObj.licenseSpecialData.usePercent}% por lote`, docUtils.borderless, 2, 'center', 7),
+                                            docUtils.field(`${lcDBObj.licenseSpecialData.occupationPercent}% por lote`, docUtils.borderless, 2, 'center', 7),
                                             {},
                                             {text: 'Sup. mínima por lote:', style: 'labelTC', border: docUtils.borderless, colSpan: 2},
                                             {},
@@ -162,7 +162,7 @@ export async function generateUrbanLF(lcDBObj) {
                                             {},
                                             {text: 'Altura máxima:', style: 'labelTC', border: docUtils.borderless, colSpan: 2},
                                             {},
-                                            docUtils.field(lcDBObj.licenseSpecialData.maximumHeight, docUtils.borderless, 2, 'center', 7),
+                                            docUtils.field(`${lcDBObj.licenseSpecialData.maximumHeight} metros o ${lcDBObj.licenseSpecialData.levels} niveles`, docUtils.borderless, 2, 'center', 7),
                                             {}
                                         ],
                                         [

@@ -149,6 +149,9 @@ async function setData(targets, coord) {
     if (targets.COS) {
         targets.COS.value = geoRefData.data.COS;
     }
+    if(targets.m2_neto) {
+        targets.m2_neto.value = geoRefData.data.m2_neto;
+    }
     if(targets.alt_max) {
         targets.alt_max.value = geoRefData.data.alt_max;
     }

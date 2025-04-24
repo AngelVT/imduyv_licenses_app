@@ -86,6 +86,7 @@ export async function requestCoordinateCheck(coordinates) {
                 numericTerm: TERM.id,
                 term: TERM.licenseTerm,
                 COS: coordinateData.COS,
+                m2_neto: coordinateData.m2_neto,
                 alt_max: coordinateData.alt_max,
                 niveles: coordinateData.niveles,
                 PCU: coordinatePCU ? coordinatePCU.CALIF : '-'

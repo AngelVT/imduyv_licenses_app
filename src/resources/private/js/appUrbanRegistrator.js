@@ -142,7 +142,9 @@ function changeStep(btn, step, form, checkFields) {
         formData.deliveryDate = formData.deliveryDate ? dateFormatFull(formData.deliveryDate) : '';
         
         for (const key in formData) {
-            document.getElementById(`check_${key}`).innerText = formData[key];
+            try {
+                document.getElementById(`check_${key}`).innerText = formData[key];
+            } catch (error) { }
         }
     }
 

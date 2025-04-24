@@ -173,6 +173,10 @@ export async function requestUrbanLicenseCreate(body, files, requestor) {
         deliveryDate,
         receiverName,
         PCU,
+        occupationPercent,
+        surfacePerLote,
+        maximumHeight,
+        levels,
         representativeAs,
         requestorAddress,
         buildingAddress
@@ -206,6 +210,10 @@ export async function requestUrbanLicenseCreate(body, files, requestor) {
     SPECIAL_DATA.representativeAs = representativeAs ? representativeAs : SPECIAL_DATA.representativeAs;
     SPECIAL_DATA.requestorAddress = requestorAddress ? requestorAddress : SPECIAL_DATA.requestorAddress;
     SPECIAL_DATA.buildingAddress = buildingAddress ? buildingAddress : SPECIAL_DATA.buildingAddress;
+    SPECIAL_DATA.occupationPercent = occupationPercent ? occupationPercent : SPECIAL_DATA.occupationPercent;
+    SPECIAL_DATA.surfacePerLote = surfacePerLote ? surfacePerLote : SPECIAL_DATA.surfacePerLote;
+    SPECIAL_DATA.maximumHeight = maximumHeight ? maximumHeight : SPECIAL_DATA.maximumHeight;
+    SPECIAL_DATA.levels = levels ? levels : SPECIAL_DATA.levels;
 
     const NEW_LICENSE_DATA = {
         fullInvoice: INVOICE_INFO.fullInvoice,
@@ -345,6 +353,7 @@ export async function requestUrbanLicenseUpdate(id, licenseData, files, requesto
         occupationPercent,
         surfacePerLote,
         maximumHeight,
+        levels,
         minimalFront,
         frontalRestriction,
         parkingLots,
@@ -387,7 +396,7 @@ export async function requestUrbanLicenseUpdate(id, licenseData, files, requesto
         pageBreak_10
     } = licenseData;
 
-    if (!requestorName && legalRepresentative && !requestDate && !colony && !catastralKey && !surface && !zone && !expeditionDate && !collectionOrder && !paymentDate && !billInvoice && !authorizedQuantity && !deliveryDate && !receiverName && !validity && !term && !PCU && !representativeAs && !requestorAddress && !buildingAddress && !occupationPercent && !surfacePerLote && !maximumHeight && !minimalFront && !frontalRestriction && !parkingLots && !usePercent && !actualSituation && !actualAuthorizedFS && !authorizationResume && !households && !documents && !lotes && !manzanas && !conditions && !privateSurface && !commonSurface && !location && !authorizationFor && !integrity && !detailedUse && !urbanLUS && !urbanCUS && !antecedent && !antecedentType && !habitacionalLotes && !totalManzanas && !totalSurface && !totalRelotification && !resultRelotification && !previousInvoice && !previousInvoiceDate && !layout && !pageBreak_1 && !pageBreak_2 && !pageBreak_3 && !pageBreak_4 && !pageBreak_5 && !pageBreak_6 && !pageBreak_7 && !pageBreak_8 && !pageBreak_9 && !pageBreak_10 && !files) {
+    if (!requestorName && legalRepresentative && !requestDate && !colony && !catastralKey && !surface && !zone && !expeditionDate && !collectionOrder && !paymentDate && !billInvoice && !authorizedQuantity && !deliveryDate && !receiverName && !validity && !term && !PCU && !representativeAs && !requestorAddress && !buildingAddress && !occupationPercent && !surfacePerLote && !maximumHeight && !levels && !minimalFront && !frontalRestriction && !parkingLots && !usePercent && !actualSituation && !actualAuthorizedFS && !authorizationResume && !households && !documents && !lotes && !manzanas && !conditions && !privateSurface && !commonSurface && !location && !authorizationFor && !integrity && !detailedUse && !urbanLUS && !urbanCUS && !antecedent && !antecedentType && !habitacionalLotes && !totalManzanas && !totalSurface && !totalRelotification && !resultRelotification && !previousInvoice && !previousInvoiceDate && !layout && !pageBreak_1 && !pageBreak_2 && !pageBreak_3 && !pageBreak_4 && !pageBreak_5 && !pageBreak_6 && !pageBreak_7 && !pageBreak_8 && !pageBreak_9 && !pageBreak_10 && !files) {
         return {
             status: 400,
             data: {
@@ -428,6 +437,7 @@ export async function requestUrbanLicenseUpdate(id, licenseData, files, requesto
     newSpecialData.occupationPercent = occupationPercent ? occupationPercent : newSpecialData.occupationPercent;
     newSpecialData.surfacePerLote = surfacePerLote ? surfacePerLote : newSpecialData.surfacePerLote;
     newSpecialData.maximumHeight = maximumHeight ? maximumHeight : newSpecialData.maximumHeight;
+    newSpecialData.levels = levels ? levels : newSpecialData.levels;
     newSpecialData.minimalFront = minimalFront ? minimalFront : newSpecialData.minimalFront;
     newSpecialData.frontalRestriction = frontalRestriction ? frontalRestriction : newSpecialData.frontalRestriction;
     newSpecialData.parkingLots = parkingLots ? parkingLots : newSpecialData.parkingLots;

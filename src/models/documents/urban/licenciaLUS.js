@@ -129,7 +129,7 @@ export async function generateUrbanLUS(lcDBObj) {
                                             {},
                                             {text: 'Altura máxima:', style: 'labelTC', border: docUtils.borderless, colSpan: 2},
                                             {},
-                                            docUtils.field(lcDBObj.licenseSpecialData.maximumHeight, docUtils.borderless, 2, 'center', 7),
+                                            docUtils.field(`${lcDBObj.licenseSpecialData.maximumHeight} metros o ${lcDBObj.licenseSpecialData.levels} niveles`, docUtils.borderless, 2, 'center', 7),
                                             {}
                                         ],
                                         [
@@ -171,7 +171,7 @@ export async function generateUrbanLUS(lcDBObj) {
                         [
                             {text: `${lcDBObj.surfaceTotal} m²`, style: ['center', 'regular']},
                             {text: lcDBObj.zone.licenseZone, style: ['center', 'regular']},
-                            {text: lcDBObj.licenseSpecialData.usePercent, style: ['center', 'regular']}
+                            {text: '100', style: ['center', 'regular']}
                         ]
                     ]
                 },
