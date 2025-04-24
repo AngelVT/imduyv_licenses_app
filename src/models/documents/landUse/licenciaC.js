@@ -229,7 +229,7 @@ export async function generateLandUseC(lcDBObj) {
             {
                 stack: [
                     {
-                        text:`NOTIFÍQUESE Y CÚMPLASE\nASÍ EN DEFINITIVA LO RESOLVIÓ Y AUTORIZÓ ${INSTITUTE_DIRECTOR_TITTLE},\nDIRECTOR GENERAL DEL INSTITUTO MUNICIPAL DE DESARROLLO URBANO Y VIVIENDA`,
+                        text:`NOTIFÍQUESE Y CÚMPLASE\nASÍ EN DEFINITIVA LO RESOLVIÓ Y AUTORIZÓ ${INSTITUTE_DIRECTOR_TITTLE},\nDIRECTOR(A) GENERAL DEL INSTITUTO MUNICIPAL DE DESARROLLO URBANO Y VIVIENDA`,
                         style: ['regular', 'center'],
                         margin: [0,10,0,0]
                     },
@@ -261,7 +261,7 @@ export async function generateLandUseC(lcDBObj) {
                         layout: docUtils.noBorderNoPadding
                     },
                     {
-                        text: `${INSTITUTE_DIRECTOR_SIGNATURE}.\nDIRECTOR GENERAL DEL INSTITUTO MUNICIPAL\nDE DESARROLLO URBANO Y VIVIENDA.`,
+                        text: `${INSTITUTE_DIRECTOR_SIGNATURE}.\nDIRECTOR(A) GENERAL DEL INSTITUTO MUNICIPAL\nDE DESARROLLO URBANO Y VIVIENDA.`,
                         style: 'labelTC'
                     }
                 ]

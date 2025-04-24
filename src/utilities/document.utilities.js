@@ -49,6 +49,17 @@ export const NoPadding = {
     vLineColor: function (i, node) { return '#000'; }
 }
 
+export const DMCLayout = {
+    paddingLeft: function (i, node) { return 0; },
+    paddingRight: function (i, node) { return 0; },
+    paddingTop: function (i, node) { return 0; },
+    paddingBottom: function (i, node) { return 2; },
+    hLineWidth: function (i, node) { return 0.5; },
+    vLineWidth: function (i, node) { return 0.5; },
+    hLineColor: function (i, node) { return '#000'; },
+    vLineColor: function (i, node) { return '#000'; }
+}
+
 export const subTable = {
     paddingLeft: function (i, node) { return 0; },
     paddingRight: function (i, node) { return 0; },
@@ -370,10 +381,10 @@ export function generateDSMCTable(situationArray, subject) {
             }, {}, {}, {}
         ],
         [
-            { text: 'DESCRIPCIÓN', style: ['boldCenter', 'regularSmall'] },
+            { text: 'DESCRIPCIÓN', style: ['boldCenter', 'regularSmall'], border: [false, true, true, true] },
             { text: 'SUPERFICIE', style: ['boldCenter', 'regularSmall'] },
             { text: 'MEDIDAS', style: ['boldCenter', 'regularSmall'] },
-            { text: 'COLINDANCIAS', style: ['boldCenter', 'regularSmall'] }
+            { text: 'COLINDANCIAS', style: ['boldCenter', 'regularSmall'], border: [true, true, false, true] }
         ]
     ]
 
@@ -509,6 +520,15 @@ function generateSubTable(tableObj) {
         let row;
         hasBottomBorder = tableObj.distribution[i].includes('*') ? false : true;
         tableObj.distribution[i] = tableObj.distribution[i].replaceAll('*', '');
+
+        if (!tableObj.adjoining[i]) {
+            tableObj.adjoining[i] = '';
+        }
+
+        if (tableObj.adjoining[i].includes('/')) {
+            tableObj.adjoining[i] = tableObj.adjoining[i].replaceAll('/', '\n')
+        }
+
         if (i == 0) {
             row = [
                 {
@@ -521,7 +541,7 @@ function generateSubTable(tableObj) {
                     style: 'regularSmall', border: [false, false, false, hasBottomBorder],
                     margin: [2, 0, 0, 0]
                 },
-                { text: `${tableObj.adjoining[i].includes('/') ? tableObj.adjoining[i].replaceAll('/', '\n') : tableObj.adjoining[i]}`, style: 'regularSmall', border: [false, false, false, hasBottomBorder], margin: [2, 0, 0, 0] }
+                { text: `${tableObj.adjoining[i]}`, style: 'regularSmall', border: [false, false, false, hasBottomBorder], margin: [2, 0, 0, 0] }
             ]
         } else if (i == tableObj.distribution.length - 1) {
             row = [
@@ -533,7 +553,7 @@ function generateSubTable(tableObj) {
                         }, { text: `${tableObj.measures[i]}` }
                     ], style: 'regularSmall', border: [false, false, false, false], margin: [2, 0, 0, 0]
                 },
-                { text: `${tableObj.adjoining[i].includes('/') ? tableObj.adjoining[i].replaceAll('/', '\n') : tableObj.adjoining[i]}`, style: 'regularSmall', border: [false, false, false, false], margin: [2, 0, 0, 0] }
+                { text: `${tableObj.adjoining[i]}`, style: 'regularSmall', border: [false, false, false, false], margin: [2, 0, 0, 0] }
             ]
         } else {
             row = [
@@ -545,7 +565,7 @@ function generateSubTable(tableObj) {
                         }, { text: `${tableObj.measures[i]}` }
                     ], style: 'regularSmall', border: [false, false, false, hasBottomBorder], margin: [2, 0, 0, 0]
                 },
-                { text: `${tableObj.adjoining[i].includes('/') ? tableObj.adjoining[i].replaceAll('/', '\n') : tableObj.adjoining[i]}`, style: 'regularSmall', border: [false, false, false, hasBottomBorder], margin: [2, 0, 0, 0] }
+                { text: `${tableObj.adjoining[i]}`, style: 'regularSmall', border: [false, false, false, hasBottomBorder], margin: [2, 0, 0, 0] }
             ]
         }
         subBody.push(row);

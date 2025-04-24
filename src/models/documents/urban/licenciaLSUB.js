@@ -154,6 +154,7 @@ export async function generateUrbanLSUB(lcDBObj) {
                         [
                             {
                                 border: [true, false, true,true],
+                                margin: [2,0,0,0],
                                 text: [
                                     {text: 'Nota: ', style: 'regularSmall', bold: true},
                                     {text: 'La información descrita corresponde y es responsabilidad del solicitante.', style: 'regularSmall'}
@@ -162,7 +163,7 @@ export async function generateUrbanLSUB(lcDBObj) {
                         ]
                     ]
                 },
-                layout: docUtils.containerLayout
+                layout: docUtils.DMCLayout
             },
             {
                 style: 'formRow',
@@ -184,6 +185,7 @@ export async function generateUrbanLSUB(lcDBObj) {
                         [
                             {
                                 border: [true, false, true,true],
+                                margin: [2,0,0,0],
                                 text: [
                                     {text: 'Nota: ', style: 'regularSmall', bold: true},
                                     {text: 'La información descrita corresponde y es responsabilidad del solicitante.', style: 'regularSmall'}
@@ -192,7 +194,7 @@ export async function generateUrbanLSUB(lcDBObj) {
                         ]
                     ]
                 },
-                layout: docUtils.containerLayout
+                layout: docUtils.DMCLayout
             },
             {
                 style: 'formRow',
@@ -224,7 +226,7 @@ export async function generateUrbanLSUB(lcDBObj) {
                 pageBreak: 'avoid',
                 stack: [
                     {
-                        text:`NOTIFÍQUESE Y CÚMPLASE\nASÍ EN DEFINITIVA LO RESOLVIÓ Y AUTORIZÓ ${INSTITUTE_DIRECTOR_SIGNATURE},\nDIRECTOR GENERAL DEL INSTITUTO MUNICIPAL DE DESARROLLO URBANO Y VIVIENDA`,
+                        text:`NOTIFÍQUESE Y CÚMPLASE\nASÍ EN DEFINITIVA LO RESOLVIÓ Y AUTORIZÓ ${MUNICIPAL_PRESIDENT}, PRESIDENTE MUNICIPAL CONSTITUCIONAL DE TIZAYUCA, HIDALGO Y\n${INSTITUTE_DIRECTOR_SIGNATURE}, DIRECTOR(A) GENERAL DEL INSTITUTO MUNICIPAL DE DESARROLLO URBANO Y VIVIENDA`,
                         style: 'boldCenter',
                         fontSize: 6,
                         margin: [0,10,0,100]
@@ -248,14 +250,14 @@ export async function generateUrbanLSUB(lcDBObj) {
                             {width: 50,
                                 text: ''},
                             {
-                            text: `${MUNICIPAL_PRESIDENT}.\nPRESIDENTA MUNICIPAL CONSTITUCIONAL\nDE TIZAYUCA, HIDALGO.`,
+                            text: `${MUNICIPAL_PRESIDENT}.\nPRESIDENTE MUNICIPAL CONSTITUCIONAL\nDE TIZAYUCA, HIDALGO.`,
                             style: 'labelTC',
                             fontSize: 8
                         },
                         {width: 0,
                             text: ''},
                         {
-                            text: `${INSTITUTE_DIRECTOR_SIGNATURE}.\nDIRECTOR GENERAL DEL INSTITUTO MUNICIPAL\nDE DESARROLLO URBANO Y VIVIENDA.`,
+                            text: `${INSTITUTE_DIRECTOR_SIGNATURE}.\nDIRECTOR(A) GENERAL DEL INSTITUTO MUNICIPAL\nDE DESARROLLO URBANO Y VIVIENDA.`,
                             style: 'labelTC',
                             fontSize: 8
                         },
