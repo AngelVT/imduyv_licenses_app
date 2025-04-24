@@ -4,41 +4,47 @@ const formSearchBy = document.querySelector('#form_urban_by');
 const formSearchByInvoice = document.querySelector('#form_urban_byInvoice');
 const formSearchByType = document.querySelector('#form_urban_byType');
 
-formSearchBy.addEventListener('submit',
-    event => {
-        event.preventDefault();
+if (formSearchBy) {
+    formSearchBy.addEventListener('submit',
+        event => {
+            event.preventDefault();
+    
+            const formData = new FormData(formSearchBy);
+    
+            let data = Object.fromEntries(formData);
+    
+            getLicenseBy(data.by, data.value);
+        }
+    );
+}
 
-        const formData = new FormData(formSearchBy);
+if (formSearchByInvoice) {
+    formSearchByInvoice.addEventListener('submit',
+        event => {
+            event.preventDefault();
+    
+            const formData = new FormData(formSearchByInvoice);
+    
+            let data = Object.fromEntries(formData);
+    
+            getLicense(data.byInvoiceType, data.byInvoice, data.byInvoiceYear);
+        }
+    );
+}
 
-        let data = Object.fromEntries(formData);
-
-        getLicenseBy(data.by, data.value);
-    }
-);
-
-formSearchByInvoice.addEventListener('submit',
-    event => {
-        event.preventDefault();
-
-        const formData = new FormData(formSearchByInvoice);
-
-        let data = Object.fromEntries(formData);
-
-        getLicense(data.byInvoiceType, data.byInvoice, data.byInvoiceYear);
-    }
-);
-
-formSearchByType.addEventListener('submit',
-    event => {
-        event.preventDefault();
-
-        const formData = new FormData(formSearchByType);
-
-        let data = Object.fromEntries(formData);
-
-        getLicenseByType(data.byType, data.byTypeYear);
-    }
-);
+if (formSearchByType) {
+    formSearchByType.addEventListener('submit',
+        event => {
+            event.preventDefault();
+    
+            const formData = new FormData(formSearchByType);
+    
+            let data = Object.fromEntries(formData);
+    
+            getLicenseByType(data.byType, data.byTypeYear);
+        }
+    );
+}
 
 async function getLicense(type, invoice, year) {
     await fetch(`/api/urban/t/${type}/i/${invoice}/y/${year}`, {
@@ -57,7 +63,7 @@ async function getLicense(type, invoice, year) {
 
                 resultContainer.innerHTML = '';
 
-                createUrbanResult(response.license, resultContainer, false);
+                createUrbanResultNoUpdate(response.license, resultContainer);
 
                 return;
             }
@@ -98,7 +104,7 @@ async function getLicenseByType(type, year) {
 
                 response.licenses.forEach(element => {
                     console.log(element.specialData);
-                    createUrbanResult(element, resultContainer, false);
+                    createUrbanResultNoUpdate(element, resultContainer);
                 });
 
                 return;
@@ -139,7 +145,7 @@ async function getLicenseBy(param, value) {
                 resultContainer.innerHTML = '';
 
                 response.licenses.forEach(element => {
-                    createUrbanResult(element, resultContainer, false);
+                    createUrbanResultNoUpdate(element, resultContainer);
                 });
 
                 return;
@@ -180,7 +186,7 @@ async function getLicensesUrban() {
                 resultContainer.innerHTML = '';
 
                 response.licenses.forEach(element => {
-                    createUrbanResult(element, resultContainer, false);
+                    createUrbanResultNoUpdate(element, resultContainer);
                 });
 
                 return;
@@ -198,129 +204,7 @@ async function getLicensesUrban() {
         });
 }
 
-async function updateResultField(form, id) {
-    let registro = document.querySelector(`#result_invoice_${id}`).innerText;
-    let field = form.querySelector('label').innerText.toLowerCase().replaceAll(':', '');
-    let currentValue = form.querySelector('input[type="hidden"]').value;
-
-    const formData = new FormData(form);
-
-    let data = Object.fromEntries(formData);
-
-    for (const key in data) {
-        data = data[key];
-    }
-
-    let mensaje = `
-    ¿Seguro que quieres modificar el ${field} para el registro ${registro}?\n
-    El valor actual es: "${currentValue}"
-    Cambiara a: "${data}"`
-
-    if(currentValue == data) {
-        alert("No se ha realizado ningún cambio");
-        return;
-    }
-
-    if (!confirm(mensaje)) {
-        return;
-    }
-
-    await fetch(`/api/urban/${id}`, {
-            method: 'PATCH',
-            credentials: 'include',
-            body: formData
-        })
-        .then(async res => {
-            if(res.ok) {
-                let content = res.headers.get('Content-Type');
-                if (content.includes('text/html')) {
-                    location.href = res.url;
-                    return;
-                }
-
-                if (form.querySelector('.input-interface')) {
-                    form.querySelector('input[type=hidden]').value = form.querySelector('.input-interface').value;
-                }
-
-                if (form.querySelector('.input-file')) {
-                    let img = document.querySelector(`#result_fields_${id}`).querySelector('img');
-                    if(img) {
-                        img.setAttribute('src', `/urbanStorage/${form.querySelector('input[type=hidden]').value}/zone.png?${new Date().getTime()}`);
-                    }
-                }
-                
-                alert(`Cambios guardados exitosamente para el registro: ${registro}`);
-                return;
-            }
-
-            if (!res.ok) {
-                let response = await res.json();
-                alert(response.msg);
-                return;
-            }
-        })
-        .catch(error => {
-            alert('An error ocurred:\n' + error);
-            console.error('Error updating data: ', error);
-        });
-}
-
-async function updateResultTables(form, id) {
-    let registro = document.querySelector(`#result_invoice_${id}`).innerText;
-
-    const formData = new FormData(form);
-
-    let data = Object.fromEntries(formData);
-
-    for (const key in data) {
-        data = data[key];
-    }
-
-    let mensaje = `¿Seguro que quieres modificar las tablas de situación actual y subdivisión o fusión que se autoriza para el registro ${registro}?`
-
-    if (!confirm(mensaje)) {
-        return;
-    }
-
-    await fetch(`/api/urban/${id}`, {
-            method: 'PATCH',
-            credentials: 'include',
-            body: formData
-        })
-        .then(async res => {
-            if(res.ok) {
-                let content = res.headers.get('Content-Type');
-                if (content.includes('text/html')) {
-                    location.href = res.url;
-                    return;
-                }
-                
-                alert(`Cambios guardados exitosamente para el registro: ${registro}`);
-                return;
-            }
-
-            if (!res.ok) {
-                let response = await res.json();
-                alert(response.msg);
-                return;
-            }
-        })
-        .catch(error => {
-            alert('An error ocurred:\n' + error);
-            console.error('Error updating data: ', error);
-        });
-}
-
-async function updateResultFull(id) {
-    console.log('updating everything');
-    let fields = document.querySelector(`#result_fields_${id}`).children;
-
-    for (let index = 0; index < fields.length; index++) {
-        fields[index].querySelector('label').querySelector('button').click();
-    }
-}
-
-async function deleteResult(id) {
+/*async function deleteResult(id) {
     let registro = document.querySelector(`#result_invoice_${id}`).innerText;
     let mensaje = `
     ¿Seguro que quieres eliminar el registro ${registro}?\n
@@ -356,10 +240,18 @@ async function deleteResult(id) {
             alert('An error ocurred:\n' + error);
             console.error('Error deleting registry: ', error)
         });
-}
+}*/
 
 //-------------------------------------------------------------------
 //* Urban Result
+function createUrbanResultNoUpdate(resObj, target) {
+    let newResult = createResultNoUpdate(
+        resObj.id,
+        createResultTopNoUpdate(resObj, false));
+
+    target.appendChild(newResult);
+}
+
 function createUrbanResult(resObj, target, isPrint, isLandUse) {
     let resultContent = generateUrbanFields(resObj, createResultContent(resObj.id, isPrint));
 
@@ -527,18 +419,6 @@ function generateUrbanFields(resObj, resultContent) {
     fieldGroup.appendChild(fieldGroupTittle);
 
     if(resObj.licenseType <= 4 || resObj.licenseType == 9) {
-        let imgDiv= document.createElement('div');
-        imgDiv.setAttribute('class', 'w-100 dis-flex flex-center');
-
-        field = document.createElement('img');
-        field.setAttribute('alt', 'Zonificación');
-        field.setAttribute('src', `/urbanStorage/${resObj.fullInvoice}/zone.png`);
-        field.setAttribute('class', 'w-40 margin-bottom-small');
-
-        imgDiv.appendChild(field)
-
-        fieldGroup.appendChild(imgDiv);
-
         field = createResultField(resObj.id, 'Zonificación/División o subdivisión', 'zoneIMG', resObj.fullInvoice, 'file');
 
         fieldGroup.appendChild(field);

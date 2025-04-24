@@ -97,13 +97,6 @@ async function updateResultField(form, id) {
                     form.querySelector('input[type=hidden]').value = form.querySelector('.input-interface').value;
                 }
 
-                if (form.querySelector('.input-file')) {
-                    let img = document.querySelector(`#result_fields_${id}`).querySelector('img');
-                    if(img) {
-                        img.setAttribute('src', `/urbanStorage/${form.querySelector('input[type=hidden]').value}/zone.png?${new Date().getTime()}`);
-                    }
-                }
-
                 let url = PDF.getAttribute('src').split('?')[0];
                 PDF.setAttribute('src', `${url}?${new Date().getTime()}`)
                 

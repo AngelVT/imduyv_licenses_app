@@ -180,7 +180,7 @@ export async function generateUrbanC(lcDBObj) {
                                     {text: `03PE09 - MAPA DE ZONIFICACIÓN - ${lcDBObj.geoReference}`, style: 'headT', border: docUtils.borderless, margin:[1,2,1,2]}
                                 ],
                                 [
-                                    await docUtils.fileExist(lcDBObj.fullInvoice, 'urban')
+                                    await docUtils.fileExist(lcDBObj.fullInvoice, 'urban', 290)
                                     /*{
                                         /*text: 'IMG'
                                         border: docUtils.borderless,

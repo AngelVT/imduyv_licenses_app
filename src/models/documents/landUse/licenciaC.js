@@ -167,7 +167,7 @@ export async function generateLandUseC(lcDBObj) {
                                     {text: `03PE09 - MAPA DE ZONIFICACIÓN - ${lcDBObj.geoReference}`, style: 'headT', border: docUtils.borderless, margin:[1,2,1,2]}
                                 ],
                                 [
-                                    await docUtils.fileExist(lcDBObj.fullInvoice, 'land')
+                                    await docUtils.fileExist(lcDBObj.fullInvoice, 'land', 290)
                                     /*{
                                         text: 'IMG'
                                         border: docUtils.borderless,

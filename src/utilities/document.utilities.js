@@ -194,7 +194,7 @@ export async function loadChart(fullInvoice, sourcePattern) {
     });
 }
 
-export async function fileExist(location, group) {
+export async function fileExist(location, group, width) {
     /*let fileDirectory = path.join(__dirstorage, 'assets', group, location.replaceAll('/', '_'), 'zone.png');
 
     const defaultPath = path.join(__dirname, 'resources', 'public', 'img', '404.jpg');
@@ -208,6 +208,7 @@ export async function fileExist(location, group) {
             return resolve(fileDirectory);
         });
     });*/
+    const DEFAULT_WIDTH = 586;
     const extensions = ['.png', '.jpg', '.jpeg', '.svg']; // add more if needed
     const basePath = path.join(__dirstorage, 'assets', group, location.replaceAll('/', '_'));
     const defaultPath = path.join(__dirname, 'resources', 'public', 'img', '404.jpg');
@@ -221,14 +222,14 @@ export async function fileExist(location, group) {
                 return {
                     border: [true, true, true,false],
                     svg: svgText,
-                    width: 580
+                    width: width ? width : DEFAULT_WIDTH
                 };
             }
 
             return {
                 border: [true, true, true,false],
                 image: filePath,
-                width: 580,
+                width: width ? width : DEFAULT_WIDTH,
                 alignment: 'center'
             };
         } catch (err) {
@@ -239,7 +240,7 @@ export async function fileExist(location, group) {
     return {
         border: [true, true, true,false],
         image: defaultPath,
-        width: 580,
+        width: width ? width : DEFAULT_WIDTH,
         alignment: 'center'
     };
 }

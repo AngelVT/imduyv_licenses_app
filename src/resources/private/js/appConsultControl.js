@@ -33,6 +33,16 @@ function createResult(id, top, fields) {
     return result;
 }
 
+function createResultNoUpdate(id, top) {
+    let result = document.createElement('div');
+    result.setAttribute('id', `result_${id}`);
+    result.setAttribute('class', 'w-100');
+
+    result.appendChild(top);
+
+    return result;
+}
+
 function createResultTop(obj, isPrint, isLandUse) {
     let top = document.createElement('div');
     let topLabel = document.createElement('p');
@@ -75,6 +85,27 @@ function createResultTop(obj, isPrint, isLandUse) {
     }
 
     top.appendChild(topControls);
+
+    return top;
+}
+
+function createResultTopNoUpdate(obj, isLandUse) {
+    let top = document.createElement('div');
+    let topLabel = document.createElement('a');
+    let span;
+    top.setAttribute('class', `w-100 dis-flex flex-between flex-center-v padding-small bg-primary border-round`);
+
+    topLabel.setAttribute('class', `color-white txt-bold w-100 txt-center  result-label`);
+    topLabel.style.textDecoration = 'none'
+    topLabel.setAttribute('target', '_blank');
+    topLabel.setAttribute('href', `/api/${isLandUse ? 'landuse' : 'urban'}/PDF/t/${obj.licenseType}/i/${obj.invoice}/y/${obj.year}`);
+    topLabel.innerText = 'Folio: ';
+    span = document.createElement('span');
+    span.setAttribute('id', `result_invoice_${obj.id}`);
+    span.innerText = obj.fullInvoice.replaceAll('_', '/');
+    topLabel.appendChild(span);
+
+    top.appendChild(topLabel);
 
     return top;
 }

@@ -74,7 +74,7 @@ async function getLicense(type, invoice, year) {
 
                 resultContainer.innerHTML = '';
 
-                createLandResult(response.license, resultContainer, false, true);
+                createLandResultNoUpdate(response.license, resultContainer);
 
                 return;
             }
@@ -114,7 +114,7 @@ async function getLicenseByType(type, year) {
                 resultContainer.innerHTML = '';
 
                 response.licenses.forEach(element => {
-                    createLandResult(element, resultContainer, false, true);
+                    createLandResultNoUpdate(element, resultContainer);
                 });
 
                 return;
@@ -155,7 +155,7 @@ async function getLicenseBy(param, value) {
                 resultContainer.innerHTML = '';
 
                 response.licenses.forEach(element => {
-                    createLandResult(element, resultContainer, false, true);
+                    createLandResultNoUpdate(element, resultContainer);
                 });
                 return;
             }
@@ -194,7 +194,7 @@ async function getLicenseByPrintInvoice(printInvoice) {
 
                 resultContainer.innerHTML = '';
 
-                createLandResult(response.license, resultContainer, false, true);
+                createLandResultNoUpdate(response.license, resultContainer);
 
                 return;
             }
@@ -234,7 +234,7 @@ async function getLicensesLand() {
                 resultContainer.innerHTML = '';
 
                 response.licenses.forEach(element => {
-                    createLandResult(element, resultContainer, false, true);
+                    createLandResultNoUpdate(element, resultContainer);
                 });
 
                 return;
@@ -252,7 +252,7 @@ async function getLicensesLand() {
         });
 }
 
-async function updateResultField(form, id) {
+/*async function updateResultField(form, id) {
     let registro = document.querySelector(`#result_invoice_${id}`).innerText;
     let field = form.querySelector('label').innerText.toLowerCase().replaceAll(':', '');
     let currentValue = form.querySelector('input[type="hidden"]').value;
@@ -360,10 +360,18 @@ async function deleteResult(id) {
         .catch(error => {
             console.error('Error uploading file: ', error);
         });
-}
+}*/
 
 //-------------------------------------------------------------------
 //* Land Result
+function createLandResultNoUpdate(resObj, target) {
+    let newResult = createResultNoUpdate(
+        resObj.id,
+        createResultTopNoUpdate(resObj, true));
+
+    target.appendChild(newResult);
+}
+
 function createLandResult(resObj, target, isPrint, isLandUse) {
     let resultContent = generateLandFields(resObj, createResultContent(resObj.id, isPrint));
 

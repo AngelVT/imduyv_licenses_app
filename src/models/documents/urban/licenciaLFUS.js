@@ -290,6 +290,7 @@ export async function generateUrbanLFUS(lcDBObj) {
                         [
                             {
                                 border: [true, false, true,true],
+                                margin: [2,0,0,0],
                                 text: [
                                     {text: 'Nota: ', style: 'regular', bold: true},
                                     {text: 'La información descrita corresponde y es responsabilidad del solicitante.', style: 'regular'}
@@ -298,7 +299,7 @@ export async function generateUrbanLFUS(lcDBObj) {
                         ]
                     ]
                 },
-                layout: docUtils.containerLayout
+                layout: docUtils.noBorderNoPadding
             },
             {
                 stack: [
