@@ -515,7 +515,7 @@ function generateLandFields(resObj, resultContent) {
 
     fieldGroup.appendChild(field);
 
-    field = createResultField(resObj.id, 'Clave castastral', 'catastralKey', resObj.catastralKey, 'number');
+    field = createResultField(resObj.id, 'Clave castastral', 'catastralKey', resObj.catastralKey, 'text');
 
     fieldGroup.appendChild(field);
 

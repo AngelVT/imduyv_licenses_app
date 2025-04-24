@@ -34,12 +34,14 @@ try {
     btnAddArea.addEventListener(
         'click', () => {
             addSingleSurface(fieldSurfaceIn.value, fieldMeasure.value, fieldSurfaceOut);
+            fieldSurfaceIn.value = '';
         }
     );
 
     btnAddLocalArea.addEventListener(
         'click', () => {
-            addLocalSurface(fieldSurfaceIn.value, fieldMeasure.value, fieldSurfaceOut)
+            addLocalSurface(fieldSurfaceIn.value, fieldMeasure.value, fieldSurfaceOut);
+            fieldSurfaceIn.value = '';
         }
     );
     
