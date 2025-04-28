@@ -595,22 +595,6 @@ function generateUrbanFields(resObj, resultContent) {
         fieldGroup.appendChild(field);
     }
 
-    if (resObj.licenseType == 2) {
-        field = createResultField(resObj.id, 'Tipo de antecedente', 'antecedentType', resObj.licenseSpecialData.antecedentType, 'select');
-
-        field.querySelector('select').innerHTML = `
-            <option value="">Seleccione ...</option>
-            <option value="0">Subdivision</option>
-            <option value="1">Fusion</option>`
-
-        field.querySelector('select').value = resObj.licenseSpecialData.antecedentType;
-
-        fieldGroup.appendChild(field);
-        
-        field = createResultField(resObj.id, 'Licencia antecedente', 'antecedent', resObj.licenseSpecialData.antecedent, 'text');
-        fieldGroup.appendChild(field);
-    }
-
     if (resObj.licenseType == 7) {
         field = createResultTextArea(resObj.id, 'Relotificación para', 'lotes', resObj.licenseSpecialData.lotes.join('\n'));
         fieldGroup.appendChild(field);
