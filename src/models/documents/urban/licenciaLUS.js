@@ -1,8 +1,6 @@
 import { __dirstorage } from "../../../path.configuration.js";
 import * as docUtils from "../../../utilities/document.utilities.js";
 
-const antecedents = ['SUBDIVISIÓN', 'FUSIÓN'];
-
 export async function generateUrbanLUS(lcDBObj) {
 
     lcDBObj = docUtils.prepareData(lcDBObj);
@@ -393,7 +391,6 @@ export async function generateUrbanLUS(lcDBObj) {
                 },
                 layout: docUtils.noBorderNoPadding
             },
-            lcDBObj.licenseSpecialData.isFrac ? 
             {
                 style: 'formRow',
                 table: {
@@ -418,10 +415,7 @@ export async function generateUrbanLUS(lcDBObj) {
                     ]
                 },
                 layout: docUtils.containerLayout
-            } 
-            : 
-            {}
-            ,
+            },
             {
                 style: 'formRow',
                 table: {
@@ -431,22 +425,7 @@ export async function generateUrbanLUS(lcDBObj) {
                         [
                             {
                                 type: 'lower-alpha',
-                                ol: lcDBObj.licenseSpecialData.isFrac ?
-                                lcDBObj.licenseSpecialData.restrictions ? lcDBObj.licenseSpecialData.restrictions : []
-                                :
-                                [
-                                    'La presente no autoriza acciones urbanas ni construcción de obras que generen impacto social en su entorno inmediato.',
-                                    lcDBObj.licenseSpecialData.antecedent ? {
-                                        text: [
-                                            'La presente autorización, es únicamente para el trámite de ', { text: antecedents[lcDBObj.licenseSpecialData.antecedentType], bold: true },
-                                            ' de acuerdo con la licencia número: ',
-                                            { text: lcDBObj.licenseSpecialData.antecedent, bold: true },
-                                            ' emitida por este Instituto, no se autoriza: venta de lotes, construcción u otra acción urbana que no corresponda a la actual autorización.'], }
-                                            : undefined,
-                                    'En caso de requerir Licencia de Uso de Suelo especifico deberá de tramitarla en este Instituto, ya que se emite únicamente para el trámite de subdivisión.',
-                                    'Acatar la normativa y restricciones de la zonificación secundaria que determina el documento técnico del Programa Municipal de Desarrollo Urbano y Ordenamiento Territorial de Tizayuca.',
-                                    'El Instituto Municipal de Desarrollo Urbano y Vivienda se reserva el derecho de revocar la presente, en caso de incumplimiento a cualquiera de las condicionantes establecidas en la misma.'
-                                ],
+                                ol: lcDBObj.licenseSpecialData.restrictions ? lcDBObj.licenseSpecialData.restrictions : [],
                                 fontSize: 6,
                                 alignment: 'justify'
                             }
