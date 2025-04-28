@@ -31,6 +31,18 @@ export async function generateInvoiceInformation(licenseType, year) {
     return { numericInvoice, fullInvoice }
 }
 
+export function parseBool(value, defaultValue) {
+    if (typeof value === 'undefined' || value === null) {
+        return defaultValue;
+    }
+
+    if (typeof value === 'string') {
+        return value.toLowerCase() === 'true';
+    }
+
+    return Boolean(value);
+}
+
 export function generateSpecialData(type) {
     switch (parseInt(type)) {
         case 1:
@@ -56,9 +68,29 @@ export function generateSpecialData(type) {
                 minimalFront: 0.00,
                 frontalRestriction: 0.0,
                 parkingLots: "Ej: 1 Cajón por lote",
+                authUse: "-",
+                activity: "-",
                 usePercent: 0,
                 antecedentType: "0",
-                antecedent: "IMDUyV/DLyCU/####/###/####"
+                antecedent: "IMDUyV/DLyCU/####/###/####",
+                conditions: ["Deberá presentar copia de escritura de fusión de predios protocolizada y debidamente inscrita en el Registro Público de la Propiedad y el Comercio, así como notificar a la Dirección de Catastro Municipal, en un periodo no mayor a 30 días hábiles.",
+                "Deberá presentar la Constancia de factibilidad de transporte de Residuos Sólidos Urbanos en un plazo no mayor a 15 días hábiles.",
+                "Por lo que hace al uso HABITACIONAL UNIFAMILIAR, una vez autorizado, deberá ser permitido con base en la matriz de compatibilidad del Programa Municipal de Desarrollo Urbano y Ordenamiento Territorial de Tizayuca, Hidalgo.",
+                "Las vialidades del desarrollo deberán ser de acuerdo a la clasificación de vías publicas descritas en el articulo 63 de Reglamento de la Ley de Asentamientos Humanos, Desarrollo Urbano y Ordenamiento Territorial del Estado de Hidalgo." ,
+                "La presente no autoriza acciones urbanas ni construcción de obras que generen impacto social en su entorno inmediato.",
+                "Para realizar obras de construcción, deberá tramitar y contar con licencia de construcción emitida por la Secretaría de Obras Públicas del Municipio de Tizayuca.",
+                "El propietario está obligado a dejar 40% de la superficie neta de cada lote, libre de construcción para absorción de agua pluvial.",
+                "Se prohíbe la colocación de cualquier publicidad fuera y frente del predio.",
+                "No se podrá destinar el uso de suelo para fines comerciales, si no solo el establecido en esta licencia.",
+                "Acatar la normativa y restricciones de la zonificación secundaria que determina el documento técnico del Programa Municipal de Desarrollo Urbano y Ordenamiento Territorial de Tizayuca."],
+                restrictions: [
+                    'Esta licencia no autoriza subdividir, fraccionar o limpiar el terreno, hasta en tanto no se tramite la Licencia correspondiente para fraccionar.',
+                    'Todo propietario o poseedor de predios, sin importar el régimen de propiedad, que subdivida, lotifique, relotifique o fraccione violando las disposiciones de la Ley de Asentamientos Humanos, Desarrollo Urbano y Ordenamiento Territorial, y su reglamento se harán acreedores de las sanciones correspondientes.',
+                ],
+                observations: [
+                    "Tendrá como uso predominante el de vivienda unifamiliar, permitiéndose áreas comerciales y de servicio en un 10% de la superficie total vendible.",
+                    "De acuerdo al aérea total del predio 161,950.70m² clasificado como Zona U3, para el aarea de donacion, debera tener la siguientes consideraciones> 15 m² por vivienda o 13% del area total del predio, que corresponde a 21,053.59 m²"
+                ]
             }
         case 3:
             return {
@@ -99,9 +131,9 @@ export function generateSpecialData(type) {
                 authorizationResume: "Ej: SE AUTORIZA LA SUBDIVISIÓN DE LOS PREDIOS IDENTIFICADOS COMO LAS PARCELAS 777, 775, 778, 786, 790, 791 Y LOTE 1 (PARCELA 924), RESULTANDO LA FUSIÓN CON UNA SUPERFICIE TOTAL DE: 161,100.70 M2.",
                 conditions: ["Ej: Deberá protocolizar la escritura de la subdivisión, debidamente inscrita en el Registro Público de la Propiedad y del Comercio del Distrito Judicial de Tizayuca, Hidalgo, en un plazo no mayor a 90 días naturales contados a partir de la firma del presente."],
                 "layout": "A",
-                "pageBreak_1": 0,
-                "pageBreak_2": 0,
-                "pageBreak_3": 1,
+                "pageBreak_1": false,
+                "pageBreak_2": false,
+                "pageBreak_3": true,
             }
         case 4:
             return {
@@ -142,9 +174,9 @@ export function generateSpecialData(type) {
                 authorizationResume: "Ej: SE AUTORIZA LA FUSIÓN DE LOS PREDIOS IDENTIFICADOS COMO LAS PARCELAS 777, 775, 778, 786, 790, 791 Y LOTE 1 (PARCELA 924), RESULTANDO LA FUSIÓN CON UNA SUPERFICIE TOTAL DE: 161,100.70 M2.",
                 conditions: ["Ej: Deberá protocolizar la escritura de la subdivisión, debidamente inscrita en el Registro Público de la Propiedad y del Comercio del Distrito Judicial de Tizayuca, Hidalgo, en un plazo no mayor a 90 días naturales contados a partir de la firma del presente."],
                 "layout": "A",
-                "pageBreak_1": 0,
-                "pageBreak_2": 0,
-                "pageBreak_3": 1,
+                "pageBreak_1": false,
+                "pageBreak_2": false,
+                "pageBreak_3": true,
             }
         case 5:
             return {
@@ -191,15 +223,15 @@ export function generateSpecialData(type) {
                     "En caso de incumplimiento a cualquiera de las prerrogativas descritas con antelación se hará acreedor a las sanciones establecidas en el artículo 196 fracción V en relación con el Artículo 193 fracción XIII, ambos de la Ley de Asentamientos Humanos, Desarrollo Urbano y Ordenamiento Territorial del Estado de Hidalgo.",
                     "En caso de incumplimiento a lo antes citado, este documento quedará sin validez."
                 ],
-                "pageBreak_1": 1,
-                "pageBreak_2": 1,
-                "pageBreak_3": 1,
-                "pageBreak_4": 0,
-                "pageBreak_5": 0,
-                "pageBreak_6": 0,
-                "pageBreak_7": 0,
-                "pageBreak_8": 0,
-                "pageBreak_9": 0
+                "pageBreak_1": true,
+                "pageBreak_2": true,
+                "pageBreak_3": true,
+                "pageBreak_4": false,
+                "pageBreak_5": false,
+                "pageBreak_6": false,
+                "pageBreak_7": false,
+                "pageBreak_8": false,
+                "pageBreak_9": false
             }
         case 6:
             return {
@@ -256,15 +288,15 @@ export function generateSpecialData(type) {
                 habitacionalLotes: "Ej: 3 lotes habitacionales",
                 totalManzanas: "Ej: 37 manzanas",
                 totalSurface: "Ej: 14,335.98 m²",
-                "pageBreak_1": 1,
-                "pageBreak_2": 1,
-                "pageBreak_3": 1,
-                "pageBreak_4": 0,
-                "pageBreak_5": 0,
-                "pageBreak_6": 0,
-                "pageBreak_7": 0,
-                "pageBreak_8": 0,
-                "pageBreak_9": 0
+                "pageBreak_1": true,
+                "pageBreak_2": true,
+                "pageBreak_3": true,
+                "pageBreak_4": false,
+                "pageBreak_5": false,
+                "pageBreak_6": false,
+                "pageBreak_7": false,
+                "pageBreak_8": false,
+                "pageBreak_9": false
             }
         case 7:
             return {
@@ -312,14 +344,14 @@ export function generateSpecialData(type) {
                     "En caso de incumplimiento a lo antes citado, este documento quedará sin validez."
                 ],
                 detailedUse: "Ej: Habitacional de Interés Social, Económico Condominal Horizontal, Condominal Vertical y Comercial.",
-                "pageBreak_1": 1,
-                "pageBreak_2": 1,
-                "pageBreak_3": 0,
-                "pageBreak_4": 0,
-                "pageBreak_5": 0,
-                "pageBreak_6": 0,
-                "pageBreak_7": 0,
-                "pageBreak_8": 0
+                "pageBreak_1": true,
+                "pageBreak_2": true,
+                "pageBreak_3": false,
+                "pageBreak_4": false,
+                "pageBreak_5": false,
+                "pageBreak_6": false,
+                "pageBreak_7": false,
+                "pageBreak_8": false
             }
         case 8:
             return {
@@ -352,16 +384,16 @@ export function generateSpecialData(type) {
                 ],
                 privateSurface: 0.0,
                 commonSurface: 0.0,
-                "pageBreak_1": 0,
-                "pageBreak_2": 1,
-                "pageBreak_3": 1,
-                "pageBreak_4": 0,
-                "pageBreak_5": 0,
-                "pageBreak_6": 0,
-                "pageBreak_7": 0,
-                "pageBreak_8": 0,
-                "pageBreak_9": 0,
-                "pageBreak_10": 1,
+                "pageBreak_1": false,
+                "pageBreak_2": true,
+                "pageBreak_3": true,
+                "pageBreak_4": false,
+                "pageBreak_5": false,
+                "pageBreak_6": false,
+                "pageBreak_7": false,
+                "pageBreak_8": false,
+                "pageBreak_9": false,
+                "pageBreak_10": true,
             }
         case 9:
             return {

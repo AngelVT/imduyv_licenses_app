@@ -1,6 +1,12 @@
 const thaForm = document.getElementById('form_reg');
+const isFrac = document.getElementById('isFrac');
+const isFracHidden = document.getElementById('isFracHidden');
 
 resetFormAuto(thaForm);
+
+isFrac.addEventListener('change', () => {
+    isFracHidden.value = isFrac.checked;
+});
 
 thaForm.addEventListener(
     'submit', async event => {

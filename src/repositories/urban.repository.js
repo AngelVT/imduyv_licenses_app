@@ -56,6 +56,7 @@ export async function findUrbanLicenseType(type, year) {
             licenseType: type,
             year: year
         },
+        order: [['invoice', 'ASC']],
         include: URBAN_MODELS,
         raw: true,
         nest: true

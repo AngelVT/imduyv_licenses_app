@@ -47,7 +47,7 @@ export const logger = createLogger({
             datePattern: 'YYYY-MM-DD',
             zippedArchive: true,
             maxSize: '20m',
-            maxFiles: '14d'
+            maxFiles: '1y'
         })
     ]
 });
@@ -67,7 +67,7 @@ export const requestLogger = createLogger({
             datePattern: 'YYYY-MM-DD',
             zippedArchive: true,
             maxSize: '20m',
-            maxFiles: '14d'
+            maxFiles: '1y'
         })
     ]
 });
@@ -87,7 +87,7 @@ export const accessLogger = createLogger({
             datePattern: 'YYYY-MM-DD',
             zippedArchive: true,
             maxSize: '20m',
-            maxFiles: '14d'
+            maxFiles: '1y'
         })
     ]
 });

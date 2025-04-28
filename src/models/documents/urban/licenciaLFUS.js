@@ -11,7 +11,7 @@ export async function generateUrbanLFUS(lcDBObj) {
 
     const conditionsPart = {
         style: 'formRow',
-        pageBreak: lcDBObj.licenseSpecialData.pageBreak_1 == 1 ? 'before' : 'avoid',
+        pageBreak: lcDBObj.licenseSpecialData.pageBreak_1 ? 'before' : 'avoid',
         table: {
             widths: ['*'],
             body: [
@@ -31,7 +31,7 @@ export async function generateUrbanLFUS(lcDBObj) {
     };
     const restrictionsPart = {
         style: 'formRow',
-        pageBreak: lcDBObj.licenseSpecialData.pageBreak_2 == 1 ? 'before' : 'avoid',
+        pageBreak: lcDBObj.licenseSpecialData.pageBreak_2 ? 'before' : 'avoid',
         table: {
             widths: ['*'],
             body: [
@@ -53,6 +53,68 @@ export async function generateUrbanLFUS(lcDBObj) {
         },
         layout: docUtils.containerLayout
     };
+    const signaturesPart = {
+        pageBreak: 'avoid',
+        stack: [
+            {
+                text:`NOTIFÍQUESE Y CÚMPLASE\nASÍ EN DEFINITIVA LO RESOLVIÓ Y AUTORIZÓ ${MUNICIPAL_PRESIDENT}, PRESIDENTE MUNICIPAL CONSTITUCIONAL DE TIZAYUCA, HIDALGO Y\n${INSTITUTE_DIRECTOR_SIGNATURE}, DIRECTOR(A) GENERAL DEL INSTITUTO MUNICIPAL DE DESARROLLO URBANO Y VIVIENDA`,
+                style: 'boldCenter',
+                fontSize: 6,
+                margin: [0,10,0,100]
+            },
+            /*{
+                columns: [
+                    {width: 30,
+                        text: ''
+                    },
+                    docUtils.signaturePresident(lcDBObj.approvalStatus),
+                    docUtils.signatureSeal(lcDBObj.approvalStatus),
+                    docUtils.signatureDirector(lcDBObj.approvalStatus),
+                    {
+                        width: 30,
+                        text: ''
+                    }
+                ]
+            },*/
+            {
+                columns: [
+                    {width: 50,
+                        text: ''},
+                    {
+                    text: `${MUNICIPAL_PRESIDENT}\nPRESIDENTE MUNICIPAL CONSTITUCIONAL\nDE TIZAYUCA, HIDALGO.`,
+                    style: 'labelTC',
+                    fontSize: 8
+                },
+                {width: 0,
+                    text: ''},
+                {
+                    text: `${INSTITUTE_DIRECTOR_SIGNATURE}\nDIRECTOR(A) GENERAL DEL INSTITUTO MUNICIPAL\nDE DESARROLLO URBANO Y VIVIENDA.`,
+                    style: 'labelTC',
+                    fontSize: 8
+                },
+                {width: 50,
+                    text: ''}
+                ]
+            }
+        ]
+    }
+    const dateInvoicePart = {
+            style: 'formRow',
+            table: {
+                widths: ['*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*'],
+                body: [
+                    [{text: 'Fecha de Expedición: ', style: 'labelTC', colSpan: 2},
+                        {},
+                        docUtils.field(docUtils.dateFormatFull(lcDBObj.expeditionDate), docUtils.borderless, 2, 'center',6),
+                        {},{},{},{},{},
+                        {text: 'Folio de pago: ', style: 'labelTC', colSpan: 2},
+                        {},
+                        docUtils.field(lcDBObj.billInvoice, docUtils.borderless, 2, 'center',6),
+                        {}]
+                ]
+            },
+            layout: docUtils.noBorderNoPadding
+        }
 
     var definition = {
         pageMargins: [ 5, 40, 5, 40 ],
@@ -145,7 +207,7 @@ export async function generateUrbanLFUS(lcDBObj) {
                             {
                                 border: [true, true, true, false],
                                 table: {
-                                    widths: [90,90,100.5,'*'],
+                                    widths: [90,90,130.5,'*'],
                                     body: docUtils.generateDSMCTable(lcDBObj.licenseSpecialData.actualSituation, 'SITUACIÓN ACTUAL')
                                 },layout: docUtils.subTable
                             }
@@ -204,73 +266,13 @@ export async function generateUrbanLFUS(lcDBObj) {
             },
             lcDBObj.licenseSpecialData.layout == "A" ? conditionsPart : {},
             lcDBObj.licenseSpecialData.layout == "A" ? restrictionsPart : {},
-            {
-                style: 'formRow',
-                table: {
-                    widths: ['*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*'],
-                    body: [
-                        [{text: 'Fecha de Expedición: ', style: 'labelTC', colSpan: 2},
-                            {},
-                            docUtils.field(docUtils.dateFormatFull(lcDBObj.expeditionDate), docUtils.borderless, 2, 'center',6),
-                            {},{},{},{},{},
-                            {text: 'Folio de pago: ', style: 'labelTC', colSpan: 2},
-                            {},
-                            docUtils.field(lcDBObj.billInvoice, docUtils.borderless, 2, 'center',6),
-                            {}]
-                    ]
-                },
-                layout: docUtils.noBorderNoPadding
-            },
-            {
-                pageBreak: 'avoid',
-                stack: [
-                    {
-                        text:`NOTIFÍQUESE Y CÚMPLASE\nASÍ EN DEFINITIVA LO RESOLVIÓ Y AUTORIZÓ ${MUNICIPAL_PRESIDENT}, PRESIDENTE MUNICIPAL CONSTITUCIONAL DE TIZAYUCA, HIDALGO Y\n${INSTITUTE_DIRECTOR_SIGNATURE}, DIRECTOR(A) GENERAL DEL INSTITUTO MUNICIPAL DE DESARROLLO URBANO Y VIVIENDA`,
-                        style: 'boldCenter',
-                        fontSize: 6,
-                        margin: [0,10,0,100]
-                    },
-                    /*{
-                        columns: [
-                            {width: 30,
-                                text: ''
-                            },
-                            docUtils.signaturePresident(lcDBObj.approvalStatus),
-                            docUtils.signatureSeal(lcDBObj.approvalStatus),
-                            docUtils.signatureDirector(lcDBObj.approvalStatus),
-                            {
-                                width: 30,
-                                text: ''
-                            }
-                        ]
-                    },*/
-                    {
-                        columns: [
-                            {width: 50,
-                                text: ''},
-                            {
-                            text: `${MUNICIPAL_PRESIDENT}\nPRESIDENTE MUNICIPAL CONSTITUCIONAL\nDE TIZAYUCA, HIDALGO.`,
-                            style: 'labelTC',
-                            fontSize: 8
-                        },
-                        {width: 0,
-                            text: ''},
-                        {
-                            text: `${INSTITUTE_DIRECTOR_SIGNATURE}\nDIRECTOR(A) GENERAL DEL INSTITUTO MUNICIPAL\nDE DESARROLLO URBANO Y VIVIENDA.`,
-                            style: 'labelTC',
-                            fontSize: 8
-                        },
-                        {width: 50,
-                            text: ''}
-                        ]
-                    }
-                ]
-            },
+            lcDBObj.licenseSpecialData.layout != "C" ? dateInvoicePart : {},
+            lcDBObj.licenseSpecialData.layout != "C" ? signaturesPart : {},
             lcDBObj.licenseSpecialData.layout == "B" ? conditionsPart : {},
             lcDBObj.licenseSpecialData.layout == "B" ? restrictionsPart : {},
             {
                 style: 'formRow',
-                pageBreak: lcDBObj.licenseSpecialData.pageBreak_3 == 1 ? 'before' : 'avoid',
+                pageBreak: lcDBObj.licenseSpecialData.pageBreak_3 ? 'before' : 'avoid',
                 table: {
                     widths: ['*'],
                     body: [
@@ -307,7 +309,10 @@ export async function generateUrbanLFUS(lcDBObj) {
                     { text: 'Personal técnico adscrito al referido Instituto, realizó visita de inspección en campo al inmueble del que solicita la Licencia de Subdivisión, emitiendo opinión técnica positiva. Por tanto, se autorizan los planos de Subdivisión exhibidos por el solicitante, los cuales forman parte integrante de esta autorización.', style: 'regular', margin: [0,0,0,15], alignment: 'justify' }
                 ]
             },
+            lcDBObj.licenseSpecialData.layout == "C" ? restrictionsPart : {},
+            lcDBObj.licenseSpecialData.layout == "C" ? conditionsPart : {},
             {
+                pageBreak: lcDBObj.licenseSpecialData.pageBreak_4 ? 'before' : 'avoid',
                 style: 'formRow',
                 table: {
                     widths: ['*'],
@@ -320,6 +325,8 @@ export async function generateUrbanLFUS(lcDBObj) {
                 },
                 layout: docUtils.containerLayout
             },
+            lcDBObj.licenseSpecialData.layout == "C" ? dateInvoicePart : {},
+            lcDBObj.licenseSpecialData.layout == "C" ? signaturesPart : {},
             {
                 margin: [0,30,0,0],
                 columns: [

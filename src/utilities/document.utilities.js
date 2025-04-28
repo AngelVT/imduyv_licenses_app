@@ -396,7 +396,7 @@ export function generateDSMCTable(situationArray, subject) {
             {
                 colSpan: 2,
                 table: {
-                    widths: [100, '*'],
+                    widths: [130, '*'],
                     body: generateSubTable(i.table)
                 },
                 layout: subTable,

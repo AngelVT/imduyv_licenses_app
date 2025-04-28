@@ -6,7 +6,6 @@ export async function generateUrbanRLF(lcDBObj) {
     lcDBObj = docUtils.prepareData(lcDBObj);
 
     const INSTITUTE_DIRECTOR_SIGNATURE = await docUtils.getDirectorNameSignature(lcDBObj.requestDate);
-    const INSTITUTE_DIRECTOR_TITTLE = await docUtils.getDirectorNameTittle(lcDBObj.requestDate);
     const LICENSES_DIRECTOR = await docUtils.getLicensesDirectorName(lcDBObj.requestDate);
     const MUNICIPAL_PRESIDENT = await docUtils.getPresidentName(lcDBObj.requestDate);
 
@@ -185,7 +184,7 @@ export async function generateUrbanRLF(lcDBObj) {
                 ]
             },
             {
-                pageBreak: lcDBObj.licenseSpecialData.pageBreak_1 == 1 ? 'before' : 'avoid',
+                pageBreak: lcDBObj.licenseSpecialData.pageBreak_1 ? 'before' : 'avoid',
                 style: 'formRow',
                 table: {
                     widths: ['*'],
@@ -203,7 +202,7 @@ export async function generateUrbanRLF(lcDBObj) {
                 layout: docUtils.containerLayout
             },
             {
-                pageBreak: lcDBObj.licenseSpecialData.pageBreak_2 == 1 ? 'before' : 'avoid',
+                pageBreak: lcDBObj.licenseSpecialData.pageBreak_2 ? 'before' : 'avoid',
                 style: 'formRow',
                 table: {
                     widths: ['*'],
@@ -221,7 +220,7 @@ export async function generateUrbanRLF(lcDBObj) {
                 layout: docUtils.containerLayout
             },
             {
-                pageBreak: lcDBObj.licenseSpecialData.pageBreak_3 == 1 ? 'before' : 'avoid',
+                pageBreak: lcDBObj.licenseSpecialData.pageBreak_3 ? 'before' : 'avoid',
                 style: 'formRow',
 				keepWithHeaderRows: 1,
                 table: {
@@ -257,7 +256,7 @@ export async function generateUrbanRLF(lcDBObj) {
                 layout: docUtils.containerLayout
             },
             {
-                pageBreak: lcDBObj.licenseSpecialData.pageBreak_4 == 1 ? 'before' : 'avoid',
+                pageBreak: lcDBObj.licenseSpecialData.pageBreak_4 ? 'before' : 'avoid',
                 style: 'formRow',
                 table: {
                     widths: ['*'],
@@ -279,7 +278,7 @@ export async function generateUrbanRLF(lcDBObj) {
                 layout: docUtils.containerLayout
             },
             {
-                pageBreak: lcDBObj.licenseSpecialData.pageBreak_5 == 1 ? 'before' : 'avoid',
+                pageBreak: lcDBObj.licenseSpecialData.pageBreak_5 ? 'before' : 'avoid',
                 style: 'formRow',
                 table: {
                     widths: ['*'],
@@ -316,7 +315,7 @@ export async function generateUrbanRLF(lcDBObj) {
                 layout: docUtils.containerLayout
             },
             {
-                pageBreak: lcDBObj.licenseSpecialData.pageBreak_6 == 1 ? 'before' : 'avoid',
+                pageBreak: lcDBObj.licenseSpecialData.pageBreak_6 ? 'before' : 'avoid',
                 style: 'formRow',
                 table: {
                     widths: ['*'],
@@ -340,7 +339,7 @@ export async function generateUrbanRLF(lcDBObj) {
                 layout: docUtils.containerLayout
             },
             {
-                pageBreak: lcDBObj.licenseSpecialData.pageBreak_7 == 1 ? 'before' : 'avoid',
+                pageBreak: lcDBObj.licenseSpecialData.pageBreak_7 ? 'before' : 'avoid',
                 style: 'formRow',
                 table: {
                     widths: ['*'],
@@ -376,7 +375,7 @@ export async function generateUrbanRLF(lcDBObj) {
                 layout: docUtils.containerLayout
             },
             {
-                pageBreak: lcDBObj.licenseSpecialData.pageBreak_8 == 1 ? 'before' : 'avoid',
+                pageBreak: lcDBObj.licenseSpecialData.pageBreak_8 ? 'before' : 'avoid',
                 style: 'formRow',
                 table: {
                     widths: ['*'],

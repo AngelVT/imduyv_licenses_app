@@ -172,6 +172,7 @@ export async function requestUrbanLicenseCreate(body, files, requestor) {
         authorizedQuantity,
         deliveryDate,
         receiverName,
+        isFrac,
         PCU,
         occupationPercent,
         surfacePerLote,
@@ -181,8 +182,8 @@ export async function requestUrbanLicenseCreate(body, files, requestor) {
         requestorAddress,
         buildingAddress
     } = body;
-    
-    if (!licenseType || !requestorName || !georeference) {
+
+    if (!licenseType || !requestorName || !georeference || (licenseType == 2 && typeof isFrac === 'undefined')) {
         return {
             status: 400,
             data: {
@@ -214,6 +215,7 @@ export async function requestUrbanLicenseCreate(body, files, requestor) {
     SPECIAL_DATA.surfacePerLote = surfacePerLote ? surfacePerLote : SPECIAL_DATA.surfacePerLote;
     SPECIAL_DATA.maximumHeight = maximumHeight ? maximumHeight : SPECIAL_DATA.maximumHeight;
     SPECIAL_DATA.levels = levels ? levels : SPECIAL_DATA.levels;
+    SPECIAL_DATA.isFrac = licenseType == 2 ? urbanUtils.parseBool(isFrac,SPECIAL_DATA.isFrac) : undefined;
 
     const NEW_LICENSE_DATA = {
         fullInvoice: INVOICE_INFO.fullInvoice,
@@ -347,6 +349,7 @@ export async function requestUrbanLicenseUpdate(id, licenseData, files, requesto
         validity,
         term,
         PCU,
+        isFrac,
         representativeAs,
         requestorAddress,
         buildingAddress,
@@ -358,6 +361,8 @@ export async function requestUrbanLicenseUpdate(id, licenseData, files, requesto
         frontalRestriction,
         parkingLots,
         usePercent,
+        activity,
+        authUse,
         actualSituation,
         actualAuthorizedFS,
         authorizationResume,
@@ -366,6 +371,9 @@ export async function requestUrbanLicenseUpdate(id, licenseData, files, requesto
         lotes,
         manzanas,
         conditions,
+        restrictions,
+        observations,
+        donationArea,
         privateSurface,
         commonSurface,
         location,
@@ -396,7 +404,7 @@ export async function requestUrbanLicenseUpdate(id, licenseData, files, requesto
         pageBreak_10
     } = licenseData;
 
-    if (!requestorName && legalRepresentative && !requestDate && !colony && !catastralKey && !surface && !zone && !expeditionDate && !collectionOrder && !paymentDate && !billInvoice && !authorizedQuantity && !deliveryDate && !receiverName && !validity && !term && !PCU && !representativeAs && !requestorAddress && !buildingAddress && !occupationPercent && !surfacePerLote && !maximumHeight && !levels && !minimalFront && !frontalRestriction && !parkingLots && !usePercent && !actualSituation && !actualAuthorizedFS && !authorizationResume && !households && !documents && !lotes && !manzanas && !conditions && !privateSurface && !commonSurface && !location && !authorizationFor && !integrity && !detailedUse && !urbanLUS && !urbanCUS && !antecedent && !antecedentType && !habitacionalLotes && !totalManzanas && !totalSurface && !totalRelotification && !resultRelotification && !previousInvoice && !previousInvoiceDate && !layout && !pageBreak_1 && !pageBreak_2 && !pageBreak_3 && !pageBreak_4 && !pageBreak_5 && !pageBreak_6 && !pageBreak_7 && !pageBreak_8 && !pageBreak_9 && !pageBreak_10 && !files) {
+    if (!requestorName && legalRepresentative && !requestDate && !colony && !catastralKey && !surface && !zone && !expeditionDate && !collectionOrder && !paymentDate && !billInvoice && !authorizedQuantity && !deliveryDate && !receiverName && !validity && !term && !PCU && typeof isFrac === 'undefined' && !representativeAs && !requestorAddress && !buildingAddress && !occupationPercent && !surfacePerLote && !maximumHeight && !levels && !minimalFront && !frontalRestriction && !parkingLots && !usePercent, !authUse && !activity && !actualSituation && !actualAuthorizedFS && !authorizationResume && !households && !documents && !lotes && !manzanas && !conditions && !restrictions && !observations && !donationArea && !privateSurface && !commonSurface && !location && !authorizationFor && !integrity && !detailedUse && !urbanLUS && !urbanCUS && !antecedent && !antecedentType && !habitacionalLotes && !totalManzanas && !totalSurface && !totalRelotification && !resultRelotification && !previousInvoice && !previousInvoiceDate && !layout && !pageBreak_1 && !pageBreak_2 && !pageBreak_3 && !pageBreak_4 && !pageBreak_5 && !pageBreak_6 && !pageBreak_7 && !pageBreak_8 && !pageBreak_9 && !pageBreak_10 && !files) {
         return {
             status: 400,
             data: {
@@ -431,6 +439,7 @@ export async function requestUrbanLicenseUpdate(id, licenseData, files, requesto
     let newSpecialData = specialDataToJSON(SPECIAL_DATA).licenseSpecialData;
 
     newSpecialData.PCU = PCU ? PCU.toUpperCase() : newSpecialData.PCU;
+    newSpecialData.isFrac = urbanUtils.parseBool(isFrac, newSpecialData.isFrac);
     newSpecialData.representativeAs = representativeAs ? representativeAs : newSpecialData.representativeAs;
     newSpecialData.requestorAddress = requestorAddress ? requestorAddress : newSpecialData.requestorAddress;
     newSpecialData.buildingAddress = buildingAddress ? buildingAddress : newSpecialData.buildingAddress;
@@ -442,14 +451,19 @@ export async function requestUrbanLicenseUpdate(id, licenseData, files, requesto
     newSpecialData.frontalRestriction = frontalRestriction ? frontalRestriction : newSpecialData.frontalRestriction;
     newSpecialData.parkingLots = parkingLots ? parkingLots : newSpecialData.parkingLots;
     newSpecialData.usePercent = usePercent ? usePercent : newSpecialData.usePercent;
+    newSpecialData.authUse = authUse ? authUse.toUpperCase() : newSpecialData.authUse;
+    newSpecialData.activity = activity ? activity.toUpperCase() : newSpecialData.activity;
     newSpecialData.actualSituation = actualSituation ? JSON.parse(actualSituation) : newSpecialData.actualSituation;
     newSpecialData.actualAuthorizedFS = actualAuthorizedFS ? JSON.parse(actualAuthorizedFS) : newSpecialData.actualAuthorizedFS;
     newSpecialData.authorizationResume = authorizationResume ? authorizationResume : newSpecialData.authorizationResume;
     newSpecialData.households = households ? households : newSpecialData.households;
     newSpecialData.documents = documents ? documents.replaceAll('\r', '').split('\n') : newSpecialData.documents;
     newSpecialData.lotes = lotes ? lotes.replaceAll('\r', '').split('\n') : newSpecialData.lotes;
+    newSpecialData.donationArea = donationArea ? donationArea.replaceAll('\r', '').split('\n') : newSpecialData.donationArea;
     newSpecialData.manzanas = manzanas ? manzanas.replaceAll('\r', '').split('\n') : newSpecialData.manzanas;
     newSpecialData.conditions = conditions ? conditions.replaceAll('\r', '').split('\n') : newSpecialData.conditions;
+    newSpecialData.restrictions = restrictions ? restrictions.replaceAll('\r', '').split('\n') : newSpecialData.restrictions;
+    newSpecialData.observations = observations ? observations.replaceAll('\r', '').split('\n') : newSpecialData.observations;
     newSpecialData.privateSurface = privateSurface ? privateSurface : newSpecialData.privateSurface;
     newSpecialData.commonSurface = commonSurface ? commonSurface : newSpecialData.commonSurface;
     newSpecialData.location = location ? location.replaceAll('\r', '').split('\n') : newSpecialData.location;
@@ -469,16 +483,16 @@ export async function requestUrbanLicenseUpdate(id, licenseData, files, requesto
     newSpecialData.previousInvoiceDate = previousInvoiceDate ? previousInvoiceDate : newSpecialData.previousInvoiceDate;
 
     newSpecialData.layout = layout ? layout.toUpperCase() : newSpecialData.layout;
-    newSpecialData.pageBreak_1 = pageBreak_1 ? parseInt(pageBreak_1) : newSpecialData.pageBreak_1;
-    newSpecialData.pageBreak_2 = pageBreak_2 ? parseInt(pageBreak_2) : newSpecialData.pageBreak_2;
-    newSpecialData.pageBreak_3 = pageBreak_3 ? parseInt(pageBreak_3) : newSpecialData.pageBreak_3;
-    newSpecialData.pageBreak_4 = pageBreak_4 ? parseInt(pageBreak_4) : newSpecialData.pageBreak_4;
-    newSpecialData.pageBreak_5 = pageBreak_5 ? parseInt(pageBreak_5) : newSpecialData.pageBreak_5;
-    newSpecialData.pageBreak_6 = pageBreak_6 ? parseInt(pageBreak_6) : newSpecialData.pageBreak_6;
-    newSpecialData.pageBreak_7 = pageBreak_7 ? parseInt(pageBreak_7) : newSpecialData.pageBreak_7;
-    newSpecialData.pageBreak_8 = pageBreak_8 ? parseInt(pageBreak_8) : newSpecialData.pageBreak_8;
-    newSpecialData.pageBreak_9 = pageBreak_9 ? parseInt(pageBreak_9) : newSpecialData.pageBreak_9;
-    newSpecialData.pageBreak_10 = pageBreak_10 ? parseInt(pageBreak_10) : newSpecialData.pageBreak_10;
+    newSpecialData.pageBreak_1 = urbanUtils.parseBool(pageBreak_1, newSpecialData.pageBreak_1);
+    newSpecialData.pageBreak_2 = urbanUtils.parseBool(pageBreak_2, newSpecialData.pageBreak_2);
+    newSpecialData.pageBreak_3 = urbanUtils.parseBool(pageBreak_3, newSpecialData.pageBreak_3);
+    newSpecialData.pageBreak_4 = urbanUtils.parseBool(pageBreak_4, newSpecialData.pageBreak_4);
+    newSpecialData.pageBreak_5 = urbanUtils.parseBool(pageBreak_5, newSpecialData.pageBreak_5);
+    newSpecialData.pageBreak_6 = urbanUtils.parseBool(pageBreak_6, newSpecialData.pageBreak_6);
+    newSpecialData.pageBreak_7 = urbanUtils.parseBool(pageBreak_7, newSpecialData.pageBreak_7);
+    newSpecialData.pageBreak_8 = urbanUtils.parseBool(pageBreak_8, newSpecialData.pageBreak_8);
+    newSpecialData.pageBreak_9 = urbanUtils.parseBool(pageBreak_9, newSpecialData.pageBreak_9);
+    newSpecialData.pageBreak_10 = urbanUtils.parseBool(pageBreak_10, newSpecialData.pageBreak_10);
 
     newSpecialData.antecedent = newSpecialData.antecedent == '-' ? null : newSpecialData.antecedent;
 

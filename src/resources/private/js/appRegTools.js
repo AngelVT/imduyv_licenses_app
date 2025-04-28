@@ -233,6 +233,7 @@ function setFormFields(formFieldSet) {
 }
 
 function showCUS() {
+    isFracHidden.removeAttribute('value');
     document.querySelectorAll('.LUS').forEach(e => {
         e.classList.add("dis-none");
     });
@@ -271,6 +272,7 @@ function showCUS() {
 }
 
 function showLUS() {
+    isFracHidden.removeAttribute('value');
     document.querySelectorAll('.CUS').forEach(e => {
         e.classList.add("dis-none");
     });
@@ -309,6 +311,7 @@ function showLUS() {
 }
 
 function showLSUB() {
+    isFracHidden.removeAttribute('value');
     document.querySelectorAll('.LUS').forEach(e => {
         e.classList.add("dis-none");
     });
@@ -347,6 +350,7 @@ function showLSUB() {
 }
 
 function showLFUS() {
+    isFracHidden.removeAttribute('value');
     document.querySelectorAll('.LUS').forEach(e => {
         e.classList.add("dis-none");
     });
@@ -385,6 +389,7 @@ function showLFUS() {
 }
 
 function showPLF() {
+    isFracHidden.removeAttribute('value');
     document.querySelectorAll('.LUS').forEach(e => {
         e.classList.add("dis-none");
     });
@@ -423,6 +428,7 @@ function showPLF() {
 }
 
 function showLF() {
+    isFracHidden.removeAttribute('value');
     document.querySelectorAll('.LUS').forEach(e => {
         e.classList.add("dis-none");
     });
@@ -461,6 +467,7 @@ function showLF() {
 }
 
 function showRLF() {
+    isFracHidden.removeAttribute('value');
     document.querySelectorAll('.LUS').forEach(e => {
         e.classList.add("dis-none");
     });
@@ -499,6 +506,7 @@ function showRLF() {
 }
 
 function showCRPC() {
+    isFracHidden.removeAttribute('value');
     document.querySelectorAll('.LUS').forEach(e => {
         e.classList.add("dis-none");
     });
@@ -537,6 +545,7 @@ function showCRPC() {
 }
 
 function showLUH() {
+    isFracHidden.removeAttribute('value');
     document.querySelectorAll('.LUS').forEach(e => {
         e.classList.add("dis-none");
     });

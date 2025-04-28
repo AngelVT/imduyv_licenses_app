@@ -6,9 +6,7 @@ export async function generateUrbanLUH(lcDBObj) {
     lcDBObj = docUtils.prepareData(lcDBObj);
 
     const INSTITUTE_DIRECTOR_SIGNATURE = await docUtils.getDirectorNameSignature(lcDBObj.requestDate);
-    const INSTITUTE_DIRECTOR_TITTLE = await docUtils.getDirectorNameTittle(lcDBObj.requestDate);
     const LICENSES_DIRECTOR = await docUtils.getLicensesDirectorName(lcDBObj.requestDate);
-    const MUNICIPAL_PRESIDENT = await docUtils.getPresidentName(lcDBObj.requestDate);
 
     var definition = {
         pageMargins: [5, 60, 5, 60],

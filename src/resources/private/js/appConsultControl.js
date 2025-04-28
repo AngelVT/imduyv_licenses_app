@@ -256,7 +256,7 @@ function createResultField(id, tag, name, value, type) {
             input.removeAttribute('value');
             input.removeAttribute('required');
 
-            input.setAttribute('class', 'w-85');
+            input.setAttribute('class', 'w-85 input input-interface');
             input.setAttribute('onchange', `document.getElementById('${name}_${id}').value = this.checked`);
 
             let trueInput = document.createElement('input');
