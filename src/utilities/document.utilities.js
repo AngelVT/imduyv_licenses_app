@@ -390,9 +390,11 @@ export function generateDSMCTable(situationArray, subject) {
     ]
 
     for (let i of situationArray) {
+        const numberOfNewlines = Math.ceil((i.table.distribution.length / 2) - 1);
+        const newlines = '\n'.repeat(numberOfNewlines);
         let arr = [
-            { text: i.description ? i.description.replaceAll('/','\n') : '', style: ['boldCenter', 'regularSmall'], margin: [0, 3, 0, 0], border: [false, true, false, true] },
-            { text: i.surface ? i.surface.replaceAll('/','\n') : '', style: ['boldCenter', 'regularSmall'], margin: [0, 3, 0, 0], border: [false, true, false, true] },
+            { text: newlines + i.description, style: ['boldCenter', 'regularSmall'], margin: [0, 3, 0, 0], border: [false, true, false, true] },
+            { text: newlines + i.surface, style: ['boldCenter', 'regularSmall'], margin: [0, 3, 0, 0], border: [false, true, false, true] },
             {
                 colSpan: 2,
                 table: {
