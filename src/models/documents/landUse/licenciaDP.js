@@ -11,7 +11,7 @@ export async function generateLandUseDP(lcDBObj) {
     const LICENSES_DIRECTOR = await docUtils.getLicensesDirectorName(lcDBObj.requestDate);
 
     var definition = {
-        pageMargins: [ 5, 80, 5, 10 ],
+        pageMargins: [ 5, 100, 5, 10 ],
         styles: docUtils.docStyles,
         content: [
             {

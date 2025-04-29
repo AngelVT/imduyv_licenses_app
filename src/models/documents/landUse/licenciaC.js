@@ -9,7 +9,7 @@ export async function generateLandUseC(lcDBObj) {
     const INSTITUTE_DIRECTOR_TITTLE = await docUtils.getDirectorNameTittle(lcDBObj.requestDate);
 
     var definition = {
-        pageMargins: [ 5, 80, 5, 10 ],
+        pageMargins: [ 5, 100, 5, 10 ],
         styles: docUtils.docStyles,
         content: [
             {

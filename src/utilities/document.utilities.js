@@ -85,7 +85,7 @@ export const cellLayout = {
 export const docStyles = {
     headT: {
         color: 'white',
-        fillColor: '#832339',
+        fillColor: '#511D4E',
         fontSize: 7,
         bold: true,
         alignment: 'center',

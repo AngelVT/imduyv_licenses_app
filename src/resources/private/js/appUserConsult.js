@@ -3,6 +3,7 @@ const resultContainer = document.getElementById('user_results');
 const formSearchName = document.getElementById('form_by_name');
 const formSearchUsername = document.getElementById('form_by_username');
 const formSearchGroup = document.getElementById('form_by_group');
+const btnGetAll = document.getElementById('get_all');
 
 formSearchName.addEventListener('submit', event => {
     event.preventDefault();
@@ -26,6 +27,10 @@ formSearchGroup.addEventListener('submit', event => {
     let group = Object.fromEntries(new FormData(formSearchGroup)).group;
 
     getUserByGroup(group);
+});
+
+btnGetAll.addEventListener('click', () => {
+    getAllUsers();
 });
 
 async function getAllUsers() {

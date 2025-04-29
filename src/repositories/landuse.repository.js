@@ -75,6 +75,7 @@ export async function findLandLicenseType(type, year) {
             licenseType: type,
             year: year
         },
+        order: [['invoice', 'ASC']],
         include: LAND_USE_MODELS,
         raw: true,
         nest: true
