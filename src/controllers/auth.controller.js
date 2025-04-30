@@ -18,10 +18,7 @@ export const signIn = async (req, res) => {
         }
 
         logger.logAccessInfo('sign in completed', 
-            `Requestor ID -> ${req.userID}
-            Requestor Name -> ${req.name}
-            Requestor Username -> ${req.username}
-            Get request -> ${response.log}`);
+            `Sign in request -> ${response.log}`);
     } catch (error) {
         logger.logConsoleError('Sign in request failed due to server side error', error);
         logger.logRequestError('Sign in request failed due to server side error', error);
