@@ -127,7 +127,7 @@ async function getLicenseList(type, year) {
 
                 let response = await res.json();
 
-                licenseSelect.innerHTML = `<option selected>${types[parseInt(type) - 1]} ...</option>`
+                licenseSelect.innerHTML = `<option value="" selected>${types[parseInt(type) - 1]} ...</option>`
                 
                 response.licenses.forEach(license => {
                     let option = document.createElement('option');
