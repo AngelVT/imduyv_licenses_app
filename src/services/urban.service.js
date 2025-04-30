@@ -108,6 +108,30 @@ export async function requestUrbanLicenseByType(type, year) {
     };
 }
 
+export async function requestUrbanLicenseListByType(type, year) {
+    let LICENSES = await urbanRepo.findUrbanLicenseListByType(type, year);
+
+    if (LICENSES == null || LICENSES.length == 0) {
+        return {
+            status: 404,
+            data: {
+                msg: "There are no urban records to display"
+            },
+            log: `Request completed no list of type ${type} from ${year}`
+        };
+    }
+
+    LICENSES = specialDataToJSON(LICENSES);
+
+    return {
+        status: 200,
+        data: {
+            licenses: LICENSES
+        },
+        log: `Request completed list of type ${type} from ${year} requested`
+    };
+}
+
 export async function requestUrbanLicenseByParameter(parameter, value) {
     if (!urbanValidate.validateParameter(parameter)) {
         return {

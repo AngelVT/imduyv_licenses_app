@@ -248,6 +248,11 @@ export async function fileExist(location, group, width) {
 export function prepareData(lcDBObj) {
     lcDBObj.fullInvoice = lcDBObj.fullInvoice.replaceAll('_', '/');
 
+    if (lcDBObj.surfaceTotal) {
+        const number = Number(lcDBObj.surfaceTotal).toLocaleString();
+        lcDBObj.surfaceTotal = number !== 'NaN' ? number : lcDBObj.surfaceTotal;
+    }
+
     for (const key in lcDBObj) {
         if (typeof lcDBObj[key] == 'string') {
             lcDBObj[key] = lcDBObj[key].toUpperCase();
@@ -499,7 +504,7 @@ export async function getYearLegend(year) {
     const LEGEND = await getYearLegendByYear(year);
 
     if (!LEGEND) {
-        return `"${year}, legenda del año no definida."`
+        return `"${year}, leyenda del año no definida."`
     }
 
     return `"${LEGEND.year}, ${LEGEND.year_legend}"`

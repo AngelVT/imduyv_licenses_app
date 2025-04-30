@@ -31,7 +31,7 @@
                 
                 <div class="h-100 w-100 page-container">
                     <div class="w-100 page">
-                        <div class="dis-flex flex-center w-100 margin-bottom-small padding-small border-primary border-only-left border-only-bottom border-only-right border-round-bottom controls print">
+                        <div class="dis-flex flex-center-v flex-evenly w-100 margin-bottom-small padding-small border-primary border-only-left border-only-bottom border-only-right border-round-bottom controls">
                             <form id="form_urban_byInvoicePrint" class="dis-flex flex-wrap flex-center-h w-25">
                                 <select name="byInvoiceType" class="input input-secondary input-interface border-secondary input-round-left w-40" required>
                                     <option value="">Seleccione tipo ...</option>
@@ -53,6 +53,31 @@
                                 <button class="btn btn-primary margin-top-small" type="submit">Buscar</button>
                                 
                             </form>
+
+                            <div class="dis-flex flex-wrap w-25">
+                                <select id="list_type" class="input input-secondary input-interface border-secondary input-round-left w-50">
+                                    <option value="">Tipo ...</option>
+                                    <option value="1">CUS</option>
+                                    <option value="2">LUS</option>
+                                    <option value="3">LSUB</option>
+                                    <option value="4">LFUS</option>
+                                    <option value="5">PLF</option>
+                                    <option value="6">LF</option>
+                                    <option value="7">RLF</option>
+                                    <option value="8">CRPC</option>
+                                    <option value="9">LUH</option>
+                                </select>
+                                <select id="list_year" class="input input-secondary input-interface input-round-right w-50">
+                                    <option value="">Seleccione año ...</option>
+                                </select>
+                            </div>
+
+                            <form id="form_license_selector" class="dis-flex flex-wrap flex-center-h w-25">
+                                <select id="license_selector" class="input input-secondary input-interface border-secondary input-round w-100" required>
+                                    <option selected>...</option>
+                                </select>
+                                <button class="btn btn-primary margin-top-small" type="submit">Cargar licencia</button>
+                            </form>
                         </div>
 
                         <div class="w-100" id="print_results">
@@ -71,13 +96,25 @@
     </main>
     <script>
         const YEAR_SELECTOR = document.getElementById('print_year_select');
+        const YEAR_SELECTOR_B = document.getElementById('list_year');
         const YEAR = new Date().getFullYear();
 
         for (let i = YEAR; i >= 2024; i--) {
             let option = document.createElement('option');
+            let optionB = document.createElement('option');
+
             option.value = i;
             option.innerText = i;
+
+            optionB.value = i;
+            optionB.innerText = i;
+
+            if (i == YEAR) {
+                option.setAttribute('selected', '');
+                optionB.setAttribute('selected', '');
+            }
             YEAR_SELECTOR.appendChild(option);
+            YEAR_SELECTOR_B.appendChild(optionB);
         }
     </script>
 </body>

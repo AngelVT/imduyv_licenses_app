@@ -1,8 +1,16 @@
 const formSearchByInvoicePrint = document.querySelector('#form_urban_byInvoicePrint');
 
+const formSearchByIDPrint = document.querySelector('#form_license_selector');
+
+const licenseSelect = document.getElementById('license_selector');
+const typeSelect = document.getElementById('list_type');
+const yearSelect = document.getElementById('list_year');
+
 const resultPrint = document.querySelector('#print_results');
 
 const PDF = document.querySelector('#pdf_lc');
+
+const types = ["CUS", "LUS", "LSUB", "LFUS", "PLF", "LF", "RLF", "CRPC", "LUH"]
 
 formSearchByInvoicePrint.addEventListener('submit',
     event => {
@@ -15,6 +23,20 @@ formSearchByInvoicePrint.addEventListener('submit',
         getLicensePrint(data.byInvoiceType, data.byInvoice, data.byInvoiceYear);
     }
 );
+
+typeSelect.addEventListener('change', () => {
+    getLicenseList(typeSelect.value, yearSelect.value);
+});
+
+yearSelect.addEventListener('change', () => {
+    console.info('change')
+    getLicenseList(typeSelect.value, yearSelect.value);
+});
+
+formSearchByIDPrint.addEventListener('submit', event => {
+    event.preventDefault();
+    getLicensePrintId(licenseSelect.value);
+});
 
 async function getLicensePrint(type, invoice, year) {
     await fetch(`/api/urban/t/${type}/i/${invoice}/y/${year}`, {
@@ -36,6 +58,84 @@ async function getLicensePrint(type, invoice, year) {
                 createUrbanResult(response.license, resultPrint, true);
 
                 PDF.setAttribute('src', `/api/urban/PDF/t/${type}/i/${invoice}/y/${year}?${new Date().getTime()}`);
+
+                return;
+            }
+
+            if (!res.ok) {
+                let response = await res.json();
+                alert(response.msg);
+                return;
+            }
+        })
+        .catch(error => {
+            alert('An error ocurred:\n' + error);
+            console.log(error.message)
+            console.error('Error getting data: ', error);
+        });
+}
+
+async function getLicensePrintId(id) {
+    await fetch(`/api/urban/id/${id}`, {
+            method: 'GET',
+            credentials: 'include'
+        })
+        .then(async res => {
+            if(res.ok){
+                let content = res.headers.get('Content-Type');
+                if (content.includes('text/html')) {
+                    location.href = res.url;
+                    return;
+                }
+
+                const response = await res.json();
+
+                resultPrint.innerHTML = '';
+                
+                createUrbanResult(response.license, resultPrint, true);
+
+                PDF.setAttribute('src', `/api/urban/PDF/t/${response.license.licenseType}/i/${response.license.invoice}/y/${response.license.year}?${new Date().getTime()}`);
+
+                return;
+            }
+
+            if (!res.ok) {
+                let response = await res.json();
+                alert(response.msg);
+                return;
+            }
+        })
+        .catch(error => {
+            alert('An error ocurred:\n' + error);
+            console.log(error.message)
+            console.error('Error getting data: ', error);
+        });
+}
+
+async function getLicenseList(type, year) {
+    await fetch(`/api/urban/list/t/${type}/y/${year}`, {
+            method: 'GET',
+            credentials: 'include'
+        })
+        .then(async res => {
+            if(res.ok){
+                let content = res.headers.get('Content-Type');
+                if (content.includes('text/html')) {
+                    location.href = res.url;
+                    return;
+                }
+
+                let response = await res.json();
+
+                licenseSelect.innerHTML = `<option selected>${types[parseInt(type) - 1]} ...</option>`
+                
+                response.licenses.forEach(license => {
+                    let option = document.createElement('option');
+                    option.value = license.id;
+                    option.innerText = `${license.fullInvoice.replaceAll('_', '/')} - ${license.requestorName}`;
+                    
+                    licenseSelect.appendChild(option);
+                });
 
                 return;
             }

@@ -80,6 +80,26 @@ export const getLicenseByType = async (req, res) => {
     }
 }
 
+export const getLicenseListByType = async (req, res) => {
+    try {
+        const TYPE = req.params.type;
+        const YEAR = req.params.year;
+
+        const response = await urbanService.requestUrbanLicenseListByType(TYPE, YEAR)
+
+        res.status(response.status).json(response.data);
+
+        logger.logRequestInfo('Urban get request completed', 
+        `Requestor Name -> ${req.name}
+        Requestor Username -> ${req.username}
+        Get request -> ${response.log}`);
+    } catch (error) {
+        logger.logConsoleError('Urban list by type request failed due to server side error', error);
+        logger.logRequestError('Urban list by type request failed due to server side error', error);
+        res.status(500).json({msg: "Internal server error"});
+    }
+}
+
 export const getLicenseBy = async (req, res) => {
     try {
         const PARAMETER = req.params.getByParameter;

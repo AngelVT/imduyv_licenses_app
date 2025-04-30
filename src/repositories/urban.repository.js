@@ -63,6 +63,19 @@ export async function findUrbanLicenseType(type, year) {
     });
 }
 
+export async function findUrbanLicenseListByType(type, year) {
+    return await UrbanLicense.findAll({
+        attributes: ['id', 'fullInvoice', 'requestorName'],
+        where: {
+            licenseType: type,
+            year: year
+        },
+        order: [['invoice', 'ASC']],
+        raw: true,
+        nest: true
+    });
+}
+
 export async function findUrbanLicenseBy(parameter, value) {
     const PARAM = new Object;
     PARAM[parameter] = { [Op.like]: `%${value}%` };

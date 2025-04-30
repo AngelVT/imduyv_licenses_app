@@ -15,7 +15,7 @@ function addSingleSurface(value, unit, target) {
     }
     count = 1;
     target.value = '';
-    target.value = `${value} ${unit}`;
+    target.value = `${Number(value).toLocaleString()} ${unit}`;
     return;
 }
 
@@ -26,11 +26,11 @@ function addLocalSurface(value,unit,target) {
     }
     if (count == 1) {
         target.value = '';
-        target.value += `L${count}: ${value} ${unit}`;
+        target.value += `L${count}: ${Number(value).toLocaleString()} ${unit}`;
         count++;
         return;
     }
-    target.value += ` | L${count}: ${value} ${unit}`;
+    target.value += ` | L${count}: ${Number(value).toLocaleString()} ${unit}`;
     count++;
     return;
 }
