@@ -25,11 +25,16 @@ formSearchByInvoicePrint.addEventListener('submit',
 );
 
 typeSelect.addEventListener('change', () => {
+    if (!typeSelect.value || !yearSelect.value) {
+        return;
+    }
     getLicenseList(typeSelect.value, yearSelect.value);
 });
 
 yearSelect.addEventListener('change', () => {
-    console.info('change')
+    if (!typeSelect.value || !yearSelect.value) {
+        return;
+    }
     getLicenseList(typeSelect.value, yearSelect.value);
 });
 
