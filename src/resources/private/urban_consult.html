@@ -104,6 +104,9 @@
             let option = document.createElement('option');
             option.value = i;
             option.innerText = i;
+            if(i == YEAR) {
+                option.setAttribute('selected', '');
+            }
             INVOICE_YEAR_SELECTOR.appendChild(option);
         }
 
@@ -111,6 +114,9 @@
             let option = document.createElement('option');
             option.value = i;
             option.innerText = i;
+            if(i == YEAR) {
+                option.setAttribute('selected', '');
+            }
             TYPE_YEAR_SELECTOR.appendChild(option);
         }
     </script>

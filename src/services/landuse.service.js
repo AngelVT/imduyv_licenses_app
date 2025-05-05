@@ -264,7 +264,7 @@ export async function requestLandLicenseCreate(body, file, requestor) {
         licenseSpecialData: SPECIAL_DATA
     }
 
-    if (!landValidate.validateFile(file)) {
+    if (!await landValidate.validateFile(file)) {
         return {
             status: 400,
             data: {
@@ -425,7 +425,7 @@ export async function requestLandLicenseUpdate(id, licenseData, file, requestor)
     }
 
     if (file) {
-        if (!landValidate.validateFile(file)) {
+        if (!await landValidate.validateFile(file)) {
             return {
                 status: 400,
                 data: {

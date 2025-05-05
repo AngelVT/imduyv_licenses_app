@@ -269,7 +269,7 @@ export async function requestUrbanLicenseCreate(body, files, requestor) {
     }
 
     if (files.zoneIMG) {
-        if (!urbanValidate.validateFile(files.zoneIMG)) {
+        if (!await urbanValidate.validateFile(files.zoneIMG)) {
             return {
                 status: 400,
                 data: {
@@ -291,7 +291,7 @@ export async function requestUrbanLicenseCreate(body, files, requestor) {
     }
 
     if (files.resumeTables) {
-        if (!urbanValidate.validateFile(files.resumeTables)) {
+        if (!await urbanValidate.validateFile(files.resumeTables)) {
             return {
                 status: 400,
                 data: {
@@ -542,7 +542,7 @@ export async function requestUrbanLicenseUpdate(id, licenseData, files, requesto
     }
 
     if (files.zoneIMG) {
-        if (!urbanValidate.validateFile(files.zoneIMG)) {
+        if (!await urbanValidate.validateFile(files.zoneIMG)) {
             return {
                 status: 400,
                 data: {
@@ -564,7 +564,7 @@ export async function requestUrbanLicenseUpdate(id, licenseData, files, requesto
     }
 
     if (files.resumeTables) {
-        if (!urbanValidate.validateFile(files.resumeTables)) {
+        if (!await urbanValidate.validateFile(files.resumeTables)) {
             return {
                 status: 400,
                 data: {

@@ -1,4 +1,6 @@
 import { Type, Term, Zone, AuthUse, Validity, ExpeditionType, LandUseLicense } from "../models/License.models.js";
+import { fileTypeFromBuffer } from 'file-type';
+import path from 'path';
 
 export function validateParameter(parameter) {
     const VALID_PARAMETERS = {
@@ -100,9 +102,19 @@ export async function checkType(type) {
     return true;
 }
 
-export function validateFile(file) {
+export async function validateFile(file) {
     if (file.mimetype !== 'image/png') {
         return false
+    }
+
+    const ext = path.extname(file.originalname).toLowerCase();
+    if (ext !== '.png') {
+        return false;
+    }
+
+    const detectedType = await fileTypeFromBuffer(file.buffer);
+    if (!detectedType || detectedType.mime !== 'image/png') {
+        return false;
     }
     
     return true;

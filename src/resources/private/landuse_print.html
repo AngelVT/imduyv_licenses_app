@@ -74,6 +74,9 @@
             let option = document.createElement('option');
             option.value = i;
             option.innerText = i;
+            if (i == YEAR) {
+                option.setAttribute('selected','');
+            }
             YEAR_SELECTOR.appendChild(option);
         }
     </script>

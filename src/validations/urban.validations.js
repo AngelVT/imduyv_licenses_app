@@ -1,4 +1,6 @@
 import { UrbanType, Term, Zone, Validity, UrbanLicense } from "../models/License.models.js";
+import { fileTypeFromBuffer } from 'file-type';
+import path from 'path';
 
 export function validateParameter(parameter) {
     const VALID_PARAMETERS = {
@@ -77,13 +79,31 @@ export async function checkType(type) {
     return true;
 }
 
-export function validateFile(files) {
-    const allowedMimeTypes = ['image/png', 'image/svg+xml'];
+export async function validateFile(files) {
+    /*const allowedMimeTypes = ['image/png', 'image/svg+xml'];
 
     for (const file of files) {
         if (!allowedMimeTypes.includes(file.mimetype)) {
             return false;
         }
     }
+    return true;*/
+    const allowedTypes = {
+        'image/png': '.png',
+        'image/svg+xml': '.svg'
+    };
+
+    for (const file of files) {
+        const ext = path.extname(file.originalname).toLowerCase();
+
+        const detected = await fileTypeFromBuffer(file.buffer);
+
+        const mimetype = detected?.mime || file.mimetype;
+
+        if (!allowedTypes[mimetype] || allowedTypes[mimetype] !== ext) {
+            return false;
+        }
+    }
+
     return true;
 }

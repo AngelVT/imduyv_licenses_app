@@ -146,7 +146,7 @@ export function voidCell(span) {
 }
 
 export async function loadChart(fullInvoice, sourcePattern) {
-    let images = [];
+    /*let images = [];
     const dir = path.join(__dirstorage, 'assets', 'urban', fullInvoice.replaceAll('/', '_'));
     const pattern = new RegExp(sourcePattern);
 
@@ -191,7 +191,62 @@ export async function loadChart(fullInvoice, sourcePattern) {
 
             resolve(images);
         });
+    });*/
+    let images = [];
+    const DEFAULT_WIDTH = 550;
+    const dir = path.join(__dirstorage, 'assets', 'urban', fullInvoice.replaceAll('/', '_'));
+    const pattern = new RegExp(sourcePattern);
+
+    try {
+        const files = await fs.promises.readdir(dir);
+        const matchedFiles = files.filter(file => pattern.test(file) && (file.endsWith('.png') || file.endsWith('.svg')));
+
+        matchedFiles.sort((a, b) => {
+            const numA = parseInt(a.match(/_(\d+)\.(png|svg)/)?.[1] ?? '0');
+            const numB = parseInt(b.match(/_(\d+)\.(png|svg)/)?.[1] ?? '0');
+            return numA - numB;
+        });
+
+        for (const file of matchedFiles) {
+            const fullPath = path.join(dir, file);
+
+            if (file.endsWith('.png')) {
+                images.push({
+                    image: fullPath,
+                    width: DEFAULT_WIDTH,
+                    alignment: 'center',
+                    margin: [0, 0, 0, 5]
+                });
+            } else if (file.endsWith('.svg')) {
+                const svgContent = await fs.promises.readFile(fullPath, 'utf8');
+                images.push({
+                    svg: svgContent,
+                    width: DEFAULT_WIDTH,
+                    alignment: 'center',
+                    margin: [0, 0, 0, 5]
+                });
+            }
+        }
+    } catch (err) {
+        images = [
+            {
+                text: [
+                    { text: 'Nota: ', style: 'regular', bold: true },
+                    { text: 'La información descrita corresponde y es responsabilidad del solicitante.', style: 'regular' }
+                ]
+            }
+        ];
+        return images;
+    }
+
+    images.push({
+        text: [
+            { text: 'Nota: ', style: 'regular', bold: true },
+            { text: 'La información descrita corresponde y es responsabilidad del solicitante.', style: 'regular' }
+        ]
     });
+
+    return images;
 }
 
 export async function fileExist(location, group, width) {
@@ -209,7 +264,7 @@ export async function fileExist(location, group, width) {
         });
     });*/
     const DEFAULT_WIDTH = 586;
-    const extensions = ['.png', '.jpg', '.jpeg', '.svg']; // add more if needed
+    const extensions = ['.png', '.svg']; // add more if needed
     const basePath = path.join(__dirstorage, 'assets', group, location.replaceAll('/', '_'));
     const defaultPath = path.join(__dirname, 'resources', 'public', 'img', '404.jpg');
 
