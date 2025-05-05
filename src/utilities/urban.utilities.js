@@ -1,6 +1,7 @@
 import path from "path";
 import { promises as fs } from 'fs';
 import { __dirstorage } from "../path.configuration.js";
+import { sanitizeSVG } from "./svg.utilities.js";
 
 import { getLatestInvoice, getLicenseType } from "../repositories/urban.repository.js";
 
@@ -441,7 +442,13 @@ export async function saveZoneImage(file, fullInvoice) {
             )
         );
 
-        await fs.writeFile(destination, file[0].buffer);
+        if (EXT === 'svg') {
+            const svgText = file[0].buffer.toString('utf8');
+            const cleanSvg = sanitizeSVG(svgText);
+            await fs.writeFile(destination, cleanSvg, 'utf8');
+        } else {
+            await fs.writeFile(destination, file[0].buffer);
+        }
 
         return true;
     } catch (error) {
@@ -467,7 +474,13 @@ export async function saveLicenseCharts(files, fullInvoice) {
         for (const FILE of files) {
             if (FILE.originalname.startsWith('tabla_s')) {
                 const destination = path.join(directory, FILE.originalname);
-                await fs.writeFile(destination, FILE.buffer);
+                if (FILE.mimetype === 'image/svg+xml') {
+                    const svgText = FILE.buffer.toString('utf8');
+                    const cleanSvg = sanitizeSVG(svgText);
+                    await fs.writeFile(destination, cleanSvg, 'utf8');
+                } else {
+                    await fs.writeFile(destination, FILE.buffer);
+                }
             }
         }
 
