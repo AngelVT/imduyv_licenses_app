@@ -48,7 +48,6 @@ export function generateSpecialData(type) {
     switch (parseInt(type)) {
         case 1:
             return {
-                buildingAddress: "Domicilio",
                 PCU: "PCU",
                 occupationPercent: 0,
                 surfacePerLote: 0,
@@ -61,7 +60,6 @@ export function generateSpecialData(type) {
             return {
                 representativeAs: "Representante Legal",
                 requestorAddress: "Domicilio",
-                buildingAddress: "Domicilio",
                 occupationPercent: 0,
                 surfacePerLote: 0,
                 maximumHeight: 9,
@@ -72,8 +70,6 @@ export function generateSpecialData(type) {
                 authUse: "-",
                 activity: "-",
                 usePercent: 0,
-                antecedentType: "0",
-                antecedent: "IMDUyV/DLyCU/####/###/####",
                 conditions: ["Deberá presentar copia de escritura de fusión de predios protocolizada y debidamente inscrita en el Registro Público de la Propiedad y el Comercio, así como notificar a la Dirección de Catastro Municipal, en un periodo no mayor a 30 días hábiles.",
                 "Deberá presentar la Constancia de factibilidad de transporte de Residuos Sólidos Urbanos en un plazo no mayor a 15 días hábiles.",
                 "Por lo que hace al uso HABITACIONAL UNIFAMILIAR, una vez autorizado, deberá ser permitido con base en la matriz de compatibilidad del Programa Municipal de Desarrollo Urbano y Ordenamiento Territorial de Tizayuca, Hidalgo.",
@@ -91,21 +87,21 @@ export function generateSpecialData(type) {
                 observations: [
                     "Tendrá como uso predominante el de vivienda unifamiliar, permitiéndose áreas comerciales y de servicio en un 10% de la superficie total vendible.",
                     "De acuerdo al aérea total del predio 161,950.70m² clasificado como Zona U3, para el aarea de donacion, debera tener la siguientes consideraciones> 15 m² por vivienda o 13% del area total del predio, que corresponde a 21,053.59 m²"
-                ]
+                ],
+                donationArea: "Descripción del area de donación"
             }
         case 3:
             return {
                 representativeAs: "Representante Legal",
                 requestorAddress: "Domicilio",
-                buildingAddress: "Domicilio",
                 actualSituation: [
                     {
                         "description": "Fila 1",
                         "surface": "31,091.07",
                         "table": {
                             "distribution": ["Oeste", "Noroeste", "Norte", "Noreste", "Este", "Sureste", "Sur", "Suroeste"],
-                            "measures": ["15.00 m", "15.00 m", "15.00 m", "15.00 m", "15.00 m", "15.00 m", "15.00 m", "15.00 m"],
-                            "adjoining": ["LOTE 8", "LOTE 6", "LOTE 50", "CALLE PORVENIR", "LOTE 8", "LOTE 6", "LOTE 50", "CALLE PORVENIR"]
+                            "measures": ["11.00 m", "12.00 m", "13.00 m", "14.00 m", "15.00 m", "16.00 m", "17.00 m", "18.00 m"],
+                            "adjoining": ["LOTE 1", "LOTE 2", "LOTE 3", "CALLE 4", "LOTE 5", "LOTE 6", "LOTE 7", "CALLE 8"]
                         }
                     }
                 ],
@@ -115,8 +111,8 @@ export function generateSpecialData(type) {
                         "surface": "31,091.07",
                         "table": {
                             "distribution": ["Oeste", "Noroeste", "Norte", "Noreste", "Este", "Sureste", "Sur", "Suroeste"],
-                            "measures": ["15.00 m", "15.00 m", "15.00 m", "15.00 m", "15.00 m", "15.00 m", "15.00 m", "15.00 m"],
-                            "adjoining": ["LOTE 8", "LOTE 6", "LOTE 50", "CALLE PORVENIR", "LOTE 8", "LOTE 6", "LOTE 50", "CALLE PORVENIR"]
+                            "measures": ["11.00 m", "12.00 m", "13.00 m", "14.00 m", "15.00 m", "16.00 m", "17.00 m", "18.00 m"],
+                            "adjoining": ["LOTE 1", "LOTE 2", "LOTE 3", "CALLE 4", "LOTE 5", "LOTE 6", "LOTE 7", "CALLE 8"]
                         }
                     },
                     {
@@ -124,8 +120,8 @@ export function generateSpecialData(type) {
                         "surface": "31,091.07",
                         "table": {
                             "distribution": ["Oeste", "Noroeste", "Norte", "Noreste", "Este", "Sureste", "Sur", "Suroeste"],
-                            "measures": ["15.00 m", "15.00 m", "15.00 m", "15.00 m", "15.00 m", "15.00 m", "15.00 m", "15.00 m"],
-                            "adjoining": ["LOTE 8", "LOTE 6", "LOTE 50", "CALLE PORVENIR", "LOTE 8", "LOTE 6", "LOTE 50", "CALLE PORVENIR"]
+                            "measures": ["11.00 m", "12.00 m", "13.00 m", "14.00 m", "15.00 m", "16.00 m", "17.00 m", "18.00 m"],
+                            "adjoining": ["LOTE 1", "LOTE 2", "LOTE 3", "CALLE 4", "LOTE 5", "LOTE 6", "LOTE 7", "CALLE 8"]
                         }
                     }
                 ],
@@ -140,15 +136,14 @@ export function generateSpecialData(type) {
             return {
                 representativeAs: "Representante Legal",
                 requestorAddress: "Domicilio",
-                buildingAddress: "Domicilio",
                 actualSituation: [
                     {
                         "description": "Fila 1",
                         "surface": "31,091.07",
                         "table": {
                             "distribution": ["Oeste", "Noroeste", "Norte", "Noreste", "Este", "Sureste", "Sur", "Suroeste"],
-                            "measures": ["15.00 m", "15.00 m", "15.00 m", "15.00 m", "15.00 m", "15.00 m", "15.00 m", "15.00 m"],
-                            "adjoining": ["LOTE 8", "LOTE 6", "LOTE 50", "CALLE PORVENIR", "LOTE 8", "LOTE 6", "LOTE 50", "CALLE PORVENIR"]
+                            "measures": ["11.00 m", "12.00 m", "13.00 m", "14.00 m", "15.00 m", "16.00 m", "17.00 m", "18.00 m"],
+                            "adjoining": ["LOTE 1", "LOTE 2", "LOTE 3", "CALLE 4", "LOTE 5", "LOTE 6", "LOTE 7", "CALLE 8"]
                         }
                     },
                     {
@@ -156,8 +151,8 @@ export function generateSpecialData(type) {
                         "surface": "31,091.07",
                         "table": {
                             "distribution": ["Oeste", "Noroeste", "Norte", "Noreste", "Este", "Sureste", "Sur", "Suroeste"],
-                            "measures": ["15.00 m", "15.00 m", "15.00 m", "15.00 m", "15.00 m", "15.00 m", "15.00 m", "15.00 m"],
-                            "adjoining": ["LOTE 8", "LOTE 6", "LOTE 50", "CALLE PORVENIR", "LOTE 8", "LOTE 6", "LOTE 50", "CALLE PORVENIR"]
+                            "measures": ["11.00 m", "12.00 m", "13.00 m", "14.00 m", "15.00 m", "16.00 m", "17.00 m", "18.00 m"],
+                            "adjoining": ["LOTE 1", "LOTE 2", "LOTE 3", "CALLE 4", "LOTE 5", "LOTE 6", "LOTE 7", "CALLE 8"]
                         }
                     }
                 ],
@@ -167,8 +162,8 @@ export function generateSpecialData(type) {
                         "surface": "31,091.07",
                         "table": {
                             "distribution": ["Oeste", "Noroeste", "Norte", "Noreste", "Este", "Sureste", "Sur", "Suroeste"],
-                            "measures": ["15.00 m", "15.00 m", "15.00 m", "15.00 m", "15.00 m", "15.00 m", "15.00 m", "15.00 m"],
-                            "adjoining": ["LOTE 8", "LOTE 6", "LOTE 50", "CALLE PORVENIR", "LOTE 8", "LOTE 6", "LOTE 50", "CALLE PORVENIR"]
+                            "measures": ["11.00 m", "12.00 m", "13.00 m", "14.00 m", "15.00 m", "16.00 m", "17.00 m", "18.00 m"],
+                            "adjoining": ["LOTE 1", "LOTE 2", "LOTE 3", "CALLE 4", "LOTE 5", "LOTE 6", "LOTE 7", "CALLE 8"]
                         }
                     }
                 ],
@@ -183,7 +178,7 @@ export function generateSpecialData(type) {
             return {
                 representativeAs: "Representante Legal",
                 requestorAddress: "Domicilio",
-                buildingAddress: "Domicilio",
+                colony: "-",
                 location: ["un costado del fraccionamiento Haciendas de Tizayuca, en el municipio de Tizayuca"],
                 documents: [
                     "Ej: Solicitud de Licencia de Fraccionamiento.",
@@ -238,7 +233,7 @@ export function generateSpecialData(type) {
             return {
                 representativeAs: "Representante Legal",
                 requestorAddress: "Domicilio",
-                buildingAddress: "Domicilio",
+                colony: "-",
                 occupationPercent: 0,
                 surfacePerLote: 0,
                 maximumHeight: 9,
@@ -303,7 +298,7 @@ export function generateSpecialData(type) {
             return {
                 representativeAs: "Representante Legal",
                 requestorAddress: "Domicilio",
-                buildingAddress: "Domicilio",
+                colony: "-",
                 lotes: ["Ej: Lote 1", "Lote 2", "Lote 3", "Lote 4"],
                 location: [" Ej:  un costado del fraccionamiento Haciendas de Tizayuca, en el municipio de Tizayuca"],
                 documents: [
@@ -358,7 +353,7 @@ export function generateSpecialData(type) {
             return {
                 representativeAs: "Representante Legal",
                 requestorAddress: "Domicilio",
-                buildingAddress: "Domicilio",
+                colony: "-",
                 households: "Ej: 5 viviendas",
                 documents: [
                     "Ej: Solicitud por escrito de Autorización de Régimen de Propiedad de Condómino.",
@@ -400,7 +395,6 @@ export function generateSpecialData(type) {
             return {
                 PCU: "PCU",
                 representativeAs: "Representante Legal",
-                buildingAddress: "Domicilio",
                 occupationPercent: 0,
                 surfacePerLote: 0,
                 maximumHeight: 9,

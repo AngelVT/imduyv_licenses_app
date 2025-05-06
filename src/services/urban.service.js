@@ -172,7 +172,19 @@ export async function requestUrbanLicenseCreate(body, files, requestor) {
     const YEAR = DATE.getFullYear();
 
     for (const key in body) {
-        if (key !== 'PCU') {
+        if (key !== 'requestorAddress' &&
+            key !== 'maximumHeight' &&
+            key !== 'parkingLots' &&
+            key !== 'authorizationResume' &&
+            key !== 'households' &&
+            key !== 'documents' &&
+            key !== 'conditions' &&
+            key !== 'lotes' &&
+            key !== 'manzanas' &&
+            key !== 'actualSituation' &&
+            key !== 'actualAuthorizedFS' &&
+            key !== 'representativeAs' &&
+            key !== 'PCU') {
             body[key] = body[key].toLowerCase();
         }
     }
@@ -189,7 +201,7 @@ export async function requestUrbanLicenseCreate(body, files, requestor) {
         surface,
         zone,
         expeditionDate,
-        licenseValidity,
+        validity,
         collectionOrder,
         paymentDate,
         billInvoice,
@@ -204,7 +216,36 @@ export async function requestUrbanLicenseCreate(body, files, requestor) {
         levels,
         representativeAs,
         requestorAddress,
-        buildingAddress
+        buildingAddress,
+        //non essential for registration special data
+        minimalFront,//CUS
+        frontalRestriction,//CUS
+        parkingLots,//LUS
+        conditions,//LUS
+        restrictions,//LUS
+        observations,//LUS
+        donationArea,//LUS
+        authUse,//LUS
+        activity,//LUS
+        authorizationResume,//LSUB
+        documents,//PLF
+        location,//PLF
+        integrity,//PLF
+        detailedUse,//PLF
+        urbanCUS,//LF
+        urbanLUS,//LF
+        habitacionalLotes,//LF
+        totalManzanas,//LF
+        totalSurface,//LF
+        lotes,//RLF
+        resultRelotification,//RLF
+        totalRelotification,//RLF
+        previousInvoice,//RLF
+        previousInvoiceDate,//RLF
+        manzanas,//CRPC
+        households,//CRPC
+        privateSurface,//CRPC
+        commonSurface,//CRPC
     } = body;
 
     if (!licenseType || !requestorName || !georeference || (licenseType == 2 && typeof isFrac === 'undefined')) {
@@ -217,7 +258,7 @@ export async function requestUrbanLicenseCreate(body, files, requestor) {
         };
     }
 
-    if (!await urbanValidate.validateModels({type: licenseType, zone, licenseTerm, licenseValidity})) {
+    if (!await urbanValidate.validateModels({type: licenseType, zone, licenseTerm, validity})) {
         return {
             status: 400,
             data: {
@@ -233,13 +274,43 @@ export async function requestUrbanLicenseCreate(body, files, requestor) {
 
     SPECIAL_DATA.PCU = PCU ? PCU : SPECIAL_DATA.PCU;
     SPECIAL_DATA.representativeAs = representativeAs ? representativeAs : SPECIAL_DATA.representativeAs;
+    SPECIAL_DATA.colony = colony ? colony : SPECIAL_DATA.colony;
     SPECIAL_DATA.requestorAddress = requestorAddress ? requestorAddress : SPECIAL_DATA.requestorAddress;
-    SPECIAL_DATA.buildingAddress = buildingAddress ? buildingAddress : SPECIAL_DATA.buildingAddress;
     SPECIAL_DATA.occupationPercent = occupationPercent ? occupationPercent : SPECIAL_DATA.occupationPercent;
     SPECIAL_DATA.surfacePerLote = surfacePerLote ? surfacePerLote : SPECIAL_DATA.surfacePerLote;
     SPECIAL_DATA.maximumHeight = maximumHeight ? maximumHeight : SPECIAL_DATA.maximumHeight;
     SPECIAL_DATA.levels = levels ? levels : SPECIAL_DATA.levels;
     SPECIAL_DATA.isFrac = licenseType == 2 ? urbanUtils.parseBool(isFrac,SPECIAL_DATA.isFrac) : undefined;
+
+    //non essential for registration special data
+    SPECIAL_DATA.minimalFront = minimalFront ? minimalFront : SPECIAL_DATA.minimalFront;
+    SPECIAL_DATA.frontalRestriction = frontalRestriction ? frontalRestriction : SPECIAL_DATA.frontalRestriction;
+    SPECIAL_DATA.parkingLots = parkingLots ? parkingLots : SPECIAL_DATA.parkingLots;
+    SPECIAL_DATA.conditions = conditions ? conditions.replaceAll('\r', '').split('\n') : SPECIAL_DATA.conditions;
+    SPECIAL_DATA.restrictions = restrictions ? restrictions.replaceAll('\r', '').split('\n') : SPECIAL_DATA.restrictions;
+    SPECIAL_DATA.observations = observations ? observations.replaceAll('\r', '').split('\n') : SPECIAL_DATA.observations;
+    SPECIAL_DATA.donationArea = donationArea ? donationArea.replaceAll('\r', '').split('\n') : SPECIAL_DATA.donationArea;
+    SPECIAL_DATA.authUse = authUse ? authUse.toUpperCase() : SPECIAL_DATA.authUse;
+    SPECIAL_DATA.activity = activity ? activity.toUpperCase() : SPECIAL_DATA.activity;
+    SPECIAL_DATA.authorizationResume = authorizationResume ? authorizationResume : SPECIAL_DATA.authorizationResume;
+    SPECIAL_DATA.documents = documents ? documents.replaceAll('\r', '').split('\n') : SPECIAL_DATA.documents;
+    SPECIAL_DATA.location = location ? location.replaceAll('\r', '').split('\n') : SPECIAL_DATA.location;
+    SPECIAL_DATA.integrity = integrity ? integrity : SPECIAL_DATA.integrity;
+    SPECIAL_DATA.detailedUse = detailedUse ? detailedUse : SPECIAL_DATA.detailedUse;
+    SPECIAL_DATA.urbanCUS = urbanCUS ? urbanCUS : SPECIAL_DATA.urbanCUS;
+    SPECIAL_DATA.urbanLUS = urbanLUS ? urbanLUS : SPECIAL_DATA.urbanLUS;
+    SPECIAL_DATA.habitacionalLotes = habitacionalLotes ? habitacionalLotes : SPECIAL_DATA.habitacionalLotes;
+    SPECIAL_DATA.totalManzanas = totalManzanas ? totalManzanas : SPECIAL_DATA.totalManzanas;
+    SPECIAL_DATA.totalSurface = totalSurface ? totalSurface : SPECIAL_DATA.totalSurface;
+    SPECIAL_DATA.lotes = lotes ? lotes.replaceAll('\r', '').split('\n') : SPECIAL_DATA.lotes;
+    SPECIAL_DATA.resultRelotification = resultRelotification ? resultRelotification.replaceAll('\r', '').split('\n') : SPECIAL_DATA.resultRelotification;
+    SPECIAL_DATA.totalRelotification = totalRelotification ? totalRelotification : SPECIAL_DATA.totalRelotification;
+    SPECIAL_DATA.previousInvoice = previousInvoice ? previousInvoice : SPECIAL_DATA.previousInvoice;
+    SPECIAL_DATA.previousInvoiceDate = previousInvoiceDate ? previousInvoiceDate : SPECIAL_DATA.previousInvoiceDate;
+    SPECIAL_DATA.manzanas = manzanas ? manzanas.replaceAll('\r', '').split('\n') : SPECIAL_DATA.manzanas;
+    SPECIAL_DATA.households = households ? households : SPECIAL_DATA.households;
+    SPECIAL_DATA.privateSurface = privateSurface ? privateSurface : SPECIAL_DATA.privateSurface;
+    SPECIAL_DATA.commonSurface = commonSurface ? commonSurface : SPECIAL_DATA.commonSurface;
 
     const NEW_LICENSE_DATA = {
         fullInvoice: INVOICE_INFO.fullInvoice,
@@ -250,14 +321,14 @@ export async function requestUrbanLicenseCreate(body, files, requestor) {
         requestorName: requestorName,
         legalRepresentative: legalRepresentative ? legalRepresentative : null,
         elaboratedBy: requestor,
-        colony: colony ? colony : null,
+        buildingAddress: buildingAddress ? buildingAddress : null,
         catastralKey: catastralKey ? catastralKey : null,
         geoReference: georeference,
         licenseTerm: licenseTerm ? licenseTerm : null,
         surfaceTotal: surface ? surface : null,
         licenseZone: zone ? zone : null,
         expeditionDate: expeditionDate ? expeditionDate : null,
-        licenseValidity: licenseValidity ? licenseValidity : null,
+        licenseValidity: validity ? validity : null,
         collectionOrder: collectionOrder ? collectionOrder : null,
         paymentDate: paymentDate ? paymentDate : null,
         billInvoice: billInvoice ? billInvoice :null,
@@ -337,7 +408,6 @@ export async function requestUrbanLicenseCreate(body, files, requestor) {
 export async function requestUrbanLicenseUpdate(id, licenseData, files, requestor) {
     for (const key in licenseData) {
         if (key !== 'requestorAddress' &&
-            key !== 'buildingAddress' &&
             key !== 'maximumHeight' &&
             key !== 'parkingLots' &&
             key !== 'authorizationResume' &&
@@ -349,7 +419,6 @@ export async function requestUrbanLicenseUpdate(id, licenseData, files, requesto
             key !== 'actualSituation' &&
             key !== 'actualAuthorizedFS' &&
             key !== 'representativeAs' &&
-            key !== 'antecedent' &&
             key !== 'PCU') {
                 licenseData[key] = licenseData[key].toLowerCase();
         }
@@ -406,8 +475,6 @@ export async function requestUrbanLicenseUpdate(id, licenseData, files, requesto
         detailedUse,
         urbanLUS,
         urbanCUS,
-        antecedent,
-        antecedentType,
         habitacionalLotes,
         totalManzanas,
         totalSurface,
@@ -428,7 +495,7 @@ export async function requestUrbanLicenseUpdate(id, licenseData, files, requesto
         pageBreak_10
     } = licenseData;
 
-    if (!requestorName && legalRepresentative && !requestDate && !colony && !catastralKey && !surface && !zone && !expeditionDate && !collectionOrder && !paymentDate && !billInvoice && !authorizedQuantity && !deliveryDate && !receiverName && !validity && !term && !PCU && typeof isFrac === 'undefined' && !representativeAs && !requestorAddress && !buildingAddress && !occupationPercent && !surfacePerLote && !maximumHeight && !levels && !minimalFront && !frontalRestriction && !parkingLots && !usePercent, !authUse && !activity && !actualSituation && !actualAuthorizedFS && !authorizationResume && !households && !documents && !lotes && !manzanas && !conditions && !restrictions && !observations && !donationArea && !privateSurface && !commonSurface && !location && !authorizationFor && !integrity && !detailedUse && !urbanLUS && !urbanCUS && !antecedent && !antecedentType && !habitacionalLotes && !totalManzanas && !totalSurface && !totalRelotification && !resultRelotification && !previousInvoice && !previousInvoiceDate && !layout && !pageBreak_1 && !pageBreak_2 && !pageBreak_3 && !pageBreak_4 && !pageBreak_5 && !pageBreak_6 && !pageBreak_7 && !pageBreak_8 && !pageBreak_9 && !pageBreak_10 && !files) {
+    if (!requestorName && legalRepresentative && !requestDate && !colony && !catastralKey && !surface && !zone && !expeditionDate && !collectionOrder && !paymentDate && !billInvoice && !authorizedQuantity && !deliveryDate && !receiverName && !validity && !term && !PCU && typeof isFrac === 'undefined' && !representativeAs && !requestorAddress && !buildingAddress && !occupationPercent && !surfacePerLote && !maximumHeight && !levels && !minimalFront && !frontalRestriction && !parkingLots && !usePercent, !authUse && !activity && !actualSituation && !actualAuthorizedFS && !authorizationResume && !households && !documents && !lotes && !manzanas && !conditions && !restrictions && !observations && !donationArea && !privateSurface && !commonSurface && !location && !authorizationFor && !integrity && !detailedUse && !urbanLUS && !urbanCUS && !habitacionalLotes && !totalManzanas && !totalSurface && !totalRelotification && !resultRelotification && !previousInvoice && !previousInvoiceDate && !layout && !pageBreak_1 && !pageBreak_2 && !pageBreak_3 && !pageBreak_4 && !pageBreak_5 && !pageBreak_6 && !pageBreak_7 && !pageBreak_8 && !pageBreak_9 && !pageBreak_10 && !files) {
         return {
             status: 400,
             data: {
@@ -466,7 +533,7 @@ export async function requestUrbanLicenseUpdate(id, licenseData, files, requesto
     newSpecialData.isFrac = urbanUtils.parseBool(isFrac, newSpecialData.isFrac);
     newSpecialData.representativeAs = representativeAs ? representativeAs : newSpecialData.representativeAs;
     newSpecialData.requestorAddress = requestorAddress ? requestorAddress : newSpecialData.requestorAddress;
-    newSpecialData.buildingAddress = buildingAddress ? buildingAddress : newSpecialData.buildingAddress;
+    newSpecialData.colony = colony ? colony : newSpecialData.colony;
     newSpecialData.occupationPercent = occupationPercent ? occupationPercent : newSpecialData.occupationPercent;
     newSpecialData.surfacePerLote = surfacePerLote ? surfacePerLote : newSpecialData.surfacePerLote;
     newSpecialData.maximumHeight = maximumHeight ? maximumHeight : newSpecialData.maximumHeight;
@@ -496,8 +563,6 @@ export async function requestUrbanLicenseUpdate(id, licenseData, files, requesto
     newSpecialData.detailedUse = detailedUse ? detailedUse : newSpecialData.detailedUse;
     newSpecialData.urbanCUS = urbanCUS ? urbanCUS : newSpecialData.urbanCUS;
     newSpecialData.urbanLUS = urbanLUS ? urbanLUS : newSpecialData.urbanLUS;
-    newSpecialData.antecedent = antecedent ? antecedent : newSpecialData.antecedent;
-    newSpecialData.antecedentType = antecedentType ? antecedentType : newSpecialData.antecedentType;
     newSpecialData.habitacionalLotes = habitacionalLotes ? habitacionalLotes : newSpecialData.habitacionalLotes;
     newSpecialData.totalManzanas = totalManzanas ? totalManzanas : newSpecialData.totalManzanas;
     newSpecialData.totalSurface = totalSurface ? totalSurface : newSpecialData.totalSurface;
@@ -524,7 +589,7 @@ export async function requestUrbanLicenseUpdate(id, licenseData, files, requesto
         requestDate: requestDate,
         requestorName: requestorName,
         legalRepresentative: legalRepresentative == '-' || representativeAs == '-' ? null : legalRepresentative,
-        colony: colony,
+        buildingAddress: buildingAddress,
         catastralKey: catastralKey,
         surfaceTotal: surface,
         licenseZone: zone,

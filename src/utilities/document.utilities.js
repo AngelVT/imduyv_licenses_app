@@ -330,8 +330,8 @@ export function prepareData(lcDBObj) {
         lcDBObj.licenseSpecialData.requestorAddress = lcDBObj.licenseSpecialData.requestorAddress.toUpperCase();
     }
 
-    if (lcDBObj.licenseSpecialData.buildingAddress) {
-        lcDBObj.licenseSpecialData.buildingAddress = lcDBObj.licenseSpecialData.buildingAddress.toUpperCase();
+    if (lcDBObj.licenseSpecialData.colony) {
+        lcDBObj.licenseSpecialData.colony = lcDBObj.licenseSpecialData.colony.toUpperCase();
     }
 
     if (lcDBObj.licenseSpecialData.representativeAs) {

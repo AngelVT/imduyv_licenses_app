@@ -42,12 +42,12 @@
                                     <option value="5">Segregado</option>
                                     <option value="6">Derecho de Preferencia</option>
                                 </select>
-                                <input name="byInvoice" class="input input-secondary input-interface border-secondary w-20" type="number" placeholder="folio" required>
+                                <input id="invoice_input" name="byInvoice" class="input input-secondary input-interface border-secondary w-20" type="number" placeholder="folio" required>
                                 <select id="print_year_select" name="byInvoiceYear" class="input input-secondary input-interface input-round-right w-40" required>
                                     <option value="">Seleccione año ...</option>
                                 </select>
         
-                                <button class="btn btn-primary margin-top-small" type="submit">Buscar</button>
+                                <button id="fullinvoice_search" class="btn btn-primary margin-top-small" type="submit">Buscar</button>
                                 
                             </form>
                         </div>
@@ -79,6 +79,23 @@
             }
             YEAR_SELECTOR.appendChild(option);
         }
+    </script>
+    <script>
+        window.addEventListener('load', function (event ) {
+            const params = new URLSearchParams(window.location.search);
+            let type = parseFloat(params.get("type"));
+            let invoice = parseFloat(params.get("invoice"));
+            let year = parseFloat(params.get("year"));
+
+            if (!isNaN(type) && !isNaN(invoice) && !isNaN(year)) {
+                document.querySelector('#formatter').value = type;
+                document.querySelector('#invoice_input').value = invoice;
+                document.querySelector('#print_year_select').value = year;
+
+
+                document.querySelector('#fullinvoice_search').click();
+            }
+        });
     </script>
 </body>
 </html>

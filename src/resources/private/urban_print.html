@@ -33,7 +33,7 @@
                     <div class="w-100 page">
                         <div class="dis-flex flex-center-v flex-evenly w-100 margin-bottom-small padding-small border-primary border-only-left border-only-bottom border-only-right border-round-bottom controls">
                             <form id="form_urban_byInvoicePrint" class="dis-flex flex-wrap flex-center-h w-25">
-                                <select name="byInvoiceType" class="input input-secondary input-interface border-secondary input-round-left w-40" required>
+                                <select id="type_select" name="byInvoiceType" class="input input-secondary input-interface border-secondary input-round-left w-40" required>
                                     <option value="">Seleccione tipo ...</option>
                                     <option value="1">Constancia de uso de suelo</option>
                                     <option value="2">Licencia de uso de suelo</option>
@@ -45,12 +45,12 @@
                                     <option value="8">Régimen de propiedad en condominio</option>
                                     <option value="9">Licencia habitacional</option>
                                 </select>
-                                <input name="byInvoice" class="input input-secondary input-interface border-secondary w-20" type="number" placeholder="folio" required>
+                                <input id="invoice_input" name="byInvoice" class="input input-secondary input-interface border-secondary w-20" type="number" placeholder="folio" required>
                                 <select id="print_year_select" name="byInvoiceYear" class="input input-secondary input-interface input-round-right w-40" required>
                                     <option value="">Seleccione año ...</option>
                                 </select>
         
-                                <button class="btn btn-primary margin-top-small" type="submit">Buscar</button>
+                                <button id="fullinvoice_search" class="btn btn-primary margin-top-small" type="submit">Buscar</button>
                                 
                             </form>
 
@@ -116,6 +116,23 @@
             YEAR_SELECTOR.appendChild(option);
             YEAR_SELECTOR_B.appendChild(optionB);
         }
+    </script>
+    <script>
+        window.addEventListener('load', function (event ) {
+            const params = new URLSearchParams(window.location.search);
+            let type = parseFloat(params.get("type"));
+            let invoice = parseFloat(params.get("invoice"));
+            let year = parseFloat(params.get("year"));
+
+            if (!isNaN(type) && !isNaN(invoice) && !isNaN(year)) {
+                document.querySelector('#type_select').value = type;
+                document.querySelector('#invoice_input').value = invoice;
+                document.querySelector('#print_year_select').value = year;
+
+
+                document.querySelector('#fullinvoice_search').click();
+            }
+        });
     </script>
 </body>
 </html>

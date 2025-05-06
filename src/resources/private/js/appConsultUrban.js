@@ -390,12 +390,12 @@ function generateUrbanFields(resObj, resultContent) {
 
     fieldGroup.appendChild(fieldGroupTittle);
 
-    field = createResultField(resObj.id, 'Domicilio del inmueble', 'buildingAddress', resObj.licenseSpecialData.buildingAddress, 'text');
+    field = createResultField(resObj.id, 'Domicilio del inmueble', 'buildingAddress', resObj.buildingAddress, 'text');
         
     fieldGroup.appendChild(field);
 
     if (resObj.licenseType >= 5 && resObj.licenseType <= 8) {
-        field = createResultField(resObj.id, 'Colonia/Asentamiento', 'colony', resObj.colony, 'text');
+        field = createResultField(resObj.id, 'Colonia/Asentamiento', 'colony', resObj.licenseSpecialData.colony, 'text');
 
         fieldGroup.appendChild(field);
     }
@@ -611,7 +611,7 @@ function generateUrbanFields(resObj, resultContent) {
         field = createResultField(resObj.id, 'Folio previo', 'previousInvoice', resObj.licenseSpecialData.previousInvoice, 'text');
         fieldGroup.appendChild(field);
 
-        field = createResultField(resObj.id, 'Fecha de folio previo', 'previousInvoiceDat', resObj.licenseSpecialData.previousInvoiceDate, 'date');
+        field = createResultField(resObj.id, 'Fecha de folio previo', 'previousInvoiceDate', resObj.licenseSpecialData.previousInvoiceDate, 'date');
         fieldGroup.appendChild(field);
     }
 

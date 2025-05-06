@@ -21,10 +21,15 @@ thaForm.addEventListener(
                     
                     let response = await res.json();
 
-                    alert(`
+                    const goToPrint = confirm(`
                     Licencia registrada: ${response.license.fullInvoice}
-                    Folio: ${response.license.invoice}`);
-                    resetFormAuto(thaForm);
+                    Folio: ${response.license.invoice}
+                    Ir a pagina de impresión?`);
+                    if (goToPrint) {
+                        location.href = `/app/landPrint?type=${response.license.licenseType}&invoice=${response.license.invoice}&year=${response.license.year}`;
+                    } else {
+                        resetFormAuto(thaForm);
+                    }
                     return;
                 }
                 let response = await res.json();

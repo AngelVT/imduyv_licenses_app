@@ -73,7 +73,7 @@ export async function generateUrbanLF(lcDBObj) {
                                     body: [
                                         [
                                             {text: 'Domicilio: ', style: 'labelT', border: docUtils.borderless},
-                                            docUtils.field(lcDBObj.licenseSpecialData.buildingAddress, docUtils.borderless, 1, 'center', 7)
+                                            docUtils.field(lcDBObj.buildingAddress, docUtils.borderless, 1, 'center', 7)
                                         ],
                                         [
                                             {text: 'Clave Catastral: ', style: 'labelT', border: docUtils.borderless},
@@ -211,7 +211,7 @@ export async function generateUrbanLF(lcDBObj) {
                                                     ', solicita la ',
                                                     {text: 'AUTORIZACIÓN DEL FRACCIONAMIENTO', bold: true},
                                                     ' denominado ',
-                                                    {text: `“${lcDBObj.colony}”`, bold: true},
+                                                    {text: `“${lcDBObj.licenseSpecialData.colony}”`, bold: true},
                                                     ' ubicado en ',
                                                     {text: docUtils.arrayToText(lcDBObj.licenseSpecialData.location), bold: true},
                                                     ', del ejido de Tizayuca, estado de Hidalgo, acompañado para efectos los siguientes documentos:\n\n'
@@ -255,11 +255,11 @@ export async function generateUrbanLF(lcDBObj) {
                                 text: lcDBObj.legalRepresentative ? [{text: ' a través del C. '}, {text: lcDBObj.legalRepresentative, bold: true}, { text: `, en su carácter de ${lcDBObj.licenseSpecialData.representativeAs}`}] : ''
                             },
                             ', solicita la autorización del Fraccionamiento denominado ',
-                            {text: `“${lcDBObj.colony}”`, bold: true},
+                            {text: `“${lcDBObj.licenseSpecialData.colony}”`, bold: true},
                             ', ha cumplido con los requisitos que exige la Ley de Asentamientos Humanos, Desarrollo Urbano y Ordenamiento Territorial del Estado de Hidalgo, en lo sucesivo se le denominará fraccionador para los efectos de esta resolución, asimismo se establecen las obligaciones que contrae, además de las constancias que obran en el expediente lo previsto en el artículo 149 de la codificación señalada anteriormente, por lo tanto el Instituto Municipal de Desarrollo Urbano y Vivienda, con apoyo en lo dispuesto por los artículos 150° y 154° de la Ley de Asentamientos Humanos, Desarrollo Urbano y Ordenamiento Territorial del Estado de Hidalgo; ',
                             "AUTORIZA LA RESOLUCIÓN DE LICENCIA DE FRACCIONAMIENTO",
                             ' denominado ' ,
-                            {text: `“${lcDBObj.colony}”`, bold: true},
+                            {text: `“${lcDBObj.licenseSpecialData.colony}”`, bold: true},
                             ' ubicado en la ',
                             {text: docUtils.arrayToText(lcDBObj.licenseSpecialData.location), bold: true},
                             ', del ejido de Tizayuca, estado de Hidalgo.\n\n']
@@ -357,7 +357,7 @@ export async function generateUrbanLF(lcDBObj) {
                                         separator: ')',
                                         ol: [
                                             {text: [{text: 'Accesos provisionales: ', bold: true},'Deberá construir los accesos provisionales necesarios para el acceso y tránsito de vehículos pesados, maquinaria y equipo que se requiera en la construcción de las obras de urbanización del ', {text: 'FRACCIONAMIENTO', bold: true},' denominado ',
-                                            {text: `“${lcDBObj.colony}”`, bold: true},' con el objetivo de no utilizar las vialidades existentes, evitando el deterioro de éstas y las posibles congestiones vehiculares resultantes. En caso de que las condiciones topográficas o técnicas no permitieran la construcción de accesos provisionales y se tenga la necesidad de utilizar las vialidades existentes, deberá convenir con la Secretaria de Obras Publicas del Municipio de Tizayuca, Hidalgo, de manera previa, las condiciones de usos y reparación de dichas vialidades.\n\n']},
+                                            {text: `“${lcDBObj.licenseSpecialData.colony}”`, bold: true},' con el objetivo de no utilizar las vialidades existentes, evitando el deterioro de éstas y las posibles congestiones vehiculares resultantes. En caso de que las condiciones topográficas o técnicas no permitieran la construcción de accesos provisionales y se tenga la necesidad de utilizar las vialidades existentes, deberá convenir con la Secretaria de Obras Publicas del Municipio de Tizayuca, Hidalgo, de manera previa, las condiciones de usos y reparación de dichas vialidades.\n\n']},
                                             {text: [{text: 'Agua potable: ', bold: true},'Deberá construir la infraestructura que se requiera para abastecer al fraccionamiento por medio de una toma derivada del mismo, debiendo construir las redes necesarias para la distribución interna del Fraccionamiento dotando de tomas domiciliarias a cada uno de los lotes conforme a las memorias técnicas y al proyecto ejecutivo presentado y aprobado por la Comisión de Agua y Alcantarillado del Municipio de Tizayuca, Hgo; (CAAMTH), así mismo contara con la autorización de las especificaciones técnicas que deberán satisfacer los materiales a utilizar en la construcción de la infraestructura.\n\n']},
                                             {text: [{text: 'Alcantarillado: ', bold: true},'Deberá construir la infraestructura que se requiera e instalará las redes necesarias para todo el Fraccionamiento, dotando de salidas de aguas negras a cada uno de los lotes y conectar el sistema al colector municipal, de acuerdo al proyecto ejecutivo aprobado por la Comisión de Agua y Alcantarillado del Municipio de Tizayuca, Hgo. (CAAMTH); así mismo contara con la autorización de las especificaciones técnicas que deben satisfacer los materiales a utilizar en la construcción de la infraestructura.']},
                                             {text: [{text: 'Desagüe pluvial: ', bold: true},'Deberá diseñar y desarrollar el proyecto ejecutivo de desagüe pluvial para el Fraccionamiento y llevará a cabo su construcción, previa autorización de la Comisión de Agua y Alcantarillado del Municipio de Tizayuca, Hgo., (CAAMTH).\n\n']},
@@ -490,9 +490,9 @@ export async function generateUrbanLF(lcDBObj) {
                         [
                             {
                                 style: 'regular',
-                                text: [{text: 'PRIMERO. ', bold: true},'El Instituto Municipal de Desarrollo Urbano y Vivienda, de Tizayuca, estado de Hidalgo,  resulto competente para conocer y dictaminar  en definitiva sobre la Resolución del Fraccionamiento denominado ',{text: `“${lcDBObj.colony}”`, bold: true},' que dio origen a este trámite.\n\n',
+                                text: [{text: 'PRIMERO. ', bold: true},'El Instituto Municipal de Desarrollo Urbano y Vivienda, de Tizayuca, estado de Hidalgo,  resulto competente para conocer y dictaminar  en definitiva sobre la Resolución del Fraccionamiento denominado ',{text: `“${lcDBObj.licenseSpecialData.colony}”`, bold: true},' que dio origen a este trámite.\n\n',
 
-                                {text: 'SEGUNDO. ', bold: true},'A través de esta resolución se autoriza el fraccionamiento denominado ',{text: `“${lcDBObj.colony}”`, bold: true},', con ', {text: lcDBObj.licenseSpecialData.habitacionalLotes, bold: true}, ' ubicado en ',{text: lcDBObj.licenseSpecialData.totalManzanas, bold: true}, ' y ', {text: `${lcDBObj.licenseSpecialData.totalSurface} m²`, bold: true}, ' de área de donación, ubicado en ',{text: docUtils.arrayToText(lcDBObj.licenseSpecialData.location), bold: true},', del ejido de Tizayuca, perteneciente al Municipio de Tizayuca, estado de Hidalgo, de acuerdo al plano del fraccionamiento que se anexa y que ahora forma parte integral de esta resolución.\n\n',
+                                {text: 'SEGUNDO. ', bold: true},'A través de esta resolución se autoriza el fraccionamiento denominado ',{text: `“${lcDBObj.licenseSpecialData.colony}”`, bold: true},', con ', {text: lcDBObj.licenseSpecialData.habitacionalLotes, bold: true}, ' ubicado en ',{text: lcDBObj.licenseSpecialData.totalManzanas, bold: true}, ' y ', {text: `${lcDBObj.licenseSpecialData.totalSurface} m²`, bold: true}, ' de área de donación, ubicado en ',{text: docUtils.arrayToText(lcDBObj.licenseSpecialData.location), bold: true},', del ejido de Tizayuca, perteneciente al Municipio de Tizayuca, estado de Hidalgo, de acuerdo al plano del fraccionamiento que se anexa y que ahora forma parte integral de esta resolución.\n\n',
 
                                 {text: 'TERCERO. ', bold: true},'El uso de suelo autorizado es ',{text: lcDBObj.zone.licenseZone, bold: true},' de acuerdo al Programa Municipal de Desarrollo Urbano y Ordenamiento Territorial de Tizayuca, Hidalgo.\n\n',
 
@@ -502,7 +502,7 @@ export async function generateUrbanLF(lcDBObj) {
                                     text: lcDBObj.legalRepresentative ? [{text: ' a través del C. '}, {text: lcDBObj.legalRepresentative, bold: true}, { text: `, en su carácter de ${lcDBObj.licenseSpecialData.representativeAs}`}] : ''
                                 },', se obliga a entregar los documentos que se obtendrán con posterioridad como consecuencia del cumplimiento de sus obligaciones, y la escritura del área de donación a favor del Municipio de Tizayuca, estado de Hidalgo, por una superficie de ', {text: `${lcDBObj.licenseSpecialData.totalSurface} m²`, bold: true},' y escritura de protocolización de la presene resolución.\n\n',
 
-                                {text: 'SEXTO. ', bold: true},'Remítase copia de la presente resolución, adjuntando plano del Fraccionamiento denominado ',{text: `“${lcDBObj.colony}”`, bold: true},', autorizado, al Registro Público de la propiedad y del Comercio, del distrito judicial de Tizayuca, estado de Hidalgo, de conformidad al articulo 156 fracción V de la Ley de Asentamientos Humanos, Desarrollo Urbano y Ordenamiento Territorial del Estado de Hidalgo.\n\n',
+                                {text: 'SEXTO. ', bold: true},'Remítase copia de la presente resolución, adjuntando plano del Fraccionamiento denominado ',{text: `“${lcDBObj.licenseSpecialData.colony}”`, bold: true},', autorizado, al Registro Público de la propiedad y del Comercio, del distrito judicial de Tizayuca, estado de Hidalgo, de conformidad al articulo 156 fracción V de la Ley de Asentamientos Humanos, Desarrollo Urbano y Ordenamiento Territorial del Estado de Hidalgo.\n\n',
 
                                 {text: 'SÉPTIMO. ', bold: true},'Se le apercibe a ',{text: lcDBObj.requestorName, bold: true}, 
                                 {

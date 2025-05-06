@@ -71,7 +71,7 @@ export async function generateUrbanC(lcDBObj) {
                                     body: [
                                         [
                                             {text: 'Domicilio: ', style: 'labelT', border: docUtils.borderless},
-                                            docUtils.field(lcDBObj.licenseSpecialData.buildingAddress, docUtils.borderless, null, 'center', 7)
+                                            docUtils.field(lcDBObj.buildingAddress, docUtils.borderless, null, 'center', 7)
                                         ],
                                         [
                                             {text: 'Clave Catastral: ', style: 'labelT', border: docUtils.borderless},

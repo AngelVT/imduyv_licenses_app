@@ -29,10 +29,15 @@ thaForm.addEventListener(
                     
                     let response = await res.json();
 
-                    alert(`
+                    const goToPrint = confirm(`
                     Licencia registrada: ${response.license.fullInvoice}
-                    Folio: ${response.license.invoice}`);
-                    resetFormAuto(thaForm);
+                    Folio: ${response.license.invoice}
+                    Ir a pagina de impresión?`);
+                    if (goToPrint) {
+                        location.href = `/app/urbanPrint?type=${response.license.licenseType}&invoice=${response.license.invoice}&year=${response.license.year}`;
+                    } else {
+                        resetFormAuto(thaForm);
+                    }
                     return;
                 }
                 let response = await res.json();
@@ -166,13 +171,52 @@ function changeStep(btn, step, form, checkFields) {
 function resetForm(form) {
     if(confirm('Seguro que quieres reiniciar el formulario?')) {
         document.getElementById(form).reset();
-
+        resetHiddenFields();
         changeStep(document.getElementById('reg_nav').firstChild, 1, form, true);
     }
 }
 
-function resetFormAuto(form){
+function resetFormAuto(form) {
     form.reset();
-
+    resetHiddenFields();
     changeStep(document.getElementById('reg_nav').firstChild, 1, form.getAttribute('id'), true);
+}
+
+function resetHiddenFields() {
+    isFracHidden.removeAttribute('value');
+    document.querySelectorAll('.LUS').forEach(e => {
+        e.classList.add("dis-none");
+    });
+    
+    document.querySelectorAll('.LSUB').forEach(e => {
+        e.classList.add("dis-none");
+    });
+
+    document.querySelectorAll('.LFUS').forEach(e => {
+        e.classList.add("dis-none");
+    });
+    
+    document.querySelectorAll('.PLF').forEach(e => {
+        e.classList.add("dis-none");
+    });
+
+    document.querySelectorAll('.LF').forEach(e => {
+        e.classList.add("dis-none");
+    });
+
+    document.querySelectorAll('.RLF').forEach(e => {
+        e.classList.add("dis-none");
+    });
+
+    document.querySelectorAll('.CRPC').forEach(e => {
+        e.classList.add("dis-none");
+    });
+
+    document.querySelectorAll('.LUH').forEach(e => {
+        e.classList.add("dis-none");
+    });
+
+    document.querySelectorAll('.CUS').forEach(e => {
+        e.classList.add("dis-none");
+    });
 }

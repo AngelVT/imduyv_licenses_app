@@ -306,7 +306,7 @@ export const UrbanLicense = pool.define(
         allowNull: true,
         defaultValue: 'New record'
     },
-    colony: {
+    buildingAddress: {
         type: DataTypes.STRING,
         allowNull: true
     },

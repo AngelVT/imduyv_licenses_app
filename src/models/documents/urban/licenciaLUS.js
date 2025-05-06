@@ -158,7 +158,7 @@ export async function generateUrbanLUS(lcDBObj) {
                                     body: [
                                         [
                                             {text: 'Domicilio: ', style: 'labelT', border: docUtils.borderless},
-                                            docUtils.field(lcDBObj.licenseSpecialData.buildingAddress, docUtils.borderless, 1, 'center', 7)
+                                            docUtils.field(lcDBObj.buildingAddress, docUtils.borderless, 1, 'center', 7)
                                         ],
                                         [
                                             {text: 'Clave Catastral: ', style: 'labelT', border: docUtils.borderless},
@@ -210,7 +210,7 @@ export async function generateUrbanLUS(lcDBObj) {
                                     {text: 'Con base al'},
                                     {text: ' artículo 80 ', bold: true},
                                     {text: 'fracción VII del Reglamento de la Ley de Asentamientos Humanos, Desarrollo Urbano y Ordenamiento Territorial para el Estado de Hidalgo, el área de donación para este tipo de desarrollo sera: '},
-                                    {text: lcDBObj.licenseSpecialData.donationArea, bold: true}
+                                    {text: `${lcDBObj.licenseSpecialData.donationArea}`, bold: true}
                                 ],
                                 fontSize: 6,
                                 alignment: 'justify'
