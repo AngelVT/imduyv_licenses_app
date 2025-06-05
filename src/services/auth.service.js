@@ -35,7 +35,7 @@ export async function requestSignIn(requestBody) {
     if (await comparePassword(password, USER.password)) {
         let redirection = authValidations.validateRedirection(USER.group.group, USER.requiredPasswordReset);
 
-        const TOKEN = jwt.sign({ userID: USER.id, username: USER.username }, process.env.SECRET, {
+        const TOKEN = jwt.sign({ userID: USER.public_user_id, username: USER.username }, process.env.SECRET, {
             expiresIn: config.TOKENS_EXP
         });
 
@@ -46,7 +46,7 @@ export async function requestSignIn(requestBody) {
                 redirection: redirection
             },
             log: `Request completed:
-                    ID -> ${USER.id}
+                    ID -> ${USER.public_user_id}
                     Name -> ${USER.name}
                     Username -> ${USER.username}`
         };
@@ -58,7 +58,7 @@ export async function requestSignIn(requestBody) {
             msg: "Incorrect username or password!"
         },
         log: `Access denied due to unable to authenticate account
-            Account ID -> ${USER.id}
+            Account ID -> ${USER.public_user_id}
             Account -> ${USER.username}`
     };
 }
@@ -98,7 +98,7 @@ export async function requestPasswordReset(request) {
                 msg: "Current password is not correct please try again."
             },
             log: `Password reset attempt with an invalid password:
-                    User id -> ${USER.id}
+                    User id -> ${USER.public_user_id}
                     Username -> ${USER.username}`
         }
     }
@@ -110,7 +110,7 @@ export async function requestPasswordReset(request) {
                 msg: "The new password cannot be the current one."
             },
             log: `Password reset attempt with same current password:
-                    User id -> ${USER.id}
+                    User id -> ${USER.public_user_id}
                     Username -> ${USER.username}`
         }
     }
@@ -122,7 +122,7 @@ export async function requestPasswordReset(request) {
                 msg: "The new password does not meet the minimum requirements."
             },
             log: `Password reset attempt with a invalid new password:
-                    User id -> ${USER.id}
+                    User id -> ${USER.public_user_id}
                     Username -> ${USER.username}`
         }
     }
@@ -131,7 +131,7 @@ export async function requestPasswordReset(request) {
 
     const NEW_DATA = { password: NEW_PASSWORD, requiredPasswordReset: false }
 
-    await saveUser(USER.id, NEW_DATA);
+    await saveUser(USER.user_id, NEW_DATA);
 
     return {
         status: 200,
@@ -139,7 +139,7 @@ export async function requestPasswordReset(request) {
             msg: "Password reset successful."
         },
         log: `Password reset completed:
-                User id -> ${USER.id}
+                User id -> ${USER.public_user_id}
                 Username -> ${USER.username}`
     }
 }

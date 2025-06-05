@@ -4,48 +4,50 @@ import * as authenticator from '../middlewares/auth.JWT.js'
 
 const router = Router();
 
+const ADMIN = ['admin', 'system'];
+
 // * Municipal Administration Periods
-router.get('/municipalPeriod/:id', [authenticator.verifyToken, authenticator.accountIntegrity, authenticator.isAdmin], administrationControl.getMunicipalPeriod);
+router.get('/municipalPeriod/:id', [authenticator.verifyToken, authenticator.accountIntegrity, authenticator.verifyRole(ADMIN)], administrationControl.getMunicipalPeriod);
 
-router.get('/municipalPeriod', [authenticator.verifyToken, authenticator.accountIntegrity, authenticator.isAdmin], administrationControl.getMunicipalPeriods);
+router.get('/municipalPeriod', [authenticator.verifyToken, authenticator.accountIntegrity, authenticator.verifyRole(ADMIN)], administrationControl.getMunicipalPeriods);
 
-router.post('/municipalPeriod', [authenticator.verifyToken, authenticator.accountIntegrity, authenticator.isAdmin], administrationControl.createMunicipalPeriod);
+router.post('/municipalPeriod', [authenticator.verifyToken, authenticator.accountIntegrity, authenticator.verifyRole(ADMIN)], administrationControl.createMunicipalPeriod);
 
-router.patch('/municipalPeriod/:id', [authenticator.verifyToken, authenticator.accountIntegrity, authenticator.isAdmin], administrationControl.updateMunicipalPeriod);
+router.patch('/municipalPeriod/:id', [authenticator.verifyToken, authenticator.accountIntegrity, authenticator.verifyRole(ADMIN)], administrationControl.updateMunicipalPeriod);
 
-router.delete('/municipalPeriod/:id', [authenticator.verifyToken, authenticator.accountIntegrity, authenticator.isAdmin], administrationControl.deleteMunicipalPeriod);
+router.delete('/municipalPeriod/:id', [authenticator.verifyToken, authenticator.accountIntegrity, authenticator.verifyRole(ADMIN)], administrationControl.deleteMunicipalPeriod);
 
 // * Institute Administration Periods
-router.get('/institutePeriod/:id', [authenticator.verifyToken, authenticator.accountIntegrity, authenticator.isAdmin], administrationControl.getInstitutePeriod);
+router.get('/institutePeriod/:id', [authenticator.verifyToken, authenticator.accountIntegrity, authenticator.verifyRole(ADMIN)], administrationControl.getInstitutePeriod);
 
-router.get('/institutePeriod', [authenticator.verifyToken, authenticator.accountIntegrity, authenticator.isAdmin], administrationControl.getInstitutePeriods);
+router.get('/institutePeriod', [authenticator.verifyToken, authenticator.accountIntegrity, authenticator.verifyRole(ADMIN)], administrationControl.getInstitutePeriods);
 
-router.post('/institutePeriod', [authenticator.verifyToken, authenticator.accountIntegrity, authenticator.isAdmin], administrationControl.createInstitutePeriod);
+router.post('/institutePeriod', [authenticator.verifyToken, authenticator.accountIntegrity, authenticator.verifyRole(ADMIN)], administrationControl.createInstitutePeriod);
 
-router.patch('/institutePeriod/:id', [authenticator.verifyToken, authenticator.accountIntegrity, authenticator.isAdmin], administrationControl.updateInstitutePeriod);
+router.patch('/institutePeriod/:id', [authenticator.verifyToken, authenticator.accountIntegrity, authenticator.verifyRole(ADMIN)], administrationControl.updateInstitutePeriod);
 
-router.delete('/institutePeriod/:id', [authenticator.verifyToken, authenticator.accountIntegrity, authenticator.isAdmin], administrationControl.deleteInstitutePeriod);
+router.delete('/institutePeriod/:id', [authenticator.verifyToken, authenticator.accountIntegrity, authenticator.verifyRole(ADMIN)], administrationControl.deleteInstitutePeriod);
 
 // * Licenses Direction Administration Periods
-router.get('/licensesPeriod/:id', [authenticator.verifyToken, authenticator.accountIntegrity, authenticator.isAdmin], administrationControl.getLicensePeriod);
+router.get('/licensesPeriod/:id', [authenticator.verifyToken, authenticator.accountIntegrity, authenticator.verifyRole(ADMIN)], administrationControl.getLicensePeriod);
 
-router.get('/licensesPeriod', [authenticator.verifyToken, authenticator.accountIntegrity, authenticator.isAdmin], administrationControl.getLicensePeriods);
+router.get('/licensesPeriod', [authenticator.verifyToken, authenticator.accountIntegrity, authenticator.verifyRole(ADMIN)], administrationControl.getLicensePeriods);
 
-router.post('/licensesPeriod', [authenticator.verifyToken, authenticator.accountIntegrity, authenticator.isAdmin], administrationControl.createLicensePeriod);
+router.post('/licensesPeriod', [authenticator.verifyToken, authenticator.accountIntegrity, authenticator.verifyRole(ADMIN)], administrationControl.createLicensePeriod);
 
-router.patch('/licensesPeriod/:id', [authenticator.verifyToken, authenticator.accountIntegrity, authenticator.isAdmin], administrationControl.updateLicensePeriod);
+router.patch('/licensesPeriod/:id', [authenticator.verifyToken, authenticator.accountIntegrity, authenticator.verifyRole(ADMIN)], administrationControl.updateLicensePeriod);
 
-router.delete('/licensesPeriod/:id', [authenticator.verifyToken, authenticator.accountIntegrity, authenticator.isAdmin], administrationControl.deleteLicensePeriod);
+router.delete('/licensesPeriod/:id', [authenticator.verifyToken, authenticator.accountIntegrity, authenticator.verifyRole(ADMIN)], administrationControl.deleteLicensePeriod);
 
 // * Licenses year legends
-router.get('/yearLegend/:id', [authenticator.verifyToken, authenticator.accountIntegrity, authenticator.isAdmin], administrationControl.getYearLegend);
+router.get('/yearLegend/:id', [authenticator.verifyToken, authenticator.accountIntegrity, authenticator.verifyRole(ADMIN)], administrationControl.getYearLegend);
 
-router.get('/yearLegend', [authenticator.verifyToken, authenticator.accountIntegrity, authenticator.isAdmin], administrationControl.getYearLegends);
+router.get('/yearLegend', [authenticator.verifyToken, authenticator.accountIntegrity, authenticator.verifyRole(ADMIN)], administrationControl.getYearLegends);
 
-router.post('/yearLegend', [authenticator.verifyToken, authenticator.accountIntegrity, authenticator.isAdmin], administrationControl.createYearLegend);
+router.post('/yearLegend', [authenticator.verifyToken, authenticator.accountIntegrity, authenticator.verifyRole(ADMIN)], administrationControl.createYearLegend);
 
-router.patch('/yearLegend/:id', [authenticator.verifyToken, authenticator.accountIntegrity, authenticator.isAdmin], administrationControl.updateYearLegend);
+router.patch('/yearLegend/:id', [authenticator.verifyToken, authenticator.accountIntegrity, authenticator.verifyRole(ADMIN)], administrationControl.updateYearLegend);
 
-router.delete('/yearLegend/:id', [authenticator.verifyToken, authenticator.accountIntegrity, authenticator.isAdmin], administrationControl.deleteYearLegend);
+router.delete('/yearLegend/:id', [authenticator.verifyToken, authenticator.accountIntegrity, authenticator.verifyRole(ADMIN)], administrationControl.deleteYearLegend);
 
 export default router;

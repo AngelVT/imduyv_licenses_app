@@ -12,7 +12,7 @@ export const signIn = async (req, res) => {
                 signed: true,
                 sameSite: 'strict',
                 maxAge: config.COOKIE_EXP
-            }).status(response.status).redirect(response.data.redirection);
+            }).status(response.status).json({redirectTo: response.data.redirection});
         } else {
             res.status(response.status).json(response.data);
         }

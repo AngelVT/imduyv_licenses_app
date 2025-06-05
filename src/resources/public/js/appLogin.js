@@ -16,13 +16,20 @@ form.addEventListener(
                 body: JSON.stringify(body)
             });
 
+            const response = await res.json();
+            const params = new URLSearchParams(window.location.search);
+            const url = params.get('url');
+
             if(res.ok) {
-                window.location.href = res.url;
+                if (url) {
+                    window.location.href = url;
+                } else {
+                    window.location.href = response.redirectTo;
+                }
                 return;
             }
 
             if(!res.ok){
-                const response = await res.json();
                 alert(`Access denied\n${response.msg}`);
                 document.querySelector('#in_pass').value = '';
                 return;

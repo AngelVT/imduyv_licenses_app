@@ -89,7 +89,7 @@ export async function requestCoordinateCheck(coordinates) {
                 m2_neto: coordinateData.m2_neto,
                 alt_max: coordinateData.alt_max,
                 niveles: coordinateData.niveles,
-                PCU: coordinatePCU ? coordinatePCU.CALIF : '-'
+                PCU: coordinatePCU ? coordinatePCU.CALIF : 'U3'
             }
         }
     }

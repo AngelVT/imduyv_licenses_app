@@ -1,9 +1,53 @@
 import { DataTypes } from 'sequelize';
 import { pool } from '../configuration/database.configuration.js';
 
+export const Role = pool.define(
+    'role', {
+    role_id: {
+        type: DataTypes.INTEGER,
+        autoIncrement: true,
+        primaryKey: true
+    },
+    role: {
+        type: DataTypes.STRING(45),
+        allowNull: false,
+        unique: true
+    }
+}, {
+    timestamps: false,
+    schema: 'users'
+});
+
+export const Group = pool.define(
+    'group', {
+    group_id: {
+        type: DataTypes.INTEGER,
+        autoIncrement: true,
+        primaryKey: true
+    },
+    group: {
+        type: DataTypes.STRING(45),
+        allowNull: false,
+        unique: true
+    }
+}, {
+    timestamps: false,
+    schema: 'users'
+});
+
 // TODO uncomment the email in preparation for public deployment
 export const User = pool.define(
     'user', {
+    user_id: {
+        type: DataTypes.INTEGER,
+        autoIncrement: true,
+        primaryKey: true
+    },
+    public_user_id: {
+        type: DataTypes.UUID,
+        defaultValue: DataTypes.UUIDV4,
+        unique: true
+    },
     name: {
         type: DataTypes.STRING(45),
         allowNull: false,
@@ -18,6 +62,22 @@ export const User = pool.define(
         allowNull: false,
         unique: true
     },
+    roleId: {
+        type: DataTypes.INTEGER,
+        references: {
+            model: Role,
+            key: 'role_id'
+        },
+        allowNull: false
+    },
+    groupId: {
+        type: DataTypes.INTEGER,
+        references: {
+            model: Group,
+            key: 'group_id'
+        },
+        allowNull: false
+    },
     password: {
         type: DataTypes.STRING,
         allowNull: false
@@ -31,34 +91,10 @@ export const User = pool.define(
         type: DataTypes.BOOLEAN,
         allowNull: true,
         defaultValue: false
-    },
-}, {
-    schema: 'users'
-});
-
-export const Role = pool.define(
-    'role', {
-    role: {
-        type: DataTypes.STRING(45),
-        allowNull: false,
-        unique: true
     }
 }, {
-    timestamps: false,
     schema: 'users'
 });
 
-export const Group = pool.define(
-    'group', {
-    group: {
-        type: DataTypes.STRING(45),
-        allowNull: false,
-        unique: true
-    }
-}, {
-    timestamps: false,
-    schema: 'users'
-});
-
-User.belongsTo(Role);
-User.belongsTo(Group);
+User.belongsTo(Role, { foreignKey: 'roleId' });
+User.belongsTo(Group, { foreignKey: 'groupId' });

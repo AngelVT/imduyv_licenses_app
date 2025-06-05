@@ -121,7 +121,7 @@ function createUserResultTop(obj) {
 
     topLabel.setAttribute('class', `${obj.locked ? 'bi-lock-fill ' : 'bi-unlock-fill '}color-white txt-bold w-100 txt-center result-label`);
 
-    topLabel.setAttribute('onclick', `hideShow(${obj.id})`);
+    topLabel.setAttribute('onclick', `hideShow('${obj.id}')`);
     topLabel.setAttribute('id', `result_user_${obj.id}`);
 
     topLabel.innerText = `${obj.name} | ${obj.username}`;
@@ -132,7 +132,7 @@ function createUserResultTop(obj) {
 
     span = document.createElement('span');
     span.setAttribute('id', `result_control_delete_${obj.id}`);
-    span.setAttribute('onclick', `deleteResult(${obj.id})`);
+    span.setAttribute('onclick', `deleteResult('${obj.id}')`);
     span.setAttribute('class', 'bi-trash txt-medium color-white dis-none result-control');
     topControls.appendChild(span);
 
@@ -208,7 +208,7 @@ function createResultField(id, tag, name, value, type) {
     let input;
     let span;
 
-    field.setAttribute('onsubmit', `updateResultField(this, ${id}); return false`);
+    field.setAttribute('onsubmit', `updateResultField(this, '${id}'); return false`);
     field.setAttribute('class', 'w-30 margin-bottom-small');
 
     label.innerText = tag + ':';

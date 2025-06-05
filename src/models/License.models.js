@@ -5,6 +5,11 @@ import { pool } from '../configuration/database.configuration.js';
 
 export const Type = pool.define(
     'type', {
+    license_type_id: {
+        type: DataTypes.INTEGER,
+        autoIncrement: true,
+        primaryKey: true
+    },
     licenseType: {
         type: DataTypes.STRING,
         allowNull: false
@@ -16,6 +21,11 @@ export const Type = pool.define(
 
 export const Term = pool.define(
     'term', {
+    license_term_id: {
+        type: DataTypes.INTEGER,
+        autoIncrement: true,
+        primaryKey: true
+    },
     licenseTerm: {
         type: DataTypes.STRING,
         allowNull: false
@@ -27,6 +37,11 @@ export const Term = pool.define(
 
 export const Zone = pool.define(
     'zone', {
+    license_zone_id: {
+        type: DataTypes.INTEGER,
+        autoIncrement: true,
+        primaryKey: true
+    },
     licenseZone: {
         type: DataTypes.STRING,
         allowNull: false
@@ -43,6 +58,11 @@ export const Zone = pool.define(
 
 export const AuthUse = pool.define(
     'authorized_use', {
+    license_authUse_id: {
+        type: DataTypes.INTEGER,
+        autoIncrement: true,
+        primaryKey: true
+    },
     licenseAuthUse: {
         type: DataTypes.STRING,
         allowNull: false
@@ -54,6 +74,11 @@ export const AuthUse = pool.define(
 
 export const Validity = pool.define(
     'validity', {
+    license_validity_id: {
+        type: DataTypes.INTEGER,
+        autoIncrement: true,
+        primaryKey: true
+    },
     licenseValidity: {
         type: DataTypes.STRING,
         allowNull: false
@@ -65,6 +90,11 @@ export const Validity = pool.define(
 
 export const ExpeditionType = pool.define(
     'expedition_type', {
+    license_expedition_type_id: {
+        type: DataTypes.INTEGER,
+        autoIncrement: true,
+        primaryKey: true
+    },
     licenseExpType: {
         type: DataTypes.STRING,
         allowNull: false
@@ -76,6 +106,16 @@ export const ExpeditionType = pool.define(
 
 export const LandUseLicense = pool.define(
     'landUse_license', {
+    land_license_id: {
+        type: DataTypes.INTEGER,
+        autoIncrement: true,
+        primaryKey: true
+    },
+    public_land_license_id: {
+        type: DataTypes.UUID,
+        defaultValue: DataTypes.UUIDV4,
+        unique: true
+    },
     fullInvoice: {
         type: DataTypes.STRING,
         allowNull: false
@@ -88,7 +128,7 @@ export const LandUseLicense = pool.define(
         type: DataTypes.INTEGER,
         references: {
             model: Type,
-            key: 'id'
+            key: 'license_type_id'
         },
         allowNull: false
     },
@@ -147,7 +187,7 @@ export const LandUseLicense = pool.define(
         type: DataTypes.INTEGER,
         references: {
             model: Term,
-            key: 'id'
+            key: 'license_term_id'
         },
         allowNull: false
     },
@@ -159,7 +199,7 @@ export const LandUseLicense = pool.define(
         type: DataTypes.INTEGER,
         references: {
             model: Zone,
-            key: 'id'
+            key: 'license_zone_id'
         },
         allowNull: false
     },
@@ -167,7 +207,7 @@ export const LandUseLicense = pool.define(
         type: DataTypes.INTEGER,
         references: {
             model: AuthUse,
-            key: 'id'
+            key: 'license_authUse_id'
         },
         allowNull: false
     },
@@ -187,7 +227,7 @@ export const LandUseLicense = pool.define(
         type: DataTypes.INTEGER,
         references: {
             model: Validity,
-            key: 'id'
+            key: 'license_validity_id'
         },
         allowNull: false
     },
@@ -203,7 +243,7 @@ export const LandUseLicense = pool.define(
         type: DataTypes.INTEGER,
         references: {
             model: ExpeditionType,
-            key: 'id'
+            key: 'license_expedition_type_id'
         },
         allowNull: false
     },
@@ -254,6 +294,11 @@ LandUseLicense.belongsTo(ExpeditionType, { foreignKey: 'licenseExpeditionType' }
 
 export const UrbanType = pool.define(
     'urban_type', {
+    license_urban_type_id: {
+        type: DataTypes.INTEGER,
+        autoIncrement: true,
+        primaryKey: true
+    },
     licenseType: {
         type: DataTypes.STRING,
         allowNull: false
@@ -265,6 +310,16 @@ export const UrbanType = pool.define(
 
 export const UrbanLicense = pool.define(
     'urban_license', {
+    urban_license_id: {
+        type: DataTypes.INTEGER,
+        autoIncrement: true,
+        primaryKey: true
+    },
+    public_urban_license_id: {
+        type: DataTypes.UUID,
+        defaultValue: DataTypes.UUIDV4,
+        unique: true
+    },
     fullInvoice: {
         type: DataTypes.STRING,
         allowNull: false
@@ -277,7 +332,7 @@ export const UrbanLicense = pool.define(
         type: DataTypes.INTEGER,
         references: {
             model: UrbanType,
-            key: 'id'
+            key: 'license_urban_type_id'
         },
         allowNull: false
     },
@@ -322,7 +377,7 @@ export const UrbanLicense = pool.define(
         type: DataTypes.INTEGER,
         references: {
             model: Term,
-            key: 'id'
+            key: 'license_term_id'
         },
         defaultValue: 1,
         allowNull: true
@@ -335,7 +390,7 @@ export const UrbanLicense = pool.define(
         type: DataTypes.INTEGER,
         references: {
             model: Zone,
-            key: 'id'
+            key: 'license_zone_id'
         },
         defaultValue: 1,
         allowNull: true
@@ -348,7 +403,7 @@ export const UrbanLicense = pool.define(
         type: DataTypes.INTEGER,
         references: {
             model: Validity,
-            key: 'id'
+            key: 'license_validity_id'
         },
         defaultValue: 1,
         allowNull: true

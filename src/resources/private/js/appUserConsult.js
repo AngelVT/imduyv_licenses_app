@@ -235,8 +235,50 @@ async function updateResultField(form, id) {
     });
 }
 
-//* Urban Result
+async function deleteResult(id) {
+    let registro = document.getElementById(`result_user_${id}`).innerText;
+
+    if (!confirm(`Estas seguro de que quieres eliminar el usuario ${registro}, esta acción es irreversible.`)) {
+        return;
+    }
+
+    await fetch(`/api/users/${id}`, {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        credentials: 'include'
+    })
+    .then(async res => {
+        if(res.ok) {
+            const response = await res.json();
+            let content = res.headers.get('Content-Type');
+            if (content.includes('text/html')) {
+                location.href = res.url;
+                return;
+            }
+            
+            console.log(response);
+            document.getElementById(`result_${id}`).remove();
+            alert(`Usuario ${registro} eliminado exitosamente`);
+            return;
+        }
+
+        if (!res.ok) {
+            const response = await res.json();
+            alert(response.msg);
+            return;
+        }
+    })
+    .catch(error => {
+        alert('An error ocurred:\n' + error);
+        console.error('Error updating data: ', error);
+    });
+}
+
+//* User Result
 function createUserResult(resObj, target) {
+    resObj.id = resObj.public_user_id;
     let resultContent = generateUserFields(resObj, createResultContent(resObj.id, false));
 
     let newResult = createResult(

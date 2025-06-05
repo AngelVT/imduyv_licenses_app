@@ -1,7 +1,7 @@
 import { User, Group, Role } from "../models/Users.models.js";
 import { Op } from "sequelize";
 
-const USER_ATTRIBUTES = { exclude: ['password'] };
+const USER_ATTRIBUTES = { exclude: ['user_id','password'] };
 
 const USER_MODELS = [
     {
@@ -24,7 +24,10 @@ export async function findAllUsers() {
 }
 
 export async function findUserByID(id) {
-    return await User.findByPk(id, {
+    return await User.findOne({
+        where: {
+            public_user_id: id
+        },
         attributes: USER_ATTRIBUTES,
         include: USER_MODELS,
         raw: true,
@@ -80,7 +83,9 @@ export async function findUsername(username) {
 
 export async function findUserByIdUsername(id, username) {
     return await User.findOne({
-        where: { id: id, username: username },
+        where: { public_user_id: id, username: username },
+        attributes: USER_ATTRIBUTES,
+        include: USER_MODELS,
         raw: true,
         nest: true
     });
@@ -90,33 +95,36 @@ export async function findUserByIdUsername(id, username) {
 export async function saveNewUSER(newUserData) {
     const [NEW_USER, CREATED] = await User.findOrCreate({
         where: { username: newUserData.username },
-        attributes: USER_ATTRIBUTES,
         include: USER_MODELS,
         defaults: newUserData
     });
 
-    return CREATED ? NEW_USER : null;
+    return CREATED ? generateSafeUser(NEW_USER) : null;
 }
 
 export async function saveUser(id, newData) {
-    const MODIFIED_USER = await User.findByPk(id, {
-        attributes: USER_ATTRIBUTES,
+    const modifiedUser = await User.findOne({
+        where: {
+            public_user_id: id,
+        },
         include: USER_MODELS
     });
     
-    if(MODIFIED_USER == null) return null;
+    if(modifiedUser == null) return null;
 
-    await MODIFIED_USER.update(newData);
+    await modifiedUser.update(newData);
 
-    if (newData.groupId || newData.roleId)
-        await MODIFIED_USER.reload({include: USER_MODELS});
+    if ('groupId' in newData || 'roleId' in newData)
+        await modifiedUser.reload({include: USER_MODELS});
 
-    return MODIFIED_USER;
+    return generateSafeUser(modifiedUser);
 }
 
 export async function deleteUser(id) {
-    const DELETED_USER = await User.findByPk(id, {
-        attributes: USER_ATTRIBUTES,
+    const DELETED_USER = await User.findOne({
+        where: {
+            public_user_id: id,
+        },
         include: USER_MODELS
     });
 
@@ -125,7 +133,7 @@ export async function deleteUser(id) {
 
     await DELETED_USER.destroy();
 
-    return DELETED_USER;
+    return generateSafeUser(DELETED_USER);
 }
 
 export async function userInfo(id) {
@@ -148,4 +156,9 @@ export async function getGroupName(group) {
     }
 
     return GROUP.group;
+}
+
+function generateSafeUser(user) {
+    const { user_id, password, ...safeUser } = user.toJSON();
+    return safeUser;
 }

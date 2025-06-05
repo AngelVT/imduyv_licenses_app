@@ -3,6 +3,11 @@ import { pool } from '../configuration/database.configuration.js';
 
 export const MunicipalAdministration = pool.define(
     'municipal_administration', {
+    municipal_administration_id: {
+        type: DataTypes.INTEGER,
+        autoIncrement: true,
+        primaryKey: true
+    },
     municipalPresident: {
         type: DataTypes.STRING,
         allowNull: false
@@ -24,6 +29,11 @@ export const MunicipalAdministration = pool.define(
 
 export const InstituteAdministration = pool.define(
     'institute_administration', {
+    institute_administration_id: {
+        type: DataTypes.INTEGER,
+        autoIncrement: true,
+        primaryKey: true
+    },
     directorName: {
         type: DataTypes.STRING,
         allowNull: false
@@ -53,6 +63,11 @@ export const InstituteAdministration = pool.define(
 
 export const LicensesAdministration = pool.define(
     'licenses_administration', {
+    licenses_administration_id: {
+        type: DataTypes.INTEGER,
+        autoIncrement: true,
+        primaryKey: true
+    },
     directorName: {
         type: DataTypes.STRING,
         allowNull: false
@@ -73,7 +88,12 @@ export const LicensesAdministration = pool.define(
 });
 
 export const YearOf = pool.define(
-    'year_of', {
+    'year_legend', {
+    year_legend_id: {
+        type: DataTypes.INTEGER,
+        autoIncrement: true,
+        primaryKey: true
+    },
     year: {
         type: DataTypes.INTEGER,
         allowNull: false,

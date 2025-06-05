@@ -9,7 +9,7 @@ import { __dirname, __dirstorage } from './path.configuration.js';
 import { checkDB } from './configuration/database.configuration.js';
 import { setDBDefaults } from './configuration/databaseValues.configuration.js';
 import { setDefaultDirectories } from './configuration/storage.configuration.js';
-import { verifyToken, isLandUser, isUrbanUser } from './middlewares/auth.JWT.js';
+import { verifyToken, verifyGroup } from './middlewares/auth.JWT.js';
 
 import landuseRoutes from './routes/landuse.routes.js';
 import urbanRoutes from './routes/urban.routes.js';
@@ -41,8 +41,8 @@ app.use(cors({
 // * Stablish access to the web files
 app.use('/public', express.static(path.join(__dirname, 'resources', 'public')));
 app.use('/private', verifyToken, express.static(path.join(__dirname, 'resources', 'private')));
-app.use('/urbanStorage', verifyToken, isUrbanUser, express.static(path.join(__dirstorage, 'assets', 'urban')));
-app.use('/landUseStorage', verifyToken, isLandUser, express.static(path.join(__dirstorage, 'assets', 'land')));
+app.use('/urbanStorage', verifyToken, verifyGroup(['urban', 'all']), express.static(path.join(__dirstorage, 'assets', 'urban')));
+app.use('/landUseStorage', verifyToken, verifyGroup(['land_use', 'all']), express.static(path.join(__dirstorage, 'assets', 'land')));
 
 // * Stablish routes
 app.use('/api/landuse', landuseRoutes);

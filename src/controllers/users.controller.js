@@ -177,7 +177,7 @@ export const getUserQR = async (req, res) => {
 
 export const getUserInfo = async (req, res) => {
     try {
-        const response = await userService.requestUserInfo(req.userID);
+        const response = await userService.requestUserInfo(req.userUUID);
 
         res.status(response.status).json(response.data);
     } catch (error) {
