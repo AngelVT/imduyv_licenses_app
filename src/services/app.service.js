@@ -80,10 +80,10 @@ export async function requestCoordinateCheck(coordinates) {
             msg: "Location found",
             georeference: COORDINATES.reverse(),
             data: {
-                numericZone: ZONE.id,
+                numericZone: ZONE.license_zone_id,
                 zone: ZONE.licenseZone,
                 key: ZONE.licenseKey,
-                numericTerm: TERM.id,
+                numericTerm: TERM.license_term_id,
                 term: TERM.licenseTerm,
                 COS: coordinateData.COS,
                 m2_neto: coordinateData.m2_neto,

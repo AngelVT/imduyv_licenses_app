@@ -2,6 +2,10 @@ import { Group, Role } from "../models/Users.models.js";
 import { findUserByID } from "../repositories/users.repository.js";
 
 export async function validateUserPermissions(role, group) {
+    if (isNaN(parseInt(role)) || isNaN(parseInt(group))) {
+        return false
+    }
+
     const ROLE = await Role.findByPk(role);
 
     if (ROLE == null)
@@ -16,6 +20,10 @@ export async function validateUserPermissions(role, group) {
 }
 
 export async function validateUserRole(role) {
+    if (isNaN(parseInt(role))) {
+        return false
+    }
+
     const ROLE = await Role.findByPk(role);
 
     if (ROLE == null)
@@ -25,6 +33,10 @@ export async function validateUserRole(role) {
 }
 
 export async function validateUserGroup(group) {
+    if (isNaN(parseInt(group))) {
+        return false
+    }
+
     const GROUP = await Group.findByPk(group);
 
     if (GROUP == null)
@@ -33,7 +45,7 @@ export async function validateUserGroup(group) {
     return true;
 }
 
-export async function hasRole(id, requiredPermission) {
+/*export async function hasRole(id, requiredPermission) {
     const USER = await findUserByID(id);
 
     if (USER.roleId <= requiredPermission && requiredPermission > 0 && USER.roleId > 0) {
@@ -51,7 +63,7 @@ export async function belongToGroup(id, requiredGroup) {
     }
 
     return false;
-}
+}*/
 
 export function validateName(name) {
     let nameLength = name.split(' ').length;

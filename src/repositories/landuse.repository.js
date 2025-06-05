@@ -28,6 +28,7 @@ const LAND_USE_MODELS = [
         attributes: ['licenseExpType']
     },
 ];
+const LAND_USE_ATTRIBUTES = { exclude: ['land_license_id'] };
 
 export async function findAllLandLicenses() {
     return await LandUseLicense.findAll({
@@ -38,7 +39,11 @@ export async function findAllLandLicenses() {
 }
 
 export async function findLandLicenseId(id) {
-    return await LandUseLicense.findByPk(id, {
+    return await LandUseLicense.findOne({
+        where: {
+            public_land_license_id: id
+        },
+        attributes: LAND_USE_ATTRIBUTES,
         include: LAND_USE_MODELS,
         raw: true,
         nest: true
@@ -50,6 +55,7 @@ export async function findLandLicensePrintInvoice(printInvoice) {
         where: {
             licensePrintInvoice: printInvoice
         },
+        attributes: LAND_USE_ATTRIBUTES,
         include: LAND_USE_MODELS,
         raw: true,
         nest: true
@@ -63,6 +69,7 @@ export async function findLandLicenseInvoice(type, invoice, year) {
             invoice: invoice,
             year: year
         },
+        attributes: LAND_USE_ATTRIBUTES,
         include: LAND_USE_MODELS,
         raw: true,
         nest: true
@@ -76,6 +83,7 @@ export async function findLandLicenseType(type, year) {
             year: year
         },
         order: [['invoice', 'ASC']],
+        attributes: LAND_USE_ATTRIBUTES,
         include: LAND_USE_MODELS,
         raw: true,
         nest: true
@@ -88,6 +96,7 @@ export async function findLandLicenseBy(parameter, value) {
     return await LandUseLicense.findAll({
         where: PARAM,
         include: LAND_USE_MODELS,
+        attributes: LAND_USE_ATTRIBUTES,
         raw: true,
         nest: true
     });
@@ -95,7 +104,7 @@ export async function findLandLicenseBy(parameter, value) {
 
 export async function saveNewLandLicense(newLicenseData) {
     const [NEW_LICENSE, CREATED] = await LandUseLicense.findOrCreate({
-        where: { 
+        where: {
             fullInvoice: newLicenseData.fullInvoice,
             invoice: newLicenseData.invoice,
             licenseType: newLicenseData.licenseType,
@@ -107,11 +116,14 @@ export async function saveNewLandLicense(newLicenseData) {
         nest: true
     });
 
-    return CREATED ? NEW_LICENSE : null;
+    return CREATED ? generateSafeLicense(NEW_LICENSE) : null;
 }
 
 export async function saveLandLicense(id, newData) {
-    const MODIFIED_LICENSE = await LandUseLicense.findByPk(id, {
+    const MODIFIED_LICENSE = await LandUseLicense.findOne({
+        where: {
+            public_land_license_id: id
+        },
         include: LAND_USE_MODELS
     });
 
@@ -127,14 +139,17 @@ export async function saveLandLicense(id, newData) {
     }
 
     if (newData.zone || newData.authorizedUse || newData.validity || newData.expeditionType || newData.term) {
-        await MODIFIED_LICENSE.reload({include: LAND_USE_MODELS});
+        await MODIFIED_LICENSE.reload({ include: LAND_USE_MODELS });
     }
 
-    return MODIFIED_LICENSE;
+    return generateSafeLicense(MODIFIED_LICENSE);
 }
 
 export async function deleteLandLicense(id) {
-    const DELETED_LICENSE = await LandUseLicense.findByPk(id, {
+    const DELETED_LICENSE = await LandUseLicense.findOne({
+        where: {
+            public_land_license_id: id
+        },
         include: LAND_USE_MODELS
     });
 
@@ -142,12 +157,15 @@ export async function deleteLandLicense(id) {
 
     await DELETED_LICENSE.destroy();
 
-    return DELETED_LICENSE;
+    return generateSafeLicense(DELETED_LICENSE);
 }
 
 export async function getLicenseEspecialData(id) {
-    return await LandUseLicense.findByPk(id, {
-        attributes: ['fullInvoice','licenseSpecialData'],
+    return await LandUseLicense.findOne({
+        where: {
+            public_land_license_id: id
+        },
+        attributes: ['fullInvoice', 'licenseSpecialData'],
         raw: true,
         nest: true
     });
@@ -218,9 +236,14 @@ export async function saveStartInvoice(invoice, type, year) {
 
 async function getType(type) {
     const TYPE = await Type.findOne({
-        where: { licenseType: type},
+        where: { licenseType: type },
         raw: true
     });
 
-    return TYPE.id
+    return TYPE.license_type_id
+}
+
+function generateSafeLicense(license) {
+    const { land_license_id, ...safeLicense } = license.toJSON();
+    return safeLicense;
 }

@@ -28,7 +28,10 @@ export function validateParameter(parameter) {
 }
 
 export async function validateModels(models) {
-    if(models.type) {
+    if (models.type) {
+        if (isNaN(parseInt(models.type))) {
+            return false
+        }
         const type = await Type.findByPk(models.type);
 
         if (type == null) {
@@ -37,41 +40,56 @@ export async function validateModels(models) {
     }
 
     if (models.term) {
+        if (isNaN(parseInt(models.term))) {
+            return false
+        }
         const terms = await Term.findByPk(models.term);
 
-        if(terms == null) {
+        if (terms == null) {
             return false;
         }
     }
 
     if (models.zone) {
+        if (isNaN(parseInt(models.zone))) {
+            return false
+        }
         const zones = await Zone.findByPk(models.zone);
 
-        if(zones == null) {
+        if (zones == null) {
             return false;
         }
     }
 
     if (models.authUse) {
+        if (isNaN(parseInt(models.authUse))) {
+            return false
+        }
         const authUses = await AuthUse.findByPk(models.authUse);
 
-        if(authUses == null) {
+        if (authUses == null) {
             return false;
         }
     }
 
     if (models.validity) {
+        if (isNaN(parseInt(models.validity))) {
+            return false
+        }
         const validities = await Validity.findByPk(models.validity);
 
-        if(validities == null) {
+        if (validities == null) {
             return false;
         }
     }
 
     if (models.expeditionType) {
+        if (isNaN(parseInt(models.expeditionType))) {
+            return false
+        }
         const expeditionTypes = await ExpeditionType.findByPk(models.expeditionType);
 
-        if(expeditionTypes == null) {
+        if (expeditionTypes == null) {
             return false;
         }
     }
@@ -82,7 +100,7 @@ export async function validateModels(models) {
 export async function existingLicenses() {
     const COUNT = await LandUseLicense.count();
 
-    if(COUNT > 0)
+    if (COUNT > 0)
         return true;
 
     return false;
@@ -116,6 +134,6 @@ export async function validateFile(file) {
     if (!detectedType || detectedType.mime !== 'image/png') {
         return false;
     }
-    
+
     return true;
 }

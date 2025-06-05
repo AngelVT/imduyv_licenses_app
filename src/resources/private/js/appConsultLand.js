@@ -365,6 +365,7 @@ async function deleteResult(id) {
 //-------------------------------------------------------------------
 //* Land Result
 function createLandResultNoUpdate(resObj, target) {
+    resObj.id = resObj.public_land_license_id;
     let newResult = createResultNoUpdate(
         resObj.id,
         createResultTopNoUpdate(resObj, true));
@@ -373,6 +374,7 @@ function createLandResultNoUpdate(resObj, target) {
 }
 
 function createLandResult(resObj, target, isPrint, isLandUse) {
+    resObj.id = resObj.public_land_license_id;
     let resultContent = generateLandFields(resObj, createResultContent(resObj.id, isPrint));
 
     let newResult = createResult(

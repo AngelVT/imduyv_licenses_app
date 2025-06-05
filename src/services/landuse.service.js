@@ -56,6 +56,18 @@ export async function requestLandLicenseById(id) {
 }
 
 export async function requestLandLicenseByInvoice(type, invoice, year) {
+    if (isNaN(parseInt(type)) ||
+        isNaN(parseInt(invoice)) ||
+        isNaN(parseInt(year))) {
+        return {
+            status: 400,
+            data: {
+                msg: "Request failed due to invalid search parameters provided."
+            },
+            log: `Request completed search params /t/${type}/i/${invoice}/y/${year} invalid.`
+        };
+    }
+
     let LICENSE = await landRepo.findLandLicenseInvoice(type, invoice, year);
 
     if (LICENSE == null) {
@@ -80,6 +92,17 @@ export async function requestLandLicenseByInvoice(type, invoice, year) {
 }
 
 export async function requestLandLicenseByType(type, year) {
+    if (isNaN(parseInt(type)) ||
+        isNaN(parseInt(year))) {
+        return {
+            status: 400,
+            data: {
+                msg: "Request failed due to invalid search parameters provided."
+            },
+            log: `Request completed search params /t/${type}/y/${year} invalid.`
+        };
+    }
+
     let LICENSES = await landRepo.findLandLicenseType(type, year);
 
     if (LICENSES == null || LICENSES.length == 0) {
@@ -138,6 +161,16 @@ export async function requestLandLicenseByParameter(parameter, value) {
 }
 
 export async function requestLandLicenseByPrintInvoice(printInvoice) {
+    if (isNaN(parseInt(printInvoice))) {
+        return {
+            status: 400,
+            data: {
+                msg: "Request failed due to invalid search parameters provided."
+            },
+            log: `Request completed search params printInvoice/${printInvoice} invalid.`
+        };
+    }
+
     let LICENSE = await landRepo.findLandLicensePrintInvoice(printInvoice);
 
     if (LICENSE == null) {
@@ -200,8 +233,8 @@ export async function requestLandLicenseCreate(body, file, requestor) {
         alt_max,
         niveles
     } = body;
-    
-    if (!licenseType || !requestorName|| !attentionName|| !address|| !number|| !colony|| !contactPhone|| !catastralKey|| !surface|| !georeference|| !zone|| !businessLinePrint|| !businessLineIntern|| !authorizedUse|| !expeditionType|| !term|| !validity|| !requestDate|| !expeditionDate|| !expirationDate|| !paymentInvoice|| !cost|| !discount|| !paymentDone|| !inspector || !COS || !alt_max || !niveles|| !file) {
+
+    if (!licenseType || !requestorName || !attentionName || !address || !number || !colony || !contactPhone || !catastralKey || !surface || !georeference || !zone || !businessLinePrint || !businessLineIntern || !authorizedUse || !expeditionType || !term || !validity || !requestDate || !expeditionDate || !expirationDate || !paymentInvoice || !cost || !discount || !paymentDone || !inspector || !COS || !alt_max || !niveles || !file) {
         return {
             status: 400,
             data: {
@@ -211,7 +244,7 @@ export async function requestLandLicenseCreate(body, file, requestor) {
         };
     }
 
-    if (!await landValidate.validateModels({type: licenseType,term,zone,authorizedUse,validity,expeditionType})) {
+    if (!await landValidate.validateModels({ type: licenseType, term, zone, authorizedUse, validity, expeditionType })) {
         return {
             status: 400,
             data: {
@@ -228,8 +261,6 @@ export async function requestLandLicenseCreate(body, file, requestor) {
     SPECIAL_DATA.COS = COS;
     SPECIAL_DATA.alt_max = alt_max;
     SPECIAL_DATA.niveles = niveles;
-
-    console.log(SPECIAL_DATA);
 
     const NEW_LICENSE_DATA = {
         fullInvoice: INVOICE_INFO.fullInvoice,
@@ -360,7 +391,7 @@ export async function requestLandLicenseUpdate(id, licenseData, file, requestor)
         };
     }
 
-    if (!await landValidate.validateModels({term,zone,authorizedUse,validity,expeditionType})) {
+    if (!await landValidate.validateModels({ term, zone, authorizedUse, validity, expeditionType })) {
         return {
             status: 400,
             data: {
@@ -394,7 +425,7 @@ export async function requestLandLicenseUpdate(id, licenseData, file, requestor)
     newSpecialData.alt_max = alt_max ? alt_max : newSpecialData.alt_max;
     newSpecialData.niveles = niveles ? niveles : newSpecialData.niveles;
 
-    const NEW_DATA ={
+    const NEW_DATA = {
         licensePrintInvoice: licensePrintInvoice,
         requestorName: requestorName,
         attentionName: attentionName,
@@ -434,10 +465,10 @@ export async function requestLandLicenseUpdate(id, licenseData, file, requestor)
                 log: `Error saving files in the server due to non PNG file`
             };
         }
-        
+
         await landUtils.saveZoneImage(file, SPECIAL_DATA.fullInvoice);
     }
-    
+
     const MODIFIED_LICENSE = await landRepo.saveLandLicense(id, NEW_DATA);
 
     if (MODIFIED_LICENSE === 400) {
@@ -494,6 +525,17 @@ export async function requestLandLicenseDelete(id) {
 }
 
 export async function requestPDFDefinition(type, invoice, year) {
+    if (isNaN(parseInt(type)) ||
+        isNaN(parseInt(invoice)) ||
+        isNaN(parseInt(year))) {
+        return {
+            status: 400,
+            data: {
+                msg: "Request failed due to invalid search parameters provided."
+            },
+            log: `Request failed search params /t/${type}/i/${invoice}/y/${year} invalid.`
+        };
+    }
     let LICENSE = await landRepo.findLandLicenseInvoice(type, invoice, year);
 
     if (LICENSE == null) {
@@ -534,6 +576,21 @@ export async function requestPDFDefinition(type, invoice, year) {
 
 export async function requestInvoiceSet(body) {
     const { C, DP, LC, LI, LS, SEG } = body
+
+    if (isNaN(parseInt(C)) ||
+        isNaN(parseInt(DP)) ||
+        isNaN(parseInt(LC)) ||
+        isNaN(parseInt(LI)) ||
+        isNaN(parseInt(LS)) ||
+        isNaN(parseInt(SEG))) {
+        return {
+            status: 400,
+            data: {
+                msg: "Request failed due to invalid search parameters provided."
+            },
+            log: `Request failed invoice params C/${C}, DP/${DP}, LC/${LC}, LI/${LI}, LS/${LS}, SEG/${SEG} invalid.`
+        };
+    }
 
     if (!C && !DP && !LC && !LI && !LS && !SEG) {
         return {
