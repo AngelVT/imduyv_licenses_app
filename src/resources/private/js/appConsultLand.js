@@ -402,7 +402,7 @@ function generateLandFields(resObj, resultContent) {
     // * Nav button
     navButton = document.createElement('li');
     navButton.setAttribute('class', 'tooltip selected bi-person btn');
-    navButton.setAttribute('onclick', `resultNavigation(this, ${resObj.id}, 1, 6)`);
+    navButton.setAttribute('onclick', `resultNavigation(this, '${resObj.id}', 1, 6)`);
     navButtonTooltip = document.createElement('span');
     navButtonTooltip.setAttribute('class', 'tooltip-text');
     navButtonTooltip.innerText = 'Datos del solicitante';
@@ -412,7 +412,7 @@ function generateLandFields(resObj, resultContent) {
     // * Nav button
     navButton = document.createElement('li');
     navButton.setAttribute('class', 'tooltip bi-building btn');
-    navButton.setAttribute('onclick', `resultNavigation(this, ${resObj.id}, 2, 6)`);
+    navButton.setAttribute('onclick', `resultNavigation(this, '${resObj.id}', 2, 6)`);
     navButtonTooltip = document.createElement('span');
     navButtonTooltip.setAttribute('class', 'tooltip-text');
     navButtonTooltip.innerText = 'Datos del inmueble';
@@ -422,7 +422,7 @@ function generateLandFields(resObj, resultContent) {
     // * Nav button
     navButton = document.createElement('li');
     navButton.setAttribute('class', 'tooltip bi-shield-check btn');
-    navButton.setAttribute('onclick', `resultNavigation(this, ${resObj.id}, 3, 6)`);
+    navButton.setAttribute('onclick', `resultNavigation(this, '${resObj.id}', 3, 6)`);
     navButtonTooltip = document.createElement('span');
     navButtonTooltip.setAttribute('class', 'tooltip-text');
     navButtonTooltip.innerText = 'Zonificación y autorización';
@@ -432,7 +432,7 @@ function generateLandFields(resObj, resultContent) {
     // * Nav button
     navButton = document.createElement('li');
     navButton.setAttribute('class', 'tooltip bi-calendar-week btn');
-    navButton.setAttribute('onclick', `resultNavigation(this, ${resObj.id}, 4, 6)`);
+    navButton.setAttribute('onclick', `resultNavigation(this, '${resObj.id}', 4, 6)`);
     navButtonTooltip = document.createElement('span');
     navButtonTooltip.setAttribute('class', 'tooltip-text');
     navButtonTooltip.innerText = 'Vigencias y plazos';
@@ -442,7 +442,7 @@ function generateLandFields(resObj, resultContent) {
     // * Nav button
     navButton = document.createElement('li');
     navButton.setAttribute('class', 'tooltip bi-cash-coin btn');
-    navButton.setAttribute('onclick', `resultNavigation(this, ${resObj.id}, 5, 6)`);
+    navButton.setAttribute('onclick', `resultNavigation(this, '${resObj.id}', 5, 6)`);
     navButtonTooltip = document.createElement('span');
     navButtonTooltip.setAttribute('class', 'tooltip-text');
     navButtonTooltip.innerText = 'Información de pago';
@@ -452,7 +452,7 @@ function generateLandFields(resObj, resultContent) {
     // * Nav button
     navButton = document.createElement('li');
     navButton.setAttribute('class', 'tooltip bi-plus-circle btn');
-    navButton.setAttribute('onclick', `resultNavigation(this, ${resObj.id}, 6, 6)`);
+    navButton.setAttribute('onclick', `resultNavigation(this, '${resObj.id}', 6, 6)`);
     navButtonTooltip = document.createElement('span');
     navButtonTooltip.setAttribute('class', 'tooltip-text');
     navButtonTooltip.innerText = 'Datos de especiales';

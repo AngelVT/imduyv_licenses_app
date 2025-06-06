@@ -1,4 +1,5 @@
 import * as userRepo from "../repositories/users.repository.js";
+import { validate as isUuid } from 'uuid';
 import { encryptPassword } from '../utilities/password.utilities.js';
 import { validateUserPermissions, validateUserGroup, validateUserRole, validateName } from "../validations/user.validations.js";
 import jwt from 'jsonwebtoken';
@@ -26,6 +27,16 @@ export async function requestAllUsers() {
 }
 
 export async function requestUser(id) {
+    if (!isUuid(id)) {
+        return {
+            status: 400,
+            data: {
+                msg: "Request failed due to invalid ID."
+            },
+            log: `Request failed due to invalid ID ${id} invalid.`
+        };
+    }
+
     const USER = await userRepo.findUserByID(id);
 
     if (USER == null) {
@@ -205,6 +216,16 @@ export async function requestUserCreation(requestBody) {
 }
 
 export async function requestUserModification(id, requestBody) {
+    if (!isUuid(id)) {
+        return {
+            status: 400,
+            data: {
+                msg: "Request failed due to invalid ID."
+            },
+            log: `Request failed due to invalid ID ${id} invalid.`
+        };
+    }
+
     const { name, password, role, group, requiredPasswordReset, locked } = requestBody;
 
     if (!name && !password && !role && !group && !requiredPasswordReset && !locked) {
@@ -307,6 +328,16 @@ export async function requestUserModification(id, requestBody) {
 }
 
 export async function requestUserDeletion(id) {
+    if (!isUuid(id)) {
+        return {
+            status: 400,
+            data: {
+                msg: "Request failed due to invalid ID."
+            },
+            log: `Request failed due to invalid ID ${id} invalid.`
+        };
+    }
+
     const DELETED_USER = await userRepo.deleteUser(id);
 
     if (DELETED_USER == null) {
@@ -334,6 +365,16 @@ export async function requestUserDeletion(id) {
 }
 
 export async function requestUserInfo(id) {
+    if (!isUuid(id)) {
+        return {
+            status: 400,
+            data: {
+                msg: "Request failed due to invalid ID."
+            },
+            log: `Request failed due to invalid ID ${id} invalid.`
+        };
+    }
+    
     const USER = await userRepo.findUserByID(id);
 
     if (USER == null) {

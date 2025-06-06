@@ -1,6 +1,7 @@
 import * as landRepo from '../repositories/landuse.repository.js';
 import * as landValidate from '../validations/landuse.validations.js';
 import * as landUtils from '../utilities/landuse.utilities.js';
+import { validate as isUuid } from 'uuid';
 import { specialDataToJSON } from '../utilities/json.utilities.js';
 import { generateLandUseC } from "../models/documents/landUse/licenciaC.js";
 import { generateLandUseL } from "../models/documents/landUse/licenciaL.js";
@@ -32,6 +33,16 @@ export async function requestAllLandLicenses() {
 }
 
 export async function requestLandLicenseById(id) {
+    if (!isUuid(id)) {
+        return {
+            status: 400,
+            data: {
+                msg: "Request failed due to invalid ID."
+            },
+            log: `Request failed due to invalid ID ${id} invalid.`
+        };
+    }
+
     let LICENSE = await landRepo.findLandLicenseId(id);
 
     if (LICENSE == null) {
@@ -338,6 +349,16 @@ export async function requestLandLicenseCreate(body, file, requestor) {
 }
 
 export async function requestLandLicenseUpdate(id, licenseData, file, requestor) {
+    if (!isUuid(id)) {
+        return {
+            status: 400,
+            data: {
+                msg: "Request failed due to invalid ID."
+            },
+            log: `Request failed due to invalid ID ${id} invalid.`
+        };
+    }
+
     for (const key in licenseData) {
         if (key !== 'conditions' && key !== 'restrictions' && key !== 'anexo' && key !== 'parcela' && key !== 'propertyNo') {
             licenseData[key] = licenseData[key].toLowerCase();
@@ -501,6 +522,16 @@ export async function requestLandLicenseUpdate(id, licenseData, file, requestor)
 }
 
 export async function requestLandLicenseDelete(id) {
+    if (!isUuid(id)) {
+        return {
+            status: 400,
+            data: {
+                msg: "Request failed due to invalid ID."
+            },
+            log: `Request failed due to invalid ID ${id} invalid.`
+        };
+    }
+    
     const DELETED_LICENSE = await landRepo.deleteLandLicense(id);
 
     if (DELETED_LICENSE == null) {

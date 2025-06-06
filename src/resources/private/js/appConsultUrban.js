@@ -245,6 +245,7 @@ async function getLicensesUrban() {
 //-------------------------------------------------------------------
 //* Urban Result
 function createUrbanResultNoUpdate(resObj, target) {
+    resObj.id = resObj.public_urban_license_id;
     let newResult = createResultNoUpdate(
         resObj.id,
         createResultTopNoUpdate(resObj, false));
@@ -253,6 +254,7 @@ function createUrbanResultNoUpdate(resObj, target) {
 }
 
 function createUrbanResult(resObj, target, isPrint, isLandUse) {
+    resObj.id = resObj.public_urban_license_id;
     let resultContent = generateUrbanFields(resObj, createResultContent(resObj.id, isPrint));
 
     let newResult = createResult(
@@ -280,7 +282,7 @@ function generateUrbanFields(resObj, resultContent) {
     // * Nav button
     navButton = document.createElement('li');
     navButton.setAttribute('class', 'tooltip selected bi-person btn');
-    navButton.setAttribute('onclick', `resultNavigation(this, ${resObj.id}, 1, 6)`);
+    navButton.setAttribute('onclick', `resultNavigation(this, '${resObj.id}', 1, 6)`);
     navButtonTooltip = document.createElement('span');
     navButtonTooltip.setAttribute('class', 'tooltip-text');
     navButtonTooltip.innerText = 'Datos del solicitante';
@@ -290,7 +292,7 @@ function generateUrbanFields(resObj, resultContent) {
     // * Nav button
     navButton = document.createElement('li');
     navButton.setAttribute('class', 'tooltip bi-building btn');
-    navButton.setAttribute('onclick', `resultNavigation(this, ${resObj.id}, 2, 6)`);
+    navButton.setAttribute('onclick', `resultNavigation(this, '${resObj.id}', 2, 6)`);
     navButtonTooltip = document.createElement('span');
     navButtonTooltip.setAttribute('class', 'tooltip-text');
     navButtonTooltip.innerText = 'Datos del inmueble';
@@ -300,7 +302,7 @@ function generateUrbanFields(resObj, resultContent) {
     // * Nav button
     navButton = document.createElement('li');
     navButton.setAttribute('class', 'tooltip bi-shield-check btn');
-    navButton.setAttribute('onclick', `resultNavigation(this, ${resObj.id}, 3, 6)`);
+    navButton.setAttribute('onclick', `resultNavigation(this, '${resObj.id}', 3, 6)`);
     navButtonTooltip = document.createElement('span');
     navButtonTooltip.setAttribute('class', 'tooltip-text');
     navButtonTooltip.innerText = 'Zonificación y autorización';
@@ -310,7 +312,7 @@ function generateUrbanFields(resObj, resultContent) {
     // * Nav button
     navButton = document.createElement('li');
     navButton.setAttribute('class', 'tooltip bi-calendar-week btn');
-    navButton.setAttribute('onclick', `resultNavigation(this, ${resObj.id}, 4, 6)`);
+    navButton.setAttribute('onclick', `resultNavigation(this, '${resObj.id}', 4, 6)`);
     navButtonTooltip = document.createElement('span');
     navButtonTooltip.setAttribute('class', 'tooltip-text');
     navButtonTooltip.innerText = 'Vigencias y plazos';
@@ -320,7 +322,7 @@ function generateUrbanFields(resObj, resultContent) {
     // * Nav button
     navButton = document.createElement('li');
     navButton.setAttribute('class', 'tooltip bi-cash-coin btn');
-    navButton.setAttribute('onclick', `resultNavigation(this, ${resObj.id}, 5, 6)`);
+    navButton.setAttribute('onclick', `resultNavigation(this, '${resObj.id}', 5, 6)`);
     navButtonTooltip = document.createElement('span');
     navButtonTooltip.setAttribute('class', 'tooltip-text');
     navButtonTooltip.innerText = 'Información de pago';
@@ -330,7 +332,7 @@ function generateUrbanFields(resObj, resultContent) {
     // * Nav button
     navButton = document.createElement('li');
     navButton.setAttribute('class', `tooltip bi-plus-circle btn ${resObj.licenseType == 1 || resObj.licenseType == 2 || resObj.licenseType == 9 ? 'dis-none' : ''}`);
-    navButton.setAttribute('onclick', `resultNavigation(this, ${resObj.id}, 6, 6)`);
+    navButton.setAttribute('onclick', `resultNavigation(this, '${resObj.id}', 6, 6)`);
     navButtonTooltip = document.createElement('span');
     navButtonTooltip.setAttribute('class', 'tooltip-text');
     navButtonTooltip.innerText = 'Datos de formato';

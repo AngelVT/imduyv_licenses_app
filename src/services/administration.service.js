@@ -1,11 +1,21 @@
 import * as periodRepo from '../repositories/administration.repository.js';
+import { validate as isUuid } from 'uuid';
 import { capitalizeName } from './user.service.js';
 import { validateDates, validatePeriod } from '../validations/administration.validations.js';
-import { DATE } from 'sequelize';
 
 
 // * Municipal Administration Periods
 export async function requestMunicipalPeriod(id) {
+    if (!isUuid(id)) {
+        return {
+            status: 400,
+            data: {
+                msg: "Request failed due to invalid ID."
+            },
+            log: `Request failed due to invalid ID ${id} invalid.`
+        };
+    }
+
     const PERIOD = await periodRepo.findMunicipalPeriodById(id);
 
     if (PERIOD == null) {
@@ -116,6 +126,16 @@ export async function requestMunicipalPeriodCreate(body) {
 }
 
 export async function requestMunicipalPeriodUpdate(id, body) {
+    if (!isUuid(id)) {
+        return {
+            status: 400,
+            data: {
+                msg: "Request failed due to invalid ID."
+            },
+            log: `Request failed due to invalid ID ${id} invalid.`
+        };
+    }
+
     const { municipalPresident, administrationStart, administrationEnd } = body;
     
     if (!municipalPresident && !administrationStart && !administrationEnd) {
@@ -211,6 +231,16 @@ export async function requestMunicipalPeriodUpdate(id, body) {
 }
 
 export async function requestMunicipalPeriodDelete(id) {
+    if (!isUuid(id)) {
+        return {
+            status: 400,
+            data: {
+                msg: "Request failed due to invalid ID."
+            },
+            log: `Request failed due to invalid ID ${id} invalid.`
+        };
+    }
+
     const DELETED_PERIOD = await periodRepo.deleteMunicipalPeriod(id);
 
     if (DELETED_PERIOD == null) {
@@ -239,6 +269,16 @@ export async function requestMunicipalPeriodDelete(id) {
 
 // * Institute Administration Periods
 export async function requestInstitutePeriod(id) {
+    if (!isUuid(id)) {
+        return {
+            status: 400,
+            data: {
+                msg: "Request failed due to invalid ID."
+            },
+            log: `Request failed due to invalid ID ${id} invalid.`
+        };
+    }
+
     const PERIOD = await periodRepo.findInstitutePeriodById(id);
 
     if (PERIOD == null) {
@@ -350,6 +390,16 @@ export async function requestInstitutePeriodCreate(body) {
 }
 
 export async function requestInstitutePeriodUpdate(id, body) {
+    if (!isUuid(id)) {
+        return {
+            status: 400,
+            data: {
+                msg: "Request failed due to invalid ID."
+            },
+            log: `Request failed due to invalid ID ${id} invalid.`
+        };
+    }
+
     const {directorName, directorTittle, directorTittleShort, administrationStart, administrationEnd } = body;
     
     if (!directorName &&  !directorTittle && !directorTittleShort && !administrationStart && !administrationEnd) {
@@ -446,6 +496,16 @@ export async function requestInstitutePeriodUpdate(id, body) {
 }
 
 export async function requestInstitutePeriodDelete(id) {
+    if (!isUuid(id)) {
+        return {
+            status: 400,
+            data: {
+                msg: "Request failed due to invalid ID."
+            },
+            log: `Request failed due to invalid ID ${id} invalid.`
+        };
+    }
+
     const DELETED_PERIOD = await periodRepo.deleteInstitutePeriod(id);
 
     if (DELETED_PERIOD == null) {
@@ -475,6 +535,16 @@ export async function requestInstitutePeriodDelete(id) {
 
 // * Licenses Direction Administration Periods
 export async function requestLicensesPeriod(id) {
+    if (!isUuid(id)) {
+        return {
+            status: 400,
+            data: {
+                msg: "Request failed due to invalid ID."
+            },
+            log: `Request failed due to invalid ID ${id} invalid.`
+        };
+    }
+
     const PERIOD = await periodRepo.findLicensesPeriodById(id);
 
     if (PERIOD == null) {
@@ -585,6 +655,16 @@ export async function requestLicensesPeriodCreate(body) {
 }
 
 export async function requestLicensesPeriodUpdate(id, body) {
+    if (!isUuid(id)) {
+        return {
+            status: 400,
+            data: {
+                msg: "Request failed due to invalid ID."
+            },
+            log: `Request failed due to invalid ID ${id} invalid.`
+        };
+    }
+
     const { directorName, administrationStart, administrationEnd } = body;
     
     if (!directorName && !administrationStart && !administrationEnd) {
@@ -680,6 +760,16 @@ export async function requestLicensesPeriodUpdate(id, body) {
 }
 
 export async function requestLicensesPeriodDelete(id) {
+    if (!isUuid(id)) {
+        return {
+            status: 400,
+            data: {
+                msg: "Request failed due to invalid ID."
+            },
+            log: `Request failed due to invalid ID ${id} invalid.`
+        };
+    }
+
     const DELETED_PERIOD = await periodRepo.deleteLicensesPeriod(id);
 
     if (DELETED_PERIOD == null) {
@@ -708,6 +798,16 @@ export async function requestLicensesPeriodDelete(id) {
 
 // * Licenses Year Legend
 export async function requestYearLegend(id) {
+    if (!isUuid(id)) {
+        return {
+            status: 400,
+            data: {
+                msg: "Request failed due to invalid ID."
+            },
+            log: `Request failed due to invalid ID ${id} invalid.`
+        };
+    }
+
     const LEGEND = await periodRepo.findYearLegendById(id);
 
     if (LEGEND == null) {
@@ -793,6 +893,16 @@ export async function requestYearLegendCreate(body) {
 }
 
 export async function requestYearLegendUpdate(id, body) {
+    if (!isUuid(id)) {
+        return {
+            status: 400,
+            data: {
+                msg: "Request failed due to invalid ID."
+            },
+            log: `Request failed due to invalid ID ${id} invalid.`
+        };
+    }
+
     const { year_legend } = body;
     
     if (!year_legend) {
@@ -830,6 +940,16 @@ export async function requestYearLegendUpdate(id, body) {
 }
 
 export async function requestYearLegendDelete(id) {
+    if (!isUuid(id)) {
+        return {
+            status: 400,
+            data: {
+                msg: "Request failed due to invalid ID."
+            },
+            log: `Request failed due to invalid ID ${id} invalid.`
+        };
+    }
+    
     const DELETED_LEGEND = await periodRepo.deleteYearLegend(id);
 
     if (DELETED_LEGEND == null) {

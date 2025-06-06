@@ -1,6 +1,7 @@
 import * as urbanRepo from '../repositories/urban.repository.js';
 import * as urbanValidate from '../validations/urban.validations.js';
-import * as urbanUtils from '../utilities/urban.utilities.js'
+import * as urbanUtils from '../utilities/urban.utilities.js';
+import { validate as isUuid } from 'uuid';
 import { specialDataToJSON } from '../utilities/json.utilities.js';
 import { generateUrbanC } from "../models/documents/urban/licenciaCUS.js";
 import { generateUrbanLUS } from "../models/documents/urban/licenciaLUS.js";
@@ -10,7 +11,7 @@ import { generateUrbanCRPC } from "../models/documents/urban/licenciaCRPC.js";
 import { generateUrbanLF } from '../models/documents/urban/licenciaLF.js';
 import { generateUrbanPLF } from '../models/documents/urban/licenciaPLF.js';
 import { generateUrbanRLF } from '../models/documents/urban/licenciaRLF.js';
-import { generateUrbanLUH } from '../models/documents/urban/licenciaLUH.js'
+import { generateUrbanLUH } from '../models/documents/urban/licenciaLUH.js';
 
 export async function requestAllUrbanLicenses() {
     let LICENSES = await urbanRepo.findAllUrbanLicenses();
@@ -37,6 +38,16 @@ export async function requestAllUrbanLicenses() {
 }
 
 export async function requestUrbanLicenseById(id) {
+    if (!isUuid(id)) {
+        return {
+            status: 400,
+            data: {
+                msg: "Request failed due to invalid ID."
+            },
+            log: `Request failed due to invalid ID ${id} invalid.`
+        };
+    }
+
     let LICENSE = await urbanRepo.findUrbanLicense(id);
 
     if (LICENSE == null) {
@@ -406,6 +417,16 @@ export async function requestUrbanLicenseCreate(body, files, requestor) {
 }
 
 export async function requestUrbanLicenseUpdate(id, licenseData, files, requestor) {
+    if (!isUuid(id)) {
+        return {
+            status: 400,
+            data: {
+                msg: "Request failed due to invalid ID."
+            },
+            log: `Request failed due to invalid ID ${id} invalid.`
+        };
+    }
+
     for (const key in licenseData) {
         if (key !== 'requestorAddress' &&
             key !== 'maximumHeight' &&
@@ -662,6 +683,16 @@ export async function requestUrbanLicenseUpdate(id, licenseData, files, requesto
 }
 
 export async function requestUrbanLicenseDelete(id) {
+    if (!isUuid(id)) {
+        return {
+            status: 400,
+            data: {
+                msg: "Request failed due to invalid ID."
+            },
+            log: `Request failed due to invalid ID ${id} invalid.`
+        };
+    }
+    
     const DELETED_LICENSE = await urbanRepo.deleteUrbanLicense(id);
 
     if (DELETED_LICENSE == null) {
@@ -743,7 +774,25 @@ export async function requestPDFDefinition(type, invoice, year) {
 }
 
 export async function requestInvoiceSet(body) {
-    const { CUS, LUS, LSUB, LFUS, PLF, LF, RLF, CRPC, LUH } = body
+    const { CUS, LUS, LSUB, LFUS, PLF, LF, RLF, CRPC, LUH } = body;
+
+    if (isNaN(parseInt(CUS)) ||
+        isNaN(parseInt(LUS)) ||
+        isNaN(parseInt(LSUB)) ||
+        isNaN(parseInt(LFUS)) ||
+        isNaN(parseInt(PLF)) ||
+        isNaN(parseInt(LF)) ||
+        isNaN(parseInt(RLF)) ||
+        isNaN(parseInt(CRPC)) ||
+        isNaN(parseInt(LUH))) {
+        return {
+            status: 400,
+            data: {
+                msg: "Request failed due to invalid search parameters provided."
+            },
+            log: `Request failed invoice params CUS/${CUS}, LUS/${LUS}, LSUB/${LSUB}, LFUS/${LFUS}, PLF/${PLF}, LF/${LF}, RLF/${RLF}, CRPC/${CRPC}, LUH/${LUH} invalid.`
+        };
+    }
 
     if (!CUS && !LUS && !LSUB && !LFUS && !PLF && !LF && !RLF && !CRPC && !LUH) {
         return {

@@ -49,6 +49,6 @@ export const logOut = (req, res) => {
         secure: true,
         signed: true,
         sameSite: 'strict'
-    }).status(302).redirect('/app/login');
+    }).status(302).json({redirectTo: '/app/login'});
     return;
 }

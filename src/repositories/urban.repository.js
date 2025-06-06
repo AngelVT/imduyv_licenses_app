@@ -20,9 +20,11 @@ const URBAN_MODELS = [
         attributes: ['licenseValidity']
     }
 ];
+const URBAN_ATTRIBUTES = { exclude: ['urban_license_id'] }
 
 export async function findAllUrbanLicenses() {
     return await UrbanLicense.findAll({
+        attributes: URBAN_ATTRIBUTES,
         include: URBAN_MODELS,
         raw: true,
         nest: true
@@ -30,7 +32,11 @@ export async function findAllUrbanLicenses() {
 }
 
 export async function findUrbanLicense(id) {
-    return await UrbanLicense.findByPk(id, {
+    return await UrbanLicense.findOne({
+        where: {
+            public_urban_license_id: id
+        },
+        attributes: URBAN_ATTRIBUTES,
         include: URBAN_MODELS,
         raw: true,
         nest: true
@@ -44,6 +50,7 @@ export async function findUrbanLicenseInvoice(type, invoice, year) {
             invoice: invoice,
             year: year
         },
+        attributes: URBAN_ATTRIBUTES,
         include: URBAN_MODELS,
         raw: true,
         nest: true
@@ -57,6 +64,7 @@ export async function findUrbanLicenseType(type, year) {
             year: year
         },
         order: [['invoice', 'ASC']],
+        attributes: URBAN_ATTRIBUTES,
         include: URBAN_MODELS,
         raw: true,
         nest: true
@@ -65,7 +73,7 @@ export async function findUrbanLicenseType(type, year) {
 
 export async function findUrbanLicenseListByType(type, year) {
     return await UrbanLicense.findAll({
-        attributes: ['id', 'fullInvoice', 'requestorName'],
+        attributes: ['public_urban_license_id', 'fullInvoice', 'requestorName'],
         where: {
             licenseType: type,
             year: year
@@ -81,6 +89,7 @@ export async function findUrbanLicenseBy(parameter, value) {
     PARAM[parameter] = { [Op.like]: `%${value}%` };
     return await UrbanLicense.findAll({
         where: PARAM,
+        attributes: URBAN_ATTRIBUTES,
         include: URBAN_MODELS,
         raw: true,
         nest: true
@@ -105,7 +114,10 @@ export async function saveNewUrbanLicense(newLicenseData) {
 }
 
 export async function saveUrbanLicense(id, newData) {
-    const MODIFIED_LICENSE = await UrbanLicense.findByPk(id, {
+    const MODIFIED_LICENSE = await UrbanLicense.findOne({
+        where: {
+            public_urban_license_id: id
+        },
         include: URBAN_MODELS
     });
 
@@ -121,7 +133,10 @@ export async function saveUrbanLicense(id, newData) {
 }
 
 export async function deleteUrbanLicense(id) {
-    const DELETED_LICENSE = await UrbanLicense.findByPk(id, {
+    const DELETED_LICENSE = await UrbanLicense.findOne({
+        where: {
+            public_urban_license_id: id
+        },
         include: URBAN_MODELS
     });
 
@@ -133,7 +148,10 @@ export async function deleteUrbanLicense(id) {
 }
 
 export async function getLicenseEspecialData(id) {
-    return await UrbanLicense.findByPk(id, {
+    return await UrbanLicense.findOne({
+        where: {
+            public_urban_license_id: id
+        },
         attributes: ['fullInvoice','licenseSpecialData'],
         raw: true,
         nest: true
@@ -187,5 +205,5 @@ async function getType(type) {
         raw: true
     });
 
-    return TYPE.id
+    return TYPE.license_urban_type_id
 }
