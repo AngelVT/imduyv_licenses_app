@@ -50,11 +50,11 @@ export async function generateLandUseDP(lcDBObj) {
                                     body: [
                                         [
                                             {text: 'Nombre: ', style: 'labelT', border: docUtils.borderless},
-                                            docUtils.field(lcDBObj.requestorName, docUtils.borderless, null,null, 7)
+                                            docUtils.fieldLU(lcDBObj.requestorName, docUtils.borderless, null,null, 7)
                                         ],
                                         [
                                             {text: 'En Atención: ', style: 'labelT', border: docUtils.borderless},
-                                            docUtils.field(lcDBObj.attentionName, docUtils.borderless, null,null, 7),
+                                            docUtils.fieldLU(lcDBObj.attentionName, docUtils.borderless, null,null, 7),
                                         ],
                                         [
                                             {text: '', border: docUtils.borderless},
@@ -62,7 +62,7 @@ export async function generateLandUseDP(lcDBObj) {
                                         ],
                                         [
                                             {text: 'Fecha de Solicitud: ', style: 'labelT', border: docUtils.borderless},
-                                            docUtils.field(lcDBObj.requestDate, docUtils.borderless, null,null, 7)
+                                            docUtils.fieldLU(lcDBObj.requestDate, docUtils.borderless, null,null, 7)
                                         ]
                                     ]
                                 },
@@ -77,23 +77,23 @@ export async function generateLandUseDP(lcDBObj) {
                                     body: [
                                         [
                                             {text: 'Calle: ', style: 'labelT', border: docUtils.borderless},
-                                            docUtils.field(lcDBObj.address, docUtils.borderless, 3, null, 7),
+                                            docUtils.fieldLU(lcDBObj.address, docUtils.borderless, 3, null, 7),
                                             {},
                                             {}
                                         ],
                                         [
                                             {text: 'Clave Catastral: ', style: 'labelT', border: docUtils.borderless},
-                                            docUtils.field(lcDBObj.catastralKey, docUtils.borderless, 1, null, 6),
+                                            docUtils.fieldLU(lcDBObj.catastralKey, docUtils.borderless, 1, null, 6),
                                             {text: 'Numero: ', style: 'labelT', border: docUtils.borderless},
-                                            docUtils.field(lcDBObj.number, docUtils.borderless, 1, 'center', 7)
+                                            docUtils.fieldLU(lcDBObj.number, docUtils.borderless, 1, 'center', 7)
                                         ],
                                         [
                                             {text: 'Colonia: ', style: 'labelT', border: docUtils.borderless},
-                                            docUtils.field(lcDBObj.colony, docUtils.borderless, 3, null, 7),{},{}
+                                            docUtils.fieldLU(lcDBObj.colony, docUtils.borderless, 3, null, 7),{},{}
                                         ],
                                         [
                                             {text: 'Superficie Total: ', style: 'labelT', border: docUtils.borderless},
-                                            docUtils.field(lcDBObj.surfaceTotal, docUtils.borderless, 3, null, 7),{},{}
+                                            docUtils.fieldLU(lcDBObj.surfaceTotal, docUtils.borderless, 3, null, 7),{},{}
                                         ]
                                     ]
                                 },
@@ -118,43 +118,43 @@ export async function generateLandUseDP(lcDBObj) {
                                     widths: ['*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*'],
                                     body: [
                                         [
-                                            docUtils.field("PLANO 03PE01 - POLÍTICAS TERRITORIALES", docUtils.borderless, 4, 'boldCenter', 7),
+                                            docUtils.fieldLU("PLANO 03PE01 - POLÍTICAS TERRITORIALES", docUtils.borderless, 4, 'boldCenter', 7),
                                             {},{},{},
-                                            docUtils.field("PLANO 03PE01 - POLÍTICAS TERRITORIALES", docUtils.borderless, 4, 'boldCenter', 7),
+                                            docUtils.fieldLU("PLANO 03PE01 - POLÍTICAS TERRITORIALES", docUtils.borderless, 4, 'boldCenter', 7),
                                             {},{},{},
-                                            docUtils.field("PLANO 03PE01 - POLÍTICAS TERRITORIALES", docUtils.borderless, 4, 'boldCenter', 7),
+                                            docUtils.fieldLU("PLANO 03PE01 - POLÍTICAS TERRITORIALES", docUtils.borderless, 4, 'boldCenter', 7),
                                             {},{},{}
                                         ],
                                         [
                                             {text: 'Plazo: ', style: 'labelTC', border: docUtils.borderless},
-                                            docUtils.field(lcDBObj.term.licenseTerm, docUtils.borderless, 1, 'center', 6),
+                                            docUtils.fieldLU(lcDBObj.term.licenseTerm, docUtils.borderless, 1, 'center', 6),
                                             {text: 'Zona: ', style: 'labelTC', border: docUtils.borderless},
-                                            docUtils.field(lcDBObj.zone.licenseZone, docUtils.borderless, 7, 'center', 7),
+                                            docUtils.fieldLU(lcDBObj.zone.licenseZone.toUpperCase(), docUtils.borderless, 7, 'center', 7),
                                             {},{},{},{},{},{},
                                             {text: 'Clave: ', style: 'labelTC', border: docUtils.borderless},
-                                            docUtils.field(lcDBObj.zone.licenseKey, docUtils.borderless, 1, 'center',6)
+                                            docUtils.fieldLU(lcDBObj.zone.licenseKey, docUtils.borderless, 1, 'center',6)
                                         ],
                                         [
                                             {text: 'COS: ', style: 'labelTC', border: docUtils.borderless, colSpan: 2},
                                             {},
-                                            docUtils.field(`${lcDBObj.licenseSpecialData.COS}%`, docUtils.borderless, 2, 'center', 6),
+                                            docUtils.fieldLU(`${lcDBObj.licenseSpecialData.COS || '-'}%`, docUtils.borderless, 2, 'center', 6),
                                             {},
                                             {text: 'ALTURA MAXIMA: ', style: 'labelTC', border: docUtils.borderless, colSpan: 2},
                                             {},
-                                            docUtils.field(`${lcDBObj.licenseSpecialData.alt_max} M`, docUtils.borderless, 2, 'center', 6),
+                                            docUtils.fieldLU(`${lcDBObj.licenseSpecialData.alt_max || '-'} M`, docUtils.borderless, 2, 'center', 6),
                                             {},
                                             {text: 'NIVELES: ', style: 'labelTC', border: docUtils.borderless, colSpan: 2},{},
-                                            docUtils.field(`${lcDBObj.licenseSpecialData.niveles}`, docUtils.borderless, 2, 'center', 6),
+                                            docUtils.fieldLU(`${lcDBObj.licenseSpecialData.niveles || '-'}`, docUtils.borderless, 2, 'center', 6),
                                             {},
                                         ],
                                         [
                                             docUtils.voidCell(),
-                                            docUtils.field('DERECHO DE PREFERENCIA', docUtils.borderless, 10, 'boldCenter', 8),
+                                            docUtils.fieldLU('DERECHO DE PREFERENCIA', docUtils.borderless, 10, 'boldCenter', 8),
                                             {},{},{},{},{},{},{},{},{},docUtils.voidCell()
                                         ],
                                         [
                                             {text: 'Superficie: ', style: 'labelT', border: docUtils.borderless, colSpan: 1},
-                                            docUtils.field(lcDBObj.surfaceTotal, docUtils.borderless, 2, null, 6),{},docUtils.voidCell(9),{},{},{},{},{},{},{},{}
+                                            docUtils.fieldLU(lcDBObj.surfaceTotal, docUtils.borderless, 2, null, 6),{},docUtils.voidCell(9),{},{},{},{},{},{},{},{}
                                         ]
                                     ]
                                 },
@@ -180,6 +180,7 @@ export async function generateLandUseDP(lcDBObj) {
                                             style: 'regular',
                                             border: docUtils.borderless,
                                             separator: ')',
+                                            lineHeight: 1.5,
                                             ol: [
                                                     {
                                                         text: [
@@ -226,6 +227,7 @@ export async function generateLandUseDP(lcDBObj) {
                                             border: docUtils.borderless,
                                             stack: [
                                                     {
+                                                        lineHeight: 1.5,
                                                         text: [
                                                             {text: 'PRIMERO. ', bold: true},
                                                             {text: 'Que el solicitante el C. '},
@@ -236,6 +238,7 @@ export async function generateLandUseDP(lcDBObj) {
                                                         ]
                                                     },
                                                     {
+                                                        lineHeight: 1.5,
                                                         text: [
                                                             {text: 'SEGUNDO. ', bold: true},
                                                             {text: 'Este Instituto '},
@@ -250,6 +253,7 @@ export async function generateLandUseDP(lcDBObj) {
                                                         ]
                                                     },
                                                     {
+                                                        lineHeight: 1.5,
                                                         text: [
                                                             {text: 'TERCERO. ', bold: true},
                                                             {text: 'Así mismo se le informa que dicha parcela cuenta, dentro de las normas de compatibilidad y aprovechamiento PLANO 03PE01 - POLÍTICAS TERRITORIALES, PLANO 03PE10 -ETAPAS DE DESARROLLO, 03PE09 -ZONIFICACIÓN SECUNDARIA, con un '},
@@ -275,7 +279,7 @@ export async function generateLandUseDP(lcDBObj) {
                     body: [
                         [{text: 'Fecha de Expedición: ', style: 'labelTC', colSpan: 2},
                             {},
-                            docUtils.field(lcDBObj.expeditionDate, docUtils.borderless, 2, 'center',7),
+                            docUtils.fieldLU(lcDBObj.expeditionDate, docUtils.borderless, 2, 'center',7),
                             {},
                             {},
                             {},
@@ -283,49 +287,46 @@ export async function generateLandUseDP(lcDBObj) {
                             {},
                             {text: 'Folio de pago: ', style: 'labelTC', colSpan: 2},
                             {},
-                            docUtils.field(lcDBObj.paymentInvoice, docUtils.borderless, 2, 'center',7),
+                            docUtils.fieldLU(lcDBObj.paymentInvoice, docUtils.borderless, 2, 'center',7),
                             {}]
                     ]
                 },
                 layout: docUtils.noBorderNoPadding
             },
             {
-                stack: [
+                columns: [
                     {
-                        text:`NOTIFÍQUESE Y CÚMPLASE\nASÍ EN DEFINITIVA LO RESOLVIÓ Y AUTORIZÓ ${INSTITUTE_DIRECTOR_TITTLE},\nDIRECTOR(A) GENERAL DEL INSTITUTO MUNICIPAL DE DESARROLLO URBANO Y VIVIENDA`,
-                        style: ['regular', 'center'],
-                        margin: [0,10,0,0]
+                        width: '5%',
+                        text: ''
                     },
                     {
-                        table: {
-                            widths: ['*','auto','*'],
-                            body: [
-                                [
-                                    {},
-                                    docUtils.signatureDirector(lcDBObj.approvalStatus),
-                                    {
-                                        columns: [
-                                            docUtils.signatureSeal(lcDBObj.approvalStatus),
-                                            {
-                                                svg: `
-                                                    <svg width="30" height="84">
-                                                        <text x="16" y="42" transform="rotate(-90, 15, 42)" text-anchor="middle" font-size="5" font-weight="bold">
-                                                            <tspan x="16" dy="1.2em">${lcDBObj.fullInvoice}</tspan>
-                                                            <tspan x="16" dy="1.2em">Pagina 1 de 2</tspan>
-                                                        </text>
-                                                    </svg>`,
-                                                alignment: 'right'
-                                            }
-                                        ]
-                                    }
-                                ],
-                            ]
-                        },
-                        layout: docUtils.noBorderNoPadding
+                        width: '90%',
+                        stack: [
+                            {
+                                text:`NOTIFÍQUESE Y CÚMPLASE\nASÍ EN DEFINITIVA LO RESOLVIÓ Y AUTORIZÓ ${INSTITUTE_DIRECTOR_TITTLE},\nDIRECTOR(A) GENERAL DEL INSTITUTO MUNICIPAL DE DESARROLLO URBANO Y VIVIENDA`,
+                                style: ['regular', 'center'],
+                                margin: [0,10,0,10]
+                            },
+                            {
+                                text: `${INSTITUTE_DIRECTOR_SIGNATURE}.\nDIRECTOR(A) GENERAL DEL INSTITUTO MUNICIPAL\nDE DESARROLLO URBANO Y VIVIENDA.`,
+                                style: 'labelTC'
+                            }
+                        ]
                     },
                     {
-                        text: `${INSTITUTE_DIRECTOR_SIGNATURE}.\nDIRECTOR(A) GENERAL DEL INSTITUTO MUNICIPAL\nDE DESARROLLO URBANO Y VIVIENDA.`,
-                        style: 'labelTC'
+                        width: '5%',
+                        stack: [
+                            {
+                                svg: `
+                                    <svg width="30" height="84">
+                                        <text x="16" y="42" transform="rotate(-90, 15, 42)" text-anchor="middle" font-size="5" font-weight="bold">
+                                            <tspan x="16" dy="1.2em">${lcDBObj.fullInvoice}</tspan>
+                                            <tspan x="16" dy="1.2em">Pagina 1 de 2</tspan>
+                                        </text>
+                                    </svg>`,
+                                alignment: 'right'
+                            }
+                        ] 
                     }
                 ]
             },
@@ -355,9 +356,9 @@ export async function generateLandUseDP(lcDBObj) {
             {
                 style: 'formRow',
                 stack: [
-                    { text: 'Que el solicitante con los documentos anexados a su escrito inicial ha dado cumplimiento con los requisitos técnicos y legales que obran en el expediente radicado en este Instituto Municipal de Desarrollo Urbano y Vivienda, acredita la propiedad del inmueble motivo de la solicitud de Constancia de Uso de Suelo, así como de la visita de inspección de campo, misma que permite la localización y ubicación del inmueble materia de este trámite. ', fontSize: 7 , margin: [0,0,0,25],alignment: 'justify' },
-                    { text: `El C. ${lcDBObj.inspector}`, fontSize: 7 },
-                    { text: 'En su carácter de personal técnico adscrito al referido Instituto, realizó visita de inspección en campo al inmueble del que solicita la Constancia de Uso de Suelo, emitiendo opinión técnica positiva. ', fontSize: 7 , margin: [0,0,0,15], alignment: 'justify' },
+                    { text: 'Que el solicitante con los documentos anexados a su escrito inicial ha dado cumplimiento con los requisitos técnicos y legales que obran en el expediente radicado en este Instituto Municipal de Desarrollo Urbano y Vivienda, acredita la propiedad del inmueble motivo de la solicitud de Constancia de Uso de Suelo, así como de la visita de inspección de campo, misma que permite la localización y ubicación del inmueble materia de este trámite. ', fontSize: 7 , margin: [0,0,0,10],alignment: 'justify', lineHeight: 1.5 },
+                    { text: `El C. ${lcDBObj.inspector}`, fontSize: 7, lineHeight: 1.5 },
+                    { text: 'En su carácter de personal técnico adscrito al referido Instituto, realizó visita de inspección en campo al inmueble del que solicita la Constancia de Uso de Suelo, emitiendo opinión técnica positiva. ', fontSize: 7, alignment: 'justify', lineHeight: 1.5 },
                     { text: `Anexo: ${lcDBObj.licenseSpecialData.anexo}`, style: 'labelT' }
                 ]
             },
@@ -375,6 +376,7 @@ export async function generateLandUseDP(lcDBObj) {
                                         [
                                             {
                                                 type: 'lower-alpha',
+                                                lineHeight: 1.5,
                                                 text: 'Lo anterior con fundamento en lo dispuesto en los artículos 100, 102 parrafo segundo, 103, 104, 193 de la Ley de Asentamiento Humanos, Desarrollo Urbano y Ordenamiento Territorial. ',
                                                 style: 'labelTC',
                                                 border: docUtils.borderless

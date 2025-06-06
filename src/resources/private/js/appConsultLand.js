@@ -759,7 +759,7 @@ function generateLandFields(resObj, resultContent) {
 
     fieldGroup.appendChild(fieldGroupTittle);
 
-    field = createResultField(resObj.id, 'Folio de pago', 'paymentInvoice', resObj.paymentInvoice, 'number');
+    field = createResultField(resObj.id, 'Folio de pago', 'paymentInvoice', resObj.paymentInvoice, 'text');
 
     fieldGroup.appendChild(field);
 

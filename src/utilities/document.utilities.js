@@ -137,7 +137,15 @@ export function field(text, borders, span, style, fontSize) {
     return {
         colSpan: span,
         border: borders,
-        table: { widths: ['*'], body: [[{ text: text, fontSize: fontSize, style: style }]] }, layout: cellLayout
+        table: { widths: ['*'], body: [[{ text: text, fontSize: fontSize, style: style}]] }, layout: cellLayout
+    }
+}
+
+export function fieldLU(text, borders, span, style, fontSize) {
+    return {
+        colSpan: span,
+        border: borders,
+        table: { widths: ['*'], body: [[{ text: text, fontSize: fontSize, style: style, margin: [3,3,3,3]}]] }, layout: cellLayout
     }
 }
 
