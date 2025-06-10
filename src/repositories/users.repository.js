@@ -84,7 +84,6 @@ export async function findUsername(username) {
 export async function findUserByIdUsername(id, username) {
     return await User.findOne({
         where: { public_user_id: id, username: username },
-        attributes: USER_ATTRIBUTES,
         include: USER_MODELS,
         raw: true,
         nest: true

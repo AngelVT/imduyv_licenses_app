@@ -1,3 +1,4 @@
+import { requestHandler } from "../utilities/request.utilities.js";
 import * as logger from "../utilities/logger.utilities.js";
 import * as userService from '../services/user.service.js';
 import { printerPDF } from "../utilities/pdf.utilities.js";
@@ -177,7 +178,7 @@ export const getUserQR = async (req, res) => {
 
 export const getUserInfo = async (req, res) => {
     try {
-        const response = await userService.requestUserInfo(req.userUUID);
+        const response = await userService.requestUserInfo(req.user.uuid);
 
         res.status(response.status).json(response.data);
     } catch (error) {

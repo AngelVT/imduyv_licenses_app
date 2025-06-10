@@ -8,6 +8,6 @@ router.post('/signin', authControl.signIn);
 
 router.post('/logout', authControl.logOut);
 
-router.post('/passwordReset', verifyToken, authControl.passwordReset)
+router.post('/passwordReset', verifyToken(), authControl.passwordReset)
 
 export default router;

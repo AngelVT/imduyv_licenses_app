@@ -1,54 +1,51 @@
+import { requestHandler } from '../utilities/request.utilities.js';
 import { requestPasswordReset, requestSignIn } from '../services/auth.service.js';
 import * as logger from '../utilities/logger.utilities.js';
 import config from '../configuration/general.configuration.js';
 
-export const signIn = async (req, res) => {
-    try {
-        const response = await requestSignIn(req.body);
+export const signIn = requestHandler(async (req, res) => {
+    const { username, password } = req.body;
 
-        if (response.data.token && response.data.redirection) {
-            res.cookie("access_token", response.data.token, {httpOnly: true,
-                secure: true,
-                signed: true,
-                sameSite: 'strict',
-                maxAge: config.COOKIE_EXP
-            }).status(response.status).json({redirectTo: response.data.redirection});
-        } else {
-            res.status(response.status).json(response.data);
-        }
+    const userInfo = await requestSignIn(username, password);
 
-        logger.logAccessInfo('sign in completed', 
-            `Sign in request -> ${response.log}`);
-    } catch (error) {
-        logger.logConsoleError('Sign in request failed due to server side error', error);
-        logger.logRequestError('Sign in request failed due to server side error', error);
-        res.status(500).json({msg: "Internal server error"});
-    }
-}
+    res.cookie("access_token", userInfo.TOKEN, {
+        httpOnly: true,
+        secure: true,
+        signed: true,
+        sameSite: 'strict',
+        maxAge: config.COOKIE_EXP
+    });
 
-export const passwordReset = async (req, res) => {
-    try {
-        const response = await requestPasswordReset(req);
+    res.status(200).json({ redirectTo: userInfo.redirection });
 
-        res.status(response.status).json(response.data);
-
-        logger.logAccessInfo('Sign in completed', 
-            `Requestor ID -> ${req.userID}
-            Requestor Name -> ${req.name}
-            Requestor Username -> ${req.username}
-            Password reset request -> ${response.log}`);
-    } catch (error) {
-        logger.logConsoleError('Sign in request failed due to server side error', error);
-        logger.logRequestError('Sign in request failed due to server side error', error);
-        res.status(500).json({msg: "Internal server error"});
-    }
-}
+    logger.logAccessInfo('Sign In completed',
+        `Access details:
+            ID -> ${userInfo.user_info.ID}
+            Name -> ${userInfo.user_info.name}
+            Username -> ${userInfo.user_info.username}`);
+});
 
 export const logOut = (req, res) => {
-    res.clearCookie("access_token", {httpOnly: true,
+    return res.clearCookie("access_token", {
+        httpOnly: true,
         secure: true,
         signed: true,
         sameSite: 'strict'
-    }).status(302).json({redirectTo: '/app/login'});
-    return;
+    }).status(302).json({ redirectTo: '/app/login' });
 }
+
+export const passwordReset = requestHandler(async (req, res) => {
+    const { currentPassword, newPassword } = req.body;
+
+    const response = await requestPasswordReset(currentPassword, newPassword, {userID: req.user.uuid, username: req.user.username});
+
+    res.status(200).json(response.msg);
+
+    logger.logAccessInfo('Password reset attempt',
+        `Details:
+            Successful, password changed
+                Requestor ID -> ${response.userInfo.ID}
+                Requestor Name -> ${response.userInfo.name}
+                Requestor Username -> ${response.userInfo.username}`);
+}
+);

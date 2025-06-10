@@ -10,8 +10,10 @@ btnLogOut.addEventListener(
                 }
             });
 
+            const response = await res.json();
+
             if(res.ok) {
-                window.location.href = res.url;
+                window.location.href = response.redirectTo;
                 return;
             }
 
