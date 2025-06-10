@@ -173,6 +173,7 @@ async function getLicenseBy(param, value) {
 }
 
 async function getLicenseByPrintInvoice(printInvoice) {
+    printInvoice = encodeURIComponent(printInvoice)
     await fetch(`/api/landuse/pi/${printInvoice}`, {
             method: 'GET',
             credentials: 'include'
@@ -474,7 +475,7 @@ function generateLandFields(resObj, resultContent) {
 
     fieldGroup.appendChild(fieldGroupTittle);
 
-    field = createResultField(resObj.id, 'Folio de impresión', 'licensePrintInvoice', resObj.licensePrintInvoice, 'number');
+    field = createResultField(resObj.id, 'Folio de impresión', 'licensePrintInvoice', resObj.licensePrintInvoice, 'text');
 
     fieldGroup.appendChild(field);
 

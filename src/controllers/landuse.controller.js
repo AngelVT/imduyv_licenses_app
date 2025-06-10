@@ -106,7 +106,7 @@ export const getLicenseBy = async (req, res) => {
 
 export const getLicenseByPrintInvoice = async (req, res) => {
     try {
-        const PRINT_INVOICE = parseInt(req.params.printInvoice);
+        const PRINT_INVOICE = decodeURIComponent(req.params.printInvoice);
 
         const response = await landService.requestLandLicenseByPrintInvoice(PRINT_INVOICE);
 

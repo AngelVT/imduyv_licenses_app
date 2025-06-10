@@ -172,16 +172,6 @@ export async function requestLandLicenseByParameter(parameter, value) {
 }
 
 export async function requestLandLicenseByPrintInvoice(printInvoice) {
-    if (isNaN(parseInt(printInvoice))) {
-        return {
-            status: 400,
-            data: {
-                msg: "Request failed due to invalid search parameters provided."
-            },
-            log: `Request completed search params printInvoice/${printInvoice} invalid.`
-        };
-    }
-
     let LICENSE = await landRepo.findLandLicensePrintInvoice(printInvoice);
 
     if (LICENSE == null) {

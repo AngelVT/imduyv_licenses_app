@@ -137,7 +137,7 @@ export const LandUseLicense = pool.define(
         allowNull: false
     },
     licensePrintInvoice: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.STRING,
         allowNull: true,
         unique: true
     },
@@ -268,7 +268,7 @@ export const LandUseLicense = pool.define(
         allowNull: false
     },
     licenseSpecialData: {
-        type: DataTypes.JSON,
+        type: DataTypes.JSONB,
         allowNull: true
     },
     approvalStatus: {
@@ -437,7 +437,7 @@ export const UrbanLicense = pool.define(
         allowNull: true
     },
     licenseSpecialData: {
-        type: DataTypes.JSON,
+        type: DataTypes.JSONB,
         allowNull: true
     },
     approvalStatus: {

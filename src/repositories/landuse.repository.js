@@ -1,6 +1,7 @@
 import { LandUseLicense, Type, Term, Zone, AuthUse, Validity, ExpeditionType } from "../models/License.models.js";
 import { Op } from "sequelize";
 import { generateSpecialData } from "../utilities/landuse.utilities.js";
+import { escapeLike } from "../utilities/repository.utilities.js";
 
 const LAND_USE_MODELS = [
     {
@@ -30,6 +31,20 @@ const LAND_USE_MODELS = [
 ];
 const LAND_USE_ATTRIBUTES = { exclude: ['land_license_id'] };
 
+async function getType(type) {
+    const TYPE = await Type.findOne({
+        where: { licenseType: type },
+        raw: true
+    });
+
+    return TYPE.license_type_id
+}
+
+function generateSafeLicense(license) {
+    const { land_license_id, ...safeLicense } = license.toJSON();
+    return safeLicense;
+}
+
 export async function findAllLandLicenses() {
     return await LandUseLicense.findAll({
         include: LAND_USE_MODELS,
@@ -53,7 +68,7 @@ export async function findLandLicenseId(id) {
 export async function findLandLicensePrintInvoice(printInvoice) {
     return await LandUseLicense.findOne({
         where: {
-            licensePrintInvoice: printInvoice
+            licensePrintInvoice: { [Op.iLike]: `%${escapeLike(printInvoice)}%`, [Op.escape]: '\\' }
         },
         attributes: LAND_USE_ATTRIBUTES,
         include: LAND_USE_MODELS,
@@ -92,7 +107,7 @@ export async function findLandLicenseType(type, year) {
 
 export async function findLandLicenseBy(parameter, value) {
     const PARAM = new Object;
-    PARAM[parameter] = { [Op.like]: `%${value}%` };
+    PARAM[parameter] = { [Op.iLike]: `%${escapeLike(value)}%`, [Op.escape]: '\\' };
     return await LandUseLicense.findAll({
         where: PARAM,
         include: LAND_USE_MODELS,
@@ -232,18 +247,4 @@ export async function saveStartInvoice(invoice, type, year) {
         inspector: 'Placeholder',
         licenseSpecialData: generateSpecialData(TYPE)
     });
-}
-
-async function getType(type) {
-    const TYPE = await Type.findOne({
-        where: { licenseType: type },
-        raw: true
-    });
-
-    return TYPE.license_type_id
-}
-
-function generateSafeLicense(license) {
-    const { land_license_id, ...safeLicense } = license.toJSON();
-    return safeLicense;
 }

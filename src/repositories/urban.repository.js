@@ -1,6 +1,7 @@
 import { UrbanLicense, UrbanType, Zone, Term, Validity } from "../models/License.models.js";
 import { Op } from "sequelize";
 import { generateSpecialData } from "../utilities/urban.utilities.js";
+import { escapeLike } from "../utilities/repository.utilities.js";
 
 const URBAN_MODELS = [
     {
@@ -21,6 +22,20 @@ const URBAN_MODELS = [
     }
 ];
 const URBAN_ATTRIBUTES = { exclude: ['urban_license_id'] }
+
+async function getType(type) {
+    const TYPE = await UrbanType.findOne({
+        where: { licenseType: type},
+        raw: true
+    });
+
+    return TYPE.license_urban_type_id
+}
+
+function generateSafeLicense(license) {
+    const { urban_license_id, ...safeLicense } = license.toJSON();
+    return safeLicense;
+}
 
 export async function findAllUrbanLicenses() {
     return await UrbanLicense.findAll({
@@ -86,7 +101,7 @@ export async function findUrbanLicenseListByType(type, year) {
 
 export async function findUrbanLicenseBy(parameter, value) {
     const PARAM = new Object;
-    PARAM[parameter] = { [Op.like]: `%${value}%` };
+    PARAM[parameter] = { [Op.like]: `%${escapeLike(value)}%` };
     return await UrbanLicense.findAll({
         where: PARAM,
         attributes: URBAN_ATTRIBUTES,
@@ -110,7 +125,7 @@ export async function saveNewUrbanLicense(newLicenseData) {
         nest: true
     });
 
-    return CREATED ? NEW_LICENSE : null;
+    return CREATED ? generateSafeLicense(NEW_LICENSE) : null;
 }
 
 export async function saveUrbanLicense(id, newData) {
@@ -129,7 +144,7 @@ export async function saveUrbanLicense(id, newData) {
         await MODIFIED_LICENSE.reload({include: URBAN_MODELS});
     }
 
-    return MODIFIED_LICENSE;
+    return generateSafeLicense(MODIFIED_LICENSE);
 }
 
 export async function deleteUrbanLicense(id) {
@@ -144,7 +159,7 @@ export async function deleteUrbanLicense(id) {
 
     await DELETED_LICENSE.destroy();
 
-    return DELETED_LICENSE;
+    return generateSafeLicense(DELETED_LICENSE);
 }
 
 export async function getLicenseEspecialData(id) {
@@ -197,13 +212,4 @@ export async function saveStartInvoice(invoice, type, year) {
         geoReference: 'Placeholder',
         licenseSpecialData: generateSpecialData(TYPE)
     });
-}
-
-async function getType(type) {
-    const TYPE = await UrbanType.findOne({
-        where: { licenseType: type},
-        raw: true
-    });
-
-    return TYPE.license_urban_type_id
 }
