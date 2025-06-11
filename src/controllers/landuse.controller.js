@@ -3,258 +3,212 @@ import * as logger from '../utilities/logger.utilities.js';
 import { printerPDF } from "../utilities/pdf.utilities.js";
 import * as landService from '../services/landuse.service.js';
 
-export const getLicenses = async (req, res) => {
-    try {
+export const getLicenses = requestHandler(
+    async function (req, res) {
+
         const response = await landService.requestAllLandLicenses();
 
-        res.status(response.status).json(response.data);
+        res.status(200).json(response);
 
-        logger.logRequestInfo('Land use get request completed', 
-        `Requestor ID -> ${req.userID}
-        Requestor Name -> ${req.name}
-        Requestor Username -> ${req.username}
-        Get requested -> ${response.log}`);
-    } catch (error) {
-        logger.logConsoleError('All land records request failed due to server side error', error);
-        logger.logRequestError('All land records request failed due to server side error', error);
-        res.status(500).json({msg: "Internal server error"});
+        logger.logRequestInfo('Land use all record request completed',
+            `Requestor ID -> ${req.user.uuid}
+        Requestor Name -> ${req.user.name}
+        Requestor Username -> ${req.user.username}
+        Requested records -> All records requested`);
     }
-}
+);
 
-export const getLicense = async (req, res) => {
-    try {
+export const getLicense = requestHandler(
+    async function (req, res) {
         const ID = req.params.licenciaID;
 
         const response = await landService.requestLandLicenseById(ID);
 
-        res.status(response.status).json(response.data);
+        res.status(200).json(response.data);
 
-        logger.logRequestInfo('Land use get request completed', 
-        `Requestor ID -> ${req.userID}
-        Requestor Name -> ${req.name}
-        Requestor Username -> ${req.username}
-        Get request -> ${response.log}`);
-    } catch (error) {
-        logger.logConsoleError('Land record request failed due to server side error', error);
-        logger.logRequestError('Land record request failed due to server side error', error);
-        res.status(500).json({msg: "Internal server error"});
+        logger.logRequestInfo('Land use request by ID',
+            `Requestor ID -> ${req.user.uuid}
+        Requestor Name -> ${req.user.name}
+        Requestor Username -> ${req.user.username}
+        Requested record -> ${ID}:${response.license.fullInvoice} requested`);
     }
-}
+);
 
-export const getLicenseByInvoice = async (req, res) => {
-    try {
+export const getLicenseByInvoice = requestHandler(
+    async function (req, res) {
         const TYPE = req.params.type;
         const INVOICE = req.params.invoice;
         const YEAR = req.params.year;
 
         const response = await landService.requestLandLicenseByInvoice(TYPE, INVOICE, YEAR);
 
-        res.status(response.status).json(response.data);
+        res.status(200).json(response);
 
-        logger.logRequestInfo('Land use get request completed', 
-        `Requestor ID -> ${req.userID}
-        Requestor Name -> ${req.name}
-        Requestor Username -> ${req.username}
-        Get request -> ${response.log}`);
-    } catch (error) {
-        logger.logConsoleError('Land record request failed due to server side error', error);
-        logger.logRequestError('Land record request failed due to server side error', error);
-        res.status(500).json({msg: "Internal server error"});
+        logger.logRequestInfo('Land use request by full invoice completed',
+            `Requestor ID -> ${req.user.uuid}
+        Requestor Name -> ${req.user.name}
+        Requestor Username -> ${req.user.username}
+        Requested record -> ${response.license.public_land_license_id}:${response.license.fullInvoice} requested`);
     }
-}
+);
 
-export const getLicenseByType = async (req, res) => {
-    try {
+export const getLicenseByType = requestHandler(
+    async function (req, res) {
         const TYPE = req.params.type;
         const YEAR = req.params.year;
 
         const response = await landService.requestLandLicenseByType(TYPE, YEAR)
 
-        res.status(response.status).json(response.data);
+        res.status(200).json(response);
 
-        logger.logRequestInfo('Land use get request completed', 
-        `Requestor ID -> ${req.userID}
-        Requestor Name -> ${req.name}
-        Requestor Username -> ${req.username}
-        Get request -> ${response.log}`);
-    } catch (error) {
-        logger.logConsoleError('Land records by type request failed due to server side error', error);
-        logger.logRequestError('Land records by type request failed due to server side error', error);
-        res.status(500).json({msg: "Internal server error"});
+        logger.logRequestInfo('Land use request by type and year',
+            `Requestor ID -> ${req.user.uuid}
+        Requestor Name -> ${req.user.name}
+        Requestor Username -> ${req.user.username}
+        Requested records -> Type ${TYPE} from ${YEAR} requested.`);
     }
-}
+)
 
-export const getLicenseBy = async (req, res) => {
-    try {
+export const getLicenseBy = requestHandler(
+    async function (req, res) {
         const PARAMETER = req.params.getByParameter;
         const VALUE = req.params.value;
 
+        console.log(PARAMETER, VALUE)
+
         const response = await landService.requestLandLicenseByParameter(PARAMETER, VALUE);
 
-        res.status(response.status).json(response.data);
+        res.status(200).json(response);
 
-        logger.logRequestInfo('Land use get request completed', 
-        `Requestor ID -> ${req.userID}
-        Requestor Name -> ${req.name}
-        Requestor Username -> ${req.username}
-        Get request -> ${response.log}`);
-    } catch (error) {
-        logger.logConsoleError('Land records by attribute request failed due to server side error', error);
-        logger.logRequestError('Land records by attribute request failed due to server side error', error);
-        res.status(500).json({msg: "Internal server error"});
+        logger.logRequestInfo('Land use request by parameter',
+            `Requestor ID -> ${req.user.uuid}
+        Requestor Name -> ${req.user.name}
+        Requestor Username -> ${req.user.username}
+        Requested records -> records where ${PARAMETER} = ${VALUE}`);
     }
-}
+);
 
-export const getLicenseByPrintInvoice = async (req, res) => {
-    try {
+export const getLicenseByPrintInvoice = requestHandler(
+    async function (req, res) {
         const PRINT_INVOICE = decodeURIComponent(req.params.printInvoice);
 
         const response = await landService.requestLandLicenseByPrintInvoice(PRINT_INVOICE);
 
-        res.status(response.status).json(response.data);
+        res.status(200).json(response);
 
-        logger.logRequestInfo('Land use get request completed', 
-        `Requestor ID -> ${req.userID}
-        Requestor Name -> ${req.name}
-        Requestor Username -> ${req.username}
-        Get request -> ${response.log}`);
-    } catch (error) {
-        logger.logConsoleError('Land records by attribute request failed due to server side error', error);
-        logger.logRequestError('Land records by attribute request failed due to server side error', error);
-        res.status(500).json({msg: "Internal server error"});
+        logger.logRequestInfo('Land use request by print invoice',
+            `Requestor ID -> ${req.user.uuid}
+        Requestor Name -> ${req.user.name}
+        Requestor Username -> ${req.user.username}
+        Requested record -> ${response.license.public_land_license_id}:${response.license.fullInvoice}`);
     }
-}
+);
 
-export const createLicense = async (req, res) => {
-    try {
+export const createLicense = requestHandler(
+    async function (req, res) {
         const DATA = req.body;
         const FILE = req.file;
-        const REQUESTOR = req.name;
+        const REQUESTOR = req.user.name;
 
         const response = await landService.requestLandLicenseCreate(DATA, FILE, REQUESTOR);
-        
-        res.status(response.status).json(response.data);
 
-        logger.logRequestInfo('Land use create request completed', 
-        `Requestor ID -> ${req.userID}
-        Requestor Name -> ${req.name}
-        Requestor Username -> ${req.username}
-        Create request -> ${response.log}`);
-    } catch (error) {
-        logger.logConsoleError('Land record creation request failed due to server side error', error);
-        logger.logRequestError('Land record creation request failed due to server side error', error);
-        res.status(500).json({msg: "Internal server error"});
+        res.status(200).json(response);
+
+        logger.logRequestInfo('Land use create request',
+            `Requestor ID -> ${req.user.uuid}
+        Requestor Name -> ${req.user.name}
+        Requestor Username -> ${req.user.username}
+        Requested record creation -> ${response.license.public_land_license_id}:${response.license.fullInvoice}
+        Data -> ${JSON.stringify(DATA)}`);
     }
-}
+);
 
-export const updateLicense = async (req, res) => {
-    try {
+export const updateLicense = requestHandler(
+    async function (req, res) {
         const ID = req.params.licenciaID;
         const DATA = req.body;
         const FILE = req.file;
-        const REQUESTOR = req.name
+        const REQUESTOR = req.user.name;
 
         const response = await landService.requestLandLicenseUpdate(ID, DATA, FILE, REQUESTOR);
 
-        res.status(response.status).json(response.data);
+        res.status(200).json(response);
 
-        logger.logRequestInfo('Land use update request completed', 
-        `Requestor ID -> ${req.userID}
-        Requestor Name -> ${req.name}
-        Requestor Username -> ${req.username}
-        Update request -> ${response.log}`);
-    } catch (error) {
-        logger.logConsoleError('Land record update request failed due to server side error', error);
-        logger.logRequestError('Land record update request failed due to server side error', error);
-        res.status(500).json({msg: "Internal server error"});
+        logger.logRequestInfo('Land use update request completed',
+            `Requestor ID -> ${req.user.uuid}
+        Requestor Name -> ${req.user.name}
+        Requestor Username -> ${req.user.username}
+        Requested record update -> ${response.license.public_land_license_id}:${response.license.fullInvoice}
+        Data -> ${JSON.stringify(DATA)}`);
     }
-}
+);
 
-export const deleteLicense = async (req, res) => {
-    try {
+export const deleteLicense = requestHandler(
+    async function (req, res) {
         const ID = req.params.licenciaID;
 
         const response = await landService.requestLandLicenseDelete(ID);
 
-        res.status(response.status).json(response.data);
+        res.status(200).json(response);
 
-        logger.logRequestInfo('Land use delete request completed', 
-        `Requestor ID -> ${req.userID}
-        Requestor Name -> ${req.name}
-        Requestor Username -> ${req.username}
-        Delete Request -> ${response.log}`);
-    } catch (error) {
-        logger.logConsoleError('Land record delete request failed due to server side error', error);
-        logger.logRequestError('Land record delete request failed due to server side error', error);
-        res.status(500).json({msg: "Internal server error"});
+        logger.logRequestInfo('Land use delete request completed',
+            `Requestor ID -> ${req.user.uuid}
+        Requestor Name -> ${req.user.name}
+        Requestor Username -> ${req.user.username}
+        Requested record deletion -> ${ID}:${response.license.fullInvoice}`);
     }
-}
+);
 
-export const getLicensePDF = async (req, res) => {
-    try {
+export const getLicensePDF = requestHandler(
+    async function (req, res) {
         const TYPE = parseInt(req.params.type);
         const INVOICE = parseInt(req.params.invoice);
         const YEAR = parseInt(req.params.year);
 
         const response = await landService.requestPDFDefinition(TYPE, INVOICE, YEAR);
 
-        if (!response.data.definition) {
-            return res.status(response.status).json(response.data);
-        }
-
-        const pdfDoc = printerPDF.createPdfKitDocument(response.data.definition);
+        const pdfDoc = printerPDF.createPdfKitDocument(response.definition);
 
         res.setHeader('Content-Type', 'application/pdf');
-        pdfDoc.info.Title = response.data.fullInvoice;
+        pdfDoc.info.Title = response.fullInvoice;
         pdfDoc.pipe(res);
         pdfDoc.end();
 
-        logger.logRequestInfo('Land use get PDF request completed', 
-        `Requestor ID -> ${req.userID}
-        Requestor Name -> ${req.name}
-        Requestor Username -> ${req.username}
-        PDF request -> ${response.log}`);
-    } catch (error) {
-        logger.logConsoleError('Land record PDF request failed due to server side error', error);
-        logger.logRequestError('Land record PDF request failed due to server side error', error);
-        res.status(500).json({msg: "Internal server error"});
+        logger.logRequestInfo('Land use get PDF request completed',
+            `Requestor ID -> ${req.user.uuid}
+        Requestor Name -> ${req.user.name}
+        Requestor Username -> ${req.user.username}
+        Requested PDF record -> ${response.ID}:${response.fullInvoice}`);
     }
-}
+);
 
-export const setLicenseStartInvoices = async (req, res) => {
-    try {
+export const setLicenseStartInvoices = requestHandler(
+    async function (req, res) {
         const BODY = req.body;
 
         const response = await landService.requestInvoiceSet(BODY);
 
-        res.status(response.status).json(response.data);
+        res.status(200).json(response);
 
-        logger.logRequestInfo('Land use start invoices set request completed', 
-        `Requestor ID -> ${req.userID}
-        Requestor Name -> ${req.name}
-        Requestor Username -> ${req.username}
-        Delete Request -> ${response.log}`);
-    } catch (error) {
-        logger.logConsoleError('Land use start invoices request failed due to server side error', error);
-        logger.logRequestError('Land use start invoices request failed due to server side error', error);
-        res.status(500).json({msg: "Internal server error"});
+        logger.logRequestInfo('Land use start invoices set request completed',
+            `Requestor ID -> ${req.user.uuid}
+        Requestor Name -> ${req.user.name}
+        Requestor Username -> ${req.user.username}
+        Set start invoices request -> Registered invoices
+        ${response.invoices}`);
     }
-}
+);
 
-export const checkInvoices = async (req, res) => {
-    try {
+export const checkInvoices = requestHandler(
+    async function (req, res) {
         const response = await landService.requestInvoiceCheck();
 
-        res.status(response.status).json(response.data);
+        res.status(200).json(response);
 
-        logger.logRequestInfo('Land use invoice check completed', 
-        `Requestor ID -> ${req.userID}
-        Requestor Name -> ${req.name}
-        Requestor Username -> ${req.username}
-        Get requested -> ${response.log}`);
-    } catch (error) {
-        logger.logConsoleError('Land use check invoice request failed due to server side error', error);
-        logger.logRequestError('Land use check invoice request failed due to server side error', error);
-        res.status(500).json({msg: "Internal server error"});
+        logger.logRequestInfo('Land use invoice check completed',
+            `Requestor ID -> ${req.user.uuid}
+        Requestor Name -> ${req.user.name}
+        Requestor Username -> ${req.user.username}
+        Land use invoice check request -> Land use land use records found`);
     }
-}
+);

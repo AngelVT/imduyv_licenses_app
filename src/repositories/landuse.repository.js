@@ -2,6 +2,8 @@ import { LandUseLicense, Type, Term, Zone, AuthUse, Validity, ExpeditionType } f
 import { Op } from "sequelize";
 import { generateSpecialData } from "../utilities/landuse.utilities.js";
 import { escapeLike } from "../utilities/repository.utilities.js";
+import DatabaseError from "../errors/DatabaseError.js";
+import ValidationError from "../errors/ValidationError.js";
 
 const LAND_USE_MODELS = [
     {
@@ -68,7 +70,7 @@ export async function findLandLicenseId(id) {
 export async function findLandLicensePrintInvoice(printInvoice) {
     return await LandUseLicense.findOne({
         where: {
-            licensePrintInvoice: { [Op.iLike]: `%${escapeLike(printInvoice)}%`, [Op.escape]: '\\' }
+            licensePrintInvoice: { [Op.iLike]: `%${escapeLike(printInvoice)}%` }
         },
         attributes: LAND_USE_ATTRIBUTES,
         include: LAND_USE_MODELS,
@@ -107,7 +109,7 @@ export async function findLandLicenseType(type, year) {
 
 export async function findLandLicenseBy(parameter, value) {
     const PARAM = new Object;
-    PARAM[parameter] = { [Op.iLike]: `%${escapeLike(value)}%`, [Op.escape]: '\\' };
+    PARAM[parameter] = { [Op.iLike]: `%${escapeLike(value)}%` };
     return await LandUseLicense.findAll({
         where: PARAM,
         include: LAND_USE_MODELS,
@@ -148,9 +150,18 @@ export async function saveLandLicense(id, newData) {
         await MODIFIED_LICENSE.update(newData);
     } catch (error) {
         if (error.name === 'SequelizeUniqueConstraintError') {
-            return 400
+            throw new ValidationError('Failed due to the new data must be unique',
+                'Land use update request',
+                `Request failed due to some ned data must be unique
+                provided data -> ${newData}`
+            );
         }
-        return 500
+        throw new DatabaseError('Error updating land user license',
+            'Land use update request',
+            `An unexpected error ocurred when trying to update record ${id} with the new data: 
+            ${newData},
+            Error: ${error}`
+        );
     }
 
     if (newData.zone || newData.authorizedUse || newData.validity || newData.expeditionType || newData.term) {
@@ -216,7 +227,7 @@ export async function getLicenseType(id) {
 export async function saveStartInvoice(invoice, type, year) {
     const TYPE = await getType(type);
     const START_INVOICE = await LandUseLicense.create({
-        fullInvoice: `IMDUyV_DLyCU_SYS_${invoice.toString().padStart(3, '0')}_${year}`,
+        fullInvoice: `IMDUyV_DLyCU_SYS-${type}_${invoice.toString().padStart(3, '0')}_${year}`,
         invoice: invoice,
         licenseType: TYPE,
         year: year,

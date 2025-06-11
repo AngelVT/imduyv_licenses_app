@@ -10,8 +10,6 @@ export function requestHandler(requestFn) {
         try {
             await requestFn(req, res);
         } catch (error) {
-            logger.logConsoleWarning("Error during request", error);
-
             if (error instanceof ValidationError || error instanceof ResourceError) {
                 logger.logRequestError(error.logMessage, error.logBody)
                 return res.status(error.statusCode).json({ msg: error.message });
@@ -27,6 +25,7 @@ export function requestHandler(requestFn) {
                 return res.status(error.statusCode).json({ msg: error.message });
             }
 
+            logger.logConsoleError("Error during request", error);
             logger.logServerError('Unknown error', error);
             return res.status(500).json({ msg: "Unknown server error" });
         }

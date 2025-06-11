@@ -6,193 +6,140 @@ import { specialDataToJSON } from '../utilities/json.utilities.js';
 import { generateLandUseC } from "../models/documents/landUse/licenciaC.js";
 import { generateLandUseL } from "../models/documents/landUse/licenciaL.js";
 import { generateLandUseDP } from "../models/documents/landUse/licenciaDP.js";
+import ResourceError from '../errors/ResourceError.js';
+import ValidationError from '../errors/ValidationError.js';
+import FileSystemError from '../errors/FileSystemError.js';
 
 export async function requestAllLandLicenses() {
 
     let LICENSES = await landRepo.findAllLandLicenses();
 
-    if (LICENSES == null || LICENSES.length == 0) {
-        return {
-            status: 404,
-            data: {
-                msg: "There are no land use records to display"
-            },
-            log: "Request completed but there are no records to display"
-        };
+    if (!LICENSES || LICENSES.length === 0) {
+        throw new ResourceError('There are no land use records to display.',
+            'Land use request all records',
+            'There are no land use records registered.');
     }
 
     LICENSES = specialDataToJSON(LICENSES);
 
     return {
-        status: 200,
-        data: {
-            licenses: LICENSES
-        },
-        log: "Request completed all records requested"
-    };
+        licenses: LICENSES
+    }
 }
 
 export async function requestLandLicenseById(id) {
     if (!isUuid(id)) {
-        return {
-            status: 400,
-            data: {
-                msg: "Request failed due to invalid ID."
-            },
-            log: `Request failed due to invalid ID ${id} invalid.`
-        };
+        throw new ValidationError('Request failed due to invalid ID.',
+            'Land use request by ID',
+            `Request failed due to ID ${id} is invalid.`
+        );
     }
 
     let LICENSE = await landRepo.findLandLicenseId(id);
 
-    if (LICENSE == null) {
-        return {
-            status: 404,
-            data: {
-                msg: "The requested land use record does not exist"
-            },
-            log: `Request completed record ${id} not found`
-        };
+    if (!LICENSE) {
+        throw new ResourceError('The requested land use record does not exist.',
+            'Land use request by ID.',
+            `Request completed record ${id} does not exist.`);
     }
 
     LICENSE = specialDataToJSON(LICENSE);
 
     return {
-        status: 200,
-        data: {
-            license: LICENSE
-        },
-        log: `Request completed record ${LICENSE.id}:${LICENSE.fullInvoice} requested`
-    };
+        license: LICENSE
+    }
 }
 
 export async function requestLandLicenseByInvoice(type, invoice, year) {
     if (isNaN(parseInt(type)) ||
         isNaN(parseInt(invoice)) ||
         isNaN(parseInt(year))) {
-        return {
-            status: 400,
-            data: {
-                msg: "Request failed due to invalid search parameters provided."
-            },
-            log: `Request completed search params /t/${type}/i/${invoice}/y/${year} invalid.`
-        };
+        throw new ValidationError('Request failed due to invalid search parameters provided.',
+            'Land use request by full invoice',
+            `Search params /t/${type}/i/${invoice}/y/${year} are invalid.`);
     }
 
     let LICENSE = await landRepo.findLandLicenseInvoice(type, invoice, year);
 
-    if (LICENSE == null) {
-        return {
-            status: 404,
-            data: {
-                msg: "There requested land use record does not exist"
-            },
-            log: `Request completed record ${type}/${invoice}/${year} not found`
-        };
+    if (!LICENSE) {
+        throw new ResourceError('The requested land use record does not exist',
+            'Land use request by full invoice',
+            `Search params /t/${type}/i/${invoice}/y/${year} not found.`);
     }
 
     LICENSE = specialDataToJSON(LICENSE);
-
     return {
-        status: 200,
-        data: {
-            license: LICENSE
-        },
-        log: `Request completed record ${LICENSE.id}:${LICENSE.fullInvoice} requested`
-    };
+        license: LICENSE
+    }
 }
 
 export async function requestLandLicenseByType(type, year) {
     if (isNaN(parseInt(type)) ||
         isNaN(parseInt(year))) {
-        return {
-            status: 400,
-            data: {
-                msg: "Request failed due to invalid search parameters provided."
-            },
-            log: `Request completed search params /t/${type}/y/${year} invalid.`
-        };
+        throw new ValidationError('Request failed due to invalid search parameters provided.',
+            'Land use request by type and year',
+            `Search params /t/${type}/y/${year} are invalid.`);
     }
 
     let LICENSES = await landRepo.findLandLicenseType(type, year);
 
-    if (LICENSES == null || LICENSES.length == 0) {
-        return {
-            status: 404,
-            data: {
-                msg: "There are no land use records to display"
-            },
-            log: `Request completed no records of type ${type} from ${year}`
-        };
+    if (!LICENSES || LICENSES.length === 0) {
+        throw new ResourceError('The requested records do not exist.',
+            'Land use request by type and year',
+            `Search params /t/${type}/y/${year} not found.`);
     }
 
     LICENSES = specialDataToJSON(LICENSES);
 
     return {
-        status: 200,
-        data: {
-            licenses: LICENSES
-        },
-        log: `Request completed records of type ${type} from ${year} requested`
-    };
+        licenses: LICENSES
+    }
 }
 
 export async function requestLandLicenseByParameter(parameter, value) {
     if (!landValidate.validateParameter(parameter)) {
-        return {
-            status: 400,
-            data: {
-                msg: "Invalid search parameter"
-            },
-            log: `Request not completed due to invalid parameter: ${parameter}`
-        };
+        throw new ValidationError('Request failed due to invalid search parameters provided.',
+            'Land use request by parameter',
+            `Search param ${parameter} is invalid.`);
     }
 
     let LICENSES = await landRepo.findLandLicenseBy(parameter, value)
 
-    if (LICENSES == null || LICENSES.length == 0) {
-        return {
-            status: 404,
-            data: {
-                msg: "There are no matching result for this search"
-            },
-            log: `Request completed no records where ${parameter} = ${value}`
-        };
+    if (!LICENSES || LICENSES.length === 0) {
+        throw new ResourceError('There are no matching record results results',
+            'Land use request by parameter',
+            `Search by param ${parameter} not found.`);
     }
 
     LICENSES = specialDataToJSON(LICENSES);
 
     return {
-        status: 200,
-        data: {
-            licenses: LICENSES
-        },
-        log: `Request completed records where ${parameter} = ${value}`
-    };
+        licenses: LICENSES
+    }
 }
 
 export async function requestLandLicenseByPrintInvoice(printInvoice) {
+    const pattern = /\b\d{4}[-/\\|]\d{4}\b/;
+
+    if (!pattern.test(printInvoice)) {
+        throw new ValidationError('Request failed due to invalid print invoice provided.',
+            'Land use request by print invoice',
+            `Search print invoice ${printInvoice} is invalid.`);
+    }
+
     let LICENSE = await landRepo.findLandLicensePrintInvoice(printInvoice);
 
-    if (LICENSE == null) {
-        return {
-            status: 404,
-            data: {
-                msg: "The requested land use record does not exist"
-            },
-            log: `Request completed record with print invoice ${printInvoice} not found`
-        };
+    if (!LICENSE) {
+        throw new ResourceError('The requested records do not exist.',
+            'Land use request by print invoice',
+            `Search by print invoice ${printInvoice} not found.`);
     }
 
     LICENSE = specialDataToJSON(LICENSE);
 
     return {
-        status: 200,
-        data: {
-            license: LICENSE
-        },
-        log: `Request completed record ${LICENSE.id}:${LICENSE.fullInvoice} requested`
-    };
+        license: LICENSE
+    }
 }
 
 export async function requestLandLicenseCreate(body, file, requestor) {
@@ -236,23 +183,17 @@ export async function requestLandLicenseCreate(body, file, requestor) {
     } = body;
 
     if (!licenseType || !requestorName || !attentionName || !address || !number || !colony || !contactPhone || !catastralKey || !surface || !georeference || !zone || !businessLinePrint || !businessLineIntern || !authorizedUse || !expeditionType || !term || !validity || !requestDate || !expeditionDate || !expirationDate || !paymentInvoice || !cost || !discount || !paymentDone || !inspector || !COS || !alt_max || !niveles || !file) {
-        return {
-            status: 400,
-            data: {
-                msg: "Unable to create due to missing information"
-            },
-            log: `Request not completed due to missing information`
-        };
+        throw new ValidationError('Request failed due to missing information.',
+            'Land use create request',
+            `Request failed due to missing information.
+            Provided data -> ${body}`);
     }
 
     if (!await landValidate.validateModels({ type: licenseType, term, zone, authorizedUse, validity, expeditionType })) {
-        return {
-            status: 400,
-            data: {
-                msg: "Unable to create due to invalid information provided"
-            },
-            log: `Request not completed due to invalid information`
-        };
+        throw new ValidationError('Request failed due to invalid information.',
+            'Land use create request',
+            `Request failed due to invalid information.
+            Provided data -> License type: ${licenseType}, term: ${term}, zone: ${zone}, authorized use: ${authorizedUse}, validity: ${validity}, expedition type: ${expeditionType}`);
     }
 
     const INVOICE_INFO = await landUtils.generateInvoiceInformation(licenseType, YEAR);
@@ -297,56 +238,39 @@ export async function requestLandLicenseCreate(body, file, requestor) {
     }
 
     if (!await landValidate.validateFile(file)) {
-        return {
-            status: 400,
-            data: {
-                msg: "Error saving files to server, only png files are allowed."
-            },
-            log: `Error saving files in the server due to non PNG file`
-        };
+        throw new ValidationError('Invalid files provided only png files are allowed.',
+            'Land use create request',
+            `Request failed due to invalid files provided.
+            Provided file -> ${file.originalname}`);
     }
 
     if (!await landUtils.saveZoneImage(file, INVOICE_INFO.fullInvoice)) {
-        return {
-            status: 400,
-            data: {
-                msg: "Error saving files to server"
-            },
-            log: `Error saving files in the server`
-        };
+        throw new FileSystemError('Error saving files to server.',
+            'Land use create request',
+            `Request failed due to unexpected error saving files to server.
+            Provided file -> ${file.originalname}`);
     }
 
     const NEW_LICENSE = await landRepo.saveNewLandLicense(NEW_LICENSE_DATA);
 
-    if (NEW_LICENSE == null) {
-        return {
-            status: 400,
-            data: {
-                msg: "Unable to create, license already exist"
-            },
-            log: `Request not completed, record already exist`
-        };
+    if (!NEW_LICENSE) {
+        throw new ValidationError('Unable to create, license already exist',
+            'Land use create request',
+            `Request failed due to the record already exist.
+            Existing record details -> fullInvoice: ${INVOICE_INFO.fullInvoice}, invoice: ${INVOICE_INFO.numericInvoice}, licenseType: ${licenseType}, year: ${YEAR}`);
     }
 
     return {
-        status: 200,
-        data: {
-            license: NEW_LICENSE
-        },
-        log: `Request completed records where ${NEW_LICENSE.id}
-            ${NEW_LICENSE.fullInvoice}`
-    };
+        license: NEW_LICENSE
+    }
 }
 
 export async function requestLandLicenseUpdate(id, licenseData, file, requestor) {
     if (!isUuid(id)) {
-        return {
-            status: 400,
-            data: {
-                msg: "Request failed due to invalid ID."
-            },
-            log: `Request failed due to invalid ID ${id} invalid.`
-        };
+        throw new ValidationError('Request failed due to invalid ID.',
+            'Land use update request',
+            `Request failed due to ID ${id} is invalid.`
+        );
     }
 
     for (const key in licenseData) {
@@ -393,35 +317,25 @@ export async function requestLandLicenseUpdate(id, licenseData, file, requestor)
     } = licenseData;
 
     if (!licensePrintInvoice && !requestorName && !attentionName && !address && !number && !colony && !contactPhone && !catastralKey && !surface && !georeference && !zone && !businessLinePrint && !businessLineIntern && !authorizedUse && !expeditionType && !term && !validity && !requestDate && !expeditionDate && !expirationDate && !paymentInvoice && !cost && !discount && !paymentDone && !inspector && !anexo && !restrictions && !conditions && !parcela && !propertyNo && !propertyDate && !COS && !alt_max && !niveles && !file) {
-        return {
-            status: 400,
-            data: {
-                msg: "Unable to update record due to missing information"
-            },
-            log: `Request not completed due to missing information`
-        };
+        throw new ValidationError('Request failed due to missing information.',
+            'Land use update request',
+            `Request failed due to missing information.
+            Provided data -> ${licenseData}`);
     }
 
     if (!await landValidate.validateModels({ term, zone, authorizedUse, validity, expeditionType })) {
-        return {
-            status: 400,
-            data: {
-                msg: "Unable to create due to invalid information provided"
-            },
-            log: `Request not completed due to invalid information`
-        };
+        throw new ValidationError('Request failed due to invalid information.',
+            'Land use update request',
+            `Request failed due to invalid information.
+            Provided data -> Term: ${term}, zone: ${zone}, authorized use: ${authorizedUse}, validity: ${validity}, expedition type: ${expeditionType}`);
     }
 
     const SPECIAL_DATA = await landRepo.getLicenseEspecialData(id);
 
     if (SPECIAL_DATA == null) {
-        return {
-            status: 404,
-            data: {
-                msg: "There requested land use record does not exist"
-            },
-            log: `Request not completed record ${id} not found`
-        };
+        throw new ResourceError('Request failed due to the record to update do not exist.',
+            'Land use update request',
+            `Request failed due to record ${id} does not exist.`);
     }
 
     let newSpecialData = specialDataToJSON(SPECIAL_DATA).licenseSpecialData;
@@ -468,80 +382,45 @@ export async function requestLandLicenseUpdate(id, licenseData, file, requestor)
 
     if (file) {
         if (!await landValidate.validateFile(file)) {
-            return {
-                status: 400,
-                data: {
-                    msg: "Error saving files to server, only png files are allowed."
-                },
-                log: `Error saving files in the server due to non PNG file`
-            };
+            throw new ValidationError('Invalid files provided only png files are allowed.',
+                'Land use update request',
+                `Request failed due to invalid files provided.
+            Provided file -> ${file.originalname}`);
         }
 
-        await landUtils.saveZoneImage(file, SPECIAL_DATA.fullInvoice);
+        if (!await landUtils.saveZoneImage(file, SPECIAL_DATA.fullInvoice)) {
+            throw new FileSystemError('Error saving files to server.',
+                'Land use update request',
+                `Request failed due to unexpected error saving files to server.
+            Provided file -> ${file.originalname}`);
+        }
     }
 
     const MODIFIED_LICENSE = await landRepo.saveLandLicense(id, NEW_DATA);
 
-    if (MODIFIED_LICENSE === 400) {
-        return {
-            status: 400,
-            data: {
-                msg: "The print invoice is unique to each license the invoice you are trying to register already exist."
-            },
-            log: `Error updating the invoice provided in the request already exist`
-        };
-    }
-
-    if (MODIFIED_LICENSE === 500) {
-        return {
-            status: 500,
-            data: {
-                msg: `Error updating information for license ${id}`
-            },
-            log: `Error updating information for license ${id}`
-        };
-    }
-
     return {
-        status: 200,
-        data: {
-            license: MODIFIED_LICENSE
-        },
-        log: `Request completed record modified ${MODIFIED_LICENSE.id}:${MODIFIED_LICENSE.fullInvoice}`
-    };
+        license: MODIFIED_LICENSE
+    }
 }
 
 export async function requestLandLicenseDelete(id) {
     if (!isUuid(id)) {
-        return {
-            status: 400,
-            data: {
-                msg: "Request failed due to invalid ID."
-            },
-            log: `Request failed due to invalid ID ${id} invalid.`
-        };
+        throw new ValidationError('Request failed due to invalid ID.',
+            'Land use update request',
+            `Request failed due to ID ${id} is invalid.`
+        );
     }
-    
+
     const DELETED_LICENSE = await landRepo.deleteLandLicense(id);
 
     if (DELETED_LICENSE == null) {
-        return {
-            status: 404,
-            data: {
-                msg: "There requested land use record does not exist"
-            },
-            log: `Request not completed record ${id} not found`
-        };
+        throw new ResourceError('Request failed due to the record to update do not exist.',
+            'Land use update request',
+            `Request failed due to record ${id} does not exist.`);
     }
 
     return {
-        status: 200,
-        data: {
-            msg: `User ${DELETED_LICENSE.fullInvoice} deleted successfully.`
-        },
-        log: `Request completed:
-            ID -> ${DELETED_LICENSE.id}
-            Invoice -> ${DELETED_LICENSE.fullInvoice}`
+        msg: `User ${DELETED_LICENSE.fullInvoice} deleted successfully.`
     }
 }
 
@@ -549,24 +428,17 @@ export async function requestPDFDefinition(type, invoice, year) {
     if (isNaN(parseInt(type)) ||
         isNaN(parseInt(invoice)) ||
         isNaN(parseInt(year))) {
-        return {
-            status: 400,
-            data: {
-                msg: "Request failed due to invalid search parameters provided."
-            },
-            log: `Request failed search params /t/${type}/i/${invoice}/y/${year} invalid.`
-        };
+        throw new ValidationError('Request failed due to invalid search parameters provided.',
+            'Land use request by full invoice',
+            `Search params /t/${type}/i/${invoice}/y/${year} are invalid.`);
     }
+
     let LICENSE = await landRepo.findLandLicenseInvoice(type, invoice, year);
 
     if (LICENSE == null) {
-        return {
-            status: 404,
-            data: {
-                msg: "There requested land use record does not exist"
-            },
-            log: `Request completed record ${type}/${invoice}/${year} not found`
-        };
+        throw new ResourceError('The requested land use record does not exist',
+            'Land use request by full invoice',
+            `Search params /t/${type}/i/${invoice}/y/${year} not found.`);
     }
 
     LICENSE = specialDataToJSON(LICENSE);
@@ -586,12 +458,9 @@ export async function requestPDFDefinition(type, invoice, year) {
     }
 
     return {
-        status: 200,
-        data: {
-            fullInvoice: LICENSE.fullInvoice,
-            definition: DEFINITION
-        },
-        log: `Request completed, PDF generated for record ${LICENSE.id}:${LICENSE.fullInvoice}`
+        ID: LICENSE.public_land_license_id,
+        fullInvoice: LICENSE.fullInvoice,
+        definition: DEFINITION
     };
 }
 
@@ -604,33 +473,26 @@ export async function requestInvoiceSet(body) {
         isNaN(parseInt(LI)) ||
         isNaN(parseInt(LS)) ||
         isNaN(parseInt(SEG))) {
-        return {
-            status: 400,
-            data: {
-                msg: "Request failed due to invalid search parameters provided."
-            },
-            log: `Request failed invoice params C/${C}, DP/${DP}, LC/${LC}, LI/${LI}, LS/${LS}, SEG/${SEG} invalid.`
-        };
+        throw new ValidationError('Request failed due to invalid invoice parameters provided.',
+            'Land use set start invoices request',
+            `Failed due to invalid parameters provided.
+                Provided invoices ->${body}`
+        );
     }
 
     if (!C && !DP && !LC && !LI && !LS && !SEG) {
-        return {
-            status: 400,
-            data: {
-                msg: "Unable to set invoices due to missing information"
-            },
-            log: `Request not completed due to missing information`
-        };
+        throw new ValidationError('Unable to set invoices due to missing information.',
+            'Land use set start invoices request',
+            `Unable to set invoices due to missing information.
+                Provided invoices ->${body}`
+        );
     }
 
     if (await landValidate.existingLicenses()) {
-        return {
-            status: 400,
-            data: {
-                msg: "Unable to set invoices due to there are invoices already registered."
-            },
-            log: `Request not completed due to there are invoices already registered`
-        };
+        throw new ValidationError('Unable to set invoices due to there are invoices already registered.',
+            'Land use set start invoices request',
+            `Unable to set invoices due to already existing records.`
+        );
     }
 
     for (const key in body) {
@@ -640,41 +502,18 @@ export async function requestInvoiceSet(body) {
     }
 
     return {
-        status: 200,
-        data: {
-            invoices: `C: ${C}
-                DP: ${DP}
-                LC: ${LC}
-                LI: ${LI}
-                LS: ${LS}
-                SEG: ${SEG}`
-        },
-        log: `Request completed start invoices set:
-            C   --> ${C}
-            DP  --> ${DP}
-            LC  --> ${LC}
-            LI  --> ${LI}
-            LS  --> ${LS}
-            SEG --> ${SEG}`
-    };
+        invoices: `C: ${C}\nDP: ${DP}\nLC: ${LC}\nLI: ${LI}\nLS: ${LS}\nSEG: ${SEG}`
+    }
 }
 
 export async function requestInvoiceCheck() {
-    if (await landValidate.existingLicenses()) {
-        return {
-            status: 200,
-            data: {
-                existing: true
-            },
-            log: `Request completed invoices already registered`
-        };
+    if (!await landValidate.existingLicenses()) {
+        throw new ResourceError('No land use record registered.',
+            'Land use invoice check request.',
+            `No land use records registered`);
     }
 
     return {
-        status: 400,
-        data: {
-            existing: false
-        },
-        log: `Request completed no invoices invoices registered`
-    };
+        existing: true
+    }
 }

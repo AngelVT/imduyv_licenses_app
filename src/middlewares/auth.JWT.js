@@ -2,13 +2,20 @@ import jwt from 'jsonwebtoken';
 import { findUserByIdUsername } from '../repositories/users.repository.js';
 import * as logger from '../utilities/logger.utilities.js';
 
-export function verifyToken(options = { redirect: false, logInPath: '/app/login' }) {
+export function verifyToken(options = {}) {
+    const defaultOptions = {
+        redirect: false,
+        logInPath: '/app/login'
+    }
+
+    const finalOptions = { ...defaultOptions, ...options };
+
     return async function (req, res, next) {
         const destination = encodeURI(req.originalUrl);
-        const logInDestination = `${options.logInPath}?url=${destination}`;
-        const failedResponse = () => options.redirect
+        const logInDestination = `${finalOptions.logInPath}?url=${destination}`;
+        const failedResponse = () => finalOptions.redirect
             ? res.redirect(logInDestination)
-            : res.status(401).json({ msg: 'An invalid token was provided', redirectTo: options.logInPath });
+            : res.status(401).json({ msg: 'An invalid token was provided', redirectTo: finalOptions.logInPath });
 
         try {
             const clientToken = req.signedCookies.access_token;
@@ -38,7 +45,7 @@ export function verifyToken(options = { redirect: false, logInPath: '/app/login'
                     sameSite: 'strict'
                 });
 
-                return options.redirect
+                return finalOptions.redirect
                     ? res.status(401).redirect('/?msg=Tu cuenta esta bloqueada&code=401')
                     : res.status(401).json({ msg: 'Your account is locked. Please contact your system administrator.' });
             }
@@ -88,7 +95,13 @@ export const accountIntegrity = async (req, res, next) => {
     }
 }
 
-export function verifyGroup(allowedGroups = [], options = { isMenu: false }) {
+export function verifyGroup(allowedGroups = [], options = {}) {
+    const defaultOptions = {
+        isMenu: false
+    }
+
+    const finalOptions = { ...defaultOptions, ...options };
+
     return function (req, res, next) {
         const userGroup = req.user.group;
 
@@ -100,7 +113,7 @@ export function verifyGroup(allowedGroups = [], options = { isMenu: false }) {
             return next();
         }
 
-        if (options.isMenu) {
+        if (finalOptions.isMenu) {
             return redirectToMenu(userGroup, res);
         }
 
@@ -108,7 +121,13 @@ export function verifyGroup(allowedGroups = [], options = { isMenu: false }) {
     }
 }
 
-export function verifyRole(allowedRoles = [], options = { isMenu: false }) {
+export function verifyRole(allowedRoles = [], options = {}) {
+    const defaultOptions = {
+        isMenu: false
+    }
+
+    const finalOptions = { ...defaultOptions, ...options };
+
     return function (req, res, next) {
         const userRole = req.user.role;
 
@@ -120,7 +139,7 @@ export function verifyRole(allowedRoles = [], options = { isMenu: false }) {
             return next();
         }
 
-        if (options.isMenu) {
+        if (finalOptions.isMenu) {
             return redirectToMenu(req.userGroup, res);
         }
 
