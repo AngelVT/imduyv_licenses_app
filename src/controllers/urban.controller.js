@@ -29,7 +29,7 @@ export const getLicense = requestHandler(
             `Requestor ID -> ${req.user.uuid}
         Requestor Name -> ${req.user.name}
         Requestor Username -> ${req.user.username}
-        Requested record -> ${ID}:${response.license.fullInvoice} requested`);
+        Requested record -> ${ID}:${response.license.fullInvoice}`);
     }
 );
 
@@ -82,7 +82,7 @@ export const getLicenseListByType = requestHandler(
             `Requestor ID -> ${req.user.uuid}
         Requestor Name -> ${req.user.name}
         Requestor Username -> ${req.user.username}
-        Requested record list -> Type ${TYPE} from ${YEAR} requested`);
+        Requested record list -> Type ${TYPE} from ${YEAR}`);
     }
 );
 

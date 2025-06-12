@@ -30,7 +30,7 @@ export const getLicense = requestHandler(
             `Requestor ID -> ${req.user.uuid}
         Requestor Name -> ${req.user.name}
         Requestor Username -> ${req.user.username}
-        Requested record -> ${ID}:${response.license.fullInvoice} requested`);
+        Requested record -> ${ID}:${response.license.fullInvoice}`);
     }
 );
 
@@ -48,7 +48,7 @@ export const getLicenseByInvoice = requestHandler(
             `Requestor ID -> ${req.user.uuid}
         Requestor Name -> ${req.user.name}
         Requestor Username -> ${req.user.username}
-        Requested record -> ${response.license.public_land_license_id}:${response.license.fullInvoice} requested`);
+        Requested record -> ${response.license.public_land_license_id}:${response.license.fullInvoice}`);
     }
 );
 
@@ -65,7 +65,7 @@ export const getLicenseByType = requestHandler(
             `Requestor ID -> ${req.user.uuid}
         Requestor Name -> ${req.user.name}
         Requestor Username -> ${req.user.username}
-        Requested records -> Type ${TYPE} from ${YEAR} requested.`);
+        Requested records -> Type ${TYPE} from ${YEAR}`);
     }
 )
 
