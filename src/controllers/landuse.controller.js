@@ -26,7 +26,7 @@ export const getLicense = requestHandler(
 
         res.status(200).json(response.data);
 
-        logger.logRequestInfo('Land use request by ID',
+        logger.logRequestInfo('Land use request by ID completed',
             `Requestor ID -> ${req.user.uuid}
         Requestor Name -> ${req.user.name}
         Requestor Username -> ${req.user.username}
@@ -61,7 +61,7 @@ export const getLicenseByType = requestHandler(
 
         res.status(200).json(response);
 
-        logger.logRequestInfo('Land use request by type and year',
+        logger.logRequestInfo('Land use request by type and year completed',
             `Requestor ID -> ${req.user.uuid}
         Requestor Name -> ${req.user.name}
         Requestor Username -> ${req.user.username}
@@ -80,11 +80,11 @@ export const getLicenseBy = requestHandler(
 
         res.status(200).json(response);
 
-        logger.logRequestInfo('Land use request by parameter',
+        logger.logRequestInfo('Land use request by parameter completed',
             `Requestor ID -> ${req.user.uuid}
         Requestor Name -> ${req.user.name}
         Requestor Username -> ${req.user.username}
-        Requested records -> records where ${PARAMETER} = ${VALUE}`);
+        Requested records -> Records where ${PARAMETER} = ${VALUE}`);
     }
 );
 
@@ -96,7 +96,7 @@ export const getLicenseByPrintInvoice = requestHandler(
 
         res.status(200).json(response);
 
-        logger.logRequestInfo('Land use request by print invoice',
+        logger.logRequestInfo('Land use request by print invoice completed',
             `Requestor ID -> ${req.user.uuid}
         Requestor Name -> ${req.user.name}
         Requestor Username -> ${req.user.username}
@@ -114,7 +114,7 @@ export const createLicense = requestHandler(
 
         res.status(200).json(response);
 
-        logger.logRequestInfo('Land use create request',
+        logger.logRequestInfo('Land use create request completed',
             `Requestor ID -> ${req.user.uuid}
         Requestor Name -> ${req.user.name}
         Requestor Username -> ${req.user.username}
@@ -174,7 +174,7 @@ export const getLicensePDF = requestHandler(
         pdfDoc.pipe(res);
         pdfDoc.end();
 
-        logger.logRequestInfo('Land use get PDF request completed',
+        logger.logRequestInfo('Land use PDF request completed',
             `Requestor ID -> ${req.user.uuid}
         Requestor Name -> ${req.user.name}
         Requestor Username -> ${req.user.username}
@@ -209,6 +209,6 @@ export const checkInvoices = requestHandler(
             `Requestor ID -> ${req.user.uuid}
         Requestor Name -> ${req.user.name}
         Requestor Username -> ${req.user.username}
-        Land use invoice check request -> Land use land use records found`);
+        Land use invoice check request -> Land use records found`);
     }
 );

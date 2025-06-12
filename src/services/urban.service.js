@@ -12,169 +12,139 @@ import { generateUrbanLF } from '../models/documents/urban/licenciaLF.js';
 import { generateUrbanPLF } from '../models/documents/urban/licenciaPLF.js';
 import { generateUrbanRLF } from '../models/documents/urban/licenciaRLF.js';
 import { generateUrbanLUH } from '../models/documents/urban/licenciaLUH.js';
+import ValidationError from '../errors/ValidationError.js';
+import ResourceError from '../errors/ValidationError.js';
+import FileSystemError from '../errors/FileSystemError.js';
 
 export async function requestAllUrbanLicenses() {
     let LICENSES = await urbanRepo.findAllUrbanLicenses();
 
-    if (LICENSES == null || LICENSES.length == 0) {
-        return {
-            status: 404,
-            data: {
-                msg: "There are no urban records to display"
-            },
-            log: "Request completed but there are no records to display"
-        };
+    if (!LICENSES || LICENSES.length === 0) {
+        throw new ResourceError('There are no urban records to display.',
+            'Urban request all records',
+            'There are no urban records registered.');
     }
 
     LICENSES = specialDataToJSON(LICENSES);
 
     return {
-        status: 200,
-        data: {
-            licenses: LICENSES
-        },
-        log: "Request completed all records requested"
-    };
+        licenses: LICENSES
+    }
 }
 
 export async function requestUrbanLicenseById(id) {
     if (!isUuid(id)) {
-        return {
-            status: 400,
-            data: {
-                msg: "Request failed due to invalid ID."
-            },
-            log: `Request failed due to invalid ID ${id} invalid.`
-        };
+        throw new ValidationError('Request failed due to invalid ID.',
+            'Urban request by ID',
+            `Request failed due to ID ${id} is invalid.`
+        );
     }
 
     let LICENSE = await urbanRepo.findUrbanLicense(id);
 
-    if (LICENSE == null) {
-        return {
-            status: 404,
-            data: {
-                msg: "There requested urban record does not exist"
-            },
-            log: `Request completed record ${id} not found`
-        };
+    if (!LICENSE) {
+        throw new ResourceError('The requested urban record does not exist.',
+            'Urban request by ID.',
+            `Request completed record ${id} does not exist.`);
     }
 
     LICENSE = specialDataToJSON(LICENSE);
 
     return {
-        status: 200,
-        data: {
-            license: LICENSE
-        },
-        log: `Request completed record ${LICENSE.id}:${LICENSE.fullInvoice} requested`
-    };
+        license: LICENSE
+    }
 }
 
 export async function requestUrbanLicenseByInvoice(type, invoice, year) {
+    if (isNaN(parseInt(type)) ||
+        isNaN(parseInt(invoice)) ||
+        isNaN(parseInt(year))) {
+        throw new ValidationError('Request failed due to invalid search parameters provided.',
+            'Urban request by full invoice',
+            `Search params /t/${type}/i/${invoice}/y/${year} are invalid.`);
+    }
+
     let LICENSE = await urbanRepo.findUrbanLicenseInvoice(type, invoice, year);
 
-    if (LICENSE == null) {
-        return {
-            status: 404,
-            data: {
-                msg: "There requested urban record does not exist"
-            },
-            log: `Request completed record ${type}/${invoice}/${year} not found`
-        };
+    if (!LICENSE) {
+        throw new ResourceError('The requested urban record does not exist',
+            'Urban request by full invoice',
+            `Search params /t/${type}/i/${invoice}/y/${year} not found.`);
     }
 
     LICENSE = specialDataToJSON(LICENSE);
 
     return {
-        status: 200,
-        data: {
-            license: LICENSE
-        },
-        log: `Request completed record ${LICENSE.id}:${LICENSE.fullInvoice} requested`
-    };
+        license: LICENSE
+    }
 }
 
 export async function requestUrbanLicenseByType(type, year) {
+    if (isNaN(parseInt(type)) ||
+        isNaN(parseInt(year))) {
+        throw new ValidationError('Request failed due to invalid search parameters provided.',
+            'Urban request by type and year',
+            `Search params /t/${type}/y/${year} are invalid.`);
+    }
+
     let LICENSES = await urbanRepo.findUrbanLicenseType(type, year);
 
-    if (LICENSES == null || LICENSES.length == 0) {
-        return {
-            status: 404,
-            data: {
-                msg: "There are no urban records to display"
-            },
-            log: `Request completed no records of type ${type} from ${year}`
-        };
+    if (!LICENSES || LICENSES.length === 0) {
+        throw new ResourceError('The requested records do not exist.',
+            'Urban request by type and year',
+            `Search params /t/${type}/y/${year} not found.`);
     }
 
     LICENSES = specialDataToJSON(LICENSES);
 
     return {
-        status: 200,
-        data: {
-            licenses: LICENSES
-        },
-        log: `Request completed records of type ${type} from ${year} requested`
-    };
+        licenses: LICENSES
+    }
 }
 
 export async function requestUrbanLicenseListByType(type, year) {
+    if (isNaN(parseInt(type)) ||
+        isNaN(parseInt(year))) {
+        throw new ValidationError('Request failed due to invalid search parameters provided.',
+            'Urban request by type and year',
+            `Search params /t/${type}/y/${year} are invalid.`);
+    }
+
     let LICENSES = await urbanRepo.findUrbanLicenseListByType(type, year);
 
-    if (LICENSES == null || LICENSES.length == 0) {
-        return {
-            status: 404,
-            data: {
-                msg: "There are no urban records to display"
-            },
-            log: `Request completed no list of type ${type} from ${year}`
-        };
+    if (!LICENSES || LICENSES.length === 0) {
+        throw new ResourceError('The requested records do not exist.',
+            'Urban list request by type and year',
+            `Search params /t/${type}/y/${year} not found.`);
     }
 
     LICENSES = specialDataToJSON(LICENSES);
 
     return {
-        status: 200,
-        data: {
-            licenses: LICENSES
-        },
-        log: `Request completed list of type ${type} from ${year} requested`
-    };
+        licenses: LICENSES
+    }
 }
 
 export async function requestUrbanLicenseByParameter(parameter, value) {
     if (!urbanValidate.validateParameter(parameter)) {
-        return {
-            status: 400,
-            data: {
-                msg: "Invalid search parameter"
-            },
-            log: `Request not completed due to invalid parameter: ${parameter}`
-        };
+        throw new ValidationError('Request failed due to invalid search parameters provided.',
+            'Urban request by parameter',
+            `Search param ${parameter} is invalid.`);
     }
 
     let LICENSES = await urbanRepo.findUrbanLicenseBy(parameter, value);
 
-    if (LICENSES == null || LICENSES.length == 0) {
-        return {
-            status: 404,
-            data: {
-                msg: "There are no matching result for this search"
-            },
-            log: `Request completed no records where ${parameter} = ${value}`
-        };
+    if (!LICENSES || LICENSES.length === 0) {
+        throw new ResourceError('There are no matching record results results',
+            'Urban request by parameter',
+            `Search by param ${parameter} not found.`);
     }
 
     LICENSES = specialDataToJSON(LICENSES);
 
     return {
-        status: 200,
-        data: {
-            licenses: LICENSES
-        },
-        log: `Request completed records where ${parameter} = ${value}`
-    };
+        licenses: LICENSES
+    }
 }
 
 export async function requestUrbanLicenseCreate(body, files, requestor) {
@@ -260,23 +230,17 @@ export async function requestUrbanLicenseCreate(body, files, requestor) {
     } = body;
 
     if (!licenseType || !requestorName || !georeference || (licenseType == 2 && typeof isFrac === 'undefined')) {
-        return {
-            status: 400,
-            data: {
-                msg: "Unable to create due to missing information"
-            },
-            log: `Request not completed due to missing information`
-        };
+        throw new ValidationError('Request failed due to missing information.',
+            'Urban create request',
+            `Request failed due to missing information.
+            Provided data -> ${JSON.stringify(body)}`);
     }
 
-    if (!await urbanValidate.validateModels({type: licenseType, zone, licenseTerm, validity})) {
-        return {
-            status: 400,
-            data: {
-                msg: "Unable to create due to invalid information provided"
-            },
-            log: `Request not completed due to invalid information`
-        };
+    if (!await urbanValidate.validateModels({ type: licenseType, zone, licenseTerm, validity })) {
+        throw new ValidationError('Request failed due to invalid information.',
+            'Urban create request',
+            `Request failed due to invalid information.
+            Provided data -> License type: ${licenseType}, term: ${licenseTerm}, zone: ${zone}, validity: ${validity}`);
     }
 
     const INVOICE_INFO = await urbanUtils.generateInvoiceInformation(licenseType, YEAR);
@@ -291,7 +255,7 @@ export async function requestUrbanLicenseCreate(body, files, requestor) {
     SPECIAL_DATA.surfacePerLote = surfacePerLote ? surfacePerLote : SPECIAL_DATA.surfacePerLote;
     SPECIAL_DATA.maximumHeight = maximumHeight ? maximumHeight : SPECIAL_DATA.maximumHeight;
     SPECIAL_DATA.levels = levels ? levels : SPECIAL_DATA.levels;
-    SPECIAL_DATA.isFrac = licenseType == 2 ? urbanUtils.parseBool(isFrac,SPECIAL_DATA.isFrac) : undefined;
+    SPECIAL_DATA.isFrac = licenseType == 2 ? urbanUtils.parseBool(isFrac, SPECIAL_DATA.isFrac) : undefined;
 
     //non essential for registration special data
     SPECIAL_DATA.minimalFront = minimalFront ? minimalFront : SPECIAL_DATA.minimalFront;
@@ -342,7 +306,7 @@ export async function requestUrbanLicenseCreate(body, files, requestor) {
         licenseValidity: validity ? validity : null,
         collectionOrder: collectionOrder ? collectionOrder : null,
         paymentDate: paymentDate ? paymentDate : null,
-        billInvoice: billInvoice ? billInvoice :null,
+        billInvoice: billInvoice ? billInvoice : null,
         authorizedQuantity: authorizedQuantity ? authorizedQuantity : null,
         deliveryDate: deliveryDate ? deliveryDate : null,
         receiverName: receiverName,
@@ -352,79 +316,56 @@ export async function requestUrbanLicenseCreate(body, files, requestor) {
 
     if (files.zoneIMG) {
         if (!await urbanValidate.validateFile(files.zoneIMG)) {
-            return {
-                status: 400,
-                data: {
-                    msg: "Error saving files to server, only png files are allowed."
-                },
-                log: `Error saving files in the server due to non PNG file`
-            };
+            throw new ValidationError('Invalid files provided only png files are allowed.',
+                'Urban create request',
+                `Request failed due to invalid files provided.
+            Provided file -> ${files.zoneIMG[0].originalname}`);
         }
 
         if (!await urbanUtils.saveZoneImage(files.zoneIMG, INVOICE_INFO.fullInvoice)) {
-            return {
-                status: 400,
-                data: {
-                    msg: "Error saving files to server"
-                },
-                log: `Error saving files in the server`
-            };
+            throw new FileSystemError('Error saving files to server.',
+                'Urban create request',
+                `Request failed due to unexpected error saving files to server.
+            Provided file -> ${files.zoneIMG[0].originalname}`);
         }
     }
 
     if (files.resumeTables) {
         if (!await urbanValidate.validateFile(files.resumeTables)) {
-            return {
-                status: 400,
-                data: {
-                    msg: "Error saving files to server, only png files are allowed."
-                },
-                log: `Error saving files in the server due to non PNG file`
-            };
+            throw new ValidationError('Invalid files provided only png files are allowed.',
+                'Urban create request',
+                `Request failed due to invalid files provided.
+            Provided files -> ${files.resumeTables.map(file => file.originalname).join(', ')}`);
         }
 
         if (!await urbanUtils.saveLicenseCharts(files.resumeTables, INVOICE_INFO.fullInvoice)) {
-            return {
-                status: 400,
-                data: {
-                    msg: "Error saving files to server"
-                },
-                log: `Error saving files in the server`
-            };
+            throw new FileSystemError('Error saving files to server.',
+                'Urban create request',
+                `Request failed due to unexpected error saving files to server.
+            Provided files -> ${files.resumeTables.map(file => file.originalname).join(', ')}`);
         }
     }
 
     const NEW_LICENSE = await urbanRepo.saveNewUrbanLicense(NEW_LICENSE_DATA);
 
     if (NEW_LICENSE == null) {
-        return {
-            status: 400,
-            data: {
-                msg: "Unable to create, license already exist"
-            },
-            log: `Request not completed, record already exist`
-        };
+        throw new ValidationError('Unable to create, license already exist',
+            'Urban create request',
+            `Request failed due to the record already exist.
+            Existing record details -> fullInvoice: ${INVOICE_INFO.fullInvoice}, invoice: ${INVOICE_INFO.numericInvoice}, licenseType: ${licenseType}, year: ${YEAR}`);
     }
 
     return {
-        status: 200,
-        data: {
-            license: NEW_LICENSE
-        },
-        log: `Request completed records where ${NEW_LICENSE.id}
-            ${NEW_LICENSE.fullInvoice}`
-    };
+        license: NEW_LICENSE
+    }
 }
 
 export async function requestUrbanLicenseUpdate(id, licenseData, files, requestor) {
     if (!isUuid(id)) {
-        return {
-            status: 400,
-            data: {
-                msg: "Request failed due to invalid ID."
-            },
-            log: `Request failed due to invalid ID ${id} invalid.`
-        };
+        throw new ValidationError('Request failed due to invalid ID.',
+            'Urban update request',
+            `Request failed due to ID ${id} is invalid.`
+        );
     }
 
     for (const key in licenseData) {
@@ -441,7 +382,7 @@ export async function requestUrbanLicenseUpdate(id, licenseData, files, requesto
             key !== 'actualAuthorizedFS' &&
             key !== 'representativeAs' &&
             key !== 'PCU') {
-                licenseData[key] = licenseData[key].toLowerCase();
+            licenseData[key] = licenseData[key].toLowerCase();
         }
     }
 
@@ -517,35 +458,25 @@ export async function requestUrbanLicenseUpdate(id, licenseData, files, requesto
     } = licenseData;
 
     if (!requestorName && legalRepresentative && !requestDate && !colony && !catastralKey && !surface && !zone && !expeditionDate && !collectionOrder && !paymentDate && !billInvoice && !authorizedQuantity && !deliveryDate && !receiverName && !validity && !term && !PCU && typeof isFrac === 'undefined' && !representativeAs && !requestorAddress && !buildingAddress && !occupationPercent && !surfacePerLote && !maximumHeight && !levels && !minimalFront && !frontalRestriction && !parkingLots && !usePercent, !authUse && !activity && !actualSituation && !actualAuthorizedFS && !authorizationResume && !households && !documents && !lotes && !manzanas && !conditions && !restrictions && !observations && !donationArea && !privateSurface && !commonSurface && !location && !authorizationFor && !integrity && !detailedUse && !urbanLUS && !urbanCUS && !habitacionalLotes && !totalManzanas && !totalSurface && !totalRelotification && !resultRelotification && !previousInvoice && !previousInvoiceDate && !layout && !pageBreak_1 && !pageBreak_2 && !pageBreak_3 && !pageBreak_4 && !pageBreak_5 && !pageBreak_6 && !pageBreak_7 && !pageBreak_8 && !pageBreak_9 && !pageBreak_10 && !files) {
-        return {
-            status: 400,
-            data: {
-                msg: "Unable to update record due to missing information"
-            },
-            log: `Request not completed due to missing information`
-        };
+        throw new ValidationError('Request failed due to missing information.',
+            'Urban update request',
+            `Request failed due to missing information.
+            Provided data -> ${JSON.stringify(body)}`);
     }
 
-    if (!await urbanValidate.validateModels({zone,term, validity})) {
-        return {
-            status: 400,
-            data: {
-                msg: "Unable to create due to invalid information provided"
-            },
-            log: `Request not completed due to invalid information`
-        };
+    if (!await urbanValidate.validateModels({ zone, term, validity })) {
+        throw new ValidationError('Request failed due to invalid information.',
+            'Urban update request',
+            `Request failed due to invalid information.
+            Provided data -> Term: ${term}, zone: ${zone}, validity: ${validity}`);
     }
 
     const SPECIAL_DATA = await urbanRepo.getLicenseEspecialData(id);
 
-    if (SPECIAL_DATA == null) {
-        return {
-            status: 404,
-            data: {
-                msg: "There requested land use record does not exist"
-            },
-            log: `Request not completed record ${id} not found`
-        };
+    if (!SPECIAL_DATA) {
+        throw new ResourceError('Request failed due to the record to update do not exist.',
+            'Urban update request',
+            `Request failed due to record ${id} does not exist.`);
     }
 
     let newSpecialData = specialDataToJSON(SPECIAL_DATA).licenseSpecialData;
@@ -606,7 +537,7 @@ export async function requestUrbanLicenseUpdate(id, licenseData, files, requesto
 
     newSpecialData.antecedent = newSpecialData.antecedent == '-' ? null : newSpecialData.antecedent;
 
-    const NEW_DATA ={
+    const NEW_DATA = {
         requestDate: requestDate,
         requestorName: requestorName,
         legalRepresentative: legalRepresentative == '-' || representativeAs == '-' ? null : legalRepresentative,
@@ -629,104 +560,71 @@ export async function requestUrbanLicenseUpdate(id, licenseData, files, requesto
 
     if (files.zoneIMG) {
         if (!await urbanValidate.validateFile(files.zoneIMG)) {
-            return {
-                status: 400,
-                data: {
-                    msg: "Error saving files to server, only png files are allowed."
-                },
-                log: `Error saving files in the server due to non PNG file`
-            };
+            throw new ValidationError('Invalid files provided only png files are allowed.',
+                'Urban update request',
+                `Request failed due to invalid files provided.
+            Provided file -> ${files.zoneIMG[0].originalname}`);
         }
 
         if (!await urbanUtils.saveZoneImage(files.zoneIMG, SPECIAL_DATA.fullInvoice)) {
-            return {
-                status: 400,
-                data: {
-                    msg: "Error saving files to server"
-                },
-                log: `Error saving files in the server`
-            };
+            throw new FileSystemError('Error saving files to server.',
+                'Urban update request',
+                `Request failed due to unexpected error saving files to server.
+            Provided file -> ${files.zoneIMG[0].originalname}`);
         }
     }
 
     if (files.resumeTables) {
         if (!await urbanValidate.validateFile(files.resumeTables)) {
-            return {
-                status: 400,
-                data: {
-                    msg: "Error saving files to server, only png files are allowed."
-                },
-                log: `Error saving files in the server due to non PNG file`
-            };
+            throw new ValidationError('Invalid files provided only png files are allowed.',
+                'Urban update request',
+                `Request failed due to invalid files provided.
+            Provided files -> ${files.resumeTables.map(file => file.originalname).join(', ')}`);
         }
 
         if (!await urbanUtils.saveLicenseCharts(files.resumeTables, SPECIAL_DATA.fullInvoice)) {
-            return {
-                status: 400,
-                data: {
-                    msg: "Error saving files to server"
-                },
-                log: `Error saving files in the server`
-            };
+            throw new FileSystemError('Error saving files to server.',
+                'Urban update request',
+                `Request failed due to unexpected error saving files to server.
+            Provided files -> ${files.resumeTables.map(file => file.originalname).join(', ')}`);
         }
     }
-    
+
     const MODIFIED_LICENSE = await urbanRepo.saveUrbanLicense(id, NEW_DATA);
 
     return {
-        status: 200,
-        data: {
-            license: MODIFIED_LICENSE
-        },
-        log: `Request completed record modified ${MODIFIED_LICENSE.id}:${MODIFIED_LICENSE.fullInvoice}`
-    };
+        license: MODIFIED_LICENSE
+    }
 }
 
 export async function requestUrbanLicenseDelete(id) {
     if (!isUuid(id)) {
-        return {
-            status: 400,
-            data: {
-                msg: "Request failed due to invalid ID."
-            },
-            log: `Request failed due to invalid ID ${id} invalid.`
-        };
+        throw new ValidationError('Request failed due to invalid ID.',
+            'Urban delete request',
+            `Request failed due to ID ${id} is invalid.`
+        );
     }
-    
+
     const DELETED_LICENSE = await urbanRepo.deleteUrbanLicense(id);
 
-    if (DELETED_LICENSE == null) {
-        return {
-            status: 404,
-            data: {
-                msg: "There requested urban record does not exist"
-            },
-            log: `Request not completed record ${id} not found`
-        };
+    if (!DELETED_LICENSE) {
+        throw new ResourceError('Request failed due to the record to update do not exist.',
+            'Urban delete request',
+            `Request failed due to record ${id} does not exist.`);
     }
 
     return {
-        status: 200,
-        data: {
-            msg: `User ${DELETED_LICENSE.fullInvoice} deleted successfully.`
-        },
-        log: `Request completed:
-            ID -> ${DELETED_LICENSE.id}
-            Invoice -> ${DELETED_LICENSE.fullInvoice}`
+        msg: `User ${DELETED_LICENSE.fullInvoice} deleted successfully.`
     }
 }
 
 export async function requestPDFDefinition(type, invoice, year) {
     let LICENSE = await urbanRepo.findUrbanLicenseInvoice(type, invoice, year);
 
-    if (LICENSE == null) {
-        return {
-            status: 404,
-            data: {
-                msg: "There requested urban record does not exist"
-            },
-            log: `Request completed record ${type}/${invoice}/${year} not found`
-        };
+    if (!LICENSE) {
+        throw new ResourceError('The requested urban record does not exist',
+            'Urban PDF request',
+            `Search params /t/${type}/i/${invoice}/y/${year} not found.`);
     }
 
     LICENSE = specialDataToJSON(LICENSE);
@@ -764,13 +662,10 @@ export async function requestPDFDefinition(type, invoice, year) {
     }
 
     return {
-        status: 200,
-        data: {
-            fullInvoice: LICENSE.fullInvoice,
-            definition: DEFINITION
-        },
-        log: `Request completed, PDF generated for record ${LICENSE.id}:${LICENSE.fullInvoice}`
-    };
+        ID: LICENSE.public_urban_license_id,
+        fullInvoice: LICENSE.fullInvoice,
+        definition: DEFINITION
+    }
 }
 
 export async function requestInvoiceSet(body) {
@@ -785,33 +680,26 @@ export async function requestInvoiceSet(body) {
         isNaN(parseInt(RLF)) ||
         isNaN(parseInt(CRPC)) ||
         isNaN(parseInt(LUH))) {
-        return {
-            status: 400,
-            data: {
-                msg: "Request failed due to invalid search parameters provided."
-            },
-            log: `Request failed invoice params CUS/${CUS}, LUS/${LUS}, LSUB/${LSUB}, LFUS/${LFUS}, PLF/${PLF}, LF/${LF}, RLF/${RLF}, CRPC/${CRPC}, LUH/${LUH} invalid.`
-        };
+        throw new ValidationError('Request failed due to invalid invoice parameters provided.',
+            'Urban set start invoices request',
+            `Failed due to invalid parameters provided.
+                Provided invoices -> ${JSON.stringify(body)}`
+        );
     }
 
     if (!CUS && !LUS && !LSUB && !LFUS && !PLF && !LF && !RLF && !CRPC && !LUH) {
-        return {
-            status: 400,
-            data: {
-                msg: "Unable to set invoices due to missing information"
-            },
-            log: `Request not completed due to missing information`
-        };
+        throw new ValidationError('Unable to set invoices due to missing information.',
+            'Urban set start invoices request',
+            `Unable to set invoices due to missing information.
+                Provided invoices -> ${JSON.stringify(body)}`
+        );
     }
 
     if (await urbanValidate.existingLicenses()) {
-        return {
-            status: 400,
-            data: {
-                msg: "Unable to set invoices due to there are invoices already registered."
-            },
-            log: `Request not completed due to there are invoices already registered`
-        };
+        throw new ValidationError('Unable to set invoices due to there are invoices already registered.',
+            ' set start invoices request',
+            `Unable to set invoices due to already existing records.`
+        );
     }
 
     for (const key in body) {
@@ -821,47 +709,26 @@ export async function requestInvoiceSet(body) {
     }
 
     return {
-        status: 200,
-        data: {
-            invoices: `CUS: ${CUS}
-                LUS: ${LUS}
-                LSUB: ${LSUB}
-                LFUS: ${LFUS}
-                PLF: ${PLF}
-                LF: ${LF}
-                RLF: ${RLF}
-                CRPC: ${CRPC}
-                LUH: ${LUH}`
-        },
-        log: `Request completed start invoices set:
-            CUS  --> ${CUS}
-            LUS  --> ${LUS}
-            LSUB --> ${LSUB}
-            LFUS --> ${LFUS}
-            PLF  --> ${PLF}
-            LF   --> ${LF}
-            RLF  --> ${RLF}
-            CRPC --> ${CRPC}
-            LUH --> ${LUH}`
-    };
+        invoices: `CUS: ${CUS}
+        LUS: ${LUS}
+        LSUB: ${LSUB}
+        LFUS: ${LFUS}
+        PLF: ${PLF}
+        LF: ${LF}
+        RLF: ${RLF}
+        CRPC: ${CRPC}
+        LUH: ${LUH}`
+    }
 }
 
 export async function requestInvoiceCheck() {
-    if (await urbanValidate.existingLicenses()) {
-        return {
-            status: 200,
-            data: {
-                existing: true
-            },
-            log: `Request completed invoices already registered`
-        };
+    if (!await urbanValidate.existingLicenses()) {
+        throw new ResourceError('No land use record registered.',
+            'Urban invoice check request.',
+            `No land use records registered`);
     }
 
     return {
-        status: 400,
-        data: {
-            existing: false
-        },
-        log: `Request completed no invoices invoices registered`
-    };
+        existing: true
+    }
 }

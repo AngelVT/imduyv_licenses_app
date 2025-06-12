@@ -1,5 +1,6 @@
 import { User, Group, Role } from "../models/Users.models.js";
 import { Op } from "sequelize";
+import { escapeLike } from "../utilities/repository.utilities.js";
 
 const USER_ATTRIBUTES = { exclude: ['user_id','password'] };
 
@@ -39,7 +40,7 @@ export async function findUsersByName(name) {
     return await User.findAll({
         where: {
             name: {
-                [Op.like]: `%${name}%`
+                [Op.iLike]: `%${escapeLike(name)}%`
             }
         },
         attributes: USER_ATTRIBUTES,

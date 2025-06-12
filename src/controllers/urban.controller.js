@@ -3,251 +3,211 @@ import * as logger from '../utilities/logger.utilities.js';
 import { printerPDF } from "../utilities/pdf.utilities.js";
 import * as urbanService from '../services/urban.service.js'
 
-export const getLicenses = async (req, res) => {
-    try {
-
+export const getLicenses = requestHandler(
+    async function (req, res) {
         const response = await urbanService.requestAllUrbanLicenses();
 
-        res.status(response.status).json(response.data);
+        res.status(200).json(response);
 
-        logger.logRequestInfo('User get request completed', 
-        `Requestor Name -> ${req.name}
-        Requestor Username -> ${req.username}
-        Get request -> ${response.log}`);
-    } catch (error) {
-        logger.logConsoleError('All urban records request failed due to server side error', error);
-        logger.logRequestError('All urban records request failed due to server side error', error);
-        res.status(500).json({msg: "Internal server error"});
+        logger.logRequestInfo('Urban all record request completed',
+            `Requestor ID -> ${req.user.uuid}
+        Requestor Name -> ${req.user.name}
+        Requestor Username -> ${req.user.username}
+        Requested records -> All records requested`);
     }
-}
+);
 
-export const getLicense = async (req, res) => {
-    try {
+export const getLicense = requestHandler(
+    async function (req, res) {
         const ID = req.params.licenciaID;
 
         const response = await urbanService.requestUrbanLicenseById(ID);
 
-        res.status(response.status).json(response.data);
+        res.status(200).json(response);
 
-        logger.logRequestInfo('Urban get request completed', 
-        `Requestor Name -> ${req.name}
-        Requestor Username -> ${req.username}
-        Get request -> ${response.log}`);
-    } catch (error) {
-        logger.logConsoleError('Urban record request failed due to server side error', error);
-        logger.logRequestError('Urban record request failed due to server side error', error);
-        res.status(500).json({msg: "Internal server error"});
+        logger.logRequestInfo('Urban request by ID completed',
+            `Requestor ID -> ${req.user.uuid}
+        Requestor Name -> ${req.user.name}
+        Requestor Username -> ${req.user.username}
+        Requested record -> ${ID}:${response.license.fullInvoice} requested`);
     }
-}
+);
 
-export const getLicenseByInvoice = async (req, res) => {
-    try {
+export const getLicenseByInvoice = requestHandler(
+    async function (req, res) {
         const TYPE = req.params.type;
         const INVOICE = req.params.invoice;
         const YEAR = req.params.year;
 
         const response = await urbanService.requestUrbanLicenseByInvoice(TYPE, INVOICE, YEAR);
 
-        res.status(response.status).json(response.data);
+        res.status(200).json(response);
 
-        logger.logRequestInfo('Urban get request completed', 
-        `Requestor Name -> ${req.name}
-        Requestor Username -> ${req.username}
-        Get request -> ${response.log}`);
-    } catch (error) {
-        logger.logConsoleError('Urban record request failed due to server side error', error);
-        logger.logRequestError('Urban record request failed due to server side error', error);
-        res.status(500).json({msg: "Internal server error"});
+        logger.logRequestInfo('Urban request by full invoice completed',
+            `Requestor ID -> ${req.user.uuid}
+        Requestor Name -> ${req.user.name}
+        Requestor Username -> ${req.user.username}
+        Requested record -> ${response.license.public_urban_license_id}:${response.license.fullInvoice} requested`);
     }
-}
+);
 
-export const getLicenseByType = async (req, res) => {
-    try {
+export const getLicenseByType = requestHandler(
+    async function (req, res) {
         const TYPE = req.params.type;
         const YEAR = req.params.year;
 
         const response = await urbanService.requestUrbanLicenseByType(TYPE, YEAR)
 
-        res.status(response.status).json(response.data);
+        res.status(200).json(response);
 
-        logger.logRequestInfo('Urban get request completed', 
-        `Requestor Name -> ${req.name}
-        Requestor Username -> ${req.username}
-        Get request -> ${response.log}`);
-    } catch (error) {
-        logger.logConsoleError('Urban record by type request failed due to server side error', error);
-        logger.logRequestError('Urban record by type request failed due to server side error', error);
-        res.status(500).json({msg: "Internal server error"});
+        logger.logRequestInfo('Urban request by type and year completed',
+            `Requestor ID -> ${req.user.uuid}
+        Requestor Name -> ${req.user.name}
+        Requestor Username -> ${req.user.username}
+        Requested records -> Type ${TYPE} from ${YEAR} requested`);
     }
-}
+);
 
-export const getLicenseListByType = async (req, res) => {
-    try {
+export const getLicenseListByType = requestHandler(
+    async function (req, res) {
+
         const TYPE = req.params.type;
         const YEAR = req.params.year;
 
         const response = await urbanService.requestUrbanLicenseListByType(TYPE, YEAR)
 
-        res.status(response.status).json(response.data);
+        res.status(200).json(response);
 
-        logger.logRequestInfo('Urban get request completed', 
-        `Requestor Name -> ${req.name}
-        Requestor Username -> ${req.username}
-        Get request -> ${response.log}`);
-    } catch (error) {
-        logger.logConsoleError('Urban list by type request failed due to server side error', error);
-        logger.logRequestError('Urban list by type request failed due to server side error', error);
-        res.status(500).json({msg: "Internal server error"});
+        logger.logRequestInfo('Urban list request by type and year completed',
+            `Requestor ID -> ${req.user.uuid}
+        Requestor Name -> ${req.user.name}
+        Requestor Username -> ${req.user.username}
+        Requested record list -> Type ${TYPE} from ${YEAR} requested`);
     }
-}
+);
 
-export const getLicenseBy = async (req, res) => {
-    try {
+export const getLicenseBy = requestHandler(
+    async function (req, res) {
         const PARAMETER = req.params.getByParameter;
         const VALUE = req.params.value;
 
         const response = await urbanService.requestUrbanLicenseByParameter(PARAMETER, VALUE);
 
-        res.status(response.status).json(response.data);
+        res.status(200).json(response);
 
-        logger.logRequestInfo('Urban get request completed', 
-        `Requestor Name -> ${req.name}
-        Requestor Username -> ${req.username}
-        Get request -> ${response.log}`);
-    } catch (error) {
-        logger.logConsoleError('Urban record by attribute request failed due to server side error', error);
-        logger.logRequestError('Urban record by attribute request failed due to server side error', error);
-        res.status(500).json({msg: "Internal server error"});
+        logger.logRequestInfo('Urban request by parameter completed',
+            `Requestor ID -> ${req.user.uuid}
+        Requestor Name -> ${req.user.name}
+        Requestor Username -> ${req.user.username}
+        Requested records -> Records where ${PARAMETER} = ${VALUE}`);
     }
-}
+);
 
-export const createLicense = async (req, res) => {
-    try {
-        const BODY = req.body;
+export const createLicense = requestHandler(
+    async function (req, res) {
+        const DATA = req.body;
         const FILES = req.files;
-        const REQUESTOR = req.name;
+        const REQUESTOR = req.user.name;
 
-        const response = await urbanService.requestUrbanLicenseCreate(BODY, FILES, REQUESTOR);
+        const response = await urbanService.requestUrbanLicenseCreate(DATA, FILES, REQUESTOR);
 
-        res.status(response.status).json(response.data);
+        res.status(200).json(response);
 
-        logger.logRequestInfo('Urban create request completed', 
-        `Requestor Name -> ${req.name}
-        Requestor Username -> ${req.username}
-        Create request -> ${response.log}`);
-    } catch (error) {
-        logger.logConsoleError('Urban create request failed due to server side error', error);
-        logger.logRequestError('Urban create request failed due to server side error', error);
-        res.status(500).json({msg: "Internal server error"});
+        logger.logRequestInfo('Urban create request completed',
+            `Requestor ID -> ${req.user.uuid}
+        Requestor Name -> ${req.user.name}
+        Requestor Username -> ${req.user.username}
+        Requested record creation -> ${response.license.public_urban_license_id}:${response.license.fullInvoice}
+        Data -> ${JSON.stringify(DATA)}`);
     }
-}
+);
 
-export const updateLicense = async (req, res) => {
-    try {
+export const updateLicense = requestHandler(
+    async function (req, res) {
         const ID = req.params.licenciaID;
-        const BODY = req.body;
+        const DATA = req.body;
         const FILES = req.files;
         const REQUESTOR = req.name;
 
-        const response = await urbanService.requestUrbanLicenseUpdate(ID, BODY, FILES, REQUESTOR);
+        const response = await urbanService.requestUrbanLicenseUpdate(ID, DATA, FILES, REQUESTOR);
 
-        res.status(response.status).json(response.data);
+        res.status(200).json(response);
 
-        logger.logRequestInfo('Urban update request completed', 
-        `Requestor Name -> ${req.name}
-        Requestor Username -> ${req.username}
-        Updated -> Record ${response.log}`);
-    } catch (error) {
-        logger.logConsoleError('Urban update request failed due to server side error', error);
-        logger.logRequestError('Urban update request failed due to server side error', error);
-        res.status(500).json({msg: "Internal server error"});
+        logger.logRequestInfo('Urban update request completed',
+            `Requestor ID -> ${req.user.uuid}
+        Requestor Name -> ${req.user.name}
+        Requestor Username -> ${req.user.username}
+        Requested record update -> ${response.license.public_urban_license_id}:${response.license.fullInvoice}
+        Data -> ${JSON.stringify(DATA)}`);
     }
-    
-}
+);
 
-export const deleteLicense = async (req, res) => {
-    try {
+export const deleteLicense = requestHandler(
+    async function (req, res) {
         const ID = req.params.licenciaID;
 
         const response = await urbanService.requestUrbanLicenseDelete(ID);
 
-        res.status(response.status).json(response.data);
+        res.status(200).json(response);
 
-        logger.logRequestInfo('Urban delete request completed', 
-        `Requestor Name -> ${req.name}
-        Requestor Username -> ${req.username}
-        Delete request -> ${response.log}`);
-    } catch (error) {
-        logger.logConsoleError('Urban delete request failed due to server side error', error);
-        logger.logRequestError('Urban delete request failed due to server side error', error);
-        res.status(500).json({msg: "Internal server error"});
+        logger.logRequestInfo('Urban delete request completed',
+            `Requestor ID -> ${req.user.uuid}
+        Requestor Name -> ${req.user.name}
+        Requestor Username -> ${req.user.username}
+        Requested record deletion -> ${ID}:${response.license.fullInvoice}`);
     }
-}
+);
 
-export const getLicensePDF= async (req, res) => {
-    try {
+export const getLicensePDF = requestHandler(
+    async function (req, res) {
         const TYPE = parseInt(req.params.type);
         const INVOICE = parseInt(req.params.invoice);
         const YEAR = parseInt(req.params.year);
 
         const response = await urbanService.requestPDFDefinition(TYPE, INVOICE, YEAR);
 
-        if (!response.data.definition) {
-            return res.status(response.status).json(response.data);
-        }
-
-        const pdfDoc = printerPDF.createPdfKitDocument(response.data.definition);
+        const pdfDoc = printerPDF.createPdfKitDocument(response.definition);
 
         res.setHeader('Content-Type', 'application/pdf');
-        pdfDoc.info.Title = response.data.fullInvoice;
+        pdfDoc.info.Title = response.fullInvoice;
         pdfDoc.pipe(res);
         pdfDoc.end();
 
-        logger.logRequestInfo('Urban get PDF request completed', 
-        `Requestor Name -> ${req.name}
-        Requestor Username -> ${req.username}
-        PDF request -> ${response.log}`);
-    } catch (error) {
-        logger.logConsoleError('Urban get PDF request failed due to server side error', error);
-        logger.logRequestError('Urban get PDF request failed due to server side error', error);
-        res.status(500).json({msg: "Internal server error"});
+        logger.logRequestInfo('Urban PDF request completed',
+            `Requestor ID -> ${req.user.uuid}
+        Requestor Name -> ${req.user.name}
+        Requestor Username -> ${req.user.username}
+        Requested PDF record -> ${response.ID}:${response.fullInvoice}`);
     }
-}
+);
 
-export const setLicenseStartInvoices = async (req, res) => {
-    try {
-        const BODY = req.body;
+export const setLicenseStartInvoices = requestHandler(
+    async function (req, res) {
+        const DATA = req.body;
 
-        const response = await urbanService.requestInvoiceSet(BODY);
+        const response = await urbanService.requestInvoiceSet(DATA);
 
-        res.status(response.status).json(response.data);
+        res.status(200).json(response);
 
-        logger.logRequestInfo('Urban start invoices set request completed', 
-        `Requestor ID -> ${req.userID}
-        Requestor Name -> ${req.name}
-        Requestor Username -> ${req.username}
-        Delete Request -> ${response.log}`);
-    } catch (error) {
-        logger.logConsoleError('Urban start invoices request failed due to server side error', error);
-        logger.logRequestError('Urban start invoices request failed due to server side error', error);
-        res.status(500).json({msg: "Internal server error"});
+        logger.logRequestInfo('Urban start invoices set request completed',
+            `Requestor ID -> ${req.user.uuid}
+        Requestor Name -> ${req.user.name}
+        Requestor Username -> ${req.user.username}
+        Set start invoices request -> Registered invoices
+        ${response.invoices}`);
     }
-}
+);
 
-export const checkInvoices = async (req, res) => {
-    try {
+export const checkInvoices = requestHandler(
+    async function (req, res) {
         const response = await urbanService.requestInvoiceCheck();
 
-        res.status(response.status).json(response.data);
+        res.status(200).json(response);
 
-        logger.logRequestInfo('Urban invoice check completed', 
-        `Requestor ID -> ${req.userID}
-        Requestor Name -> ${req.name}
-        Requestor Username -> ${req.username}
-        Get requested -> ${response.log}`);
-    } catch (error) {
-        logger.logConsoleError('Urban check invoice request failed due to server side error', error);
-        logger.logRequestError('Urban check invoice request failed due to server side error', error);
-        res.status(500).json({msg: "Internal server error"});
+        logger.logRequestInfo('Urban invoice check completed',
+            `Requestor ID -> ${req.user.uuid}
+        Requestor Name -> ${req.user.name}
+        Requestor Username -> ${req.user.username}
+        Urban invoice check request -> Urban records found`);
     }
-}
+);

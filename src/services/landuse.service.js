@@ -186,7 +186,7 @@ export async function requestLandLicenseCreate(body, file, requestor) {
         throw new ValidationError('Request failed due to missing information.',
             'Land use create request',
             `Request failed due to missing information.
-            Provided data -> ${body}`);
+            Provided data -> ${JSON.stringify(body)}`);
     }
 
     if (!await landValidate.validateModels({ type: licenseType, term, zone, authorizedUse, validity, expeditionType })) {
@@ -332,7 +332,7 @@ export async function requestLandLicenseUpdate(id, licenseData, file, requestor)
 
     const SPECIAL_DATA = await landRepo.getLicenseEspecialData(id);
 
-    if (SPECIAL_DATA == null) {
+    if (!SPECIAL_DATA) {
         throw new ResourceError('Request failed due to the record to update do not exist.',
             'Land use update request',
             `Request failed due to record ${id} does not exist.`);
@@ -476,7 +476,7 @@ export async function requestInvoiceSet(body) {
         throw new ValidationError('Request failed due to invalid invoice parameters provided.',
             'Land use set start invoices request',
             `Failed due to invalid parameters provided.
-                Provided invoices ->${body}`
+                Provided invoices -> ${JSON.stringify(body)}`
         );
     }
 
@@ -484,7 +484,7 @@ export async function requestInvoiceSet(body) {
         throw new ValidationError('Unable to set invoices due to missing information.',
             'Land use set start invoices request',
             `Unable to set invoices due to missing information.
-                Provided invoices ->${body}`
+                Provided invoices -> ${JSON.stringify(body)}`
         );
     }
 
@@ -502,7 +502,12 @@ export async function requestInvoiceSet(body) {
     }
 
     return {
-        invoices: `C: ${C}\nDP: ${DP}\nLC: ${LC}\nLI: ${LI}\nLS: ${LS}\nSEG: ${SEG}`
+        invoices: `C: ${C}
+        DP: ${DP}
+        LC: ${LC}
+        LI: ${LI}
+        LS: ${LS}
+        SEG: ${SEG}`
     }
 }
 
