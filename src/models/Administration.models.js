@@ -8,6 +8,11 @@ export const MunicipalAdministration = pool.define(
         autoIncrement: true,
         primaryKey: true
     },
+    municipal_administration_uuid: {
+        type: DataTypes.UUID,
+        defaultValue: DataTypes.UUIDV4,
+        unique: true
+    },
     municipalPresident: {
         type: DataTypes.STRING,
         allowNull: false
@@ -33,6 +38,11 @@ export const InstituteAdministration = pool.define(
         type: DataTypes.INTEGER,
         autoIncrement: true,
         primaryKey: true
+    },
+    institute_administration_uuid: {
+        type: DataTypes.UUID,
+        defaultValue: DataTypes.UUIDV4,
+        unique: true
     },
     directorName: {
         type: DataTypes.STRING,
@@ -68,6 +78,11 @@ export const LicensesAdministration = pool.define(
         autoIncrement: true,
         primaryKey: true
     },
+    licenses_administration_uuid: {
+        type: DataTypes.UUID,
+        defaultValue: DataTypes.UUIDV4,
+        unique: true
+    },
     directorName: {
         type: DataTypes.STRING,
         allowNull: false
@@ -93,6 +108,11 @@ export const YearOf = pool.define(
         type: DataTypes.INTEGER,
         autoIncrement: true,
         primaryKey: true
+    },
+    year_legend_uuid: {
+        type: DataTypes.UUID,
+        defaultValue: DataTypes.UUIDV4,
+        unique: true
     },
     year: {
         type: DataTypes.INTEGER,

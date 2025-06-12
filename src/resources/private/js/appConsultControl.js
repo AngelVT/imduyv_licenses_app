@@ -151,7 +151,7 @@ function createResultPeriodTop(obj, periodType) {
 
     topLabel.setAttribute('class', `color-white txt-bold w-100 txt-center result-label`);
 
-    topLabel.setAttribute('onclick', `hideShowPeriod(${obj.id}, '${periodType}')`);
+    topLabel.setAttribute('onclick', `hideShowPeriod('${obj.id}', '${periodType}')`);
 
     topLabel.innerText = 'Periodo: ';
     span = document.createElement('span');
@@ -174,7 +174,7 @@ function createResultYearLegendTop(obj, periodType) {
 
     topLabel.setAttribute('class', `color-white txt-bold w-100 txt-center result-label`);
 
-    topLabel.setAttribute('onclick', `hideShowPeriod(${obj.id}, '${periodType}')`);
+    topLabel.setAttribute('onclick', `hideShowPeriod('${obj.id}', '${periodType}')`);
 
     topLabel.innerText = 'Leyenda: ';
     span = document.createElement('span');
@@ -291,7 +291,7 @@ function createResultPeriodField(id, tag, name, value, type, url, periodType) {
     let input;
     let span;
 
-    field.setAttribute('onsubmit', `updateResultField(this, ${id}, '${url}', '${periodType}'); return false`);
+    field.setAttribute('onsubmit', `updateResultField(this, '${id}', '${url}', '${periodType}'); return false`);
     field.setAttribute('class', 'w-30 margin-bottom-small');
 
     label.innerText = tag + ':';

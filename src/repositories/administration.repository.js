@@ -10,7 +10,10 @@ export async function findAllMunicipalPeriods() {
 }
 
 export async function findMunicipalPeriodById(id) {
-    return await MunicipalAdministration.findByPk(id, {
+    return await MunicipalAdministration.findOne({
+        where: { 
+            municipal_administration_uuid: id
+        },
         raw: true,
         nest: true
     });
@@ -35,7 +38,11 @@ export async function saveNewMunicipalPeriod(newPeriod) {
 }
 
 export async function saveMunicipalPeriod(id, newData) {
-    const MODIFIED_PERIOD = await MunicipalAdministration.findByPk(id);
+    const MODIFIED_PERIOD = await MunicipalAdministration.findOne({
+        where: {
+            municipal_administration_uuid: id
+        }
+    });
     
     if(MODIFIED_PERIOD == null)
         return null;
@@ -46,7 +53,11 @@ export async function saveMunicipalPeriod(id, newData) {
 }
 
 export async function deleteMunicipalPeriod(id) {
-    const DELETED_PERIOD = await MunicipalAdministration.findByPk(id);
+    const DELETED_PERIOD = await MunicipalAdministration.findOne({
+        where: {
+            municipal_administration_uuid: id
+        }
+    });
 
     if(DELETED_PERIOD == null)
         return null
@@ -80,7 +91,7 @@ export async function verifyNewMunicipalPeriod(id, start, end) {
                     administrationStart: { [Op.lte]: end }
                 },
                 {
-                    id: { [Op.not]: id } 
+                    municipal_administration_uuid: { [Op.not]: id } 
                 }
             ]
         }
@@ -102,7 +113,10 @@ export async function findAllInstitutePeriods() {
 }
 
 export async function findInstitutePeriodById(id) {
-    return await InstituteAdministration.findByPk(id, {
+    return await InstituteAdministration.findOne({
+        where: {
+            institute_administration_uuid: id
+        },
         raw: true,
         nest: true
     });
@@ -127,7 +141,11 @@ export async function saveNewInstitutePeriod(newPeriod) {
 }
 
 export async function saveInstitutePeriod(id, newData) {
-    const MODIFIED_PERIOD = await InstituteAdministration.findByPk(id);
+    const MODIFIED_PERIOD = await InstituteAdministration.findOne({
+        where: {
+            institute_administration_uuid: id
+        }
+    });
     
     if(MODIFIED_PERIOD == null)
         return null;
@@ -138,7 +156,11 @@ export async function saveInstitutePeriod(id, newData) {
 }
 
 export async function deleteInstitutePeriod(id) {
-    const DELETED_PERIOD = await InstituteAdministration.findByPk(id);
+    const DELETED_PERIOD = await InstituteAdministration.findOne({
+        where: {
+            institute_administration_uuid: id
+        }
+    });
 
     if(DELETED_PERIOD == null)
         return null
@@ -172,7 +194,7 @@ export async function verifyNewInstitutePeriod(id, start, end) {
                     administrationStart: { [Op.lte]: end }
                 },
                 {
-                    id: { [Op.not]: id } 
+                    institute_administration_uuid: { [Op.not]: id } 
                 }
             ]
         }
@@ -194,7 +216,10 @@ export async function findAllLicensesPeriods() {
 }
 
 export async function findLicensesPeriodById(id) {
-    return await LicensesAdministration.findByPk(id, {
+    return await LicensesAdministration.findOne({
+        where: {
+            licenses_administration_uuid: id
+        },
         raw: true,
         nest: true
     });
@@ -219,7 +244,11 @@ export async function saveNewLicensesPeriod(newPeriod) {
 }
 
 export async function saveLicensesPeriod(id, newData) {
-    const MODIFIED_PERIOD = await LicensesAdministration.findByPk(id);
+    const MODIFIED_PERIOD = await LicensesAdministration.findOne({
+        where: {
+            licenses_administration_uuid: id
+        }
+    });
     
     if(MODIFIED_PERIOD == null)
         return null;
@@ -230,7 +259,11 @@ export async function saveLicensesPeriod(id, newData) {
 }
 
 export async function deleteLicensesPeriod(id) {
-    const DELETED_PERIOD = await LicensesAdministration.findByPk(id);
+    const DELETED_PERIOD = await LicensesAdministration.findOne({
+        where: {
+            licenses_administration_uuid: id
+        }
+    });
 
     if(DELETED_PERIOD == null)
         return null
@@ -264,7 +297,7 @@ export async function verifyNewLicensesPeriod(id, start, end) {
                     administrationStart: { [Op.lte]: end }
                 },
                 {
-                    id: { [Op.not]: id } 
+                    licenses_administration_uuid: { [Op.not]: id } 
                 }
             ]
         }
@@ -286,7 +319,10 @@ export async function findAllYearLegends() {
 }
 
 export async function findYearLegendById(id) {
-    return await YearOf.findByPk(id, {
+    return await YearOf.findOne({
+        where: {
+            year_legend_uuid: id
+        },
         raw: true,
         nest: true
     });
@@ -319,7 +355,11 @@ export async function saveNewYearLegend(year, yearLegend) {
 }
 
 export async function saveYearLegend(id, yearLegend) {
-    const MODIFIED_LEGEND = await YearOf.findByPk(id);
+    const MODIFIED_LEGEND = await YearOf.findOne({
+        where: {
+            year_legend_uuid: id
+        }
+    });
     
     if(MODIFIED_LEGEND == null)
         return null;
@@ -332,7 +372,11 @@ export async function saveYearLegend(id, yearLegend) {
 }
 
 export async function deleteYearLegend(id) {
-    const DELETED_LEGEND = await YearOf.findByPk(id);
+    const DELETED_LEGEND = await YearOf.findOne({
+        where: {
+            year_legend_uuid: id
+        }
+    });
 
     if(DELETED_LEGEND == null)
         return null

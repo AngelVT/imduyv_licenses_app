@@ -200,6 +200,7 @@ async function updateResultField(form, id, url, periodType) {
 
 // * -----------------------------------------------------------------------------------
 function createMunicipalResult(resObj, target) {
+    resObj.id = resObj.municipal_administration_uuid;
     let resultContent = generateMunicipalFields(resObj, createResultPeriodContent(resObj.id, 'municipal'));
 
     let newResult = createResult(
@@ -227,6 +228,7 @@ function generateMunicipalFields(resObj, resultContent) {
 
 // * -----------------------------------------------------------------------------------
 function createInstituteResult(resObj, target) {
+    resObj.id = resObj.institute_administration_uuid;
     let resultContent = generateInstituteFields(resObj, createResultPeriodContent(resObj.id, 'institute'));
 
     let newResult = createResult(
@@ -260,6 +262,7 @@ function generateInstituteFields(resObj, resultContent) {
 
 // * -----------------------------------------------------------------------------------
 function createLicenseResult(resObj, target) {
+    resObj.id = resObj.licenses_administration_uuid;
     let resultContent = generateLicenseFields(resObj, createResultPeriodContent(resObj.id, 'license'));
 
     let newResult = createResult(
@@ -287,6 +290,7 @@ function generateLicenseFields(resObj, resultContent) {
 
 // * -----------------------------------------------------------------------------------
 function createYearLegendResult(resObj, target) {
+    resObj.id = resObj.year_legend_uuid;
     let resultContent = generateYearLegendFields(resObj, createResultPeriodContent(resObj.id, 'year_legend'));
 
     let newResult = createResult(

@@ -35,7 +35,7 @@ export async function requestMunicipalPeriod(id) {
             period: PERIOD
         },
         log: `Request completed: 
-            Requested period -> ${PERIOD.id}
+            Requested period -> ${PERIOD.municipal_administration_uuid}
             Period Start -> ${PERIOD.administrationStart}
             Period End -> ${PERIOD.administrationEnd}`
     }
@@ -223,7 +223,7 @@ export async function requestMunicipalPeriodUpdate(id, body) {
             period: MODIFIED_PERIOD
         },
         log: `Request completed, period modified:
-            Id -> ${MODIFIED_PERIOD.id}
+            Id -> ${MODIFIED_PERIOD.municipal_administration_uuid}
             President -> ${MODIFIED_PERIOD.municipalPresident}
             Period Start -> ${MODIFIED_PERIOD.administrationStart}
             Period End -> ${MODIFIED_PERIOD.administrationEnd}`
@@ -260,7 +260,7 @@ export async function requestMunicipalPeriodDelete(id) {
             msg: `Period ${DELETED_PERIOD.administrationStart} - ${DELETED_PERIOD.administrationEnd} deleted successfully`
         },
         log:`Request completed, period deleted:
-            Id -> ${DELETED_PERIOD.id}
+            Id -> ${DELETED_PERIOD.municipal_administration_uuid}
             President -> ${DELETED_PERIOD.municipalPresident}
             Period Start -> ${DELETED_PERIOD.administrationStart}
             Period End -> ${DELETED_PERIOD.administrationEnd}`
@@ -298,7 +298,7 @@ export async function requestInstitutePeriod(id) {
             period: PERIOD
         },
         log: `Request completed: 
-            Requested period -> ${PERIOD.id}
+            Requested period -> ${PERIOD.institute_administration_uuid}
             Period Start -> ${PERIOD.administrationStart}
             Period End -> ${PERIOD.administrationEnd}`
     }
@@ -381,7 +381,7 @@ export async function requestInstitutePeriodCreate(body) {
             period: NEW_PERIOD
         },
         log: `New municipal period created:
-            Id -> ${NEW_PERIOD.id}
+            Id -> ${NEW_PERIOD.institute_administration_uuid}
             Director -> ${NEW_PERIOD.directorName}
             Director Title -> ${NEW_PERIOD.directorTittle}
             Period Start -> ${NEW_PERIOD.administrationStart}
@@ -487,7 +487,7 @@ export async function requestInstitutePeriodUpdate(id, body) {
             period: MODIFIED_PERIOD
         },
         log: `Request completed, period modified:
-            Id -> ${MODIFIED_PERIOD.id}
+            Id -> ${MODIFIED_PERIOD.institute_administration_uuid}
             Director -> ${MODIFIED_PERIOD.directorName}
             Director Title -> ${MODIFIED_PERIOD.directorTittle}
             Period Start -> ${MODIFIED_PERIOD.administrationStart}
@@ -525,7 +525,7 @@ export async function requestInstitutePeriodDelete(id) {
             msg: `Period ${DELETED_PERIOD.administrationStart} - ${DELETED_PERIOD.administrationEnd} deleted successfully`
         },
         log:`Request completed, period deleted:
-            Id -> ${DELETED_PERIOD.id}
+            Id -> ${DELETED_PERIOD.institute_administration_uuid}
             Director -> ${DELETED_PERIOD.directorName}
             Director Title -> ${DELETED_PERIOD.directorTittle}
             Period Start -> ${DELETED_PERIOD.administrationStart}
@@ -564,7 +564,7 @@ export async function requestLicensesPeriod(id) {
             period: PERIOD
         },
         log: `Request completed: 
-            Requested period -> ${PERIOD.id}
+            Requested period -> ${PERIOD.licenses_administration_uuid}
             Period Start -> ${PERIOD.administrationStart}
             Period End -> ${PERIOD.administrationEnd}`
     }
@@ -647,7 +647,7 @@ export async function requestLicensesPeriodCreate(body) {
             period: NEW_PERIOD
         },
         log: `New municipal period created:
-            Id -> ${NEW_PERIOD.id}
+            Id -> ${NEW_PERIOD.licenses_administration_uuid}
             President -> ${NEW_PERIOD.directorName}
             Period Start -> ${NEW_PERIOD.administrationStart}
             Period End -> ${NEW_PERIOD.administrationEnd}`
@@ -752,7 +752,7 @@ export async function requestLicensesPeriodUpdate(id, body) {
             period: MODIFIED_PERIOD
         },
         log: `Request completed, period modified:
-            Id -> ${MODIFIED_PERIOD.id}
+            Id -> ${MODIFIED_PERIOD.licenses_administration_uuid}
             President -> ${MODIFIED_PERIOD.directorName}
             Period Start -> ${MODIFIED_PERIOD.administrationStart}
             Period End -> ${MODIFIED_PERIOD.administrationEnd}`
@@ -789,7 +789,7 @@ export async function requestLicensesPeriodDelete(id) {
             msg: `Period ${DELETED_PERIOD.administrationStart} - ${DELETED_PERIOD.administrationEnd} deleted successfully`
         },
         log:`Request completed, period deleted:
-            Id -> ${DELETED_PERIOD.id}
+            Id -> ${DELETED_PERIOD.licenses_administration_uuid}
             President -> ${DELETED_PERIOD.directorName}
             Period Start -> ${DELETED_PERIOD.administrationStart}
             Period End -> ${DELETED_PERIOD.administrationEnd}`
@@ -827,7 +827,7 @@ export async function requestYearLegend(id) {
             legend: LEGEND
         },
         log: `Request completed: 
-            Requested legend -> ${LEGEND.id}
+            Requested legend -> ${LEGEND.year_legend_uuid}
             Legend -> "${LEGEND.year}, ${LEGEND.year_legend}"`
     }
 }
@@ -887,7 +887,7 @@ export async function requestYearLegendCreate(body) {
             legend: NEW_LEGEND
         },
         log: `New  year legend created:
-            Id -> ${NEW_LEGEND.id}
+            Id -> ${NEW_LEGEND.year_legend_uuid}
             Legend -> ${NEW_LEGEND.year}, ${NEW_LEGEND.year_legend}`
     }
 }
@@ -934,7 +934,7 @@ export async function requestYearLegendUpdate(id, body) {
             legend: MODIFIED_LEGEND
         },
         log: `Request completed, period modified:
-            Id -> ${MODIFIED_LEGEND.id}
+            Id -> ${MODIFIED_LEGEND.year_legend_uuid}
             Legend -> "${MODIFIED_LEGEND.year}, ${MODIFIED_LEGEND.year_legend}"`
     }
 }
@@ -969,7 +969,7 @@ export async function requestYearLegendDelete(id) {
             msg: `Year legend "${DELETED_LEGEND.year}, ${DELETED_LEGEND.year_legend}" deleted successfully`
         },
         log:`Request completed, year legend deleted:
-            Id -> ${DELETED_LEGEND.id}
+            Id -> ${DELETED_LEGEND.year_legend_uuid}
             Year Legend -> "${DELETED_LEGEND.year}, ${DELETED_LEGEND.year_legend}"`
     }
 }
