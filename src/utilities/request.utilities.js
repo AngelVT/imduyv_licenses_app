@@ -26,8 +26,10 @@ export function requestHandler(requestFn) {
             }
 
             logger.logConsoleError("Error during request", error);
-            logger.logServerError('Unknown error', error);
-            return res.status(500).json({ msg: "Unknown server error" });
+            logger.logServerError('Unexpected error', error);
+            if (!res.headersSent) {
+                return res.status(500).json({ msg: "Unknown server error" });
+            }
         }
     }
 }

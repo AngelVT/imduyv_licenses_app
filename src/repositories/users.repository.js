@@ -151,7 +151,7 @@ export async function userInfo(id) {
 export async function getGroupName(group) {
     const GROUP = await Group.findByPk(group, { raw: true});
 
-    if (GROUP == null) {
+    if (GROUP === null) {
         return 'invalid'
     }
 

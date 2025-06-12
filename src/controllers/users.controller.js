@@ -3,187 +3,162 @@ import * as logger from "../utilities/logger.utilities.js";
 import * as userService from '../services/user.service.js';
 import { printerPDF } from "../utilities/pdf.utilities.js";
 
-export const getUsers = async (req, res) => {
-    try {
+export const getUsers = requestHandler(
+    async function (req, res) {
         const response = await userService.requestAllUsers();
 
-        res.status(response.status).json(response.data);
+        res.status(200).json(response);
 
-        logger.logRequestInfo('User get request completed', 
-        `Requestor ID -> ${req.userID}
-        Requestor Name -> ${req.name}
-        Requestor Username -> ${req.username}
-        Get request -> ${response.log}`);
-    } catch (error) {
-        logger.logConsoleError('User all records request failed due to server side error', error);
-        logger.logRequestError('User all records request failed due to server side error', error);
-        res.status(500).json({msg: "Internal server error"});
+        logger.logRequestInfo('User get request completed',
+            `Requestor ID -> ${req.user.uuid}
+        Requestor Name -> ${req.user.name}
+        Requestor Username -> ${req.user.username}
+        User request -> All users requested`);
     }
-}
+);
 
-export const getUser = async (req, res) => {
-    try {
-        const response = await userService.requestUser(req.params.userID);
+export const getUser = requestHandler(
+    async function (req, res) {
+        const id = req.params.userID;
 
-        res.status(response.status).json(response.data);
+        const response = await userService.requestUser(id);
 
-        logger.logRequestInfo('User get request completed', 
-        `Requestor ID -> ${req.userID}
-        Requestor Name -> ${req.name}
-        Requestor Username -> ${req.username}
-        Get request -> ${response.log}`);
-    } catch (error) {
-        logger.logConsoleError('User record request failed due to server side error', error);
-        logger.logRequestError('User record request failed due to server side error', error);
-        res.status(500).json({msg: "Internal server error"});
+        res.status(200).json(response);
+
+        logger.logRequestInfo('User get request completed',
+            `Requestor ID -> ${req.user.uuid}
+        Requestor Name -> ${req.user.name}
+        Requestor Username -> ${req.user.username}
+        Requested record -> ${id}:${response.user.username}`);
     }
-}
+);
 
-export const getUserByName = async (req, res) => {
-    try {
-        const response = await userService.requestUserByName(req.params.name);
+export const getUserByName = requestHandler(
+    async function (req, res) {
+        const name = decodeURIComponent(req.params.name);
 
-        res.status(response.status).json(response.data);
+        const response = await userService.requestUserByName(name);
 
-        logger.logRequestInfo('User get request completed', 
-        `Requestor ID -> ${req.userID}
-        Requestor Name -> ${req.name}
-        Requestor Username -> ${req.username}
-        Get request -> ${response.log}`);
-    } catch (error) {
-        logger.logConsoleError('User record request failed due to server side error', error);
-        logger.logRequestError('User record request failed due to server side error', error);
-        res.status(500).json({msg: "Internal server error"});
+        res.status(200).json(response);
+
+        logger.logRequestInfo('User get request completed',
+            `Requestor ID -> ${req.user.uuid}
+        Requestor Name -> ${req.user.name}
+        Requestor Username -> ${req.user.username}
+        Requested records -> Where name is like ${name}`);
     }
-}
+);
 
-export const getUserByUsername = async (req, res) => {
-    try {
-        const response = await userService.requestUserByUsername(req.params.username);
+export const getUserByUsername = requestHandler(
+    async function (req, res) {
+        const username = decodeURIComponent(req.params.username);
 
-        res.status(response.status).json(response.data);
+        const response = await userService.requestUserByUsername(username);
 
-        logger.logRequestInfo('User get request completed', 
-        `Requestor ID -> ${req.userID}
-        Requestor Name -> ${req.name}
-        Requestor Username -> ${req.username}
-        Get request -> ${response.log}`);
-    } catch (error) {
-        logger.logConsoleError('User record request failed due to server side error', error);
-        logger.logRequestError('User record request failed due to server side error', error);
-        res.status(500).json({msg: "Internal server error"});
+        res.status(200).json(response);
+
+        logger.logRequestInfo('User get request completed',
+            `Requestor ID -> ${req.user.uuid}
+        Requestor Name -> ${req.user.name}
+        Requestor Username -> ${req.user.username}
+        Requested record -> ${response.user.public_user_id}:${username}`);
     }
-}
+);
 
-export const getUserByGroup = async (req, res) => {
-    try {
-        const response = await userService.requestUserByGroup(req.params.group);
+export const getUserByGroup = requestHandler(
+    async function (req, res) {
+        const group = req.params.group;
 
-        res.status(response.status).json(response.data);
+        const response = await userService.requestUserByGroup(group);
 
-        logger.logRequestInfo('User get request completed', 
-        `Requestor ID -> ${req.userID}
-        Requestor Name -> ${req.name}
-        Requestor Username -> ${req.username}
-        Get request -> ${response.log}`);
-    } catch (error) {
-        logger.logConsoleError('User record request failed due to server side error', error);
-        logger.logRequestError('User record request failed due to server side error', error);
-        res.status(500).json({msg: "Internal server error"});
+        res.status(200).json(response);
+
+        logger.logRequestInfo('User get request completed',
+            `Requestor ID -> ${req.user.uuid}
+        Requestor Name -> ${req.user.name}
+        Requestor Username -> ${req.user.username}
+        Requested records -> Users of group ${group}`);
     }
-}
+);
 
-export const createUser = async (req, res) => {
-    try {
-        const response = await userService.requestUserCreation(req.body);
+export const createUser = requestHandler(
+    async function (req, res) {
+        const data = req.body;
 
-        res.status(response.status).json(response.data);
-        
-        logger.logRequestInfo('User create request completed', 
-        `Requestor ID -> ${req.userID}
-        Requestor Name -> ${req.name}
-        Requestor Username -> ${req.username}
-        Create Request -> ${response.log}`);
-    } catch (error) {
-        logger.logConsoleError('User record create request failed due to server side error', error);
-        logger.logRequestError('User record create request failed due to server side error', error);
-        res.status(500).json({msg: "Internal server error"});
+        const response = await userService.requestUserCreation(data);
+
+        res.status(200).json(response);
+
+        logger.logRequestInfo('User create request completed',
+            `Requestor ID -> ${req.user.uuid}
+        Requestor Name -> ${req.user.name}
+        Requestor Username -> ${req.user.username}
+        Requested record creation -> ${response.user.public_user_id}:${response.user.username}
+        Data -> ${JSON.stringify(data)}`);
     }
-}
+);
 
-export const updateUser = async (req, res) => {
-    try {
-        const response = await userService.requestUserModification(req.params.userID, req.body);
+export const updateUser = requestHandler(
+    async function (req, res) {
+        const id = req.params.userID;
+        const data = req.body;
 
-        res.status(response.status).json(response.data);
+        const response = await userService.requestUserModification(id, data);
 
-        logger.logRequestInfo('User update request completed', 
-        `Requestor ID -> ${req.userID}
-        Requestor Name -> ${req.name}
-        Requestor Username -> ${req.username}
-        Update request -> ${response.log}`);
-    } catch (error) {
-        logger.logConsoleError('User record update request failed due to server side error', error);
-        logger.logRequestError('User record update request failed due to server side error', error);
-        res.status(500).json({msg: "Internal server error"});
+        res.status(200).json(response);
+
+        logger.logRequestInfo('User update request completed',
+            `Requestor ID -> ${req.user.uuid}
+        Requestor Name -> ${req.user.name}
+        Requestor Username -> ${req.user.username}
+        Requested record update -> ${id}:${response.user.username}
+        Data -> ${JSON.stringify(data)}`);
     }
-}
+);
 
-export const deleteUser = async (req, res) => {
-    try {
-        const response = await userService.requestUserDeletion(req.params.userID);
+export const deleteUser = requestHandler(
+    async function (req, res) {
+        const id = req.params.userID;
 
-        res.status(response.status).json(response.data);
+        const response = await userService.requestUserDeletion(id);
 
-        logger.logRequestInfo('User delete request completed', 
-        `Requestor ID -> ${req.userID}
-        Requestor Name -> ${req.name}
-        Requestor Username -> ${req.username}
-        Delete request -> ${response.log}`);
-    } catch (error) {
-        logger.logConsoleError('User record delete request failed due to server side error', error);
-        logger.logRequestError('User record delete request failed due to server side error', error);
-        res.status(500).json({msg: "Internal server error"});
+        res.status(200).json(response.data);
+
+        logger.logRequestInfo('User delete request completed',
+            `Requestor ID -> ${req.user.uuid}
+        Requestor Name -> ${req.user.name}
+        Requestor Username -> ${req.user.username}
+        Requested record deletion -> ${id}:${response.user.username}`);
     }
-}
+);
 
-export const getUserQR = async (req, res) => {
-    try {
-        const response = await userService.requestUserQR(req.params.QR);
+export const getUserQR = requestHandler(
+    async function (req, res) {
+        const QRtoken = req.params.QR;
 
-        if (response.data.def) {
-            const pdfDoc = printerPDF.createPdfKitDocument(response.data.def);
+        const response = await userService.requestUserQR(QRtoken);
 
-            res.setHeader('Content-Type', 'application/pdf');
-            res.setHeader('Content-Disposition', `attachment; filename="${response.data.user}.pdf"`);
-        
-            pdfDoc.info.Title = 'User QR';
-            pdfDoc.pipe(res);
-            pdfDoc.end();
-        } else {
-            res.status(response.status).json(response.data);
-        }
+        const pdfDoc = printerPDF.createPdfKitDocument(response.definition);
 
-        logger.logRequestInfo('User QR request completed', 
-        `Requestor ID -> ${req.userID}
-        Requestor Name -> ${req.name}
-        Requestor Username -> ${req.username}
-        QR request -> ${response.log}`);
-    } catch (error) {
-        logger.logConsoleError('User QR request failed due to server side error', error);
-        logger.logRequestError('User QR request failed due to server side error', error);
-        res.status(500).json({msg: "Internal server error"});
+        res.setHeader('Content-Type', 'application/pdf');
+        res.setHeader('Content-Disposition', `attachment; filename="${response.user}.pdf"`);
+
+        pdfDoc.info.Title = 'User QR';
+        pdfDoc.pipe(res);
+        pdfDoc.end();
+
+        logger.logRequestInfo('User QR request completed',
+            `Requestor ID -> ${req.user.uuid}
+        Requestor Name -> ${req.user.name}
+        Requestor Username -> ${req.user.username}
+        Requested QR -> ${response.user}`);
     }
-}
+);
 
-export const getUserInfo = async (req, res) => {
-    try {
+export const getUserInfo = requestHandler(
+    async function (req, res) {
         const response = await userService.requestUserInfo(req.user.uuid);
 
         res.status(response.status).json(response.data);
-    } catch (error) {
-        logger.logConsoleError('User info request failed due to server side error', error);
-        logger.logRequestError('User info request failed due to server side error', error);
-        res.status(500).json({msg: "Internal server error"});
     }
-}
+);
