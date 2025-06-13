@@ -148,7 +148,7 @@ export const deleteLicense = requestHandler(
 
         const response = await urbanService.requestUrbanLicenseDelete(ID);
 
-        res.status(200).json(response);
+        res.status(200).json(response.data);
 
         logger.logRequestInfo('Urban delete request completed',
             `Requestor ID -> ${req.user.uuid}

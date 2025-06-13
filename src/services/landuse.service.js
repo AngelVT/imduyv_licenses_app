@@ -420,7 +420,10 @@ export async function requestLandLicenseDelete(id) {
     }
 
     return {
-        msg: `User ${DELETED_LICENSE.fullInvoice} deleted successfully.`
+        data: {
+            msg: `User ${DELETED_LICENSE.fullInvoice} deleted successfully.`
+        },
+        license: DELETED_LICENSE
     }
 }
 

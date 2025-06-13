@@ -149,7 +149,7 @@ export const deleteLicense = requestHandler(
 
         const response = await landService.requestLandLicenseDelete(ID);
 
-        res.status(200).json(response);
+        res.status(200).json(response.data);
 
         logger.logRequestInfo('Land use delete request completed',
             `Requestor ID -> ${req.user.uuid}
