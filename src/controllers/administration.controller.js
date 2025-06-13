@@ -4,365 +4,326 @@ import * as logger from '../utilities/logger.utilities.js';
 
 
 // * Municipal Administration Periods
-export const getMunicipalPeriods = async (req, res) => {
-    try {
+export const getMunicipalPeriods = requestHandler(
+    async function (req, res) {
         const response = await periodsService.requestMunicipalPeriods();
 
-        res.status(response.status).json(response.data);
+        res.status(200).json(response);
 
-        logger.logRequestInfo('Municipal period get all request completed', 
-        `Requestor ID -> ${req.userID}
-        Requestor Name -> ${req.name}
-        Requestor Username -> ${req.username}
-        Get all request -> ${response.log}`);
-    } catch (error) {
-        logger.logConsoleError('Municipal period get all request failed due to server side error', error);
-        logger.logRequestError('Municipal period get all request failed due to server side error', error);
-        res.status(500).json({msg: "Internal server error"});
+        logger.logRequestInfo('Municipal period get all request completed',
+            `Requestor ID -> ${req.user.uuid}
+        Requestor Name -> ${req.user.name}
+        Requestor Username -> ${req.user.username}
+        Requested records -> All records requested`);
     }
-}
+);
 
-export const getMunicipalPeriod = async (req, res) => {
-    try {
-        const response = await periodsService.requestMunicipalPeriod(req.params.id);
+export const getMunicipalPeriod = requestHandler(
+    async function (req, res) {
+        const id = req.params.id;
 
-        res.status(response.status).json(response.data);
+        const response = await periodsService.requestMunicipalPeriod(id);
 
-        logger.logRequestInfo('Municipal period get request completed', 
-        `Requestor ID -> ${req.userID}
-        Requestor Name -> ${req.name}
-        Requestor Username -> ${req.username}
-        Get request -> ${response.log}`);
-    } catch (error) {
-        logger.logConsoleError('Municipal period get request failed due to server side error', error);
-        logger.logRequestError('Municipal period get request failed due to server side error', error);
-        res.status(500).json({msg: "Internal server error"});
+        res.status(200).json(response);
+
+        logger.logRequestInfo('Municipal period get request completed',
+            `Requestor ID -> ${req.user.uuid}
+        Requestor Name -> ${req.user.name}
+        Requestor Username -> ${req.user.username}
+        Requested record -> ${response.period.municipal_administration_uuid}:${response.period.administrationStart} to ${response.period.administrationEnd}`);
     }
-}
+);
 
-export const createMunicipalPeriod = async (req, res) => {
-    try {
-        const response = await periodsService.requestMunicipalPeriodCreate(req.body);
+export const createMunicipalPeriod = requestHandler(
+    async function (req, res) {
+        const data = req.body;
+        const response = await periodsService.requestMunicipalPeriodCreate(data);
 
-        res.status(response.status).json(response.data);
+        res.status(200).json(response);
 
-        logger.logRequestInfo('Municipal period create request completed', 
-        `Requestor ID -> ${req.userID}
-        Requestor Name -> ${req.name}
-        Requestor Username -> ${req.username}
-        Create request -> ${response.log}`);
-    } catch (error) {
-        logger.logConsoleError('Municipal period create request failed due to server side error', error);
-        logger.logRequestError('Municipal period create request failed due to server side error', error);
-        res.status(500).json({msg: "Internal server error"});
+        logger.logRequestInfo('Municipal period create request completed',
+            `Requestor ID -> ${req.user.uuid}
+        Requestor Name -> ${req.user.name}
+        Requestor Username -> ${req.user.username}
+        Created record -> ${response.period.municipal_administration_uuid}:${response.period.administrationStart} to ${response.period.administrationEnd}
+        Provided data -> ${JSON.stringify(data)}`);
     }
-}
+);
 
-export const updateMunicipalPeriod = async (req, res) => {
-    try {
-        const response = await periodsService.requestMunicipalPeriodUpdate(req.params.id, req.body);
+export const updateMunicipalPeriod = requestHandler(
+    async function (req, res) {
+        const id = req.params.id;
+        const data = req.body;
 
-        res.status(response.status).json(response.data);
+        const response = await periodsService.requestMunicipalPeriodUpdate(id, data);
 
-        logger.logRequestInfo('Municipal period update request completed', 
-        `Requestor ID -> ${req.userID}
-        Requestor Name -> ${req.name}
-        Requestor Username -> ${req.username}
-        Update request -> ${response.log}`);
-    } catch (error) {
-        logger.logConsoleError('Municipal period update request failed due to server side error', error);
-        logger.logRequestError('Municipal period update request failed due to server side error', error);
-        res.status(500).json({msg: "Internal server error"});
+        res.status(200).json(response);
+
+        logger.logRequestInfo('Municipal period update request completed',
+            `Requestor ID -> ${req.user.uuid}
+        Requestor Name -> ${req.user.name}
+        Requestor Username -> ${req.user.username}
+        Updated record -> ${response.period.municipal_administration_uuid}:${response.period.administrationStart} to ${response.period.administrationEnd}
+        Provided data -> ${JSON.stringify(data)}`);
     }
-}
+);
 
-export const deleteMunicipalPeriod = async (req, res) => {
-    try {
-        const response = await periodsService.requestMunicipalPeriodDelete(req.params.id);
+export const deleteMunicipalPeriod = requestHandler(
+    async function (req, res) {
+        const id = req.params.id;
 
-        res.status(response.status).json(response.data);
+        const response = await periodsService.requestMunicipalPeriodDelete(id);
 
-        logger.logRequestInfo('Municipal period delete request completed', 
-        `Requestor ID -> ${req.userID}
-        Requestor Name -> ${req.name}
-        Requestor Username -> ${req.username}
-        Delete request -> ${response.log}`);
-    } catch (error) {
-        logger.logConsoleError('Municipal period delete request failed due to server side error', error);
-        logger.logRequestError('Municipal period delete request failed due to server side error', error);
-        res.status(500).json({msg: "Internal server error"});
+        res.status(200).json(response.data);
+
+        logger.logRequestInfo('Municipal period delete request completed',
+            `Requestor ID -> ${req.user.uuid}
+        Requestor Name -> ${req.user.name}
+        Requestor Username -> ${req.user.username}
+        Deleted record -> ${response.period.municipal_administration_uuid}:${response.period.administrationStart} to ${response.period.administrationEnd}`);
     }
-}
+);
 
 // * Institute Administration Periods
-export const getInstitutePeriods = async (req, res) => {
-    try {
+export const getInstitutePeriods = requestHandler(
+    async function (req, res) {
         const response = await periodsService.requestInstitutePeriods();
 
-        res.status(response.status).json(response.data);
+        res.status(200).json(response);
 
-        logger.logRequestInfo('Institute period get all request completed', 
-        `Requestor ID -> ${req.userID}
-        Requestor Name -> ${req.name}
-        Requestor Username -> ${req.username}
-        Get all request -> ${response.log}`);
-    } catch (error) {
-        logger.logConsoleError('Institute period get all request failed due to server side error', error);
-        logger.logRequestError('Institute period get all request failed due to server side error', error);
-        res.status(500).json({msg: "Internal server error"});
+        logger.logRequestInfo('Institute period get all request completed',
+            `Requestor ID -> ${req.user.uuid}
+        Requestor Name -> ${req.user.name}
+        Requestor Username -> ${req.user.username}
+        Requested record -> All records requested`);
     }
-}
+);
 
-export const getInstitutePeriod = async (req, res) => {
-    try {
-        const response = await periodsService.requestInstitutePeriod(req.params.id);
+export const getInstitutePeriod = requestHandler(
+    async function (req, res) {
+        const id =req.params.id;
 
-        res.status(response.status).json(response.data);
+        const response = await periodsService.requestInstitutePeriod(id);
 
-        logger.logRequestInfo('Institute period get request completed', 
-        `Requestor ID -> ${req.userID}
-        Requestor Name -> ${req.name}
-        Requestor Username -> ${req.username}
-        Get request -> ${response.log}`);
-    } catch (error) {
-        logger.logConsoleError('Institute period get request failed due to server side error', error);
-        logger.logRequestError('Institute period get request failed due to server side error', error);
-        res.status(500).json({msg: "Internal server error"});
+        res.status(200).json(response);
+
+        logger.logRequestInfo('Institute period get request completed',
+            `Requestor ID -> ${req.user.uuid}
+        Requestor Name -> ${req.user.name}
+        Requestor Username -> ${req.user.username}
+        Requested record -> ${response.period.institute_administration_uuid}:${response.period.administrationStart} to ${response.period.administrationEnd}`);
     }
-}
+);
 
-export const createInstitutePeriod = async (req, res) => {
-    try {
-        const response = await periodsService.requestInstitutePeriodCreate(req.body);
+export const createInstitutePeriod = requestHandler(
+    async function (req, res) {
+        const data = req.body;
 
-        res.status(response.status).json(response.data);
+        const response = await periodsService.requestInstitutePeriodCreate(data);
 
-        logger.logRequestInfo('Institute period create request completed', 
-        `Requestor ID -> ${req.userID}
-        Requestor Name -> ${req.name}
-        Requestor Username -> ${req.username}
-        Create request -> ${response.log}`);
-    } catch (error) {
-        logger.logConsoleError('Institute period create request failed due to server side error', error);
-        logger.logRequestError('Institute period create request failed due to server side error', error);
-        res.status(500).json({msg: "Internal server error"});
+        res.status(200).json(response);
+
+        logger.logRequestInfo('Institute period create request completed',
+            `Requestor ID -> ${req.user.uuid}
+        Requestor Name -> ${req.user.name}
+        Requestor Username -> ${req.user.username}
+        Created record -> ${response.period.institute_administration_uuid}:${response.period.administrationStart} to ${response.period.administrationEnd}
+        Provided data -> ${JSON.stringify(data)}`);
     }
-}
+);
 
-export const updateInstitutePeriod = async (req, res) => {
-    try {
-        const response = await periodsService.requestInstitutePeriodUpdate(req.params.id, req.body);
+export const updateInstitutePeriod = requestHandler(
+    async function (req, res) {
+        const id = req.params.id;
+        const data = req.body;
 
-        res.status(response.status).json(response.data);
+        const response = await periodsService.requestInstitutePeriodUpdate(id, data);
 
-        logger.logRequestInfo('Institute period update request completed', 
-        `Requestor ID -> ${req.userID}
-        Requestor Name -> ${req.name}
-        Requestor Username -> ${req.username}
-        Update request -> ${response.log}`);
-    } catch (error) {
-        logger.logConsoleError('Institute period update request failed due to server side error', error);
-        logger.logRequestError('Institute period update request failed due to server side error', error);
-        res.status(500).json({msg: "Internal server error"});
+        res.status(200).json(response);
+
+        logger.logRequestInfo('Institute period update request completed',
+            `Requestor ID -> ${req.user.uuid}
+        Requestor Name -> ${req.user.name}
+        Requestor Username -> ${req.user.username}
+        Updated record -> ${response.period.institute_administration_uuid}:${response.period.administrationStart} to ${response.period.administrationEnd}
+        Provided data -> ${JSON.stringify(data)}`);
     }
-}
+);
 
-export const deleteInstitutePeriod = async (req, res) => {
-    try {
-        const response = await periodsService.requestInstitutePeriodDelete(req.params.id);
+export const deleteInstitutePeriod = requestHandler(
+    async function (req, res) {
+        const id = req.params.id;
 
-        res.status(response.status).json(response.data);
+        const response = await periodsService.requestInstitutePeriodDelete(id);
 
-        logger.logRequestInfo('Institute period delete request completed', 
-        `Requestor ID -> ${req.userID}
-        Requestor Name -> ${req.name}
-        Requestor Username -> ${req.username}
-        Delete request -> ${response.log}`);
-    } catch (error) {
-        logger.logConsoleError('Institute period delete request failed due to server side error', error);
-        logger.logRequestError('Institute period delete request failed due to server side error', error);
-        res.status(500).json({msg: "Internal server error"});
+        res.status(200).json(response.data);
+
+        logger.logRequestInfo('Institute period delete request completed',
+            `Requestor ID -> ${req.user.uuid}
+        Requestor Name -> ${req.user.name}
+        Requestor Username -> ${req.user.username}
+        Deleted record -> ${response.period.institute_administration_uuid}:${response.period.administrationStart} to ${response.period.administrationEnd}`);
     }
-}
+);
 
 // * Licenses Direction Administration Periods
-export const getLicensePeriods = async (req, res) => {
-    try {
+export const getLicensePeriods = requestHandler(
+    async function (req, res) {
         const response = await periodsService.requestLicensesPeriods();
 
-        res.status(response.status).json(response.data);
+        res.status(200).json(response);
 
-        logger.logRequestInfo('Licenses period get all request completed', 
-        `Requestor ID -> ${req.userID}
-        Requestor Name -> ${req.name}
-        Requestor Username -> ${req.username}
-        Get all request -> ${response.log}`);
-    } catch (error) {
-        logger.logConsoleError('Licenses period get all request failed due to server side error', error);
-        logger.logRequestError('Licenses period get all request failed due to server side error', error);
-        res.status(500).json({msg: "Internal server error"});
+        logger.logRequestInfo('Licenses period get all request completed',
+            `Requestor ID -> ${req.user.uuid}
+        Requestor Name -> ${req.user.name}
+        Requestor Username -> ${req.user.username}
+        Requested records -> All records requested`);
     }
-}
+);
 
-export const getLicensePeriod = async (req, res) => {
-    try {
-        const response = await periodsService.requestLicensesPeriod(req.params.id);
+export const getLicensePeriod = requestHandler(
+    async function (req, res) {
+        const id = req.params.id;
 
-        res.status(response.status).json(response.data);
+        const response = await periodsService.requestLicensesPeriod(id);
 
-        logger.logRequestInfo('Licenses period get request completed', 
-        `Requestor ID -> ${req.userID}
-        Requestor Name -> ${req.name}
-        Requestor Username -> ${req.username}
-        Get request -> ${response.log}`);
-    } catch (error) {
-        logger.logConsoleError('Licenses period get request failed due to server side error', error);
-        logger.logRequestError('Licenses period get request failed due to server side error', error);
-        res.status(500).json({msg: "Internal server error"});
+        res.status(200).json(response);
+
+        logger.logRequestInfo('Licenses period get request completed',
+            `Requestor ID -> ${req.user.uuid}
+        Requestor Name -> ${req.user.name}
+        Requestor Username -> ${req.user.username}
+        Requested record -> ${response.period.licenses_administration_uuid}:${response.period.administrationStart} to ${response.period.administrationEnd}`);
     }
-}
+);
 
-export const createLicensePeriod = async (req, res) => {
-    try {
-        const response = await periodsService.requestLicensesPeriodCreate(req.body);
+export const createLicensePeriod = requestHandler(
+    async function (req, res) {
+        const data = req.body;
 
-        res.status(response.status).json(response.data);
+        const response = await periodsService.requestLicensesPeriodCreate(data);
 
-        logger.logRequestInfo('Licenses period create request completed', 
-        `Requestor ID -> ${req.userID}
-        Requestor Name -> ${req.name}
-        Requestor Username -> ${req.username}
-        Create request -> ${response.log}`);
-    } catch (error) {
-        logger.logConsoleError('Licenses period create request failed due to server side error', error);
-        logger.logRequestError('Licenses period create request failed due to server side error', error);
-        res.status(500).json({msg: "Internal server error"});
+        res.status(200).json(response);
+
+        logger.logRequestInfo('Licenses period create request completed',
+            `Requestor ID -> ${req.user.uuid}
+        Requestor Name -> ${req.user.name}
+        Requestor Username -> ${req.user.username}
+        Created record -> ${response.period.licenses_administration_uuid}:${response.period.administrationStart} to ${response.period.administrationEnd}
+        Provided data -> ${JSON.stringify(data)}`);
     }
-}
+);
 
-export const updateLicensePeriod = async (req, res) => {
-    try {
-        const response = await periodsService.requestLicensesPeriodUpdate(req.params.id, req.body);
+export const updateLicensePeriod = requestHandler(
+    async function (req, res) {
+        const id = req.params.id;
+        const data = req.body;
 
-        res.status(response.status).json(response.data);
+        const response = await periodsService.requestLicensesPeriodUpdate(id, data);
 
-        logger.logRequestInfo('Licenses period update request completed', 
-        `Requestor ID -> ${req.userID}
-        Requestor Name -> ${req.name}
-        Requestor Username -> ${req.username}
-        Update request -> ${response.log}`);
-    } catch (error) {
-        logger.logConsoleError('Licenses period update request failed due to server side error', error);
-        logger.logRequestError('Licenses period update request failed due to server side error', error);
-        res.status(500).json({msg: "Internal server error"});
+        res.status(200).json(response);
+
+        logger.logRequestInfo('Licenses period update request completed',
+            `Requestor ID -> ${req.user.uuid}
+        Requestor Name -> ${req.user.name}
+        Requestor Username -> ${req.user.username}
+        Updated record -> ${response.period.licenses_administration_uuid}:${response.period.administrationStart} to ${response.period.administrationEnd}
+        Provided data -> ${JSON.stringify(data)}`);
     }
-}
+);
 
-export const deleteLicensePeriod = async (req, res) => {
-    try {
-        const response = await periodsService.requestLicensesPeriodDelete(req.params.id);
+export const deleteLicensePeriod = requestHandler(
+    async function (req, res) {
+        const id = req.params.id;
 
-        res.status(response.status).json(response.data);
+        const response = await periodsService.requestLicensesPeriodDelete(id);
 
-        logger.logRequestInfo('Licenses period delete request completed', 
-        `Requestor ID -> ${req.userID}
-        Requestor Name -> ${req.name}
-        Requestor Username -> ${req.username}
-        Delete request -> ${response.log}`);
-    } catch (error) {
-        logger.logConsoleError('Licenses period delete request failed due to server side error', error);
-        logger.logRequestError('Licenses period delete request failed due to server side error', error);
-        res.status(500).json({msg: "Internal server error"});
+        res.status(200).json(response.data);
+
+        logger.logRequestInfo('Licenses period delete request completed',
+            `Requestor ID -> ${req.user.uuid}
+        Requestor Name -> ${req.user.name}
+        Requestor Username -> ${req.user.username}
+        Deleted record -> ${response.period.licenses_administration_uuid}:${response.period.administrationStart} to ${response.period.administrationEnd}`);
     }
-}
+);
 
 // * Licenses Year Legends
-export const getYearLegend = async (req, res) => {
-    try {
+export const getYearLegends = requestHandler(
+    async function (req, res) {
         const response = await periodsService.requestYearLegends();
 
-        res.status(response.status).json(response.data);
+        res.status(200).json(response);
 
-        logger.logRequestInfo('Year legend get all request completed', 
-        `Requestor ID -> ${req.userID}
-        Requestor Name -> ${req.name}
-        Requestor Username -> ${req.username}
-        Get all request -> ${response.log}`);
-    } catch (error) {
-        logger.logConsoleError('Year legend get all request failed due to server side error', error);
-        logger.logRequestError('Year legend get all request failed due to server side error', error);
-        res.status(500).json({msg: "Internal server error"});
+        logger.logRequestInfo('Year legend get request completed',
+            `Requestor ID -> ${req.user.uuid}
+        Requestor Name -> ${req.user.name}
+        Requestor Username -> ${req.user.username}
+        Requested records -> All records requested`);
     }
-}
+);
 
-export const getYearLegends = async (req, res) => {
-    try {
-        const response = await periodsService.requestYearLegends();
+export const getYearLegend = requestHandler(
+    async function (req, res) {
+        const response = await periodsService.requestYearLegends(id);
 
-        res.status(response.status).json(response.data);
+        res.status(200).json(response);
 
-        logger.logRequestInfo('Year legend get request completed', 
-        `Requestor ID -> ${req.userID}
-        Requestor Name -> ${req.name}
-        Requestor Username -> ${req.username}
-        Get request -> ${response.log}`);
-    } catch (error) {
-        logger.logConsoleError('Year legend get request failed due to server side error', error);
-        logger.logRequestError('Year legend get request failed due to server side error', error);
-        res.status(500).json({msg: "Internal server error"});
+        logger.logRequestInfo('Year legend get all request completed',
+            `Requestor ID -> ${req.user.uuid}
+        Requestor Name -> ${req.user.name}
+        Requestor Username -> ${req.user.username}
+        Requested record -> ${response.legends.year_legend_uuid}:${response.legends.year}`);
     }
-}
+);
 
-export const createYearLegend= async (req, res) => {
-    try {
-        const response = await periodsService.requestYearLegendCreate(req.body);
+export const createYearLegend = requestHandler(
+    async function (req, res) {
+        const data = req.body;
 
-        res.status(response.status).json(response.data);
+        const response = await periodsService.requestYearLegendCreate(data);
 
-        logger.logRequestInfo('Year legend create request completed', 
-        `Requestor ID -> ${req.userID}
-        Requestor Name -> ${req.name}
-        Requestor Username -> ${req.username}
-        Create request -> ${response.log}`);
-    } catch (error) {
-        logger.logConsoleError('Year legend create request failed due to server side error', error);
-        logger.logRequestError('Year legend create request failed due to server side error', error);
-        res.status(500).json({msg: "Internal server error"});
+        res.status(200).json(response);
+
+        logger.logRequestInfo('Year legend create request completed',
+            `Requestor ID -> ${req.user.uuid}
+        Requestor Name -> ${req.user.name}
+        Requestor Username -> ${req.user.username}
+        Created record -> ${response.legend.year_legend_uuid}:${response.legend.year}
+        Provided data -> ${JSON.stringify(data)}`);
     }
-}
+);
 
-export const updateYearLegend = async (req, res) => {
-    try {
-        const response = await periodsService.requestYearLegendUpdate(req.params.id, req.body);
+export const updateYearLegend = requestHandler(
+    async function (req, res) {
+        const id = req.params.id;
+        const data = req.body;
 
-        res.status(response.status).json(response.data);
+        const response = await periodsService.requestYearLegendUpdate(id, data);
 
-        logger.logRequestInfo('Year legend update request completed', 
-        `Requestor ID -> ${req.userID}
-        Requestor Name -> ${req.name}
-        Requestor Username -> ${req.username}
-        Update request -> ${response.log}`);
-    } catch (error) {
-        logger.logConsoleError('Year legend update request failed due to server side error', error);
-        logger.logRequestError('Year legend update request failed due to server side error', error);
-        res.status(500).json({msg: "Internal server error"});
+        res.status(200).json(response);
+
+        logger.logRequestInfo('Year legend update request completed',
+            `Requestor ID -> ${req.user.uuid}
+        Requestor Name -> ${req.user.name}
+        Requestor Username -> ${req.user.username}
+        Updated record -> ${response.legend.year_legend_uuid}:${response.legend.year}
+        Provided data -> ${JSON.stringify(data)}`);
     }
-}
+);
 
-export const deleteYearLegend = async (req, res) => {
-    try {
-        const response = await periodsService.requestYearLegendDelete(req.params.id);
+export const deleteYearLegend = requestHandler(
+    async function (req, res) {
+        const id = req.params.id;
 
-        res.status(response.status).json(response.data);
+        const response = await periodsService.requestYearLegendDelete(id);
 
-        logger.logRequestInfo('Year legend delete request completed', 
-        `Requestor ID -> ${req.userID}
-        Requestor Name -> ${req.name}
-        Requestor Username -> ${req.username}
-        Delete request -> ${response.log}`);
-    } catch (error) {
-        logger.logConsoleError('Year legend delete request failed due to server side error', error);
-        logger.logRequestError('Year legend delete request failed due to server side error', error);
-        res.status(500).json({msg: "Internal server error"});
+        res.status(200).json(response.data);
+
+        logger.logRequestInfo('Year legend delete request completed',
+            `Requestor ID -> ${req.user.uuid}
+        Requestor Name -> ${req.user.name}
+        Requestor Username -> ${req.user.username}
+        Deleted record -> ${response.legend.year_legend_uuid}:${response.legend.year}`);
     }
-}
+);
