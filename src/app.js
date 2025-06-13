@@ -18,6 +18,7 @@ import authRoutes from './routes/auth.routes.js';
 import appRoutes from './routes/app.routes.js';
 import testRoutes from './routes/test.routes.js';
 import administrationRoutes from './routes/administration.routes.js';
+//import { logConsoleInfo, logAccessWarning, logConsoleWarning } from './utilities/logger.utilities.js';
 
 const app = express();
 
@@ -31,12 +32,39 @@ app.use(express.urlencoded({ limit: '10mb', extended: true }));
 
 app.use(cookieParser(process.env.SECRET));
 
-app.use(morgan('dev'));
-
 app.use(cors({
     origin: config.ALLOWED_ORIGINS,
     credentials: true
 }));
+
+app.use(morgan('dev'));
+
+/*app.use('/urbanStorage', morgan('tiny', {
+    stream: {
+        write: (msg) => logConsoleWarning(`Urban storage resource access: ${msg.trim()}`)
+    }
+}));
+app.use('/landUseStorage', morgan('tiny', {
+    stream: {
+        write: (msg) => logConsoleWarning(`Land Use storage resource access: ${msg.trim()}`)
+    }
+}));
+app.use('/api', morgan('tiny', {
+    stream: {
+        write: (msg) => logConsoleWarning(`Api resource access: ${msg.trim()}`)
+    }
+}));
+app.use('/api/auth', morgan('tiny', {
+    stream: {
+        write: (msg) => logConsoleWarning(`Authentication operation: ${msg.trim()}`)
+    }
+}));
+app.use('/app', morgan('tiny', {
+    stream: {
+        write: (msg) => logConsoleWarning(`App screen access: ${msg.trim()}`)
+    }
+}));*/
+
 
 // * Stablish access to the web files
 app.use('/public', express.static(path.join(__dirname, 'resources', 'public')));

@@ -2,15 +2,15 @@ import { accessLogger, logger, requestLogger, consoleLogger } from "../configura
 
 //console logging functions
 export function logConsoleError(message, error) {
-    consoleLogger.error(`\n  ${message}.\n  Details:\n%s`, error);
+    consoleLogger.error(`\n  ${message}\n  Details:\n%s`, error);
 }
 
 export function logConsoleWarning(message, details) {
-    consoleLogger.warning(`\n  ${message}.${!details ? '' : ':\n  Details:\n  %s'}`, details);
+    consoleLogger.warning(`\n  ${message}${!details ? '' : ':\n  Details:\n  %s'}`, details);
 }
 
 export function logConsoleInfo(message, details) {
-    consoleLogger.info(`\n  ${message}.${!details ? '' : ':\n  Details:\n  %s'}`, details);
+    consoleLogger.info(`\n  ${message}${!details ? '' : ':\n  Details:\n  %s'}`, details);
 }
 
 //server logging functions
