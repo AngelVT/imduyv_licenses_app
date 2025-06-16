@@ -373,7 +373,7 @@ function createResultTextArea(id, tag, name, value) {
     let input;
     let span;
 
-    field.setAttribute('onsubmit', `updateResultField(this, ${id}); return false`);
+    field.setAttribute('onsubmit', `updateResultField(this, '${id}'); return false`);
     field.setAttribute('class', 'w-100')
 
     label.innerText = tag + ':';

@@ -29,7 +29,7 @@ async function getLicensePrint(type, invoice, year) {
                     return;
                 }
 
-                let response = await res.json();
+                const response = await res.json();
 
                 resultPrint.innerHTML = '';
 
@@ -40,7 +40,7 @@ async function getLicensePrint(type, invoice, year) {
             }
 
             if (!res.ok) {
-                let response = await res.json();
+                const response = await res.json();
                 alert(response.msg);
                 return;
             }

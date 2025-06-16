@@ -341,13 +341,6 @@ export async function generateLandUseDP(lcDBObj) {
                         ],
                         [
                             await docUtils.fileExist(lcDBObj.fullInvoice, 'land')
-                            /*{
-                                text: 'IMG'
-                                border: docUtils.borderless,
-                                image: await docUtils.fileExist(lcDBObj.fullInvoice, 'land'),
-                                width: 586,
-                                alignment: 'center'
-                            }*/
                         ]
                     ]
                 },
@@ -359,8 +352,39 @@ export async function generateLandUseDP(lcDBObj) {
                     { text: 'Que el solicitante con los documentos anexados a su escrito inicial ha dado cumplimiento con los requisitos técnicos y legales que obran en el expediente radicado en este Instituto Municipal de Desarrollo Urbano y Vivienda, acredita la propiedad del inmueble motivo de la solicitud de Constancia de Uso de Suelo, así como de la visita de inspección de campo, misma que permite la localización y ubicación del inmueble materia de este trámite. ', fontSize: 7 , margin: [0,0,0,10],alignment: 'justify', lineHeight: 1.5 },
                     { text: `El C. ${lcDBObj.inspector}`, fontSize: 7, lineHeight: 1.5 },
                     { text: 'En su carácter de personal técnico adscrito al referido Instituto, realizó visita de inspección en campo al inmueble del que solicita la Constancia de Uso de Suelo, emitiendo opinión técnica positiva. ', fontSize: 7, alignment: 'justify', lineHeight: 1.5 },
-                    { text: `Anexo: ${lcDBObj.licenseSpecialData.anexo}`, style: 'labelT' }
+                    /*{ text: `Anexo: ${lcDBObj.licenseSpecialData.anexo}`, style: 'labelT' }*/
                 ]
+            },
+            {
+                style: 'formRow',
+                table: {
+                    widths: ['*'],
+                    body: [
+                        [{text: "PROHIBICIONES Y SANCIONES", style: 'headT', border: docUtils.borderless}],
+                        [
+                            {
+                                table: {
+                                    widths: ['*'],
+                                    body: [
+                                        [
+                                            {
+                                                type: 'lower-alpha',
+                                                separator: ')',
+                                                lineHeight: 1.5,
+                                                ol: lcDBObj.licenseSpecialData.restrictions ? lcDBObj.licenseSpecialData.restrictions : [],
+                                                fontSize: 6,
+                                                border: docUtils.borderless,
+                                                alignment: 'justify'
+                                            }
+                                        ]
+                                    ]
+                                },
+                                layout: docUtils.formLayout
+                            }
+                        ]
+                    ]
+                },
+                layout: docUtils.containerLayout
             },
             {
                 style: 'formRow',
@@ -375,8 +399,6 @@ export async function generateLandUseDP(lcDBObj) {
                                     body: [
                                         [
                                             {
-                                                type: 'lower-alpha',
-                                                lineHeight: 1.5,
                                                 text: 'Lo anterior con fundamento en lo dispuesto en los artículos 100, 102 parrafo segundo, 103, 104, 193 de la Ley de Asentamiento Humanos, Desarrollo Urbano y Ordenamiento Territorial. ',
                                                 style: 'labelTC',
                                                 border: docUtils.borderless
@@ -392,38 +414,33 @@ export async function generateLandUseDP(lcDBObj) {
                 layout: docUtils.containerLayout
             },
             {
-                stack: [
+                columns: [
                     {
-                        text:`NOTIFÍQUESE Y CÚMPLASE\nASÍ EN DEFINITIVA LO RESOLVIÓ Y AUTORIZÓ ${INSTITUTE_DIRECTOR_TITTLE},\nDIRECTOR(A) GENERAL DEL INSTITUTO MUNICIPAL DE DESARROLLO URBANO Y VIVIENDA`,
-                        style: ['regular', 'center'],
-                        margin: [0,10,0,0]
+                        width: '15%',
+                        margin: [0,42,0,0],
+                        text: `Director(a) General: ${INSTITUTE_DIRECTOR_SHORT}\nElaboró: ${docUtils.madeBy(lcDBObj.elaboratedBy)}\nRevisó: ${LICENSES_DIRECTOR}`,
+                        fontSize: 6
                     },
                     {
-                        table: {
-                            widths: ['*','auto','*'],
-                            body: [
-                                [
-                                    {
-                                        margin: [0,42,0,0],
-                                        text: `Director(a) General: ${INSTITUTE_DIRECTOR_SHORT}\nElaboró: ${docUtils.madeBy(lcDBObj.elaboratedBy)}\nRevisó: ${LICENSES_DIRECTOR}`,
-                                        fontSize: 6
-                                    },
-                                    {},
-                                    {
-                                        svg: `
-                                            <svg width="30" height="84">
-                                                <text x="16" y="42" transform="rotate(-90, 15, 42)" text-anchor="middle" font-size="5" font-weight="bold">
-                                                    <tspan x="16" dy="1.2em">${lcDBObj.fullInvoice}</tspan>
-                                                    <tspan x="16" dy="1.2em">Pagina 2 de 2</tspan>
-                                                </text>
-                                            </svg>`,
-                                        alignment: 'right'
-                                        
-                                    }
-                                ],
-                            ]
-                        },
-                        layout: docUtils.noBorderNoPadding
+                        width: '70%',
+                        margin: [0,10,0,0],
+                        text:`NOTIFÍQUESE Y CÚMPLASE\nASÍ EN DEFINITIVA LO RESOLVIÓ Y AUTORIZÓ ${INSTITUTE_DIRECTOR_TITTLE},\nDIRECTOR(A) GENERAL DEL INSTITUTO MUNICIPAL DE DESARROLLO URBANO Y VIVIENDA`,
+                        style: ['regular', 'center'],
+                    },
+                    {
+                        width: '15%',
+                        stack: [
+                            {
+                                svg: `
+                                    <svg width="30" height="84">
+                                        <text x="16" y="42" transform="rotate(-90, 15, 42)" text-anchor="middle" font-size="5" font-weight="bold">
+                                            <tspan x="16" dy="1.2em">${lcDBObj.fullInvoice}</tspan>
+                                            <tspan x="16" dy="1.2em">Pagina 2 de 2</tspan>
+                                        </text>
+                                    </svg>`,
+                                    alignment: 'right'
+                            }
+                        ] 
                     }
                 ]
             }

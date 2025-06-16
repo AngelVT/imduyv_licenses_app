@@ -50,15 +50,16 @@ formSearchByPrintInvoice.addEventListener('submit',
         let data = Object.fromEntries(formData);
 
         getLicenseByPrintInvoice(data.byPrintInvoice);
-});
+    }
+);
 
 async function getLicense(type, invoice, year) {
     await fetch(`/api/landuse/t/${type}/i/${invoice}/y/${year}`, {
-            method: 'GET',
-            credentials: 'include'
-        })
+        method: 'GET',
+        credentials: 'include'
+    })
         .then(async res => {
-            if(res.ok){
+            if (res.ok) {
                 let content = res.headers.get('Content-Type');
                 if (content.includes('text/html')) {
                     location.href = res.url;
@@ -93,11 +94,11 @@ async function getLicense(type, invoice, year) {
 
 async function getLicenseByType(type, year) {
     await fetch(`/api/landuse/t/${type}/y/${year}`, {
-            method: 'GET',
-            credentials: 'include'
-        })
+        method: 'GET',
+        credentials: 'include'
+    })
         .then(async res => {
-            if(res.ok){
+            if (res.ok) {
                 let content = res.headers.get('Content-Type');
                 if (content.includes('text/html')) {
                     location.href = res.url;
@@ -134,11 +135,11 @@ async function getLicenseByType(type, year) {
 
 async function getLicenseBy(param, value) {
     await fetch(`/api/landuse/param/${param}/value/${value}`, {
-            method: 'GET',
-            credentials: 'include'
-        })
+        method: 'GET',
+        credentials: 'include'
+    })
         .then(async res => {
-            if(res.ok){
+            if (res.ok) {
                 let content = res.headers.get('Content-Type');
                 if (content.includes('text/html')) {
                     location.href = res.url;
@@ -175,11 +176,11 @@ async function getLicenseBy(param, value) {
 async function getLicenseByPrintInvoice(printInvoice) {
     printInvoice = encodeURIComponent(printInvoice)
     await fetch(`/api/landuse/pi/${printInvoice}`, {
-            method: 'GET',
-            credentials: 'include'
-        })
+        method: 'GET',
+        credentials: 'include'
+    })
         .then(async res => {
-            if(res.ok){
+            if (res.ok) {
                 let content = res.headers.get('Content-Type');
                 if (content.includes('text/html')) {
                     location.href = res.url;
@@ -214,11 +215,11 @@ async function getLicenseByPrintInvoice(printInvoice) {
 
 async function getLicensesLand() {
     await fetch(`/api/landuse/`, {
-            method: 'GET',
-            credentials: 'include'
-        })
+        method: 'GET',
+        credentials: 'include'
+    })
         .then(async res => {
-            if(res.ok){
+            if (res.ok) {
                 let content = res.headers.get('Content-Type');
                 if (content.includes('text/html')) {
                     location.href = res.url;
@@ -380,7 +381,7 @@ function createLandResult(resObj, target, isPrint, isLandUse) {
 
     let newResult = createResult(
         resObj.id,
-        createResultTop(resObj, isPrint, isLandUse), 
+        createResultTop(resObj, isPrint, isLandUse),
         resultContent);
 
     target.appendChild(newResult);
@@ -482,7 +483,7 @@ function generateLandFields(resObj, resultContent) {
     field = createResultField(resObj.id, 'Nombre del solicitante', 'requestorName', resObj.requestorName, 'text');
 
     fieldGroup.appendChild(field);
-    
+
     field = createResultField(resObj.id, 'En atención', 'attentionName', resObj.attentionName, 'text');
 
     fieldGroup.appendChild(field);
@@ -541,7 +542,7 @@ function generateLandFields(resObj, resultContent) {
 
     fieldGroup.appendChild(fieldGroupTittle);
 
-    let imgDiv= document.createElement('div');
+    let imgDiv = document.createElement('div');
     imgDiv.setAttribute('class', 'w-100 dis-flex flex-center');
 
     field = document.createElement('img');
@@ -792,13 +793,16 @@ function generateLandFields(resObj, resultContent) {
     fieldGroup.appendChild(fieldGroupTittle);
 
     if (resObj.licenseType == 1) {
+        field = createResultTextArea(resObj.id, 'Restricciones', 'restrictions', resObj.licenseSpecialData.restrictions.join('\n'));
+        fieldGroup.appendChild(field);
+
         field = createResultField(resObj.id, 'Anexo', 'anexo', resObj.licenseSpecialData.anexo, 'text');
 
         fieldGroup.appendChild(field);
     }
 
-    if (resObj.licenseType >= 2 && resObj.licenseType <=5) {
-        field = createResultTextArea(resObj.id, 'Restricciones', 'restrictions', resObj.licenseSpecialData.restrictions);
+    if (resObj.licenseType >= 2 && resObj.licenseType <= 5) {
+        field = createResultTextArea(resObj.id, 'Restricciones', 'restrictions', resObj.licenseSpecialData.restrictions.join('\n'));
         fieldGroup.appendChild(field);
 
         field = createResultTextArea(resObj.id, 'Condicionantes', 'conditions', resObj.licenseSpecialData.conditions.join('\n'));
@@ -810,6 +814,9 @@ function generateLandFields(resObj, resultContent) {
     }
 
     if (resObj.licenseType == 6) {
+        field = createResultTextArea(resObj.id, 'Restricciones', 'restrictions', resObj.licenseSpecialData.restrictions.join('\n'));
+        fieldGroup.appendChild(field);
+
         field = createResultField(resObj.id, 'Anexo', 'anexo', resObj.licenseSpecialData.anexo, 'text');
 
         fieldGroup.appendChild(field);

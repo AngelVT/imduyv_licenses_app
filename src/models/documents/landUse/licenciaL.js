@@ -275,13 +275,6 @@ export async function generateLandUseL(lcDBObj) {
                         ],
                         [
                             await docUtils.fileExist(lcDBObj.fullInvoice, 'land')
-                            /*{
-                                text: 'IMG'
-                                border: docUtils.borderless,
-                                image: await docUtils.fileExist(lcDBObj.fullInvoice, 'land'),
-                                width: 586,
-                                alignment: 'center'
-                            }*/
                         ]
                     ]
                 },
@@ -293,7 +286,7 @@ export async function generateLandUseL(lcDBObj) {
                     { text: 'Que el solicitante con los documentos anexados a su escrito inicial ha dado cumplimiento con los requisitos técnicos y legales que obran en el expediente radicado en este Instituto Municipal de Desarrollo Urbano y Vivienda, acredita la propiedad del inmueble motivo de la solicitud de Constancia de Uso de Suelo, así como de la visita de inspección de campo, misma que permite la localización y ubicación del inmueble materia de este trámite. ', fontSize: 7 , margin: [0,0,0,10],alignment: 'justify', lineHeight: 1.5 },
                     { text: `El C. ${lcDBObj.inspector}`, fontSize: 7, lineHeight: 1.5 },
                     { text: 'En su carácter de personal técnico adscrito al referido Instituto, realizó visita de inspección en campo al inmueble del que solicita la Constancia de Uso de Suelo, emitiendo opinión técnica positiva. ', fontSize: 7, alignment: 'justify', lineHeight: 1.5 },
-                    { text: `Anexo: ${lcDBObj.licenseSpecialData.anexo}`, style: 'labelT' }
+                    /*{ text: `Anexo: ${lcDBObj.licenseSpecialData.anexo}`, style: 'labelT' }*/
                 ]
             },
             {
@@ -326,50 +319,37 @@ export async function generateLandUseL(lcDBObj) {
                 layout: docUtils.containerLayout
             },
             {
-                stack: [
+                columns: [
                     {
+                        width: '15%',
+                        margin: [0,42,0,0],
+                        text: `Director(a) General: ${INSTITUTE_DIRECTOR_SHORT}\nElaboró: ${docUtils.madeBy(lcDBObj.elaboratedBy)}\nRevisó: ${LICENSES_DIRECTOR}`,
+                        fontSize: 6
+                    },
+                    {
+                        width: '70%',
                         text:`NOTIFÍQUESE Y CÚMPLASE\nASÍ EN DEFINITIVA LO RESOLVIÓ Y AUTORIZÓ ${INSTITUTE_DIRECTOR_TITTLE},\nDIRECTOR(A) GENERAL DEL INSTITUTO MUNICIPAL DE DESARROLLO URBANO Y VIVIENDA`,
                         style: ['regular', 'center'],
                         margin: [0,10,0,0]
                     },
                     {
-                        table: {
-                            widths: ['*','auto','*'],
-                            body: [
-                                [
-                                    {
-                                        margin: [0,42,0,0],
-                                        text: `Director(a) General: ${INSTITUTE_DIRECTOR_SHORT}\nElaboró: ${docUtils.madeBy(lcDBObj.elaboratedBy)}\nRevisó: ${LICENSES_DIRECTOR}`,
-                                        fontSize: 6
-                                    },
-                                    {},
-                                    {
-                                        svg: `
-                                            <svg width="30" height="84">
-                                                <text x="16" y="42" transform="rotate(-90, 15, 42)" text-anchor="middle" font-size="5" font-weight="bold">
-                                                    <tspan x="16" dy="1.2em">${lcDBObj.fullInvoice}</tspan>
-                                                    <tspan x="16" dy="1.2em">Pagina 2 de 2</tspan>
-                                                </text>
-                                            </svg>`,
-                                        alignment: 'right'
-                                    }
-                                ],
-                            ]
-                        },
-                        layout: docUtils.noBorderNoPadding
+                        width: '15%',
+                        stack: [
+                            {
+                                svg: `
+                                    <svg width="30" height="84">
+                                        <text x="16" y="42" transform="rotate(-90, 15, 42)" text-anchor="middle" font-size="5" font-weight="bold">
+                                            <tspan x="16" dy="1.2em">${lcDBObj.fullInvoice}</tspan>
+                                            <tspan x="16" dy="1.2em">Pagina 2 de 2</tspan>
+                                        </text>
+                                    </svg>`,
+                                alignment: 'right'
+                            }
+                        ] 
                     }
                 ]
             }
         ],
-        /*footer: function(currentPage, pageCount) {
-            return {
-                style: 'regularSmall',
-                bold: true,
-                text: `${lcDBObj.fullInvoice}\nPagina ${currentPage} de ${pageCount}`,
-                alignment: 'right',
-                margin: [0,0,10,0]
-            };
-        }*/
     };
     return definition;
 }

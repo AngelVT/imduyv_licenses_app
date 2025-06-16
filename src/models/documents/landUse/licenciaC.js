@@ -168,25 +168,44 @@ export async function generateLandUseC(lcDBObj) {
                                 ],
                                 [
                                     await docUtils.fileExist(lcDBObj.fullInvoice, 'land', 290)
-                                    /*{
-                                        text: 'IMG'
-                                        border: docUtils.borderless,
-                                        image: await docUtils.fileExist(lcDBObj.fullInvoice, 'land'),
-                                        width: 290,
-                                        alignment: 'center'
-                                    }*/
                                 ]
                             ]
                         },
                         layout: docUtils.noBorderNoPadding
                     },
                     {
-                        margin: [0,0,35,0],
+                        margin: [0,0,0,0],
                         stack: [
-                            { text: 'Que el solicitante con los documentos anexados a su escrito inicial ha dado cumplimiento con los requisitos técnicos y legales que obran en el expediente radicado en este Instituto Municipal de Desarrollo Urbano y Vivienda, acredita la propiedad del inmueble motivo de la solicitud de Constancia de Uso de Suelo, así como de la visita de inspección de campo, misma que permite la localización y ubicación del inmueble materia de este trámite. ', style: 'regular', margin: [0,0,0,5],alignment: 'justify', lineHeight: 1.5 },
-                            { text: `El C. ${lcDBObj.inspector}`, style: 'regular', lineHeight: 1.5 },
-                            { text: 'En su carácter de personal técnico adscrito al referido Instituto, realizó visita de inspección en campo al inmueble del que solicita la Constancia de Uso de Suelo, emitiendo opinión técnica positiva. ', style: 'regular', lineHeight: 1.5, alignment: 'justify' },
-                            { text: `Anexo: ${lcDBObj.licenseSpecialData.anexo}`, style: 'labelT' }
+                            { text: 'Que el solicitante con los documentos anexados a su escrito inicial ha dado cumplimiento con los requisitos técnicos y legales que obran en el expediente radicado en este Instituto Municipal de Desarrollo Urbano y Vivienda, acredita la propiedad del inmueble motivo de la solicitud de Constancia de Uso de Suelo, así como de la visita de inspección de campo, misma que permite la localización y ubicación del inmueble materia de este trámite. ', style: 'regular', margin: [0,0,0,1],alignment: 'justify', lineHeight: 1.1 },
+                            { text: `El C. ${lcDBObj.inspector}, en su carácter de personal técnico adscrito al referido Instituto, realizó visita de inspección en campo al inmueble del que solicita la Constancia de Uso de Suelo, emitiendo opinión técnica positiva. `, style: 'regular', alignment: 'justify', lineHeight: 1.1 },
+                            /*{ text: `Anexo: ${lcDBObj.licenseSpecialData.anexo}`, style: 'labelT' },*/
+                            {
+                                table: {
+                                widths: ['*'],
+                                body: [
+                                    [{text: "PROHIBICIONES Y SANCIONES", style: 'headT', border: docUtils.borderless}],
+                                    [
+                                        {
+                                            table: {
+                                                widths: ['*'],
+                                                body: [
+                                                    [
+                                                        {
+                                                            ul: lcDBObj.licenseSpecialData.restrictions ? lcDBObj.licenseSpecialData.restrictions : [],
+                                                            fontSize: 6,
+                                                            border: docUtils.borderless,
+                                                            alignment: 'justify'
+                                                        }
+                                                    ]
+                                                ]
+                                            },
+                                            layout: docUtils.formLayout
+                                        }
+                                    ]
+                                ]
+                                },
+                                layout: docUtils.containerLayout
+                            }
                         ]
                     }
                 ],

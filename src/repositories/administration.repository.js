@@ -289,7 +289,7 @@ export async function getLicensesPeriodByDate(date) {
 }
 
 export async function verifyNewLicensesPeriod(id, start, end) {
-    const OVERLAPPING_COUNT = await InstituteAdministration.count({
+    const OVERLAPPING_COUNT = await LicensesAdministration.count({
         where: {
             [Op.and]: [
                 {

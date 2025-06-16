@@ -341,7 +341,7 @@ export async function requestLandLicenseUpdate(id, licenseData, file, requestor)
     let newSpecialData = specialDataToJSON(SPECIAL_DATA).licenseSpecialData;
 
     newSpecialData.anexo = anexo ? anexo : newSpecialData.anexo;
-    newSpecialData.restrictions = restrictions ? restrictions : newSpecialData.restrictions;
+    newSpecialData.restrictions = restrictions ? restrictions.replaceAll('\r', '').split('\n') : newSpecialData.restrictions;
     newSpecialData.conditions = conditions ? conditions.replaceAll('\r', '').split('\n') : newSpecialData.conditions;
     newSpecialData.parcela = parcela ? parcela : newSpecialData.parcela;
     newSpecialData.propertyNo = propertyNo ? propertyNo : newSpecialData.propertyNo;
