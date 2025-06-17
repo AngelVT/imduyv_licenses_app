@@ -71,6 +71,26 @@ export const subTable = {
     vLineColor: function (i, node) { return '#757575'; }
 }
 
+export const subTableB = {
+    paddingLeft: () => 2,
+    paddingRight: () => 2,
+    paddingTop: () => 0,
+    paddingBottom: () => 0,
+
+    hLineWidth: (i, node) => {
+        // Always show top and bottom lines
+        if (i === 0 || i === node.table.body.length) {
+            return 0.5;
+        }
+        // Show internal top borders between rows
+        return 0.5;
+    },
+
+    vLineWidth: (i, node) => 0,
+    hLineColor: () => '#757575',
+    vLineColor: () => '#757575'
+};
+
 export const cellLayout = {
     paddingLeft: function (i, node) { return 2; },
     paddingRight: function (i, node) { return 2; },
@@ -137,7 +157,7 @@ export function field(text, borders, span, style, fontSize) {
     return {
         colSpan: span,
         border: borders,
-        table: { widths: ['*'], body: [[{ text: text, fontSize: fontSize, style: style}]] }, layout: cellLayout
+        table: { widths: ['*'], body: [[{ text: text, fontSize: fontSize, style: style }]] }, layout: cellLayout
     }
 }
 
@@ -145,7 +165,7 @@ export function fieldLU(text, borders, span, style, fontSize) {
     return {
         colSpan: span,
         border: borders,
-        table: { widths: ['*'], body: [[{ text: text, fontSize: fontSize, style: style, margin: [3,3,3,3]}]] }, layout: cellLayout
+        table: { widths: ['*'], body: [[{ text: text, fontSize: fontSize, style: style, margin: [3, 3, 3, 3] }]] }, layout: cellLayout
     }
 }
 
@@ -283,14 +303,14 @@ export async function fileExist(location, group, width) {
             if (ext === '.svg') {
                 const svgText = await fs.promises.readFile(filePath, 'utf8');
                 return {
-                    border: [true, true, true,false],
+                    border: [true, true, true, false],
                     svg: svgText,
                     width: width ? width : DEFAULT_WIDTH
                 };
             }
 
             return {
-                border: [true, true, true,false],
+                border: [true, true, true, false],
                 image: filePath,
                 width: width ? width : DEFAULT_WIDTH,
                 alignment: 'center'
@@ -301,7 +321,7 @@ export async function fileExist(location, group, width) {
     }
 
     return {
-        border: [true, true, true,false],
+        border: [true, true, true, false],
         image: defaultPath,
         width: width ? width : DEFAULT_WIDTH,
         alignment: 'center'
