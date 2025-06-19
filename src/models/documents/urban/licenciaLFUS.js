@@ -238,7 +238,7 @@ export async function generateUrbanLFUS(lcDBObj) {
                             {
                                 border: [true, true, true, false],
                                 table: {
-                                    widths: [90,90,100.5,'*'],
+                                    widths: [90,90,130.5,'*'],
                                     body: docUtils.generateDSMCTable(lcDBObj.licenseSpecialData.actualAuthorizedFS, 'FUSIÓN QUE SE AUTORIZA')
                                 },layout: docUtils.subTable
                             }
