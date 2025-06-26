@@ -1,4 +1,4 @@
-import { findUsername, findUserByIdUsername, saveUser, userInfo } from "../repositories/users.repository.js";
+import { findUsername, findUserByIdUsername, saveUser } from "../repositories/users.repository.js";
 import { comparePassword, encryptPassword } from "../utilities/password.utilities.js";
 import config from "../configuration/general.configuration.js";
 import jwt from 'jsonwebtoken';

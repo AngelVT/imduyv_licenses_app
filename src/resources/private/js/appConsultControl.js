@@ -408,6 +408,23 @@ function createResultTextArea(id, tag, name, value) {
     return field;
 }
 
+function createCheckbox(name, value, checked = false) {
+    const checkbox = document.createElement('input');
+    const label = document.createElement('label');
+
+    label.setAttribute('class', 'w-25 margin-vertical-small');
+
+    checkbox.name = name;
+    checkbox.value = value;
+    checkbox.checked = checked;
+    checkbox.type = 'checkbox';
+
+    label.appendChild(checkbox);
+    label.appendChild(document.createTextNode(` ${value}`));
+
+    return label;
+}
+
 function generateTableForm(resObj) {
     let field = document.createElement('form');
     let label = document.createElement('span');

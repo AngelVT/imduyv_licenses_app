@@ -1,5 +1,5 @@
 import { pool } from "./database.configuration.js";
-import { User, Role, Group } from "../models/Users.models.js";
+import { User, Role, Group, Permission, UserPermissions } from "../models/Users.models.js";
 import { Type, Term, Zone, AuthUse, Validity, ExpeditionType, UrbanType, LandUseLicense, UrbanLicense } from "../models/License.models.js";
 import { InstituteAdministration, LicensesAdministration, MunicipalAdministration, YearOf } from "../models/Administration.models.js";
 import { encryptPassword } from "../utilities/password.utilities.js";
@@ -62,7 +62,8 @@ const setDefaultGroups = async () => {
         const createdGroup = await Promise.all([
             Group.create({ group_id: 1, group: 'all'}),
             Group.create({ group_id: 2, group: 'land_use'}),
-            Group.create({ group_id: 3, group: 'urban'})
+            Group.create({ group_id: 3, group: 'urban'}),
+            Group.create({ group_id: 4, group: 'consultant'})
         ]);
 
         logger.logConsoleInfo("Default groups have been set");
@@ -77,9 +78,71 @@ const setDefaultGroups = async () => {
     }
 }
 
+const setDefaultPermissions = async () => {
+    try {
+        await Permission.sync();
+
+        const count = await Permission.count();
+
+        if (count > 0) return;
+
+        const createdGroup = await Promise.all([
+            Permission.create({ permission_id: 1, permission: 'license:manage'}),
+            Permission.create({ permission_id: 2, permission: 'license:approve'}),
+            Permission.create({ permission_id: 3, permission: 'license:lock'}),
+            Permission.create({ permission_id: 4, permission: 'license:unlock'}),
+            Permission.create({ permission_id: 5, permission: 'license:read'}),
+            Permission.create({ permission_id: 6, permission: 'license:create'}),
+            Permission.create({ permission_id: 7, permission: 'license:update'}),
+            Permission.create({ permission_id: 8, permission: 'license:delete'}),
+            Permission.create({ permission_id: 9, permission: 'user:manage'}),
+            Permission.create({ permission_id: 10, permission: 'user:read'}),
+            Permission.create({ permission_id: 11, permission: 'user:create'}),
+            Permission.create({ permission_id: 12, permission: 'user:update'}),
+            Permission.create({ permission_id: 13, permission: 'user:delete'}),
+            Permission.create({ permission_id: 14, permission: 'administration:manage'}),
+            Permission.create({ permission_id: 15, permission: 'administration:read'}),
+            Permission.create({ permission_id: 16, permission: 'administration:create'}),
+            Permission.create({ permission_id: 17, permission: 'administration:update'}),
+            Permission.create({ permission_id: 18, permission: 'administration:delete'}),
+            Permission.create({ permission_id: 19, permission: 'consultant:manage'}),
+            Permission.create({ permission_id: 20, permission: 'consultant:read'})
+        ]);
+
+        logger.logConsoleInfo("Default permissions have been set");
+        logger.logServerInfo("Default permissions have been set",
+        `Permission -> license:manage
+        Permission -> license:approve
+        Permission -> license:lock
+        Permission -> license:unlock
+        Permission -> license:read
+        Permission -> license:create
+        Permission -> license:update
+        Permission -> license:delete
+        Permission -> user:manage
+        Permission -> user:read
+        Permission -> user:create
+        Permission -> user:update
+        Permission -> user:delete
+        Permission -> administration:manage
+        Permission -> administration:read
+        Permission -> administration:create
+        Permission -> administration:update
+        Permission -> administration:delete
+        Permission -> consultant:manage
+        Permission -> consultant:read`);
+
+    } catch (error) {
+        logger.logConsoleWarning(`Error establishing default user groups:\n    ${error}`);
+        logger.logServerWarning(`Error establishing default user groups`, `-${error}`);
+    }
+}
+
 const setDefaultUsers = async () => {
     try {
         await User.sync();
+
+        await UserPermissions.sync();
 
         const count = await User.count();
 
@@ -94,6 +157,8 @@ const setDefaultUsers = async () => {
             roleId: 1,
             groupId: 1
         });
+
+        createdUser.addPermissions([1,9,14,19]);
 
         logger.logConsoleInfo("Default user has been set");
         logger.logServerInfo("Default user has been set", 
@@ -462,6 +527,7 @@ export const setDBDefaults = async () => {
     await createSchemas();
     await setDefaultRoles();
     await setDefaultGroups();
+    await setDefaultPermissions();
     await setDefaultUsers();
     await setDefaultLicenseTypes();
     await setDefaultLicenseTerms();

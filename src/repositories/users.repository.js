@@ -1,4 +1,4 @@
-import { User, Group, Role } from "../models/Users.models.js";
+import { User, Group, Role, Permission, UserPermissions } from "../models/Users.models.js";
 import { Op } from "sequelize";
 import { escapeLike } from "../utilities/repository.utilities.js";
 
@@ -12,6 +12,10 @@ const USER_MODELS = [
     {
         model: Group,
         attributes: ['group']
+    },
+    {
+        model: Permission,
+        attributes: ['permission']
     }
 ]
 
@@ -19,7 +23,7 @@ export async function findAllUsers() {
     return await User.findAll({
         attributes: USER_ATTRIBUTES,
         include: USER_MODELS,
-        raw: true,
+        //raw: true,
         nest: true
     });
 }
@@ -31,7 +35,7 @@ export async function findUserByID(id) {
         },
         attributes: USER_ATTRIBUTES,
         include: USER_MODELS,
-        raw: true,
+        //raw: true,
         nest: true
     });
 }
@@ -45,7 +49,7 @@ export async function findUsersByName(name) {
         },
         attributes: USER_ATTRIBUTES,
         include: USER_MODELS,
-        raw: true,
+        //raw: true,
         nest: true
     });
 }
@@ -55,7 +59,7 @@ export async function findUserByUsername(username) {
         where: {username: username},
         attributes: USER_ATTRIBUTES,
         include: USER_MODELS,
-        raw: true,
+        //raw: true,
         nest: true
     });
 }
@@ -65,7 +69,7 @@ export async function findUsersByGroup(group) {
         where: { groupId: group },
         attributes: USER_ATTRIBUTES,
         include: USER_MODELS,
-        raw: true,
+        //raw: true,
         nest: true
     });
 }
@@ -86,18 +90,25 @@ export async function findUserByIdUsername(id, username) {
     return await User.findOne({
         where: { public_user_id: id, username: username },
         include: USER_MODELS,
-        raw: true,
+        //raw: true,
         nest: true
     });
 }
 
 // TODO in the future this should look for existing combinations of name and email, implement when the project is being prepared for deployment for public access
 export async function saveNewUSER(newUserData) {
+    const { permissions, ...data } = newUserData;
+    
     const [NEW_USER, CREATED] = await User.findOrCreate({
         where: { username: newUserData.username },
         include: USER_MODELS,
-        defaults: newUserData
+        defaults: data
     });
+
+    if (CREATED) {
+        await NEW_USER.addPermissions(permissions);
+        await NEW_USER.reload({include: USER_MODELS})
+    }
 
     return CREATED ? generateSafeUser(NEW_USER) : null;
 }
@@ -113,6 +124,9 @@ export async function saveUser(id, newData) {
     if(modifiedUser == null) return null;
 
     await modifiedUser.update(newData);
+    if (newData.permissions) {
+        await modifiedUser.setPermissions(newData.permissions);
+    }
 
     if ('groupId' in newData || 'roleId' in newData)
         await modifiedUser.reload({include: USER_MODELS});

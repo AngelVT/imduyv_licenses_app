@@ -1,7 +1,7 @@
 import * as userRepo from "../repositories/users.repository.js";
 import { validate as isUuid } from 'uuid';
 import { encryptPassword } from '../utilities/password.utilities.js';
-import { validateUserPermissions, validateUserGroup, validateUserRole, validateName } from "../validations/user.validations.js";
+import { validateUserPermissions, validateUserGroup, validateUserRole, validateName, validateUserActions, validateUserPermissionArray } from "../validations/user.validations.js";
 import jwt from 'jsonwebtoken';
 import ValidationError from "../errors/ValidationError.js";
 import ResourceError from "../errors/ResourceError.js";
@@ -92,9 +92,9 @@ export async function requestUserByGroup(group) {
 }
 
 export async function requestUserCreation(userData) {
-    const { name, password, role, group } = userData;
+    const { name, password, role, group, permissions } = userData;
 
-    if (!name || !role || !group) {
+    if (!name || !role || !group || !permissions) {
         throw new ValidationError('Request failed due to missing information.',
             'User create request',
             `Request failed due to missing information.
@@ -115,6 +115,22 @@ export async function requestUserCreation(userData) {
             Provided data -> group/${group}, role/${role}`);
     }
 
+    if (!await validateUserPermissionArray(permissions)) {
+        throw new ValidationError('Invalid permissions provided, permissions must be provided as an array of strings.',
+            'User create request',
+            `Request failed due to invalid permission format.
+            Provided permissions -> ${permissions}`);
+    }
+
+    const PERMISSIONS = await validateUserActions(permissions);
+
+    if (!Array.isArray(PERMISSIONS) || PERMISSIONS.length === 0) {
+        throw new ValidationError('Invalid permissions provided.',
+            'User create request',
+            `Request failed due to invalid permissions.
+            Provided permissions -> ${permissions}`);
+    }
+
     const USERNAME = await generateUsername(name, 0);
 
     const PASSWORD = password ? password : passwordGen();
@@ -127,7 +143,8 @@ export async function requestUserCreation(userData) {
         username: USERNAME,
         password: ENCRYPTED_PASSWORD,
         roleId: role,
-        groupId: group
+        groupId: group,
+        permissions: PERMISSIONS
     });
 
     if (!NEW_USER) {
@@ -156,9 +173,9 @@ export async function requestUserModification(id, userData) {
         );
     }
 
-    const { name, password, role, group, requiredPasswordReset, locked } = userData;
+    const { name, password, role, group, requiredPasswordReset, locked, permissions } = userData;
 
-    if (!name && !password && !role && !group && !requiredPasswordReset && !locked) {
+    if (!name && !password && !role && !group && !requiredPasswordReset && !locked && !permissions) {
         throw new ValidationError('Request failed due to missing information.',
             'User update request',
             `Request failed due to missing information.
@@ -201,6 +218,26 @@ export async function requestUserModification(id, userData) {
         }
     }
 
+    let PERMISSIONS
+
+    if (permissions) {
+        if (!await validateUserPermissionArray(permissions)) {
+            throw new ValidationError('Invalid permissions provided, permissions must be provided as an array of strings.',
+                'User create request',
+                `Request failed due to invalid permission format.
+            Provided permissions -> ${permissions}`);
+        }
+
+        PERMISSIONS = await validateUserActions(permissions);
+
+        if (!Array.isArray(PERMISSIONS) || PERMISSIONS.length === 0) {
+            throw new ValidationError('Invalid permissions provided.',
+                'User create request',
+                `Request failed due to invalid permissions.
+            Provided permissions -> ${permissions}`);
+        }
+    }
+
     let ENCRYPTED_PASSWORD;
 
     if (password) {
@@ -213,7 +250,8 @@ export async function requestUserModification(id, userData) {
         requiredPasswordReset: ENCRYPTED_PASSWORD ? true : requiredPasswordReset ? requiredPasswordReset : undefined,
         locked: locked ? locked : undefined,
         roleId: role,
-        groupId: group
+        groupId: group,
+        permissions: PERMISSIONS
     }
 
     const MODIFIED_USER = await userRepo.saveUser(id, newData);

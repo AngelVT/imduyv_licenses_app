@@ -5,6 +5,29 @@ const formSearchUsername = document.getElementById('form_by_username');
 const formSearchGroup = document.getElementById('form_by_group');
 const btnGetAll = document.getElementById('get_all');
 
+const permissions = [
+    "license:manage",
+    "license:approve",
+    "license:lock",
+    "license:unlock",
+    "license:read",
+    "license:create",
+    "license:update",
+    "license:delete",
+    "user:manage",
+    "user:read",
+    "user:create",
+    "user:update",
+    "user:delete",
+    "administration:manage",
+    "administration:read",
+    "administration:create",
+    "administration:update",
+    "administration:delete",
+    "consultant:manage",
+    "consultant:read"
+];
+
 formSearchName.addEventListener('submit', event => {
     event.preventDefault();
 
@@ -184,13 +207,21 @@ async function updateResultField(form, id) {
     let registro = document.getElementById(`result_user_${id}`).innerText;
     let field = form.querySelector('label').innerText.toLowerCase().split(':')[0].replaceAll(':', '');
 
+    const formFields = new FormData(form);
+
+    let selectedPermissions = formFields.getAll('permissions');
+
+    if (selectedPermissions.length === 0 || !selectedPermissions) {
+        selectedPermissions = undefined;
+    }
+
+    const formData = Object.fromEntries(formFields);
+
+    formData.permissions = selectedPermissions;
+
     if (!confirm(`Estas seguro de que quieres modificar el ${field} para el usuario ${registro}`)) {
         return;
     }
-
-    const formFields = new FormData(form);
-
-    const formData = Object.fromEntries(formFields);
 
     if (formData.password) {
         if (!validatePassword(formData.password)) {
@@ -332,6 +363,40 @@ function generateUserFields(resObj, resultContent) {
     field = createResultField(resObj.id, 'Bloqueado', 'locked', resObj.locked, 'checkbox');
     
     resultContent.appendChild(field);
+
+    let permissionContainer = document.createElement('form');
+    let permissionLabel = document.createElement('label');
+
+    permissionLabel.setAttribute('class', 'w-100 txt-center color-primary');
+    permissionLabel.innerText = "Permisos:";
+
+    permissionContainer.appendChild(permissionLabel);
+
+    permissionContainer.setAttribute('onsubmit', `updateResultField(this, '${resObj.id}'); return false`);
+
+    permissionContainer.setAttribute('class', 'w-100 dis-flex flex-center flex-wrap');
+
+    let permissionSet = resObj.permissions.map(p => p.permission);
+
+    for (const p of permissions) {
+        let checkbox;
+        if (permissionSet.includes(p)) {
+            checkbox = createCheckbox('permissions', p, true);
+            permissionContainer.appendChild(checkbox);
+            continue;
+        }
+
+        checkbox = createCheckbox('permissions', p);
+        permissionContainer.appendChild(checkbox);
+    }
+
+    let button = document.createElement('button');
+
+    button.setAttribute('class', 'bi-floppy margin-vertical-small input-save w-25');
+
+    permissionContainer.appendChild(button);
+
+    resultContent.appendChild(permissionContainer);
 
     return resultContent;
 }

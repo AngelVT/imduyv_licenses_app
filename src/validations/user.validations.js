@@ -1,4 +1,4 @@
-import { Group, Role } from "../models/Users.models.js";
+import { Group, Permission, Role } from "../models/Users.models.js";
 import { findUserByID } from "../repositories/users.repository.js";
 
 export async function validateUserPermissions(role, group) {
@@ -43,6 +43,32 @@ export async function validateUserGroup(group) {
         return false;
 
     return true;
+}
+
+export async function validateUserActions(permissions) {
+    const permission = await Permission.findAll({
+        where: {
+            permission: permissions
+        },
+        raw: true,
+        nest: true
+    });
+
+    return permission.map(p => p.permission_id);
+}
+
+export async function validateUserPermissionArray(permissions) {
+    if (!Array.isArray(permissions) || permissions.length === 0) {
+        return false
+    }
+
+    for (const perm of permissions) {
+        if (typeof perm !== 'string') {
+            return false
+        }
+    }
+
+    return true
 }
 
 /*export async function hasRole(id, requiredPermission) {

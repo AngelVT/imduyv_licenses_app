@@ -13,6 +13,9 @@ export function validateRedirection(group, requiredPasswordReset) {
         case 'urban':
             return '/app/urbanMenu'
 
+        case 'consultant':
+            return '/app/consultantMenu'
+
         default:
             return '/app/login'
     }

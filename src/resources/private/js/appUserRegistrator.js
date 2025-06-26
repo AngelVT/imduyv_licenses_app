@@ -6,7 +6,16 @@ form.addEventListener('submit', async event => {
 
     const formFields = new FormData(form);
 
+    const selectedPermissions = formFields.getAll('permissions');
+
+    if (selectedPermissions.length === 0 || !selectedPermissions) {
+        alert('You need to select at least one permission');
+        return;
+    }
+
     const formData = Object.fromEntries(formFields);
+    
+    formData.permissions = selectedPermissions;
 
     await fetch(`/api/users/`, {
         method: 'POST',

@@ -5,7 +5,7 @@ const router = Router();
 
 router.get('/', test);
 
-router.get('/verify/:token', async (req, res) => {
+router.get('/verify', async (req, res) => {
     try {
         res.status(200).json({msg: "Pong"});
     } catch (error) {

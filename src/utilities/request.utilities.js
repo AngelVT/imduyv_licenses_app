@@ -21,7 +21,7 @@ export function requestHandler(requestFn) {
             }
 
             if (error instanceof AuthenticationError) {
-                logger.logAccessInfo(error.logMessage, error.logBody);
+                logger.logAccessError(error.logMessage, error.logBody);
                 return res.status(error.statusCode).json({ msg: error.message });
             }
 

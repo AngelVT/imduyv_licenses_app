@@ -35,6 +35,42 @@ export const Group = pool.define(
     schema: 'users'
 });
 
+export const Permission = pool.define(
+    'permission', {
+        permission_id: {
+            type: DataTypes.INTEGER,
+            autoIncrement: true,
+            primaryKey: true
+        },
+        permission: {
+            type: DataTypes.STRING,
+            allowNull: false,
+        }
+    }, {
+        timestamps: false,
+        schema: 'users'
+    }
+);
+
+export const UserPermissions = pool.define('UserPermissions', {
+    user_id: {
+        type: DataTypes.INTEGER,
+        references: {
+            model: 'User',
+            key: 'user_id'
+        }
+    },
+    permission_id: {
+        type: DataTypes.INTEGER,
+        references: {
+            model: 'Permission',
+            key: 'permission_id'
+        }
+    }
+}, {
+    schema: 'users'
+});
+
 // TODO uncomment the email in preparation for public deployment
 export const User = pool.define(
     'user', {
@@ -98,3 +134,6 @@ export const User = pool.define(
 
 User.belongsTo(Role, { foreignKey: 'roleId' });
 User.belongsTo(Group, { foreignKey: 'groupId' });
+
+User.belongsToMany(Permission, { through: UserPermissions, foreignKey: 'user_id' });
+Permission.belongsToMany(User, { through: UserPermissions, foreignKey: 'permission_id' });

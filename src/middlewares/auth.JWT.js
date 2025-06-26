@@ -57,6 +57,7 @@ export function verifyToken(options = {}) {
                 username: USER.username,
                 role: USER.role.role,
                 group: USER.group.group,
+                permissions: USER.permissions.map(p => p.permission),
                 isPasswordResetRequired: USER.requiredPasswordReset
             };
 
@@ -140,15 +141,43 @@ export function verifyRole(allowedRoles = [], options = {}) {
         }
 
         if (finalOptions.isMenu) {
-            return redirectToMenu(req.userGroup, res);
+            return redirectToMenu(req.user.group, res);
         }
 
         return res.status(403).json({ msg: 'Access denied: Insufficient role privileges.' });
     }
 }
 
+export function verifyPermission(allowedPermissions = [], options = { mode: 'any' }) {
+    return function (req, res, next) {
+        const userPermissions = req.user.permissions;
+
+        if (!Array.isArray(userPermissions)) {
+            return res.status(401).json({ msg: 'Access denied: No permissions' });
+        }
+
+        const check = options.mode === 'all' ? allowedPermissions.every(p => userPermissions.includes(p)) : userPermissions.some(p => allowedPermissions.includes(p));
+
+        if (check) {
+            return next();
+        }
+
+        return res.status(403).json({ msg: 'Access denied: Missing required permission' });
+    };
+}
+
 function redirectToMenu(userGroup, res) {
-    if (userGroup === 'land_use') {
+    switch (userGroup) {
+        case 'land_use':
+            return res.redirect('/app/landMenu');
+        case 'urban':
+            return res.redirect('/app/urbanMenu');
+        case 'all':
+            return res.redirect('/app/mainMenu');
+        default:
+            return res.redirect('/');
+    }
+    /*if (userGroup === 'land_use') {
         return res.redirect('/app/landMenu');
     }
 
@@ -158,5 +187,5 @@ function redirectToMenu(userGroup, res) {
 
     if (userGroup === 'all') {
         return res.redirect('/app/mainMenu');
-    }
+    }*/
 }
