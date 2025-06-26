@@ -78,6 +78,33 @@ router.patch('/:licenciaID', [
     up.single(UPLOADS)
 ], landControl.updateLicense);
 
+router.patch('/approve/:licenciaID', [
+    authenticator.verifyToken(),
+    authenticator.accountIntegrity,
+    authenticator.verifyGroup(LAND_GROUPS),
+    authenticator.verifyRole(MODERATOR),
+    authenticator.verifyPermission(['license:approve']),
+    up.single(UPLOADS)
+], landControl.approveLicense);
+
+router.patch('/lock/:licenciaID', [
+    authenticator.verifyToken(),
+    authenticator.accountIntegrity,
+    authenticator.verifyGroup(LAND_GROUPS),
+    authenticator.verifyRole(MODERATOR),
+    authenticator.verifyPermission(['license:lock', 'license:manage']),
+    up.single(UPLOADS)
+], landControl.lockLicense);
+
+router.patch('/unlock/:licenciaID', [
+    authenticator.verifyToken(),
+    authenticator.accountIntegrity,
+    authenticator.verifyGroup(LAND_GROUPS),
+    authenticator.verifyRole(MODERATOR),
+    authenticator.verifyPermission(['license:unlock', 'license:manage']),
+    up.single(UPLOADS)
+], landControl.unlockLicense);
+
 router.delete('/:licenciaID', [
     authenticator.verifyToken(),
     authenticator.accountIntegrity,

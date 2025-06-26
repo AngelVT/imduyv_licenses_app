@@ -191,7 +191,18 @@ export async function getLicenseEspecialData(id) {
         where: {
             public_land_license_id: id
         },
-        attributes: ['fullInvoice', 'licenseSpecialData'],
+        attributes: ['fullInvoice', 'licenseSpecialData', 'active'],
+        raw: true,
+        nest: true
+    });
+}
+
+export async function getLicenseApprovalStatus(id) {
+    return await LandUseLicense.findOne({
+        where: {
+            public_land_license_id: id
+        },
+        attributes: ['fullInvoice', 'approvalStatus', 'active'],
         raw: true,
         nest: true
     });

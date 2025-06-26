@@ -112,7 +112,7 @@ export const createLicense = requestHandler(
 
         const response = await landService.requestLandLicenseCreate(DATA, FILE, REQUESTOR);
 
-        res.status(200).json(response);
+        res.status(201).json(response);
 
         logger.logRequestInfo('Land use create request completed',
             `Requestor ID -> ${req.user.uuid}
@@ -140,6 +140,57 @@ export const updateLicense = requestHandler(
         Requestor Username -> ${req.user.username}
         Requested record update -> ${response.license.public_land_license_id}:${response.license.fullInvoice}
         Data -> ${JSON.stringify(DATA)}`);
+    }
+);
+
+export const approveLicense = requestHandler(
+    async function (req, res) {
+        const ID = req.params.licenciaID;
+        const REQUESTOR = req.user.name;
+
+        const response = await landService.requestLandLicenseApprove(ID, REQUESTOR);
+
+        res.status(200).json(response.msg);
+
+        logger.logRequestInfo('Land use license approval request completed',
+            `Requestor ID -> ${req.user.uuid}
+        Requestor Name -> ${req.user.name}
+        Requestor Username -> ${req.user.username}
+        Requested record approval -> ${response.license.id}:${response.license.fullInvoice}`);
+    }
+);
+
+export const lockLicense = requestHandler(
+    async function (req, res) {
+        const ID = req.params.licenciaID;
+        const REQUESTOR = req.user.name;
+
+        const response = await landService.requestLandLicenseLock(ID, REQUESTOR);
+
+        res.status(200).json(response.msg);
+
+        logger.logRequestInfo('Land use license lock request completed',
+            `Requestor ID -> ${req.user.uuid}
+        Requestor Name -> ${req.user.name}
+        Requestor Username -> ${req.user.username}
+        Requested record lock -> ${response.license.public_land_license_id}:${response.license.fullInvoice}`);
+    }
+);
+
+export const unlockLicense = requestHandler(
+    async function (req, res) {
+        const ID = req.params.licenciaID;
+        const REQUESTOR = req.user.name;
+
+        const response = await landService.requestLandLicenseUnlock(ID, REQUESTOR);
+
+        res.status(200).json(response);
+
+        logger.logRequestInfo('Land use license unlock request completed',
+            `Requestor ID -> ${req.user.uuid}
+        Requestor Name -> ${req.user.name}
+        Requestor Username -> ${req.user.username}
+        Requested record unlock -> ${response.license.public_land_license_id}:${response.license.fullInvoice}`);
     }
 );
 

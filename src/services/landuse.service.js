@@ -273,6 +273,20 @@ export async function requestLandLicenseUpdate(id, licenseData, file, requestor)
         );
     }
 
+    const SPECIAL_DATA = await landRepo.getLicenseEspecialData(id);
+
+    if (!SPECIAL_DATA) {
+        throw new ResourceError('Request failed due to the record to update does not exist.',
+            'Land use update request',
+            `Request failed due to record ${id} does not exist.`);
+    }
+
+    if (!SPECIAL_DATA.active) {
+        throw new ValidationError('Request failed due to resource is locked.',
+            'Land use update request',
+            `Request failed due to license locked.`);
+    }
+
     for (const key in licenseData) {
         if (key !== 'conditions' && key !== 'restrictions' && key !== 'anexo' && key !== 'parcela' && key !== 'propertyNo') {
             licenseData[key] = licenseData[key].toLowerCase();
@@ -330,14 +344,6 @@ export async function requestLandLicenseUpdate(id, licenseData, file, requestor)
             Provided data -> Term: ${term}, zone: ${zone}, authorized use: ${authorizedUse}, validity: ${validity}, expedition type: ${expeditionType}`);
     }
 
-    const SPECIAL_DATA = await landRepo.getLicenseEspecialData(id);
-
-    if (!SPECIAL_DATA) {
-        throw new ResourceError('Request failed due to the record to update do not exist.',
-            'Land use update request',
-            `Request failed due to record ${id} does not exist.`);
-    }
-
     let newSpecialData = specialDataToJSON(SPECIAL_DATA).licenseSpecialData;
 
     newSpecialData.anexo = anexo ? anexo : newSpecialData.anexo;
@@ -377,7 +383,8 @@ export async function requestLandLicenseUpdate(id, licenseData, file, requestor)
         discount: discount,
         paymentDone: paymentDone,
         inspector: inspector,
-        licenseSpecialData: newSpecialData
+        licenseSpecialData: newSpecialData,
+        approvalStatus: false
     }
 
     if (file) {
@@ -400,6 +407,133 @@ export async function requestLandLicenseUpdate(id, licenseData, file, requestor)
 
     return {
         license: MODIFIED_LICENSE
+    }
+}
+
+export async function requestLandLicenseApprove(id, requestor) {
+    if (!isUuid(id)) {
+        throw new ValidationError('Request failed due to invalid ID.',
+            'Land use approval request',
+            `Request failed due to ID ${id} is invalid.`
+        );
+    }
+
+    const licenseApproval = await landRepo.getLicenseApprovalStatus(id);
+
+    if (!licenseApproval) {
+        throw new ResourceError('Request failed due to the record to approve does not exist.',
+            'Land use update request',
+            `Request failed due to record ${id} does not exist.`);
+    }
+
+    if (licenseApproval.approvalStatus) {
+        return {
+            msg: `The license ${licenseApproval.fullInvoice} is already approved`,
+            license: {
+                id,
+                fullInvoice: licenseApproval.fullInvoice
+            }
+        }
+    }
+
+    const approvedLicense = await landRepo.saveLandLicense(id, {
+        lastModifiedBy: requestor,
+        approvalStatus: true
+    });
+
+    return {
+        msg: `The license ${approvedLicense.fullInvoice} was approved`,
+        license: {
+            id,
+            fullInvoice: approvedLicense.fullInvoice
+        }
+    }
+}
+
+export async function requestLandLicenseLock(id, requestor) {
+    if (!isUuid(id)) {
+        throw new ValidationError('Request failed due to invalid ID.',
+            'Land use lock request',
+            `Request failed due to ID ${id} is invalid.`
+        );
+    }
+
+    const licenseLock = await landRepo.getLicenseApprovalStatus(id);
+
+    if (!licenseLock) {
+        throw new ResourceError('Request failed due to the record to approve does not exist.',
+            'Land use lock request',
+            `Request failed due to record ${id} does not exist.`);
+    }
+
+    if (!licenseLock.approvalStatus) {
+        throw new ValidationError('Request failed due to license not approved.',
+            'Land use lock request',
+            `Request failed due to the license is has not been approved.`
+        );
+    }
+
+    if (!licenseLock.active) {
+        return {
+            msg: `The license ${licenseLock.fullInvoice} is already locked`,
+            license: {
+                id,
+                fullInvoice: licenseLock.fullInvoice
+            }
+        }
+    }
+
+    const lockedLicense = await landRepo.saveLandLicense(id, {
+        lastModifiedBy: requestor,
+        active: false
+    });
+
+    return {
+        msg: `The license ${lockedLicense.fullInvoice} was locked`,
+        license: {
+            id,
+            fullInvoice: lockedLicense.fullInvoice
+        }
+    }
+}
+
+export async function requestLandLicenseUnlock(id, requestor) {
+    if (!isUuid(id)) {
+        throw new ValidationError('Request failed due to invalid ID.',
+            'Land use unlock request',
+            `Request failed due to ID ${id} is invalid.`
+        );
+    }
+
+    const licenseLock = await landRepo.getLicenseApprovalStatus(id);
+
+    if (!licenseLock) {
+        throw new ResourceError('Request failed due to the record to approve does not exist.',
+            'Land use unlock request',
+            `Request failed due to record ${id} does not exist.`);
+    }
+
+    if (licenseLock.active) {
+        return {
+            msg: `The license ${licenseLock.fullInvoice} is already unlocked`,
+            license: {
+                id,
+                fullInvoice: licenseLock.fullInvoice
+            }
+        }
+    }
+
+    const unlockedLicense = await landRepo.saveLandLicense(id, {
+        lastModifiedBy: requestor,
+        active: true
+    });
+
+    return {
+        msg: `The license ${unlockedLicense.fullInvoice} was unlocked`,
+        license: {
+            id,
+            fullInvoice: unlockedLicense.fullInvoice
+        }
     }
 }
 
