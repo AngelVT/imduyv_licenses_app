@@ -12,6 +12,7 @@ import { setDefaultDirectories } from './configuration/storage.configuration.js'
 import { verifyToken, verifyGroup } from './middlewares/auth.JWT.js';
 
 import landuseRoutes from './routes/landuse.routes.js';
+import legacyRoutes from './routes/land-legacy.routes.js';
 import urbanRoutes from './routes/urban.routes.js';
 import userRoutes from './routes/users.routes.js';
 import authRoutes from './routes/auth.routes.js';
@@ -74,6 +75,8 @@ app.use('/landUseStorage', verifyToken(), verifyGroup(['land_use', 'all']), expr
 
 // * Stablish routes
 app.use('/api/landuse', landuseRoutes);
+
+app.use('/api/landLegacy', legacyRoutes);
 
 app.use('/api/urban', urbanRoutes);
 

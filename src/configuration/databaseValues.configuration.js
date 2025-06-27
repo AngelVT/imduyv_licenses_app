@@ -1,15 +1,18 @@
 import { pool } from "./database.configuration.js";
 import { User, Role, Group, Permission, UserPermissions } from "../models/Users.models.js";
 import { Type, Term, Zone, AuthUse, Validity, ExpeditionType, UrbanType, LandUseLicense, UrbanLicense } from "../models/License.models.js";
+import { LegacyLicense, LegacyType } from "../models/LandLegacy.models.js";
 import { InstituteAdministration, LicensesAdministration, MunicipalAdministration, YearOf } from "../models/Administration.models.js";
 import { encryptPassword } from "../utilities/password.utilities.js";
 import * as logger from "../utilities/logger.utilities.js";
 
 const createSchemas = async () => {
     try {
+        pool.query('CREATE EXTENSION IF NOT EXISTS unaccent')
         pool.query('CREATE SCHEMA IF NOT EXISTS users');
         pool.query('CREATE SCHEMA IF NOT EXISTS administration');
         pool.query('CREATE SCHEMA IF NOT EXISTS licenses');
+        pool.query('CREATE SCHEMA IF NOT EXISTS legacy');
 
         logger.logConsoleInfo("Schemas established successfully");
         logger.logServerInfo("Schemas established successfully", 
@@ -512,6 +515,8 @@ const setDefaultUrbanLicenseTypes = async () => {
 const syncModels = async () => {
     try {
         await LandUseLicense.sync();
+        await LegacyLicense.sync();
+        await LegacyType.sync();
         await UrbanLicense.sync();
         await MunicipalAdministration.sync();
         await InstituteAdministration.sync();

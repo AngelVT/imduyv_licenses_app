@@ -71,26 +71,6 @@ export async function validateUserPermissionArray(permissions) {
     return true
 }
 
-/*export async function hasRole(id, requiredPermission) {
-    const USER = await findUserByID(id);
-
-    if (USER.roleId <= requiredPermission && requiredPermission > 0 && USER.roleId > 0) {
-        return true;
-    }
-
-    return false;
-}
-
-export async function belongToGroup(id, requiredGroup) {
-    const USER = await findUserByID(id);
-
-    if (USER.group.group === requiredGroup || USER.group.group === 'all') {
-        return true;
-    }
-
-    return false;
-}*/
-
 export function validateName(name) {
     let nameLength = name.split(' ').length;
     if (nameLength <= 2) {
