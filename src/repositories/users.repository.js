@@ -1,8 +1,9 @@
 import { User, Group, Role, Permission, UserPermissions } from "../models/Users.models.js";
 import { Op } from "sequelize";
+import Sequelize from "sequelize";
 import { escapeLike } from "../utilities/repository.utilities.js";
 
-const USER_ATTRIBUTES = { exclude: ['user_id','password'] };
+const USER_ATTRIBUTES = { exclude: ['user_id', 'password'] };
 
 const USER_MODELS = [
     {
@@ -42,11 +43,12 @@ export async function findUserByID(id) {
 
 export async function findUsersByName(name) {
     return await User.findAll({
-        where: {
-            name: {
+        where: Sequelize.where(
+            Sequelize.fn('unaccent', Sequelize.col('name')),
+            {
                 [Op.iLike]: `%${escapeLike(name)}%`
             }
-        },
+        ),
         attributes: USER_ATTRIBUTES,
         include: USER_MODELS,
         //raw: true,
@@ -56,7 +58,7 @@ export async function findUsersByName(name) {
 
 export async function findUserByUsername(username) {
     return await User.findOne({
-        where: {username: username},
+        where: { username: username },
         attributes: USER_ATTRIBUTES,
         include: USER_MODELS,
         //raw: true,
@@ -76,7 +78,7 @@ export async function findUsersByGroup(group) {
 
 export async function findUsername(username) {
     return await User.findOne({
-        where: {username: username},
+        where: { username: username },
         include: {
             model: Group,
             attributes: ['group']
@@ -98,7 +100,7 @@ export async function findUserByIdUsername(id, username) {
 // TODO in the future this should look for existing combinations of name and email, implement when the project is being prepared for deployment for public access
 export async function saveNewUSER(newUserData) {
     const { permissions, ...data } = newUserData;
-    
+
     const [NEW_USER, CREATED] = await User.findOrCreate({
         where: { username: newUserData.username },
         include: USER_MODELS,
@@ -107,7 +109,7 @@ export async function saveNewUSER(newUserData) {
 
     if (CREATED) {
         await NEW_USER.addPermissions(permissions);
-        await NEW_USER.reload({include: USER_MODELS})
+        await NEW_USER.reload({ include: USER_MODELS })
     }
 
     return CREATED ? generateSafeUser(NEW_USER) : null;
@@ -120,8 +122,8 @@ export async function saveUser(id, newData) {
         },
         include: USER_MODELS
     });
-    
-    if(modifiedUser == null) return null;
+
+    if (modifiedUser == null) return null;
 
     await modifiedUser.update(newData);
     if (newData.permissions) {
@@ -129,7 +131,7 @@ export async function saveUser(id, newData) {
     }
 
     if ('groupId' in newData || 'roleId' in newData)
-        await modifiedUser.reload({include: USER_MODELS});
+        await modifiedUser.reload({ include: USER_MODELS });
 
     return generateSafeUser(modifiedUser);
 }
@@ -142,7 +144,7 @@ export async function deleteUser(id) {
         include: USER_MODELS
     });
 
-    if(DELETED_USER == null)
+    if (DELETED_USER == null)
         return null
 
     await DELETED_USER.destroy();
@@ -163,7 +165,7 @@ export async function userInfo(id) {
 }
 
 export async function getGroupName(group) {
-    const GROUP = await Group.findByPk(group, { raw: true});
+    const GROUP = await Group.findByPk(group, { raw: true });
 
     if (GROUP === null) {
         return 'invalid'

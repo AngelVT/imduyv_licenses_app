@@ -15,6 +15,7 @@ import { generateUrbanLUH } from '../models/documents/urban/licenciaLUH.js';
 import ValidationError from '../errors/ValidationError.js';
 import ResourceError from '../errors/ValidationError.js';
 import FileSystemError from '../errors/FileSystemError.js';
+import { validateDates } from '../validations/administration.validations.js';
 
 export async function requestAllUrbanLicenses() {
     let LICENSES = await urbanRepo.findAllUrbanLicenses();
@@ -234,6 +235,19 @@ export async function requestUrbanLicenseCreate(body, files, requestor) {
             'Urban create request',
             `Request failed due to missing information.
             Provided data -> ${JSON.stringify(body)}`);
+    }
+
+    if ((requestDate && !validateDates(requestDate)) ||
+        (expeditionDate && !validateDates(expeditionDate)) ||
+        (paymentDate && !validateDates(paymentDate)) ||
+        (deliveryDate && !validateDates(deliveryDate)) ||
+        (previousInvoiceDate && !validateDates(previousInvoiceDate))) {
+        throw new ValidationError(
+            'Request failed due to invalid information.',
+            'Urban create request',
+            `Request failed due to invalid information.
+            Provided data -> Request date: ${requestDate}, Expedition date: ${expeditionDate}, Payment date: ${paymentDate}, Delivery date: ${deliveryDate}, Previous invoice date: ${previousInvoiceDate}`
+        );
     }
 
     if (!await urbanValidate.validateModels({ type: licenseType, zone, licenseTerm, validity })) {
@@ -462,6 +476,19 @@ export async function requestUrbanLicenseUpdate(id, licenseData, files, requesto
             'Urban update request',
             `Request failed due to missing information.
             Provided data -> ${JSON.stringify(body)}`);
+    }
+
+    if ((requestDate && !validateDates(requestDate)) ||
+        (expeditionDate && !validateDates(expeditionDate)) ||
+        (paymentDate && !validateDates(paymentDate)) ||
+        (deliveryDate && !validateDates(deliveryDate)) ||
+        (previousInvoiceDate && !validateDates(previousInvoiceDate))) {
+        throw new ValidationError(
+            'Request failed due to invalid information.',
+            'Urban create request',
+            `Request failed due to invalid information.
+            Provided data -> Request date: ${requestDate}, Expedition date: ${expeditionDate}, Payment date: ${paymentDate}, Delivery date: ${deliveryDate}, Previous invoice date: ${previousInvoiceDate}`
+        );
     }
 
     if (!await urbanValidate.validateModels({ zone, term, validity })) {

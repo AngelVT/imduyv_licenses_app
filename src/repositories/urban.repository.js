@@ -1,5 +1,6 @@
 import { UrbanLicense, UrbanType, Zone, Term, Validity } from "../models/License.models.js";
 import { Op } from "sequelize";
+import Sequelize from "sequelize";
 import { generateSpecialData } from "../utilities/urban.utilities.js";
 import { escapeLike } from "../utilities/repository.utilities.js";
 
@@ -25,7 +26,7 @@ const URBAN_ATTRIBUTES = { exclude: ['urban_license_id'] }
 
 async function getType(type) {
     const TYPE = await UrbanType.findOne({
-        where: { licenseType: type},
+        where: { licenseType: type },
         raw: true
     });
 
@@ -100,10 +101,14 @@ export async function findUrbanLicenseListByType(type, year) {
 }
 
 export async function findUrbanLicenseBy(parameter, value) {
-    const PARAM = new Object;
-    PARAM[parameter] = { [Op.iLike]: `%${escapeLike(value)}%` };
     return await UrbanLicense.findAll({
-        where: PARAM,
+        where: Sequelize.where(
+            Sequelize.fn('unaccent',
+                Sequelize.cast(Sequelize.col(parameter), 'text')),
+            {
+                [Op.iLike]: `%${escapeLike(value)}%`
+            }
+        ),
         attributes: URBAN_ATTRIBUTES,
         include: URBAN_MODELS,
         raw: true,
@@ -113,7 +118,7 @@ export async function findUrbanLicenseBy(parameter, value) {
 
 export async function saveNewUrbanLicense(newLicenseData) {
     const [NEW_LICENSE, CREATED] = await UrbanLicense.findOrCreate({
-        where: { 
+        where: {
             fullInvoice: newLicenseData.fullInvoice,
             invoice: newLicenseData.invoice,
             licenseType: newLicenseData.licenseType,
@@ -141,7 +146,7 @@ export async function saveUrbanLicense(id, newData) {
     await MODIFIED_LICENSE.update(newData);
 
     if (newData.zone) {
-        await MODIFIED_LICENSE.reload({include: URBAN_MODELS});
+        await MODIFIED_LICENSE.reload({ include: URBAN_MODELS });
     }
 
     return generateSafeLicense(MODIFIED_LICENSE);
@@ -167,7 +172,7 @@ export async function getLicenseEspecialData(id) {
         where: {
             public_urban_license_id: id
         },
-        attributes: ['fullInvoice','licenseSpecialData'],
+        attributes: ['fullInvoice', 'licenseSpecialData'],
         raw: true,
         nest: true
     });

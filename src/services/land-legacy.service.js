@@ -2,7 +2,7 @@ import * as legacyRepo from "../repositories/land-legacy.repository.js";
 import { validate as isUuid } from 'uuid';
 import ValidationError from "../errors/ValidationError.js";
 import ResourceError from "../errors/ResourceError.js";
-import { validatePeriod, validateDates as validateDate } from "../validations/administration.validations.js";
+import { validatePeriod, validateDates } from "../validations/administration.validations.js";
 
 export async function requestLegacyLicenseByUUID(id) {
     if (!isUuid(id)) {
@@ -75,7 +75,7 @@ export async function requestLegacyLicenseByRequestor(requestorName) {
 }
 
 export async function requestLegacyLicenseByPeriod(startDate, endDate) {
-    if (!validateDate(startDate) || !validateDate(endDate)) {
+    if (!validateDates(startDate) || !validateDates(endDate)) {
         throw new ValidationError('Request failed due to invalid search parameters provided.',
             'Land use legacy request by period',
             `Search params start date: ${startDate}, end date: ${endDate} are invalid.`);

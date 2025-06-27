@@ -360,6 +360,7 @@ function generateUserQR(name, username, password) {
 }
 
 async function generateUsername(name, n) {
+    const normalizedName = removeAccents(name)
     const NAME = name.split(' ');
 
     let username = (
@@ -374,6 +375,10 @@ async function generateUsername(name, n) {
     }
 
     return generateUsername(name, n + 1);
+}
+
+function removeAccents(str) {
+    return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
 }
 
 export function capitalizeName(name) {

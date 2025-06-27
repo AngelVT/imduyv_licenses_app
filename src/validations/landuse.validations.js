@@ -9,18 +9,12 @@ export function validateParameter(parameter) {
         attentionName: {},
         elaboratedBy: {},
         lastModifiedBy: {},
-        address: {},
-        number: {},
         colony: {},
         catastralKey: {},
-        geoReference: {},
         businessLinePrint: {},
         businessLineIntern: {},
         paymentInvoice: {},
         contactPhone: {},
-        cost: {},
-        discount: {},
-        paymentDone: {},
         inspector: {}
     }
 

@@ -1,5 +1,6 @@
 import { LandUseLicense, Type, Term, Zone, AuthUse, Validity, ExpeditionType } from "../models/License.models.js";
 import { Op } from "sequelize";
+import Sequelize from "sequelize";
 import { generateSpecialData } from "../utilities/landuse.utilities.js";
 import { escapeLike } from "../utilities/repository.utilities.js";
 import DatabaseError from "../errors/DatabaseError.js";
@@ -108,10 +109,14 @@ export async function findLandLicenseType(type, year) {
 }
 
 export async function findLandLicenseBy(parameter, value) {
-    const PARAM = new Object;
-    PARAM[parameter] = { [Op.iLike]: `%${escapeLike(value)}%` };
     return await LandUseLicense.findAll({
-        where: PARAM,
+        where: Sequelize.where(
+            Sequelize.fn('unaccent',
+                Sequelize.cast(Sequelize.col(parameter), 'text')),
+            {
+                [Op.iLike]: `%${escapeLike(value)}%`
+            }
+        ),
         include: LAND_USE_MODELS,
         attributes: LAND_USE_ATTRIBUTES,
         raw: true,

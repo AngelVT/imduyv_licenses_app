@@ -9,6 +9,7 @@ import { generateLandUseDP } from "../models/documents/landUse/licenciaDP.js";
 import ResourceError from '../errors/ResourceError.js';
 import ValidationError from '../errors/ValidationError.js';
 import FileSystemError from '../errors/FileSystemError.js';
+import { validateDates } from '../validations/administration.validations.js';
 
 export async function requestAllLandLicenses() {
 
@@ -189,6 +190,17 @@ export async function requestLandLicenseCreate(body, file, requestor) {
             Provided data -> ${JSON.stringify(body)}`);
     }
 
+    if ((requestDate && !validateDates(requestDate)) ||
+        (expeditionDate && !validateDates(expeditionDate)) ||
+        (expirationDate && !validateDates(expirationDate))) {
+        throw new ValidationError(
+            'Request failed due to invalid information.',
+            'Land use update request',
+            `Request failed due to invalid information.
+            Provided data -> Request date: ${requestDate}, Expedition date: ${expeditionDate}, Expiration date: ${expirationDate}, Property date: ${propertyDate}`
+        );
+    }
+
     if (!await landValidate.validateModels({ type: licenseType, term, zone, authorizedUse, validity, expeditionType })) {
         throw new ValidationError('Request failed due to invalid information.',
             'Land use create request',
@@ -335,6 +347,18 @@ export async function requestLandLicenseUpdate(id, licenseData, file, requestor)
             'Land use update request',
             `Request failed due to missing information.
             Provided data -> ${licenseData}`);
+    }
+
+    if ((requestDate && !validateDates(requestDate)) ||
+        (expeditionDate && !validateDates(expeditionDate)) ||
+        (expirationDate && !validateDates(expirationDate)) ||
+        (propertyDate && !validateDates(propertyDate))) {
+        throw new ValidationError(
+            'Request failed due to invalid information.',
+            'Land use update request',
+            `Request failed due to invalid information.
+            Provided data -> Request date: ${requestDate}, Expedition date: ${expeditionDate}, Expiration date: ${expirationDate}, Property date: ${propertyDate}`
+        );
     }
 
     if (!await landValidate.validateModels({ term, zone, authorizedUse, validity, expeditionType })) {

@@ -9,9 +9,7 @@ export function validateParameter(parameter) {
         legalRepresentative: {},
         elaboratedBy: {},
         lastModifiedBy: {},
-        colony: {},
         catastralKey: {},
-        geoReference: {},
         collectionOrder: {},
         billInvoice: {},
         receiverName: {}
