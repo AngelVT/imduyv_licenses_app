@@ -76,10 +76,33 @@ function createResultTop(obj, isPrint, isLandUse) {
     span.setAttribute('class', `bi-printer txt-medium color-white${isPrint ? ' ' : ' dis-none '}result-control`);
     topControls.appendChild(span);
 
+    if (isLandUse) {
+        span = document.createElement('a');
+        span.setAttribute('id', `result_control_approve_${obj.id}`);
+        span.setAttribute('class', `${obj.approvalStatus ? 'bi-building-check' : "bi-building-dash"} txt-medium color-white result-control`);
+        if (!obj.approvalStatus) {
+            span.setAttribute('onclick', `approveLicense('${obj.id}', this)`)
+        }
+        topControls.appendChild(span);
+
+        span = document.createElement('a');
+        span.setAttribute('id', `result_control_active_${obj.id}`);
+
+        if (obj.active) {
+            span.setAttribute('class', `bi-unlock txt-medium color-white result-control`);
+            span.setAttribute('onclick', `lockLicense('${obj.id}', this)`)
+        } else {
+            span.setAttribute('class', `bi-lock txt-medium color-white result-control`);
+            span.setAttribute('onclick', `unlockLicense('${obj.id}', this)`)
+        }
+
+        topControls.appendChild(span);
+    }
+
     if(!isPrint) {
         span = document.createElement('span');
         span.setAttribute('id', `result_control_delete_${obj.id}`);
-        span.setAttribute('onclick', `deleteResult(${obj.id})`);
+        span.setAttribute('onclick', `deleteResult('${obj.id}')`);
         span.setAttribute('class', 'bi-trash txt-medium color-white dis-none result-control');
         topControls.appendChild(span);
     }

@@ -18,9 +18,9 @@ formSearchByInvoicePrint.addEventListener('submit',
 
 async function getLicensePrint(type, invoice, year) {
     await fetch(`/api/landuse/t/${type}/i/${invoice}/y/${year}`, {
-            method: 'GET',
-            credentials: 'include'
-        })
+        method: 'GET',
+        credentials: 'include'
+    })
         .then(async res => {
             if (res.ok) {
                 let content = res.headers.get('Content-Type');
@@ -28,6 +28,12 @@ async function getLicensePrint(type, invoice, year) {
                     location.href = res.url;
                     return;
                 }
+
+                const url = new URL(window.location.href);
+                url.searchParams.set("type", type);
+                url.searchParams.set("invoice", invoice);
+                url.searchParams.set("year", year);
+                window.history.replaceState({}, '', url);
 
                 const response = await res.json();
 
@@ -69,7 +75,7 @@ async function updateResultField(form, id) {
     El valor actual es: "${currentValue}"
     Cambiara a: "${data}"`
 
-    if(currentValue == data) {
+    if (currentValue == data) {
         alert("No se ha realizado ningún cambio");
         return;
     }
@@ -79,18 +85,19 @@ async function updateResultField(form, id) {
     }
 
     await fetch(`/api/landuse/${id}`, {
-            method: 'PATCH',
-            credentials: 'include',
-            body: formData
-        })
+        method: 'PATCH',
+        credentials: 'include',
+        body: formData
+    })
         .then(async res => {
-            if(res.ok) {
+            const response = await res.json();
+            if (res.ok) {
                 let content = res.headers.get('Content-Type');
                 if (content.includes('text/html')) {
                     location.href = res.url;
                     return;
                 }
-                
+
                 if (form.querySelector('.input-interface')) {
                     form.querySelector('input[type=hidden]').value = form.querySelector('.input-interface').value;
                 }
@@ -101,15 +108,15 @@ async function updateResultField(form, id) {
                 }
 
                 let url = PDF.getAttribute('src').split('?')[0];
-                PDF.setAttribute('src', `${url}?${new Date().getTime()}`)
-                
+                PDF.setAttribute('src', `${url}?${new Date().getTime()}`);
+
+                document.getElementById(`result_control_approve_${id}`).setAttribute('class', `${response.license.approvalStatus ? 'bi-building-check' : "bi-building-dash"} txt-medium color-white result-control`);
+
                 alert(`Cambios guardados exitosamente para el registro: ${registro}`);
                 return;
             }
 
             if (!res.ok) {
-                let response = await res.json();
-
                 form.querySelector('.input-interface').value = form.querySelector('input[type=hidden]').value;
 
                 alert(response.msg);
@@ -119,6 +126,106 @@ async function updateResultField(form, id) {
         .catch(error => {
             console.error('Error updating data: ', error);
         });
+}
+
+async function approveLicense(id, button) {
+    try {
+        let registro = document.querySelector(`#result_invoice_${id}`).innerText;
+
+        let mensaje = `¿Seguro que quieres aprobar el registro ${registro}?`
+
+        if (!confirm(mensaje)) {
+            return;
+        }
+
+        const res = await fetch(`/api/landuse/approve/${id}`, {
+            method: 'PATCH',
+            credentials: 'include'
+        });
+
+        const response = await res.json();
+
+        if (!res.ok) {
+            alert(response.msg);
+            return;
+        }
+
+        alert(`Licencia ${registro}, aprobada exitosamente.`);
+
+        button.classList.toggle("bi-building-check");
+        button.classList.toggle("bi-building-dash");
+    } catch (error) {
+        console.log(error);
+        alert('Solicitud fallida');
+    }
+}
+
+async function lockLicense(id, button) {
+    try {
+        let registro = document.querySelector(`#result_invoice_${id}`).innerText;
+
+        let mensaje = `¿Seguro que quieres bloquear el registro ${registro}?
+        Una vez bloqueado solo podrá ser desbloqueada por un administrador autorizado.`
+
+        if (!confirm(mensaje)) {
+            return;
+        }
+
+        const res = await fetch(`/api/landuse/lock/${id}`, {
+            method: 'PATCH',
+            credentials: 'include'
+        });
+
+        const response = await res.json();
+
+        if (!res.ok) {
+            alert(response.msg);
+            return;
+        }
+
+        alert(`Licencia ${registro}, bloqueada exitosamente.`);
+
+        document.getElementById(`result_control_active_${id}`).setAttribute('onclick', `unlockLicense('${id}', this)`);
+        button.classList.toggle("bi-unlock");
+        button.classList.toggle("bi-lock");
+    } catch (error) {
+        console.log(error);
+        alert('Solicitud fallida');
+    }
+}
+
+async function unlockLicense(id, button) {
+    try {
+        let registro = document.querySelector(`#result_invoice_${id}`).innerText;
+
+        let mensaje = `¿Seguro que quieres desbloquear el registro ${registro}?
+        Una vez desbloqueado el registro podrá ser modificado de nuevo en caso de ser modificado tendrá que ser aprobado de nuevo por un administrador autorizado.`
+
+        if (!confirm(mensaje)) {
+            return;
+        }
+
+        const res = await fetch(`/api/landuse/unlock/${id}`, {
+            method: 'PATCH',
+            credentials: 'include'
+        });
+
+        const response = await res.json();
+
+        if (!res.ok) {
+            alert(response.msg);
+            return;
+        }
+
+        alert(`Licencia ${registro}, bloqueada exitosamente.`);
+
+        document.getElementById(`result_control_active_${id}`).setAttribute('onclick', `lockLicense('${id}', this)`);
+        button.classList.toggle("bi-unlock");
+        button.classList.toggle("bi-lock");
+    } catch (error) {
+        console.log(error);
+        alert('Solicitud fallida');
+    }
 }
 
 async function updateResultFull(id) {

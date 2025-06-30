@@ -56,6 +56,12 @@ async function getLicensePrint(type, invoice, year) {
                     return;
                 }
 
+                const url = new URL(window.location.href);
+                url.searchParams.set("type", type);
+                url.searchParams.set("invoice", invoice);
+                url.searchParams.set("year", year);
+                window.history.replaceState({}, '', url);
+
                 let response = await res.json();
 
                 resultPrint.innerHTML = '';
@@ -94,6 +100,12 @@ async function getLicensePrintId(id) {
                 }
 
                 const response = await res.json();
+
+                const url = new URL(window.location.href);
+                url.searchParams.set("type", response.license.licenseType);
+                url.searchParams.set("invoice", response.license.invoice);
+                url.searchParams.set("year", response.license.year);
+                window.history.replaceState({}, '', url);
 
                 resultPrint.innerHTML = '';
                 
