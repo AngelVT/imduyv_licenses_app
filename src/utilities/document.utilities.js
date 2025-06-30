@@ -150,6 +150,9 @@ export const docStyles = {
         fillColor: '#757575',
         fontSize: 5,
         alignment: 'center',
+    },
+    bold: {
+        bold: true
     }
 }
 

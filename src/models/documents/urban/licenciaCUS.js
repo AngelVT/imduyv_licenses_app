@@ -48,7 +48,7 @@ export async function generateUrbanC(lcDBObj) {
                                     body: [
                                         [
                                             {text: 'Nombre: ', style: 'labelT', border: docUtils.borderless},
-                                            docUtils.field(lcDBObj.requestorName, docUtils.borderless, null,'center', 7)
+                                            docUtils.fieldLU(lcDBObj.requestorName, docUtils.borderless, null, 'boldCenter', 7)
                                         ],
                                         [
                                             {text: '', border: docUtils.borderless},
@@ -56,7 +56,7 @@ export async function generateUrbanC(lcDBObj) {
                                         ],
                                         [
                                             {text: 'Fecha de Solicitud: ', style: 'labelT', border: docUtils.borderless},
-                                            docUtils.field(docUtils.dateFormatFull(lcDBObj.requestDate), docUtils.borderless, null,'center', 7)
+                                            docUtils.fieldLU(docUtils.dateFormatFull(lcDBObj.requestDate), docUtils.borderless, null,'boldCenter', 7)
                                         ]
                                     ]
                                 },
@@ -71,15 +71,15 @@ export async function generateUrbanC(lcDBObj) {
                                     body: [
                                         [
                                             {text: 'Domicilio: ', style: 'labelT', border: docUtils.borderless},
-                                            docUtils.field(lcDBObj.buildingAddress, docUtils.borderless, null, 'center', 7)
+                                            docUtils.fieldLU(lcDBObj.buildingAddress, docUtils.borderless, null, 'boldCenter', 7)
                                         ],
                                         [
                                             {text: 'Clave Catastral: ', style: 'labelT', border: docUtils.borderless},
-                                            docUtils.field(lcDBObj.catastralKey, docUtils.borderless,null, 'center', 6)
+                                            docUtils.fieldLU(lcDBObj.catastralKey, docUtils.borderless,null, 'boldCenter', 6)
                                         ],
                                         [
                                             {text: 'Superficie Total: ', style: 'labelT', border: docUtils.borderless},
-                                            docUtils.field(`${lcDBObj.surfaceTotal} m²`, docUtils.borderless, null, 'center', 7)
+                                            docUtils.fieldLU(`${lcDBObj.surfaceTotal} m²`, docUtils.borderless, null, 'boldCenter', 7)
                                         ]
                                     ]
                                 },
@@ -104,60 +104,60 @@ export async function generateUrbanC(lcDBObj) {
                                     widths: ['*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*'],
                                     body: [
                                         [
-                                            docUtils.field("PLANO 03PE01 - POLÍTICAS TERRITORIALES", docUtils.borderless, 4, 'boldCenter', 7),
+                                            docUtils.fieldLU("PLANO 03PE01 - POLÍTICAS TERRITORIALES", docUtils.borderless, 4, 'boldCenter', 7),
                                             {},{},{},
-                                            docUtils.field("PLANO 03PE10 - ETAPAS DE DESARROLLO", docUtils.borderless, 4, 'boldCenter', 7),
+                                            docUtils.fieldLU("PLANO 03PE10 - ETAPAS DE DESARROLLO", docUtils.borderless, 4, 'boldCenter', 7),
                                             {},{},{},
-                                            docUtils.field("PLANO 03PE09 - ZONIFICACIÓN SECUNDARIA", docUtils.borderless, 4, 'boldCenter', 7),
+                                            docUtils.fieldLU("PLANO 03PE09 - ZONIFICACIÓN SECUNDARIA", docUtils.borderless, 4, 'boldCenter', 7),
                                             {},{},{}
                                         ],
                                         [
                                             {text: 'Plazo: ', style: 'labelTC', border: docUtils.borderless},
-                                            docUtils.field(lcDBObj.term.licenseTerm, docUtils.borderless, 3, 'center', 7),
+                                            docUtils.fieldLU(lcDBObj.term.licenseTerm, docUtils.borderless, 3, 'boldCenter', 7),
                                             {},{},
                                             {text: 'P.C.U.: ', style: 'labelTC', border: docUtils.borderless},
-                                            docUtils.field(lcDBObj.licenseSpecialData.PCU, docUtils.borderless, 3, 'center', 7),
+                                            docUtils.fieldLU(lcDBObj.licenseSpecialData.PCU, docUtils.borderless, 3, 'boldCenter', 7),
                                             {},{},
                                             {text: 'Clave: ', style: 'labelTC', border: docUtils.borderless},
-                                            docUtils.field(lcDBObj.zone.licenseKey, docUtils.borderless, 3, 'center',7),
+                                            docUtils.fieldLU(lcDBObj.zone.licenseKey, docUtils.borderless, 3, 'boldCenter',7),
                                             {},{}
                                         ],
                                         [
                                             {text: 'Uso de suelo permitido: ', style: 'labelTC', border: docUtils.borderless, colSpan: 3},
                                             {},{},
-                                            docUtils.field(lcDBObj.zone.licenseZone, docUtils.borderless, 9, 'center', 7),
+                                            docUtils.fieldLU(lcDBObj.zone.licenseZone, docUtils.borderless, 9, 'boldCenter', 7),
                                             {},{},{},{},{},{},{},{}
                                         ],
                                         [
                                             {text: 'Porcentaje de ocupación:', style: 'labelTC', border: docUtils.borderless, colSpan: 2},
                                             {},
-                                            docUtils.field(`${lcDBObj.licenseSpecialData.occupationPercent}%`, docUtils.borderless, 2, 'center', 7),
+                                            docUtils.fieldLU(`${lcDBObj.licenseSpecialData.occupationPercent}%`, docUtils.borderless, 2, 'boldCenter', 7),
                                             {},
                                             {text: 'Sup. mínima por lote:', style: 'labelTC', border: docUtils.borderless, colSpan: 2},
                                             {},
-                                            docUtils.field(`${lcDBObj.licenseSpecialData.surfacePerLote} m²`, docUtils.borderless, 2, 'center', 7),
+                                            docUtils.fieldLU(`${lcDBObj.licenseSpecialData.surfacePerLote} m²`, docUtils.borderless, 2, 'boldCenter', 7),
                                             {},
                                             {text: 'Altura máxima:', style: 'labelTC', border: docUtils.borderless, colSpan: 2},
                                             {},
-                                            docUtils.field(`${lcDBObj.licenseSpecialData.maximumHeight} metros o ${lcDBObj.licenseSpecialData.levels} niveles`, docUtils.borderless, 2, 'center', 7),
+                                            docUtils.fieldLU(`${lcDBObj.licenseSpecialData.maximumHeight} metros o ${lcDBObj.licenseSpecialData.levels} niveles`, docUtils.borderless, 2, 'boldCenter', 7),
                                             {}
                                         ],
                                         [
                                             {text: 'Frente mínimo:', style: 'labelTC', border: docUtils.borderless, colSpan: 3},
                                             {},
                                             {},
-                                            docUtils.field(`${lcDBObj.licenseSpecialData.minimalFront} m`, docUtils.borderless, 3, 'center', 7),
+                                            docUtils.fieldLU(`${lcDBObj.licenseSpecialData.minimalFront} m`, docUtils.borderless, 3, 'boldCenter', 7),
                                             {},
                                             {},
                                             {text: 'Restricción frontal:', style: 'labelTC', border: docUtils.borderless, colSpan: 3},
                                             {},
                                             {},
-                                            docUtils.field(`${lcDBObj.licenseSpecialData.frontalRestriction} m`, docUtils.borderless, 3, 'center', 7),
+                                            docUtils.fieldLU(`${lcDBObj.licenseSpecialData.frontalRestriction} m`, docUtils.borderless, 3, 'boldCenter', 7),
                                             {},
                                             {}
                                         ],
                                         [
-                                            {text: 'La expedición de constancia de uso de suelo: tiene como objeto establecer los usos y destinos de un predio con base en lo previsto en el Programa Municipal de Desarrollo Urbano y Ordenamiento Territorial de Tizayuca, lo cual no autoriza su modificación, construcción o alteración.', style: 'labelTC', border: docUtils.borderless, colSpan: 12},
+                                            {text: 'La expedición de constancia de uso de suelo: tiene como objeto establecer los usos y destinos de un predio con base en lo previsto en el Programa Municipal de Desarrollo Urbano y Ordenamiento Territorial de Tizayuca, lo cual no autoriza su modificación, construcción o alteración.', style: 'labelTC', border: docUtils.borderless, colSpan: 12, lineHeight: 1.5},
                                             {},{},{},{},{},{},{},{},{},{},{}
                                         ]
                                     ]
@@ -196,8 +196,8 @@ export async function generateUrbanC(lcDBObj) {
                     {
                         margin: [0,0,5,0],
                         stack: [
-                            { text: 'Que el solicitante con los documentos anexados a su escrito inicial ha dado cumplimiento con los requisitos técnicos y legales que obran en el expediente radicado en este Instituto Municipal de Desarrollo Urbano y Vivienda, de Tizayuca, Hidalgo, acredita la propiedad del inmueble motivo de la solicitud firmada para obtener la Constancia de Uso de Suelo, así como de la visita de inspección de campo, misma que permite la localización y ubicación del Inmueble materia de este trámite.', style: 'regular', margin: [0,0,0,5],alignment: 'justify' },
-                            { text: 'Personal técnico adscrito al referido Instituto, realizo visita de inspección en campo al Inmueble de que solicita la Constancia de Uso de Suelo, emitiendo opinión técnica positiva.', style: 'regular', margin: [0,0,0,15], alignment: 'justify' }
+                            { text: 'Que el solicitante con los documentos anexados a su escrito inicial ha dado cumplimiento con los requisitos técnicos y legales que obran en el expediente radicado en este Instituto Municipal de Desarrollo Urbano y Vivienda, de Tizayuca, Hidalgo, acredita la propiedad del inmueble motivo de la solicitud firmada para obtener la Constancia de Uso de Suelo, así como de la visita de inspección de campo, misma que permite la localización y ubicación del Inmueble materia de este trámite.', style: 'regular', alignment: 'justify', margin: [0,0,0,5], lineHeight: 1.5 },
+                            { text: 'Personal técnico adscrito al referido Instituto, realizo visita de inspección en campo al Inmueble de que solicita la Constancia de Uso de Suelo, emitiendo opinión técnica positiva.', style: 'regular', alignment: 'justify', lineHeight: 1.5 }
                         ]
                     }
                 ],
@@ -214,7 +214,7 @@ export async function generateUrbanC(lcDBObj) {
                                 table: {
                                     widths: ['*'],
                                     body: [
-                                        [{text: "Lo anterior con fundamento en lo dispuesto en los artículos 27 párrafo tercero, 73 fracción XXIX-c, 115 fracción V, inciso d y e, de la Constitución Política de los Estados Unidos Mexicanos; artículos 115, 141, fracción XVII, incisos a, c, d, e y g de la Constitución Política para el Estado de Hidalgo; los artículos 1 fracción IV, 6,, fracción II, II, XII, XV y XVII, 52 fracción I y VII, 59, 60, 66 y 68 de la Ley General de Asentamientos Humanos, Ordenamiento Territorial y Desarrollo Urbano; los artículos 1, 2, 4 fracción XIX, 5, 7, 8 fracción VII, 9, fracción I y V, 54, 55, 56, 132, 133, 134, 135, 136, 137, 138, 139, 146, 147, 156 fracción VI, 159 y demás aplicables de la Ley de Asentamientos Humanos, Desarrollo Urbano y Ordenamiento Territorial para el Estado de Hidalgo; artículos 25, 32, 69, 71, 80 y demás aplicables del Reglamento de la Ley de Asentamientos Humanos, Desarrollo Urbano y Ordenamiento Territorial para el Estado de Hidalgo; artículos 56 fracción I inciso p, fracción II inciso k, 60 fracción I inciso h, II inciso e, f, g y m, 117 fracción IV de la Ley Orgánica Municipal del Estado de Hidalgo; a efecto de dar cumplimiento a lo ordenado por el seno de cabildo la creación del Instituto Municipal de Desarrollo Urbano y Vivienda, con fecha 15 de agosto de 2006, y habiéndose publicado la versión abreviada en el Periódico Oficial del estado el 28 de agosto y 04 de diciembre de 2006, y de acuerdo con la actualización del Programa Municipal de Desarrollo Urbano y Ordenamiento Territorial de Tizayuca, Hidalgo publicado en el Periódico Oficial de Gobierno del estado de Hidalgo en el tomo CLIV alcance uno al Periódico Oficial de fecha 28 de noviembre de 2022, mismo que se encuentra inscrito en el Registro Público de la Propiedad y del Comercio del Distrito Judicial de Tizayuca, Estado de Hidalgo, bajo el Acto publicitario No. 2,194 con Registro de entrada 26250-2022-0, con fecha de asiento 07 de diciembre de 2022.", style: 'regularSmall', border: docUtils.borderless, alignment: 'justify'}]
+                                        [{text: "Lo anterior con fundamento en lo dispuesto en los artículos 27 párrafo tercero, 73 fracción XXIX-c, 115 fracción V, inciso d y e, de la Constitución Política de los Estados Unidos Mexicanos; artículos 115, 141, fracción XVII, incisos a, c, d, e y g de la Constitución Política para el Estado de Hidalgo; los artículos 1 fracción IV, 6,, fracción II, II, XII, XV y XVII, 52 fracción I y VII, 59, 60, 66 y 68 de la Ley General de Asentamientos Humanos, Ordenamiento Territorial y Desarrollo Urbano; los artículos 1, 2, 4 fracción XIX, 5, 7, 8 fracción VII, 9, fracción I y V, 54, 55, 56, 132, 133, 134, 135, 136, 137, 138, 139, 146, 147, 156 fracción VI, 159 y demás aplicables de la Ley de Asentamientos Humanos, Desarrollo Urbano y Ordenamiento Territorial para el Estado de Hidalgo; artículos 25, 32, 69, 71, 80 y demás aplicables del Reglamento de la Ley de Asentamientos Humanos, Desarrollo Urbano y Ordenamiento Territorial para el Estado de Hidalgo; artículos 56 fracción I inciso p, fracción II inciso k, 60 fracción I inciso h, II inciso e, f, g y m, 117 fracción IV de la Ley Orgánica Municipal del Estado de Hidalgo; a efecto de dar cumplimiento a lo ordenado por el seno de cabildo la creación del Instituto Municipal de Desarrollo Urbano y Vivienda, con fecha 15 de agosto de 2006, y habiéndose publicado la versión abreviada en el Periódico Oficial del estado el 28 de agosto y 04 de diciembre de 2006, y de acuerdo con la actualización del Programa Municipal de Desarrollo Urbano y Ordenamiento Territorial de Tizayuca, Hidalgo publicado en el Periódico Oficial de Gobierno del estado de Hidalgo en el tomo CLIV alcance uno al Periódico Oficial de fecha 28 de noviembre de 2022, mismo que se encuentra inscrito en el Registro Público de la Propiedad y del Comercio del Distrito Judicial de Tizayuca, Estado de Hidalgo, bajo el Acto publicitario No. 2,194 con Registro de entrada 26250-2022-0, con fecha de asiento 07 de diciembre de 2022.", style: 'regularSmall', border: docUtils.borderless, alignment: 'justify', lineHeight: 1.5}]
                                     ]
                                 },
                                 layout: docUtils.formLayout
@@ -231,36 +231,47 @@ export async function generateUrbanC(lcDBObj) {
                     body: [
                         [{text: 'Fecha de Expedición: ', style: 'labelTC', colSpan: 2},
                             {},
-                            docUtils.field(docUtils.dateFormatFull(lcDBObj.expeditionDate), docUtils.borderless, 2, 'center',6),
+                            docUtils.fieldLU(docUtils.dateFormatFull(lcDBObj.expeditionDate), docUtils.borderless, 2, 'boldCenter',6),
                             {},
                             {text: 'Vigencia: ', style: 'labelTC', colSpan: 2},
                             {},
-                            docUtils.field(lcDBObj.validity.licenseValidity, docUtils.borderless, 2, 'center',7),
+                            docUtils.fieldLU(lcDBObj.validity.licenseValidity, docUtils.borderless, 2, 'boldCenter',7),
                             {},
                             {text: 'Folio de pago: ', style: 'labelTC', colSpan: 2},
                             {},
-                            docUtils.field(lcDBObj.billInvoice, docUtils.borderless, 2, 'center',7),
+                            docUtils.fieldLU(lcDBObj.billInvoice, docUtils.borderless, 2, 'boldCenter',7),
                             {}]
                     ]
                 },
                 layout: docUtils.noBorderNoPadding
             },
             {
-                stack: [
+                columns: [
                     {
-                        text:`NOTIFÍQUESE Y CÚMPLASE\nASÍ EN DEFINITIVA LO RESOLVIÓ Y AUTORIZÓ ${INSTITUTE_DIRECTOR_SIGNATURE},\nDIRECTOR(A) GENERAL DEL INSTITUTO MUNICIPAL DE DESARROLLO URBANO Y VIVIENDA`,
-                        style: 'boldCenter',
-                        fontSize: 6,
-                        margin: [0,10,0,100]
+                        width: '10%',
+                        margin: [0,40,0,0],
+                        text: `Elaboró: ${docUtils.madeBy(lcDBObj.elaboratedBy)}\nRevisó: ${LICENSES_DIRECTOR}`,
+                        fontSize: 6
                     },
                     {
-                            text: `Elaboró: ${docUtils.madeBy(lcDBObj.elaboratedBy)}\nRevisó: ${LICENSES_DIRECTOR}`,
-                            fontSize: 6
+                        width: '80%',
+                        stack: [
+                            {
+                                text:`NOTIFÍQUESE Y CÚMPLASE\nASÍ EN DEFINITIVA LO RESOLVIÓ Y AUTORIZÓ ${INSTITUTE_DIRECTOR_SIGNATURE},\nDIRECTOR(A) GENERAL DEL INSTITUTO MUNICIPAL DE DESARROLLO URBANO Y VIVIENDA`,
+                                style: 'boldCenter',
+                                fontSize: 7,
+                                margin: [0,10,0,10]
+                            },
+                            {
+                                text: `${INSTITUTE_DIRECTOR_SIGNATURE}\nDIRECTOR(A) GENERAL`,
+                                style: 'labelTC',
+                                fontSize: 8
+                            }
+                        ]
                     },
                     {
-                        text: `${INSTITUTE_DIRECTOR_SIGNATURE}\nDIRECTOR(A) GENERAL`,
-                        style: 'labelTC',
-                        fontSize: 8
+                        width: '10%',
+                        text: ''
                     }
                 ]
             }

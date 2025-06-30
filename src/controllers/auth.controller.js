@@ -31,7 +31,7 @@ export const logOut = (req, res) => {
         secure: true,
         signed: true,
         sameSite: 'strict'
-    }).status(302).json({ redirectTo: '/app/login' });
+    }).status(200).json({ redirectTo: '/app/login' });
 }
 
 export const passwordReset = requestHandler(async (req, res) => {

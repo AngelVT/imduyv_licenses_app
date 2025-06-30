@@ -49,12 +49,12 @@ export async function generateUrbanCRPC(lcDBObj) {
                                     body: [
                                         [
                                             {text: 'Nombre: ', style: 'labelT', border: docUtils.borderless},
-                                            docUtils.field(lcDBObj.requestorName, docUtils.borderless, null,'center', 7)
+                                            docUtils.field(lcDBObj.requestorName, docUtils.borderless, null,'boldCenter', 7)
                                         ],
                                         docUtils.generateLegalRepresentativeField(lcDBObj.legalRepresentative, lcDBObj.licenseSpecialData.representativeAs),
                                         [
                                             {text: 'Domicilio: ', style: 'labelT', border: docUtils.borderless},
-                                            docUtils.field(lcDBObj.licenseSpecialData.requestorAddress, docUtils.borderless, null,'center', 7),
+                                            docUtils.field(lcDBObj.licenseSpecialData.requestorAddress, docUtils.borderless, null,'boldCenter', 7),
                                         ]
                                     ]
                                 },
@@ -69,7 +69,7 @@ export async function generateUrbanCRPC(lcDBObj) {
                                     body: [
                                         [
                                             {text: 'Domicilio: ', style: 'labelT', border: docUtils.borderless},
-                                            docUtils.field(lcDBObj.buildingAddress, docUtils.borderless, 1, 'center', 7)
+                                            docUtils.field(lcDBObj.buildingAddress, docUtils.borderless, 1, 'boldCenter', 7)
                                         ]
                                     ]
                                 },
@@ -360,11 +360,11 @@ export async function generateUrbanCRPC(lcDBObj) {
                     body: [
                         [{text: 'Fecha de Expedición: ', style: 'labelTC', colSpan: 2},
                             {},
-                            docUtils.field(docUtils.dateFormatFull(lcDBObj.expeditionDate), docUtils.borderless, 2, 'center',6),
+                            docUtils.field(docUtils.dateFormatFull(lcDBObj.expeditionDate), docUtils.borderless, 2, 'boldCenter',6),
                             {},{},{},{},{},
                             {text: 'Folio de pago: ', style: 'labelTC', colSpan: 2},
                             {},
-                            docUtils.field(lcDBObj.billInvoice, docUtils.borderless, 2, 'center',6),
+                            docUtils.field(lcDBObj.billInvoice, docUtils.borderless, 2, 'boldCenter',6),
                             {}]
                     ]
                 },
@@ -376,7 +376,7 @@ export async function generateUrbanCRPC(lcDBObj) {
                     {
                         text:`NOTIFÍQUESE Y CÚMPLASE\nASÍ EN DEFINITIVA LO RESOLVIÓ Y AUTORIZÓ ${MUNICIPAL_PRESIDENT}, PRESIDENTE MUNICIPAL CONSTITUCIONAL DE TIZAYUCA, HIDALGO Y\n${INSTITUTE_DIRECTOR_SIGNATURE}, DIRECTOR(A) GENERAL DEL INSTITUTO MUNICIPAL DE DESARROLLO URBANO Y VIVIENDA`,
                         style: 'boldCenter',
-                        fontSize: 6,
+                        fontSize: 7,
                         margin: [0,10,0,100]
                     },
                     /*{

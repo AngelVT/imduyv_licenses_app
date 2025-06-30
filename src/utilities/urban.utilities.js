@@ -88,7 +88,7 @@ export function generateSpecialData(type) {
                     "Tendrá como uso predominante el de vivienda unifamiliar, permitiéndose áreas comerciales y de servicio en un 10% de la superficie total vendible.",
                     "De acuerdo al aérea total del predio 161,950.70m² clasificado como Zona U3, para el aarea de donacion, debera tener la siguientes consideraciones> 15 m² por vivienda o 13% del area total del predio, que corresponde a 21,053.59 m²"
                 ],
-                donationArea: "Descripción del area de donación"
+                donationArea: ["Descripción del area de donación"]
             }
         case 3:
             return {

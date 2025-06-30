@@ -49,16 +49,16 @@ export async function generateUrbanPLF(lcDBObj) {
                                     body: [
                                         [
                                             {text: 'Nombre: ', style: 'labelT', border: docUtils.borderless},
-                                            docUtils.field(lcDBObj.requestorName, docUtils.borderless, null,'center', 7)
+                                            docUtils.field(lcDBObj.requestorName, docUtils.borderless, null,'boldCenter', 7)
                                         ],
                                         docUtils.generateLegalRepresentativeField(lcDBObj.legalRepresentative, lcDBObj.licenseSpecialData.representativeAs),
                                         [
                                             {text: 'Domicilio: ', style: 'labelT', border: docUtils.borderless},
-                                            docUtils.field(lcDBObj.licenseSpecialData.requestorAddress, docUtils.borderless, null,'center', 7),
+                                            docUtils.field(lcDBObj.licenseSpecialData.requestorAddress, docUtils.borderless, null,'boldCenter', 7),
                                         ],
                                         [
                                             {text: 'Fecha de Solicitud: ', style: 'labelT', border: docUtils.borderless},
-                                            docUtils.field(docUtils.dateFormatFull(lcDBObj.requestDate), docUtils.borderless, null,'center', 7),
+                                            docUtils.field(docUtils.dateFormatFull(lcDBObj.requestDate), docUtils.borderless, null,'boldCenter', 7),
                                         ]
                                     ]
                                 },
@@ -73,15 +73,15 @@ export async function generateUrbanPLF(lcDBObj) {
                                     body: [
                                         [
                                             {text: 'Domicilio: ', style: 'labelT', border: docUtils.borderless},
-                                            docUtils.field(lcDBObj.buildingAddress, docUtils.borderless, 1, 'center', 7)
+                                            docUtils.field(lcDBObj.buildingAddress, docUtils.borderless, 1, 'boldCenter', 7)
                                         ],
                                         [
                                             {text: 'Clave Catastral: ', style: 'labelT', border: docUtils.borderless},
-                                            docUtils.field(lcDBObj.catastralKey, docUtils.borderless, 1, 'center', 6),
+                                            docUtils.field(lcDBObj.catastralKey, docUtils.borderless, 1, 'boldCenter', 6),
                                         ],
                                         [
                                             {text: 'Superficie Total: ', style: 'labelT', border: docUtils.borderless},
-                                            docUtils.field(`${lcDBObj.surfaceTotal} m²`, docUtils.borderless, 1, 'center', 7)
+                                            docUtils.field(`${lcDBObj.surfaceTotal} m²`, docUtils.borderless, 1, 'boldCenter', 7)
                                         ]
                                     ]
                                 },
@@ -436,15 +436,15 @@ export async function generateUrbanPLF(lcDBObj) {
                     body: [
                         [{text: 'Fecha de Expedición: ', style: 'labelTC', colSpan: 2},
                             {},
-                            docUtils.field(docUtils.dateFormatFull(lcDBObj.expeditionDate), docUtils.borderless, 2, 'center',6),
+                            docUtils.field(docUtils.dateFormatFull(lcDBObj.expeditionDate), docUtils.borderless, 2, 'boldCenter',6),
                             {},
                             {text: 'Vigencia: ', style: 'labelTC', colSpan: 2},
                             {},
-                            docUtils.field(lcDBObj.validity.licenseValidity, docUtils.borderless, 2, 'center',7),
+                            docUtils.field(lcDBObj.validity.licenseValidity, docUtils.borderless, 2, 'boldCenter',7),
                             {},
                             {text: 'Folio de pago: ', style: 'labelTC', colSpan: 2},
                             {},
-                            docUtils.field(lcDBObj.billInvoice, docUtils.borderless, 2, 'center',7),
+                            docUtils.field(lcDBObj.billInvoice, docUtils.borderless, 2, 'boldCenter',7),
                             {}]
                     ]
                 },

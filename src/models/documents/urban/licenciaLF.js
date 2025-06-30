@@ -49,12 +49,12 @@ export async function generateUrbanLF(lcDBObj) {
                                     body: [
                                         [
                                             {text: 'Nombre: ', style: 'labelT', border: docUtils.borderless},
-                                            docUtils.field(lcDBObj.requestorName, docUtils.borderless, null,'center', 7)
+                                            docUtils.field(lcDBObj.requestorName, docUtils.borderless, null,'boldCenter', 7)
                                         ],
                                         docUtils.generateLegalRepresentativeField(lcDBObj.legalRepresentative, lcDBObj.licenseSpecialData.representativeAs),
                                         [
                                             {text: 'Domicilio: ', style: 'labelT', border: docUtils.borderless},
-                                            docUtils.field(lcDBObj.licenseSpecialData.requestorAddress, docUtils.borderless, null,'center', 7),
+                                            docUtils.field(lcDBObj.licenseSpecialData.requestorAddress, docUtils.borderless, null,'boldCenter', 7),
                                         ],
                                         [
                                             {text: '', border: docUtils.borderless},
@@ -73,15 +73,15 @@ export async function generateUrbanLF(lcDBObj) {
                                     body: [
                                         [
                                             {text: 'Domicilio: ', style: 'labelT', border: docUtils.borderless},
-                                            docUtils.field(lcDBObj.buildingAddress, docUtils.borderless, 1, 'center', 7)
+                                            docUtils.field(lcDBObj.buildingAddress, docUtils.borderless, 1, 'boldCenter', 7)
                                         ],
                                         [
                                             {text: 'Clave Catastral: ', style: 'labelT', border: docUtils.borderless},
-                                            docUtils.field(lcDBObj.catastralKey, docUtils.borderless, 1, 'center', 6),
+                                            docUtils.field(lcDBObj.catastralKey, docUtils.borderless, 1, 'boldCenter', 6),
                                         ],
                                         [
                                             {text: 'Superficie Total: ', style: 'labelT', border: docUtils.borderless},
-                                            docUtils.field(`${lcDBObj.surfaceTotal} m²`, docUtils.borderless, 1, 'center', 7)
+                                            docUtils.field(`${lcDBObj.surfaceTotal} m²`, docUtils.borderless, 1, 'boldCenter', 7)
                                         ]
                                     ]
                                 },
@@ -105,7 +105,7 @@ export async function generateUrbanLF(lcDBObj) {
                                     body: [
                                         [
                                             {text: 'Constancia de Uso de Suelo: ', style: 'labelT', border: docUtils.borderless},
-                                            docUtils.field(lcDBObj.licenseSpecialData.urbanCUS, docUtils.borderless, 1, 'center', 6)
+                                            docUtils.field(lcDBObj.licenseSpecialData.urbanCUS, docUtils.borderless, 1, 'boldCenter', 6)
                                         ]
                                     ]
                                 },
@@ -121,7 +121,7 @@ export async function generateUrbanLF(lcDBObj) {
                                     body: [
                                         [
                                             {text: 'Licencia de Uso de Suelo: ', style: 'labelT', border: docUtils.borderless},
-                                            docUtils.field(lcDBObj.licenseSpecialData.urbanLUS, docUtils.borderless, 1, 'center', 6)
+                                            docUtils.field(lcDBObj.licenseSpecialData.urbanLUS, docUtils.borderless, 1, 'boldCenter', 6)
                                         ]
                                     ]
                                 },
@@ -148,35 +148,35 @@ export async function generateUrbanLF(lcDBObj) {
                                         [
                                             {text: 'Uso de suelo permitido:', style: 'labelTC', border: docUtils.borderless, colSpan: 3},
                                             {},{},
-                                            docUtils.field(lcDBObj.zone.licenseZone, docUtils.borderless, 9, 'center', 7),
+                                            docUtils.field(lcDBObj.zone.licenseZone, docUtils.borderless, 9, 'boldCenter', 7),
                                             {},{},{},{},{},{},{},{}
                                         ],
                                         [
                                             {text: 'Porcentaje de ocupación:', style: 'labelTC', border: docUtils.borderless, colSpan: 2},
                                             {},
-                                            docUtils.field(`${lcDBObj.licenseSpecialData.occupationPercent}% por lote`, docUtils.borderless, 2, 'center', 7),
+                                            docUtils.field(`${lcDBObj.licenseSpecialData.occupationPercent}% por lote`, docUtils.borderless, 2, 'boldCenter', 7),
                                             {},
                                             {text: 'Sup. mínima por lote:', style: 'labelTC', border: docUtils.borderless, colSpan: 2},
                                             {},
-                                            docUtils.field(`${lcDBObj.licenseSpecialData.surfacePerLote} m²`, docUtils.borderless, 2, 'center', 7),
+                                            docUtils.field(`${lcDBObj.licenseSpecialData.surfacePerLote} m²`, docUtils.borderless, 2, 'boldCenter', 7),
                                             {},
                                             {text: 'Altura máxima:', style: 'labelTC', border: docUtils.borderless, colSpan: 2},
                                             {},
-                                            docUtils.field(`${lcDBObj.licenseSpecialData.maximumHeight} metros o ${lcDBObj.licenseSpecialData.levels} niveles`, docUtils.borderless, 2, 'center', 7),
+                                            docUtils.field(`${lcDBObj.licenseSpecialData.maximumHeight} metros o ${lcDBObj.licenseSpecialData.levels} niveles`, docUtils.borderless, 2, 'boldCenter', 7),
                                             {}
                                         ],
                                         [
                                             {text: 'Frente mínimo:', style: 'labelTC', border: docUtils.borderless, colSpan: 2},
                                             {},
-                                            docUtils.field(`${lcDBObj.licenseSpecialData.minimalFront} m`, docUtils.borderless, 2, 'center', 7),
+                                            docUtils.field(`${lcDBObj.licenseSpecialData.minimalFront} m`, docUtils.borderless, 2, 'boldCenter', 7),
                                             {},
                                             {text: 'Restricción frontal:', style: 'labelTC', border: docUtils.borderless, colSpan: 2},
                                             {},
-                                            docUtils.field(`${lcDBObj.licenseSpecialData.frontalRestriction} m`, docUtils.borderless, 2, 'center', 7),
+                                            docUtils.field(`${lcDBObj.licenseSpecialData.frontalRestriction} m`, docUtils.borderless, 2, 'boldCenter', 7),
                                             {},
                                             {text: 'Estacionamientos:', style: 'labelTC', border: docUtils.borderless, colSpan: 2},
                                             {},
-                                            docUtils.field(lcDBObj.licenseSpecialData.parkingLots, docUtils.borderless, 2, 'center', 7),
+                                            docUtils.field(lcDBObj.licenseSpecialData.parkingLots, docUtils.borderless, 2, 'boldCenter', 7),
                                             {}
                                         ]
                                     ]
@@ -536,15 +536,15 @@ export async function generateUrbanLF(lcDBObj) {
                     body: [
                         [{text: 'Fecha de Expedición: ', style: 'labelTC', colSpan: 2},
                             {},
-                            docUtils.field(docUtils.dateFormatFull(lcDBObj.expeditionDate), docUtils.borderless, 2, 'center',6),
+                            docUtils.field(docUtils.dateFormatFull(lcDBObj.expeditionDate), docUtils.borderless, 2, 'boldCenter',6),
                             {},
                             {text: 'Vigencia: ', style: 'labelTC', colSpan: 2},
                             {},
-                            docUtils.field(lcDBObj.validity.licenseValidity, docUtils.borderless, 2, 'center',7),
+                            docUtils.field(lcDBObj.validity.licenseValidity, docUtils.borderless, 2, 'boldCenter',7),
                             {},
                             {text: 'Folio de pago: ', style: 'labelTC', colSpan: 2},
                             {},
-                            docUtils.field(lcDBObj.billInvoice, docUtils.borderless, 2, 'center',7),
+                            docUtils.field(lcDBObj.billInvoice, docUtils.borderless, 2, 'boldCenter',7),
                             {}]
                     ]
                 },
