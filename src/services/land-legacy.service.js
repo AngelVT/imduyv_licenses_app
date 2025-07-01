@@ -3,6 +3,9 @@ import { validate as isUuid } from 'uuid';
 import ValidationError from "../errors/ValidationError.js";
 import ResourceError from "../errors/ResourceError.js";
 import { validatePeriod, validateDates } from "../validations/administration.validations.js";
+import { validatePFFile } from "../validations/landuse.validations.js";
+import { saveLegacyPDF } from "../utilities/landuse.utilities.js";
+import FileSystemError from "../errors/FileSystemError.js";
 
 export async function requestLegacyLicenseByUUID(id) {
     if (!isUuid(id)) {
@@ -19,9 +22,32 @@ export async function requestLegacyLicenseByUUID(id) {
             'Land use legacy request by ID.',
             `Request completed record ${id} does not exist.`);
     }
-    
+
     return {
         license
+    }
+}
+
+export async function requestLegacyLicenseByInvoice(invoice) {
+    const format = /^[A-Za-z]{1,3}\/\d{3}(\/\d{4})?$/;
+
+    if (!format.test(invoice)) {
+        throw new ValidationError('Request failed due to invalid invoice, it is recommended to use this format to search TYPE/###/####.',
+            'Land use legacy request by ID',
+            `Request failed due to ID ${invoice} is invalid.`
+        );
+    }
+
+    const licenses = await legacyRepo.findLegacyLicenseByInvoice(invoice);
+
+    if (!licenses || licenses.length === 0) {
+        throw new ResourceError('The requested land use legacy record does not exist, it is recommended to use this format to search TYPE/###/####.',
+            'Land use legacy request by invoice.',
+            `Request completed record ${invoice} does not exist.`);
+    }
+
+    return {
+        licenses
     }
 }
 
@@ -99,5 +125,42 @@ export async function requestLegacyLicenseByPeriod(startDate, endDate) {
 
     return {
         licenses
+    }
+}
+
+export async function requestLegacyPDFUpload(id, file) {
+    if (!isUuid(id)) {
+        throw new ValidationError('Request failed due to invalid ID.',
+            'Land use legacy upload request',
+            `Request failed due to ID ${id} is invalid.`
+        );
+    }
+
+    const license = await legacyRepo.findLegacyLicenseByUUID(id);
+
+    if (!license) {
+        throw new ResourceError('The requested land use legacy record does not exist.',
+            'Land use legacy upload request',
+            `Request completed record ${id} does not exist.`);
+    }
+
+    if (!await validatePFFile(file)) {
+        throw new ValidationError('Request failed due to invalid file provided.',
+            'Land use legacy upload request',
+            `Request failed due to file ${file.originalname} is invalid.`
+        );
+    }
+
+    file.originalname = `${license.licencia.replaceAll('/', '_')}.pdf`;
+
+    if (!await saveLegacyPDF(file)) {
+        throw new FileSystemError('Error saving files to server.',
+            'Land use legacy upload request',
+            `Request failed due to unexpected error saving files to server.
+            Provided file -> ${file.originalname}`);
+    }
+
+    return {
+        msg: `PDF uploaded successfully for license ${license.licencia}`
     }
 }

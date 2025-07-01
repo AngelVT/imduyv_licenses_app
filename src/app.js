@@ -69,9 +69,14 @@ app.use('/app', morgan('tiny', {
 
 // * Stablish access to the web files
 app.use('/public', express.static(path.join(__dirname, 'resources', 'public')));
+
 app.use('/private', verifyToken(), express.static(path.join(__dirname, 'resources', 'private')));
+
 app.use('/urbanStorage', verifyToken(), verifyGroup(['urban', 'all']), express.static(path.join(__dirstorage, 'assets', 'urban')));
+
 app.use('/landUseStorage', verifyToken(), verifyGroup(['land_use', 'all']), express.static(path.join(__dirstorage, 'assets', 'land')));
+
+app.use('/legacyStorage', verifyToken(), verifyGroup(['land_use', 'all']), express.static(path.join(__dirstorage, 'assets', 'legacy')));
 
 // * Stablish routes
 app.use('/api/landuse', landuseRoutes);

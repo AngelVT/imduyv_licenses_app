@@ -5,6 +5,7 @@ import * as logger from '../utilities/logger.utilities.js';
 
 export const setDefaultDirectories = async () => {
     createDirectory('assets/land', "Land use");
+    createDirectory('assets/legacy', "Land use Legacy");
     createDirectory('assets/urban', "Urban");
     createDirectory('official', "Officials");
 }

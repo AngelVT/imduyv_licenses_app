@@ -88,3 +88,19 @@ export async function saveZoneImage(file, fullInvoice) {
         return false;
     }
 }
+
+export async function saveLegacyPDF(file) {
+    try {
+        const destination = path.join(__dirstorage, 'assets', 'legacy', `${file.originalname}`);
+
+        const directory = path.dirname(destination);
+
+        await fs.mkdir(directory, { recursive: true });
+
+        await fs.writeFile(destination, file.buffer);
+
+        return true
+    } catch (error) {
+        return false;
+    }
+}

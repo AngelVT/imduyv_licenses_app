@@ -131,3 +131,21 @@ export async function validateFile(file) {
 
     return true;
 }
+
+export async function validatePFFile(file) {
+    if (file.mimetype !== 'application/pdf') {
+        return false;
+    }
+
+    const ext = path.extname(file.originalname).toLowerCase();
+    if (ext !== '.pdf') {
+        return false;
+    }
+
+    const detectedType = await fileTypeFromBuffer(file.buffer);
+    if (!detectedType || detectedType.mime !== 'application/pdf') {
+        return false;
+    }
+
+    return true;
+}

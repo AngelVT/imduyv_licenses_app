@@ -43,6 +43,12 @@ router.get('/landPrint', [
     authenticator.verifyGroup(['land_use', 'all'], { isMenu: true })
 ], appControl.goLandPrint);
 
+router.get('/landLegacy', [
+    authenticator.verifyToken({ redirect: true }),
+    authenticator.accountIntegrity,
+    authenticator.verifyGroup(['land_use', 'all'], { isMenu: true })
+], appControl.goLandLegacy);
+
 router.get('/urbanMenu', [
     authenticator.verifyToken({ redirect: true }),
     authenticator.accountIntegrity,

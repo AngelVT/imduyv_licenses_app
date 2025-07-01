@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/public/libs/bootstrap-icons-1.11.3/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="/public/css/tlib-0.1.0.css">
+    <title>Licencias tramites urbanos</title>
+    <link rel="shortcut icon" href="/public/img/landuse_icon.svg" type="image/x-icon">
+    <script src="/private/js/appLogout.js" defer></script>
+    <script src="/private/js/appInfoLoader.js" defer></script>
+    <script src="/private/js/appConsultControl.js"></script>
+    <script src="/private/js/appLandLegacy.js" defer></script>
+</head>
+<body>
+    <main>
+        <section class="page-full menu bg-blur">
+            <div class="container shadow-inner padding-horizontal-large padding-bottom-medium dis-flex flex-center-v flex-column">
+                
+                <a href="/app/landMenu" class="back-arrow bi-arrow-left-circle-fill"></a>
+                <span class="bi-buildings-fill user-info">
+                    <div class="border-round color-white">
+                        <span id="user_name" class="bi-person-circle padding-horizontal-small"> Usuario</span>
+                        <a target="_blank" id="sys_link" href="/app/sysadmin" class="dis-none"><span class="bi-cup-hot btn"> System administration</span></a>
+                        <a target="_blank" id="admin_link" href="/app/administration" class="dis-none"><span class="bi-bank btn"> Administración</span></a>
+                        <span id="logout" class="bi-door-open btn"> Cerrar sesión</span>
+                    </div>
+                </span>
+
+                <nav class="dis-flex flex-evenly w-100 margin-bottom-small padding-small border-primary border-only-left border-only-bottom border-only-right border-round-bottom controls">
+                    <form id="form_type_year" class="dis-flex flex-wrap flex-center-h w-15">
+                        <select  name="typeSelect" class="input input-secondary input-interface border-secondary input-round-left w-50" required>
+                            <option value="">Tipo...</option>
+                            <option value="1">Constancia</option>
+                            <option value="2">Licencia Servicios</option>
+                            <option value="3">Licencia Comercial</option>
+                            <option value="4">Licencia Industria</option>
+                            <option value="5">Segregado</option>
+                            <option value="6">Derecho de Preferencia</option>
+                            <option value="7">Licencia Habitacional</option>
+                        </select>
+                        <select name="yearSelect" class="input input-secondary input-interface input-round-right w-50" required>
+                            <option value="">Año ...</option>
+                            <option value="2022">2022</option>
+                            <option value="2023">2023</option>
+                            <option value="2024">2024</option>
+                            <option value="2025">2025</option>
+                        </select>
+
+                        <button class="btn btn-primary margin-top-small" type="submit">Buscar por tipo y año</button>
+                        
+                    </form>
+
+                    <form id="form_catastral" class="dis-flex flex-wrap flex-center-h w-15">
+                        <input name="catastralKey" class="input input-secondary input-interface border-secondary input-round w-100" type="number" placeholder="clave catastral" required>
+
+                        <button class="btn btn-primary margin-top-small" type="submit">Buscar clave catastral</button>
+                    </form>
+
+                    <form id="form_requestor" class="dis-flex flex-wrap flex-center-h w-15">
+                        <input name="requestorName" class="input input-secondary input-interface border-secondary input-round w-100" type="text" placeholder="nombre del solicitante" required>
+
+                        <button class="btn btn-primary margin-top-small" type="submit">Buscar solicitante</button>
+                    </form>
+
+                    <form id="form_invoice" class="dis-flex flex-wrap flex-center-h w-15">
+                        <input name="licencia" class="input input-secondary input-interface border-secondary input-round w-100" type="text" placeholder="folio" required>
+
+                        <button class="btn btn-primary margin-top-small" type="submit">Buscar folio</button>
+                    </form>
+
+                    <form id="form_period" class="dis-flex flex-wrap flex-center-h w-20">
+                        <input name="periodStart" class="input input-secondary input-interface border-secondary input-round-left w-50" type="date" required>
+
+                        <input name="periodEnd" class="input input-secondary input-interface input-round-right w-50" type="date" required>
+
+                        <button class="btn btn-primary margin-top-small" type="submit">Buscar periodo</button>
+                        
+                    </form>
+                </nav>
+
+                <div id="results_container" class="results-container">
+                    
+                </div>
+                
+            </div>
+        </section>
+    </main>
+</body>
+</html>

@@ -16,6 +16,19 @@ export async function findLegacyLicenseByUUID(id) {
         where: {
             legacy_license_uuid: id
         },
+        order: [['licencia', 'ASC']],
+        include: LEGACY_MODELS,
+        attributes: LEGACY_ATTRIBUTES,
+        raw: true,
+        nest: true
+    });
+}
+
+export async function findLegacyLicenseByInvoice(invoice) {
+    return await LegacyLicense.findAll({
+        where: {
+            licencia: { [Op.iLike]: `%${escapeLike(invoice)}%` }
+        },
         include: LEGACY_MODELS,
         attributes: LEGACY_ATTRIBUTES,
         raw: true,
@@ -29,6 +42,7 @@ export async function findLegacyLicenseByTypeYear(type, year) {
             legacy_type_id: type,
             year: year
         },
+        order: [['licencia', 'ASC']],
         include: LEGACY_MODELS,
         attributes: LEGACY_ATTRIBUTES,
         raw: true,
@@ -41,6 +55,7 @@ export async function findLegacyLicenseByCatastralKey(catastralKey) {
         where: {
             clave_catastral: { [Op.iLike]: `%${escapeLike(catastralKey)}%` }
         },
+        order: [['licencia', 'ASC']],
         include: LEGACY_MODELS,
         attributes: LEGACY_ATTRIBUTES,
         raw: true,
@@ -56,6 +71,7 @@ export async function findLegacyLicenseByRequestor(requestorName) {
                 [Sequelize.Op.iLike]: `%${escapeLike(requestorName)}%`
             }
         ),
+        order: [['licencia', 'ASC']],
         include: LEGACY_MODELS,
         attributes: LEGACY_ATTRIBUTES,
         raw: true,
@@ -70,6 +86,7 @@ export async function findLegacyLicenseByPeriod(startDate, endDate) {
                 [Op.between]: [startDate, endDate]
             }
         },
+        order: [['licencia', 'ASC']],
         include: LEGACY_MODELS,
         attributes: LEGACY_ATTRIBUTES,
         raw: true,

@@ -72,6 +72,15 @@ export const goLandConsult = (req, res) => {
     }
 };
 
+export const goLandLegacy = (req, res) => {
+    try {
+        res.sendFile(path.join(__dirname, 'resources', 'private', 'landuse_legacy.html'));
+    } catch (error) {
+        logger.logRequestError('Error loading page due to server side error', error);
+        res.status(500).json({msg: "Error loading resource"});
+    }
+};
+
 export const goLandPrint = (req, res) => {
     try {
         res.sendFile(path.join(__dirname, 'resources', 'private', 'landuse_print.html'));

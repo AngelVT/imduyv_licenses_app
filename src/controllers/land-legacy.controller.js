@@ -11,6 +11,18 @@ export const getLicense = requestHandler(
     }
 );
 
+export const getLicenseByInvoice = requestHandler(
+    async (req, res) => {
+        let { invoice } = req.params;
+
+        invoice = decodeURIComponent(invoice);
+
+        const response = await legacyService.requestLegacyLicenseByInvoice(invoice);
+
+        res.status(200).json(response);
+    }
+);
+
 export const getLicenseByTypeYear = requestHandler(
     async (req, res) => {
         const { type, year } = req.params;
@@ -46,6 +58,17 @@ export const getLicenseByPeriod = requestHandler(
         const { startDate, endDate } = req.params;
 
         const response = await legacyService.requestLegacyLicenseByPeriod(startDate, endDate);
+
+        res.status(200).json(response);
+    }
+);
+
+export const uploadLicensePDF = requestHandler(
+    async (req, res) => {
+        const { legacyID } = req.params;
+        const file = req.file;
+
+        const response = await legacyService.requestLegacyPDFUpload(legacyID, file);
 
         res.status(200).json(response);
     }

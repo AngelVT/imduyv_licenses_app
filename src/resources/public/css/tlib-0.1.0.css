@@ -1727,6 +1727,21 @@ textarea.invissible:focus {
     background-color: var(--primary);
 }
 
+.legacy-field {
+    display: flex;
+    flex-wrap: wrap;
+    text-transform: capitalize;
+    color: var(--primary);
+    font-weight: bold;
+    margin-bottom: 16px;
+}
+
+.legacy-field > span{
+    width: 100%;
+    font-weight: 400;
+    color: var(--black);
+}
+
 @media (max-width: 1450px) {
     .btn-column {
         font-size: 4.4rem;

@@ -4,12 +4,15 @@ function hideShow(id) {
     let resultPrint = document.querySelector(`#result_control_print_${id}`);
     let fields = document.querySelector(`#result_fields_${id}`);
 
-    if (resultPrint) {
+    /*if (resultPrint) {
         resultPrint.classList.toggle("dis-none");
+    }*/
+
+    if (resultDelete) {
+        resultDelete.classList.toggle("dis-none");
     }
     resultTop.classList.toggle("border-round");
     resultTop.classList.toggle("border-round-top");
-    resultDelete.classList.toggle("dis-none");
     fields.classList.toggle("dis-none");
 }
 
@@ -206,6 +209,38 @@ function createResultYearLegendTop(obj, periodType) {
     topLabel.appendChild(span);
 
     top.appendChild(topLabel);
+
+    return top;
+}
+
+function createLegacyTop(obj) {
+    let top = document.createElement('div');
+    let topLabel = document.createElement('p');
+    let topControls = document.createElement('div');
+    let span;
+
+    top.setAttribute('id', `result_top_${obj.legacy_license_uuid}`);
+    top.setAttribute('class', `w-100 dis-flex flex-between flex-center-v padding-small bg-primary border-round controls`);
+
+    topLabel.setAttribute('class', `color-white txt-bold w-100 txt-center result-label`);
+
+    topLabel.setAttribute('onclick', `hideShow('${obj.legacy_license_uuid}')`);
+    topLabel.setAttribute('id', `result_user_${obj.legacy_license_uuid}`);
+
+    topLabel.innerText = `${obj.licencia}`;
+
+    top.appendChild(topLabel);
+
+    topControls.setAttribute('class', 'w-15 dis-flex flex-evenly');
+
+    span = document.createElement('a');
+    span.setAttribute('id', `result_control_print_${obj.legacy_license_uuid}`);
+    span.setAttribute('target', '_blank');
+    span.setAttribute('href', `/legacyStorage/${obj.licencia.replaceAll('/','_')}.pdf`);
+    span.setAttribute('class', 'bi-printer txt-medium color-white result-control');
+    topControls.appendChild(span);
+
+    top.appendChild(topControls);
 
     return top;
 }
