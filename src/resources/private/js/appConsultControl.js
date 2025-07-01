@@ -76,7 +76,7 @@ function createResultTop(obj, isPrint, isLandUse) {
     span.setAttribute('id', `result_control_print_${obj.id}`);
     span.setAttribute('target', '_blank');
     span.setAttribute('href', `/api/${isLandUse ? 'landuse' : 'urban'}/PDF/t/${obj.licenseType}/i/${obj.invoice}/y/${obj.year}`);
-    span.setAttribute('class', `bi-printer txt-medium color-white${isPrint ? ' ' : ' dis-none '}result-control`);
+    span.setAttribute('class', `bi-file-earmark-pdf txt-medium color-white${isPrint ? ' ' : ' dis-none '}result-control`);
     topControls.appendChild(span);
 
     if (isLandUse) {
@@ -117,14 +117,12 @@ function createResultTop(obj, isPrint, isLandUse) {
 
 function createResultTopNoUpdate(obj, isLandUse) {
     let top = document.createElement('div');
-    let topLabel = document.createElement('a');
+    let topLabel = document.createElement('p');
+    let topControls = document.createElement('div');
     let span;
     top.setAttribute('class', `w-100 dis-flex flex-between flex-center-v padding-small bg-primary border-round`);
 
     topLabel.setAttribute('class', `color-white txt-bold w-100 txt-center  result-label`);
-    topLabel.style.textDecoration = 'none'
-    topLabel.setAttribute('target', '_blank');
-    topLabel.setAttribute('href', `/api/${isLandUse ? 'landuse' : 'urban'}/PDF/t/${obj.licenseType}/i/${obj.invoice}/y/${obj.year}`);
     topLabel.innerText = 'Folio: ';
     span = document.createElement('span');
     span.setAttribute('id', `result_invoice_${obj.id}`);
@@ -133,6 +131,25 @@ function createResultTopNoUpdate(obj, isLandUse) {
 
     top.appendChild(topLabel);
 
+    topControls.setAttribute('class', 'w-15 dis-flex flex-evenly');
+
+    span = document.createElement('a');
+    span.setAttribute('id', `result_control_pdf_${obj.id}`);
+    span.setAttribute('target', '_blank');
+    span.setAttribute('href', `/api/${isLandUse ? 'landuse' : 'urban'}/PDF/t/${obj.licenseType}/i/${obj.invoice}/y/${obj.year}`);
+    span.setAttribute('class', `bi-file-earmark-pdf txt-medium color-white result-control`);
+
+    topControls.appendChild(span);
+
+    span = document.createElement('a');
+    span.setAttribute('id', `result_control_edit_${obj.id}`);
+    span.setAttribute('href', `/app/${isLandUse ? 'landPrint' : 'urbanPrint'}?type=${obj.licenseType}&invoice=${obj.invoice}&year=${obj.year}`);
+    span.setAttribute('class', `bi-pencil-square txt-medium color-white result-control`);
+    
+    topControls.appendChild(span);
+
+    top.appendChild(topControls);
+    
     return top;
 }
 
@@ -237,7 +254,7 @@ function createLegacyTop(obj) {
     span.setAttribute('id', `result_control_print_${obj.legacy_license_uuid}`);
     span.setAttribute('target', '_blank');
     span.setAttribute('href', `/legacyStorage/${obj.licencia.replaceAll('/','_')}.pdf`);
-    span.setAttribute('class', 'bi-printer txt-medium color-white result-control');
+    span.setAttribute('class', 'bi-file-earmark-pdf txt-medium color-white result-control');
     topControls.appendChild(span);
 
     top.appendChild(topControls);
