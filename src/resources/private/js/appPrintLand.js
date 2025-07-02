@@ -110,7 +110,16 @@ async function updateResultField(form, id) {
                 let url = PDF.getAttribute('src').split('?')[0];
                 PDF.setAttribute('src', `${url}?${new Date().getTime()}`);
 
-                document.getElementById(`result_control_approve_${id}`).setAttribute('class', `${response.license.approvalStatus ? 'bi-building-check' : "bi-building-dash"} txt-medium color-white result-control`);
+                const approvalBtn = document.getElementById(`result_control_approve_${id}`);
+
+                if (response.license.approvalStatus) {
+                    approvalBtn.classList.add('bi-building-check');
+                    approvalBtn.classList.remove('bi-building-dash');
+                } else {
+                    approvalBtn.classList.remove('bi-building-check');
+                    approvalBtn.classList.add('bi-building-dash');
+                    approvalBtn.setAttribute('onclick', `approveLicense('${id}', this)`);
+                }
 
                 alert(`Cambios guardados exitosamente para el registro: ${registro}`);
                 return;
@@ -152,8 +161,9 @@ async function approveLicense(id, button) {
 
         alert(`Licencia ${registro}, aprobada exitosamente.`);
 
-        button.classList.toggle("bi-building-check");
-        button.classList.toggle("bi-building-dash");
+        button.classList.add("bi-building-check");
+        button.classList.remove("bi-building-dash");
+        button.removeAttribute('onclick');
     } catch (error) {
         console.log(error);
         alert('Solicitud fallida');
@@ -185,7 +195,7 @@ async function lockLicense(id, button) {
 
         alert(`Licencia ${registro}, bloqueada exitosamente.`);
 
-        document.getElementById(`result_control_active_${id}`).setAttribute('onclick', `unlockLicense('${id}', this)`);
+        button.setAttribute('onclick', `unlockLicense('${id}', this)`);
         button.classList.toggle("bi-unlock");
         button.classList.toggle("bi-lock");
     } catch (error) {
@@ -219,7 +229,7 @@ async function unlockLicense(id, button) {
 
         alert(`Licencia ${registro}, bloqueada exitosamente.`);
 
-        document.getElementById(`result_control_active_${id}`).setAttribute('onclick', `lockLicense('${id}', this)`);
+        button.setAttribute('onclick', `lockLicense('${id}', this)`);
         button.classList.toggle("bi-unlock");
         button.classList.toggle("bi-lock");
     } catch (error) {

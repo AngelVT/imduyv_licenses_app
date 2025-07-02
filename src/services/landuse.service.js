@@ -10,6 +10,8 @@ import ResourceError from '../errors/ResourceError.js';
 import ValidationError from '../errors/ValidationError.js';
 import FileSystemError from '../errors/FileSystemError.js';
 import { validateDates } from '../validations/administration.validations.js';
+import path from 'path';
+import { __dirstorage } from '../path.configuration.js';
 
 export async function requestAllLandLicenses() {
 
@@ -482,7 +484,7 @@ export async function requestLandLicenseLock(id, requestor) {
         );
     }
 
-    const licenseLock = await landRepo.getLicenseApprovalStatus(id);
+    const licenseLock = await landRepo.findLandLicenseId(id);
 
     if (!licenseLock) {
         throw new ResourceError('Request failed due to the record to approve does not exist.',
@@ -505,6 +507,13 @@ export async function requestLandLicenseLock(id, requestor) {
                 fullInvoice: licenseLock.fullInvoice
             }
         }
+    }
+
+    if (!await landUtils.generateArchivePDF(licenseLock)) {
+        throw new FileSystemError('Error saving files to server.',
+            'Land use lock request',
+            `Request failed due to unexpected error saving files to server.
+            File creation for -> ${id}:${licenseLock.fullInvoice}`);
     }
 
     const lockedLicense = await landRepo.saveLandLicense(id, {
@@ -600,6 +609,14 @@ export async function requestPDFDefinition(type, invoice, year) {
         throw new ResourceError('The requested land use record does not exist',
             'Land use request by full invoice',
             `Search params /t/${type}/i/${invoice}/y/${year} not found.`);
+    }
+
+    if (!LICENSE.active) {
+        return {
+        ID: LICENSE.public_land_license_id,
+        fullInvoice: LICENSE.fullInvoice,
+        file: path.join(__dirstorage, 'assets', 'land', LICENSE.fullInvoice, `${LICENSE.fullInvoice}.pdf`)
+    };
     }
 
     LICENSE = specialDataToJSON(LICENSE);

@@ -218,12 +218,16 @@ export const getLicensePDF = requestHandler(
 
         const response = await landService.requestPDFDefinition(TYPE, INVOICE, YEAR);
 
-        const pdfDoc = printerPDF.createPdfKitDocument(response.definition);
+        if (response.file) {
+            res.sendFile(response.file);
+        } else {
+            const pdfDoc = printerPDF.createPdfKitDocument(response.definition);
 
-        res.setHeader('Content-Type', 'application/pdf');
-        pdfDoc.info.Title = response.fullInvoice;
-        pdfDoc.pipe(res);
-        pdfDoc.end();
+            res.setHeader('Content-Type', 'application/pdf');
+            pdfDoc.info.Title = response.fullInvoice;
+            pdfDoc.pipe(res);
+            pdfDoc.end();
+        }
 
         logger.logRequestInfo('Land use PDF request completed',
             `Requestor ID -> ${req.user.uuid}

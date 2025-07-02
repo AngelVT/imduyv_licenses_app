@@ -1,6 +1,11 @@
 import path from "path";
 import { promises as fs } from 'fs';
+import { createWriteStream } from "fs";
 import { __dirstorage } from "../path.configuration.js";
+import { generateLandUseC } from "../models/documents/landUse/licenciaC.js";
+import { generateLandUseL } from "../models/documents/landUse/licenciaL.js";
+import { generateLandUseDP } from "../models/documents/landUse/licenciaDP.js";
+import { printerPDF } from "../utilities/pdf.utilities.js";
 
 import { getLatestInvoice, getLicenseType } from "../repositories/landuse.repository.js";
 
@@ -101,6 +106,48 @@ export async function saveLegacyPDF(file) {
 
         return true
     } catch (error) {
+        return false;
+    }
+}
+
+export async function generateArchivePDF(license) {
+    try {
+        const destination = path.join(__dirstorage, 'assets', 'land', license.fullInvoice, `${license.fullInvoice}.pdf`);
+
+        const directory = path.dirname(destination);
+
+        await fs.mkdir(directory, { recursive: true });
+
+        let definition;
+
+        if (license.licenseType == 1) {
+            definition = await generateLandUseC(license);
+        }
+
+        if (license.licenseType >= 2 && license.licenseType <= 5) {
+            definition = await generateLandUseL(license);
+        }
+
+        if (license.licenseType == 6) {
+            definition = await generateLandUseDP(license);
+        }
+
+        const pdfDoc = printerPDF.createPdfKitDocument(definition);
+
+        const writeStream = createWriteStream(destination);
+
+        return new Promise((resolve, reject) => {
+            pdfDoc.pipe(writeStream);
+            pdfDoc.end();
+
+            writeStream.on('finish', () => resolve(true));
+            writeStream.on('error', (err) => {
+                console.error("Error writing PDF:", err);
+                reject(false)
+            });
+        });
+    } catch (error) {
+        console.log(error)
         return false;
     }
 }
