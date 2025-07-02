@@ -6,10 +6,6 @@ const router = Router();
 
 const SYSTEM = ['system'];
 
-router.get('/info',
-    authenticator.verifyToken(),
-    userControl.getUserInfo);
-
 router.get('/', [
     authenticator.verifyToken(),
     authenticator.accountIntegrity,

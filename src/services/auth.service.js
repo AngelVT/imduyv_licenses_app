@@ -55,8 +55,9 @@ export async function requestSignIn(username, password) {
         user_info: {
             ID: USER.public_user_id,
             name: USER.name,
-            username: USER.username,
-            session_active: true
+            user: USER.username,
+            user_group: USER.group.group,
+            user_role: USER.role.role
         }
     }
 }

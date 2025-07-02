@@ -291,38 +291,6 @@ export async function requestUserDeletion(id) {
     }
 }
 
-export async function requestUserInfo(id) {
-    if (!isUuid(id)) {
-        return {
-            status: 400,
-            data: {
-                msg: "Request failed due to invalid ID."
-            },
-            log: `Request failed due to invalid ID ${id} invalid.`
-        };
-    }
-
-    const USER = await userRepo.findUserByID(id);
-
-    if (USER == null) {
-        return {
-            status: 404,
-            data: {
-                msg: "The requested user does not exist."
-            }
-        }
-    }
-
-    return {
-        status: 200,
-        data: {
-            name: USER.name,
-            group: USER.group.group,
-            role: USER.role.role
-        }
-    };
-}
-
 export async function requestUserQR(qrToken) {
     let USER_INFO;
 

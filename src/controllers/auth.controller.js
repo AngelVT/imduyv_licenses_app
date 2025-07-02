@@ -8,11 +8,25 @@ export const signIn = requestHandler(async (req, res) => {
 
     const userInfo = await requestSignIn(username, password);
 
+    const { name, user, user_group, user_role } = userInfo.user_info;
+
     res.cookie("access_token", userInfo.TOKEN, {
         httpOnly: true,
         secure: true,
         signed: true,
         sameSite: 'strict',
+        maxAge: config.COOKIE_EXP
+    });
+
+    res.cookie("session_info", JSON.stringify({
+        name,
+        user,
+        user_group,
+        user_role
+    }), {
+        secure: true,
+        sameSite: 'strict',
+        path: '/app',
         maxAge: config.COOKIE_EXP
     });
 
@@ -26,18 +40,26 @@ export const signIn = requestHandler(async (req, res) => {
 });
 
 export const logOut = (req, res) => {
-    return res.clearCookie("access_token", {
+    res.clearCookie("access_token", {
         httpOnly: true,
         secure: true,
         signed: true,
         sameSite: 'strict'
-    }).status(200).json({ redirectTo: '/app/login' });
+    });
+
+    res.clearCookie("session_info", {
+        secure: true,
+        sameSite: 'strict',
+        path: '/app'
+    });
+
+    return res.status(200).json({ redirectTo: '/app/login' });
 }
 
 export const passwordReset = requestHandler(async (req, res) => {
     const { currentPassword, newPassword } = req.body;
 
-    const response = await requestPasswordReset(currentPassword, newPassword, {userID: req.user.uuid, username: req.user.username});
+    const response = await requestPasswordReset(currentPassword, newPassword, { userID: req.user.uuid, username: req.user.username });
 
     res.status(200).json(response.msg);
 

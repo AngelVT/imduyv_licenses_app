@@ -11,7 +11,7 @@ export function verifyToken(options = {}) {
     const finalOptions = { ...defaultOptions, ...options };
 
     return async function (req, res, next) {
-        const destination = encodeURI(req.originalUrl);
+        const destination = encodeURIComponent(req.originalUrl);
         const logInDestination = `${finalOptions.logInPath}?url=${destination}`;
         const failedResponse = () => finalOptions.redirect
             ? res.redirect(logInDestination)

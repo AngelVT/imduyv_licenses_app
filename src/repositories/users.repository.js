@@ -79,10 +79,16 @@ export async function findUsersByGroup(group) {
 export async function findUsername(username) {
     return await User.findOne({
         where: { username: username },
-        include: {
-            model: Group,
-            attributes: ['group']
-        },
+        include: [
+            {
+                model: Role,
+                attributes: ['role']
+            },
+            {
+                model: Group,
+                attributes: ['group']
+            }
+        ],
         raw: true,
         nest: true
     });

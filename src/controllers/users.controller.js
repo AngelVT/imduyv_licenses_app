@@ -154,11 +154,3 @@ export const getUserQR = requestHandler(
         Requested QR -> ${response.user}`);
     }
 );
-
-export const getUserInfo = requestHandler(
-    async function (req, res) {
-        const response = await userService.requestUserInfo(req.user.uuid);
-
-        res.status(response.status).json(response.data);
-    }
-);
