@@ -8,6 +8,10 @@ const helmetMiddleware = helmet({
                 "'self'",
                 "'unsafe-inline'",
             ],
+            scriptSrcAttr: [
+                "'self'",
+                "'unsafe-inline'",
+            ],
             styleSrc: [
                 "'self'",
                 "'unsafe-inline'",
