@@ -1,6 +1,7 @@
 import express from 'express';
 import morgan from 'morgan';
 import cors from 'cors';
+import rateLimit from 'express-rate-limit';
 import cookieParser from 'cookie-parser';
 import path from 'path';
 
@@ -11,6 +12,7 @@ import { setDBDefaults } from './configuration/databaseValues.configuration.js';
 import { setDefaultDirectories } from './configuration/storage.configuration.js';
 import { verifyToken, verifyGroup } from './middlewares/auth.JWT.js';
 
+import helmetMiddleware from './configuration/helmet.configuration.js';
 import landuseRoutes from './routes/landuse.routes.js';
 import legacyRoutes from './routes/land-legacy.routes.js';
 import urbanRoutes from './routes/urban.routes.js';
@@ -27,6 +29,14 @@ checkDB();
 
 setDBDefaults();
 setDefaultDirectories();
+
+app.use(helmetMiddleware);
+
+app.use(rateLimit({
+    windowMs: 60 * 60 * 1000,
+    max: 100,
+    message: "Too many requests from this IP, please try again later."
+}));
 
 app.use(express.json({ limit: '5mb' }));
 app.use(express.urlencoded({ limit: '10mb', extended: true }));
