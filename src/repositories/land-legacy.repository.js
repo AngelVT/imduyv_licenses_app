@@ -11,12 +11,14 @@ const LEGACY_MODELS = [
     }
 ]
 
+const LEGACY_ORDER = [['licencia', 'ASC']];
+
 export async function findLegacyLicenseByUUID(id) {
     return await LegacyLicense.findOne({
         where: {
             legacy_license_uuid: id
         },
-        order: [['licencia', 'ASC']],
+        order: LEGACY_ORDER,
         include: LEGACY_MODELS,
         attributes: LEGACY_ATTRIBUTES,
         raw: true,
@@ -42,7 +44,7 @@ export async function findLegacyLicenseByTypeYear(type, year) {
             legacy_type_id: type,
             year: year
         },
-        order: [['licencia', 'ASC']],
+        order: LEGACY_ORDER,
         include: LEGACY_MODELS,
         attributes: LEGACY_ATTRIBUTES,
         raw: true,
@@ -55,7 +57,7 @@ export async function findLegacyLicenseByCatastralKey(catastralKey) {
         where: {
             clave_catastral: { [Op.iLike]: `%${escapeLike(catastralKey)}%` }
         },
-        order: [['licencia', 'ASC']],
+        order: LEGACY_ORDER,
         include: LEGACY_MODELS,
         attributes: LEGACY_ATTRIBUTES,
         raw: true,
@@ -71,7 +73,7 @@ export async function findLegacyLicenseByRequestor(requestorName) {
                 [Sequelize.Op.iLike]: `%${escapeLike(requestorName)}%`
             }
         ),
-        order: [['licencia', 'ASC']],
+        order: LEGACY_ORDER,
         include: LEGACY_MODELS,
         attributes: LEGACY_ATTRIBUTES,
         raw: true,
@@ -86,7 +88,7 @@ export async function findLegacyLicenseByPeriod(startDate, endDate) {
                 [Op.between]: [startDate, endDate]
             }
         },
-        order: [['licencia', 'ASC']],
+        order: LEGACY_ORDER,
         include: LEGACY_MODELS,
         attributes: LEGACY_ATTRIBUTES,
         raw: true,
