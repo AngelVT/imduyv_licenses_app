@@ -39,7 +39,7 @@ function sessionState() {
     }
 }
 
-sessionState();
+//sessionState();
 
 form.addEventListener(
     'submit', async (event) => {

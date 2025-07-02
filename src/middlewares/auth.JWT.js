@@ -166,6 +166,30 @@ export function verifyPermission(allowedPermissions = [], options = { mode: 'any
     };
 }
 
+export const loginRedirect = async (req, res, next) => {
+    const clientToken = req.signedCookies.access_token;
+
+    if (!clientToken) return next();
+
+    let decoded;
+    try {
+        decoded = jwt.verify(clientToken, process.env.SECRET, { algorithms: ['HS256'] });
+
+        const { userID, username } = decoded;
+
+        if (!userID || !username) return failedResponse();
+
+        const USER = await findUserByIdUsername(userID, username);
+
+        if (!USER) return failedResponse();
+
+        redirectToMenu(USER.group.group, res);
+
+    } catch (err) {
+        return next();
+    }
+}
+
 function redirectToMenu(userGroup, res) {
     switch (userGroup) {
         case 'land_use':

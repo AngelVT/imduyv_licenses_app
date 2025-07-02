@@ -8,7 +8,7 @@ router.get('/info', appControl.goInfo);
 
 router.get('/appInfo', appControl.getInfo);
 
-router.get('/login', appControl.goLogIn);
+router.get('/login', authenticator.loginRedirect, appControl.goLogIn);
 
 router.get('/georef/:coordinates', appControl.getZoneInfo);
 
