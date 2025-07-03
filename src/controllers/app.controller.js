@@ -2,7 +2,6 @@ import path from "path";
 import { __dirname } from "../path.configuration.js";
 import pkg from '../../package.json' with {type: "json"};
 import * as logger from "../utilities/logger.utilities.js";
-import { requestCoordinateCheck } from "../services/app.service.js";
 
 export const goInfo = (req, res) => {
     try {
@@ -168,17 +167,5 @@ export const goAdministrationMenu = (req, res) => {
     } catch (error) {
         logger.logRequestError('Error loading page due to server side error', error);
         res.status(500).json({msg: "Error loading resource"});
-    }
-};
-
-export const getZoneInfo = async (req, res) => {
-    try {
-        const response = await requestCoordinateCheck(req.params.coordinates);
-
-        res.status(response.status).json(response.data);
-    } catch (error) {
-        logger.logConsoleError('Zone Info request failed due to server side error', error);
-        logger.logRequestError('Zone Info request failed due to server side error', error);
-        res.status(500).json({msg: "Error getting the requested zone information."});
     }
 };

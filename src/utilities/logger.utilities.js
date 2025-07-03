@@ -13,6 +13,14 @@ export function logConsoleInfo(message, details) {
     consoleLogger.info(`\n  ${message}${!details ? '' : ':\n  Details:\n  %s'}`, details);
 }
 
+export function logConsoleApp(message) {
+    consoleLogger.app(`\n  ${message}`);
+}
+
+export function logConsoleApi(message) {
+    consoleLogger.api(`\n  ${message}`);
+}
+
 //server logging functions
 export function logServerError(message, error) {
     logger.error(`${message}.\n    Error details: %s`, error);

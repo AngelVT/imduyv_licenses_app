@@ -170,7 +170,7 @@ async function setData(targets, coord) {
 
 async function getGeoInfo(georef) {
     try {
-        let res = await fetch(`/app/georef/${georef}`);
+        let res = await fetch(`/api/geographic/pointInfo/${georef}`);
         let response = await res.json();
 
         if (res.ok) {

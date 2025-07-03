@@ -5,6 +5,9 @@ import { LegacyLicense, LegacyType } from "../models/LandLegacy.models.js";
 import { InstituteAdministration, LicensesAdministration, MunicipalAdministration, YearOf } from "../models/Administration.models.js";
 import { encryptPassword } from "../utilities/password.utilities.js";
 import * as logger from "../utilities/logger.utilities.js";
+import { ZONE_DATA } from "../resources/data/appZonesData.js";
+import { PCU_DATA } from "../resources/data/appPCUData.js";
+import { createZoneDataTable, createPCUDataTable} from "../repositories/geo.repository.js";
 
 const createSchemas = async () => {
     try {
@@ -13,6 +16,7 @@ const createSchemas = async () => {
         pool.query('CREATE SCHEMA IF NOT EXISTS administration');
         pool.query('CREATE SCHEMA IF NOT EXISTS licenses');
         pool.query('CREATE SCHEMA IF NOT EXISTS legacy');
+        pool.query('CREATE SCHEMA IF NOT EXISTS geographic');
 
         logger.logConsoleInfo("Schemas established successfully");
         logger.logServerInfo("Schemas established successfully", 
@@ -512,6 +516,27 @@ const setDefaultUrbanLicenseTypes = async () => {
     }
 }
 
+const setGeographicData = async () => {
+    try {
+        const zoneSecFeatures = ZONE_DATA.features;
+        const pcuFeatures = PCU_DATA.features;
+
+        if (await createZoneDataTable(zoneSecFeatures)) {
+            logger.logConsoleInfo("Zone Sec Geographic data loaded in the DB.");
+            logger.logServerInfo("Zone Sec Geographic data loaded in the DB");
+        }
+
+        if (await createPCUDataTable(pcuFeatures)) {
+            logger.logConsoleInfo("PCU Geographic data loaded in the DB.");
+            logger.logServerInfo("PCU Geographic data loaded in the DB");
+        }
+
+    } catch (error) {
+        logger.logConsoleWarning(`Error establishing geographic data:\n    ${error}`);
+        logger.logServerWarning(`Error establishing geographic data`, `-${error}`);
+    }
+}
+
 const syncModels = async () => {
     try {
         await LandUseLicense.sync();
@@ -541,5 +566,6 @@ export const setDBDefaults = async () => {
     await setDefaultLicenseValidities();
     await setDefaultLicenseExpeditionTypes();
     await setDefaultUrbanLicenseTypes();
+    await setGeographicData();
     await syncModels();
 }

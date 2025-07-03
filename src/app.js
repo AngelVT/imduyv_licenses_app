@@ -20,8 +20,9 @@ import userRoutes from './routes/users.routes.js';
 import authRoutes from './routes/auth.routes.js';
 import appRoutes from './routes/app.routes.js';
 import testRoutes from './routes/test.routes.js';
+import geoRoutes from './routes/geo.routes.js';
 import administrationRoutes from './routes/administration.routes.js';
-import { logConsoleInfo, logConsoleWarning, logServerHttp } from './utilities/logger.utilities.js';
+import { logConsoleApi, logConsoleApp, logServerHttp } from './utilities/logger.utilities.js';
 
 const app = express();
 
@@ -30,7 +31,7 @@ checkDB();
 setDBDefaults();
 setDefaultDirectories();
 
-app.use(helmetMiddleware);
+//app.use(helmetMiddleware);
 
 app.use(rateLimit({
     windowMs: 30 * 60 * 1000,
@@ -59,7 +60,7 @@ app.use('/', morgan('tiny', {
 app.use('/app', morgan('tiny', {
     stream: {
         write: (msg) => {
-            logConsoleInfo(`Screen request: ${msg.trim()}`);
+            logConsoleApp(`Screen request: ${msg.trim()}`);
         }
     }
 }));
@@ -67,7 +68,7 @@ app.use('/app', morgan('tiny', {
 app.use('/api', morgan('tiny', {
     stream: {
         write: (msg) => {
-            logConsoleWarning(`Api request: ${msg.trim()}`);
+            logConsoleApi(`Api request: ${msg.trim()}`);
         }
     }
 }));
@@ -95,6 +96,8 @@ app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
 
 app.use('/api/administration', administrationRoutes);
+
+app.use('/api/geographic', geoRoutes);
 
 app.use('/app', appRoutes);
 

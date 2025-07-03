@@ -20,13 +20,15 @@ const consoleLevels = {
         error: 0,
         warning: 1,
         info: 2,
-        devInfo: 2
+        app: 2,
+        api: 2
     },
     colors: {
         error: 'bold white redBG',
         warning: 'bold white yellowBG',
         info: 'bold white greenBG',
-        devInfo: 'bold white blueBG'
+        app: 'bold white blueBG',
+        api: 'bold white magentaBG'
     }
 };
 
@@ -66,6 +68,7 @@ export const httpLogger = createLogger({
             datePattern: 'YYYY-MM-DD',
             zippedArchive: true,
             maxSize: '20m',
+            maxFiles: '14d'
         })
     ]
 });
