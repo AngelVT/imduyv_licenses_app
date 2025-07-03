@@ -51,6 +51,25 @@ export const logger = createLogger({
     ]
 });
 
+export const httpLogger = createLogger({
+    levels: serverLoggerLevels.levels,
+    format: format.combine(
+        format.timestamp({ format: 'YYYY-MM-DD hh:mm:ss.SSS A' }),
+        format.splat(),
+        format.simple(),
+        format.align(),
+        format.printf((info) => `[ ${info.timestamp} ] ${info.level}: \n${info.message}`)
+    ),
+    transports: [
+        new DailyRotateFile({
+            filename: 'logs/http-logs-%DATE%.log',
+            datePattern: 'YYYY-MM-DD',
+            zippedArchive: true,
+            maxSize: '20m',
+        })
+    ]
+});
+
 export const requestLogger = createLogger({
     levels: serverLoggerLevels.levels,
     format: format.combine(

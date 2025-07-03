@@ -1,4 +1,4 @@
-import { accessLogger, logger, requestLogger, consoleLogger } from "../configuration/logger.configuration.js";
+import { accessLogger, logger, httpLogger, requestLogger, consoleLogger } from "../configuration/logger.configuration.js";
 
 //console logging functions
 export function logConsoleError(message, error) {
@@ -24,6 +24,10 @@ export function logServerWarning(message, details) {
 
 export function logServerInfo(message, details) {
     logger.info(`${message}.\n    Info details:\n        %s`, details);
+}
+
+export function logServerHttp(message, details) {
+    httpLogger.info(`${message}`, details);
 }
 
 export function logServerShutdownInfo(message, details) {
