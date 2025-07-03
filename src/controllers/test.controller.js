@@ -100,8 +100,8 @@ function parseSimpleFormatting(text) {
     return fragments;
 }
 
-function generateTableBody() {
-    const html = fs.readFileSync(path.join(__dirstorage, 'test.xhtml'), 'utf-8');
+function generateTableBody(fileName, fontSize) {
+    const html = fs.readFileSync(path.join(__dirstorage, `${fileName}`), 'utf-8');
     const $ = load(html);
 
     const styleText = $('style').html() || '';
@@ -153,7 +153,8 @@ function generateTableBody() {
                 colSpan,
                 rowSpan,
                 ...pdfStyles,
-                fontSize: 5,
+                margin: [0,4,0,4],
+                fontSize
             };
 
             currentRow[colPointer] = cellObj;
@@ -196,8 +197,8 @@ function generateTableBody() {
 
 export const test = async (req, res) => {
     try {
-        const tableData = generateTableBody();
-        const tableDataB = generateTableBody();
+        const tableData = generateTableBody('test.xhtml', 6);
+        //const tableDataB = generateTableBody();
 
         const definition = {
             pageMargins: [5, 60, 5, 60],
@@ -218,8 +219,7 @@ export const test = async (req, res) => {
                                         {},
                                         {
                                             width: 'auto',
-                                            //layout: docUtils.formLayout,
-                                            layout: 'lightHorizontalLines',
+                                            layout: docUtils.formLayout,
                                             table: {
                                                 headerRows: 1,
                                                 widths: tableData.widths,
@@ -230,7 +230,7 @@ export const test = async (req, res) => {
                                     ]
                                 }
                             ],
-                            [
+                            /*[
                                 {
                                     border: [true, false, true, false],
                                     margin: [0, 5, 0, 5],
@@ -240,7 +240,7 @@ export const test = async (req, res) => {
                                         body: tableDataB.body
                                     }
                                 }
-                            ],
+                            ],*/
                             [
                                 {
                                     border: [true, false, true, true],
