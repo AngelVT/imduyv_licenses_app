@@ -9,7 +9,7 @@ const router = Router();
 const URBAN_GROUPS = ['urban', 'all'];
 const MODERATOR = ['moderator', 'admin', 'system'];
 const ADMIN = ['admin', 'system'];
-const UPLOADS = [{ name: 'zoneIMG', maxCount: 1 }, { name: 'resumeTables', maxCount: 30 }]
+const UPLOADS = [{ name: 'zoneIMG', maxCount: 1 }, { name: 'resumeTables', maxCount: 3 }]
 
 router.get('/', [
     authenticator.verifyToken(),

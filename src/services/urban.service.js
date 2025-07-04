@@ -345,7 +345,7 @@ export async function requestUrbanLicenseCreate(body, files, requestor) {
     }
 
     if (files.resumeTables) {
-        if (!await urbanValidate.validateFile(files.resumeTables)) {
+        if (!await urbanValidate.validateTableFiles(files.resumeTables)) {
             throw new ValidationError('Invalid files provided only png files are allowed.',
                 'Urban create request',
                 `Request failed due to invalid files provided.
@@ -602,8 +602,8 @@ export async function requestUrbanLicenseUpdate(id, licenseData, files, requesto
     }
 
     if (files.resumeTables) {
-        if (!await urbanValidate.validateFile(files.resumeTables)) {
-            throw new ValidationError('Invalid files provided only png files are allowed.',
+        if (!await urbanValidate.validateTableFiles(files.resumeTables)) {
+            throw new ValidationError('Invalid files provided only xhtml files are allowed.',
                 'Urban update request',
                 `Request failed due to invalid files provided.
             Provided files -> ${files.resumeTables.map(file => file.originalname).join(', ')}`);

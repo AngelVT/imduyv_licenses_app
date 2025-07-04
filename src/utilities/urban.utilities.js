@@ -2,6 +2,8 @@ import path from "path";
 import { promises as fs } from 'fs';
 import { __dirstorage } from "../path.configuration.js";
 import { sanitizeSVG } from "./svg.utilities.js";
+import createDOMPurify from 'dompurify';
+import { JSDOM } from 'jsdom';
 
 import { getLatestInvoice, getLicenseType } from "../repositories/urban.repository.js";
 
@@ -71,15 +73,15 @@ export function generateSpecialData(type) {
                 activity: "-",
                 usePercent: 0,
                 conditions: ["Deberá presentar copia de escritura de fusión de predios protocolizada y debidamente inscrita en el Registro Público de la Propiedad y el Comercio, así como notificar a la Dirección de Catastro Municipal, en un periodo no mayor a 30 días hábiles.",
-                "Deberá presentar la Constancia de factibilidad de transporte de Residuos Sólidos Urbanos en un plazo no mayor a 15 días hábiles.",
-                "Por lo que hace al uso HABITACIONAL UNIFAMILIAR, una vez autorizado, deberá ser permitido con base en la matriz de compatibilidad del Programa Municipal de Desarrollo Urbano y Ordenamiento Territorial de Tizayuca, Hidalgo.",
-                "Las vialidades del desarrollo deberán ser de acuerdo a la clasificación de vías publicas descritas en el articulo 63 de Reglamento de la Ley de Asentamientos Humanos, Desarrollo Urbano y Ordenamiento Territorial del Estado de Hidalgo." ,
-                "La presente no autoriza acciones urbanas ni construcción de obras que generen impacto social en su entorno inmediato.",
-                "Para realizar obras de construcción, deberá tramitar y contar con licencia de construcción emitida por la Secretaría de Obras Públicas del Municipio de Tizayuca.",
-                "El propietario está obligado a dejar 40% de la superficie neta de cada lote, libre de construcción para absorción de agua pluvial.",
-                "Se prohíbe la colocación de cualquier publicidad fuera y frente del predio.",
-                "No se podrá destinar el uso de suelo para fines comerciales, si no solo el establecido en esta licencia.",
-                "Acatar la normativa y restricciones de la zonificación secundaria que determina el documento técnico del Programa Municipal de Desarrollo Urbano y Ordenamiento Territorial de Tizayuca."],
+                    "Deberá presentar la Constancia de factibilidad de transporte de Residuos Sólidos Urbanos en un plazo no mayor a 15 días hábiles.",
+                    "Por lo que hace al uso HABITACIONAL UNIFAMILIAR, una vez autorizado, deberá ser permitido con base en la matriz de compatibilidad del Programa Municipal de Desarrollo Urbano y Ordenamiento Territorial de Tizayuca, Hidalgo.",
+                    "Las vialidades del desarrollo deberán ser de acuerdo a la clasificación de vías publicas descritas en el articulo 63 de Reglamento de la Ley de Asentamientos Humanos, Desarrollo Urbano y Ordenamiento Territorial del Estado de Hidalgo.",
+                    "La presente no autoriza acciones urbanas ni construcción de obras que generen impacto social en su entorno inmediato.",
+                    "Para realizar obras de construcción, deberá tramitar y contar con licencia de construcción emitida por la Secretaría de Obras Públicas del Municipio de Tizayuca.",
+                    "El propietario está obligado a dejar 40% de la superficie neta de cada lote, libre de construcción para absorción de agua pluvial.",
+                    "Se prohíbe la colocación de cualquier publicidad fuera y frente del predio.",
+                    "No se podrá destinar el uso de suelo para fines comerciales, si no solo el establecido en esta licencia.",
+                    "Acatar la normativa y restricciones de la zonificación secundaria que determina el documento técnico del Programa Municipal de Desarrollo Urbano y Ordenamiento Territorial de Tizayuca."],
                 restrictions: [
                     'Esta licencia no autoriza subdividir, fraccionar o limpiar el terreno, hasta en tanto no se tramite la Licencia correspondiente para fraccionar.',
                     'Todo propietario o poseedor de predios, sin importar el régimen de propiedad, que subdivida, lotifique, relotifique o fraccione violando las disposiciones de la Ley de Asentamientos Humanos, Desarrollo Urbano y Ordenamiento Territorial, y su reglamento se harán acreedores de las sanciones correspondientes.',
@@ -460,21 +462,30 @@ export async function saveLicenseCharts(files, fullInvoice) {
         const EXISTING_FILES = await fs.readdir(directory);
 
         for (const FILE of EXISTING_FILES) {
-            if (FILE.startsWith('tabla_s')) {
+            if (FILE.startsWith('tablas_')) {
                 await fs.unlink(path.join(directory, FILE));
             }
         }
 
+        const window = new JSDOM('').window;
+        const DOMPurify = createDOMPurify(window);
+
         for (const FILE of files) {
-            if (FILE.originalname.startsWith('tabla_s')) {
+            if (FILE.originalname.startsWith('tablas_')) {
                 const destination = path.join(directory, FILE.originalname);
-                if (FILE.mimetype === 'image/svg+xml') {
+                /*if (FILE.mimetype === 'image/svg+xml') {
                     const svgText = FILE.buffer.toString('utf8');
                     const cleanSvg = sanitizeSVG(svgText);
                     await fs.writeFile(destination, cleanSvg, 'utf8');
                 } else {
                     await fs.writeFile(destination, FILE.buffer);
-                }
+                }*/
+
+                const content = FILE.buffer.toString('utf8');
+
+                const clean = DOMPurify.sanitize(content, { WHOLE_DOCUMENT: true });
+                
+                await fs.writeFile(destination, clean, 'utf8');
             }
         }
 

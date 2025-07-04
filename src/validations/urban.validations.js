@@ -97,3 +97,33 @@ export async function validateFile(files) {
 
     return true;
 }
+
+export async function validateTableFiles(files) {
+    const allowedTypes = {
+        'application/xml': '.xhtml',
+        'application/xhtml+xml': '.xhtml',
+        'text/html': '.xhtml',
+    };
+
+    for (const file of files) {
+        const ext = path.extname(file.originalname).toLowerCase();
+
+        const detected = await fileTypeFromBuffer(file.buffer);
+
+        const mimetype = detected?.mime || file.mimetype;
+
+        if (!allowedTypes[mimetype] || allowedTypes[mimetype] !== ext) {
+            return false;
+        }
+
+        if (['.xhtml', '.html'].includes(ext)) {
+            const content = file.buffer.toString('utf8');
+            const isLikelyXHTML = /<html.*?>/i.test(content) && /<\/html>/i.test(content);
+            if (!isLikelyXHTML) {
+                return false;
+            }
+        }
+    }
+
+    return true;
+}
