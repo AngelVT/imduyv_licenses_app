@@ -74,6 +74,8 @@ app.use('/api', morgan('tiny', {
 }));
 
 // * Stablish access to the web files
+app.use('/app/map', express.static(path.join(__dirname, 'resources', 'tools', 'map')));
+
 app.use('/public', express.static(path.join(__dirname, 'resources', 'public')));
 
 app.use('/private', verifyToken(), express.static(path.join(__dirname, 'resources', 'private')));
