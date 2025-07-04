@@ -10,7 +10,7 @@ export async function generateUrbanCRPC(lcDBObj) {
     const MUNICIPAL_PRESIDENT = await docUtils.getPresidentName(lcDBObj.requestDate);
 
     var definition = {
-        pageMargins: [ 5, 60, 5, 60 ],
+        pageMargins: [ 5, 70, 5, 70 ],
         styles: docUtils.docStyles,
         content: [
             {
@@ -150,20 +150,38 @@ export async function generateUrbanCRPC(lcDBObj) {
                 style: 'formRow',
                 table: {
                     widths: ['*'],
+                    body: await docUtils.loadChartXHTML(lcDBObj.fullInvoice, 'tablas_1.xhtml', 6, "RESUMEN DE ÁREAS")
+                },
+                layout: docUtils.noBorderNoPadding
+            },
+            /*{
+                pageBreak: lcDBObj.licenseSpecialData.pageBreak_1 ? 'before' : 'avoid',
+                style: 'formRow',
+                table: {
+                    widths: ['*'],
                     body: [
                         [
                             {text: "RESUMEN DE ÁREAS", style: 'headT', border: docUtils.borderless}
                         ],
                         [
                             {
-                                stack: await docUtils.loadChart(lcDBObj.fullInvoice, 'tabla_s1_')
+                                stack: await docUtils.loadChartXHTML(lcDBObj.fullInvoice, 'test.xhtml')
                             }
                         ]
                     ]
                 },
                 layout: docUtils.containerLayout
-            },
+            },*/
             {
+                pageBreak: lcDBObj.licenseSpecialData.pageBreak_2 ? 'before' : 'avoid',
+                style: 'formRow',
+                table: {
+                    widths: ['*'],
+                    body: await docUtils.loadChartXHTML(lcDBObj.fullInvoice, 'tablas_2.xhtml', 6, "RESUMEN DE LOTES")
+                },
+                layout: docUtils.noBorderNoPadding
+            },
+            /*{
                 pageBreak: lcDBObj.licenseSpecialData.pageBreak_2 ? 'before' : 'avoid',
                 style: 'formRow',
                 table: {
@@ -180,8 +198,17 @@ export async function generateUrbanCRPC(lcDBObj) {
                     ]
                 },
                 layout: docUtils.containerLayout
-            },
+            },*/
             {
+                pageBreak: lcDBObj.licenseSpecialData.pageBreak_3 ? 'before' : 'avoid',
+                style: 'formRow',
+                table: {
+                    widths: ['*'],
+                    body: await docUtils.loadChartXHTML(lcDBObj.fullInvoice, 'tablas_3.xhtml', 6, "RESUMEN POR LOTE")
+                },
+                layout: docUtils.noBorderNoPadding
+            },
+            /*{
                 pageBreak: lcDBObj.licenseSpecialData.pageBreak_3 ? 'before' : 'avoid',
                 style: 'formRow',
                 table: {
@@ -198,7 +225,7 @@ export async function generateUrbanCRPC(lcDBObj) {
                     ]
                 },
                 layout: docUtils.containerLayout
-            },
+            },*/
             {
                 pageBreak: lcDBObj.licenseSpecialData.pageBreak_4 ? 'before' : 'avoid',
                 style: ['regular', 'formRow'],
@@ -427,6 +454,7 @@ export async function generateUrbanCRPC(lcDBObj) {
         ],
         footer: function(currentPage, pageCount) {
             return {
+                margin: [0,15,0,0],
                 style: 'regularSmall',
                 bold: true,
                 text: `${lcDBObj.fullInvoice}\nPagina ${currentPage} de ${pageCount}`,

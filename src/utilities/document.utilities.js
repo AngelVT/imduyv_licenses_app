@@ -1,6 +1,8 @@
 import { __dirstorage, __dirname } from "../path.configuration.js";
 import path from "path";
 import fs from 'fs';
+import { load } from 'cheerio';
+import css from 'css';
 import { getMunicipalPeriodByDate, getInstitutePeriodByDate, getLicensesPeriodByDate, getYearLegendByYear } from "../repositories/administration.repository.js";
 
 export const borderless = [false, false, false, false];
@@ -177,52 +179,6 @@ export function voidCell(span) {
 }
 
 export async function loadChart(fullInvoice, sourcePattern) {
-    /*let images = [];
-    const dir = path.join(__dirstorage, 'assets', 'urban', fullInvoice.replaceAll('/', '_'));
-    const pattern = new RegExp(sourcePattern);
-
-    return new Promise((resolve, reject) => {
-        fs.readdir(dir, (err, files) => {
-            if (err) {
-                images = [
-                    {
-                        text: [
-                            { text: 'Nota: ', style: 'regular', bold: true },
-                            { text: 'La información descrita corresponde y es responsabilidad del solicitante.', style: 'regular' }
-                        ]
-                    }
-                ]
-                return resolve(images);
-            }
-
-            const matchedFiles = files.filter(file => pattern.test(file));
-
-            matchedFiles.sort((a, b) => {
-                const numA = parseInt(a.match(/_(\d+)\.png/)[1]);
-                const numB = parseInt(b.match(/_(\d+)\.png/)[1]);
-
-                return numA - numB;
-            });
-
-            for (let e of matchedFiles) {
-                images.push({
-                    image: path.join(dir, e),
-                    width: 550,
-                    alignment: 'center',
-                    margin: [0, 0, 0, 5]
-                });
-            }
-
-            images.push({
-                text: [
-                    { text: 'Nota: ', style: 'regular', bold: true },
-                    { text: 'La información descrita corresponde y es responsabilidad del solicitante.', style: 'regular' }
-                ]
-            });
-
-            resolve(images);
-        });
-    });*/
     let images = [];
     const DEFAULT_WIDTH = 550;
     const dir = path.join(__dirstorage, 'assets', 'urban', fullInvoice.replaceAll('/', '_'));
@@ -280,20 +236,249 @@ export async function loadChart(fullInvoice, sourcePattern) {
     return images;
 }
 
-export async function fileExist(location, group, width) {
-    /*let fileDirectory = path.join(__dirstorage, 'assets', group, location.replaceAll('/', '_'), 'zone.png');
+function parseCssStyles(styleText) {
+    const styleMap = {};
 
-    const defaultPath = path.join(__dirname, 'resources', 'public', 'img', '404.jpg');
+    const parsed = css.parse(styleText);
 
-    return new Promise((resolve, reject) => {
-        fs.access(fileDirectory, (err) => {
-            if (err) {
-                return resolve(defaultPath);
+    parsed.stylesheet.rules.forEach(rule => {
+        if (rule.type !== 'rule') return;
+
+        rule.selectors.forEach(selector => {
+            // Only map class selectors like `.className`
+            if (!selector.startsWith('.')) return;
+
+            const cleanSelector = selector.trim();
+            styleMap[cleanSelector] = {};
+
+            rule.declarations.forEach(decl => {
+                if (decl.type !== 'declaration') return;
+                const prop = decl.property.toLowerCase();
+                const value = decl.value.toLowerCase();
+
+                styleMap[cleanSelector][prop] = value;
+            });
+        });
+    });
+
+    return styleMap;
+}
+
+function mapCssToPdfMake(styleObj) {
+    const pdfStyle = {};
+
+    for (const [prop, rawValue] of Object.entries(styleObj)) {
+
+        // Strip !important
+        const value = rawValue.replace(/\s*!\s*important\s*/gi, '').trim();
+
+        switch (prop) {
+            case 'font-weight':
+                if (value === 'bold') pdfStyle.bold = true;
+                break;
+            case 'color':
+                pdfStyle.color = value;
+                break;
+            case 'background-color':
+                pdfStyle.fillColor = value;
+                break;
+            case 'text-align':
+                if (['left', 'right', 'center', 'justify'].includes(value))
+                    pdfStyle.alignment = value;
+                break;
+        }
+    }
+
+    return pdfStyle;
+}
+
+function parseSimpleFormatting(text) {
+    //text = text.replace(/[\[\]\|]/g, '');
+    const fragments = [];
+    let remaining = text;
+
+    const pattern = /(\*[^*]+\*|_[^_]+_|~[^~]+~)/g;
+    let match;
+    let lastIndex = 0;
+
+    while ((match = pattern.exec(remaining)) !== null) {
+        const index = match.index;
+        const matchedText = match[0];
+
+        // Add plain text before the match
+        if (index > lastIndex) {
+            fragments.push({ text: remaining.slice(lastIndex, index) });
+        }
+
+        const content = matchedText.slice(1, -1); // Remove wrapping symbol
+        const symbol = matchedText[0];
+
+        const style = { text: content };
+        if (symbol === '*') style.bold = true;
+        else if (symbol === '_') style.italics = true;
+        else if (symbol === '~') style.decoration = 'underline';
+
+        fragments.push(style);
+        lastIndex = index + matchedText.length;
+    }
+
+    // Add any remaining plain text
+    if (lastIndex < remaining.length) {
+        fragments.push({ text: remaining.slice(lastIndex) });
+    }
+
+    return fragments;
+}
+
+function generateTableBodies(fileName, fontSize) {
+    const html = fs.readFileSync(path.join(fileName), 'utf-8');
+    const $ = load(html);
+
+    const styleText = $('style').html() || '';
+    const cssClassMap = parseCssStyles(styleText);
+
+    const tables = $('table');
+    const allTables = [];
+
+    tables.each((tableIndex, tableElem) => {
+        const rows = $(tableElem).find('tr');
+        const matrix = [];
+        const spanMap = {};
+        let maxCols = 0;
+
+        rows.each((rowIndex, rowElem) => {
+            const cells = $(rowElem).find('th, td');
+            const currentRow = [];
+            let colPointer = 0;
+
+            while (spanMap[`${rowIndex},${colPointer}`]) {
+                currentRow.push({});
+                colPointer++;
             }
 
-            return resolve(fileDirectory);
+            cells.each((_, cell) => {
+                const $cell = $(cell);
+                const cellText = parseSimpleFormatting($cell.text().trim());
+                const colSpan = parseInt($cell.attr('colspan')) || 1;
+                const rowSpan = parseInt($cell.attr('rowspan')) || 1;
+
+                const finalCss = {};
+
+                // Inline styles
+                const inlineStyle = $cell.attr('style') || '';
+                inlineStyle.split(';').forEach(rule => {
+                    const [prop, value] = rule.split(':').map(s => s?.trim()?.toLowerCase());
+                    if (!prop || !value) return;
+                    finalCss[prop] = value;
+                });
+
+                // Class-based styles
+                const classes = ($cell.attr('class') || '').split(/\s+/).filter(Boolean);
+                for (const className of classes) {
+                    const classStyles = cssClassMap[`.${className}`];
+                    if (classStyles) Object.assign(finalCss, classStyles);
+                }
+
+                const pdfStyles = mapCssToPdfMake(finalCss);
+                const cellObj = {
+                    text: cellText,
+                    colSpan,
+                    rowSpan,
+                    ...pdfStyles,
+                    margin: [0, 4, 0, 4],
+                    fontSize
+                };
+
+                currentRow[colPointer] = cellObj;
+
+                for (let i = 1; i < colSpan; i++) {
+                    currentRow[colPointer + i] = {};
+                }
+
+                for (let r = 1; r < rowSpan; r++) {
+                    for (let c = 0; c < colSpan; c++) {
+                        spanMap[`${rowIndex + r},${colPointer + c}`] = true;
+                    }
+                }
+
+                colPointer += colSpan;
+            });
+
+            if (currentRow.length > maxCols) maxCols = currentRow.length;
+
+            matrix.push(currentRow);
         });
-    });*/
+
+        matrix.forEach(row => {
+            while (row.length < maxCols) {
+                row.push({});
+            }
+        });
+
+        let headerRows = 1;
+        if (matrix.length > 0) {
+            const firstRow = matrix[0];
+            headerRows = Math.max(
+                ...firstRow.map(cell => cell?.rowSpan || 1)
+            );
+        }
+
+        const widths = Array(maxCols).fill('auto');
+        allTables.push({ body: matrix, widths, headerRows });
+    });
+
+    return allTables;
+}
+
+export async function loadChartXHTML(fullInvoice, sourcePattern, fontSize, tittle) {
+    const tableBody = []
+    const dir = path.join(__dirstorage, 'assets', 'urban', fullInvoice.replaceAll('/', '_'), sourcePattern);
+
+    tableBody.push([
+        { text: tittle, style: 'headT', border: borderless, margin: [2,2,2,2] }
+    ]);
+
+    if (fs.existsSync(dir)) {
+        const tables = generateTableBodies(dir, fontSize);
+
+        for (const t of tables) {
+            tableBody.push([
+                {
+                    //border: [true, false, true, false],
+                    margin: [0, 5, 0, 5],
+                    columns: [
+                        {},
+                        {
+                            width: 'auto',
+                            layout: formLayout,
+                            table: {
+                                headerRows: t.headerRows,
+                                widths: t.widths,
+                                body: t.body
+                            }
+                        },
+                        {}
+                    ]
+                }
+            ])
+        }
+    }
+
+    tableBody.push([
+        {
+            margin: [5, 5, 5, 5],
+            //border: [true, false, true, true],
+            text: [
+                { text: 'Nota: ', style: 'regular', bold: true },
+                { text: 'La información descrita corresponde y es responsabilidad del solicitante.', style: 'regular' }
+            ]
+        }
+    ]);
+
+    return tableBody;
+}
+
+export async function fileExist(location, group, width) {
     const DEFAULT_WIDTH = 586;
     const extensions = ['.png', '.svg']; // add more if needed
     const basePath = path.join(__dirstorage, 'assets', group, location.replaceAll('/', '_'));

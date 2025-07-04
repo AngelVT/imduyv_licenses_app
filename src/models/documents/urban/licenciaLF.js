@@ -285,6 +285,15 @@ export async function generateUrbanLF(lcDBObj) {
                 style: 'formRow',
                 table: {
                     widths: ['*'],
+                    body: await docUtils.loadChartXHTML(lcDBObj.fullInvoice, 'tablas_1.xhtml', 6, "CUADRO DE SUPERFICIES POR USO DE SUELO")
+                },
+                layout: docUtils.noBorderNoPadding
+            },
+            /*{
+                pageBreak: lcDBObj.licenseSpecialData.pageBreak_1 ? 'before' : 'avoid',
+                style: 'formRow',
+                table: {
+                    widths: ['*'],
                     body: [
                         [
                             {text: "CUADRO DE SUPERFICIES POR USO DE SUELO", style: 'headT', border: docUtils.borderless}
@@ -297,8 +306,17 @@ export async function generateUrbanLF(lcDBObj) {
                     ]
                 },
                 layout: docUtils.containerLayout
-            },
+            },*/
             {
+                pageBreak: lcDBObj.licenseSpecialData.pageBreak_2 ? 'before' : 'avoid',
+                style: 'formRow',
+                table: {
+                    widths: ['*'],
+                    body: await docUtils.loadChartXHTML(lcDBObj.fullInvoice, 'tablas_2.xhtml', 6, "CUADRO DE DISTRIBUCIÓN POR MANZANAS")
+                },
+                layout: docUtils.noBorderNoPadding
+            },
+            /*{
                 pageBreak: lcDBObj.licenseSpecialData.pageBreak_2 ? 'before' : 'avoid',
                 style: 'formRow',
                 table: {
@@ -315,8 +333,17 @@ export async function generateUrbanLF(lcDBObj) {
                     ]
                 },
                 layout: docUtils.containerLayout
-            },
+            },*/
             {
+                pageBreak: lcDBObj.licenseSpecialData.pageBreak_3 ? 'before' : 'avoid',
+                style: 'formRow',
+                table: {
+                    widths: ['*'],
+                    body: await docUtils.loadChartXHTML(lcDBObj.fullInvoice, 'tablas_3.xhtml', 6, "CUADRO DE DONACIONES")
+                },
+                layout: docUtils.noBorderNoPadding
+            },
+            /*{
                 pageBreak: lcDBObj.licenseSpecialData.pageBreak_3 ? 'before' : 'avoid',
                 style: 'formRow',
                 table: {
@@ -333,7 +360,7 @@ export async function generateUrbanLF(lcDBObj) {
                     ]
                 },
                 layout: docUtils.containerLayout
-            },
+            },*/
             {
                 style: ['formRow', 'regular'],
                 text: ['Las tablas que contiene los cuadros de lotificación se presentarán como ',{text: 'ANEXO I', bold: true} ,' a la presente resolución.']
