@@ -1,12 +1,33 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="libs/leaflet/leaflet.css" />
+    <link rel="stylesheet" href="libs/leafet-plugins/beautify-marker/leaflet-beautify-marker-icon.css" />
+
+    <link rel="stylesheet" href="libs/bootstrap-icons-1.11.3/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="libs/fontawesome-free-6.7.2-web/css/all.css">
+    <link rel="stylesheet" href="css/styles.css">
+
+    <script src="libs/leaflet/leaflet.js"></script>
+    <script src="libs/leafet-plugins/beautify-marker/leaflet-beautify-marker-icon.js"></script>
+    <script src="libs/leafet-plugins/leaflet-patterns/leaflet.pattern.js"></script>
+
+
+    <script src="js/limit.js" defer></script>
+    <script src="js/mapConfig.js" defer></script>
+    <script src="js/layerDraw.js" defer></script>
+
     <title>IMDUyV Map Engine</title>
     <link rel="shortcut icon" href="/public/img/imduy_icono_blanco.png" type="image/x-icon">
 </head>
 <body>
-    <h1>Hi!</h1>
+    <body>
+    <div id="map-container">
+        <div id="map"></div>
+        <div id="crosshair"></div>
+    </div>
+</body>
 </body>
 </html>

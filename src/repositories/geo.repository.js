@@ -40,6 +40,17 @@ export async function findPointInfoZoneSec(point) {
         replacements: { point: point }
     });
 }
+
+export async function findLayerZoneSec() {
+    const query = `
+        SELECT jsonb_build_object('type', 'FeatureCollection', 'features', jsonb_agg(jsonb_build_object('type', 'Feature','geometry', ST_AsGeoJSON(geom)::jsonb,'properties', to_jsonb(t) - 'geom'))) AS geojson FROM geographic.zone_sec AS t;`;
+
+        const [result] = await pool.query(query, { 
+            type: pool.QueryTypes.SELECT });
+
+    return result.geojson
+}
+
 export async function findPointInfoPCU(point) {
     return await pool.query(`SELECT * FROM geographic.pcu WHERE ST_Contains(geom, ST_SetSRID(ST_Point( :point ), 4326));`,
     {

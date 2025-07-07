@@ -10,3 +10,11 @@ export const getPointInfo = requestHandler(
         res.status(200).json(response);
     }
 );
+
+export const getZoneSecLayer = requestHandler(
+    async function (req, res) {
+        const response = await geoService.requestZoneSecLayer();
+
+        res.status(200).json(response);
+    }
+);

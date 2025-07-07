@@ -33,11 +33,11 @@ setDefaultDirectories();
 
 //app.use(helmetMiddleware);
 
-app.use(rateLimit({
-    windowMs: 30 * 60 * 1000,
+/*app.use(rateLimit({
+    windowMs: 15 * 60 * 1000,
     max: 100,
     message: "Too many requests from this IP, please try again later."
-}));
+}));*/
 
 app.use(express.json({ limit: '5mb' }));
 app.use(express.urlencoded({ limit: '10mb', extended: true }));
@@ -57,13 +57,13 @@ app.use('/', morgan('tiny', {
     }
 }));
 
-app.use('/app', morgan('tiny', {
+/*app.use('/app', morgan('tiny', {
     stream: {
         write: (msg) => {
             logConsoleApp(`Screen request: ${msg.trim()}`);
         }
     }
-}));
+}));*/
 
 app.use('/api', morgan('tiny', {
     stream: {

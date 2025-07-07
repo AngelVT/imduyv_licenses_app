@@ -1,5 +1,4 @@
-import { ZONE_DATA } from "../resources/data/appZonesData.js";
-import { PCU_DATA } from "../resources/data/appPCUData.js";
+import { ZONE_SYMBOLS } from "../resources/data/appZoneSecSymbols.js";
 import { Zone, Term } from "../models/License.models.js";
 import * as geoRepo from '../repositories/geo.repository.js';
 import ValidationError from '../errors/ValidationError.js';
@@ -68,6 +67,17 @@ export async function requestCoordinateCheck(coordinates) {
             alt_max: zoneData.alt_max,
             niveles: zoneData.niveles,
             PCU: pcuData ? pcuData.CALIF : 'U3'
+        }
+    }
+}
+
+export async function requestZoneSecLayer() {
+    const geojson = await geoRepo.findLayerZoneSec();
+
+    return {
+        layer: {
+            geojson,
+            layer_symbols: ZONE_SYMBOLS
         }
     }
 }
