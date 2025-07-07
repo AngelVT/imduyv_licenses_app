@@ -87,14 +87,14 @@ router.patch('/approve/:licenciaID', [
     up.single(UPLOADS)
 ], landControl.approveLicense);
 
-router.patch('/lock/:licenciaID', [
+/*router.patch('/lock/:licenciaID', [
     authenticator.verifyToken(),
     authenticator.accountIntegrity,
     authenticator.verifyGroup(LAND_GROUPS),
     authenticator.verifyRole(MODERATOR),
     authenticator.verifyPermission(['license:lock', 'license:manage']),
     up.single(UPLOADS)
-], landControl.lockLicense);
+], landControl.lockLicense);*/
 
 router.patch('/unlock/:licenciaID', [
     authenticator.verifyToken(),

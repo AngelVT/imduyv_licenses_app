@@ -161,6 +161,12 @@ async function approveLicense(id, button) {
 
         alert(`Licencia ${registro}, aprobada exitosamente.`);
 
+        const lockBtn = document.getElementById(`result_control_active_${id}`);
+
+        lockBtn.setAttribute('onclick', `unlockLicense('${id}', this)`);
+        lockBtn.classList.remove("bi-unlock");
+        lockBtn.classList.add("bi-lock");
+
         button.classList.add("bi-building-check");
         button.classList.remove("bi-building-dash");
         button.removeAttribute('onclick');
@@ -170,7 +176,7 @@ async function approveLicense(id, button) {
     }
 }
 
-async function lockLicense(id, button) {
+/*async function lockLicense(id, button) {
     try {
         let registro = document.querySelector(`#result_invoice_${id}`).innerText;
 
@@ -202,7 +208,7 @@ async function lockLicense(id, button) {
         console.log(error);
         alert('Solicitud fallida');
     }
-}
+}*/
 
 async function unlockLicense(id, button) {
     try {
@@ -229,9 +235,16 @@ async function unlockLicense(id, button) {
 
         alert(`Licencia ${registro}, bloqueada exitosamente.`);
 
-        button.setAttribute('onclick', `lockLicense('${id}', this)`);
+        //button.setAttribute('onclick', `lockLicense('${id}', this)`);
+        const approvalBtn = document.getElementById(`result_control_approve_${id}`);
+
+        approvalBtn.classList.remove("bi-building-check");
+        approvalBtn.classList.add("bi-building-dash");
+        approvalBtn.setAttribute('onclick', `approveLicense('${id}', this)`)
+
         button.classList.toggle("bi-unlock");
         button.classList.toggle("bi-lock");
+        button.removeAttribute('onclick');
     } catch (error) {
         console.log(error);
         alert('Solicitud fallida');

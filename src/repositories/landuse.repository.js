@@ -207,7 +207,9 @@ export async function getLicenseApprovalStatus(id) {
         where: {
             public_land_license_id: id
         },
-        attributes: ['fullInvoice', 'approvalStatus', 'active'],
+        //attributes: ['fullInvoice', 'approvalStatus', 'active'],
+        attributes: LAND_USE_ATTRIBUTES,
+        include: LAND_USE_MODELS,
         raw: true,
         nest: true
     });

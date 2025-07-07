@@ -2,7 +2,6 @@ import { __dirstorage } from "../../../path.configuration.js";
 import * as docUtils from "../../../utilities/document.utilities.js";
 
 export async function generateLandUseC(lcDBObj) {
-
     lcDBObj = docUtils.prepareData(lcDBObj);
 
     const INSTITUTE_DIRECTOR_SIGNATURE = await docUtils.getDirectorNameSignature(lcDBObj.requestDate);

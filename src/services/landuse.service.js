@@ -467,8 +467,16 @@ export async function requestLandLicenseApprove(id, requestor) {
 
     const approvedLicense = await landRepo.saveLandLicense(id, {
         lastModifiedBy: requestor,
-        approvalStatus: true
+        approvalStatus: true,
+        active: false
     });
+
+    if (!await landUtils.generateArchivePDF(approvedLicense)) {
+        throw new FileSystemError('Error saving files to server.',
+            'Land use approve request',
+            `Request failed due to unexpected error saving files to server.
+            File creation for -> ${id}:${licenseApproval.fullInvoice}`);
+    }
 
     return {
         msg: `The license ${approvedLicense.fullInvoice} was approved`,
@@ -561,7 +569,8 @@ export async function requestLandLicenseUnlock(id, requestor) {
 
     const unlockedLicense = await landRepo.saveLandLicense(id, {
         lastModifiedBy: requestor,
-        active: true
+        active: true,
+        approvalStatus: false
     });
 
     return {

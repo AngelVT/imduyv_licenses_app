@@ -93,7 +93,7 @@ function createResultTop(obj, isPrint, isLandUse) {
 
         if (obj.active) {
             span.setAttribute('class', `bi-unlock txt-medium color-white result-control`);
-            span.setAttribute('onclick', `lockLicense('${obj.id}', this)`)
+            //span.setAttribute('onclick', `lockLicense('${obj.id}', this)`)
         } else {
             span.setAttribute('class', `bi-lock txt-medium color-white result-control`);
             span.setAttribute('onclick', `unlockLicense('${obj.id}', this)`)
