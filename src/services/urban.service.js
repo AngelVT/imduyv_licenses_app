@@ -16,6 +16,7 @@ import ValidationError from '../errors/ValidationError.js';
 import ResourceError from '../errors/ValidationError.js';
 import FileSystemError from '../errors/FileSystemError.js';
 import { validateDates } from '../validations/administration.validations.js';
+import { requestCoordinateCheck } from './geo.service.js';
 
 export async function requestAllUrbanLicenses() {
     let LICENSES = await urbanRepo.findAllUrbanLicenses();
@@ -165,8 +166,7 @@ export async function requestUrbanLicenseCreate(body, files, requestor) {
             key !== 'manzanas' &&
             key !== 'actualSituation' &&
             key !== 'actualAuthorizedFS' &&
-            key !== 'representativeAs' &&
-            key !== 'PCU') {
+            key !== 'representativeAs') {
             body[key] = body[key].toLowerCase();
         }
     }
@@ -179,9 +179,9 @@ export async function requestUrbanLicenseCreate(body, files, requestor) {
         colony,
         catastralKey,
         georeference,
-        licenseTerm,
+        //licenseTerm,
         surface,
-        zone,
+        //zone,
         expeditionDate,
         validity,
         collectionOrder,
@@ -191,11 +191,11 @@ export async function requestUrbanLicenseCreate(body, files, requestor) {
         deliveryDate,
         receiverName,
         isFrac,
-        PCU,
-        occupationPercent,
-        surfacePerLote,
-        maximumHeight,
-        levels,
+        //PCU,
+        //occupationPercent,
+        //surfacePerLote,
+        //maximumHeight,
+        //levels,
         representativeAs,
         requestorAddress,
         buildingAddress,
@@ -237,6 +237,8 @@ export async function requestUrbanLicenseCreate(body, files, requestor) {
             Provided data -> ${JSON.stringify(body)}`);
     }
 
+    const coordinateInfo = await requestCoordinateCheck(georeference);
+
     if ((requestDate && !validateDates(requestDate)) ||
         (expeditionDate && !validateDates(expeditionDate)) ||
         (paymentDate && !validateDates(paymentDate)) ||
@@ -250,7 +252,7 @@ export async function requestUrbanLicenseCreate(body, files, requestor) {
         );
     }
 
-    if (!await urbanValidate.validateModels({ type: licenseType, zone, licenseTerm, validity })) {
+    if (!await urbanValidate.validateModels({ type: licenseType, validity })) {
         throw new ValidationError('Request failed due to invalid information.',
             'Urban create request',
             `Request failed due to invalid information.
@@ -261,14 +263,14 @@ export async function requestUrbanLicenseCreate(body, files, requestor) {
 
     const SPECIAL_DATA = urbanUtils.generateSpecialData(licenseType);
 
-    SPECIAL_DATA.PCU = PCU ? PCU : SPECIAL_DATA.PCU;
+    SPECIAL_DATA.PCU = coordinateInfo.data.PCU;
     SPECIAL_DATA.representativeAs = representativeAs ? representativeAs : SPECIAL_DATA.representativeAs;
     SPECIAL_DATA.colony = colony ? colony : SPECIAL_DATA.colony;
     SPECIAL_DATA.requestorAddress = requestorAddress ? requestorAddress : SPECIAL_DATA.requestorAddress;
-    SPECIAL_DATA.occupationPercent = occupationPercent ? occupationPercent : SPECIAL_DATA.occupationPercent;
-    SPECIAL_DATA.surfacePerLote = surfacePerLote ? surfacePerLote : SPECIAL_DATA.surfacePerLote;
-    SPECIAL_DATA.maximumHeight = maximumHeight ? maximumHeight : SPECIAL_DATA.maximumHeight;
-    SPECIAL_DATA.levels = levels ? levels : SPECIAL_DATA.levels;
+    SPECIAL_DATA.occupationPercent = coordinateInfo.data.COS;
+    SPECIAL_DATA.surfacePerLote = coordinateInfo.data.m2_neto;
+    SPECIAL_DATA.maximumHeight = coordinateInfo.data.alt_max;
+    SPECIAL_DATA.levels = coordinateInfo.data.niveles;
     SPECIAL_DATA.isFrac = licenseType == 2 ? urbanUtils.parseBool(isFrac, SPECIAL_DATA.isFrac) : undefined;
 
     //non essential for registration special data
@@ -313,9 +315,9 @@ export async function requestUrbanLicenseCreate(body, files, requestor) {
         buildingAddress: buildingAddress ? buildingAddress : null,
         catastralKey: catastralKey ? catastralKey : null,
         geoReference: georeference,
-        licenseTerm: licenseTerm ? licenseTerm : null,
+        licenseTerm: coordinateInfo.data.numericTerm,
         surfaceTotal: surface ? surface : null,
-        licenseZone: zone ? zone : null,
+        licenseZone: coordinateInfo.data.numericZone,
         expeditionDate: expeditionDate ? expeditionDate : null,
         licenseValidity: validity ? validity : null,
         collectionOrder: collectionOrder ? collectionOrder : null,
@@ -394,8 +396,7 @@ export async function requestUrbanLicenseUpdate(id, licenseData, files, requesto
             key !== 'manzanas' &&
             key !== 'actualSituation' &&
             key !== 'actualAuthorizedFS' &&
-            key !== 'representativeAs' &&
-            key !== 'PCU') {
+            key !== 'representativeAs') {
             licenseData[key] = licenseData[key].toLowerCase();
         }
     }
@@ -407,7 +408,7 @@ export async function requestUrbanLicenseUpdate(id, licenseData, files, requesto
         colony,
         catastralKey,
         surface,
-        zone,
+        //zone,
         expeditionDate,
         collectionOrder,
         paymentDate,
@@ -416,16 +417,16 @@ export async function requestUrbanLicenseUpdate(id, licenseData, files, requesto
         deliveryDate,
         receiverName,
         validity,
-        term,
-        PCU,
+        //term,
+        //PCU,
         isFrac,
         representativeAs,
         requestorAddress,
         buildingAddress,
-        occupationPercent,
-        surfacePerLote,
-        maximumHeight,
-        levels,
+        //occupationPercent,
+        //surfacePerLote,
+        //maximumHeight,
+        //levels,
         minimalFront,
         frontalRestriction,
         parkingLots,
@@ -471,7 +472,7 @@ export async function requestUrbanLicenseUpdate(id, licenseData, files, requesto
         pageBreak_10
     } = licenseData;
 
-    if (!requestorName && legalRepresentative && !requestDate && !colony && !catastralKey && !surface && !zone && !expeditionDate && !collectionOrder && !paymentDate && !billInvoice && !authorizedQuantity && !deliveryDate && !receiverName && !validity && !term && !PCU && typeof isFrac === 'undefined' && !representativeAs && !requestorAddress && !buildingAddress && !occupationPercent && !surfacePerLote && !maximumHeight && !levels && !minimalFront && !frontalRestriction && !parkingLots && !usePercent, !authUse && !activity && !actualSituation && !actualAuthorizedFS && !authorizationResume && !households && !documents && !lotes && !manzanas && !conditions && !restrictions && !observations && !donationArea && !privateSurface && !commonSurface && !location && !authorizationFor && !integrity && !detailedUse && !urbanLUS && !urbanCUS && !habitacionalLotes && !totalManzanas && !totalSurface && !totalRelotification && !resultRelotification && !previousInvoice && !previousInvoiceDate && !layout && !pageBreak_1 && !pageBreak_2 && !pageBreak_3 && !pageBreak_4 && !pageBreak_5 && !pageBreak_6 && !pageBreak_7 && !pageBreak_8 && !pageBreak_9 && !pageBreak_10 && !files) {
+    if (!requestorName && legalRepresentative && !requestDate && !colony && !catastralKey && !surface && !expeditionDate && !collectionOrder && !paymentDate && !billInvoice && !authorizedQuantity && !deliveryDate && !receiverName && !validity && typeof isFrac === 'undefined' && !representativeAs && !requestorAddress && !buildingAddress && !minimalFront && !frontalRestriction && !parkingLots && !usePercent, !authUse && !activity && !actualSituation && !actualAuthorizedFS && !authorizationResume && !households && !documents && !lotes && !manzanas && !conditions && !restrictions && !observations && !donationArea && !privateSurface && !commonSurface && !location && !authorizationFor && !integrity && !detailedUse && !urbanLUS && !urbanCUS && !habitacionalLotes && !totalManzanas && !totalSurface && !totalRelotification && !resultRelotification && !previousInvoice && !previousInvoiceDate && !layout && !pageBreak_1 && !pageBreak_2 && !pageBreak_3 && !pageBreak_4 && !pageBreak_5 && !pageBreak_6 && !pageBreak_7 && !pageBreak_8 && !pageBreak_9 && !pageBreak_10 && !files) {
         throw new ValidationError('Request failed due to missing information.',
             'Urban update request',
             `Request failed due to missing information.
@@ -491,11 +492,11 @@ export async function requestUrbanLicenseUpdate(id, licenseData, files, requesto
         );
     }
 
-    if (!await urbanValidate.validateModels({ zone, term, validity })) {
+    if (!await urbanValidate.validateModels({ validity })) {
         throw new ValidationError('Request failed due to invalid information.',
             'Urban update request',
             `Request failed due to invalid information.
-            Provided data -> Term: ${term}, zone: ${zone}, validity: ${validity}`);
+            Provided data -> Zone: ${zone}, validity: ${validity}`);
     }
 
     const SPECIAL_DATA = await urbanRepo.getLicenseEspecialData(id);
@@ -508,15 +509,15 @@ export async function requestUrbanLicenseUpdate(id, licenseData, files, requesto
 
     let newSpecialData = specialDataToJSON(SPECIAL_DATA).licenseSpecialData;
 
-    newSpecialData.PCU = PCU ? PCU.toUpperCase() : newSpecialData.PCU;
+    //newSpecialData.PCU = PCU ? PCU.toUpperCase() : newSpecialData.PCU;
     newSpecialData.isFrac = urbanUtils.parseBool(isFrac, newSpecialData.isFrac);
     newSpecialData.representativeAs = representativeAs ? representativeAs : newSpecialData.representativeAs;
     newSpecialData.requestorAddress = requestorAddress ? requestorAddress : newSpecialData.requestorAddress;
     newSpecialData.colony = colony ? colony : newSpecialData.colony;
-    newSpecialData.occupationPercent = occupationPercent ? occupationPercent : newSpecialData.occupationPercent;
-    newSpecialData.surfacePerLote = surfacePerLote ? surfacePerLote : newSpecialData.surfacePerLote;
-    newSpecialData.maximumHeight = maximumHeight ? maximumHeight : newSpecialData.maximumHeight;
-    newSpecialData.levels = levels ? levels : newSpecialData.levels;
+    //newSpecialData.occupationPercent = occupationPercent ? occupationPercent : newSpecialData.occupationPercent;
+    //newSpecialData.surfacePerLote = surfacePerLote ? surfacePerLote : newSpecialData.surfacePerLote;
+    //newSpecialData.maximumHeight = maximumHeight ? maximumHeight : newSpecialData.maximumHeight;
+    //newSpecialData.levels = levels ? levels : newSpecialData.levels;
     newSpecialData.minimalFront = minimalFront ? minimalFront : newSpecialData.minimalFront;
     newSpecialData.frontalRestriction = frontalRestriction ? frontalRestriction : newSpecialData.frontalRestriction;
     newSpecialData.parkingLots = parkingLots ? parkingLots : newSpecialData.parkingLots;
@@ -571,9 +572,9 @@ export async function requestUrbanLicenseUpdate(id, licenseData, files, requesto
         buildingAddress: buildingAddress,
         catastralKey: catastralKey,
         surfaceTotal: surface,
-        licenseZone: zone,
+        //licenseZone: zone,
         licenseValidity: validity,
-        licenseTerm: term,
+        //licenseTerm: term,
         expeditionDate: expeditionDate,
         collectionOrder: collectionOrder,
         paymentDate: paymentDate,

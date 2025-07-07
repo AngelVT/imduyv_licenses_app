@@ -432,7 +432,7 @@ function generateUrbanFields(resObj, resultContent) {
         fieldGroup.appendChild(field);
     }
 
-    if (resObj.licenseType == 1 || resObj.licenseType == 2 || resObj.licenseType == 6 || resObj.licenseType == 9) {
+    /*if (resObj.licenseType == 1 || resObj.licenseType == 2 || resObj.licenseType == 6 || resObj.licenseType == 9) {
         field = createResultField(resObj.id, 'Zona', 'zone', resObj.licenseZone, 'select');
 
         field.querySelector('select').innerHTML = `
@@ -465,7 +465,7 @@ function generateUrbanFields(resObj, resultContent) {
         field.querySelector('select').value = resObj.licenseZone;
 
         fieldGroup.appendChild(field);
-    }
+    }*/
 
     if (resObj.licenseType >= 5 && resObj.licenseType <= 8) {
         field = createResultField(resObj.id, 'Tablas/Cuadros resumen', 'resumeTables', resObj.fullInvoice, 'file');
@@ -509,9 +509,9 @@ function generateUrbanFields(resObj, resultContent) {
         field = createResultField(resObj.id, 'Actividad', 'activity', resObj.licenseSpecialData.activity, 'text');
         fieldGroup.appendChild(field);
 
-        field = createResultField(resObj.id, 'P.C.U.', 'PCU', resObj.licenseSpecialData.PCU, 'text');
+        /*field = createResultField(resObj.id, 'P.C.U.', 'PCU', resObj.licenseSpecialData.PCU, 'text');
 
-        fieldGroup.appendChild(field);
+        fieldGroup.appendChild(field);*/
     }
 
     if (resObj.licenseType == 5) {
@@ -522,18 +522,18 @@ function generateUrbanFields(resObj, resultContent) {
         fieldGroup.appendChild(field);
     }
 
-    if (resObj.licenseType == 9) {
+    /*if (resObj.licenseType == 9) {
         field = createResultField(resObj.id, 'P.C.U.', 'PCU', resObj.licenseSpecialData.PCU, 'text');
 
         fieldGroup.appendChild(field);
-    }
+    }*/
 
     if (resObj.licenseType == 1) {
-        field = createResultField(resObj.id, 'P.C.U.', 'PCU', resObj.licenseSpecialData.PCU, 'text');
+        /*field = createResultField(resObj.id, 'P.C.U.', 'PCU', resObj.licenseSpecialData.PCU, 'text');*/
 
         fieldGroup.appendChild(field);
 
-        field = createResultField(resObj.id, 'Porcentaje de ocupación', 'occupationPercent', resObj.licenseSpecialData.occupationPercent, 'number');
+        /*field = createResultField(resObj.id, 'Porcentaje de ocupación', 'occupationPercent', resObj.licenseSpecialData.occupationPercent, 'number');
         fieldGroup.appendChild(field);
 
         field = createResultField(resObj.id, 'Superficie minima por lote', 'surfacePerLote', resObj.licenseSpecialData.surfacePerLote, 'number');
@@ -543,7 +543,7 @@ function generateUrbanFields(resObj, resultContent) {
         fieldGroup.appendChild(field);
 
         field = createResultField(resObj.id, 'Niveles', 'levels', resObj.licenseSpecialData.levels, 'text');
-        fieldGroup.appendChild(field);
+        fieldGroup.appendChild(field);*/
 
         field = createResultField(resObj.id, 'Frente mínimo', 'minimalFront', resObj.licenseSpecialData.minimalFront, 'number');
         fieldGroup.appendChild(field);
@@ -570,20 +570,20 @@ function generateUrbanFields(resObj, resultContent) {
     }
 
     if (resObj.licenseType == 2 || resObj.licenseType == 6 || resObj.licenseType == 9) {
-        field = createResultField(resObj.id, 'Porcentaje de ocupación', 'occupationPercent', resObj.licenseSpecialData.occupationPercent, 'number');
+        /*field = createResultField(resObj.id, 'Porcentaje de ocupación', 'occupationPercent', resObj.licenseSpecialData.occupationPercent, 'number');
         fieldGroup.appendChild(field);
 
         field = createResultField(resObj.id, 'Superficie minima por lote', 'surfacePerLote', resObj.licenseSpecialData.surfacePerLote, 'number');
         fieldGroup.appendChild(field);
 
         field = createResultField(resObj.id, 'Altura maxima', 'maximumHeight', resObj.licenseSpecialData.maximumHeight, 'text');
-        fieldGroup.appendChild(field);
+        fieldGroup.appendChild(field);*/
 
         field = createResultField(resObj.id, 'Frente mínimo', 'minimalFront', resObj.licenseSpecialData.minimalFront, 'number');
         fieldGroup.appendChild(field);
 
-        field = createResultField(resObj.id, 'Niveles', 'levels', resObj.licenseSpecialData.levels, 'text');
-        fieldGroup.appendChild(field);
+        /*field = createResultField(resObj.id, 'Niveles', 'levels', resObj.licenseSpecialData.levels, 'text');
+        fieldGroup.appendChild(field);*/
 
         field = createResultField(resObj.id, 'Restricción frontal', 'frontalRestriction', resObj.licenseSpecialData.frontalRestriction, 'number');
         fieldGroup.appendChild(field);
@@ -678,7 +678,7 @@ function generateUrbanFields(resObj, resultContent) {
         fieldGroup.appendChild(field);
     }
 
-    if (resObj.licenseType == 1 || resObj.licenseType == 2 || resObj.licenseType == 9) {
+    /*if (resObj.licenseType == 1 || resObj.licenseType == 2 || resObj.licenseType == 9) {
         field = createResultField(resObj.id, 'Plazo', 'term', resObj.licenseTerm, 'select');
 
         field.querySelector('select').innerHTML = `
@@ -691,7 +691,7 @@ function generateUrbanFields(resObj, resultContent) {
         field.querySelector('select').value = resObj.licenseTerm;
 
         fieldGroup.appendChild(field);
-    }
+    }*/
 
     resultContent.appendChild(fieldGroup);
     //validities and terms section end--------------------------------------------

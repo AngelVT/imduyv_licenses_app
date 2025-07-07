@@ -12,6 +12,7 @@ import FileSystemError from '../errors/FileSystemError.js';
 import { validateDates } from '../validations/administration.validations.js';
 import path from 'path';
 import { __dirstorage } from '../path.configuration.js';
+import { requestCoordinateCheck } from './geo.service.js';
 
 export async function requestAllLandLicenses() {
 
@@ -165,12 +166,12 @@ export async function requestLandLicenseCreate(body, file, requestor) {
         catastralKey,
         surface,
         georeference,
-        zone,
+        //zone,
         businessLinePrint,
         businessLineIntern,
         authorizedUse,
         expeditionType,
-        term,
+        //term,
         validity,
         requestDate,
         expeditionDate,
@@ -180,17 +181,19 @@ export async function requestLandLicenseCreate(body, file, requestor) {
         discount,
         paymentDone,
         inspector,
-        COS,
-        alt_max,
-        niveles
+        //COS,
+        //alt_max,
+        //niveles
     } = body;
 
-    if (!licenseType || !requestorName || !attentionName || !address || !number || !colony || !contactPhone || !catastralKey || !surface || !georeference || !zone || !businessLinePrint || !businessLineIntern || !authorizedUse || !expeditionType || !term || !validity || !requestDate || !expeditionDate || !expirationDate || !paymentInvoice || !cost || !discount || !paymentDone || !inspector || !COS || !alt_max || !niveles || !file) {
+    if (!licenseType || !requestorName || !attentionName || !address || !number || !colony || !contactPhone || !catastralKey || !surface || !georeference || !businessLinePrint || !businessLineIntern || !authorizedUse || !expeditionType || !validity || !requestDate || !expeditionDate || !expirationDate || !paymentInvoice || !cost || !discount || !paymentDone || !inspector || !file) {
         throw new ValidationError('Request failed due to missing information.',
             'Land use create request',
             `Request failed due to missing information.
             Provided data -> ${JSON.stringify(body)}`);
     }
+
+    const coordinateInfo = await requestCoordinateCheck(georeference);
 
     if ((requestDate && !validateDates(requestDate)) ||
         (expeditionDate && !validateDates(expeditionDate)) ||
@@ -203,20 +206,20 @@ export async function requestLandLicenseCreate(body, file, requestor) {
         );
     }
 
-    if (!await landValidate.validateModels({ type: licenseType, term, zone, authorizedUse, validity, expeditionType })) {
+    if (!await landValidate.validateModels({ type: licenseType, authorizedUse, validity, expeditionType })) {
         throw new ValidationError('Request failed due to invalid information.',
             'Land use create request',
             `Request failed due to invalid information.
-            Provided data -> License type: ${licenseType}, term: ${term}, zone: ${zone}, authorized use: ${authorizedUse}, validity: ${validity}, expedition type: ${expeditionType}`);
+            Provided data -> License type: ${licenseType}, authorized use: ${authorizedUse}, validity: ${validity}, expedition type: ${expeditionType}`);
     }
 
     const INVOICE_INFO = await landUtils.generateInvoiceInformation(licenseType, YEAR);
 
     const SPECIAL_DATA = landUtils.generateSpecialData(licenseType);
 
-    SPECIAL_DATA.COS = COS;
-    SPECIAL_DATA.alt_max = alt_max;
-    SPECIAL_DATA.niveles = niveles;
+    SPECIAL_DATA.COS = coordinateInfo.data.COS;
+    SPECIAL_DATA.alt_max = coordinateInfo.data.alt_max;
+    SPECIAL_DATA.niveles = coordinateInfo.data.niveles;
 
     const NEW_LICENSE_DATA = {
         fullInvoice: INVOICE_INFO.fullInvoice,
@@ -232,9 +235,9 @@ export async function requestLandLicenseCreate(body, file, requestor) {
         colony: colony,
         surfaceTotal: surface,
         catastralKey: catastralKey,
-        licenseTerm: term,
+        licenseTerm: coordinateInfo.data.numericTerm,
         geoReference: georeference,
-        licenseZone: zone,
+        licenseZone: coordinateInfo.data.numericZone,
         authorizedUse: authorizedUse,
         businessLinePrint: businessLinePrint,
         businessLineIntern: businessLineIntern,
@@ -317,13 +320,13 @@ export async function requestLandLicenseUpdate(id, licenseData, file, requestor)
         contactPhone,
         catastralKey,
         surface,
-        georeference,
-        zone,
+        //georeference,
+        //zone,
         businessLinePrint,
         businessLineIntern,
         authorizedUse,
         expeditionType,
-        term,
+        //term,
         validity,
         requestDate,
         expeditionDate,
@@ -339,12 +342,12 @@ export async function requestLandLicenseUpdate(id, licenseData, file, requestor)
         parcela,
         propertyNo,
         propertyDate,
-        COS,
-        alt_max,
-        niveles
+        //COS,
+        //alt_max,
+        //niveles
     } = licenseData;
 
-    if (!licensePrintInvoice && !requestorName && !attentionName && !address && !number && !colony && !contactPhone && !catastralKey && !surface && !georeference && !zone && !businessLinePrint && !businessLineIntern && !authorizedUse && !expeditionType && !term && !validity && !requestDate && !expeditionDate && !expirationDate && !paymentInvoice && !cost && !discount && !paymentDone && !inspector && !anexo && !restrictions && !conditions && !parcela && !propertyNo && !propertyDate && !COS && !alt_max && !niveles && !file) {
+    if (!licensePrintInvoice && !requestorName && !attentionName && !address && !number && !colony && !contactPhone && !catastralKey && !surface && !businessLinePrint && !businessLineIntern && !authorizedUse && !expeditionType && !validity && !requestDate && !expeditionDate && !expirationDate && !paymentInvoice && !cost && !discount && !paymentDone && !inspector && !anexo && !restrictions && !conditions && !parcela && !propertyNo && !propertyDate && !file) {
         throw new ValidationError('Request failed due to missing information.',
             'Land use update request',
             `Request failed due to missing information.
@@ -363,7 +366,7 @@ export async function requestLandLicenseUpdate(id, licenseData, file, requestor)
         );
     }
 
-    if (!await landValidate.validateModels({ term, zone, authorizedUse, validity, expeditionType })) {
+    if (!await landValidate.validateModels({ authorizedUse, validity, expeditionType })) {
         throw new ValidationError('Request failed due to invalid information.',
             'Land use update request',
             `Request failed due to invalid information.
@@ -378,9 +381,9 @@ export async function requestLandLicenseUpdate(id, licenseData, file, requestor)
     newSpecialData.parcela = parcela ? parcela : newSpecialData.parcela;
     newSpecialData.propertyNo = propertyNo ? propertyNo : newSpecialData.propertyNo;
     newSpecialData.propertyDate = propertyDate ? propertyDate : newSpecialData.propertyDate;
-    newSpecialData.COS = COS ? COS : newSpecialData.COS;
+    /*newSpecialData.COS = COS ? COS : newSpecialData.COS;
     newSpecialData.alt_max = alt_max ? alt_max : newSpecialData.alt_max;
-    newSpecialData.niveles = niveles ? niveles : newSpecialData.niveles;
+    newSpecialData.niveles = niveles ? niveles : newSpecialData.niveles;*/
 
     const NEW_DATA = {
         licensePrintInvoice: licensePrintInvoice,
@@ -393,9 +396,9 @@ export async function requestLandLicenseUpdate(id, licenseData, file, requestor)
         colony: colony,
         surfaceTotal: surface,
         catastralKey: catastralKey,
-        licenseTerm: term,
-        geoReference: georeference,
-        licenseZone: zone,
+        //licenseTerm: term,
+        //geoReference: georeference,
+        //licenseZone: zone,
         authorizedUse: authorizedUse,
         businessLinePrint: businessLinePrint,
         businessLineIntern: businessLineIntern,

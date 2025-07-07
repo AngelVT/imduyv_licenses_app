@@ -554,7 +554,7 @@ function generateLandFields(resObj, resultContent) {
 
     fieldGroup.appendChild(imgDiv);
 
-    field = createResultField(resObj.id, 'Georeferencia', 'georeference', resObj.geoReference, 'text');
+    /*field = createResultField(resObj.id, 'Georeferencia', 'georeference', resObj.geoReference, 'text');
 
     fieldGroup.appendChild(field);
 
@@ -589,7 +589,7 @@ function generateLandFields(resObj, resultContent) {
 
     field.querySelector('select').value = resObj.licenseZone;
 
-    fieldGroup.appendChild(field);
+    fieldGroup.appendChild(field);*/
 
     field = createResultField(resObj.id, 'Giro impresión', 'businessLinePrint', resObj.businessLinePrint, 'text');
 
@@ -599,7 +599,7 @@ function generateLandFields(resObj, resultContent) {
 
     fieldGroup.appendChild(field);
 
-    field = createResultField(resObj.id, 'COS', 'COS', resObj.licenseSpecialData.COS, 'text');
+    /*field = createResultField(resObj.id, 'COS', 'COS', resObj.licenseSpecialData.COS, 'text');
 
     fieldGroup.appendChild(field);
 
@@ -609,7 +609,7 @@ function generateLandFields(resObj, resultContent) {
 
     field = createResultField(resObj.id, 'Niveles', 'niveles', resObj.licenseSpecialData.niveles, 'text');
 
-    fieldGroup.appendChild(field);
+    fieldGroup.appendChild(field);*/
 
     field = createResultField(resObj.id, 'Uso autorizado', 'authorizedUse', resObj.authorizedUse, 'select');
 
@@ -709,7 +709,7 @@ function generateLandFields(resObj, resultContent) {
 
     fieldGroup.appendChild(field);
 
-    field = createResultField(resObj.id, 'Plazo', 'term', resObj.licenseTerm, 'select');
+    /*field = createResultField(resObj.id, 'Plazo', 'term', resObj.licenseTerm, 'select');
 
     field.querySelector('select').innerHTML = `
     <option value="">Selecciona ...</option>
@@ -720,7 +720,7 @@ function generateLandFields(resObj, resultContent) {
 
     field.querySelector('select').value = resObj.licenseTerm;
 
-    fieldGroup.appendChild(field);
+    fieldGroup.appendChild(field);*/
 
     field = createResultField(resObj.id, 'Vigencia', 'validity', resObj.licenseValidity, 'select');
 
