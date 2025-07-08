@@ -10,7 +10,7 @@ export async function generateLandUseC(lcDBObj) {
     var definition = {
         pageMargins: [ 5, 100, 5, 10 ],
         styles: docUtils.docStyles,
-        watermark: lcDBObj.approvalStatus ? undefined : { text: 'No aprobado', color: 'blue', opacity: 0.2, bold: true, italics: false },
+        watermark: lcDBObj.approvalStatus ? undefined : { text: 'Sin aprobar', color: 'blue', opacity: 0.2, bold: true, italics: false },
         content: [
             {
                 text: await docUtils.getYearLegend(lcDBObj.year),
