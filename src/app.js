@@ -11,7 +11,7 @@ import { checkDB } from './configuration/database.configuration.js';
 import { setDBDefaults } from './configuration/databaseValues.configuration.js';
 import { setDefaultDirectories } from './configuration/storage.configuration.js';
 import { verifyToken, verifyGroup } from './middlewares/auth.JWT.js';
-import { SECRET_COOKIE } from './configuration/environment.configuration.js';
+import { NODE_ENV, SECRET_COOKIE } from './configuration/environment.configuration.js';
 
 import helmetMiddleware from './configuration/helmet.configuration.js';
 import landuseRoutes from './routes/landuse.routes.js';
@@ -34,11 +34,13 @@ setDefaultDirectories();
 
 app.use(helmetMiddleware);
 
-/*app.use(rateLimit({
-    windowMs: 15 * 60 * 1000,
-    max: 100,
-    message: "Too many requests from this IP, please try again later."
-}));*/
+if (NODE_ENV === 'production') {
+    app.use(rateLimit({
+        windowMs: 10 * 60 * 1000,
+        max: 100,
+        message: "Too many requests from this IP, please try again later."
+    }));
+}
 
 app.use(express.json({ limit: '5mb' }));
 app.use(express.urlencoded({ limit: '10mb', extended: true }));
@@ -107,7 +109,7 @@ app.use('/app', appRoutes);
 app.use('/test', testRoutes);
 
 app.use((req, res) => {
-    res.sendFile(path.join(__dirname, 'resources','public', 'notfound.html'));
+    res.sendFile(path.join(__dirname, 'resources', 'public', 'notfound.html'));
 });
 
 export default app;

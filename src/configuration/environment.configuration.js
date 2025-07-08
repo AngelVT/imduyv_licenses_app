@@ -12,6 +12,7 @@ export const {
     DB_TIMEZONE,
     STORAGE_DIR,
     ADMIN_PASSWORD,
+    NODE_ENV,
     CERT_KEY,
     CERT_CRT,
 } = process.env;
