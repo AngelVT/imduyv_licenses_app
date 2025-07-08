@@ -9,9 +9,10 @@ export async function generateUrbanLF(lcDBObj) {
     const LICENSES_DIRECTOR = await docUtils.getLicensesDirectorName(lcDBObj.requestDate);
     const MUNICIPAL_PRESIDENT = await docUtils.getPresidentName(lcDBObj.requestDate);
 
-    var definition = {
+    const definition = {
         pageMargins: [ 5, 60, 5, 60 ],
         styles: docUtils.docStyles,
+        watermark: lcDBObj.approvalStatus ? undefined : { text: 'Sin aprobar', color: 'red', opacity: 0.2, bold: true, italics: false },
         content: [
             {
                 text: await docUtils.getYearLegend(lcDBObj.year),

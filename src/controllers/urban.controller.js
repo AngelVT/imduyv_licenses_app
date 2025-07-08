@@ -142,6 +142,57 @@ export const updateLicense = requestHandler(
     }
 );
 
+export const approveLicense = requestHandler(
+    async function (req, res) {
+        const ID = req.params.licenciaID;
+        const REQUESTOR = req.user.name;
+
+        const response = await urbanService.requestUrbanLicenseApprove(ID, REQUESTOR);
+
+        res.status(200).json(response.msg);
+
+        logger.logRequestInfo('Urban license approval request completed',
+            `Requestor ID -> ${req.user.uuid}
+        Requestor Name -> ${req.user.name}
+        Requestor Username -> ${req.user.username}
+        Requested record approval -> ${response.license.id}:${response.license.fullInvoice}`);
+    }
+);
+
+export const lockLicense = requestHandler(
+    async function (req, res) {
+        const ID = req.params.licenciaID;
+        const REQUESTOR = req.user.name;
+
+        const response = await urbanService.requestUrbanLicenseLock(ID, REQUESTOR);
+
+        res.status(200).json(response.msg);
+
+        logger.logRequestInfo('Urban license lock request completed',
+            `Requestor ID -> ${req.user.uuid}
+        Requestor Name -> ${req.user.name}
+        Requestor Username -> ${req.user.username}
+        Requested record lock -> ${response.license.public_urban_license_id}:${response.license.fullInvoice}`);
+    }
+);
+
+export const unlockLicense = requestHandler(
+    async function (req, res) {
+        const ID = req.params.licenciaID;
+        const REQUESTOR = req.user.name;
+
+        const response = await urbanService.requestUrbanLicenseUnlock(ID, REQUESTOR);
+
+        res.status(200).json(response);
+
+        logger.logRequestInfo('Urban license unlock request completed',
+            `Requestor ID -> ${req.user.uuid}
+        Requestor Name -> ${req.user.name}
+        Requestor Username -> ${req.user.username}
+        Requested record unlock -> ${response.license.public_urban_license_id}:${response.license.fullInvoice}`);
+    }
+);
+
 export const deleteLicense = requestHandler(
     async function (req, res) {
         const ID = req.params.licenciaID;
@@ -166,12 +217,16 @@ export const getLicensePDF = requestHandler(
 
         const response = await urbanService.requestPDFDefinition(TYPE, INVOICE, YEAR);
 
-        const pdfDoc = printerPDF.createPdfKitDocument(response.definition);
+        if (response.file) {
+            res.sendFile(response.file);
+        } else {
+            const pdfDoc = printerPDF.createPdfKitDocument(response.definition);
 
-        res.setHeader('Content-Type', 'application/pdf');
-        pdfDoc.info.Title = response.fullInvoice;
-        pdfDoc.pipe(res);
-        pdfDoc.end();
+            res.setHeader('Content-Type', 'application/pdf');
+            pdfDoc.info.Title = response.fullInvoice;
+            pdfDoc.pipe(res);
+            pdfDoc.end();
+        }
 
         logger.logRequestInfo('Urban PDF request completed',
             `Requestor ID -> ${req.user.uuid}

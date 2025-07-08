@@ -451,7 +451,7 @@ export async function requestLandLicenseApprove(id, requestor) {
 
     if (!licenseApproval) {
         throw new ResourceError('Request failed due to the record to approve does not exist.',
-            'Land use update request',
+            'Land use approval request',
             `Request failed due to record ${id} does not exist.`);
     }
 
@@ -473,7 +473,7 @@ export async function requestLandLicenseApprove(id, requestor) {
 
     if (!await landUtils.generateArchivePDF(approvedLicense)) {
         throw new FileSystemError('Error saving files to server.',
-            'Land use approve request',
+            'Land use approval request',
             `Request failed due to unexpected error saving files to server.
             File creation for -> ${id}:${licenseApproval.fullInvoice}`);
     }
@@ -611,24 +611,24 @@ export async function requestPDFDefinition(type, invoice, year) {
         isNaN(parseInt(invoice)) ||
         isNaN(parseInt(year))) {
         throw new ValidationError('Request failed due to invalid search parameters provided.',
-            'Land use request by full invoice',
+            'Land use PDF request by full invoice',
             `Search params /t/${type}/i/${invoice}/y/${year} are invalid.`);
     }
 
     let LICENSE = await landRepo.findLandLicenseInvoice(type, invoice, year);
 
-    if (LICENSE == null) {
+    if (!LICENSE) {
         throw new ResourceError('The requested land use record does not exist',
-            'Land use request by full invoice',
+            'Land use PDF request by full invoice',
             `Search params /t/${type}/i/${invoice}/y/${year} not found.`);
     }
 
     if (!LICENSE.active) {
         return {
-        ID: LICENSE.public_land_license_id,
-        fullInvoice: LICENSE.fullInvoice,
-        file: path.join(__dirstorage, 'assets', 'land', LICENSE.fullInvoice, `${LICENSE.fullInvoice}.pdf`)
-    };
+            ID: LICENSE.public_land_license_id,
+            fullInvoice: LICENSE.fullInvoice,
+            file: path.join(__dirstorage, 'assets', 'land', LICENSE.fullInvoice, `${LICENSE.fullInvoice}.pdf`)
+        };
     }
 
     LICENSE = specialDataToJSON(LICENSE);

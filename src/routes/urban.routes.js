@@ -78,6 +78,30 @@ router.patch('/:licenciaID', [
     up.fields(UPLOADS)
 ], urbanControl.updateLicense);
 
+router.patch('/approve/:licenciaID', [
+    authenticator.verifyToken(),
+    authenticator.accountIntegrity,
+    authenticator.verifyGroup(URBAN_GROUPS),
+    authenticator.verifyRole(ADMIN),
+    authenticator.verifyPermission(['license:approve'])
+], urbanControl.approveLicense);
+
+/*router.patch('/lock/:licenciaID', [
+    authenticator.verifyToken(),
+    authenticator.accountIntegrity,
+    authenticator.verifyGroup(URBAN_GROUPS),
+    authenticator.verifyRole(MODERATOR),
+    authenticator.verifyPermission(['license:update', 'license:manage'])
+], urbanControl.lockLicense);*/
+
+router.patch('/unlock/:licenciaID', [
+    authenticator.verifyToken(),
+    authenticator.accountIntegrity,
+    authenticator.verifyGroup(URBAN_GROUPS),
+    authenticator.verifyRole(MODERATOR),
+    authenticator.verifyPermission(['license:unlock', 'license:manage'])
+], urbanControl.unlockLicense);
+
 router.delete('/:licenciaID', [
     authenticator.verifyToken(),
     authenticator.accountIntegrity,

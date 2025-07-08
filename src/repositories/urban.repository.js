@@ -172,7 +172,20 @@ export async function getLicenseEspecialData(id) {
         where: {
             public_urban_license_id: id
         },
-        attributes: ['fullInvoice', 'licenseSpecialData'],
+        attributes: ['fullInvoice', 'licenseSpecialData', 'active'],
+        raw: true,
+        nest: true
+    });
+}
+
+export async function getLicenseApprovalStatus(id) {
+    return await UrbanLicense.findOne({
+        where: {
+            public_urban_license_id: id
+        },
+        //attributes: ['fullInvoice', 'approvalStatus', 'active'],
+        attributes: URBAN_ATTRIBUTES,
+        include: URBAN_MODELS,
         raw: true,
         nest: true
     });

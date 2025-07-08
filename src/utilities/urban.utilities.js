@@ -1,9 +1,20 @@
 import path from "path";
 import { promises as fs } from 'fs';
+import { createWriteStream } from "fs";
 import { __dirstorage } from "../path.configuration.js";
 import { sanitizeSVG } from "./svg.utilities.js";
 import createDOMPurify from 'dompurify';
 import { JSDOM } from 'jsdom';
+import { generateUrbanC } from "../models/documents/urban/licenciaCUS.js";
+import { generateUrbanLUS } from "../models/documents/urban/licenciaLUS.js";
+import { generateUrbanLSUB } from "../models/documents/urban/licenciaLSUB.js";
+import { generateUrbanLFUS } from "../models/documents/urban/licenciaLFUS.js";
+import { generateUrbanCRPC } from "../models/documents/urban/licenciaCRPC.js";
+import { generateUrbanLF } from '../models/documents/urban/licenciaLF.js';
+import { generateUrbanPLF } from '../models/documents/urban/licenciaPLF.js';
+import { generateUrbanRLF } from '../models/documents/urban/licenciaRLF.js';
+import { generateUrbanLUH } from '../models/documents/urban/licenciaLUH.js';
+import { printerPDF } from "../utilities/pdf.utilities.js";
 
 import { getLatestInvoice, getLicenseType } from "../repositories/urban.repository.js";
 
@@ -484,13 +495,73 @@ export async function saveLicenseCharts(files, fullInvoice) {
                 const content = FILE.buffer.toString('utf8');
 
                 const clean = DOMPurify.sanitize(content, { WHOLE_DOCUMENT: true });
-                
+
                 await fs.writeFile(destination, clean, 'utf8');
             }
         }
 
         return true;
     } catch (error) {
+        return false;
+    }
+}
+
+export async function generateArchivePDF(license) {
+    try {
+        const destination = path.join(__dirstorage, 'assets', 'urban', license.fullInvoice, `${license.fullInvoice}.pdf`);
+
+        const directory = path.dirname(destination);
+
+        await fs.mkdir(directory, { recursive: true });
+
+        let definition;
+
+        switch (license.licenseType) {
+            case 1:
+                definition = await generateUrbanC(license);
+                break;
+            case 2:
+                definition = await generateUrbanLUS(license);
+                break;
+            case 3:
+                definition = await generateUrbanLSUB(license);
+                break;
+            case 4:
+                definition = await generateUrbanLFUS(license);
+                break;
+            case 5:
+                definition = await generateUrbanPLF(license);
+                break;
+            case 6:
+                definition = await generateUrbanLF(license);
+                break;
+            case 7:
+                definition = await generateUrbanRLF(license);
+                break;
+            case 8:
+                definition = await generateUrbanCRPC(license);
+                break;
+            case 9:
+                definition = await generateUrbanLUH(license);
+                break;
+        }
+
+        const pdfDoc = printerPDF.createPdfKitDocument(definition);
+
+        const writeStream = createWriteStream(destination);
+
+        return new Promise((resolve, reject) => {
+            pdfDoc.pipe(writeStream);
+            pdfDoc.end();
+
+            writeStream.on('finish', () => resolve(true));
+            writeStream.on('error', (err) => {
+                console.error("Error writing PDF:", err);
+                reject(false)
+            });
+        });
+    } catch (error) {
+        console.log(error)
         return false;
     }
 }

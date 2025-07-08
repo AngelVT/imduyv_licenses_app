@@ -159,6 +159,9 @@ async function approveLicense(id, button) {
             return;
         }
 
+        let url = PDF.getAttribute('src').split('?')[0];
+        PDF.setAttribute('src', `${url}?${new Date().getTime()}`);
+
         alert(`Licencia ${registro}, aprobada exitosamente.`);
 
         const lockBtn = document.getElementById(`result_control_active_${id}`);
@@ -199,6 +202,9 @@ async function approveLicense(id, button) {
             return;
         }
 
+        let url = PDF.getAttribute('src').split('?')[0];
+        PDF.setAttribute('src', `${url}?${new Date().getTime()}`);
+
         alert(`Licencia ${registro}, bloqueada exitosamente.`);
 
         button.setAttribute('onclick', `unlockLicense('${id}', this)`);
@@ -232,6 +238,9 @@ async function unlockLicense(id, button) {
             alert(response.msg);
             return;
         }
+
+        let url = PDF.getAttribute('src').split('?')[0];
+        PDF.setAttribute('src', `${url}?${new Date().getTime()}`);
 
         alert(`Licencia ${registro}, bloqueada exitosamente.`);
 

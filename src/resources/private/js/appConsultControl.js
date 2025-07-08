@@ -79,30 +79,30 @@ function createResultTop(obj, isPrint, isLandUse) {
     span.setAttribute('class', `bi-file-earmark-pdf txt-medium color-white${isPrint ? ' ' : ' dis-none '}result-control`);
     topControls.appendChild(span);
 
-    if (isLandUse) {
-        span = document.createElement('a');
-        span.setAttribute('id', `result_control_approve_${obj.id}`);
-        span.setAttribute('class', `${obj.approvalStatus ? 'bi-building-check' : "bi-building-dash"} txt-medium color-white result-control`);
-        if (!obj.approvalStatus) {
-            span.setAttribute('onclick', `approveLicense('${obj.id}', this)`)
-        }
-        topControls.appendChild(span);
+    //if (isLandUse) {
+    span = document.createElement('a');
+    span.setAttribute('id', `result_control_approve_${obj.id}`);
+    span.setAttribute('class', `${obj.approvalStatus ? 'bi-building-check' : "bi-building-dash"} txt-medium color-white result-control`);
+    if (!obj.approvalStatus) {
+        span.setAttribute('onclick', `approveLicense('${obj.id}', this)`)
+    }
+    topControls.appendChild(span);
 
-        span = document.createElement('a');
-        span.setAttribute('id', `result_control_active_${obj.id}`);
+    span = document.createElement('a');
+    span.setAttribute('id', `result_control_active_${obj.id}`);
 
-        if (obj.active) {
-            span.setAttribute('class', `bi-unlock txt-medium color-white result-control`);
-            //span.setAttribute('onclick', `lockLicense('${obj.id}', this)`)
-        } else {
-            span.setAttribute('class', `bi-lock txt-medium color-white result-control`);
-            span.setAttribute('onclick', `unlockLicense('${obj.id}', this)`)
-        }
-
-        topControls.appendChild(span);
+    if (obj.active) {
+        span.setAttribute('class', `bi-unlock txt-medium color-white result-control`);
+        //span.setAttribute('onclick', `lockLicense('${obj.id}', this)`)
+    } else {
+        span.setAttribute('class', `bi-lock txt-medium color-white result-control`);
+        span.setAttribute('onclick', `unlockLicense('${obj.id}', this)`)
     }
 
-    if(!isPrint) {
+    topControls.appendChild(span);
+    //}
+
+    if (!isPrint) {
         span = document.createElement('span');
         span.setAttribute('id', `result_control_delete_${obj.id}`);
         span.setAttribute('onclick', `deleteResult('${obj.id}')`);
@@ -145,11 +145,11 @@ function createResultTopNoUpdate(obj, isLandUse) {
     span.setAttribute('id', `result_control_edit_${obj.id}`);
     span.setAttribute('href', `/app/${isLandUse ? 'landPrint' : 'urbanPrint'}?type=${obj.licenseType}&invoice=${obj.invoice}&year=${obj.year}`);
     span.setAttribute('class', `bi-pencil-square txt-medium color-white result-control`);
-    
+
     topControls.appendChild(span);
 
     top.appendChild(topControls);
-    
+
     return top;
 }
 
@@ -253,7 +253,7 @@ function createLegacyTop(obj) {
     span = document.createElement('a');
     span.setAttribute('id', `result_control_print_${obj.legacy_license_uuid}`);
     span.setAttribute('target', '_blank');
-    span.setAttribute('href', `/legacyStorage/${obj.licencia.replaceAll('/','_')}.pdf`);
+    span.setAttribute('href', `/legacyStorage/${obj.licencia.replaceAll('/', '_')}.pdf`);
     span.setAttribute('class', 'bi-file-earmark-pdf txt-medium color-white result-control');
     topControls.appendChild(span);
 
@@ -304,10 +304,10 @@ function createResultField(id, tag, name, value, type) {
         input = document.createElement('select');
         input.setAttribute('class', 'w-85 input input-interface input-round-left');
         input.setAttribute('name', name);
-        input.setAttribute('required','');
+        input.setAttribute('required', '');
     } else {
         input = document.createElement('input');
-        if(type == 'file') {
+        if (type == 'file') {
             input.setAttribute('class', 'w-85 input-file');
             input.setAttribute('multiple', '');
             input.setAttribute('accept', '.png, .svg, .xhtml')
@@ -315,18 +315,18 @@ function createResultField(id, tag, name, value, type) {
             input.setAttribute('class', 'w-85 input input-interface input-round-left');
         }
 
-        if(type == 'number') {
+        if (type == 'number') {
             input.setAttribute('step', 'any');
         }
 
         input.setAttribute('type', type);
         input.setAttribute('name', name);
         input.setAttribute('value', value);
-        input.setAttribute('required','');
+        input.setAttribute('required', '');
 
         if (type == 'checkbox') {
             input.checked = Boolean(value);
-            
+
             input.removeAttribute('name');
             input.removeAttribute('value');
             input.removeAttribute('required');
@@ -349,9 +349,9 @@ function createResultField(id, tag, name, value, type) {
 
     button.setAttribute('class', 'bi-floppy input-side-save w-10');
 
-    if (type ==  'file' || type == 'checkbox')
-        button.style.borderRadius =  '15px';
-    
+    if (type == 'file' || type == 'checkbox')
+        button.style.borderRadius = '15px';
+
     label.appendChild(button);
 
     field.appendChild(label);
@@ -387,28 +387,28 @@ function createResultPeriodField(id, tag, name, value, type, url, periodType) {
         input = document.createElement('select');
         input.setAttribute('class', 'w-85 input input-interface input-round-left');
         input.setAttribute('name', name);
-        input.setAttribute('required','');
+        input.setAttribute('required', '');
     } else {
         input = document.createElement('input');
-        if(type == 'file') {
+        if (type == 'file') {
             input.setAttribute('class', 'w-85 input-file');
             input.setAttribute('multiple', '');
         } else {
             input.setAttribute('class', 'w-85 input input-interface input-round-left');
         }
 
-        if(type == 'number') {
+        if (type == 'number') {
             input.setAttribute('step', 'any');
         }
 
         input.setAttribute('type', type);
         input.setAttribute('name', name);
         input.setAttribute('value', value);
-        input.setAttribute('required','');
+        input.setAttribute('required', '');
 
         if (type == 'checkbox') {
             input.checked = Boolean(value);
-            
+
             input.removeAttribute('name');
             input.removeAttribute('value');
             input.removeAttribute('required');
@@ -431,9 +431,9 @@ function createResultPeriodField(id, tag, name, value, type, url, periodType) {
 
     button.setAttribute('class', 'bi-floppy input-side-save w-10');
 
-    if (type ==  'file' || type == 'checkbox')
-        button.style.borderRadius =  '15px';
-    
+    if (type == 'file' || type == 'checkbox')
+        button.style.borderRadius = '15px';
+
     label.appendChild(button);
 
     field.appendChild(label);
@@ -470,7 +470,7 @@ function createResultTextArea(id, tag, name, value) {
 
     input.setAttribute('name', name);
     input.value = value;
-    input.setAttribute('required','');
+    input.setAttribute('required', '');
 
     label.appendChild(input);
 
@@ -540,7 +540,7 @@ function generateTableForm(resObj) {
     input.innerHTML = `
     <option value="1">Situación Actual</option>
     <option value="2">Subdivisión o fusión que se autoriza</option>`;
-    input.setAttribute('id',`editor_table_${resObj.id}`);
+    input.setAttribute('id', `editor_table_${resObj.id}`);
 
     label.appendChild(input);
 
@@ -553,8 +553,8 @@ function generateTableForm(resObj) {
 
     input = document.createElement('input');
     input.setAttribute('class', 'w-10 input input-interface');
-    input.setAttribute('type','number');
-    input.setAttribute('id',`editor_rows_${resObj.id}`);
+    input.setAttribute('type', 'number');
+    input.setAttribute('id', `editor_rows_${resObj.id}`);
     input.value = resObj.licenseSpecialData.actualSituation.length;
     input.setAttribute('onchange', `defineTotalRows(${resObj.id})`);
 
@@ -568,8 +568,8 @@ function generateTableForm(resObj) {
 
     input = document.createElement('input');
     input.setAttribute('class', 'w-10 input input-interface input-round-right');
-    input.setAttribute('type','number');
-    input.setAttribute('id',`editor_rowT_${resObj.id}`);
+    input.setAttribute('type', 'number');
+    input.setAttribute('id', `editor_rowT_${resObj.id}`);
     input.setAttribute('oninput', `checkTargetRow(${resObj.id})`);
     input.value = 1;
 
@@ -672,9 +672,9 @@ function selector(target) {
 
     row.value = 1;
 
-    if (table.value  == 1) {
+    if (table.value == 1) {
         rows.value = currentActualSituation.length;
-    } else if (table.value  == 2) {
+    } else if (table.value == 2) {
         rows.value = currentActualAuthorizedFS.length;
     }
 
@@ -689,10 +689,10 @@ function updatePreview(target) {
     let currentActualSituation = JSON.parse(document.querySelector(`#current_actual_situation_${target}`).value);
     let currentActualAuthorizedFS = JSON.parse(document.querySelector(`#current_actual_authorized_fs_${target}`).value);
 
-    if (table.value  == 1) {
+    if (table.value == 1) {
         preview.innerHTML = '';
         preview.appendChild(generateTableFrom(currentActualSituation));
-    } else if (table.value  == 2) {
+    } else if (table.value == 2) {
         preview.innerHTML = '';
         preview.appendChild(generateTableFrom(currentActualAuthorizedFS));
     }
@@ -705,9 +705,9 @@ function updateDistribution(target, value) {
     let currentActualSituation = JSON.parse(document.querySelector(`#current_actual_situation_${target}`).value);
     let currentActualAuthorizedFS = JSON.parse(document.querySelector(`#current_actual_authorized_fs_${target}`).value);
 
-    if (table.value  == 1) {
+    if (table.value == 1) {
         currentActualSituation[row - 1].table.distribution = value.split('\n');
-    } else if (table.value  == 2) {
+    } else if (table.value == 2) {
         currentActualAuthorizedFS[row - 1].table.distribution = value.split('\n');
     }
 
@@ -723,9 +723,9 @@ function updateMeasures(target, value) {
     let currentActualSituation = JSON.parse(document.querySelector(`#current_actual_situation_${target}`).value);
     let currentActualAuthorizedFS = JSON.parse(document.querySelector(`#current_actual_authorized_fs_${target}`).value);
 
-    if (table.value  == 1) {
+    if (table.value == 1) {
         currentActualSituation[row - 1].table.measures = value.split('\n');
-    } else if (table.value  == 2) {
+    } else if (table.value == 2) {
         currentActualAuthorizedFS[row - 1].table.measures = value.split('\n');
     }
 
@@ -742,9 +742,9 @@ function updateAdjoining(target, value) {
     let currentActualSituation = JSON.parse(document.querySelector(`#current_actual_situation_${target}`).value);
     let currentActualAuthorizedFS = JSON.parse(document.querySelector(`#current_actual_authorized_fs_${target}`).value);
 
-    if (table.value  == 1) {
+    if (table.value == 1) {
         currentActualSituation[row - 1].table.adjoining = value.split('\n');
-    } else if (table.value  == 2) {
+    } else if (table.value == 2) {
         currentActualAuthorizedFS[row - 1].table.adjoining = value.split('\n');
     }
 
@@ -761,9 +761,9 @@ function updateDescription(target, value) {
     let currentActualSituation = JSON.parse(document.querySelector(`#current_actual_situation_${target}`).value);
     let currentActualAuthorizedFS = JSON.parse(document.querySelector(`#current_actual_authorized_fs_${target}`).value);
 
-    if (table.value  == 1) {
+    if (table.value == 1) {
         currentActualSituation[row - 1].description = value;
-    } else if (table.value  == 2) {
+    } else if (table.value == 2) {
         currentActualAuthorizedFS[row - 1].description = value;
     }
 
@@ -780,9 +780,9 @@ function updateSurface(target, value) {
     let currentActualSituation = JSON.parse(document.querySelector(`#current_actual_situation_${target}`).value);
     let currentActualAuthorizedFS = JSON.parse(document.querySelector(`#current_actual_authorized_fs_${target}`).value);
 
-    if (table.value  == 1) {
+    if (table.value == 1) {
         currentActualSituation[row - 1].surface = value;
-    } else if (table.value  == 2) {
+    } else if (table.value == 2) {
         currentActualAuthorizedFS[row - 1].surface = value;
     }
 
@@ -799,14 +799,14 @@ function checkTargetRow(target) {
     let currentActualSituation = JSON.parse(document.querySelector(`#current_actual_situation_${target}`).value);
     let currentActualAuthorizedFS = JSON.parse(document.querySelector(`#current_actual_authorized_fs_${target}`).value);
 
-    if (table.value  == 1) {
-        if(row.value > currentActualSituation.length) {
+    if (table.value == 1) {
+        if (row.value > currentActualSituation.length) {
             row.value = 1
         } else if (row.value < 1) {
             row.value = currentActualSituation.length
         }
     } else {
-        if(row.value > currentActualAuthorizedFS.length) {
+        if (row.value > currentActualAuthorizedFS.length) {
             row.value = 1
         } else if (row.value < 1) {
             row.value = currentActualAuthorizedFS.length
@@ -823,23 +823,23 @@ function defineTotalRows(target) {
     let currentActualSituation = JSON.parse(document.querySelector(`#current_actual_situation_${target}`).value);
     let currentActualAuthorizedFS = JSON.parse(document.querySelector(`#current_actual_authorized_fs_${target}`).value);
 
-    if (table.value  == 1) {
-        if(row.value <= 0) {
+    if (table.value == 1) {
+        if (row.value <= 0) {
             row.value = 1;
             return;
         }
 
-        if(row.value > currentActualSituation.length) {
-            currentActualSituation.length = row.value 
+        if (row.value > currentActualSituation.length) {
+            currentActualSituation.length = row.value
             for (let i = 0; i < currentActualSituation.length; i++) {
-                if(currentActualSituation[i] == undefined) {
+                if (currentActualSituation[i] == undefined) {
                     currentActualSituation[i] = {
-                        "description": `Fila ${i+1}*`,
+                        "description": `Fila ${i + 1}*`,
                         "surface": "########",
                         "table": {
-                            "distribution": ["Oeste","Noroeste","Norte", "Noreste", "Este", "Sureste","Sur", "Suroeste"],
-                            "measures": ["15.00 m","15.00 m","15.00 m", "15.00 m", "15.00 m", "15.00 m","15.00 m", "15.00 m"],
-                            "adjoining": ["LOTE 8","LOTE 6","LOTE 50", "CALLE PORVENIR", "LOTE 8", "LOTE 6","LOTE 50", "CALLE PORVENIR"]
+                            "distribution": ["Oeste", "Noroeste", "Norte", "Noreste", "Este", "Sureste", "Sur", "Suroeste"],
+                            "measures": ["15.00 m", "15.00 m", "15.00 m", "15.00 m", "15.00 m", "15.00 m", "15.00 m", "15.00 m"],
+                            "adjoining": ["LOTE 8", "LOTE 6", "LOTE 50", "CALLE PORVENIR", "LOTE 8", "LOTE 6", "LOTE 50", "CALLE PORVENIR"]
                         }
                     }
                 }
@@ -850,23 +850,23 @@ function defineTotalRows(target) {
 
         rowT.value = currentActualSituation.length;
 
-    } else if (table.value  == 2) {
-        if(row.value <= 0) {
+    } else if (table.value == 2) {
+        if (row.value <= 0) {
             row.value = 1;
             return;
         }
 
-        if(row.value > currentActualAuthorizedFS.length) {
-            currentActualAuthorizedFS.length = row.value 
+        if (row.value > currentActualAuthorizedFS.length) {
+            currentActualAuthorizedFS.length = row.value
             for (let i = 0; i < currentActualAuthorizedFS.length; i++) {
-                if(currentActualAuthorizedFS[i] == undefined) {
+                if (currentActualAuthorizedFS[i] == undefined) {
                     currentActualAuthorizedFS[i] = {
-                        "description": `Fila ${i+1}*`,
+                        "description": `Fila ${i + 1}*`,
                         "surface": "########",
                         "table": {
-                            "distribution": ["Oeste","Noroeste","Norte", "Noreste", "Este", "Sureste","Sur", "Suroeste"],
-                            "measures": ["15.00 m","15.00 m","15.00 m", "15.00 m", "15.00 m", "15.00 m","15.00 m", "15.00 m"],
-                            "adjoining": ["LOTE 8","LOTE 6","LOTE 50", "CALLE PORVENIR", "LOTE 8", "LOTE 6","LOTE 50", "CALLE PORVENIR"]
+                            "distribution": ["Oeste", "Noroeste", "Norte", "Noreste", "Este", "Sureste", "Sur", "Suroeste"],
+                            "measures": ["15.00 m", "15.00 m", "15.00 m", "15.00 m", "15.00 m", "15.00 m", "15.00 m", "15.00 m"],
+                            "adjoining": ["LOTE 8", "LOTE 6", "LOTE 50", "CALLE PORVENIR", "LOTE 8", "LOTE 6", "LOTE 50", "CALLE PORVENIR"]
                         }
                     }
                 }
@@ -891,18 +891,18 @@ function updateRowFields(target) {
     let currentActualSituation = JSON.parse(document.querySelector(`#current_actual_situation_${target}`).value);
     let currentActualAuthorizedFS = JSON.parse(document.querySelector(`#current_actual_authorized_fs_${target}`).value);
 
-    if (table.value  == 1) {
-        document.querySelector(`#table_editor_description_${target}`).value = currentActualSituation[row-1].description;
-        document.querySelector(`#table_editor_surface_${target}`).value = currentActualSituation[row-1].surface;
-        document.querySelector(`#table_editor_distribution_${target}`).value = currentActualSituation[row-1].table.distribution.join('\n');
-        document.querySelector(`#table_editor_measures_${target}`).value = currentActualSituation[row-1].table.measures.join('\n');
-        document.querySelector(`#table_editor_adjoining_${target}`).value = currentActualSituation[row-1].table.adjoining.join('\n');
-    } else if (table.value  == 2) {
-        document.querySelector(`#table_editor_description_${target}`).value = currentActualAuthorizedFS[row-1].description;
-        document.querySelector(`#table_editor_surface_${target}`).value = currentActualAuthorizedFS[row-1].surface;
-        document.querySelector(`#table_editor_distribution_${target}`).value = currentActualAuthorizedFS[row-1].table.distribution.join('\n');
-        document.querySelector(`#table_editor_measures_${target}`).value = currentActualAuthorizedFS[row-1].table.measures.join('\n');
-        document.querySelector(`#table_editor_adjoining_${target}`).value = currentActualAuthorizedFS[row-1].table.adjoining.join('\n');
+    if (table.value == 1) {
+        document.querySelector(`#table_editor_description_${target}`).value = currentActualSituation[row - 1].description;
+        document.querySelector(`#table_editor_surface_${target}`).value = currentActualSituation[row - 1].surface;
+        document.querySelector(`#table_editor_distribution_${target}`).value = currentActualSituation[row - 1].table.distribution.join('\n');
+        document.querySelector(`#table_editor_measures_${target}`).value = currentActualSituation[row - 1].table.measures.join('\n');
+        document.querySelector(`#table_editor_adjoining_${target}`).value = currentActualSituation[row - 1].table.adjoining.join('\n');
+    } else if (table.value == 2) {
+        document.querySelector(`#table_editor_description_${target}`).value = currentActualAuthorizedFS[row - 1].description;
+        document.querySelector(`#table_editor_surface_${target}`).value = currentActualAuthorizedFS[row - 1].surface;
+        document.querySelector(`#table_editor_distribution_${target}`).value = currentActualAuthorizedFS[row - 1].table.distribution.join('\n');
+        document.querySelector(`#table_editor_measures_${target}`).value = currentActualAuthorizedFS[row - 1].table.measures.join('\n');
+        document.querySelector(`#table_editor_adjoining_${target}`).value = currentActualAuthorizedFS[row - 1].table.adjoining.join('\n');
     }
 
     document.querySelector(`#current_actual_situation_${target}`).value = JSON.stringify(currentActualSituation);
@@ -942,7 +942,7 @@ function generateTableFrom(obj) {
         let firstAdjoining = document.createElement('td');
         firstAdjoining.textContent = item.table.adjoining[0];
         row.appendChild(firstAdjoining);
-        
+
         table.appendChild(row);
 
         for (let i = 1; i < item.table.distribution.length; i++) {

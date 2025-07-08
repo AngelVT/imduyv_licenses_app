@@ -7,10 +7,10 @@ export async function generateLandUseC(lcDBObj) {
     const INSTITUTE_DIRECTOR_SIGNATURE = await docUtils.getDirectorNameSignature(lcDBObj.requestDate);
     const INSTITUTE_DIRECTOR_TITTLE = await docUtils.getDirectorNameTittle(lcDBObj.requestDate);
 
-    var definition = {
+    const definition = {
         pageMargins: [ 5, 100, 5, 10 ],
         styles: docUtils.docStyles,
-        watermark: lcDBObj.approvalStatus ? undefined : { text: 'Sin aprobar', color: 'blue', opacity: 0.2, bold: true, italics: false },
+        watermark: lcDBObj.approvalStatus ? undefined : { text: 'Sin aprobar', color: 'red', opacity: 0.2, bold: true, italics: false },
         content: [
             {
                 text: await docUtils.getYearLegend(lcDBObj.year),

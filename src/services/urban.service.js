@@ -16,6 +16,8 @@ import ValidationError from '../errors/ValidationError.js';
 import ResourceError from '../errors/ValidationError.js';
 import FileSystemError from '../errors/FileSystemError.js';
 import { validateDates } from '../validations/administration.validations.js';
+import path from 'path';
+import { __dirstorage } from '../path.configuration.js';
 import { requestCoordinateCheck } from './geo.service.js';
 
 export async function requestAllUrbanLicenses() {
@@ -384,6 +386,20 @@ export async function requestUrbanLicenseUpdate(id, licenseData, files, requesto
         );
     }
 
+    const SPECIAL_DATA = await urbanRepo.getLicenseEspecialData(id);
+
+    if (!SPECIAL_DATA) {
+        throw new ResourceError('Request failed due to the record to update do not exist.',
+            'Urban update request',
+            `Request failed due to record ${id} does not exist.`);
+    }
+
+    if (!SPECIAL_DATA.active) {
+        throw new ValidationError('Request failed due to resource is locked.',
+            'Urban update request',
+            `Request failed due to license locked.`);
+    }
+
     for (const key in licenseData) {
         if (key !== 'requestorAddress' &&
             key !== 'maximumHeight' &&
@@ -497,14 +513,6 @@ export async function requestUrbanLicenseUpdate(id, licenseData, files, requesto
             'Urban update request',
             `Request failed due to invalid information.
             Provided data -> Zone: ${zone}, validity: ${validity}`);
-    }
-
-    const SPECIAL_DATA = await urbanRepo.getLicenseEspecialData(id);
-
-    if (!SPECIAL_DATA) {
-        throw new ResourceError('Request failed due to the record to update do not exist.',
-            'Urban update request',
-            `Request failed due to record ${id} does not exist.`);
     }
 
     let newSpecialData = specialDataToJSON(SPECIAL_DATA).licenseSpecialData;
@@ -625,6 +633,149 @@ export async function requestUrbanLicenseUpdate(id, licenseData, files, requesto
     }
 }
 
+export async function requestUrbanLicenseApprove(id, requestor) {
+    if (!isUuid(id)) {
+        throw new ValidationError('Request failed due to invalid ID.',
+            'Urban approval request',
+            `Request failed due to ID ${id} is invalid.`
+        );
+    }
+
+    const licenseApproval = await urbanRepo.getLicenseApprovalStatus(id);
+
+    if (!licenseApproval) {
+        throw new ResourceError('Request failed due to the record to approve does not exist.',
+            'Urban approval request',
+            `Request failed due to record ${id} does not exist.`);
+    }
+
+    if (licenseApproval.approvalStatus) {
+        return {
+            msg: `The license ${licenseApproval.fullInvoice} is already approved`,
+            license: {
+                id,
+                fullInvoice: licenseApproval.fullInvoice
+            }
+        }
+    }
+
+    const approvedLicense = await urbanRepo.saveUrbanLicense(id, {
+        lastModifiedBy: requestor,
+        approvalStatus: true,
+        active: false
+    });
+
+    if (!await urbanUtils.generateArchivePDF(approvedLicense)) {
+        throw new FileSystemError('Error saving files to server.',
+            'Urban approval request',
+            `Request failed due to unexpected error saving files to server.
+            File creation for -> ${id}:${licenseApproval.fullInvoice}`);
+    }
+
+    return {
+        msg: `The license ${approvedLicense.fullInvoice} was approved`,
+        license: {
+            id,
+            fullInvoice: approvedLicense.fullInvoice
+        }
+    }
+}
+
+export async function requestUrbanLicenseLock(id, requestor) {
+    if (!isUuid(id)) {
+        throw new ValidationError('Request failed due to invalid ID.',
+            'Urban lock request',
+            `Request failed due to ID ${id} is invalid.`
+        );
+    }
+
+    const licenseLock = await urbanRepo.findUrbanLicense(id);
+
+    if (!licenseLock) {
+        throw new ResourceError('Request failed due to the record to approve does not exist.',
+            'Urban lock request',
+            `Request failed due to record ${id} does not exist.`);
+    }
+
+    if (!licenseLock.approvalStatus) {
+        throw new ValidationError('Request failed due to license not approved.',
+            'Urban lock request',
+            `Request failed due to the license is has not been approved.`
+        );
+    }
+
+    if (!licenseLock.active) {
+        return {
+            msg: `The license ${licenseLock.fullInvoice} is already locked`,
+            license: {
+                id,
+                fullInvoice: licenseLock.fullInvoice
+            }
+        }
+    }
+
+    if (!await urbanUtils.generateArchivePDF(licenseLock)) {
+        throw new FileSystemError('Error saving files to server.',
+            'Urban lock request',
+            `Request failed due to unexpected error saving files to server.
+            File creation for -> ${id}:${licenseLock.fullInvoice}`);
+    }
+
+    const lockedLicense = await urbanRepo.saveUrbanLicense(id, {
+        lastModifiedBy: requestor,
+        active: false
+    });
+
+    return {
+        msg: `The license ${lockedLicense.fullInvoice} was locked`,
+        license: {
+            id,
+            fullInvoice: lockedLicense.fullInvoice
+        }
+    }
+}
+
+export async function requestUrbanLicenseUnlock(id, requestor) {
+    if (!isUuid(id)) {
+        throw new ValidationError('Request failed due to invalid ID.',
+            'Urban unlock request',
+            `Request failed due to ID ${id} is invalid.`
+        );
+    }
+
+    const licenseLock = await urbanRepo.getLicenseApprovalStatus(id);
+
+    if (!licenseLock) {
+        throw new ResourceError('Request failed due to the record to approve does not exist.',
+            'Urban unlock request',
+            `Request failed due to record ${id} does not exist.`);
+    }
+
+    if (licenseLock.active) {
+        return {
+            msg: `The license ${licenseLock.fullInvoice} is already unlocked`,
+            license: {
+                id,
+                fullInvoice: licenseLock.fullInvoice
+            }
+        }
+    }
+
+    const unlockedLicense = await urbanRepo.saveUrbanLicense(id, {
+        lastModifiedBy: requestor,
+        active: true,
+        approvalStatus: false
+    });
+
+    return {
+        msg: `The license ${unlockedLicense.fullInvoice} was unlocked`,
+        license: {
+            id,
+            fullInvoice: unlockedLicense.fullInvoice
+        }
+    }
+}
+
 export async function requestUrbanLicenseDelete(id) {
     if (!isUuid(id)) {
         throw new ValidationError('Request failed due to invalid ID.',
@@ -650,12 +801,28 @@ export async function requestUrbanLicenseDelete(id) {
 }
 
 export async function requestPDFDefinition(type, invoice, year) {
+    if (isNaN(parseInt(type)) ||
+        isNaN(parseInt(invoice)) ||
+        isNaN(parseInt(year))) {
+        throw new ValidationError('Request failed due to invalid search parameters provided.',
+            'Urban PDF request by full invoice',
+            `Search params /t/${type}/i/${invoice}/y/${year} are invalid.`);
+    }
+
     let LICENSE = await urbanRepo.findUrbanLicenseInvoice(type, invoice, year);
 
     if (!LICENSE) {
         throw new ResourceError('The requested urban record does not exist',
-            'Urban PDF request',
+            'Urban PDF request by full invoice',
             `Search params /t/${type}/i/${invoice}/y/${year} not found.`);
+    }
+
+    if (!LICENSE.active) {
+        return {
+            ID: LICENSE.public_urban_license_id,
+            fullInvoice: LICENSE.fullInvoice,
+            file: path.join(__dirstorage, 'assets', 'urban', LICENSE.fullInvoice, `${LICENSE.fullInvoice}.pdf`)
+        };
     }
 
     LICENSE = specialDataToJSON(LICENSE);

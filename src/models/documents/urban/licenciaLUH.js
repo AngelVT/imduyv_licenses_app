@@ -8,9 +8,10 @@ export async function generateUrbanLUH(lcDBObj) {
     const INSTITUTE_DIRECTOR_SIGNATURE = await docUtils.getDirectorNameSignature(lcDBObj.requestDate);
     const LICENSES_DIRECTOR = await docUtils.getLicensesDirectorName(lcDBObj.requestDate);
 
-    var definition = {
+    const definition = {
         pageMargins: [5, 60, 5, 60],
         styles: docUtils.docStyles,
+        watermark: lcDBObj.approvalStatus ? undefined : { text: 'Sin aprobar', color: 'red', opacity: 0.2, bold: true, italics: false },
         content: [
             {
                 text: await docUtils.getYearLegend(lcDBObj.year),
