@@ -31,7 +31,7 @@ checkDB();
 setDBDefaults();
 setDefaultDirectories();
 
-//app.use(helmetMiddleware);
+app.use(helmetMiddleware);
 
 /*app.use(rateLimit({
     windowMs: 15 * 60 * 1000,
@@ -57,13 +57,13 @@ app.use('/', morgan('tiny', {
     }
 }));
 
-/*app.use('/app', morgan('tiny', {
+app.use('/app', morgan('tiny', {
     stream: {
         write: (msg) => {
             logConsoleApp(`Screen request: ${msg.trim()}`);
         }
     }
-}));*/
+}));
 
 app.use('/api', morgan('tiny', {
     stream: {
@@ -74,7 +74,7 @@ app.use('/api', morgan('tiny', {
 }));
 
 // * Stablish access to the web files
-app.use('/app/map', express.static(path.join(__dirname, 'resources', 'tools', 'map')));
+app.use('/tool/map', express.static(path.join(__dirname, 'resources', 'tools', 'map')));
 
 app.use('/public', express.static(path.join(__dirname, 'resources', 'public')));
 

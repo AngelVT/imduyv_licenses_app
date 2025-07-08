@@ -161,7 +161,7 @@ async function setData(targets, coord) {
     if(targets.PCU) {
         targets.PCU.value = geoRefData.data.PCU
     }
-    targets.tool.setAttribute('href', `/app/map/?lat=${geoRefData.georeference[0]}&lng=${geoRefData.georeference[1]}&zoom=20`);
+    targets.tool.setAttribute('href', `/tool/map/?lat=${geoRefData.georeference[0]}&lng=${geoRefData.georeference[1]}&zoom=20`);
 
     if(document.querySelector('#georeference')) {
         document.querySelector('#georeference').value = geoRefData.georeference.join();

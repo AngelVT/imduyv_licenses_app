@@ -25,6 +25,7 @@ const helmetMiddleware = helmet({
             imgSrc: [
                 "'self'",
                 "data:",
+                "https://mt1.google.com",
             ],
             objectSrc: ["'none'"],
             baseUri: ["'self'"],
