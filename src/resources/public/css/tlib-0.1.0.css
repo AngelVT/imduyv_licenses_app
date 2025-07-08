@@ -1156,7 +1156,7 @@ body {
     transition: .2s ease-in-out;
 }
 
-.user-info>div {
+.user-info > div {
     width: 0;
     height: 0;
     overflow: hidden;
@@ -1167,11 +1167,11 @@ body {
     transition: .2s ease-in-out;
 }
 
-.user-info>div a {
+.user-info > div a {
     color: inherit;
 }
 
-.user-info:hover>div {
+.user-info:hover > div {
     width: fit-content;
     height: fit-content;
     padding: var(--small);
@@ -1179,7 +1179,7 @@ body {
 
 .user-info:hover {
     top: 10px;
-    right: 15px;
+    right: 30px;
     color: var(--white);
     background-color: var(--secondary_alpha);
     padding: var(--small);
