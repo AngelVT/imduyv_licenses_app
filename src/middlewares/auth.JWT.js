@@ -169,6 +169,7 @@ export function verifyPermission(allowedPermissions = [], options = { mode: 'any
 
 export const loginRedirect = async (req, res, next) => {
     const clientToken = req.signedCookies.access_token;
+    const paramURL = req.query.url;
 
     if (!clientToken) return next();
 
@@ -183,6 +184,10 @@ export const loginRedirect = async (req, res, next) => {
         const USER = await findUserByIdUsername(userID, username);
 
         if (!USER) return failedResponse();
+
+        if (paramURL) {
+            res.redirect(paramURL);
+        }
 
         redirectToMenu(USER.group.group, res);
 
