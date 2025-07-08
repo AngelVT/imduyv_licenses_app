@@ -2,18 +2,9 @@ import app from './app.js';
 import https from 'https';
 import fs from 'fs';
 import { closeDB } from './configuration/database.configuration.js';
+import { APP_PORT, CERT_KEY, CERT_CRT, STORAGE_DIR, ADMIN_PASSWORD, SECRET, SECRET_DOC } from './configuration/environment.configuration.js';
 
 import * as loggerFunctions from './utilities/logger.utilities.js';
-
-const { 
-    APP_PORT,
-    CERT_KEY,
-    CERT_CRT,
-    STORAGE_DIR,
-    ADMIN_PASSWORD,
-    SECRET,
-    SECRET_DOC
-} = process.env;
 
 if (!APP_PORT ||
     !CERT_KEY ||

@@ -1,0 +1,17 @@
+export const {
+    SECRET,
+    SECRET_DOC,
+    SECRET_COOKIE,
+    APP_PORT,
+    DB_PORT,
+    DB_HOST,
+    DB_DIALECT,
+    DB_DATABASE,
+    DB_USER,
+    DB_PASSWORD,
+    DB_TIMEZONE,
+    STORAGE_DIR,
+    ADMIN_PASSWORD,
+    CERT_KEY,
+    CERT_CRT,
+} = process.env;

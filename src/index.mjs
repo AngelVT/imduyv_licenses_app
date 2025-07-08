@@ -1,14 +1,7 @@
 import * as loggerFunctions from './utilities/logger.utilities.js';
 import app from './app.js';
 import { closeDB } from './configuration/database.configuration.js';
-
-const { 
-    APP_PORT,
-    STORAGE_DIR,
-    ADMIN_PASSWORD,
-    SECRET,
-    SECRET_DOC
-} = process.env;
+import { APP_PORT, STORAGE_DIR, ADMIN_PASSWORD, SECRET, SECRET_DOC } from './configuration/environment.configuration.js';
 
 if (!APP_PORT ||
     !STORAGE_DIR ||

@@ -8,6 +8,7 @@ import * as logger from "../utilities/logger.utilities.js";
 import { ZONE_DATA } from "../resources/data/appZonesData.js";
 import { PCU_DATA } from "../resources/data/appPCUData.js";
 import { createZoneDataTable, createPCUDataTable} from "../repositories/geo.repository.js";
+import { ADMIN_PASSWORD } from "./environment.configuration.js";
 
 const createSchemas = async () => {
     try {
@@ -156,7 +157,7 @@ const setDefaultUsers = async () => {
 
         if (count > 0) return;
 
-        const cryptPassword = await encryptPassword(process.env.ADMIN_PASSWORD);
+        const cryptPassword = await encryptPassword(ADMIN_PASSWORD);
 
         const createdUser = await User.create({
             name: "Administrador De Sistema",

@@ -4,6 +4,7 @@ import config from "../configuration/general.configuration.js";
 import jwt from 'jsonwebtoken';
 import * as authValidations from "../validations/auth.validation.js";
 import AuthenticationError from "../errors/AuthenticationError.js";
+import { SECRET } from "../configuration/environment.configuration.js";
 
 export async function requestSignIn(username, password) {
     if (!username || !password) {
@@ -44,7 +45,7 @@ export async function requestSignIn(username, password) {
 
     let redirection = authValidations.validateRedirection(USER.group.group, USER.requiredPasswordReset);
 
-    const TOKEN = jwt.sign({ userID: USER.public_user_id, username: USER.username }, process.env.SECRET, {
+    const TOKEN = jwt.sign({ userID: USER.public_user_id, username: USER.username }, SECRET, {
         algorithm: 'HS256',
         expiresIn: config.TOKENS_EXP
     });

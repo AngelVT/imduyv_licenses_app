@@ -1,6 +1,7 @@
 import jwt from 'jsonwebtoken';
 import { findUserByIdUsername } from '../repositories/users.repository.js';
 import * as logger from '../utilities/logger.utilities.js';
+import { SECRET } from '../configuration/environment.configuration.js';
 
 export function verifyToken(options = {}) {
     const defaultOptions = {
@@ -24,7 +25,7 @@ export function verifyToken(options = {}) {
 
             let decoded;
             try {
-                decoded = jwt.verify(clientToken, process.env.SECRET, { algorithms: ['HS256'] });
+                decoded = jwt.verify(clientToken, SECRET, { algorithms: ['HS256'] });
             } catch (err) {
                 return failedResponse();
             }
@@ -173,7 +174,7 @@ export const loginRedirect = async (req, res, next) => {
 
     let decoded;
     try {
-        decoded = jwt.verify(clientToken, process.env.SECRET, { algorithms: ['HS256'] });
+        decoded = jwt.verify(clientToken, SECRET, { algorithms: ['HS256'] });
 
         const { userID, username } = decoded;
 

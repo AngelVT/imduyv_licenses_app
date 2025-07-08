@@ -11,6 +11,7 @@ import { checkDB } from './configuration/database.configuration.js';
 import { setDBDefaults } from './configuration/databaseValues.configuration.js';
 import { setDefaultDirectories } from './configuration/storage.configuration.js';
 import { verifyToken, verifyGroup } from './middlewares/auth.JWT.js';
+import { SECRET_COOKIE } from './configuration/environment.configuration.js';
 
 import helmetMiddleware from './configuration/helmet.configuration.js';
 import landuseRoutes from './routes/landuse.routes.js';
@@ -42,7 +43,7 @@ app.use(helmetMiddleware);
 app.use(express.json({ limit: '5mb' }));
 app.use(express.urlencoded({ limit: '10mb', extended: true }));
 
-app.use(cookieParser(process.env.SECRET));
+app.use(cookieParser(SECRET_COOKIE));
 
 app.use(cors({
     origin: config.ALLOWED_ORIGINS,

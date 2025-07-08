@@ -1,16 +1,7 @@
 import { Sequelize } from "sequelize";
 
 import * as loggerFunctions from "../utilities/logger.utilities.js";
-
-const {
-    DB_PORT,
-    DB_HOST,
-    DB_DIALECT,
-    DB_DATABASE,
-    DB_USER,
-    DB_PASSWORD,
-    DB_TIMEZONE
-} = process.env;
+import { DB_PORT, DB_HOST, DB_DIALECT, DB_DATABASE, DB_USER, DB_PASSWORD, DB_TIMEZONE } from "./environment.configuration.js";
 
 if (!DB_PORT ||
     !DB_HOST ||
