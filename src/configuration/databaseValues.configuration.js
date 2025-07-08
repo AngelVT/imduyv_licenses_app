@@ -11,7 +11,8 @@ import { createZoneDataTable, createPCUDataTable} from "../repositories/geo.repo
 
 const createSchemas = async () => {
     try {
-        pool.query('CREATE EXTENSION IF NOT EXISTS unaccent')
+        pool.query('CREATE EXTENSION IF NOT EXISTS postgis');
+        pool.query('CREATE EXTENSION IF NOT EXISTS unaccent');
         pool.query('CREATE SCHEMA IF NOT EXISTS users');
         pool.query('CREATE SCHEMA IF NOT EXISTS administration');
         pool.query('CREATE SCHEMA IF NOT EXISTS licenses');
