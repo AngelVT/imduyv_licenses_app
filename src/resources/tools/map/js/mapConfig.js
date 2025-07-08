@@ -1,6 +1,7 @@
 let isInteractingWithControl = false;
 const map = L.map('map', { zoomControl: false }).setView([19.851412229333601, -98.958063125610352], 13);
 let marker;
+const crosshair = document.getElementById('crosshair');
 
 let userMarker = L.BeautifyIcon.icon({
     prefix: 'bi',
@@ -198,12 +199,15 @@ document.addEventListener("keydown", async (e) => {
     if (e.key === "c") {
         try {
             searchForm.classList.add('dis-none');
+            crosshair.classList.add('dis-none');
 
             await capture();
 
             searchForm.classList.remove('dis-none');
+            crosshair.classList.remove('dis-none');
         } catch (error) {
             searchForm.classList.remove('dis-none');
+            crosshair.classList.remove('dis-none');
         }
     }
 });
