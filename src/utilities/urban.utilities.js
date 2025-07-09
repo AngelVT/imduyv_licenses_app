@@ -472,11 +472,11 @@ export async function saveLicenseCharts(files, fullInvoice) {
 
         const EXISTING_FILES = await fs.readdir(directory);
 
-        for (const FILE of EXISTING_FILES) {
+        /*for (const FILE of EXISTING_FILES) {
             if (FILE.startsWith('tablas_')) {
                 await fs.unlink(path.join(directory, FILE));
             }
-        }
+        }*/
 
         const window = new JSDOM('').window;
         const DOMPurify = createDOMPurify(window);
