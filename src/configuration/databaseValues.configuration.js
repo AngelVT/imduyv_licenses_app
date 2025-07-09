@@ -542,8 +542,8 @@ const setGeographicData = async () => {
 const syncModels = async () => {
     try {
         await LandUseLicense.sync();
-        await LegacyLicense.sync();
         await LegacyType.sync();
+        await LegacyLicense.sync();
         await UrbanLicense.sync();
         await MunicipalAdministration.sync();
         await InstituteAdministration.sync();
