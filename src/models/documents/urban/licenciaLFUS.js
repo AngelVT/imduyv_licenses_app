@@ -119,7 +119,7 @@ export async function generateUrbanLFUS(lcDBObj) {
     const definition = {
         pageMargins: [ 5, 40, 5, 40 ],
         styles: docUtils.docStyles,
-        watermark: lcDBObj.approvalStatus ? undefined : { text: 'Sin aprobar', color: 'red', opacity: 0.2, bold: true, italics: false },
+        watermark: lcDBObj.approvalStatus ? undefined : { text: 'Sin aprobar', color: 'red', opacity: 0.2, bold: true, italics: false, angle: 60 },
         content: [
             {
                 text: await docUtils.getYearLegend(lcDBObj.year),
