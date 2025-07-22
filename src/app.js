@@ -26,6 +26,7 @@ import administrationRoutes from './routes/administration.routes.js';
 import { logConsoleApi, logConsoleApp, logServerHttp } from './utilities/logger.utilities.js';
 
 const app = express();
+app.set('trust proxy', 1);
 
 checkDB();
 
