@@ -60,11 +60,11 @@ export async function generateLandUseDP(lcDBObj) {
                                         [
                                             {text: '', border: docUtils.borderless},
                                             {text: '', border: docUtils.borderless}
-                                        ],
+                                        ]/*,
                                         [
                                             {text: 'Fecha de Solicitud: ', style: 'labelT', border: docUtils.borderless},
                                             docUtils.fieldLU(lcDBObj.requestDate, docUtils.borderless, null,null, 7)
-                                        ]
+                                        ]*/
                                     ]
                                 },
                                 layout: docUtils.formLayout
@@ -228,38 +228,45 @@ export async function generateLandUseDP(lcDBObj) {
                                             border: docUtils.borderless,
                                             stack: [
                                                     {
-                                                        lineHeight: 1.5,
+                                                        lineHeight: 1.3,
                                                         text: [
                                                             {text: 'PRIMERO. ', bold: true},
-                                                            {text: 'Que el solicitante el C. '},
-                                                            {text: lcDBObj.requestorName, bold: true},
-                                                            {text: ', con los documentos que se anexan a su escrito inicial, acredita la propiedad del inmueble motivo de la solicitud del '},
-                                                            {text: 'DERECHO DE PREFERENCIA', bold: true},
-                                                            {text: ', así mismo de la inspección realizada en campo, se permite comprobar la localización y ubicación del inmueble que es motivo de la solicitud.\n\n'}
+                                                            /*{text: 'Que el solicitante el C. '},
+                                                            {text: lcDBObj.requestorName, bold: true},*/
+                                                            {text: 'El Instituto Municipal de Desarrollo Urbano y Vivienda del Municipio de, Tizayuca, Estado de Hidalgo, resulta ser competente para el trámite y resolución de la solicitud del '},
+                                                            {text: 'DERECHO DE PREFERENCIA.\n\n', bold: true},
+                                                            //{text: ', así mismo de la inspección realizada en campo, se permite comprobar la localización y ubicación del inmueble que es motivo de la solicitud.\n\n'}
                                                         ]
                                                     },
                                                     {
-                                                        lineHeight: 1.5,
+                                                        lineHeight: 1.3,
                                                         text: [
                                                             {text: 'SEGUNDO. ', bold: true},
-                                                            {text: 'Este Instituto '},
+                                                            {text: 'Una vez identificada y revisada la propiedad de referencia, esta no se localiza dentro de un área de crecimiento para llevar a cabo acción urbana especifica, por tal motivo este instituto '},
                                                             {text: 'NO', bold: true},
-                                                            {text: ' ejercerá el DERECHO DE PREFERENCIA, respecto de la parcela '},
+                                                            {text: '  ejercerá el Derecho de Preferencia Municipal sobre el bien inmueble identificado como parcela '},
                                                             {text: lcDBObj.licenseSpecialData.parcela, bold: true},
-                                                            {text: ' del ejido de Tizayuca, Hidalgo, la cual ampara con el título de propiedad '},
+                                                            {text: ', del ejido de Tizayuca, Hidalgo, la cual ampara con el certificado parcelario '},
                                                             {text: lcDBObj.licenseSpecialData.propertyNo, bold: true},
                                                             {text: ' de fecha '},
                                                             {text: docUtils.dateFormatFull(lcDBObj.licenseSpecialData.propertyDate)},
-                                                            {text: '.\n\n'}
+                                                            {text: ', debiendo mantener inalterable el uso de suelo actual.\n\n'}
                                                         ]
                                                     },
                                                     {
-                                                        lineHeight: 1.5,
+                                                        lineHeight: 1.3,
                                                         text: [
                                                             {text: 'TERCERO. ', bold: true},
-                                                            {text: 'Así mismo se le informa que dicha parcela cuenta, dentro de las normas de compatibilidad y aprovechamiento PLANO 03PE01 - POLÍTICAS TERRITORIALES, PLANO 03PE10 -ETAPAS DE DESARROLLO, 03PE09 -ZONIFICACIÓN SECUNDARIA, con un '},
+                                                            {text: 'Así mismo se le informa que dicho predio, dentro de las normas de compatibilidad y aprovechamiento PLANO 03PE01 - POLÍTICAS TERRITORIALES, PLANO 03PE10 - ETAPAS DE DESARROLLO, 03PE09 -ZONIFICACIÓN SECUNDARIA del PMDUyOT, se encuentra como '},
                                                             {text: lcDBObj.zone.licenseZone, bold: true},
-                                                            {text: `, "${lcDBObj.zone.licenseKey}"`, bold: true},
+                                                            {text: ` (${lcDBObj.zone.licenseKey}).\n\n`, bold: true},
+                                                        ]
+                                                    },
+                                                    {
+                                                        lineHeight: 1.3,
+                                                        text: [
+                                                            {text: 'CUARTO. ', bold: true},
+                                                            {text: 'El presente solo se refiere al ejercicio del Derecho de Preferencia del municipio de Tizayuca por conducto de este Instituto y por ningún motivo constituye un permiso para la realización de obras, subdivisiones o cambios de uso de suelo ni reconoce o valida la legitima propiedad o tenencia de la tierra, ni tampoco es vinculante con autorizaciones competencia de otras autoridades Federales, Estatales o Municipales, quienes resolverán lo conducente respecto a permisos y licencias entre otros, conforme a sus atribuciones.'}
                                                         ]
                                                     }
                                             ]
@@ -280,7 +287,7 @@ export async function generateLandUseDP(lcDBObj) {
                     body: [
                         [{text: 'Fecha de Expedición: ', style: 'labelTC', colSpan: 2},
                             {},
-                            docUtils.fieldLU(lcDBObj.expeditionDate, docUtils.borderless, 2, 'center',7),
+                            docUtils.fieldLU(docUtils.dateFormatDMY(lcDBObj.expeditionDate), docUtils.borderless, 2, 'center',7),
                             {},
                             {},
                             {},
@@ -350,10 +357,9 @@ export async function generateLandUseDP(lcDBObj) {
             {
                 style: 'formRow',
                 stack: [
-                    { text: 'Que el solicitante con los documentos anexados a su escrito inicial ha dado cumplimiento con los requisitos técnicos y legales que obran en el expediente radicado en este Instituto Municipal de Desarrollo Urbano y Vivienda, acredita la propiedad del inmueble motivo de la solicitud de Constancia de Uso de Suelo, así como de la visita de inspección de campo, misma que permite la localización y ubicación del inmueble materia de este trámite. ', fontSize: 7 , margin: [0,0,0,10],alignment: 'justify', lineHeight: 1.5 },
-                    { text: `El C. ${lcDBObj.inspector}`, fontSize: 7, lineHeight: 1.5 },
-                    { text: 'En su carácter de personal técnico adscrito al referido Instituto, realizó visita de inspección en campo al inmueble del que solicita la Constancia de Uso de Suelo, emitiendo opinión técnica positiva. ', fontSize: 7, alignment: 'justify', lineHeight: 1.5 },
-                    /*{ text: `Anexo: ${lcDBObj.licenseSpecialData.anexo}`, style: 'labelT' }*/
+                    { text: 'Que el solicitante con los documentos anexados a su escrito inicial ha dado cumplimiento con los requisitos técnicos y legales que obran en el expediente radicado en este Instituto Municipal de Desarrollo Urbano y Vivienda, acredita la propiedad del inmueble motivo de la solicitud de Constancia de Derecho de Preferencia, así como de la visita de inspección de campo, misma que permite la localización y ubicación del inmueble materia de este trámite. ', fontSize: 7 , margin: [0,0,0,10],alignment: 'justify', lineHeight: 1.5 },
+                    { text: `El C. ${lcDBObj.inspector} en su carácter de personal técnico adscrito al referido Instituto, realizó visita de inspección en campo al inmueble del que solicita la Constancia de Derecho de Preferencia, emitiendo opinión técnica positiva. `, fontSize: 7, alignment: 'justify', lineHeight: 1.5 },
+                    { text: `Anexo: ${lcDBObj.licenseSpecialData.anexo}`, style: 'labelT' }
                 ]
             },
             {

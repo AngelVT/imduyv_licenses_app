@@ -57,11 +57,11 @@ export async function generateLandUseC(lcDBObj) {
                                         [
                                             {text: '', border: docUtils.borderless},
                                             {text: '', border: docUtils.borderless}
-                                        ],
+                                        ]/*,
                                         [
                                             {text: 'Fecha de Solicitud: ', style: 'labelT', border: docUtils.borderless},
                                             docUtils.fieldLU(lcDBObj.requestDate, docUtils.borderless, null,null, 7)
-                                        ]
+                                        ]*/
                                     ]
                                 },
                                 layout: docUtils.formLayout
@@ -178,7 +178,7 @@ export async function generateLandUseC(lcDBObj) {
                         stack: [
                             { text: 'Que el solicitante con los documentos anexados a su escrito inicial ha dado cumplimiento con los requisitos técnicos y legales que obran en el expediente radicado en este Instituto Municipal de Desarrollo Urbano y Vivienda, acredita la propiedad del inmueble motivo de la solicitud de Constancia de Uso de Suelo, así como de la visita de inspección de campo, misma que permite la localización y ubicación del inmueble materia de este trámite. ', style: 'regular', margin: [0,0,0,1],alignment: 'justify', lineHeight: 1.1 },
                             { text: `El C. ${lcDBObj.inspector}, en su carácter de personal técnico adscrito al referido Instituto, realizó visita de inspección en campo al inmueble del que solicita la Constancia de Uso de Suelo, emitiendo opinión técnica positiva. `, style: 'regular', alignment: 'justify', lineHeight: 1.1 },
-                            /*{ text: `Anexo: ${lcDBObj.licenseSpecialData.anexo}`, style: 'labelT' },*/
+                            { text: `Anexo: ${lcDBObj.licenseSpecialData.anexo}`, style: 'labelT' },
                             {
                                 table: {
                                 widths: ['*'],
@@ -231,7 +231,7 @@ export async function generateLandUseC(lcDBObj) {
                     body: [
                         [{text: 'Fecha de Expedición: ', style: 'labelTC', colSpan: 2},
                             {},
-                            docUtils.fieldLU(lcDBObj.expeditionDate, docUtils.borderless, 2, 'center',7),
+                            docUtils.fieldLU(docUtils.dateFormatDMY(lcDBObj.expeditionDate), docUtils.borderless, 2, 'center',7),
                             {},
                             {text: 'Vigencia: ', style: 'labelTC', colSpan: 2},
                             {},

@@ -578,6 +578,11 @@ export function dateFormatFull(dateNumeric) {
     return `${date[2]} de ${months[parseInt(date[1]) - 1]} del ${date[0]}`;
 }
 
+export function dateFormatDMY(isoDate) {
+    let date = isoDate.split('-');
+    return date.reverse().join('-');
+}
+
 export function arrayToText(array) {
     let newArray = Array.from(array);
     if (newArray.length === 0 || !newArray) return '';
