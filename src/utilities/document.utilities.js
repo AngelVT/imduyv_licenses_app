@@ -557,6 +557,15 @@ export function prepareData(lcDBObj) {
     return lcDBObj;
 }
 
+export function anexoFn(anexo) {
+    if (anexo !== '-') {
+        return  {text: `Anexo: ${anexo}`, style: 'labelT' }
+    }
+    else {
+        return undefined
+    }
+}
+
 export function dateFormatFull(dateNumeric) {
     let months = [
         "Enero",

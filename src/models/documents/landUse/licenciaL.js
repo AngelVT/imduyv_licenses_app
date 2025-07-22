@@ -159,7 +159,7 @@ export async function generateLandUseL(lcDBObj) {
                                             docUtils.fieldLU(lcDBObj.businessLinePrint, docUtils.borderless, 8, 'center', 7),
                                             {},{},{},{},{},{},{},
                                             {text: 'Superficie: ', style: 'labelT', border: docUtils.borderless, colSpan: 1},
-                                            docUtils.fieldLU(lcDBObj.surfaceTotal, docUtils.borderless, 2, null, 6),{}
+                                            docUtils.fieldLU(lcDBObj.surfaceTotal, docUtils.borderless, 2, 'center', 6),{}
                                         ],
                                         [
                                             {
@@ -294,7 +294,7 @@ export async function generateLandUseL(lcDBObj) {
                 stack: [
                     { text: 'Que el solicitante con los documentos anexados a su escrito inicial ha dado cumplimiento con los requisitos técnicos y legales que obran en el expediente radicado en este Instituto Municipal de Desarrollo Urbano y Vivienda, acredita la propiedad del inmueble motivo de la solicitud de Licencia de Uso de Suelo, así como de la visita de inspección de campo, misma que permite la localización y ubicación del inmueble materia de este trámite. ', fontSize: 7 , margin: [0,0,0,10],alignment: 'justify', lineHeight: 1.5 },
                     { text: `El C. ${lcDBObj.inspector} en su carácter de personal técnico adscrito al referido Instituto, realizó visita de inspección en campo al inmueble del que solicita la Licencia de Uso de Suelo, emitiendo opinión técnica positiva. `, fontSize: 7, alignment: 'justify', lineHeight: 1.5 },
-                    { text: `Anexo: ${lcDBObj.licenseSpecialData.anexo}`, style: 'labelT' }
+                    docUtils.anexoFn(lcDBObj.licenseSpecialData.anexo)
                 ]
             },
             {

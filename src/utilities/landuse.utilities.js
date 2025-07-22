@@ -45,7 +45,7 @@ export function generateSpecialData(type) {
 
     if (type == 1) {
         return {
-            anexo: " ",
+            anexo: "-",
             restrictions: [
                 "La presente no autoriza acciones urbanas, ni construcción de obras que generen impacto social en su entorno inmediato.",
                 "Esta constancia no autoriza subdividir o fraccionar el inmueble señalado.",
@@ -58,7 +58,7 @@ export function generateSpecialData(type) {
     if (type >= 2 && type <= 5) {
 
         return {
-            anexo: " ",
+            anexo: "-",
             restrictions: ["La presente no autoriza acciones urbanas que generen impacto social en su entorno inmediato conforme a lo establecido en el artículo 139 de la Ley de Asentamientos Humanos, Desarrollo Urbano y Ordenamiento Territorial del Estado de Hidalgo y al artículo 61 del Reglamento de la Ley de Asentamientos Humanos, Desarrollo Urbano y Ordenamiento Territorial del Estado de Hidalgo debiendo ser compatibles o permitidos los giros de acuerdo a la matriz de compatibilidad del Programa Municipal de Desarrollo Urbano y Ordenamiento Territorial del Municipio de Tizayuca, Estado de Hidalgo. Acatar la normativa y restricciones de la zonificación secundaria que determina el documento técnico del Programa Municipal de Desarrollo Urbano y Ordenamiento Territorial de Tizayuca. Los predios que tengan como frente un corredor urbano, podrán adoptar las características propias del corredor, siempre y cuando su acceso sea por el corredor. Deberá tramitar en su caso, la licencia de construcción en la Secretaría de Obras Públicas, así como la licencia de funcionamiento en la Dirección de Reglamentos, Espectáculos y Panteones, pertenecientes al Municipio de Tizayuca, Hidalgo. Dar cumplimiento a lo dispuesto en los artículos 80 y 81 de la Ley de Protección Civil del Estado de Hidalgo. El Instituto Municipal de Desarrollo Urbano y Vivienda se reserva el derecho de revocar la presente, en caso de incumplimiento a cualquiera de las condiciones establecidas en la misma."],
             conditions: [
                 `Por lo que hace al uso de suelo ${textTypes[type]}, una vez autorizado, deberá ser permitido con base en la matriz de compatibilidad del Programa Municipal de Desarrollo Urbano y Ordenamiento Territorial de Tizayuca, Hidalgo.`,
@@ -76,7 +76,7 @@ export function generateSpecialData(type) {
 
     if (type == 6) {
         return {
-            anexo: " ",
+            anexo: "-",
             parcela: "##/### ###",
             propertyNo: "###########",
             propertyDate: "2024-01-01",

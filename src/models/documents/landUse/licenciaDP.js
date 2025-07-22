@@ -51,11 +51,11 @@ export async function generateLandUseDP(lcDBObj) {
                                     body: [
                                         [
                                             {text: 'Nombre: ', style: 'labelT', border: docUtils.borderless},
-                                            docUtils.fieldLU(lcDBObj.requestorName, docUtils.borderless, null,null, 7)
+                                            docUtils.fieldLU(lcDBObj.requestorName, docUtils.borderless, null,'center', 7)
                                         ],
                                         [
                                             {text: 'En Atención: ', style: 'labelT', border: docUtils.borderless},
-                                            docUtils.fieldLU(lcDBObj.attentionName, docUtils.borderless, null,null, 7),
+                                            docUtils.fieldLU(lcDBObj.attentionName, docUtils.borderless, null,'center', 7),
                                         ],
                                         [
                                             {text: '', border: docUtils.borderless},
@@ -78,7 +78,7 @@ export async function generateLandUseDP(lcDBObj) {
                                     body: [
                                         [
                                             {text: 'Calle: ', style: 'labelT', border: docUtils.borderless},
-                                            docUtils.fieldLU(lcDBObj.address, docUtils.borderless, 3, null, 7),
+                                            docUtils.fieldLU(lcDBObj.address, docUtils.borderless, 3, 'center', 7),
                                             {},
                                             {}
                                         ],
@@ -90,11 +90,11 @@ export async function generateLandUseDP(lcDBObj) {
                                         ],
                                         [
                                             {text: 'Colonia: ', style: 'labelT', border: docUtils.borderless},
-                                            docUtils.fieldLU(lcDBObj.colony, docUtils.borderless, 3, null, 7),{},{}
+                                            docUtils.fieldLU(lcDBObj.colony, docUtils.borderless, 3, 'center', 7),{},{}
                                         ],
                                         [
                                             {text: 'Superficie Total: ', style: 'labelT', border: docUtils.borderless},
-                                            docUtils.fieldLU(lcDBObj.surfaceTotal, docUtils.borderless, 3, null, 7),{},{}
+                                            docUtils.fieldLU(lcDBObj.surfaceTotal, docUtils.borderless, 3, 'center', 7),{},{}
                                         ]
                                     ]
                                 },
@@ -155,7 +155,7 @@ export async function generateLandUseDP(lcDBObj) {
                                         ],
                                         [
                                             {text: 'Superficie: ', style: 'labelT', border: docUtils.borderless, colSpan: 1},
-                                            docUtils.fieldLU(lcDBObj.surfaceTotal, docUtils.borderless, 2, null, 6),{},docUtils.voidCell(9),{},{},{},{},{},{},{},{}
+                                            docUtils.fieldLU(lcDBObj.surfaceTotal, docUtils.borderless, 2, 'center', 6),{},docUtils.voidCell(9),{},{},{},{},{},{},{},{}
                                         ]
                                     ]
                                 },
@@ -359,7 +359,7 @@ export async function generateLandUseDP(lcDBObj) {
                 stack: [
                     { text: 'Que el solicitante con los documentos anexados a su escrito inicial ha dado cumplimiento con los requisitos técnicos y legales que obran en el expediente radicado en este Instituto Municipal de Desarrollo Urbano y Vivienda, acredita la propiedad del inmueble motivo de la solicitud de Constancia de Derecho de Preferencia, así como de la visita de inspección de campo, misma que permite la localización y ubicación del inmueble materia de este trámite. ', fontSize: 7 , margin: [0,0,0,10],alignment: 'justify', lineHeight: 1.5 },
                     { text: `El C. ${lcDBObj.inspector} en su carácter de personal técnico adscrito al referido Instituto, realizó visita de inspección en campo al inmueble del que solicita la Constancia de Derecho de Preferencia, emitiendo opinión técnica positiva. `, fontSize: 7, alignment: 'justify', lineHeight: 1.5 },
-                    { text: `Anexo: ${lcDBObj.licenseSpecialData.anexo}`, style: 'labelT' }
+                    docUtils.anexoFn(lcDBObj.licenseSpecialData.anexo)
                 ]
             },
             {

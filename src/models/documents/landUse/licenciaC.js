@@ -48,11 +48,11 @@ export async function generateLandUseC(lcDBObj) {
                                     body: [
                                         [
                                             {text: 'Nombre: ', style: 'labelT', border: docUtils.borderless},
-                                            docUtils.fieldLU(lcDBObj.requestorName, docUtils.borderless, null,null, 7)
+                                            docUtils.fieldLU(lcDBObj.requestorName, docUtils.borderless, null,'center', 7)
                                         ],
                                         [
                                             {text: 'En Atención: ', style: 'labelT', border: docUtils.borderless},
-                                            docUtils.fieldLU(lcDBObj.attentionName, docUtils.borderless, null,null, 7),
+                                            docUtils.fieldLU(lcDBObj.attentionName, docUtils.borderless, null,'center', 7),
                                         ],
                                         [
                                             {text: '', border: docUtils.borderless},
@@ -75,23 +75,23 @@ export async function generateLandUseC(lcDBObj) {
                                     body: [
                                         [
                                             {text: 'Calle: ', style: 'labelT', border: docUtils.borderless},
-                                            docUtils.fieldLU(lcDBObj.address, docUtils.borderless, 3, null, 7),
+                                            docUtils.fieldLU(lcDBObj.address, docUtils.borderless, 3, 'center', 7),
                                             {},
                                             {}
                                         ],
                                         [
                                             {text: 'Clave Catastral: ', style: 'labelT', border: docUtils.borderless},
-                                            docUtils.fieldLU(lcDBObj.catastralKey, docUtils.borderless, 1, null, 6),
+                                            docUtils.fieldLU(lcDBObj.catastralKey, docUtils.borderless, 1, 'center', 6),
                                             {text: 'Numero: ', style: 'labelT', border: docUtils.borderless},
                                             docUtils.fieldLU(lcDBObj.number, docUtils.borderless, 1, 'center', 6)
                                         ],
                                         [
                                             {text: 'Colonia: ', style: 'labelT', border: docUtils.borderless},
-                                            docUtils.fieldLU(lcDBObj.colony, docUtils.borderless, 3, null, 7),{},{}
+                                            docUtils.fieldLU(lcDBObj.colony, docUtils.borderless, 3, 'center', 7),{},{}
                                         ],
                                         [
                                             {text: 'Superficie Total: ', style: 'labelT', border: docUtils.borderless},
-                                            docUtils.fieldLU(lcDBObj.surfaceTotal, docUtils.borderless, 3, null, 7),{},{}
+                                            docUtils.fieldLU(lcDBObj.surfaceTotal, docUtils.borderless, 3, 'center', 7),{},{}
                                         ]
                                     ]
                                 },
@@ -176,9 +176,9 @@ export async function generateLandUseC(lcDBObj) {
                     {
                         margin: [0,0,0,0],
                         stack: [
-                            { text: 'Que el solicitante con los documentos anexados a su escrito inicial ha dado cumplimiento con los requisitos técnicos y legales que obran en el expediente radicado en este Instituto Municipal de Desarrollo Urbano y Vivienda, acredita la propiedad del inmueble motivo de la solicitud de Constancia de Uso de Suelo, así como de la visita de inspección de campo, misma que permite la localización y ubicación del inmueble materia de este trámite. ', style: 'regular', margin: [0,0,0,1],alignment: 'justify', lineHeight: 1.1 },
-                            { text: `El C. ${lcDBObj.inspector}, en su carácter de personal técnico adscrito al referido Instituto, realizó visita de inspección en campo al inmueble del que solicita la Constancia de Uso de Suelo, emitiendo opinión técnica positiva. `, style: 'regular', alignment: 'justify', lineHeight: 1.1 },
-                            { text: `Anexo: ${lcDBObj.licenseSpecialData.anexo}`, style: 'labelT' },
+                            { text: 'Que el solicitante con los documentos anexados a su escrito inicial ha dado cumplimiento con los requisitos técnicos y legales que obran en el expediente radicado en este Instituto Municipal de Desarrollo Urbano y Vivienda, acredita la propiedad del inmueble motivo de la solicitud de Constancia de Uso de Suelo, así como de la visita de inspección de campo, misma que permite la localización y ubicación del inmueble materia de este trámite. ', style: 'regular', margin: [0,0,0,1],alignment: 'justify', lineHeight: 1.1, fontSize: 6 },
+                            { text: `El C. ${lcDBObj.inspector}, en su carácter de personal técnico adscrito al referido Instituto, realizó visita de inspección en campo al inmueble del que solicita la Constancia de Uso de Suelo, emitiendo opinión técnica positiva. `, style: 'regular', alignment: 'justify', lineHeight: 1.1, fontSize: 6 },
+                            docUtils.anexoFn(lcDBObj.licenseSpecialData.anexo),
                             {
                                 table: {
                                 widths: ['*'],
