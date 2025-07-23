@@ -558,6 +558,7 @@ export function prepareData(lcDBObj) {
 }
 
 export function anexoFn(anexo) {
+    anexo = anexo.trim();
     if (anexo !== '-') {
         return  {text: `Anexo: ${anexo}`, style: 'labelT' }
     }
