@@ -108,7 +108,7 @@ L.Control.search = L.Control.extend({
         searchBar.type = "text";
 
         L.DomEvent.on(searchBar, "focus", function () {
-            searchBar.value = '';
+            searchBar.select();
         });
 
         let searchBtn = L.DomUtil.create("button", "bi-search search-btn", searchContainer);
@@ -118,7 +118,7 @@ L.Control.search = L.Control.extend({
         L.DomEvent.on(searchContainer, "submit", function (event) {
             event.preventDefault();
             const coordinatePattern = /^-?\d+(\.\d+)?,-?\d+(\.\d+)?$/;
-            const coordinate = searchBar.value;
+            const coordinate = searchBar.value.replaceAll(' ','');
 
             if (!coordinatePattern.test(coordinate)) return alert('Coordenada invalida')
 
