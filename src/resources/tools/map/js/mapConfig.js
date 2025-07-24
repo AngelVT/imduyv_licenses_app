@@ -23,7 +23,7 @@ function createUserMarker(lat, lng) {
     }
 
     marker = L.marker([lat, lng], { icon: userMarker, pane: 'topPane' }).addTo(map);
-    marker.bindTooltip(`${lat.toFixed(6)}, ${lng.toFixed(6)}`, { permanent: true, direction: "bottom", className: 'tooltip-userMarker', pane: 'topPane' })
+    marker.bindTooltip(`${lat.toFixed(6)}, ${lng.toFixed(6)}`, { permanent: true, direction: "bottom", className: 'tooltip-userMarker', pane: 'topPane' });
 
     marker.on('click', function () {
         map.removeLayer(marker);
@@ -32,6 +32,10 @@ function createUserMarker(lat, lng) {
 
     marker.on('contextmenu', function () {
         navigator.clipboard.writeText(`${lat},${lng}`);
+
+        marker.bindTooltip("Coordenadas copiadas!", { permanent: true, direction: "bottom", className: 'tooltip-copied' });
+
+        setTimeout(() => marker.bindTooltip(`${lat.toFixed(6)}, ${lng.toFixed(6)}`, { permanent: true, direction: "bottom", className: 'tooltip-userMarker', pane: 'topPane' }), 1500);
     });
 }
 

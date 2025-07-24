@@ -272,6 +272,22 @@ body {
     color: var(--primary);
     padding: 3px;
     background-color: var(--white);
+    padding: 0 10px;
+    z-index: 999;
+}
+
+.tooltip-copied {
+    background: none;
+    border: none;
+    box-shadow: none;
+    font-weight: bold;
+    font-size: 12px;
+    text-align: center;
+    color: var(--primary);
+    padding: 3px;
+    background-color: var(--white);
+    font-style: italic;
+    padding: 0 10px;
     z-index: 999;
 }
 
