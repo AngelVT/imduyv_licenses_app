@@ -55,7 +55,7 @@ export async function generateLandUseL(lcDBObj) {
                                         ],
                                         [
                                             {text: 'En Atención: ', style: 'labelT', border: docUtils.borderless, margin: [0,lcDBObj.licenseSpecialData.marginAttention,0,0]},
-                                            docUtils.fieldLU(lcDBObj.attentionName, docUtils.borderless, null,'center', 7,lcDBObj.licenseSpecialData.marginAttentio)
+                                            docUtils.fieldLU(lcDBObj.attentionName, docUtils.borderless, null,'center', 7,lcDBObj.licenseSpecialData.marginAttention)
                                         ]/*,
                                         [
                                             {text: '', border: docUtils.borderless},

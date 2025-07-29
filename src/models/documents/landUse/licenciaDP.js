@@ -84,7 +84,7 @@ export async function generateLandUseDP(lcDBObj) {
                                         ],
                                         [
                                             {text: 'Clave Catastral: ', style: 'labelT', border: docUtils.borderless},
-                                            docUtils.fieldLU(lcDBObj.catastralKey, docUtils.borderless, 1, null, 6),
+                                            docUtils.fieldLU(lcDBObj.catastralKey, docUtils.borderless, 1, 'center', 6),
                                             {text: 'Numero: ', style: 'labelT', border: docUtils.borderless},
                                             docUtils.fieldLU(lcDBObj.number, docUtils.borderless, 1, 'center', 7)
                                         ],
