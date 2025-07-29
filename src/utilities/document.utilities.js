@@ -166,10 +166,11 @@ export function field(text, borders, span, style, fontSize) {
     }
 }
 
-export function fieldLU(text, borders, span, style, fontSize) {
+export function fieldLU(text, borders, span, style, fontSize, marginTop = 0) {
     return {
         colSpan: span,
         border: borders,
+        margin: [0, marginTop, 0, 0],
         table: { widths: ['*'], body: [[{ text: text, fontSize: fontSize, style: style, margin: [3, 3, 3, 3] }]] }, layout: cellLayout
     }
 }
@@ -522,6 +523,14 @@ export function prepareData(lcDBObj) {
     if (lcDBObj.surfaceTotal) {
         const number = Number(lcDBObj.surfaceTotal).toLocaleString();
         lcDBObj.surfaceTotal = number !== 'NaN' ? number : lcDBObj.surfaceTotal;
+    }
+
+    if (!lcDBObj.licenseSpecialData.marginName) {
+        lcDBObj.licenseSpecialData.marginName = 0;
+    }
+
+    if (!lcDBObj.licenseSpecialData.marginAttention) {
+        lcDBObj.licenseSpecialData.marginAttention = 0;
     }
 
     for (const key in lcDBObj) {

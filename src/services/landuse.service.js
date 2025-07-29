@@ -342,12 +342,14 @@ export async function requestLandLicenseUpdate(id, licenseData, file, requestor)
         parcela,
         propertyNo,
         propertyDate,
+        marginName,
+        marginAttention
         //COS,
         //alt_max,
         //niveles
     } = licenseData;
 
-    if (!licensePrintInvoice && !requestorName && !attentionName && !address && !number && !colony && !contactPhone && !catastralKey && !surface && !businessLinePrint && !businessLineIntern && !authorizedUse && !expeditionType && !validity && !requestDate && !expeditionDate && !expirationDate && !paymentInvoice && !cost && !discount && !paymentDone && !inspector && !anexo && !restrictions && !conditions && !parcela && !propertyNo && !propertyDate && !file) {
+    if (!licensePrintInvoice && !requestorName && !attentionName && !address && !number && !colony && !contactPhone && !catastralKey && !surface && !businessLinePrint && !businessLineIntern && !authorizedUse && !expeditionType && !validity && !requestDate && !expeditionDate && !expirationDate && !paymentInvoice && !cost && !discount && !paymentDone && !inspector && !anexo && !restrictions && !conditions && !parcela && !propertyNo && !propertyDate && !marginName && !marginAttention && !file) {
         throw new ValidationError('Request failed due to missing information.',
             'Land use update request',
             `Request failed due to missing information.
@@ -373,6 +375,20 @@ export async function requestLandLicenseUpdate(id, licenseData, file, requestor)
             Provided data -> Term: ${term}, zone: ${zone}, authorized use: ${authorizedUse}, validity: ${validity}, expedition type: ${expeditionType}`);
     }
 
+    if (marginName && isNaN(parseInt(marginName))) {
+        throw new ValidationError('Request failed due to invalid margin.',
+            'Land use update request',
+            `Request failed due to invalid information.
+            Provided data -> Margin Name: ${marginName}.`);
+    }
+
+    if (marginAttention && isNaN(parseInt(marginAttention))) {
+        throw new ValidationError('Request failed due to invalid margin.',
+            'Land use update request',
+            `Request failed due to invalid information.
+            Provided data -> Margin Attention: ${marginAttention}.`);
+    }
+
     let newSpecialData = specialDataToJSON(SPECIAL_DATA).licenseSpecialData;
 
     newSpecialData.anexo = anexo ? anexo : newSpecialData.anexo;
@@ -381,6 +397,9 @@ export async function requestLandLicenseUpdate(id, licenseData, file, requestor)
     newSpecialData.parcela = parcela ? parcela : newSpecialData.parcela;
     newSpecialData.propertyNo = propertyNo ? propertyNo : newSpecialData.propertyNo;
     newSpecialData.propertyDate = propertyDate ? propertyDate : newSpecialData.propertyDate;
+
+    newSpecialData.marginName = marginName ? parseInt(marginName) : newSpecialData.marginName;
+    newSpecialData.marginAttention = marginAttention ? parseInt(marginAttention) : newSpecialData.marginAttention;
     /*newSpecialData.COS = COS ? COS : newSpecialData.COS;
     newSpecialData.alt_max = alt_max ? alt_max : newSpecialData.alt_max;
     newSpecialData.niveles = niveles ? niveles : newSpecialData.niveles;*/

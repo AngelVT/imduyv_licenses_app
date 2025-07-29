@@ -51,7 +51,9 @@ export function generateSpecialData(type) {
                 "Esta constancia no autoriza subdividir o fraccionar el inmueble señalado.",
                 "La presente se expide únicamente para los fines establecidos y no constituye bajo ninguna circunstancia documento que acredite la propiedad o posesión sobre el inmueble referido.",
                 "El Instituto Municipal de Desarrollo Urbano y Vivienda, se reserva el derecho de revocar la presente en caso de incumplimiento a cualquiera de las condiciones establecidas en la misma."
-            ]
+            ],
+            marginName: 10,
+            marginAttention: 10
         }
     }
 
@@ -70,7 +72,9 @@ export function generateSpecialData(type) {
                 'En todas las puertas que conduzcan al exterior habrá letreros con la palabra "salida" y flechas luminosas indicando la dirección de las salidas, las letras tendrán una altura mínima de quince centímetros.',
                 "Se prohíbe la ocupación, obstrucción, o uso de areas municipales, para cualquier fin distinto al establecido, tales como: actividades comerciales, de construcción, almacenamiento de materiales, entre otros.",
                 "Deberá tramitar dictamen ante la Dirección de Protección Civil y Bomberos del Municipio de Tizayuca, Hidalgo, así como atender todas las recomendaciones que en materia de riesgos se le efectúen; para poder realizar la actualización de su licencia tendrá que presentar dicho dictamen vigente."
-            ]
+            ],
+            marginName: 10,
+            marginAttention: 10
         }
     }
 
@@ -84,7 +88,9 @@ export function generateSpecialData(type) {
                 "Los actos, convenios o contratos que se realicen sin respetar el Derecho de Preferencia a que se refiere este apartado podrán ser declarados nulos mediante procedimiento administrativo o judicial, cuando por derecho haya sido conculcado.",
                 "Los propietarios, poseedores, fedatarios públicos, registradores públicos y autoridades que den fe o realicen acciones, trámites administrativos de transmisión de la propiedad o que inscriban actos o negocios jurídicos, contrario a lo establecido en la Ley de Asentamientos Humanos, Desarrollo Urbano y Ordenamiento Territorial del Estado de Hidalgo, se harán acreedores a las sanciones y responsabilidades administrativas, civiles y penales correspondientes, con fundamento en los artículos 102, 193 fracciones XIV y XV, así como el artículo 200 de la misma Ley y demás aplicables.",
                 "En caso de incumplimiento de las obligaciones señaladas, se harán acreedores a las sanciones y responsabilidades penales, civiles y administrativas conforme al artículo 52 de la Ley de Asentamientos Humanos, Desarrollo Urbano y Ordenamiento Territorial para Estado de Hidalgo."
-            ]
+            ],
+            marginName: 10,
+            marginAttention: 10
         }
     }
 }

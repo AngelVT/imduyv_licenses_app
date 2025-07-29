@@ -47,17 +47,17 @@ export async function generateLandUseC(lcDBObj) {
                                     widths: ['auto', '*'],
                                     body: [
                                         [
-                                            {text: 'Nombre: ', style: 'labelT', border: docUtils.borderless},
-                                            docUtils.fieldLU(lcDBObj.requestorName, docUtils.borderless, null,'center', 7)
+                                            {text: 'Nombre: ', style: 'labelT', border: docUtils.borderless, margin: [0,lcDBObj.licenseSpecialData.marginName,0,0]},
+                                            docUtils.fieldLU(lcDBObj.requestorName, docUtils.borderless, null,'center', 7, lcDBObj.licenseSpecialData.marginName)
                                         ],
                                         [
-                                            {text: 'En Atención: ', style: 'labelT', border: docUtils.borderless},
-                                            docUtils.fieldLU(lcDBObj.attentionName, docUtils.borderless, null,'center', 7),
-                                        ],
+                                            {text: 'En Atención: ', style: 'labelT', border: docUtils.borderless, margin: [0,lcDBObj.licenseSpecialData.marginAttention,0,0]},
+                                            docUtils.fieldLU(lcDBObj.attentionName, docUtils.borderless, null,'center', 7, lcDBObj.licenseSpecialData.marginAttention)
+                                        ]/*,
                                         [
                                             {text: '', border: docUtils.borderless},
                                             {text: '', border: docUtils.borderless}
-                                        ]/*,
+                                        ],
                                         [
                                             {text: 'Fecha de Solicitud: ', style: 'labelT', border: docUtils.borderless},
                                             docUtils.fieldLU(lcDBObj.requestDate, docUtils.borderless, null,null, 7)

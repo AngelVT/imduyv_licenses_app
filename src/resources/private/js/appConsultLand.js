@@ -834,6 +834,12 @@ function generateLandFields(resObj, resultContent) {
         fieldGroup.appendChild(field);
     }
 
+    field = createResultField(resObj.id, 'Margen Nombre', 'marginName', resObj.licenseSpecialData.marginName, 'number');
+    fieldGroup.appendChild(field);
+
+    field = createResultField(resObj.id, 'Margen En Atención', 'marginAttention', resObj.licenseSpecialData.marginAttention, 'number');
+    fieldGroup.appendChild(field);
+
     resultContent.appendChild(fieldGroup);
 
     // ! end of extras field group
