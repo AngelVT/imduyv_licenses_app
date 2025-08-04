@@ -35,13 +35,25 @@ setDefaultDirectories();
 
 app.use(helmetMiddleware);
 
-if (NODE_ENV === 'production') {
+/*if (NODE_ENV === 'production') {
     app.use(rateLimit({
         windowMs: 10 * 60 * 1000,
         max: 100,
         message: "Too many requests from this IP, please try again later."
     }));
-}
+}*/
+
+const apiLimiter = rateLimit({
+    windowMs: 15 * 60 * 1000,
+    max: 60,
+    standardHeaders: true,
+    legacyHeaders: false,
+    message: {
+        status: 429,
+        error: "Demasiadas solicitudes a API desde esta IP intenta de nuevo mas tarde."
+    },
+    skipSuccessfulRequests: false
+});
 
 app.use(express.json({ limit: '5mb' }));
 app.use(express.urlencoded({ limit: '10mb', extended: true }));
@@ -91,6 +103,8 @@ app.use('/landUseStorage', verifyToken(), verifyGroup(['land_use', 'all']), expr
 app.use('/legacyStorage', verifyToken(), verifyGroup(['land_use', 'all']), express.static(path.join(__dirstorage, 'assets', 'legacy')));
 
 // * Stablish routes
+app.use("/api", apiLimiter);
+
 app.use('/api/landuse', landuseRoutes);
 
 app.use('/api/landLegacy', legacyRoutes);
