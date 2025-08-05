@@ -199,8 +199,9 @@ async function capture() {
 
 document.addEventListener("keydown", async (e) => {
     const searchForm = document.getElementById('search-form');
+    const key = e.key.toLocaleLowerCase();
 
-    if (e.key === "c") {
+    if (key === "c") {
         try {
             searchForm.classList.add('dis-none');
             crosshair.classList.add('dis-none');
