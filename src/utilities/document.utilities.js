@@ -505,6 +505,7 @@ export async function fileExist(location, group, width) {
                 alignment: 'center'
             };
         } catch (err) {
+            console.log(err);
             // File doesn't exist, try the next extension
         }
     }
