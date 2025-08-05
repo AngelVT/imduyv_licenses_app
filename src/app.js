@@ -55,8 +55,8 @@ const apiLimiter = rateLimit({
     skipSuccessfulRequests: false
 });
 
-app.use(express.json({ limit: '20mb' }));
-app.use(express.urlencoded({ limit: '20mb', extended: true }));
+app.use(express.json({ limit: '5mb' }));
+app.use(express.urlencoded({ limit: '10mb', extended: true }));
 
 app.use(cookieParser(SECRET_COOKIE));
 
