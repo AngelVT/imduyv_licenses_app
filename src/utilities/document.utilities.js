@@ -505,7 +505,6 @@ export async function fileExist(location, group, width) {
                 alignment: 'center'
             };
         } catch (err) {
-            console.log(err);
             // File doesn't exist, try the next extension
         }
     }
@@ -535,7 +534,7 @@ export function prepareData(lcDBObj) {
     }
 
     for (const key in lcDBObj) {
-        if (typeof lcDBObj[key] == 'string') {
+        if (typeof lcDBObj[key] == 'string' && key !== 'fullInvoice') {
             lcDBObj[key] = lcDBObj[key].toUpperCase();
         }
     }
