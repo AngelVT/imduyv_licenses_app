@@ -53,6 +53,13 @@ router.get('/pi/:printInvoice', [
     authenticator.verifyPermission(['license:read', 'license:manage'])
 ], landControl.getLicenseByPrintInvoice);
 
+router.get('/unapproved', [
+    authenticator.verifyToken(),
+    authenticator.accountIntegrity,
+    authenticator.verifyGroup(LAND_GROUPS),
+    authenticator.verifyPermission(['license:read', 'license:manage'])
+], landControl.getLicensesUnapproved);
+
 router.get('/check', [
     authenticator.verifyToken(),
     authenticator.accountIntegrity,

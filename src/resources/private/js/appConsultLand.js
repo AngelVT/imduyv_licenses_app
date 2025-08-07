@@ -4,6 +4,7 @@ const formSearchBy = document.querySelector('#form_land_by');
 const formSearchByInvoice = document.querySelector('#form_land_byInvoice');
 const formSearchByPrintInvoice = document.querySelector('#form_byPrintInvoice');
 const formSearchByType = document.querySelector('#form_land_byType');
+const formSearchUnapproved = document.querySelector('#get_unapproved');
 
 formSearchBy.addEventListener('submit',
     event => {
@@ -52,6 +53,10 @@ formSearchByPrintInvoice.addEventListener('submit',
         getLicenseByPrintInvoice(data.byPrintInvoice);
     }
 );
+
+formSearchUnapproved.addEventListener('click', () => {
+    getUnapproved()
+});
 
 async function getLicense(type, invoice, year) {
     await fetch(`/api/landuse/t/${type}/i/${invoice}/y/${year}`, {
@@ -210,6 +215,47 @@ async function getLicenseByPrintInvoice(printInvoice) {
         .catch(error => {
             alert('An error ocurred:\n' + error);
             console.error('Error getting data: ', error);
+        });
+}
+
+async function getUnapproved() {
+    await fetch(`/api/landuse/unapproved`, {
+        method: 'GET',
+        credentials: 'include'
+    })
+        .then(async res => {
+            if (res.ok) {
+                let content = res.headers.get('Content-Type');
+                if (content.includes('text/html')) {
+                    location.href = res.url;
+                    return;
+                }
+
+                let response = await res.json();
+
+                if (response.licenses.length == 0) {
+                    alert('No hay resultados que coincida con la búsqueda');
+                    return;
+                }
+
+                resultContainer.innerHTML = '';
+
+                response.licenses.forEach(element => {
+                    createLandResultNoUpdate(element, resultContainer);
+                });
+
+                return;
+            }
+
+            if (!res.ok) {
+                let response = await res.json();
+                alert(response.msg);
+                return;
+            }
+        })
+        .catch(error => {
+            alert('An error ocurred', error);
+            console.error('Error getting data: ', error)
         });
 }
 

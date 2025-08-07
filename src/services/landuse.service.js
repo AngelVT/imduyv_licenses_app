@@ -146,6 +146,23 @@ export async function requestLandLicenseByPrintInvoice(printInvoice) {
     }
 }
 
+export async function requestUnapprovedLandLicenses() {
+
+    let LICENSES = await landRepo.findUnapprovedLandLicenses();
+
+    if (!LICENSES || LICENSES.length === 0) {
+        throw new ResourceError('There are no land use records to display.',
+            'Land use request all records',
+            'There are no land use records registered.');
+    }
+
+    LICENSES = specialDataToJSON(LICENSES);
+
+    return {
+        licenses: LICENSES
+    }
+}
+
 export async function requestLandLicenseCreate(body, file, requestor) {
     const DATE = new Date;
 

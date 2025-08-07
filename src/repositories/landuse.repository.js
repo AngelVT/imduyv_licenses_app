@@ -124,6 +124,17 @@ export async function findLandLicenseBy(parameter, value) {
     });
 }
 
+export async function findUnapprovedLandLicenses() {
+    return await LandUseLicense.findAll({
+        where: {
+            approvalStatus: false
+        },
+        include: LAND_USE_MODELS,
+        raw: true,
+        nest: true
+    });
+}
+
 export async function saveNewLandLicense(newLicenseData) {
     const [NEW_LICENSE, CREATED] = await LandUseLicense.findOrCreate({
         where: {

@@ -104,6 +104,21 @@ export const getLicenseByPrintInvoice = requestHandler(
     }
 );
 
+export const getLicensesUnapproved = requestHandler(
+    async function (req, res) {
+
+        const response = await landService.requestUnapprovedLandLicenses();
+
+        res.status(200).json(response);
+
+        logger.logRequestInfo('Land use all record request completed',
+            `Requestor ID -> ${req.user.uuid}
+        Requestor Name -> ${req.user.name}
+        Requestor Username -> ${req.user.username}
+        Requested records -> All records requested`);
+    }
+);
+
 export const createLicense = requestHandler(
     async function (req, res) {
         const DATA = req.body;
