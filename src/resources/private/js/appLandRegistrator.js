@@ -198,7 +198,8 @@ const authUses = [
     "Vial",
     "Aprovechamiento Agropecuario",
     "Silvicultura",
-    "Minería y extracción"
+    "Minería y extracción",
+    "Sanitaria"
 ];
 
 const expTypes = [

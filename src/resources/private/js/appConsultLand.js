@@ -714,6 +714,7 @@ function generateLandFields(resObj, resultContent) {
     <option value="51">Aprovechamiento Agropecuario</option>
     <option value="52">Silvicultura</option>
     <option value="53">Minería y extracción</option>
+    <option value="54">Sanitaria</option>
     `;
 
     field.querySelector('select').value = resObj.authorizedUse;
