@@ -337,7 +337,7 @@ export async function requestLandLicenseUpdate(id, licenseData, file, requestor)
         contactPhone,
         catastralKey,
         surface,
-        //georeference,
+        georeference,
         //zone,
         businessLinePrint,
         businessLineIntern,
@@ -366,7 +366,7 @@ export async function requestLandLicenseUpdate(id, licenseData, file, requestor)
         //niveles
     } = licenseData;
 
-    if (!licensePrintInvoice && !requestorName && !attentionName && !address && !number && !colony && !contactPhone && !catastralKey && !surface && !businessLinePrint && !businessLineIntern && !authorizedUse && !expeditionType && !validity && !requestDate && !expeditionDate && !expirationDate && !paymentInvoice && !cost && !discount && !paymentDone && !inspector && !anexo && !restrictions && !conditions && !parcela && !propertyNo && !propertyDate && !marginName && !marginAttention && !file) {
+    if (!licensePrintInvoice && !requestorName && !attentionName && !address && !number && !colony && !contactPhone && !catastralKey && !surface && !georeference && !businessLinePrint && !businessLineIntern && !authorizedUse && !expeditionType && !validity && !requestDate && !expeditionDate && !expirationDate && !paymentInvoice && !cost && !discount && !paymentDone && !inspector && !anexo && !restrictions && !conditions && !parcela && !propertyNo && !propertyDate && !marginName && !marginAttention && !file) {
         throw new ValidationError('Request failed due to missing information.',
             'Land use update request',
             `Request failed due to missing information.
@@ -407,6 +407,15 @@ export async function requestLandLicenseUpdate(id, licenseData, file, requestor)
     }
 
     let newSpecialData = specialDataToJSON(SPECIAL_DATA).licenseSpecialData;
+    let coordinateInfo;
+
+    if (georeference) {
+        coordinateInfo = await requestCoordinateCheck(georeference);
+
+        newSpecialData.COS = coordinateInfo.data.COS;
+        newSpecialData.alt_max = coordinateInfo.data.alt_max;
+        newSpecialData.niveles = coordinateInfo.data.niveles;
+    }
 
     newSpecialData.anexo = anexo ? anexo : newSpecialData.anexo;
     newSpecialData.restrictions = restrictions ? restrictions.replaceAll('\r', '').split('\n') : newSpecialData.restrictions;
@@ -432,9 +441,9 @@ export async function requestLandLicenseUpdate(id, licenseData, file, requestor)
         colony: colony,
         surfaceTotal: surface,
         catastralKey: catastralKey,
-        //licenseTerm: term,
-        //geoReference: georeference,
-        //licenseZone: zone,
+        licenseTerm: georeference ? coordinateInfo.data.numericTerm : undefined,
+        geoReference: georeference ? georeference : undefined,
+        licenseZone: georeference ? coordinateInfo.data.numericZone : undefined,
         authorizedUse: authorizedUse,
         businessLinePrint: businessLinePrint,
         businessLineIntern: businessLineIntern,

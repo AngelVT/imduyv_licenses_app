@@ -600,11 +600,11 @@ function generateLandFields(resObj, resultContent) {
 
     fieldGroup.appendChild(imgDiv);
 
-    /*field = createResultField(resObj.id, 'Georeferencia', 'georeference', resObj.geoReference, 'text');
+    field = createResultField(resObj.id, 'Georeferencia', 'georeference', resObj.geoReference, 'text');
 
     fieldGroup.appendChild(field);
 
-    field = createResultField(resObj.id, 'Zona', 'zone', resObj.zone, 'select');
+    /*field = createResultField(resObj.id, 'Zona', 'zone', resObj.zone, 'select');
 
     field.querySelector('select').innerHTML = `
     <option value="">Seleccione zona ...</option>
