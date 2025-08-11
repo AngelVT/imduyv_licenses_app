@@ -125,23 +125,25 @@ export async function generateLandUseC(lcDBObj) {
                                         ],
                                         [
                                             {text: 'Plazo: ', style: 'labelTC', border: docUtils.borderless},
-                                            docUtils.fieldLU(lcDBObj.term.licenseTerm, docUtils.borderless, 1, 'center', 6),
-                                            {text: 'COS: ', style: 'labelTC', border: docUtils.borderless},
-                                            docUtils.fieldLU(`${lcDBObj.licenseSpecialData.COS || '-'}%`, docUtils.borderless, 1, 'center', 7),
-                                            {text: 'Altura maxima: ', style: 'labelTC', border: docUtils.borderless, colSpan: 2},
+                                            docUtils.fieldLU(lcDBObj.term.licenseTerm, docUtils.borderless, 2, 'center', 6),
                                             {},
-                                            docUtils.fieldLU(`${lcDBObj.licenseSpecialData.alt_max || '-'} M`, docUtils.borderless, 2, 'center', 6),
+                                            {text: 'COS: ', style: 'labelTC', border: docUtils.borderless},
+                                            docUtils.fieldLU(lcDBObj.licenseSpecialData.COS === 0 ? '-' :  `${lcDBObj.licenseSpecialData.COS} %`, docUtils.borderless, 2, 'center', 7),
+                                            {},
+                                            {text: 'Altura maxima: ', style: 'labelTC', border: docUtils.borderless},
+                                            docUtils.fieldLU(lcDBObj.licenseSpecialData.alt_max === 0 ? '-' : `${lcDBObj.licenseSpecialData.alt_max} M`, docUtils.borderless, 2, 'center', 6),
                                             {},
                                             {text: 'Niveles: ', style: 'labelTC', border: docUtils.borderless},
-                                            docUtils.fieldLU(lcDBObj.licenseSpecialData.niveles || '-', docUtils.borderless, 1, 'center', 6),
-                                            {text: 'Clave: ', style: 'labelTC', border: docUtils.borderless},
-                                            docUtils.fieldLU(lcDBObj.zone.licenseKey, docUtils.borderless, 1, 'center',6)
+                                            docUtils.fieldLU(lcDBObj.licenseSpecialData.niveles === 0 ? '-' : lcDBObj.licenseSpecialData.niveles, docUtils.borderless, 2, 'center', 6),
+                                            {}
                                         ],
                                         [
-                                            {text: 'Uso de suelo permitido: ', style: 'labelTC', border: docUtils.borderless, colSpan: 3},
-                                            {},{},
-                                            docUtils.fieldLU(lcDBObj.zone.licenseZone.toUpperCase(), docUtils.borderless, 9, 'center', 7),
-                                            {},{},{},{},{},{},{},{}
+                                            {text: 'Zona: ', style: 'labelTC', border: docUtils.borderless, colSpan: 1},
+                                            docUtils.fieldLU(lcDBObj.zone.licenseZone.toUpperCase(), docUtils.borderless, 8, 'center', 7),
+                                            {},{},{},{},{},{},{},
+                                            {text: 'Clave: ', style: 'labelTC', border: docUtils.borderless},
+                                            docUtils.fieldLU(lcDBObj.zone.licenseKey, docUtils.borderless, 2, 'center',7),
+                                            {}
                                         ],
                                         [
                                             {text: 'La expedición de constancia de uso de suelo: tiene como objeto establecer los usos y destinos de un predio con base en lo previsto en el Programa Municipal de Desarrollo Urbano y Ordenamiento Territorial de Tizayuca, lo cual no autoriza su modificación, construcción o alteración.', style: 'labelTC', border: docUtils.borderless, lineHeight: 1.5, colSpan: 12},
