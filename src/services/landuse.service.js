@@ -307,26 +307,6 @@ export async function requestLandLicenseUpdate(id, licenseData, file, requestor)
         );
     }
 
-    const SPECIAL_DATA = await landRepo.getLicenseEspecialData(id);
-
-    if (!SPECIAL_DATA) {
-        throw new ResourceError('Request failed due to the record to update does not exist.',
-            'Land use update request',
-            `Request failed due to record ${id} does not exist.`);
-    }
-
-    if (!SPECIAL_DATA.active) {
-        throw new ValidationError('Request failed due to resource is locked.',
-            'Land use update request',
-            `Request failed due to license locked.`);
-    }
-
-    for (const key in licenseData) {
-        if (key !== 'conditions' && key !== 'restrictions' && key !== 'anexo' && key !== 'parcela' && key !== 'propertyNo') {
-            licenseData[key] = licenseData[key].toLowerCase();
-        }
-    }
-
     const {
         licensePrintInvoice,
         requestorName,
@@ -365,6 +345,38 @@ export async function requestLandLicenseUpdate(id, licenseData, file, requestor)
         //alt_max,
         //niveles
     } = licenseData;
+
+    const SPECIAL_DATA = await landRepo.getLicenseEspecialData(id);
+
+    if (!SPECIAL_DATA) {
+        throw new ResourceError('Request failed due to the record to update does not exist.',
+            'Land use update request',
+            `Request failed due to record ${id} does not exist.`);
+    }
+
+    if (!SPECIAL_DATA.active) {
+        
+        if (licensePrintInvoice) {
+
+            const MODIFIED_LICENSE = await landRepo.saveLandLicense(id, {
+                licensePrintInvoice: licensePrintInvoice
+            });
+
+            return {
+                license: MODIFIED_LICENSE
+            }
+        }
+
+        throw new ValidationError('Request failed due to resource is locked.',
+            'Land use update request',
+            `Request failed due to license locked.`);
+    }
+
+    for (const key in licenseData) {
+        if (key !== 'conditions' && key !== 'restrictions' && key !== 'anexo' && key !== 'parcela' && key !== 'propertyNo') {
+            licenseData[key] = licenseData[key].toLowerCase();
+        }
+    }
 
     if (!licensePrintInvoice && !requestorName && !attentionName && !address && !number && !colony && !contactPhone && !catastralKey && !surface && !georeference && !businessLinePrint && !businessLineIntern && !authorizedUse && !expeditionType && !validity && !requestDate && !expeditionDate && !expirationDate && !paymentInvoice && !cost && !discount && !paymentDone && !inspector && !anexo && !restrictions && !conditions && !parcela && !propertyNo && !propertyDate && !marginName && !marginAttention && !file) {
         throw new ValidationError('Request failed due to missing information.',
