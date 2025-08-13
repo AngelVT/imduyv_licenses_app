@@ -51,11 +51,11 @@ export async function generateLandUseDP(lcDBObj) {
                                     body: [
                                         [
                                             {text: 'Nombre: ', style: 'labelT', border: docUtils.borderless, margin: [0,lcDBObj.licenseSpecialData.marginName,0,0]},
-                                            docUtils.fieldLU(lcDBObj.requestorName, docUtils.borderless, null,'center', 7, lcDBObj.licenseSpecialData.marginName)
+                                            docUtils.fieldLU(lcDBObj.requestorName, docUtils.borderless, null,'boldCenter', 7, lcDBObj.licenseSpecialData.marginName)
                                         ],
                                         [
                                             {text: 'En Atención: ', style: 'labelT', border: docUtils.borderless, margin: [0,lcDBObj.licenseSpecialData.marginAttention,0,0]},
-                                            docUtils.fieldLU(lcDBObj.attentionName, docUtils.borderless, null,'center', 7, lcDBObj.licenseSpecialData.marginAttention)
+                                            docUtils.fieldLU(lcDBObj.attentionName, docUtils.borderless, null,'boldCenter', 7, lcDBObj.licenseSpecialData.marginAttention)
                                         ]/*,
                                         [
                                             {text: '', border: docUtils.borderless},
@@ -78,23 +78,23 @@ export async function generateLandUseDP(lcDBObj) {
                                     body: [
                                         [
                                             {text: 'Calle: ', style: 'labelT', border: docUtils.borderless},
-                                            docUtils.fieldLU(lcDBObj.address, docUtils.borderless, 3, 'center', 7),
+                                            docUtils.fieldLU(lcDBObj.address, docUtils.borderless, 3, 'boldCenter', 7),
                                             {},
                                             {}
                                         ],
                                         [
                                             {text: 'Clave Catastral: ', style: 'labelT', border: docUtils.borderless},
-                                            docUtils.fieldLU(lcDBObj.catastralKey, docUtils.borderless, 1, 'center', 6),
+                                            docUtils.fieldLU(lcDBObj.catastralKey, docUtils.borderless, 1, 'boldCenter', 6),
                                             {text: 'Numero: ', style: 'labelT', border: docUtils.borderless},
-                                            docUtils.fieldLU(lcDBObj.number, docUtils.borderless, 1, 'center', 7)
+                                            docUtils.fieldLU(lcDBObj.number, docUtils.borderless, 1, 'boldCenter', 7)
                                         ],
                                         [
                                             {text: 'Colonia: ', style: 'labelT', border: docUtils.borderless},
-                                            docUtils.fieldLU(lcDBObj.colony, docUtils.borderless, 3, 'center', 7),{},{}
+                                            docUtils.fieldLU(lcDBObj.colony, docUtils.borderless, 3, 'boldCenter', 7),{},{}
                                         ],
                                         [
                                             {text: 'Superficie Total: ', style: 'labelT', border: docUtils.borderless},
-                                            docUtils.fieldLU(lcDBObj.surfaceTotal, docUtils.borderless, 3, 'center', 7),{},{}
+                                            docUtils.fieldLU(lcDBObj.surfaceTotal, docUtils.borderless, 3, 'boldCenter', 7),{},{}
                                         ]
                                     ]
                                 },
@@ -128,24 +128,24 @@ export async function generateLandUseDP(lcDBObj) {
                                         ],
                                         [
                                             {text: 'Plazo: ', style: 'labelTC', border: docUtils.borderless},
-                                            docUtils.fieldLU(lcDBObj.term.licenseTerm, docUtils.borderless, 2, 'center', 6),
+                                            docUtils.fieldLU(lcDBObj.term.licenseTerm, docUtils.borderless, 2, 'boldCenter', 6),
                                             {},
                                             {text: 'COS: ', style: 'labelTC', border: docUtils.borderless},
-                                            docUtils.fieldLU(lcDBObj.licenseSpecialData.COS === 0 ? '-' :  `${lcDBObj.licenseSpecialData.COS} %`, docUtils.borderless, 2, 'center', 6),
+                                            docUtils.fieldLU(lcDBObj.licenseSpecialData.COS === 0 ? '-' :  `${lcDBObj.licenseSpecialData.COS} %`, docUtils.borderless, 2, 'boldCenter', 6),
                                             {},
                                             {text: 'Altura maxima: ', style: 'labelTC', border: docUtils.borderless},
-                                            docUtils.fieldLU(lcDBObj.licenseSpecialData.alt_max === 0 ? '-' : `${lcDBObj.licenseSpecialData.alt_max} M`, docUtils.borderless, 2, 'center', 6),
+                                            docUtils.fieldLU(lcDBObj.licenseSpecialData.alt_max === 0 ? '-' : `${lcDBObj.licenseSpecialData.alt_max} M`, docUtils.borderless, 2, 'boldCenter', 6),
                                             {},
                                             {text: 'Niveles: ', style: 'labelTC', border: docUtils.borderless},
-                                            docUtils.fieldLU(lcDBObj.licenseSpecialData.niveles === 0 ? '-' : lcDBObj.licenseSpecialData.niveles, docUtils.borderless, 2, 'center', 6),
+                                            docUtils.fieldLU(lcDBObj.licenseSpecialData.niveles === 0 ? '-' : lcDBObj.licenseSpecialData.niveles, docUtils.borderless, 2, 'boldCenter', 6),
                                             {}
                                         ],
                                         [
                                             {text: 'Zona: ', style: 'labelTC', border: docUtils.borderless, colSpan: 1},
-                                            docUtils.fieldLU(lcDBObj.zone.licenseZone.toUpperCase(), docUtils.borderless, 8, 'center', 7),
+                                            docUtils.fieldLU(lcDBObj.zone.licenseZone.toUpperCase(), docUtils.borderless, 8, 'boldCenter', 7),
                                             {},{},{},{},{},{},{},
                                             {text: 'Clave: ', style: 'labelTC', border: docUtils.borderless},
-                                            docUtils.fieldLU(lcDBObj.zone.licenseKey, docUtils.borderless, 2, 'center',7),
+                                            docUtils.fieldLU(lcDBObj.zone.licenseKey, docUtils.borderless, 2, 'boldCenter',7),
                                             {}
                                         ],
                                         [
@@ -155,7 +155,7 @@ export async function generateLandUseDP(lcDBObj) {
                                         ],
                                         [
                                             {text: 'Superficie: ', style: 'labelT', border: docUtils.borderless, colSpan: 1},
-                                            docUtils.fieldLU(lcDBObj.surfaceTotal, docUtils.borderless, 2, 'center', 6),{},docUtils.voidCell(9),{},{},{},{},{},{},{},{}
+                                            docUtils.fieldLU(lcDBObj.surfaceTotal, docUtils.borderless, 2, 'boldCenter', 6),{},docUtils.voidCell(9),{},{},{},{},{},{},{},{}
                                         ]
                                     ]
                                 },
@@ -287,7 +287,7 @@ export async function generateLandUseDP(lcDBObj) {
                     body: [
                         [{text: 'Fecha de Expedición: ', style: 'labelTC', colSpan: 2},
                             {},
-                            docUtils.fieldLU(docUtils.dateFormatDMY(lcDBObj.expeditionDate), docUtils.borderless, 2, 'center',7),
+                            docUtils.fieldLU(docUtils.dateFormatDMY(lcDBObj.expeditionDate), docUtils.borderless, 2, 'boldCenter',7),
                             {},
                             {},
                             {},
@@ -295,7 +295,7 @@ export async function generateLandUseDP(lcDBObj) {
                             {},
                             {text: 'Folio de pago: ', style: 'labelTC', colSpan: 2},
                             {},
-                            docUtils.fieldLU(lcDBObj.paymentInvoice, docUtils.borderless, 2, 'center',7),
+                            docUtils.fieldLU(lcDBObj.paymentInvoice, docUtils.borderless, 2, 'boldCenter',7),
                             {}]
                     ]
                 },
