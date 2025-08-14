@@ -29,6 +29,17 @@ export const containerLayout = {
     vLineColor: function (i, node) { return '#000'; }
 }
 
+export const containerLayoutA = {
+    paddingLeft: function (i, node) { return 8; },
+    paddingRight: function (i, node) { return 8; },
+    paddingTop: function (i, node) { return 2; },
+    paddingBottom: function (i, node) { return 2; },
+    hLineWidth: function (i, node) { return 0.5; },
+    vLineWidth: function (i, node) { return 0.5; },
+    hLineColor: function (i, node) { return '#000'; },
+    vLineColor: function (i, node) { return '#000'; }
+}
+
 export const noBorderNoPadding = {
     paddingLeft: function (i, node) { return 0; },
     paddingRight: function (i, node) { return 0; },
