@@ -588,15 +588,24 @@ function generateLandFields(resObj, resultContent) {
 
     fieldGroup.appendChild(fieldGroupTittle);
 
-    let imgDiv = document.createElement('div');
-    imgDiv.setAttribute('class', 'w-100 dis-flex flex-center');
+    const imgDiv = document.createElement('div');
+    imgDiv.setAttribute('class', 'w-100 dis-flex flex-center flex-column');
 
     field = document.createElement('img');
     field.setAttribute('alt', 'Zonificación');
     field.setAttribute('src', `/landUseStorage/${resObj.fullInvoice}/zone.png`);
     field.setAttribute('class', 'w-40 margin-bottom-small');
 
-    imgDiv.appendChild(field)
+    imgDiv.appendChild(field);
+
+    const recordLink = document.createElement('a');
+
+    recordLink.innerText = ' Expediente'
+    recordLink.setAttribute('class', 'bi-folder2-open txt-regular btn btn-primary');
+    recordLink.href = `/landUseStorage/${resObj.fullInvoice}/record.pdf`;
+    recordLink.target = '_blank';
+
+    imgDiv.appendChild(recordLink);
 
     fieldGroup.appendChild(imgDiv);
 
@@ -722,6 +731,10 @@ function generateLandFields(resObj, resultContent) {
     fieldGroup.appendChild(field);
 
     field = createResultField(resObj.id, 'Zonificación', 'zoneIMG', resObj.fullInvoice, 'file');
+
+    fieldGroup.appendChild(field);
+
+    field = createResultField(resObj.id, 'Expediente', 'recordFile', resObj.fullInvoice, 'file');
 
     fieldGroup.appendChild(field);
 

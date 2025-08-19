@@ -163,7 +163,7 @@ export async function requestUnapprovedLandLicenses() {
     }
 }
 
-export async function requestLandLicenseCreate(body, file, requestor) {
+export async function requestLandLicenseCreate(body, files, requestor) {
     const DATE = new Date;
 
     const YEAR = DATE.getFullYear();
@@ -203,7 +203,10 @@ export async function requestLandLicenseCreate(body, file, requestor) {
         //niveles
     } = body;
 
-    if (!licenseType || !requestorName || !attentionName || !address || !number || !colony || !contactPhone || !catastralKey || !surface || !georeference || !businessLinePrint || !businessLineIntern || !authorizedUse || !expeditionType || !validity || !requestDate || !expeditionDate || !expirationDate || !paymentInvoice || !cost || !discount || !paymentDone || !inspector || !file) {
+    const [zoneIMG] = files.zoneIMG || [];
+    const [recordFile] = files.recordFile || [];
+
+    if (!licenseType || !requestorName || !attentionName || !address || !number || !colony || !contactPhone || !catastralKey || !surface || !georeference || !businessLinePrint || !businessLineIntern || !authorizedUse || !expeditionType || !validity || !requestDate || !expeditionDate || !expirationDate || !paymentInvoice || !cost || !discount || !paymentDone || !inspector || !zoneIMG || !recordFile) {
         throw new ValidationError('Request failed due to missing information.',
             'Land use create request',
             `Request failed due to missing information.
@@ -271,18 +274,32 @@ export async function requestLandLicenseCreate(body, file, requestor) {
         licenseSpecialData: SPECIAL_DATA
     }
 
-    if (!await landValidate.validateFile(file)) {
+    if (!await landValidate.validateFile(zoneIMG)) {
         throw new ValidationError('Invalid files provided only png files are allowed.',
             'Land use create request',
             `Request failed due to invalid files provided.
-            Provided file -> ${file.originalname}`);
+            Provided file -> ${zoneIMG.originalname}`);
     }
 
-    if (!await landUtils.saveZoneImage(file, INVOICE_INFO.fullInvoice)) {
+    if (!await landValidate.validatePFFile(recordFile)) {
+        throw new ValidationError('Invalid files provided only png files are allowed.',
+            'Land use create request',
+            `Request failed due to invalid files provided.
+            Provided file -> ${recordFile.originalname}`);
+    }
+
+    if (!await landUtils.saveZoneImage(zoneIMG, INVOICE_INFO.fullInvoice)) {
         throw new FileSystemError('Error saving files to server.',
             'Land use create request',
             `Request failed due to unexpected error saving files to server.
-            Provided file -> ${file.originalname}`);
+            Provided file -> ${zoneIMG.originalname}`);
+    }
+
+    if (!await landUtils.saveRecordPDF(recordFile, INVOICE_INFO.fullInvoice)) {
+        throw new FileSystemError('Error saving files to server.',
+            'Land use create request',
+            `Request failed due to unexpected error saving files to server.
+            Provided file -> ${recordFile.originalname}`);
     }
 
     const NEW_LICENSE = await landRepo.saveNewLandLicense(NEW_LICENSE_DATA);
@@ -299,7 +316,7 @@ export async function requestLandLicenseCreate(body, file, requestor) {
     }
 }
 
-export async function requestLandLicenseUpdate(id, licenseData, file, requestor) {
+export async function requestLandLicenseUpdate(id, licenseData, files, requestor) {
     if (!isUuid(id)) {
         throw new ValidationError('Request failed due to invalid ID.',
             'Land use update request',
@@ -346,6 +363,9 @@ export async function requestLandLicenseUpdate(id, licenseData, file, requestor)
         //niveles
     } = licenseData;
 
+    const [zoneIMG] = files.zoneIMG || [];
+    const [recordFile] = files.recordFile || [];
+
     const SPECIAL_DATA = await landRepo.getLicenseEspecialData(id);
 
     if (!SPECIAL_DATA) {
@@ -378,7 +398,7 @@ export async function requestLandLicenseUpdate(id, licenseData, file, requestor)
         }
     }
 
-    if (!licensePrintInvoice && !requestorName && !attentionName && !address && !number && !colony && !contactPhone && !catastralKey && !surface && !georeference && !businessLinePrint && !businessLineIntern && !authorizedUse && !expeditionType && !validity && !requestDate && !expeditionDate && !expirationDate && !paymentInvoice && !cost && !discount && !paymentDone && !inspector && !anexo && !restrictions && !conditions && !parcela && !propertyNo && !propertyDate && !marginName && !marginAttention && !file) {
+    if (!licensePrintInvoice && !requestorName && !attentionName && !address && !number && !colony && !contactPhone && !catastralKey && !surface && !georeference && !businessLinePrint && !businessLineIntern && !authorizedUse && !expeditionType && !validity && !requestDate && !expeditionDate && !expirationDate && !paymentInvoice && !cost && !discount && !paymentDone && !inspector && !anexo && !restrictions && !conditions && !parcela && !propertyNo && !propertyDate && !marginName && !marginAttention && !zoneIMG && !recordFile) {
         throw new ValidationError('Request failed due to missing information.',
             'Land use update request',
             `Request failed due to missing information.
@@ -473,19 +493,35 @@ export async function requestLandLicenseUpdate(id, licenseData, file, requestor)
         approvalStatus: false
     }
 
-    if (file) {
-        if (!await landValidate.validateFile(file)) {
-            throw new ValidationError('Invalid files provided only png files are allowed.',
+    if (zoneIMG) {
+        if (!await landValidate.validateFile(zoneIMG)) {
+            throw new ValidationError('Invalid files provided only png files are allowed for zone image.',
                 'Land use update request',
                 `Request failed due to invalid files provided.
-            Provided file -> ${file.originalname}`);
+            Provided file -> ${zoneIMG.originalname}`);
         }
 
-        if (!await landUtils.saveZoneImage(file, SPECIAL_DATA.fullInvoice)) {
+        if (!await landUtils.saveZoneImage(zoneIMG, SPECIAL_DATA.fullInvoice)) {
             throw new FileSystemError('Error saving files to server.',
                 'Land use update request',
                 `Request failed due to unexpected error saving files to server.
-            Provided file -> ${file.originalname}`);
+            Provided file -> ${zoneIMG.originalname}`);
+        }
+    }
+
+    if (recordFile) {
+        if (!await landValidate.validatePFFile(recordFile)) {
+            throw new ValidationError('Invalid files provided only pdf files are allowed for record.',
+                'Land use update request',
+                `Request failed due to invalid files provided.
+            Provided file -> ${recordFile.originalname}`);
+        }
+
+        if (!await landUtils.saveRecordPDF(recordFile, SPECIAL_DATA.fullInvoice)) {
+            throw new FileSystemError('Error saving files to server.',
+                'Land use update request',
+                `Request failed due to unexpected error saving files to server.
+            Provided file -> ${recordFile.originalname}`);
         }
     }
 

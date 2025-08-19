@@ -122,10 +122,10 @@ export const getLicensesUnapproved = requestHandler(
 export const createLicense = requestHandler(
     async function (req, res) {
         const DATA = req.body;
-        const FILE = req.file;
+        const FILES = req.files;
         const REQUESTOR = req.user.name;
 
-        const response = await landService.requestLandLicenseCreate(DATA, FILE, REQUESTOR);
+        const response = await landService.requestLandLicenseCreate(DATA, FILES, REQUESTOR);
 
         res.status(201).json(response);
 
@@ -142,10 +142,10 @@ export const updateLicense = requestHandler(
     async function (req, res) {
         const ID = req.params.licenciaID;
         const DATA = req.body;
-        const FILE = req.file;
+        const FILES = req.files;
         const REQUESTOR = req.user.name;
 
-        const response = await landService.requestLandLicenseUpdate(ID, DATA, FILE, REQUESTOR);
+        const response = await landService.requestLandLicenseUpdate(ID, DATA, FILES, REQUESTOR);
 
         res.status(200).json(response);
 

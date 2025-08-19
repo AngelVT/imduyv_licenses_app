@@ -126,7 +126,9 @@ async function updateResultField(form, id) {
             }
 
             if (!res.ok) {
-                form.querySelector('.input-interface').value = form.querySelector('input[type=hidden]').value;
+                if (form.querySelector('.input-interface')) {
+                    form.querySelector('.input-interface').value = form.querySelector('input[type=hidden]').value;
+                }
 
                 alert(response.msg);
                 return;

@@ -310,7 +310,7 @@ function createResultField(id, tag, name, value, type) {
         if (type == 'file') {
             input.setAttribute('class', 'w-85 input-file');
             input.setAttribute('multiple', '');
-            input.setAttribute('accept', '.png, .svg, .xhtml')
+            input.setAttribute('accept', '.png, .svg, .xhtml, .pdf')
         } else {
             input.setAttribute('class', 'w-85 input input-interface input-round-left');
         }

@@ -9,7 +9,9 @@ const router = Router();
 const LAND_GROUPS = ['land_use', 'all'];
 const MODERATOR = ['moderator', 'admin', 'system'];
 const ADMIN = ['admin', 'system'];
-const UPLOADS = 'zoneIMG';
+//const UPLOADS = 'zoneIMG';
+
+const UPLOADS = [{ name: 'zoneIMG', maxCount: 1 }, { name: 'recordFile', maxCount: 1 }];
 
 router.get('/', [
     authenticator.verifyToken(),
@@ -73,7 +75,8 @@ router.post('/', [
     authenticator.verifyGroup(LAND_GROUPS),
     authenticator.verifyRole(MODERATOR),
     authenticator.verifyPermission(['license:create', 'license:manage']),
-    up.single(UPLOADS)
+    //up.single(UPLOADS)
+    up.fields(UPLOADS)
 ], landControl.createLicense);
 
 router.patch('/:licenciaID', [
@@ -82,7 +85,8 @@ router.patch('/:licenciaID', [
     authenticator.verifyGroup(LAND_GROUPS),
     authenticator.verifyRole(MODERATOR),
     authenticator.verifyPermission(['license:update', 'license:manage']),
-    up.single(UPLOADS)
+    //up.single(UPLOADS)
+    up.fields(UPLOADS)
 ], landControl.updateLicense);
 
 router.patch('/approve/:licenciaID', [

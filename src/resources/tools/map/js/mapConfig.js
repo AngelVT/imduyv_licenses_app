@@ -208,8 +208,10 @@ document.addEventListener("keydown", async (e) => {
 
             await capture();
 
-            searchForm.classList.remove('dis-none');
-            crosshair.classList.remove('dis-none');
+            setTimeout(() => {
+                searchForm.classList.remove('dis-none');
+                crosshair.classList.remove('dis-none');
+            }, 500);
         } catch (error) {
             searchForm.classList.remove('dis-none');
             crosshair.classList.remove('dis-none');

@@ -6,6 +6,7 @@ import { validatePeriod, validateDates } from "../validations/administration.val
 import { validatePFFile } from "../validations/landuse.validations.js";
 import { saveLegacyPDF } from "../utilities/landuse.utilities.js";
 import FileSystemError from "../errors/FileSystemError.js";
+import { unaccent } from "../utilities/repository.utilities.js";
 
 export async function requestLegacyLicenseByUUID(id) {
     if (!isUuid(id)) {
@@ -87,7 +88,9 @@ export async function requestLegacyLicenseByCatastralKey(catastralKey) {
 }
 
 export async function requestLegacyLicenseByRequestor(requestorName) {
-    const licenses = await legacyRepo.findLegacyLicenseByRequestor(requestorName);
+    const name = unaccent(requestorName)
+
+    const licenses = await legacyRepo.findLegacyLicenseByRequestor(name);
 
     if (!licenses || licenses.length === 0) {
         throw new ResourceError('The requested records do not exist.',
