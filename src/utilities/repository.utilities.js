@@ -7,7 +7,7 @@ export function escapeLike(value) {
 
 export function unaccent(text) {
     if (!text) {
-        return;
+        return '';
     }
 
     return text
