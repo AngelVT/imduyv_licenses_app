@@ -206,7 +206,7 @@ export async function requestLandLicenseCreate(body, files, requestor) {
     const [zoneIMG] = files.zoneIMG || [];
     const [recordFile] = files.recordFile || [];
 
-    if (!licenseType || !requestorName || !attentionName || !address || !number || !colony || !contactPhone || !catastralKey || !surface || !georeference || !businessLinePrint || !businessLineIntern || !authorizedUse || !expeditionType || !validity || !requestDate || !expeditionDate || !expirationDate || !paymentInvoice || !cost || !discount || !paymentDone || !inspector || !zoneIMG || !recordFile) {
+    if (!licenseType || !requestorName || !attentionName || !address || !number || !colony || !contactPhone || !catastralKey || !surface || !georeference || !businessLinePrint || !businessLineIntern || !authorizedUse || !expeditionType || !validity || !requestDate || !expeditionDate || !expirationDate || !paymentInvoice || !cost || !discount || !paymentDone || !inspector || !zoneIMG) {
         throw new ValidationError('Request failed due to missing information.',
             'Land use create request',
             `Request failed due to missing information.
@@ -281,13 +281,6 @@ export async function requestLandLicenseCreate(body, files, requestor) {
             Provided file -> ${zoneIMG.originalname}`);
     }
 
-    if (!await landValidate.validatePFFile(recordFile)) {
-        throw new ValidationError('Invalid files provided only png files are allowed.',
-            'Land use create request',
-            `Request failed due to invalid files provided.
-            Provided file -> ${recordFile.originalname}`);
-    }
-
     if (!await landUtils.saveZoneImage(zoneIMG, INVOICE_INFO.fullInvoice)) {
         throw new FileSystemError('Error saving files to server.',
             'Land use create request',
@@ -295,11 +288,19 @@ export async function requestLandLicenseCreate(body, files, requestor) {
             Provided file -> ${zoneIMG.originalname}`);
     }
 
-    if (!await landUtils.saveRecordPDF(recordFile, INVOICE_INFO.fullInvoice)) {
-        throw new FileSystemError('Error saving files to server.',
+    if (recordFile) {
+        if (!await landValidate.validatePFFile(recordFile)) {
+            throw new ValidationError('Invalid files provided only png files are allowed.',
+            'Land use create request',
+            `Request failed due to invalid files provided.
+            Provided file -> ${recordFile.originalname}`);
+        }
+        if (!await landUtils.saveRecordPDF(recordFile, INVOICE_INFO.fullInvoice)) {
+            throw new FileSystemError('Error saving files to server.',
             'Land use create request',
             `Request failed due to unexpected error saving files to server.
             Provided file -> ${recordFile.originalname}`);
+        }
     }
 
     const NEW_LICENSE = await landRepo.saveNewLandLicense(NEW_LICENSE_DATA);
