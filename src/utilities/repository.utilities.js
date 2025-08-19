@@ -6,6 +6,10 @@ export function escapeLike(value) {
 }
 
 export function unaccent(text) {
+    if (!text) {
+        return;
+    }
+
     return text
         .normalize("NFD")                 // Descompone letras y acentos
         .replace(/[\u0300-\u036f]/g, ""); // Elimina los diacríticos

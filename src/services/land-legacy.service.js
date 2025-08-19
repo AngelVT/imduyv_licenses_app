@@ -88,7 +88,7 @@ export async function requestLegacyLicenseByCatastralKey(catastralKey) {
 }
 
 export async function requestLegacyLicenseByRequestor(requestorName) {
-    const name = unaccent(requestorName)
+    const name = unaccent(requestorName);
 
     const licenses = await legacyRepo.findLegacyLicenseByRequestor(name);
 

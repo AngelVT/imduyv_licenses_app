@@ -13,6 +13,7 @@ import { validateDates } from '../validations/administration.validations.js';
 import path from 'path';
 import { __dirstorage } from '../path.configuration.js';
 import { requestCoordinateCheck } from './geo.service.js';
+import { unaccent } from "../utilities/repository.utilities.js";
 
 export async function requestAllLandLicenses() {
 
@@ -107,7 +108,9 @@ export async function requestLandLicenseByParameter(parameter, value) {
             `Search param ${parameter} is invalid.`);
     }
 
-    let LICENSES = await landRepo.findLandLicenseBy(parameter, value)
+    const searchValue = unaccent(value);
+
+    let LICENSES = await landRepo.findLandLicenseBy(parameter, searchValue);
 
     if (!LICENSES || LICENSES.length === 0) {
         throw new ResourceError('There are no matching record results results',
