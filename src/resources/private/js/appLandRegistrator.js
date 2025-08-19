@@ -300,7 +300,10 @@ function changeStep(btn, step, form, checkFields) {
         formData.expirationDate = dateFormatFull(formData.expirationDate);
         
         for (const key in formData) {
-            document.getElementById(`check_${key}`).innerText = formData[key];
+            const verificationLabel = document.getElementById(`check_${key}`);
+            if (verificationLabel) {
+                verificationLabel.innerText = formData[key];
+            }
         }
     }
 
