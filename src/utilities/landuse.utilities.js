@@ -50,7 +50,7 @@ export function generateSpecialData(type) {
             anexo: defaultAnexo,
             restrictions: [
                 "La presente no autoriza acciones urbanas, ni construcción de obras que generen impacto social en su entorno inmediato.",
-                "Esta constancia no autoriza subdividir o fraccionar el inmueble señalado.",
+                "Esta constancia *no autoriza subdividir o fraccionar* el inmueble señalado.",
                 "La presente se expide únicamente para los fines establecidos y no constituye bajo ninguna circunstancia documento que acredite la propiedad o posesión sobre el inmueble referido.",
                 "El Instituto Municipal de Desarrollo Urbano y Vivienda, se reserva el derecho de revocar la presente en caso de incumplimiento a cualquiera de las condiciones establecidas en la misma."
             ],
@@ -72,7 +72,7 @@ export function generateSpecialData(type) {
                 "El Instituto Municipal de Desarrollo Urbano y Vivienda se reserva el derecho de revocar la presente, en caso de incumplimiento a cualquiera de las condiciones establecidas en la misma."
             ],
             conditions: [
-                `Por lo que hace al uso de suelo ${textTypes[type]}, una vez autorizado, deberá ser permitido con base en la matriz de compatibilidad del Programa Municipal de Desarrollo Urbano y Ordenamiento Territorial de Tizayuca, Hidalgo.`,
+                `Por lo que hace al uso de suelo *${textTypes[type]}*, una vez autorizado, deberá ser permitido con base en la matriz de compatibilidad del Programa Municipal de Desarrollo Urbano y Ordenamiento Territorial de Tizayuca, Hidalgo.`,
                 "No deberán ocupar área pública como mostrador de productos.",
                 "Se prohíbe la colocación de cualquier publicidad fuera y frente del predio.",
                 "Deberá destinar un cajón de estacionamiento por cada 30 m2 de construcción.",

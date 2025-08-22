@@ -192,7 +192,7 @@ export async function generateLandUseL(lcDBObj) {
                                 table: {
                                     widths: ['*'],
                                     body: [
-                                        [{text: lcDBObj.licenseSpecialData.restrictions.join('\n'), fontSize: 6, lineHeight: 1.5, border: docUtils.borderless, alignment: 'justify'}]
+                                        [{text: lcDBObj.licenseSpecialData.restrictions, fontSize: 6, lineHeight: 1.5, border: docUtils.borderless, alignment: 'justify'}]
                                     ]
                                 },
                                 layout: docUtils.formLayout

@@ -574,6 +574,32 @@ export function prepareData(lcDBObj) {
         lcDBObj.licenseSpecialData.representativeAs = lcDBObj.licenseSpecialData.representativeAs.toLowerCase();
     }
 
+    if (lcDBObj.licenseSpecialData.restrictions) {
+        const formattedRestrictions = [];
+        for (const restriction of lcDBObj.licenseSpecialData.restrictions) {
+            const formattedRestriction = parseSimpleFormatting(restriction);
+
+            if (lcDBObj.licenseType == 1 || lcDBObj.licenseType == 6) {
+                formattedRestrictions.push({text: formattedRestriction});
+            } else {
+                formattedRestriction.push({text: '\n'});
+                formattedRestrictions.push({text: formattedRestriction});
+            }
+        }
+
+        lcDBObj.licenseSpecialData.restrictions = formattedRestrictions;
+    }
+
+    if (lcDBObj.licenseSpecialData.conditions) {
+        const formattedConditions = [];
+        for (const condition of lcDBObj.licenseSpecialData.conditions) {
+            const formattedCondition = parseSimpleFormatting(condition);
+            formattedConditions.push({text: formattedCondition});
+        }
+
+        lcDBObj.licenseSpecialData.conditions = formattedConditions;
+    }
+
     return lcDBObj;
 }
 
