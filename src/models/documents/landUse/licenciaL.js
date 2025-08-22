@@ -133,7 +133,7 @@ export async function generateLandUseL(lcDBObj) {
                                             {text: 'COS: ', style: 'labelTC', border: docUtils.borderless, margin: [0,4,0,0]},
                                             docUtils.fieldLU(lcDBObj.licenseSpecialData.COS === 0 ? '-' :  `${lcDBObj.licenseSpecialData.COS} %`, docUtils.borderless, 2, 'boldCenter', 6),
                                             {},
-                                            {text: 'Altura maxima: ', style: 'labelTC', border: docUtils.borderless, margin: [0,4,0,0]},
+                                            {text: 'Altura maxima: ', style: 'labelTC', border: docUtils.borderless},
                                             docUtils.fieldLU(lcDBObj.licenseSpecialData.alt_max === 0 ? '-' : `${lcDBObj.licenseSpecialData.alt_max} M`, docUtils.borderless, 2, 'boldCenter', 6),
                                             {},
                                             {text: 'Niveles: ', style: 'labelTC', border: docUtils.borderless, margin: [0,4,0,0]},

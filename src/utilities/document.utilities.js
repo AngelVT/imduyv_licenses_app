@@ -528,19 +528,36 @@ export async function fileExist(location, group, width) {
     };
 }
 
-export function prepareData(lcDBObj) {
-    lcDBObj.fullInvoice = lcDBObj.fullInvoice.replaceAll('_', '/');
+function formatTextArray(arrayText) {
+    const formattedArray = [];
 
-    if (lcDBObj.surfaceTotal) {
-        const number = Number(lcDBObj.surfaceTotal).toLocaleString();
-        lcDBObj.surfaceTotal = number !== 'NaN' ? number : lcDBObj.surfaceTotal;
+    for (const text of arrayText) {
+        const formattedText = parseSimpleFormatting(text);
+        formattedText.push({text: '\n'});
+        formattedArray.push({text: formattedText});
     }
 
-    if (!lcDBObj.licenseSpecialData.marginName) {
+    return formattedArray;
+}
+
+export function prepareData(lcDBObj) {
+    const { fullInvoice, surfaceTotal, term, validity } = lcDBObj;
+    const { conditions, restrictions, marginAttention, marginName, requestorAddress, colony, representativeAs } = lcDBObj.licenseSpecialData;
+    const { licenseTerm } = lcDBObj.term;
+    const { licenseValidity } = lcDBObj.validity
+
+    lcDBObj.fullInvoice = fullInvoice.replaceAll('_', '/');
+
+    if (surfaceTotal) {
+        const number = Number(surfaceTotal).toLocaleString();
+        lcDBObj.surfaceTotal = number !== 'NaN' ? number : surfaceTotal;
+    }
+
+    if (!marginName) {
         lcDBObj.licenseSpecialData.marginName = 0;
     }
 
-    if (!lcDBObj.licenseSpecialData.marginAttention) {
+    if (!marginAttention) {
         lcDBObj.licenseSpecialData.marginAttention = 0;
     }
 
@@ -550,54 +567,32 @@ export function prepareData(lcDBObj) {
         }
     }
 
-    if (lcDBObj.term && lcDBObj.term.licenseTerm !== null) {
-        lcDBObj.term.licenseTerm = lcDBObj.term.licenseTerm.toUpperCase();
+    if (term && licenseTerm !== null) {
+        lcDBObj.term.licenseTerm = licenseTerm.toUpperCase();
     }
 
-    if (lcDBObj.validity && lcDBObj.validity.licenseValidity !== null) {
-        lcDBObj.validity.licenseValidity = lcDBObj.validity.licenseValidity.toUpperCase();
+    if (validity && licenseValidity !== null) {
+        lcDBObj.validity.licenseValidity = licenseValidity.toUpperCase();
     }
 
-    if (lcDBObj.expeditionType && lcDBObj.expeditionType.licenseExpType !== null) {
-        lcDBObj.expeditionType.licenseExpType = lcDBObj.expeditionType.licenseExpType.toUpperCase();
+    if (requestorAddress) {
+        lcDBObj.licenseSpecialData.requestorAddress = requestorAddress.toUpperCase();
     }
 
-    if (lcDBObj.licenseSpecialData.requestorAddress) {
-        lcDBObj.licenseSpecialData.requestorAddress = lcDBObj.licenseSpecialData.requestorAddress.toUpperCase();
+    if (colony) {
+        lcDBObj.licenseSpecialData.colony = colony.toUpperCase();
     }
 
-    if (lcDBObj.licenseSpecialData.colony) {
-        lcDBObj.licenseSpecialData.colony = lcDBObj.licenseSpecialData.colony.toUpperCase();
+    if (representativeAs) {
+        lcDBObj.licenseSpecialData.representativeAs = representativeAs.toLowerCase();
     }
 
-    if (lcDBObj.licenseSpecialData.representativeAs) {
-        lcDBObj.licenseSpecialData.representativeAs = lcDBObj.licenseSpecialData.representativeAs.toLowerCase();
+    if (restrictions) {
+        lcDBObj.licenseSpecialData.restrictions = formatTextArray(restrictions);
     }
 
-    if (lcDBObj.licenseSpecialData.restrictions) {
-        const formattedRestrictions = [];
-        for (const restriction of lcDBObj.licenseSpecialData.restrictions) {
-            const formattedRestriction = parseSimpleFormatting(restriction);
-
-            if (lcDBObj.licenseType == 1 || lcDBObj.licenseType == 6) {
-                formattedRestrictions.push({text: formattedRestriction});
-            } else {
-                formattedRestriction.push({text: '\n'});
-                formattedRestrictions.push({text: formattedRestriction});
-            }
-        }
-
-        lcDBObj.licenseSpecialData.restrictions = formattedRestrictions;
-    }
-
-    if (lcDBObj.licenseSpecialData.conditions) {
-        const formattedConditions = [];
-        for (const condition of lcDBObj.licenseSpecialData.conditions) {
-            const formattedCondition = parseSimpleFormatting(condition);
-            formattedConditions.push({text: formattedCondition});
-        }
-
-        lcDBObj.licenseSpecialData.conditions = formattedConditions;
+    if (conditions) {
+        lcDBObj.licenseSpecialData.conditions = formatTextArray(conditions);
     }
 
     return lcDBObj;
