@@ -6,7 +6,8 @@ export async function generateLandUseC(lcDBObj) {
 
     const INSTITUTE_DIRECTOR_SIGNATURE = await docUtils.getDirectorNameSignature(lcDBObj.requestDate);
     const INSTITUTE_DIRECTOR_TITTLE = await docUtils.getDirectorNameTittle(lcDBObj.requestDate);
-    
+    const INSTITUTE_DIRECTOR_SHORT = await docUtils.getDirectorNameShort(lcDBObj.requestDate);
+    const LICENSES_DIRECTOR = await docUtils.getLicensesDirectorName(lcDBObj.requestDate);
 
     const definition = {
         pageMargins: [ 5, 100, 5, 10 ],
@@ -251,11 +252,13 @@ export async function generateLandUseC(lcDBObj) {
             {
                 columns: [
                     {
-                        width: '5%',
-                        text: ''
+                        width: '15%',
+                        margin: [0,50,0,0],
+                        text: `Director General: ${INSTITUTE_DIRECTOR_SHORT}\nElaboró: ${docUtils.madeBy(lcDBObj.elaboratedBy)}\nRevisó: ${LICENSES_DIRECTOR}`,
+                        fontSize: 6
                     },
                     {
-                        width: '90%',
+                        width: '70%',
                         stack: [
                             {
                                 text:`NOTIFÍQUESE Y CÚMPLASE\nASÍ EN DEFINITIVA LO RESOLVIÓ Y AUTORIZÓ ${INSTITUTE_DIRECTOR_SIGNATURE},\nDIRECTOR GENERAL DEL INSTITUTO MUNICIPAL DE DESARROLLO URBANO Y VIVIENDA`,
@@ -269,7 +272,7 @@ export async function generateLandUseC(lcDBObj) {
                         ]
                     },
                     {
-                        width: '5%',
+                        width: '15%',
                         stack: [
                             {
                                 svg: `
