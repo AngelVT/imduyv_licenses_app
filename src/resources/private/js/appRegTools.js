@@ -9,28 +9,30 @@ function resetSurfaceFields(inputField, unitField, outputField) {
 }
 
 function addSingleSurface(value, unit, target) {
-    if(value == '' || value == null) {
+    if(value == '' || value == null  || !/^[0-9.-]+$/.test(value)) {
         alert('Introduce una superficie valida');
         return;
     }
+
     count = 1;
     target.value = '';
-    target.value = `${Number(value).toLocaleString()} ${unit}`;
+    target.value = `${value.toLocaleString()} ${unit}`;
     return;
 }
 
 function addLocalSurface(value,unit,target) {
-    if(value == '' || value == null) {
+    if(value == '' || value == null || !/^[0-9.-]+$/.test(value)) {
         alert('Introduce una superficie valida');
         return;
     }
+
     if (count == 1) {
         target.value = '';
-        target.value += `L${count}: ${Number(value).toLocaleString()} ${unit}`;
+        target.value += `L${count}: ${value.toLocaleString()} ${unit}`;
         count++;
         return;
     }
-    target.value += ` | L${count}: ${Number(value).toLocaleString()} ${unit}`;
+    target.value += ` | L${count}: ${value.toLocaleString()} ${unit}`;
     count++;
     return;
 }
