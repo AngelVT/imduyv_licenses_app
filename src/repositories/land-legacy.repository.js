@@ -95,3 +95,17 @@ export async function findLegacyLicenseByPeriod(startDate, endDate) {
         nest: true
     });
 }
+
+export async function findLegacyLicenseByPeriodType(type ,startDate, endDate) {
+    return await LegacyLicense.findAll({
+        where: {
+            legacy_type_id: type,
+            fecha_expedicion: {
+                [Op.between]: [startDate, endDate]
+            }
+        },
+        order: LEGACY_ORDER,
+        attributes: ['licencia', 'nombre', 'colonia', 'fecha_expedicion', 'folio_pago'],
+        raw: true
+    });
+}

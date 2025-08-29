@@ -304,7 +304,7 @@ function mapCssToPdfMake(styleObj) {
     return pdfStyle;
 }
 
-function parseSimpleFormatting(text) {
+export function parseSimpleFormatting(text) {
     //text = text.replace(/[\[\]\|]/g, '');
     const fragments = [];
     let remaining = text;

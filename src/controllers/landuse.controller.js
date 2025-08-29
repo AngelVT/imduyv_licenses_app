@@ -74,8 +74,6 @@ export const getLicenseBy = requestHandler(
         const PARAMETER = req.params.getByParameter;
         const VALUE = req.params.value;
 
-        console.log(PARAMETER, VALUE)
-
         const response = await landService.requestLandLicenseByParameter(PARAMETER, VALUE);
 
         res.status(200).json(response);
@@ -280,5 +278,43 @@ export const checkInvoices = requestHandler(
         Requestor Name -> ${req.user.name}
         Requestor Username -> ${req.user.username}
         Land use invoice check request -> Land use records found`);
+    }
+);
+
+export const getQuarterReports = requestHandler(
+    async function (req, res) {
+        const { periodStart, periodEnd, types, observations } = req.body;
+
+        const response = await landService.requestQuarterReports(periodStart, periodEnd, types, observations);
+
+        const pdfDoc = printerPDF.createPdfKitDocument(response.definition);
+
+        res.setHeader('Content-Type', 'application/pdf');
+        res.setHeader("Content-Disposition", "attachment; filename=reporte.pdf");
+        pdfDoc.info.Title = `Reporte del ${periodStart} al ${periodEnd}`;
+        pdfDoc.pipe(res);
+        pdfDoc.end();
+
+        logger.logRequestInfo('Land use report completed',
+            `Requestor ID -> ${req.user.uuid}
+        Requestor Name -> ${req.user.name}
+        Requestor Username -> ${req.user.username}
+        Land use report request -> Reports generated for period ${periodStart} to ${periodEnd}`);
+    }
+);
+
+export const getPeriodIncome = requestHandler(
+    async function (req, res) {
+        const { periodStart, periodEnd, types } = req.body;
+
+        const response = await landService.requestPeriodIncome(periodStart, periodEnd, types);
+
+        res.status(200).json(response);
+
+        logger.logRequestInfo('Land use period income request completed',
+            `Requestor ID -> ${req.user.uuid}
+        Requestor Name -> ${req.user.name}
+        Requestor Username -> ${req.user.username}
+        Land use period income request -> Income calculation generated for period ${periodStart} to ${periodEnd}`);
     }
 );

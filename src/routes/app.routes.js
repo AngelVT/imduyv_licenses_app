@@ -99,4 +99,10 @@ router.get('/administration', [
     authenticator.verifyRole(['admin', 'system'], { isMenu: true })
 ], appControl.goAdministrationMenu);
 
+router.get('/landReporting', [
+    authenticator.verifyToken({ redirect: true }),
+    authenticator.accountIntegrity,
+    authenticator.verifyGroup(['land_use', 'all'], { isMenu: true })
+], appControl.goLandReportingMenu);
+
 export default router;

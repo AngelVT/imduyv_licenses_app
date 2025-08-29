@@ -137,4 +137,18 @@ router.post('/setInvoices', [
     authenticator.verifyPermission(['license:create', 'license:manage'])
 ], landControl.setLicenseStartInvoices);
 
+router.post('/report', [
+    authenticator.verifyToken(),
+    authenticator.accountIntegrity,
+    authenticator.verifyGroup(LAND_GROUPS),
+    authenticator.verifyPermission(['license:read', 'license:manage'])
+], landControl.getQuarterReports);
+
+router.post('/income', [
+    authenticator.verifyToken(),
+    authenticator.accountIntegrity,
+    authenticator.verifyGroup(LAND_GROUPS),
+    authenticator.verifyPermission(['license:read', 'license:manage'])
+], landControl.getPeriodIncome);
+
 export default router;

@@ -1065,6 +1065,15 @@ body {
     max-height: 280px;
 }
 
+.input-textarea-tall {
+    font-size: 12px;
+    resize: vertical;
+    padding: 10px 12px;
+    height: 140px;
+    min-height: 140px;
+    max-height: 280px;
+}
+
 /*-------------------------------------------------------------------------*/
 
 .table-border {

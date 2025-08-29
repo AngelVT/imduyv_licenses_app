@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/public/libs/bootstrap-icons-1.11.3/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="/public/css/tlib-0.1.0.css">
+    <title>Reportes Licencias</title>
+    <link rel="shortcut icon" href="/public/img/landuse_icon.svg" type="image/x-icon">
+    <script src="/private/js/appLogout.js" defer></script>
+    <script src="/private/js/appInfoLoader.js" defer></script>
+    <script src="/private/js/appLandReports.js" defer></script>
+</head>
+<body>
+    <main>
+        <section class="page-full menu bg-blur">
+            <a href="/app/landMenu" class="back-arrow bi-arrow-left-circle-fill"></a>
+            <span class="bi-buildings-fill user-info">
+                <div class="border-round color-white">
+                    <span id="user_name" class="bi-person-circle padding-horizontal-small"> Usuario</span>
+                    <a target="_blank" id="sys_link" href="/app/sysadmin" class="dis-none"><span class="bi-cup-hot btn"> System administration</span></a>
+                    <a target="_blank" id="admin_link" href="/app/administration" class="dis-none"><span class="bi-bank btn"> Administración</span></a>
+                    <span id="logout" class="bi-door-open btn"> Cerrar sesión</span>
+                </div>
+            </span>
+
+            <div class="container shadow-inner dis-flex flex-wrap flex-center">
+                <form id="report_form" class="w-80 dis-flex flex-wrap flex-between">
+                    <p class="w-100 txt-center txt-medium txt-bold color-primary margin-vertical-medium">Reportes de licencias de uso de suelo</p>
+
+                    <label class="w-45 color-primary txt-bold dis-flex flex-column"> Fecha de inicio:
+                        <input name="periodStart" class="w-100 margin-vertical-small input input-interface input-round" type="date" required>
+                    </label>
+
+                    <label class="w-45 color-primary txt-bold dis-flex flex-column"> Fecha de termino:
+                        <input name="periodEnd" class="w-100 margin-vertical-small input input-interface input-round" type="date" required>
+                    </label>
+
+                    <div class="w-100 dis-flex flex-wrap margin-vertical-small">
+                        <label class="w-25 margin-vertical-small">
+                            <input type="checkbox" name="types" value="1"> Constancia
+                        </label>
+                        <label class="w-25 margin-vertical-small">
+                            <input type="checkbox" name="types" value="2"> Servicios
+                        </label>
+                        <label class="w-25 margin-vertical-small">
+                            <input type="checkbox" name="types" value="3"> Comercial
+                        </label>
+                        <label class="w-25 margin-vertical-small">
+                            <input type="checkbox" name="types" value="4"> Industrial
+                        </label>
+                        <label class="w-25 margin-vertical-small">
+                            <input type="checkbox" name="types" value="5"> Segregado
+                        </label>
+                        <label class="w-25 margin-vertical-small">
+                            <input type="checkbox" name="types" value="6"> Derecho de Preferencia
+                        </label>
+                    </div>
+
+                    <label class="w-100 color-primary txt-bold">Observaciones:
+                        <textarea id="income_results" class="w-100 margin-vertical-small input input-interface input-round input-textarea-tall" name="observations" required></textarea>
+                    </label>
+
+                    <button class="w-30 h-20 btn btn-primary-bg txt-medium margin-vertical-small" type="submit">Generar</button>
+
+                    <button class="w-30 h-20 btn btn-primary txt-medium margin-vertical-small" id="income_btn" type="button">Ingresos</button>
+
+                    <button class="w-30 h-20 btn btn-secondary txt-medium margin-vertical-small" type="reset">Limpiar</button>
+                </form>
+            </div>
+        </section>
+    </main>
+</body>
+</html>

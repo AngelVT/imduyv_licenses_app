@@ -9,11 +9,13 @@ import { generateLandUseDP } from "../models/documents/landUse/licenciaDP.js";
 import ResourceError from '../errors/ResourceError.js';
 import ValidationError from '../errors/ValidationError.js';
 import FileSystemError from '../errors/FileSystemError.js';
-import { validateDates } from '../validations/administration.validations.js';
+import { validateDates, validatePeriod } from '../validations/administration.validations.js';
 import path from 'path';
 import { __dirstorage } from '../path.configuration.js';
 import { requestCoordinateCheck } from './geo.service.js';
 import { unaccent } from "../utilities/repository.utilities.js";
+import { generateLandQuarterReport } from '../models/documents/landUse/quarterReport.js';
+import { dateFormatFull } from '../utilities/document.utilities.js';
 
 export async function requestAllLandLicenses() {
 
@@ -807,5 +809,93 @@ export async function requestInvoiceCheck() {
 
     return {
         existing: true
+    }
+}
+
+export async function requestQuarterReports(periodStart, periodEnd, types, observations) {
+    if(!Array.isArray(types)) {
+        throw new ValidationError('Request failed due to invalid parameters provided.',
+            'Land use report request',
+            `Search param types ${types} is invalid.`);
+    }
+
+    if (!validateDates(periodStart) || !validateDates(periodEnd)) {
+        throw new ValidationError('Request failed due to dates are in an incorrect format please use ISOS format YYYY-MM-DD',
+            'Land use report request',
+            `Request failed due to dates are in an incorrect format
+            Provided data -> Start date/${periodStart} end date/${periodEnd}.`
+        );
+    }
+
+    if (!validatePeriod(periodStart, periodEnd)) {
+        throw new ValidationError('Request failed due to end date cannot be before start date and viceversa.',
+            'Land use report request',
+            `Request failed due to period start/end inconsistency
+            Provided data -> Start date/${periodStart} end date/${periodEnd}.`
+        );
+    }
+
+    for (const type of types) {
+        if (isNaN(parseInt(type))) {
+            throw new ValidationError('Request failed due to invalid type parameters provided.',
+                'Land use report',
+                `Search param types in ${types} are invalid.`);
+        }
+    }
+
+    const reportDefinition = await generateLandQuarterReport(periodStart, periodEnd, types, observations);
+
+    return {
+        definition: reportDefinition
+    }
+}
+
+export async function requestPeriodIncome(periodStart, periodEnd, types) {
+    if(!Array.isArray(types)) {
+        throw new ValidationError('Request failed due to invalid parameters provided.',
+            'Land use report request',
+            `Search param types ${types} is invalid.`);
+    }
+
+    if (!validateDates(periodStart) || !validateDates(periodEnd)) {
+        throw new ValidationError('Request failed due to dates are in an incorrect format please use ISOS format YYYY-MM-DD',
+            'Land use report request',
+            `Request failed due to dates are in an incorrect format
+            Provided data -> Start date/${periodStart} end date/${periodEnd}.`
+        );
+    }
+
+    if (!validatePeriod(periodStart, periodEnd)) {
+        throw new ValidationError('Request failed due to end date cannot be before start date and viceversa.',
+            'Land use report request',
+            `Request failed due to period start/end inconsistency
+            Provided data -> Start date/${periodStart} end date/${periodEnd}.`
+        );
+    }
+
+    for (const type of types) {
+        if (isNaN(parseInt(type))) {
+            throw new ValidationError('Request failed due to invalid type parameters provided.',
+                'Land use report',
+                `Search param types in ${types} are invalid.`);
+        }
+    }
+
+    const typesLong = {
+        1: 'CONSTANCIA DE USO DE SUELO',
+        2: 'LICENCIA DE USO DE SUELO SERVICIOS',
+        3: 'LICENCIA DE USO DE SUELO COMERCIAL',
+        4: 'LICENCIA DE USO DE SUELO INDUSTRIAL',
+        5: 'LICENCIA DE USO DE SUELO SEGREGADO',
+        6: 'DERECHO DE PREFERENCIA',
+        7: 'LICENCIA DE USO DE SUELO HABITACIONAL'
+    }
+
+    const totalCost = await landRepo.findLandLicenseIncome(types, periodStart, periodEnd);
+
+    return {
+        period: `${dateFormatFull(periodStart)} - ${dateFormatFull(periodEnd)}`,
+        types: types.map(t => {return typesLong[t]}),
+        totalPeriodIncome: totalCost
     }
 }

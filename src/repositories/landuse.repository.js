@@ -1,4 +1,5 @@
 import { LandUseLicense, Type, Term, Zone, AuthUse, Validity, ExpeditionType } from "../models/License.models.js";
+import { LegacyLicense } from "../models/LandLegacy.models.js";
 import { Op } from "sequelize";
 import Sequelize from "sequelize";
 import { generateSpecialData } from "../utilities/landuse.utilities.js";
@@ -133,6 +134,45 @@ export async function findUnapprovedLandLicenses() {
         raw: true,
         nest: true
     });
+}
+
+export async function findLandLicenseByPeriodType(type, start, end) {
+    return await LandUseLicense.findAll({
+        where: {
+            licenseType: type,
+            expeditionDate: {
+                [Op.between]: [start, end]
+            }
+        },
+        attributes: ['fullInvoice', 'requestorName', 'colony', 'expeditionDate', 'paymentInvoice', 'licensePrintInvoice'],
+        raw: true
+    });
+}
+
+export async function findLandLicenseIncome(types, start, end) {
+    const totalCost = await LandUseLicense.sum("cost", {
+        where: {
+            licenseType: types,
+            expeditionDate: {
+                [Op.between]: [start, end]
+            }
+        }
+    });
+
+    const totalLegacy = await LegacyLicense.findOne({
+        attributes: [
+            [Sequelize.fn('SUM', Sequelize.cast(Sequelize.col('costo'), 'NUMERIC')), 'totalCost']
+        ],
+        where: {
+            legacy_type_id: types,
+            fecha_expedicion: {
+                [Op.between]: [start, end]
+            }
+        },
+        raw: true
+    });
+
+    return totalCost + Number(totalLegacy.totalCost)
 }
 
 export async function saveNewLandLicense(newLicenseData) {
