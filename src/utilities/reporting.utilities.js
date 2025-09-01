@@ -138,6 +138,7 @@ export async function generateTableBody(types, start, end, observations) {
 
         for (const license of licenses) {
             if (license.fullInvoice.includes('SYS-')) {
+                totalLicenses--;
                 continue;
             }
 
@@ -189,7 +190,7 @@ export async function generateTableBody(types, start, end, observations) {
 
         body.push([
             {
-                text: `SUBTOTAL DE ${typesLong[type]}: ${licenses.length}`,
+                text: `SUBTOTAL DE ${typesLong[type]}: ${licenses.length + legacyLicenses.length}`,
                 style: 'headT',
                 fontSize: 9,
                 colSpan: 7,
