@@ -25,9 +25,9 @@ export async function requestConsultLicense(type, invoice, year, isLegacy) {
             6: "DP",
             7: "LH"
         }
-        const invoiceFull = `/${invoiceLetters[type]}/${invoice.padStart(3, '0')}/${year}`;
+        const invoiceFull = `${invoiceLetters[type]}/${invoice.padStart(3, '0')}/${year}`;
 
-        licenses = await consultantRepo.findLegacyLicenseByInvoice(invoiceFull);
+        licenses = await consultantRepo.findLegacyLicenseByInvoice(invoiceFull, type);
 
         if (!licenses || licenses.length === 0) {
             throw new ResourceError('La licencia solicitada no se encuentra dentro de las licencias Legacy o no existe. verifica tu información',

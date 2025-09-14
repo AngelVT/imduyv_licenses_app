@@ -62,9 +62,10 @@ const LAND_USE_ATTRIBUTES = [
     [literal(`"landUse_license"."licenseSpecialData"->>'niveles'`), "niveles"]
 ];
 
-export async function findLegacyLicenseByInvoice(invoice) {
+export async function findLegacyLicenseByInvoice(invoice, type) {
     return await LegacyLicense.findAll({
         where: {
+            legacy_type_id: type,
             licencia: { [Op.iLike]: `%${escapeLike(invoice)}%` }
         },
         include: LEGACY_MODELS,
