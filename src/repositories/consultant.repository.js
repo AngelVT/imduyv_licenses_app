@@ -56,6 +56,7 @@ const LAND_USE_ATTRIBUTES = [
     'catastralKey',
     'geoReference',
     'expirationDate',
+    'approvalStatus',
     [literal(`"landUse_license"."licenseSpecialData"->>'COS'`), "COS"],
     [literal(`"landUse_license"."licenseSpecialData"->>'alt_max'`), "alt_max"],
     [literal(`"landUse_license"."licenseSpecialData"->>'niveles'`), "niveles"]

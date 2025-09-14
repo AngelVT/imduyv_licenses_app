@@ -10,7 +10,8 @@ export async function requestConsultLicense(type, invoice, year, isLegacy) {
             `Search params /t/${type}/i/${invoice}/y/${year} are invalid.`);
     }
 
-    const doLegacySearch = parseBool(isLegacy, false)
+    const doLegacySearch = parseBool(isLegacy, false);
+    const today = Date.now();
 
     let licenses;
 
@@ -34,6 +35,15 @@ export async function requestConsultLicense(type, invoice, year, isLegacy) {
             `Search params /t/${type}/i/${invoice}/y/${year} not found.`);
         }
 
+        for (const lic of licenses) {
+            const licDate = new Date(lic.vencimiento);
+            if (today < licDate) {
+                lic.expired = false;
+            } else {
+                lic.expired = true;
+            }
+        }
+
         return {
             licenses
         }
@@ -48,6 +58,14 @@ export async function requestConsultLicense(type, invoice, year, isLegacy) {
         
         licenses.legacy_license_uuid = licenses.public_land_license_id;
         licenses.licencia = licenses.fullInvoice;
+
+        const licDate = new Date(licenses.expirationDate);
+
+        if (today < licDate) {
+            licenses.expired = false;
+        } else {
+            licenses.expired = true;
+        }
 
         return {
             licenses: [licenses]

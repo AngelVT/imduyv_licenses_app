@@ -53,10 +53,23 @@ function createLegacyResult(resObj, target) {
 
 function generateLegacyFields(resObj, resultContent) {
     if(legacyCheckbox.checked) {
+        const status = document.createElement('div');
+        let statusSpan = document.createElement('span');
+
+        status.setAttribute('class', 'w-100 dis-flex flex-evenly flex-wrap margin-bottom-medium');
+
+        statusSpan.setAttribute('class', `w-30 txt-center txt-bold status-indicator ${resObj.expired ? 'failed bi-x-circle' : 'ok bi-check-circle'}`);
+        statusSpan.innerText = resObj.expired ? ' Vencida' : ' Vigente';
+
+        status.appendChild(statusSpan);
+
+        resultContent.appendChild(status);
+
         for (const key in resObj) {
             if (key === 'legacy_license_uuid' ||
                 key === 'legacy_type' ||
-                key === 'legacy_type_id'
+                key === 'legacy_type_id' || 
+                key === 'expired'
             ) {
                 continue;
             }
@@ -75,6 +88,26 @@ function generateLegacyFields(resObj, resultContent) {
             resultContent.appendChild(p);
         }
     } else {
+        const status = document.createElement('div');
+        let statusSpan = document.createElement('span');
+
+        status.setAttribute('class', 'w-100 dis-flex flex-evenly flex-wrap margin-bottom-medium');
+
+        statusSpan.setAttribute('class', `w-30 txt-center txt-bold status-indicator ${resObj.expired ? 'failed bi-x-circle' : 'ok bi-check-circle'}`);
+        statusSpan.innerText = resObj.expired ? ' Vencida' : ' Vigente';
+
+        status.appendChild(statusSpan);
+
+        statusSpan = document.createElement('span');
+
+        statusSpan.setAttribute('class', `w-30 txt-center txt-bold status-indicator ${resObj.approvalStatus ? 'ok bi-check-circle' : 'pending bi-dash-circle'}`);
+        statusSpan.innerText = resObj.approvalStatus ? ' Aprobada' : ' En tramite';
+
+        status.appendChild(statusSpan);
+
+        resultContent.appendChild(status);
+
+        // ! -------------------------------------------------------
         let text = document.createTextNode('Licencia:');
         let p = document.createElement('p');
         let span = document.createElement('span');
@@ -182,6 +215,7 @@ function generateLegacyFields(resObj, resultContent) {
 
         geoRefLink.innerText = resObj.geoReference;
         geoRefLink.href = `/tool/map/?lat=${latLng[0]}&lng=${latLng[1]}&zoom=19`;
+        geoRefLink.target = '_blank';
 
         p.appendChild(text);
         p.appendChild(geoRefLink);

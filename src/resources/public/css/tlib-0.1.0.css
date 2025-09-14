@@ -9,6 +9,9 @@
     --warning: #ffee00;
     --white: #F5F5F5;
     --black: #121212;
+    --ok: #4CAF50;
+    --pending: #FFCA28;
+    --failed: #F44336;
     --small: .8rem;
     --regular: 1.6rem;
     --medium: 3.2rem;
@@ -1749,6 +1752,27 @@ textarea.invissible:focus {
     width: 100%;
     font-weight: 400;
     color: var(--black);
+}
+
+.status-indicator {
+    display: inline-block;
+    padding: 8px 32px;
+    border-radius: 15px;
+    text-decoration: none;
+    transition: ease-in-out .2s;
+    color: var(--white);
+}
+
+.status-indicator.ok {
+    background-color: var(--ok);
+}
+
+.status-indicator.pending {
+    background-color: var(--pending);
+}
+
+.status-indicator.failed {
+    background-color: var(--failed);
 }
 
 @media (max-width: 1450px) {
