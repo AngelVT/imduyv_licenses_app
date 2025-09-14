@@ -1748,7 +1748,7 @@ textarea.invissible:focus {
     margin-bottom: 16px;
 }
 
-.legacy-field > span{
+.legacy-field > span, .legacy-field > a {
     width: 100%;
     font-weight: 400;
     color: var(--black);

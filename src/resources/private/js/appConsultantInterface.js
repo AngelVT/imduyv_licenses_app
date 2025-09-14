@@ -78,14 +78,30 @@ function generateLegacyFields(resObj, resultContent) {
             const p = document.createElement('p');
             const span = document.createElement('span');
 
-            p.setAttribute('class', 'w-25 legacy-field ');
+            if (key === 'georeferencia') {
+                const geoRefLink = document.createElement('a');
+                const latLng = resObj.georeferencia.split(',');
 
-            span.innerText = resObj[key];
+                p.setAttribute('class', 'w-25 legacy-field ');
 
-            p.appendChild(text);
-            p.appendChild(span);
+                geoRefLink.innerText = resObj.georeferencia;
+                geoRefLink.href = `/tool/map/?lat=${latLng[0]}&lng=${latLng[1]}&zoom=19`;
+                geoRefLink.target = '_blank';
 
-            resultContent.appendChild(p);
+                p.appendChild(text);
+                p.appendChild(geoRefLink);
+
+                resultContent.appendChild(p);
+            } else {
+                p.setAttribute('class', 'w-25 legacy-field ');
+
+                span.innerText = resObj[key];
+
+                p.appendChild(text);
+                p.appendChild(span);
+
+                resultContent.appendChild(p);
+            }
         }
     } else {
         const status = document.createElement('div');
@@ -207,7 +223,7 @@ function generateLegacyFields(resObj, resultContent) {
 
         // ! -------------------------------------------------------
         let geoRefLink = document.createElement('a');
-        let latLng = resObj.geoReference.split(',')
+        let latLng = resObj.geoReference.split(',');
         text = document.createTextNode('Georeferencia:');
         p = document.createElement('p');
 
