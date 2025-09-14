@@ -230,7 +230,7 @@ function createResultYearLegendTop(obj, periodType) {
     return top;
 }
 
-function createLegacyTop(obj) {
+function createLegacyTop(obj, linkPDF = true) {
     let top = document.createElement('div');
     let topLabel = document.createElement('p');
     let topControls = document.createElement('div');
@@ -244,18 +244,20 @@ function createLegacyTop(obj) {
     topLabel.setAttribute('onclick', `hideShow('${obj.legacy_license_uuid}')`);
     topLabel.setAttribute('id', `result_user_${obj.legacy_license_uuid}`);
 
-    topLabel.innerText = `${obj.licencia}`;
+    topLabel.innerText = `${obj.licencia.replaceAll('_', '/')}`;
 
     top.appendChild(topLabel);
 
     topControls.setAttribute('class', 'w-15 dis-flex flex-evenly');
 
-    span = document.createElement('a');
-    span.setAttribute('id', `result_control_print_${obj.legacy_license_uuid}`);
-    span.setAttribute('target', '_blank');
-    span.setAttribute('href', `/legacyStorage/${obj.licencia.replaceAll('/', '_')}.pdf`);
-    span.setAttribute('class', 'bi-file-earmark-pdf txt-medium color-white result-control');
-    topControls.appendChild(span);
+    if(linkPDF) {
+        span = document.createElement('a');
+        span.setAttribute('id', `result_control_print_${obj.legacy_license_uuid}`);
+        span.setAttribute('target', '_blank');
+        span.setAttribute('href', `/legacyStorage/${obj.licencia.replaceAll('/', '_')}.pdf`);
+        span.setAttribute('class', 'bi-file-earmark-pdf txt-medium color-white result-control');
+        topControls.appendChild(span);
+    }
 
     top.appendChild(topControls);
 

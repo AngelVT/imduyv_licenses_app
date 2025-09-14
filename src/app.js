@@ -17,6 +17,7 @@ import helmetMiddleware from './configuration/helmet.configuration.js';
 import landuseRoutes from './routes/landuse.routes.js';
 import legacyRoutes from './routes/land-legacy.routes.js';
 import urbanRoutes from './routes/urban.routes.js';
+import consultantRoutes from './routes/consultant.routes.js';
 import userRoutes from './routes/users.routes.js';
 import authRoutes from './routes/auth.routes.js';
 import appRoutes from './routes/app.routes.js';
@@ -110,6 +111,8 @@ app.use('/api/landuse', landuseRoutes);
 app.use('/api/landLegacy', legacyRoutes);
 
 app.use('/api/urban', urbanRoutes);
+
+app.use('/api/consultant', consultantRoutes);
 
 app.use('/api/auth', authRoutes);
 

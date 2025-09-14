@@ -1,0 +1,319 @@
+const consultForm = document.getElementById('consultant_form');
+const legacyCheckbox = document.getElementById('legacy_search');
+const results = document.getElementById('results_container');
+
+consultForm.addEventListener('submit', async event => {
+    event.preventDefault();
+
+    const formData =  new FormData(consultForm);
+
+    const data = Object.fromEntries(formData);
+
+    data.isLegacy = legacyCheckbox.checked;
+
+    const { type, invoice, year, isLegacy } = data;
+
+    const res = await fetch(`/api/consultant/t/${type}/i/${invoice}/y/${year}/lg/${isLegacy}`, {
+        method: 'GET',
+        credentials: 'include'
+    });
+
+    const response = await res.json();
+
+    if (!res.ok) {
+        alert(response.msg);
+        return;
+    }
+
+    const url = new URL(window.location.href);
+    url.searchParams.set("type", type);
+    url.searchParams.set("invoice", invoice);
+    url.searchParams.set("year", year);
+    url.searchParams.set("legacy", legacyCheckbox.checked);
+    window.history.replaceState({}, '', url);
+
+    results.innerHTML = '';
+
+    for (const license of response.licenses) {
+        createLegacyResult(license, results);
+    }
+});
+
+function createLegacyResult(resObj, target) {
+
+    const resultContent = generateLegacyFields(resObj, createResultContent(resObj.legacy_license_uuid, false));
+
+    const newResult = createResult(
+        resObj.legacy_license_uuid,
+        createLegacyTop(resObj, false),
+        resultContent);
+
+    target.appendChild(newResult);
+}
+
+function generateLegacyFields(resObj, resultContent) {
+    if(legacyCheckbox.checked) {
+        for (const key in resObj) {
+            if (key === 'legacy_license_uuid' ||
+                key === 'legacy_type' ||
+                key === 'legacy_type_id'
+            ) {
+                continue;
+            }
+
+            const text = document.createTextNode(`${key.replaceAll('_', ' ')}: `);
+            const p = document.createElement('p');
+            const span = document.createElement('span');
+
+            p.setAttribute('class', 'w-25 legacy-field ');
+
+            span.innerText = resObj[key];
+
+            p.appendChild(text);
+            p.appendChild(span);
+
+            resultContent.appendChild(p);
+        }
+    } else {
+        let text = document.createTextNode('Licencia:');
+        let p = document.createElement('p');
+        let span = document.createElement('span');
+
+        p.setAttribute('class', 'w-25 legacy-field ');
+
+        span.innerText = resObj.fullInvoice.replaceAll('_', '/');
+
+        p.appendChild(text);
+        p.appendChild(span);
+
+        resultContent.appendChild(p);
+
+        // ! -------------------------------------------------------
+        text = document.createTextNode('Nombre del solicitante:');
+        p = document.createElement('p');
+        span = document.createElement('span');
+
+        p.setAttribute('class', 'w-25 legacy-field ');
+
+        span.innerText = resObj.requestorName;
+
+        p.appendChild(text);
+        p.appendChild(span);
+
+        resultContent.appendChild(p);
+
+        // ! -------------------------------------------------------
+        text = document.createTextNode('En atención:');
+        p = document.createElement('p');
+        span = document.createElement('span');
+
+        p.setAttribute('class', 'w-25 legacy-field ');
+
+        span.innerText = resObj.attentionName;
+
+        p.appendChild(text);
+        p.appendChild(span);
+
+        resultContent.appendChild(p);
+
+        // ! -------------------------------------------------------
+        text = document.createTextNode('Calle:');
+        p = document.createElement('p');
+        span = document.createElement('span');
+
+        p.setAttribute('class', 'w-25 legacy-field ');
+
+        span.innerText = resObj.address;
+
+        p.appendChild(text);
+        p.appendChild(span);
+
+        resultContent.appendChild(p);
+
+        // ! -------------------------------------------------------
+        text = document.createTextNode('Numero:');
+        p = document.createElement('p');
+        span = document.createElement('span');
+
+        p.setAttribute('class', 'w-25 legacy-field ');
+
+        span.innerText = resObj.number;
+
+        p.appendChild(text);
+        p.appendChild(span);
+
+        resultContent.appendChild(p);
+
+        // ! -------------------------------------------------------
+        text = document.createTextNode('Colonia:');
+        p = document.createElement('p');
+        span = document.createElement('span');
+
+        p.setAttribute('class', 'w-25 legacy-field ');
+
+        span.innerText = resObj.colony;
+
+        p.appendChild(text);
+        p.appendChild(span);
+
+        resultContent.appendChild(p);
+
+        // ! -------------------------------------------------------
+        text = document.createTextNode('Clave catastral:');
+        p = document.createElement('p');
+        span = document.createElement('span');
+
+        p.setAttribute('class', 'w-25 legacy-field ');
+
+        span.innerText = resObj.catastralKey;
+
+        p.appendChild(text);
+        p.appendChild(span);
+
+        resultContent.appendChild(p);
+
+        // ! -------------------------------------------------------
+        let geoRefLink = document.createElement('a');
+        let latLng = resObj.geoReference.split(',')
+        text = document.createTextNode('Georeferencia:');
+        p = document.createElement('p');
+
+        p.setAttribute('class', 'w-25 legacy-field ');
+
+        geoRefLink.innerText = resObj.geoReference;
+        geoRefLink.href = `/tool/map/?lat=${latLng[0]}&lng=${latLng[1]}&zoom=19`;
+
+        p.appendChild(text);
+        p.appendChild(geoRefLink);
+
+        resultContent.appendChild(p);
+
+        // ! -------------------------------------------------------
+        text = document.createTextNode('Superficie Total:');
+        p = document.createElement('p');
+        span = document.createElement('span');
+
+        p.setAttribute('class', 'w-25 legacy-field ');
+
+        span.innerText = resObj.surfaceTotal;
+
+        p.appendChild(text);
+        p.appendChild(span);
+
+        resultContent.appendChild(p);
+
+        // ! -------------------------------------------------------
+        text = document.createTextNode('Zona:');
+        p = document.createElement('p');
+        span = document.createElement('span');
+
+        p.setAttribute('class', 'w-25 legacy-field ');
+
+        span.innerText = resObj.zone.licenseZone;
+
+        p.appendChild(text);
+        p.appendChild(span);
+
+        resultContent.appendChild(p);
+
+        // ! -------------------------------------------------------
+        text = document.createTextNode('Clave:');
+        p = document.createElement('p');
+        span = document.createElement('span');
+
+        p.setAttribute('class', 'w-25 legacy-field ');
+
+        span.innerText = resObj.zone.licenseKey;
+
+        p.appendChild(text);
+        p.appendChild(span);
+
+        resultContent.appendChild(p);
+
+        // ! -------------------------------------------------------
+        text = document.createTextNode('Uso suelo:');
+        p = document.createElement('p');
+        span = document.createElement('span');
+
+        p.setAttribute('class', 'w-25 legacy-field ');
+
+        span.innerText = resObj.authorized_use.licenseAuthUse;
+
+        p.appendChild(text);
+        p.appendChild(span);
+
+        resultContent.appendChild(p);
+
+        // ! -------------------------------------------------------
+        text = document.createTextNode('COS:');
+        p = document.createElement('p');
+        span = document.createElement('span');
+
+        p.setAttribute('class', 'w-25 legacy-field ');
+
+        span.innerText = `${resObj.COS} %`;
+
+        p.appendChild(text);
+        p.appendChild(span);
+
+        resultContent.appendChild(p);
+
+        // ! -------------------------------------------------------
+        text = document.createTextNode('Altura Maxima:');
+        p = document.createElement('p');
+        span = document.createElement('span');
+
+        p.setAttribute('class', 'w-25 legacy-field ');
+
+        span.innerText = resObj.alt_max;
+
+        p.appendChild(text);
+        p.appendChild(span);
+
+        resultContent.appendChild(p);
+
+        // ! -------------------------------------------------------
+        text = document.createTextNode('Niveles:');
+        p = document.createElement('p');
+        span = document.createElement('span');
+
+        p.setAttribute('class', 'w-25 legacy-field ');
+
+        span.innerText = resObj.niveles;
+
+        p.appendChild(text);
+        p.appendChild(span);
+
+        resultContent.appendChild(p);
+
+        // ! -------------------------------------------------------
+        text = document.createTextNode('Vencimiento:');
+        p = document.createElement('p');
+        span = document.createElement('span');
+
+        p.setAttribute('class', 'w-25 legacy-field ');
+
+        span.innerText = resObj.expirationDate;
+
+        p.appendChild(text);
+        p.appendChild(span);
+
+        resultContent.appendChild(p);
+
+        // ! -------------------------------------------------------
+        text = document.createTextNode('Tipo de tramite:');
+        p = document.createElement('p');
+        span = document.createElement('span');
+
+        p.setAttribute('class', 'w-25 legacy-field ');
+
+        span.innerText = resObj.expedition_type.licenseExpType;
+
+        p.appendChild(text);
+        p.appendChild(span);
+
+        resultContent.appendChild(p);
+    }
+
+    return resultContent;
+}

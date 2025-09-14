@@ -105,4 +105,10 @@ router.get('/landReporting', [
     authenticator.verifyGroup(['land_use', 'all'], { isMenu: true })
 ], appControl.goLandReportingMenu);
 
+router.get('/consultant', [
+    authenticator.verifyToken({ redirect: true }),
+    authenticator.accountIntegrity,
+    authenticator.verifyGroup(['land_use', 'consultant', 'all'], { isMenu: true })
+], appControl.goConsultantMenu);
+
 export default router;

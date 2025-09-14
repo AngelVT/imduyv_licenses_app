@@ -337,6 +337,7 @@ function generateUserFields(resObj, resultContent) {
             <option value="1">Todos</option>
             <option value="2">Uso de suelo</option>
             <option value="3">Acciones urbanas</option>
+            <option value="4">Externo</option>
             `
 
     field.querySelector('select').value = resObj.groupId;

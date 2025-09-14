@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/public/libs/bootstrap-icons-1.11.3/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="/public/css/tlib-0.1.0.css">
+    <title>Licencias Extranet</title>
+    <link rel="shortcut icon" href="/public/img/landuse_icon.svg" type="image/x-icon">
+    <script src="/private/js/appLogout.js" defer></script>
+    <script src="/private/js/appInfoLoader.js" defer></script>
+    <script src="/private/js/appConsultantInterface.js" defer></script>
+    <script src="/private/js/appConsultControl.js"></script>
+</head>
+<body>
+    <main>
+        <section class="page-full menu bg-blur">
+            <div class="container shadow-inner padding-horizontal-large padding-bottom-medium dis-flex flex-center-v flex-column">
+                <span class="bi-buildings-fill user-info">
+                    <div class="border-round color-white">
+                        <span id="user_name" class="bi-person-circle padding-horizontal-small"> Usuario</span>
+                        <a target="_blank" id="sys_link" href="/app/sysadmin" class="dis-none"><span class="bi-cup-hot btn"> System administration</span></a>
+                        <a target="_blank" id="admin_link" href="/app/administration" class="dis-none"><span class="bi-bank btn"> Administración</span></a>
+                        <span id="logout" class="bi-door-open btn"> Cerrar sesión</span>
+                    </div>
+                </span>
+
+                <nav class="dis-flex flex-evenly w-100 margin-bottom-small padding-small border-primary border-only-left border-only-bottom border-only-right border-round-bottom controls">
+                    <form id="consultant_form" class="dis-flex flex-wrap flex-center-h w-25">
+                        <select id="licence_type" name="type" class="input input-secondary input-interface border-secondary input-round-left w-40" required>
+                            <option value="">Seleccione tipo ...</option>
+                            <option value="1">Constancia</option>
+                            <option value="2">Licencia Servicios</option>
+                            <option value="3">Licencia Comercial</option>
+                            <option value="4">Licencia Industria</option>
+                            <option value="5">Segregado</option>
+                            <option value="6">Derecho de Preferencia</option>
+                        </select>
+                        <input id="invoice_number" name="invoice" class="input input-secondary input-interface border-secondary w-20" type="number" placeholder="folio" required>
+                        <select id="invoice_year" name="year" class="input input-secondary input-interface input-round-right w-40" required>
+                            <option value="">Seleccione año ...</option>
+                        </select>
+
+                        <label class="w-100 txt-center color-secondary">
+                            <input type="checkbox" name="isLegacy" id="legacy_search">
+                            Licencia anterior al 04/Agosto/2025?
+                        </label>
+
+
+                        <button id="fullinvoice_search" class="btn btn-primary margin-top-small" type="submit">Buscar</button>
+                    </form>
+                </nav>
+
+                <div id="results_container" class="results-container">
+                    
+                </div>
+                
+            </div>
+        </section>
+    </main>
+    <script>
+        const YEAR_SELECTOR = document.getElementById('invoice_year');
+        const YEAR = new Date().getFullYear();
+
+        for (let i = YEAR; i >= 2022; i--) {
+            let option = document.createElement('option');
+            option.value = i;
+            option.innerText = i;
+            if (i == YEAR) {
+                option.setAttribute('selected','');
+            }
+            YEAR_SELECTOR.appendChild(option);
+        }
+    </script>
+    <script>
+        window.addEventListener('load', function (event ) {
+            const params = new URLSearchParams(window.location.search);
+            let type = parseFloat(params.get("type"));
+            let invoice = parseFloat(params.get("invoice"));
+            let year = parseFloat(params.get("year"));
+            let isLegacy = params.get("legacy");
+
+            if (!isNaN(type) && !isNaN(invoice) && !isNaN(year) && isLegacy) {
+                document.querySelector('#licence_type').value = type;
+                document.querySelector('#invoice_number').value = invoice;
+                document.querySelector('#invoice_year').value = year;
+                document.querySelector('#legacy_search').checked = isLegacy === 'true';
+
+                document.querySelector('#fullinvoice_search').click();
+            }
+        });
+    </script>
+</body>
+</html>

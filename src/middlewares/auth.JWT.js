@@ -202,6 +202,8 @@ function redirectToMenu(userGroup, res) {
             return res.redirect('/app/landMenu');
         case 'urban':
             return res.redirect('/app/urbanMenu');
+        case 'consultant':
+            return res.redirect('/app/consultant');
         case 'all':
             return res.redirect('/app/mainMenu');
         default:

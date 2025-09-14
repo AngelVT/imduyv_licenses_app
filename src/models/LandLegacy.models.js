@@ -90,6 +90,15 @@ export const LegacyLicense = pool.define(
         superficie: {
             type: DataTypes.STRING
         },
+        COS: {
+            type: DataTypes.STRING
+        },
+        altura_maxima: {
+            type: DataTypes.STRING
+        },
+        niveles: {
+            type: DataTypes.STRING
+        },
         fecha_expedicion: {
             type: DataTypes.DATEONLY
         },
