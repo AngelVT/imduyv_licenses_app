@@ -283,9 +283,9 @@ export const checkInvoices = requestHandler(
 
 export const getQuarterReports = requestHandler(
     async function (req, res) {
-        const { periodStart, periodEnd, types, observations } = req.body;
+        const { periodStart, periodEnd, types, observations, isGeoRef } = req.body;
 
-        const response = await landService.requestQuarterReports(periodStart, periodEnd, types, observations);
+        const response = await landService.requestQuarterReports(periodStart, periodEnd, types, observations, isGeoRef);
 
         const pdfDoc = printerPDF.createPdfKitDocument(response.definition);
 

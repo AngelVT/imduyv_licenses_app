@@ -14,8 +14,9 @@ import path from 'path';
 import { __dirstorage } from '../path.configuration.js';
 import { requestCoordinateCheck } from './geo.service.js';
 import { unaccent } from "../utilities/repository.utilities.js";
-import { generateLandQuarterReport } from '../models/documents/landUse/quarterReport.js';
+import { generateLandQuarterReport, generateLandGeoRefReport } from '../models/documents/landUse/quarterReport.js';
 import { dateFormatFull } from '../utilities/document.utilities.js';
+import { parseBool } from '../utilities/urban.utilities.js';
 
 export async function requestAllLandLicenses() {
 
@@ -812,7 +813,7 @@ export async function requestInvoiceCheck() {
     }
 }
 
-export async function requestQuarterReports(periodStart, periodEnd, types, observations) {
+export async function requestQuarterReports(periodStart, periodEnd, types, observations, isGeoRef) {
     if(!Array.isArray(types)) {
         throw new ValidationError('Request failed due to invalid parameters provided.',
             'Land use report request',
@@ -843,7 +844,13 @@ export async function requestQuarterReports(periodStart, periodEnd, types, obser
         }
     }
 
-    const reportDefinition = await generateLandQuarterReport(periodStart, periodEnd, types, observations);
+    let reportDefinition
+
+    if (!parseBool(isGeoRef, false)) {
+        reportDefinition = await generateLandQuarterReport(periodStart, periodEnd, types, observations);
+    } else {
+        reportDefinition = await generateLandGeoRefReport(periodStart, periodEnd, types, observations);
+    }
 
     return {
         definition: reportDefinition

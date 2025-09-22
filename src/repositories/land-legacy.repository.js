@@ -105,7 +105,7 @@ export async function findLegacyLicenseByPeriodType(type ,startDate, endDate) {
             }
         },
         order: LEGACY_ORDER,
-        attributes: ['licencia', 'nombre', 'colonia', 'fecha_expedicion', 'folio_pago'],
+        attributes: ['licencia', 'nombre', 'colonia', 'fecha_expedicion', 'folio_pago', 'georeferencia'],
         raw: true
     });
 }

@@ -4,6 +4,8 @@ const incomeBtn = document.getElementById('income_btn');
 
 const textArea = document.getElementById('income_results');
 
+const georefBox = document.getElementById('georef_box');
+
 reportForm.addEventListener('submit', async event => {
     event.preventDefault();
 
@@ -18,6 +20,7 @@ reportForm.addEventListener('submit', async event => {
     const dataBody = Object.fromEntries(formData);
 
     dataBody.types = selectedTypes.map(n => parseInt(n));
+    dataBody.isGeoRef = georefBox.checked;
 
     const res = await fetch(`/api/landuse/report`, {
         method: 'POST',

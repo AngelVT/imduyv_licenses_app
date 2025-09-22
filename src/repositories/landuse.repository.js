@@ -144,7 +144,7 @@ export async function findLandLicenseByPeriodType(type, start, end) {
                 [Op.between]: [start, end]
             }
         },
-        attributes: ['fullInvoice', 'requestorName', 'colony', 'expeditionDate', 'paymentInvoice', 'licensePrintInvoice'],
+        attributes: ['fullInvoice', 'requestorName', 'colony', 'expeditionDate', 'paymentInvoice', 'licensePrintInvoice', 'geoReference'],
         raw: true
     });
 }

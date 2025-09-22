@@ -267,3 +267,257 @@ export async function generateTableBody(types, start, end, observations) {
 
     return body;
 }
+
+export async function generateTableBodyGeoRef(types, start, end, observations) {
+    const body = [
+        [
+            {
+                text: 'DIRECCIÓN DE LICENCIAS Y CONTROL URBANO.',
+                style: 'headT',
+                fontSize: 14,
+                colSpan: 7,
+                margin: [0, 15, 0, 15]
+            }, {}, {}, {}, {}, {}, {}
+        ],
+        [
+            {
+                text: `DEPARTAMENTO: LICENCIAS DE USO DE SUELO, (${dateFormatFull(start)} - ${dateFormatFull(end)}).`,
+                style: 'boldCenter',
+                fontSize: 9,
+                colSpan: 7,
+                margin: [0, 5, 0, 5]
+            }, {}, {}, {}, {}, {}, {}
+        ],
+        [
+            {
+                text: 'FOLIO DE LICENCIA.',
+                style: 'boldCenter',
+                fontSize: 9,
+                margin: [0, 5, 0, 5]
+            },
+            {
+                text: 'TIPO DE TRAMITE.',
+                style: 'boldCenter',
+                fontSize: 9,
+                margin: [0, 5, 0, 5]
+            },
+            {
+                text: 'SOLICITANTE.',
+                style: 'boldCenter',
+                fontSize: 9,
+                margin: [0, 5, 0, 5]
+            },
+            {
+                text: 'COLONIA Y/O BARRIO.',
+                style: 'boldCenter',
+                fontSize: 9,
+                margin: [0, 5, 0, 5]
+            },
+            {
+                text: 'GEOREFERENCIA',
+                style: 'boldCenter',
+                fontSize: 9,
+                margin: [0, 5, 0, 5],
+                colSpan: 2
+            },
+            {},
+            {
+                text: 'FECHA DE EXPEDICIÓN.',
+                style: 'boldCenter',
+                fontSize: 9,
+                margin: [0, 5, 0, 5]
+            }
+        ]
+    ];
+
+    const typesLong = {
+        1: 'CONSTANCIA DE USO DE SUELO',
+        2: 'LICENCIA DE USO DE SUELO SERVICIOS',
+        3: 'LICENCIA DE USO DE SUELO COMERCIAL',
+        4: 'LICENCIA DE USO DE SUELO INDUSTRIAL',
+        5: 'LICENCIA DE USO DE SUELO SEGREGADO',
+        6: 'DERECHO DE PREFERENCIA',
+        7: 'LICENCIA DE USO DE SUELO HABITACIONAL'
+    }
+
+    let totalLicenses = 0;
+
+    const signaturesMargin = [0, 25, 0, 25];
+    const rowsMargin = [0, 10, 0, 10];
+
+    for (const type of types) {
+        const licenses = await findLandLicenseByPeriodType(type, start, end);
+        const legacyLicenses = await findLegacyLicenseByPeriodType(type, start, end);
+        totalLicenses += licenses.length;
+        totalLicenses += legacyLicenses.length;
+
+        for (const legacy of legacyLicenses) {
+            body.push([
+                {
+                    text: legacy.licencia,
+                    fontSize: 8,
+                    alignment: 'center',
+                    margin: rowsMargin
+                },
+                {
+                    text: typesLong[type],
+                    fontSize: 8,
+                    alignment: 'center',
+                    margin: rowsMargin
+                },
+                {
+                    text: legacy.nombre?.toUpperCase(),
+                    fontSize: 8,
+                    alignment: 'center',
+                    margin: rowsMargin
+                },
+                {
+                    text: legacy.colonia?.toUpperCase(),
+                    fontSize: 8,
+                    alignment: 'center',
+                    margin: rowsMargin
+                },
+                {
+                    text: legacy.georeferencia,
+                    fontSize: 8,
+                    alignment: 'center',
+                    margin: rowsMargin,
+                    colSpan: 2
+                },
+                {},
+                {
+                    text: dateFormatDMY(legacy.fecha_expedicion),
+                    fontSize: 8,
+                    alignment: 'center',
+                    margin: rowsMargin
+                }
+            ]);
+        }
+
+        for (const license of licenses) {
+            if (license.fullInvoice.includes('SYS-')) {
+                totalLicenses--;
+                continue;
+            }
+
+            body.push([
+                {
+                    text: license.fullInvoice.replaceAll('_', '/'),
+                    fontSize: 8,
+                    alignment: 'center',
+                    margin: rowsMargin
+                },
+                {
+                    text: typesLong[type],
+                    fontSize: 8,
+                    alignment: 'center',
+                    margin: rowsMargin
+                },
+                {
+                    text: license.requestorName.toUpperCase(),
+                    fontSize: 8,
+                    alignment: 'center',
+                    margin: rowsMargin
+                },
+                {
+                    text: license.colony.toUpperCase(),
+                    fontSize: 8,
+                    alignment: 'center',
+                    margin: rowsMargin
+                },
+                {
+                    text: license.geoReference,
+                    fontSize: 8,
+                    alignment: 'center',
+                    margin: rowsMargin,
+                    colSpan: 2
+                },
+                {},
+                {
+                    text: dateFormatDMY(license.expeditionDate),
+                    fontSize: 8,
+                    alignment: 'center',
+                    margin: rowsMargin
+                }
+            ]);
+        }
+
+        body.push([
+            {
+                text: `SUBTOTAL DE ${typesLong[type]}: ${licenses.length + legacyLicenses.length}`,
+                style: 'headT',
+                fontSize: 9,
+                colSpan: 7,
+                alignment: 'right',
+            }, {}, {}, {}, {}, {}, {}
+        ]);
+    }
+
+    body.push([
+        {
+            text: `TOTAL, DE LICENCIAS EMITIDAS:  ${totalLicenses}`,
+            style: 'headT',
+            fontSize: 9,
+            colSpan: 7
+        }, {}, {}, {}, {}, {}, {}
+    ]);
+
+    body.push([
+        {
+            colSpan: 7,
+            fontSize: 9,
+            margin: [5,0,5,0],
+            alignment: 'justify',
+            text: [
+                {
+                    text: `OBSERVACIONES: `,
+                    bold: true,
+                },
+                {
+                    text: parseSimpleFormatting(observations),
+                },
+            ]
+        }, {}, {}, {}, {}, {}, {}
+    ]);
+
+    body.push([
+        {
+            text: ['Realizó: LIC. Fernando Irving García Samperio.\n', 
+                {text: 'Director de Licencias y Control Urbano del IMDUyV.', bold: true}
+            ],
+            margin: signaturesMargin,
+            alignment: 'center',
+            fontSize: 9,
+            colSpan: 2
+        }, {},
+        {
+            text: ['Revisó: L.D. Estefhani Itzel Rodríguez Barrera.\n', 
+                {text: 'Titular del Órgano Interno de Control del IMDUyV. ', bold: true}
+            ],
+            margin: signaturesMargin,
+            alignment: 'center',
+            fontSize: 9,
+            colSpan: 3
+        }, {}, {},
+        {
+            text: ['Autorizó: M.A.C.I.G. Hipólito Zamora Soria. \n', 
+                {text: 'Director General del IMDUyV.', bold: true}
+            ],
+            margin: signaturesMargin,
+            alignment: 'center',
+            fontSize: 9,
+            colSpan: 2
+        }, {}
+    ]);
+
+    body.push([
+        {
+            text: '',
+            style: 'headT',
+            colSpan: 7,
+            margin: [0,5,0,5]
+        }, {}, {}, {}, {}, {}, {}
+    ]);
+
+    return body;
+}
