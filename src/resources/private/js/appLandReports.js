@@ -6,6 +6,14 @@ const textArea = document.getElementById('income_results');
 
 const georefBox = document.getElementById('georef_box');
 
+georefBox.addEventListener('change', () => {
+    if (georefBox.checked) {
+        textArea.removeAttribute('required');
+    } else {
+        textArea.setAttribute('required', '');
+    }
+})
+
 reportForm.addEventListener('submit', async event => {
     event.preventDefault();
 
@@ -50,6 +58,8 @@ reportForm.addEventListener('submit', async event => {
     window.URL.revokeObjectURL(url);
 
     reportForm.reset();
+
+    textArea.setAttribute('required', '');
 });
 
 incomeBtn.addEventListener('click', async () => {
