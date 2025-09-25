@@ -448,7 +448,7 @@ export async function generateTableBodyGeoRef(types, start, end, observations) {
                     margin: rowsMargin,*/
                 },
                 {
-                    text: license.businessLinePrint?.toUpperCase(),
+                    text: license.businessLineIntern?.toUpperCase(),
                     fontSize: 7,
                     alignment: 'center',
                     margin: rowsMargin
