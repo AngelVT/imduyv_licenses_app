@@ -63,7 +63,7 @@ export async function generateLandGeoRefReport(start, end, types, observations) 
         content: [
             {
                 table: {
-                    widths: [150, '*', '*', '*', '*', '*', '*'],
+                    widths: [130, '*', '*', '*', '*', '*', '*'],
                     body: await generateTableBodyGeoRef(types, start, end, observations)
                 }
             }

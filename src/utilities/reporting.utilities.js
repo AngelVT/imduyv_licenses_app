@@ -308,21 +308,26 @@ export async function generateTableBodyGeoRef(types, start, end, observations) {
                 margin: [0, 5, 0, 5]
             },
             {
-                text: 'COLONIA Y/O BARRIO.',
+                text: 'DIRECCION.',
                 style: 'boldCenter',
                 fontSize: 9,
                 margin: [0, 5, 0, 5]
             },
             {
-                text: 'GEOREFERENCIA',
+                text: 'GEOREFERENCIA/\nCLAVE CATASTRAL',
                 style: 'boldCenter',
                 fontSize: 9,
                 margin: [0, 5, 0, 5],
                 colSpan: 2
             },
-            {},
             {
-                text: 'FECHA DE EXPEDICIÓN.',
+                /*text: 'CLAVE CATASTRAL.',
+                style: 'boldCenter',
+                fontSize: 9,
+                margin: [0, 5, 0, 5],*/
+            },
+            {
+                text: 'GIRO.',
                 style: 'boldCenter',
                 fontSize: 9,
                 margin: [0, 5, 0, 5]
@@ -342,7 +347,6 @@ export async function generateTableBodyGeoRef(types, start, end, observations) {
 
     let totalLicenses = 0;
 
-    const signaturesMargin = [0, 25, 0, 25];
     const rowsMargin = [0, 10, 0, 10];
 
     for (const type of types) {
@@ -355,39 +359,44 @@ export async function generateTableBodyGeoRef(types, start, end, observations) {
             body.push([
                 {
                     text: legacy.licencia,
-                    fontSize: 8,
+                    fontSize: 7,
                     alignment: 'center',
                     margin: rowsMargin
                 },
                 {
                     text: typesLong[type],
-                    fontSize: 8,
+                    fontSize: 7,
                     alignment: 'center',
                     margin: rowsMargin
                 },
                 {
                     text: legacy.nombre?.toUpperCase(),
-                    fontSize: 8,
+                    fontSize: 7,
                     alignment: 'center',
                     margin: rowsMargin
                 },
                 {
-                    text: legacy.colonia?.toUpperCase(),
-                    fontSize: 8,
+                    text: `${legacy.calle}, ${legacy.numero}, ${legacy.colonia}`.toUpperCase(),
+                    fontSize: 7,
                     alignment: 'center',
                     margin: rowsMargin
                 },
                 {
-                    text: legacy.georeferencia,
-                    fontSize: 8,
+                    text: `${legacy.georeferencia}\n\nC.C.: ${legacy.clave_catastral}`,
+                    fontSize: 7,
                     alignment: 'center',
                     margin: rowsMargin,
                     colSpan: 2
                 },
-                {},
                 {
-                    text: dateFormatDMY(legacy.fecha_expedicion),
+                    /*text: legacy.clave_catastral,
                     fontSize: 8,
+                    alignment: 'center',
+                    margin: rowsMargin,*/
+                },
+                {
+                    text: legacy.giro_2,
+                    fontSize: 7,
                     alignment: 'center',
                     margin: rowsMargin
                 }
@@ -403,39 +412,44 @@ export async function generateTableBodyGeoRef(types, start, end, observations) {
             body.push([
                 {
                     text: license.fullInvoice.replaceAll('_', '/'),
-                    fontSize: 8,
+                    fontSize: 7,
                     alignment: 'center',
                     margin: rowsMargin
                 },
                 {
                     text: typesLong[type],
-                    fontSize: 8,
+                    fontSize: 7,
                     alignment: 'center',
                     margin: rowsMargin
                 },
                 {
                     text: license.requestorName.toUpperCase(),
-                    fontSize: 8,
+                    fontSize: 7,
                     alignment: 'center',
                     margin: rowsMargin
                 },
                 {
-                    text: license.colony.toUpperCase(),
-                    fontSize: 8,
+                    text: `${license.address}, ${license.number}, ${license.colony}`.toUpperCase(),
+                    fontSize: 7,
                     alignment: 'center',
                     margin: rowsMargin
                 },
                 {
-                    text: license.geoReference,
+                    text: `${license.geoReference}\n\nC.C.: ${license.catastralKey}`,
                     fontSize: 8,
                     alignment: 'center',
                     margin: rowsMargin,
                     colSpan: 2
                 },
-                {},
                 {
-                    text: dateFormatDMY(license.expeditionDate),
+                    /*text: license.catastralKey,
                     fontSize: 8,
+                    alignment: 'center',
+                    margin: rowsMargin,*/
+                },
+                {
+                    text: license.businessLinePrint?.toUpperCase(),
+                    fontSize: 7,
                     alignment: 'center',
                     margin: rowsMargin
                 }
