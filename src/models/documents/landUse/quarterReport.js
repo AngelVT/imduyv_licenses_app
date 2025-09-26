@@ -17,7 +17,7 @@ export async function generateLandQuarterReport(start, end, types, observations)
         content: [
             {
                 table: {
-                    widths: [150, '*', '*', '*', '*', '*', '*'],
+                    widths: [130, '*', '*', '*', '*', '*', '*'],
                     body: await generateTableBody(types, start, end, observations)
                 }
             }

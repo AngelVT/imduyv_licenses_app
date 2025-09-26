@@ -93,43 +93,43 @@ export async function generateTableBody(types, start, end, observations) {
             body.push([
                 {
                     text: legacy.licencia,
-                    fontSize: 8,
+                    fontSize: 7,
                     alignment: 'center',
                     margin: rowsMargin
                 },
                 {
                     text: typesLong[type],
-                    fontSize: 8,
+                    fontSize: 7,
                     alignment: 'center',
                     margin: rowsMargin
                 },
                 {
                     text: legacy.nombre?.toUpperCase(),
-                    fontSize: 8,
+                    fontSize: 7,
                     alignment: 'center',
                     margin: rowsMargin
                 },
                 {
                     text: legacy.colonia?.toUpperCase(),
-                    fontSize: 8,
+                    fontSize: 7,
                     alignment: 'center',
                     margin: rowsMargin
                 },
                 {
                     text: dateFormatDMY(legacy.fecha_expedicion),
-                    fontSize: 8,
+                    fontSize: 7,
                     alignment: 'center',
                     margin: rowsMargin
                 },
                 {
                     text: legacy.folio_pago?.toUpperCase(),
-                    fontSize: 8,
+                    fontSize: 7,
                     alignment: 'center',
                     margin: rowsMargin
                 },
                 {
-                    text: '-',
-                    fontSize: 8,
+                    text: legacy.folio_membrete ? legacy.folio_membrete : '-',
+                    fontSize: 7,
                     alignment: 'center',
                     margin: rowsMargin
                 }
@@ -145,43 +145,43 @@ export async function generateTableBody(types, start, end, observations) {
             body.push([
                 {
                     text: license.fullInvoice.replaceAll('_', '/'),
-                    fontSize: 8,
+                    fontSize: 7,
                     alignment: 'center',
                     margin: rowsMargin
                 },
                 {
                     text: typesLong[type],
-                    fontSize: 8,
+                    fontSize: 7,
                     alignment: 'center',
                     margin: rowsMargin
                 },
                 {
                     text: license.requestorName.toUpperCase(),
-                    fontSize: 8,
+                    fontSize: 7,
                     alignment: 'center',
                     margin: rowsMargin
                 },
                 {
                     text: license.colony.toUpperCase(),
-                    fontSize: 8,
+                    fontSize: 7,
                     alignment: 'center',
                     margin: rowsMargin
                 },
                 {
                     text: dateFormatDMY(license.expeditionDate),
-                    fontSize: 8,
+                    fontSize: 7,
                     alignment: 'center',
                     margin: rowsMargin
                 },
                 {
                     text: license.paymentInvoice.toUpperCase(),
-                    fontSize: 8,
+                    fontSize: 7,
                     alignment: 'center',
                     margin: rowsMargin
                 },
                 {
                     text: license.licensePrintInvoice?.toUpperCase(),
-                    fontSize: 8,
+                    fontSize: 7,
                     alignment: 'center',
                     margin: rowsMargin
                 }

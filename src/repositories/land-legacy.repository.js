@@ -105,7 +105,7 @@ export async function findLegacyLicenseByPeriodType(type ,startDate, endDate) {
             }
         },
         order: LEGACY_ORDER,
-        attributes: ['licencia', 'nombre', 'clave_catastral', 'calle', 'numero','colonia', 'giro_2','fecha_expedicion', 'folio_pago', 'georeferencia'],
+        attributes: ['licencia', 'nombre', 'clave_catastral', 'calle', 'numero','colonia', 'giro_2','fecha_expedicion', 'folio_membrete','folio_pago', 'georeferencia'],
         raw: true
     });
 }

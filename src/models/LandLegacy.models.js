@@ -131,6 +131,9 @@ export const LegacyLicense = pool.define(
         },
         inspector: {
             type: DataTypes.STRING
+        },
+        folio_membrete: {
+            type: DataTypes.STRING
         }
 }, {
     schema: 'legacy'
