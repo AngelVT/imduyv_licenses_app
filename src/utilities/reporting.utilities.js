@@ -208,23 +208,25 @@ export async function generateTableBody(types, start, end, observations) {
         }, {}, {}, {}, {}, {}, {}
     ]);
 
-    body.push([
-        {
-            colSpan: 7,
-            fontSize: 9,
-            margin: [5,0,5,0],
-            alignment: 'justify',
-            text: [
-                {
-                    text: `OBSERVACIONES: `,
-                    bold: true,
-                },
-                {
-                    text: parseSimpleFormatting(observations),
-                },
-            ]
-        }, {}, {}, {}, {}, {}, {}
-    ]);
+    if (observations.trim() !== '-') {
+        body.push([
+            {
+                colSpan: 7,
+                fontSize: 9,
+                margin: [5,0,5,0],
+                alignment: 'justify',
+                text: [
+                    {
+                        text: `OBSERVACIONES: `,
+                        bold: true,
+                    },
+                    {
+                        text: parseSimpleFormatting(observations),
+                    },
+                ]
+            }, {}, {}, {}, {}, {}, {}
+        ]);
+    }
 
     body.push([
         {
