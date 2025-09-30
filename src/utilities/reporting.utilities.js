@@ -268,7 +268,7 @@ export async function generateTableBody(types, start, end, observations) {
     return body;
 }
 
-export async function generateTableBodyGeoRef(types, start, end, observations) {
+export async function generateTableBodyGeoRef(types, start, end) {
     const body = [
         [
             {
@@ -474,6 +474,164 @@ export async function generateTableBodyGeoRef(types, start, end, observations) {
             fontSize: 9,
             colSpan: 7
         }, {}, {}, {}, {}, {}, {}
+    ]);
+
+    return body;
+}
+
+export async function generateTableBodyStatus(types, start, end) {
+    const body = [
+        [
+            {
+                text: 'DIRECCIÓN DE LICENCIAS Y CONTROL URBANO.',
+                style: 'headT',
+                fontSize: 14,
+                colSpan: 4,
+                margin: [0, 15, 0, 15]
+            }, {}, {}, {}
+        ],
+        [
+            {
+                text: `DEPARTAMENTO: LICENCIAS DE USO DE SUELO, (${dateFormatFull(start)} - ${dateFormatFull(end)}).`,
+                style: 'boldCenter',
+                fontSize: 9,
+                colSpan: 4,
+                margin: [0, 5, 0, 5]
+            }, {}, {}, {}
+        ],
+        [
+            {
+                text: 'TIPO DE TRAMITE.',
+                style: 'boldCenter',
+                fontSize: 9,
+                margin: [0, 5, 0, 5]
+            },
+            {
+                text: 'FOLIO DE LICENCIA.',
+                style: 'boldCenter',
+                fontSize: 9,
+                margin: [0, 5, 0, 5],
+            },
+            {
+                text: 'FECHA DE EXPEDICIÓN.',
+                style: 'boldCenter',
+                fontSize: 9,
+                margin: [0, 5, 0, 5]
+            },
+            {
+                text: 'ESTATUS.',
+                style: 'boldCenter',
+                fontSize: 9,
+                margin: [0, 5, 0, 5]
+            }
+        ]
+    ];
+
+    const typesLong = {
+        1: 'CONSTANCIA DE USO DE SUELO',
+        2: 'LICENCIA DE USO DE SUELO SERVICIOS',
+        3: 'LICENCIA DE USO DE SUELO COMERCIAL',
+        4: 'LICENCIA DE USO DE SUELO INDUSTRIAL',
+        5: 'LICENCIA DE USO DE SUELO SEGREGADO',
+        6: 'DERECHO DE PREFERENCIA',
+        7: 'LICENCIA DE USO DE SUELO HABITACIONAL'
+    }
+
+    let totalLicenses = 0;
+
+    const rowsMargin = [0, 10, 0, 10];
+
+    for (const type of types) {
+        const licenses = await findLandLicenseByPeriodType(type, start, end);
+        const legacyLicenses = await findLegacyLicenseByPeriodType(type, start, end);
+        totalLicenses += licenses.length;
+        totalLicenses += legacyLicenses.length;
+
+        for (const legacy of legacyLicenses) {
+            body.push([
+                {
+                    fillColor: '#f7f7f7',
+                    text: typesLong[type],
+                    fontSize: 7,
+                    alignment: 'center',
+                    margin: rowsMargin
+                },
+                {
+                    fillColor: '#f7f7f7',
+                    text: legacy.licencia,
+                    fontSize: 7,
+                    alignment: 'center',
+                    margin: rowsMargin
+                },
+                {
+                    fillColor: '#f7f7f7',
+                    text: dateFormatDMY(legacy.fecha_expedicion),
+                    fontSize: 7,
+                    alignment: 'center',
+                    margin: rowsMargin
+                },
+                {
+                    fillColor: '#f7f7f7',
+                    text: legacy.folio_membrete ? "ENTREGADA" : "EN REVISIÓN",
+                    fontSize: 7,
+                    alignment: 'center',
+                    margin: rowsMargin
+                }
+            ]);
+        }
+
+        for (const license of licenses) {
+            if (license.fullInvoice.includes('SYS-')) {
+                totalLicenses--;
+                continue;
+            }
+
+            body.push([
+                {
+                    text: typesLong[type],
+                    fontSize: 7,
+                    alignment: 'center',
+                    margin: rowsMargin
+                },
+                {
+                    text: license.fullInvoice.replaceAll('_', '/'),
+                    fontSize: 7,
+                    alignment: 'center',
+                    margin: rowsMargin
+                },
+                {
+                    text: dateFormatDMY(license.expeditionDate),
+                    fontSize: 7,
+                    alignment: 'center',
+                    margin: rowsMargin
+                },
+                {
+                    text: license.approvalStatus ? "ENTREGADA" : "EN REVISIÓN",
+                    fontSize: 7,
+                    alignment: 'center',
+                    margin: rowsMargin
+                }
+            ]);
+        }
+
+        body.push([
+            {
+                text: `SUBTOTAL DE ${typesLong[type]}: ${licenses.length + legacyLicenses.length}`,
+                style: 'headT',
+                fontSize: 9,
+                colSpan: 4,
+                alignment: 'right',
+            }, {}, {}, {}
+        ]);
+    }
+
+    body.push([
+        {
+            text: `TOTAL, DE LICENCIAS EMITIDAS:  ${totalLicenses}`,
+            style: 'headT',
+            fontSize: 9,
+            colSpan: 4
+        }, {}, {}, {}
     ]);
 
     return body;

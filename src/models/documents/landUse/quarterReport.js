@@ -1,5 +1,5 @@
 import * as docUtils from "../../../utilities/document.utilities.js";
-import { generateTableBody, generateTableBodyGeoRef } from "../../../utilities/reporting.utilities.js";
+import { generateTableBody, generateTableBodyGeoRef, generateTableBodyStatus } from "../../../utilities/reporting.utilities.js";
 import { __dirname } from "../../../path.configuration.js";
 import path from "path";
 
@@ -64,7 +64,7 @@ export async function generateLandGeoRefReport(start, end, types, observations) 
             {
                 table: {
                     widths: [130, '*', '*', '*', '*', '*', '*'],
-                    body: await generateTableBodyGeoRef(types, start, end, observations)
+                    body: await generateTableBodyGeoRef(types, start, end)
                 }
             }
         ],
@@ -83,6 +83,51 @@ export async function generateLandGeoRefReport(start, end, types, observations) 
                         {
                             width: '85%',
                             text: 'Calle Lázaro Cárdenas #101, Col. Pedregal, Tizayuca, Hidalgo C.P. 43802',
+                            color: '#511D4E',
+                            alignment: 'right'
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+
+    return definition;
+}
+
+export async function generateLandStatusReport(start, end, types) {
+    const definition = {
+        styles: docUtils.docStyles,
+        pageMargins: [50, 100, 50, 100],
+        header: {
+            image: path.join(__dirname, 'resources', 'public', 'img', 'membrete_header.png'),
+            alignment: 'center',
+            width: 500,
+            margin: [0, 25, 0, 0]
+        },
+        content: [
+            {
+                table: {
+                    widths: ['*', 130, '*', '*'],
+                    body: await generateTableBodyStatus(types, start, end)
+                }
+            }
+        ],
+        background: {
+            margin: [0, 740, 0, 0],
+            stack: [
+                {
+                    image: path.join(__dirname, 'resources', 'public', 'img', 'membrete_footer.png'),
+                    alignment: 'center',
+                    width: 500
+                },
+                {
+                    margin: [50,5,50,0],
+                    columns: [
+                        {width: '25%', text: 'tizayuca.gob.mx', bold: true, color: '#511D4E'},
+                        {
+                            width: '75%',
+                            text: 'Calle Lázaro Cárdenas #101, Col. Pedregal, Tizayuca, Hidalgo\nC.P. 43802',
                             color: '#511D4E',
                             alignment: 'right'
                         }

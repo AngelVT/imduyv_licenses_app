@@ -14,7 +14,7 @@ import path from 'path';
 import { __dirstorage } from '../path.configuration.js';
 import { requestCoordinateCheck } from './geo.service.js';
 import { unaccent } from "../utilities/repository.utilities.js";
-import { generateLandQuarterReport, generateLandGeoRefReport } from '../models/documents/landUse/quarterReport.js';
+import { generateLandQuarterReport, generateLandGeoRefReport, generateLandStatusReport } from '../models/documents/landUse/quarterReport.js';
 import { dateFormatFull } from '../utilities/document.utilities.js';
 import { parseBool } from '../utilities/urban.utilities.js';
 
@@ -813,7 +813,19 @@ export async function requestInvoiceCheck() {
     }
 }
 
-export async function requestQuarterReports(periodStart, periodEnd, types, observations, isGeoRef) {
+export async function requestQuarterReports(periodStart, periodEnd, types, observations, report_type) {
+    const REPORT_TYPES = ["quarter","geoRef", "status"];
+
+    if (!periodStart || !periodEnd || !types || !report_type) {
+        throw new ValidationError('Request failed due to invalid missing information.',
+            'Land use report request',
+            `Search params missing: 
+                periodStart:${!periodStart}
+                periodEnd: ${!periodEnd}
+                types: ${!types}
+                report_type: ${!report_type}`);
+    }
+
     if(!Array.isArray(types)) {
         throw new ValidationError('Request failed due to invalid parameters provided.',
             'Land use report request',
@@ -844,12 +856,38 @@ export async function requestQuarterReports(periodStart, periodEnd, types, obser
         }
     }
 
+    if (!REPORT_TYPES.includes(report_type)) {
+        throw new ValidationError('Request failed due to invalid report type requested.',
+                'Land use report',
+                `Search param report type ${report_type} is invalid.`);
+    }
+
     let reportDefinition
 
-    if (!parseBool(isGeoRef, false)) {
+    /*if (!parseBool(isGeoRef, false)) {
         reportDefinition = await generateLandQuarterReport(periodStart, periodEnd, types, observations);
     } else {
         reportDefinition = await generateLandGeoRefReport(periodStart, periodEnd, types, observations);
+    }*/
+
+    switch (report_type) {
+        case "quarter":
+            if (!observations) {
+                throw new ValidationError('Request failed due to missing observations.',
+            'Land use report request',
+            `Observations not provided for quarter report`);
+            }
+
+            reportDefinition = await generateLandQuarterReport(periodStart, periodEnd, types, observations);
+            break;
+    
+        case "geoRef":
+            reportDefinition = await generateLandGeoRefReport(periodStart, periodEnd, types, observations);
+            break;
+
+        case "status":
+            reportDefinition = await generateLandStatusReport(periodStart, periodEnd, types, observations);
+            break;
     }
 
     return {

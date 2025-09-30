@@ -145,7 +145,7 @@ export async function findLandLicenseByPeriodType(type, start, end) {
             }
         },
         order: [['invoice', 'ASC']], 
-        attributes: ['fullInvoice', 'requestorName', 'catastralKey', 'businessLineIntern','address', 'number', 'colony', 'expeditionDate', 'paymentInvoice', 'licensePrintInvoice', 'geoReference'],
+        attributes: ['fullInvoice', 'requestorName', 'catastralKey', 'businessLineIntern','address', 'number', 'colony', 'expeditionDate', 'paymentInvoice', 'licensePrintInvoice', 'geoReference', 'approvalStatus'],
         raw: true
     });
 }

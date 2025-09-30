@@ -4,15 +4,18 @@ const incomeBtn = document.getElementById('income_btn');
 
 const textArea = document.getElementById('income_results');
 
-const georefBox = document.getElementById('georef_box');
+//const georefBox = document.getElementById('georef_box');
+const radios = document.querySelectorAll('input[name="report_type"]');
 
-georefBox.addEventListener('change', () => {
-    if (georefBox.checked) {
-        textArea.removeAttribute('required');
-    } else {
-        textArea.setAttribute('required', '');
-    }
-})
+radios.forEach(radio => {
+    radio.addEventListener('change', () => {
+        if (radio.value === 'quarter' && radio.checked) {
+            textArea.setAttribute('required', '');
+        } else if (radio.checked) {
+            textArea.removeAttribute('required');
+        }
+    });
+});
 
 reportForm.addEventListener('submit', async event => {
     event.preventDefault();
@@ -28,7 +31,7 @@ reportForm.addEventListener('submit', async event => {
     const dataBody = Object.fromEntries(formData);
 
     dataBody.types = selectedTypes.map(n => parseInt(n));
-    dataBody.isGeoRef = georefBox.checked;
+    //dataBody.isGeoRef = georefBox.checked;
 
     const res = await fetch(`/api/landuse/report`, {
         method: 'POST',
