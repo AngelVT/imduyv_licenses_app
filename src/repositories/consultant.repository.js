@@ -20,6 +20,9 @@ const LEGACY_ATTRIBUTES = [
     'clave',
     'uso_suelo',
     'superficie',
+    'COS',
+    'altura_maxima',
+    'niveles',
     'vencimiento',
     'tipo_tramite'
 ];
