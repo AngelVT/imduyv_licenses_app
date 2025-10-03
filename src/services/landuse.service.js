@@ -16,7 +16,8 @@ import { requestCoordinateCheck } from './geo.service.js';
 import { unaccent } from "../utilities/repository.utilities.js";
 import { generateLandQuarterReport, generateLandGeoRefReport, generateLandStatusReport } from '../models/documents/landUse/quarterReport.js';
 import { dateFormatFull } from '../utilities/document.utilities.js';
-import { parseBool } from '../utilities/urban.utilities.js';
+import { generateLandDataReport } from '../utilities/reporting.utilities.js';
+import { buffer } from 'stream/consumers';
 
 export async function requestAllLandLicenses() {
 
@@ -814,7 +815,7 @@ export async function requestInvoiceCheck() {
 }
 
 export async function requestQuarterReports(periodStart, periodEnd, types, observations, report_type) {
-    const REPORT_TYPES = ["quarter","geoRef", "status"];
+    const REPORT_TYPES = ["quarter","geoRef", "status", "excel"];
 
     if (!periodStart || !periodEnd || !types || !report_type) {
         throw new ValidationError('Request failed due to invalid missing information.',
@@ -888,6 +889,12 @@ export async function requestQuarterReports(periodStart, periodEnd, types, obser
         case "status":
             reportDefinition = await generateLandStatusReport(periodStart, periodEnd, types, observations);
             break;
+
+        case "excel":
+            reportDefinition = await generateLandDataReport(periodStart, periodEnd, types);
+            return {
+                buffer: reportDefinition
+            }
     }
 
     return {

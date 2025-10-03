@@ -287,13 +287,22 @@ export const getQuarterReports = requestHandler(
 
         const response = await landService.requestQuarterReports(periodStart, periodEnd, types, observations, report_type);
 
-        const pdfDoc = printerPDF.createPdfKitDocument(response.definition);
+        if (response.buffer) {
+            res.setHeader("Content-Type", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+            res.setHeader("Content-Disposition", `attachment; filename=reporte_${periodStart}_${periodEnd}.xlsx`);
+            await response.buffer.xlsx.write(res);
+            res.end();
+        }
 
-        res.setHeader('Content-Type', 'application/pdf');
-        res.setHeader("Content-Disposition", "attachment; filename=reporte.pdf");
-        pdfDoc.info.Title = `Reporte del ${periodStart} al ${periodEnd}`;
-        pdfDoc.pipe(res);
-        pdfDoc.end();
+        if (response.definition) {
+            const pdfDoc = printerPDF.createPdfKitDocument(response.definition);
+
+            res.setHeader('Content-Type', 'application/pdf');
+            res.setHeader("Content-Disposition", `attachment; filename=reporte_${periodStart}_${periodEnd}.pdf`);
+            pdfDoc.info.Title = `Reporte del ${periodStart} al ${periodEnd}`;
+            pdfDoc.pipe(res);
+            pdfDoc.end();
+        }
 
         logger.logRequestInfo('Land use report completed',
             `Requestor ID -> ${req.user.uuid}

@@ -49,11 +49,18 @@ reportForm.addEventListener('submit', async event => {
     }
 
     const blob = await res.blob();
+    const disposition = res.headers.get("Content-Disposition");
+    let filename = "reporte.pdf";
+    if (disposition && disposition.includes("filename=")) {
+        filename = disposition
+        .split("filename=")[1]
+        .replace(/["']/g, "");
+    }
 
     const url = window.URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = 'reporte.pdf';
+    a.download = filename
     document.body.appendChild(a);
     a.click();
 

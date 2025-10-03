@@ -1,6 +1,7 @@
 import { findLegacyLicenseByPeriodType } from "../repositories/land-legacy.repository.js";
 import { findLandLicenseByPeriodType } from "../repositories/landuse.repository.js";
 import { dateFormatFull, dateFormatDMY, parseSimpleFormatting } from "./document.utilities.js";
+import ExcelJS from 'exceljs';
 
 export async function generateTableBody(types, start, end, observations) {
     const body = [
@@ -637,4 +638,61 @@ export async function generateTableBodyStatus(types, start, end) {
     ]);
 
     return body;
+}
+
+export async function generateLandDataReport(start, end, types) {
+    const workbook = new ExcelJS.Workbook();
+    const worksheet = workbook.addWorksheet('Datos');
+    const data = [];
+
+    for (const type of types) {
+        const licenses = await findLandLicenseByPeriodType(type, start, end);
+        const legacyLicenses = await findLegacyLicenseByPeriodType(type, start, end);
+
+        for (const legacy of legacyLicenses) {
+            data.push({
+                folio: legacy.licencia,
+                solicitante: legacy.nombre,
+                clave_catastral: legacy.clave_catastral,
+                calle: legacy.calle,
+                numero: legacy.numero,
+                colonia: legacy.colonia,
+                georeferencia: legacy.georeferencia,
+                giro: legacy.giro_2,
+                fecha_expedicion: legacy.expeditionDate ? new Date(legacy.expeditionDate) : null,
+                folio_pago: legacy.folio_pago,
+                folio_membrete: legacy.folio_membrete,
+                estatus: legacy.folio_membrete ? "ENTREGADA" : "EN REVISIÓN",
+            });
+        }
+
+        for (const license of licenses) {
+            if (license.fullInvoice.includes('SYS-')) {
+                continue;
+            }
+
+            data.push({
+                folio: license.fullInvoice.replaceAll('_', '/'),
+                solicitante: license.requestorName,
+                clave_catastral: license.catastralKey,
+                calle: license.address,
+                numero: license.number,
+                colonia: license.colony,
+                georeferencia: license.geoReference,
+                giro: license.businessLineIntern,
+                fecha_expedicion: license.expeditionDate ? new Date(license.expeditionDate) : null,
+                folio_pago: license.paymentInvoice,
+                folio_membrete: license.licensePrintInvoice,
+                estatus: license.approvalStatus ? "ENTREGADA" : "EN REVISIÓN",
+            });
+        }
+    }
+
+    worksheet.columns = Object.keys(data[0]).map(key => ({ header: key, key, width: 30 }));
+
+    worksheet.addRows(data);
+
+    worksheet.getColumn("fecha_expedicion").numFmt = "dd/mm/yyyy";
+
+    return workbook;
 }
