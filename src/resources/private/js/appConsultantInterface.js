@@ -50,8 +50,8 @@ consultFormFiltered.addEventListener('submit', async event => {
     for (const key in data) {
         if (data[key]) {
             const cleanValue = data[key]
-            .replace(/[\u00A0\u2000-\u200D\u3000]/g, ' ') // weird spaces → normal
-            .trim()                                     // remove leading/trailing
+            .replace(/[\u00A0\u2000-\u200D\u3000]/g, ' ')
+            .trim()
             .replace(/\s+/g, ' '); 
 
             params.append(key, cleanValue);

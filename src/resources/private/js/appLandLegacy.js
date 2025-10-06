@@ -72,7 +72,12 @@ formRequestor.addEventListener('submit', async event => {
 
         const { requestorName } = getParams(formRequestor);
 
-        const res = await fetch(`/api/landLegacy/name/${requestorName}`, {
+        const cleanValue = requestorName
+            .replace(/[\u00A0\u2000-\u200D\u3000]/g, ' ')
+            .trim()
+            .replace(/\s+/g, ' '); 
+
+        const res = await fetch(`/api/landLegacy/name/${cleanValue}`, {
             method: 'GET',
             credentials: 'include'
         });

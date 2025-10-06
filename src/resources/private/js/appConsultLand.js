@@ -139,7 +139,12 @@ async function getLicenseByType(type, year) {
 }
 
 async function getLicenseBy(param, value) {
-    await fetch(`/api/landuse/param/${param}/value/${value}`, {
+    const cleanValue = value
+            .replace(/[\u00A0\u2000-\u200D\u3000]/g, ' ')
+            .trim()
+            .replace(/\s+/g, ' ');
+            
+    await fetch(`/api/landuse/param/${param}/value/${cleanValue}`, {
         method: 'GET',
         credentials: 'include'
     })
