@@ -84,6 +84,11 @@ export async function requestConsultLicenseFiltered(searchParams) {
             `Search params ${searchParams} not found.`);
     }
 
+    licenses.forEach(l => {
+        l.legacy_license_uuid = l.public_land_license_id;
+        l.licencia = l.fullInvoice;
+    });
+
     return {
         licenses,
         legacyLicenses
