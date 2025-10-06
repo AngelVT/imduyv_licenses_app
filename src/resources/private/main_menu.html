@@ -5,15 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/public/libs/bootstrap-icons-1.11.3/font/bootstrap-icons.css">
     <link rel="stylesheet" href="/public/css/tlib-0.1.0.css">
-    <title>Licencias</title>
+    <title>SILU - Principal</title>
     <link rel="shortcut icon" href="/public/img/urban_icon.svg" type="image/x-icon">
     <script src="/private/js/appLogout.js" defer></script>
     <script src="/private/js/appInfoLoader.js" defer></script>
+    <!--<script src="/public/js/appWelcomePopUp.js" defer></script>-->
 </head>
 <body>
     <main>
         <section class="page-full menu bg-blur">
-            <div class="container shadow-inner dis-flex flex-center-v flex-evenly">
+            <div class="padding-vertical-small main-title">
+                <p class="txt-large">SILU</p>
+                <span class="txt-small">Sistema Integral de Licencias Urbanas</span>
+            </div>
+            <div class="container shadow-inner dis-flex flex-center flex-evenly flex-wrap">
                 <span class="bi-buildings-fill user-info">
                     <div class="border-round color-white">
                         <span id="user_name" class="bi-person-circle padding-horizontal-small"> Usuario</span>
@@ -32,5 +37,17 @@
             </div>
         </section>
     </main>
+    <div id="welcome-popup" class="dis-none w-100 h-100 dis-flex flex-center">
+        <div class="w-30 shadow padding-medium border-round bg-white dis-flex flex-center flex-wrap color-black">
+            <p class="txt-center margin-bottom-medium">Bienvenidos a <b class="color-primary">SILU - Sistema Integral de Licencias Urbanas</b></p>
+
+            <p class="txt-justify margin-bottom-small">Este es el menú principal, desde donde podrás acceder a las herramientas de administración de licencias urbanas, incluyendo el registro, modificación y consulta de licencias. Utiliza los botones para acceder al apartado deseado y comenzar a trabajar a trabajar.</p>
+
+            <label class="popup-checkbox color-complementary w-100">
+                <input type="checkbox" id="dont-show-again"> No mostrar de nuevo
+            </label>
+            <button id="popup-close" class="btn btn-primary-bg">Cerrar</button>
+        </div>
+    </div>
 </body>
 </html>

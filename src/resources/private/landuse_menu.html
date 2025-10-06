@@ -5,14 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/public/libs/bootstrap-icons-1.11.3/font/bootstrap-icons.css">
     <link rel="stylesheet" href="/public/css/tlib-0.1.0.css">
-    <title>Licencias uso de suelo</title>
+    <title>SILU - Uso de suelo</title>
     <link rel="shortcut icon" href="/public/img/landuse_icon.svg" type="image/x-icon">
     <script src="/private/js/appLogout.js" defer></script>
     <script src="/private/js/appInfoLoader.js" defer></script>
+    <script src="/public/js/appWelcomePopUp.js" defer></script>
 </head>
 <body>
     <main>
         <section class="page-full menu bg-blur">
+            <div class="padding-vertical-small main-title">
+                <p class="txt-large">SILU</p>
+                <span class="txt-small">Sistema Integral de Licencias Urbanas</span>
+            </div>
             <div class="container shadow-inner dis-flex flex-wrap flex-center-v flex-evenly">
                 <a id="mm" href="/app/mainMenu" class="back-arrow bi-arrow-left-circle-fill dis-none"></a>
                 <span class="bi-buildings-fill user-info">
@@ -36,5 +41,18 @@
             </div>
         </section>
     </main>
+    <div id="welcome-popup" class="dis-none w-100 h-100 dis-flex flex-center">
+        <div class="w-30 shadow padding-medium border-round bg-white dis-flex flex-center flex-wrap color-black">
+            <p class="txt-center margin-bottom-medium">Bienvenidos a <b class="color-primary">SILU - Sistema Integral de Licencias Urbanas</b></p>
+
+            <p class="txt-justify margin-bottom-small">El accesos a esta pantalla esta pensado para la administración de licencias de uso de suelo, desde aquí se puede acceder a los diferentes apartado, registro para capturar nuevas licencias, imprimir para editar la información de las licencias según se requiera aprobar la licencias y acceder al PDF de la licencia, consultar para realizar búsquedas filtradas de las licencias de uso de suelo y acceder a un vista del PDF o acceder al apartado de impresión de la licencias seleccionada. reportes para generar distintos reportes sobre las licencias (trimestrales e informativos) en formato PDF y en excel y el apartado Legacy para consultar todas las licencias anteriores al 04 de Agosto del 2025.<br> <br>
+            En caso de detectar cualquier anomalía o error favor de contactar al desarrollador a cargo del proyecto.</p>
+
+            <label class="popup-checkbox color-complementary w-100">
+                <input type="checkbox" id="dont-show-again"> No mostrar de nuevo
+            </label>
+            <button id="popup-close" class="btn btn-primary-bg">Cerrar</button>
+        </div>
+    </div>
 </body>
 </html>

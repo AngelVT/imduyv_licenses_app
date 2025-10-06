@@ -105,19 +105,23 @@ function generateLegacyFields(resObj, resultContent) {
         }
     } else {
         const status = document.createElement('div');
-        let statusSpan = document.createElement('span');
+        let statusSpan;
 
         status.setAttribute('class', 'w-100 dis-flex flex-evenly flex-wrap margin-bottom-medium');
 
-        statusSpan.setAttribute('class', `w-30 txt-center txt-bold status-indicator ${resObj.expired ? 'failed bi-x-circle' : 'ok bi-check-circle'}`);
-        statusSpan.innerText = resObj.expired ? ' Vencida' : ' Vigente';
+        if (resObj.approvalStatus) {
+            statusSpan = document.createElement('span');
 
-        status.appendChild(statusSpan);
+            statusSpan.setAttribute('class', `w-30 txt-center txt-bold status-indicator ${resObj.expired ? 'failed bi-x-circle' : 'ok bi-check-circle'}`);
+            statusSpan.innerText = resObj.expired ? ' Vencida' : ' Vigente';
+
+            status.appendChild(statusSpan);
+        }
 
         statusSpan = document.createElement('span');
 
         statusSpan.setAttribute('class', `w-30 txt-center txt-bold status-indicator ${resObj.approvalStatus ? 'ok bi-check-circle' : 'pending bi-dash-circle'}`);
-        statusSpan.innerText = resObj.approvalStatus ? ' Aprobada' : ' En tramite';
+        statusSpan.innerText = resObj.approvalStatus ? ' Aprobada' : ' En revisión';
 
         status.appendChild(statusSpan);
 

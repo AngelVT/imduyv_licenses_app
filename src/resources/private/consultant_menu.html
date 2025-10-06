@@ -5,16 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/public/libs/bootstrap-icons-1.11.3/font/bootstrap-icons.css">
     <link rel="stylesheet" href="/public/css/tlib-0.1.0.css">
-    <title>Licencias Extranet</title>
+    <title>SILU - Extranet</title>
     <link rel="shortcut icon" href="/public/img/landuse_icon.svg" type="image/x-icon">
     <script src="/private/js/appLogout.js" defer></script>
     <script src="/private/js/appInfoLoader.js" defer></script>
     <script src="/private/js/appConsultantInterface.js" defer></script>
     <script src="/private/js/appConsultControl.js"></script>
+    <script src="/public/js/appWelcomePopUp.js" defer></script>
 </head>
 <body>
     <main>
         <section class="page-full menu bg-blur">
+            <div class="padding-vertical-small main-title">
+                <p class="txt-large">SILU</p>
+                <span class="txt-small">Sistema Integral de Licencias Urbanas</span>
+            </div>
             <div class="container shadow-inner padding-horizontal-large padding-bottom-medium dis-flex flex-center-v flex-column">
                 <span class="bi-buildings-fill user-info">
                     <div class="border-round color-white">
@@ -25,9 +30,9 @@
                     </div>
                 </span>
 
-                <nav class="dis-flex flex-evenly w-100 margin-bottom-small padding-small border-primary border-only-left border-only-bottom border-only-right border-round-bottom controls">
-                    <form id="consultant_form" class="dis-flex flex-wrap flex-center-h w-25">
-                        <select id="licence_type" name="type" class="input input-secondary input-interface border-secondary input-round-left w-40" required>
+                <nav class="dis-flex flex-evenly flex-wrap w-50 margin-bottom-small padding-small border-primary border-only-left border-only-bottom border-only-right border-round-bottom controls">
+                    <form id="consultant_form" class="dis-flex flex-wrap flex-center-h margin-bottom-small w-90">
+                        <select name="type" class="input input-secondary input-interface border-secondary input-round-left w-40" required>
                             <option value="">Seleccione tipo ...</option>
                             <option value="1">Constancia</option>
                             <option value="2">Licencia Servicios</option>
@@ -36,7 +41,9 @@
                             <option value="5">Segregado</option>
                             <option value="6">Derecho de Preferencia</option>
                         </select>
+
                         <input id="invoice_number" name="invoice" class="input input-secondary input-interface border-secondary w-20" type="number" placeholder="folio" required>
+
                         <select id="invoice_year" name="year" class="input input-secondary input-interface input-round-right w-40" required>
                             <option value="">Seleccione año ...</option>
                         </select>
@@ -46,8 +53,29 @@
                             Licencia anterior al 04/Agosto/2025?
                         </label>
 
+                        <button class="btn btn-primary margin-top-small" type="submit">Buscar</button>
+                    </form>
 
-                        <button id="fullinvoice_search" class="btn btn-primary margin-top-small" type="submit">Buscar</button>
+                    <form id="consultant_filtered" class="dis-flex flex-wrap flex-center-h w-90">
+                        <input type="text" name="requestorName" placeholder="Nombre del solicitante" class="input input-secondary input-interface border-secondary input-round-left w-25">
+
+                        <input type="text" name="colony" placeholder="Colonia" class="input input-secondary input-interface border-secondary w-25">
+
+                        <select name="type" class="input input-secondary input-interface border-secondary w-25" required>
+                            <option value="">Seleccione tipo ...</option>
+                            <option value="1">Constancia</option>
+                            <option value="2">Licencia Servicios</option>
+                            <option value="3">Licencia Comercial</option>
+                            <option value="4">Licencia Industria</option>
+                            <option value="5">Segregado</option>
+                            <option value="6">Derecho de Preferencia</option>
+                        </select>
+
+                        <select id="filter_year" name="year" class="input input-secondary input-interface input-round-right w-25" required>
+                            <option value="">Seleccione año ...</option>
+                        </select>
+
+                        <button class="btn btn-primary margin-top-small" type="submit">Buscar</button>
                     </form>
                 </nav>
 
@@ -58,18 +86,37 @@
             </div>
         </section>
     </main>
+    <div id="welcome-popup" class="dis-none w-100 h-100 dis-flex flex-center">
+        <div class="w-30 shadow padding-medium border-round bg-white dis-flex flex-center flex-wrap color-black">
+            <p class="txt-center margin-bottom-medium">Bienvenidos a <b class="color-primary">SILU - Sistema Integral de Licencias Urbanas</b></p>
+
+            <p class="txt-justify margin-bottom-small">El acceso a esta pantalla esta pensado para hacer consultas rápidas a la base de datos de licencias de uso de suelo, se cuentan con registros desde el 2022 hasta hoy en dia, se puede consultar información básica de las licencias y a su vez con el link en la georeferencia consultar el mapa interactivo de la zonificación secundaria. <br> <br>
+            En caso de detectar cualquier anomalía o error favor de contactar al desarrollador a cargo del proyecto.</p>
+
+            <label class="popup-checkbox color-complementary w-100">
+                <input type="checkbox" id="dont-show-again"> No mostrar de nuevo
+            </label>
+            <button id="popup-close" class="btn btn-primary-bg">Cerrar</button>
+        </div>
+    </div>
     <script>
         const YEAR_SELECTOR = document.getElementById('invoice_year');
+        const YEAR_SELECTOR_B = document.getElementById('filter_year');
         const YEAR = new Date().getFullYear();
 
         for (let i = YEAR; i >= 2022; i--) {
             let option = document.createElement('option');
+            let option_b = document.createElement('option');
             option.value = i;
             option.innerText = i;
+            option_b.value = i;
+            option_b.innerText = i;
             if (i == YEAR) {
                 option.setAttribute('selected','');
+                option_b.setAttribute('selected','');
             }
             YEAR_SELECTOR.appendChild(option);
+            YEAR_SELECTOR_B.appendChild(option_b);
         }
     </script>
     <script>

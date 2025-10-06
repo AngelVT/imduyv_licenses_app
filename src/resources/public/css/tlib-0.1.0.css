@@ -1775,6 +1775,31 @@ textarea.invissible:focus {
     background-color: var(--failed);
 }
 
+#welcome-popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    background: rgba(0,0,0,0.4);
+    z-index: 9999;
+}
+
+#welcome-popup .popup-checkbox {
+    display: block;
+    margin-bottom: 15px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.main-title {
+    position: absolute;
+    left: 60px;
+    color: var(--primary);
+}
+
+.main-title > p {
+    color: var(--secondary);
+}
+
 @media (max-width: 1450px) {
     .btn-column {
         font-size: 4.4rem;
