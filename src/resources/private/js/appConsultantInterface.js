@@ -1,5 +1,5 @@
 const consultForm = document.getElementById('consultant_form');
-const legacyCheckbox = document.getElementById('legacy_search');
+const consultFormFiltered = document.getElementById('consultant_filtered');
 const results = document.getElementById('results_container');
 
 consultForm.addEventListener('submit', async event => {
@@ -9,11 +9,9 @@ consultForm.addEventListener('submit', async event => {
 
     const data = Object.fromEntries(formData);
 
-    data.isLegacy = legacyCheckbox.checked;
+    const { type, invoice, year } = data;
 
-    const { type, invoice, year, isLegacy } = data;
-
-    const res = await fetch(`/api/consultant/t/${type}/i/${invoice}/y/${year}/lg/${isLegacy}`, {
+    const res = await fetch(`/api/consultant/t/${type}/i/${invoice}/y/${year}`, {
         method: 'GET',
         credentials: 'include'
     });
@@ -29,19 +27,64 @@ consultForm.addEventListener('submit', async event => {
     url.searchParams.set("type", type);
     url.searchParams.set("invoice", invoice);
     url.searchParams.set("year", year);
-    url.searchParams.set("legacy", legacyCheckbox.checked);
     window.history.replaceState({}, '', url);
 
     results.innerHTML = '';
 
     for (const license of response.licenses) {
-        createLegacyResult(license, results);
+        createLegacyResult(license, results, response.legacy);
     }
 });
 
-function createLegacyResult(resObj, target) {
+consultFormFiltered.addEventListener('submit', async event => {
+    event.preventDefault();
 
-    const resultContent = generateLegacyFields(resObj, createResultContent(resObj.legacy_license_uuid, false));
+    const formData =  new FormData(consultFormFiltered);
+
+    const data = Object.fromEntries(formData);
+
+    const params = new URLSearchParams();
+
+    let paramCount = 0;
+
+    for (const key in data) {
+        if (data[key]) {
+            params.append(key, data[key]);
+            paramCount++;
+        }
+    }
+
+    if (paramCount < 2) {
+        alert("Necesitas proveer mas datos de búsqueda ademas del año");
+        return;
+    }
+
+    const res = await fetch(`/api/consultant/filtered?${params.toString()}`, {
+        method: 'GET',
+        credentials: 'include'
+    });
+
+    const response = await res.json();
+
+    if (!res.ok) {
+        alert(response.msg);
+        return;
+    }
+
+    results.innerHTML = '';
+
+    for (const license of response.licenses) {
+        createLegacyResult(license, results, false);
+    }
+
+    for (const license of response.legacyLicenses) {
+        createLegacyResult(license, results, true);
+    }
+});
+
+function createLegacyResult(resObj, target, legacy_box) {
+
+    const resultContent = generateLegacyFields(resObj, createResultContent(resObj.legacy_license_uuid, false), legacy_box);
 
     const newResult = createResult(
         resObj.legacy_license_uuid,
@@ -51,8 +94,8 @@ function createLegacyResult(resObj, target) {
     target.appendChild(newResult);
 }
 
-function generateLegacyFields(resObj, resultContent) {
-    if(legacyCheckbox.checked) {
+function generateLegacyFields(resObj, resultContent, legacy_box) {
+    if(legacy_box) {
         const status = document.createElement('div');
         let statusSpan = document.createElement('span');
 

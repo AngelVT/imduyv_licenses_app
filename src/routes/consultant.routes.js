@@ -6,11 +6,18 @@ const router = Router();
 
 const CONSULTANT_GROUPS = ['consultant', 'land_use', 'all'];
 
-router.get('/t/:type/i/:invoice/y/:year/lg/:isLegacy', [
+router.get('/t/:type/i/:invoice/y/:year', [
     authenticator.verifyToken(),
     authenticator.accountIntegrity,
     authenticator.verifyGroup(CONSULTANT_GROUPS),
     authenticator.verifyPermission(['consultant:read','consultant:manage'])
 ], consultantControl.getConsultFullInvoice);
+
+router.get('/filtered', [
+    authenticator.verifyToken(),
+    authenticator.accountIntegrity,
+    authenticator.verifyGroup(CONSULTANT_GROUPS),
+    authenticator.verifyPermission(['consultant:read','consultant:manage'])
+], consultantControl.getConsultFiltered);
 
 export default router;

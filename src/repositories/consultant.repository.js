@@ -91,3 +91,23 @@ export async function findLandLicenseInvoice(type, invoice, year) {
         nest: true
     });
 }
+
+export async function findLegacyLicenseByFilters(filters) {
+    return await LegacyLicense.findAll({
+        where: filters,
+        include: LEGACY_MODELS,
+        attributes: LEGACY_ATTRIBUTES,
+        raw: true,
+        nest: true
+    });
+}
+
+export async function findLandLicenseByFilters(filters) {
+    return await LandUseLicense.findAll({
+        where: filters,
+        include: LAND_USE_MODELS,
+        attributes: LAND_USE_ATTRIBUTES,
+        raw: true,
+        nest: true
+    });
+}

@@ -17,7 +17,6 @@ import { unaccent } from "../utilities/repository.utilities.js";
 import { generateLandQuarterReport, generateLandGeoRefReport, generateLandStatusReport } from '../models/documents/landUse/quarterReport.js';
 import { dateFormatFull } from '../utilities/document.utilities.js';
 import { generateLandDataReport } from '../utilities/reporting.utilities.js';
-import { buffer } from 'stream/consumers';
 
 export async function requestAllLandLicenses() {
 
