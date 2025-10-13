@@ -187,6 +187,7 @@ export const loginRedirect = async (req, res, next) => {
 
         if (paramURL) {
             res.redirect(paramURL);
+            return;
         }
 
         redirectToMenu(USER.group.group, res);
