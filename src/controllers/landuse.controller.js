@@ -223,6 +223,24 @@ export const deleteLicense = requestHandler(
     }
 );
 
+export const createObservation = requestHandler(
+    async function (req, res) {
+        const { id } = req.params;
+        const { comment } = req.body;
+        const author = req.user.name;
+
+        const response = await landService.requestObservationCreation(id, comment, author);
+    
+        res.status(200).json(response);
+    
+        logger.logRequestInfo('Land use license observation request',
+            `Requestor ID -> ${req.user.uuid}
+        Requestor Name -> ${req.user.name}
+        Requestor Username -> ${req.user.username}
+        Requested record -> Land use license observation request for license ${id}`);
+    }
+);
+
 export const getLicensePDF = requestHandler(
     async function (req, res) {
         const TYPE = parseInt(req.params.type);

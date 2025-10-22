@@ -87,6 +87,54 @@ consultFormFiltered.addEventListener('submit', async event => {
     }
 });
 
+async function submitComment(form, id) {
+    const formData = new FormData(form);
+
+    const data = Object.fromEntries(formData);
+
+    const res = await fetch(`/api/consultant/comment/${id}`, {
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    });
+
+    const response = await res.json();
+
+    if (!res.ok) {
+        alert(response.msg);
+        return;
+    }
+
+    const comments = document.getElementById(`comments-${id}`);
+    comments.innerHTML = '';
+
+    response.comments?.forEach(comment => {
+        const commentBubble = document.createElement('p');
+        const date = document.createElement('span');
+        const message = document.createElement('span');
+
+        if (comment.imduyv) {
+            commentBubble.classList.add('imduyv')
+        }
+
+        message.innerHTML = comment.message.replaceAll('\n', '<br>')
+
+        date.innerText = `Fecha: ${new Date(comment.date).toLocaleString()}\n`;
+
+        commentBubble.appendChild(date);
+        commentBubble.appendChild(message);
+
+        comments.appendChild(commentBubble);
+    });
+
+    comments.scrollTop = comments.scrollHeight;
+
+    form.reset();
+}
+
 function createLegacyResult(resObj, target, legacy_box) {
 
     const resultContent = generateLegacyFields(resObj, createResultContent(resObj.legacy_license_uuid, false), legacy_box);
@@ -415,6 +463,58 @@ function generateLegacyFields(resObj, resultContent, legacy_box) {
         p.appendChild(span);
 
         resultContent.appendChild(p);
+
+        const container = document.createElement('div');
+
+        container.setAttribute('class', 'w-100 dis-flex flex-column');
+
+        const commentContainer = document.createElement('div');
+        commentContainer.setAttribute('class', 'w-100 shadow-inner dis-flex flex-column comment-container');
+        commentContainer.id = `comments-${resObj.public_land_license_id}`
+
+        resObj.comments?.forEach(comment => {
+            const commentBubble = document.createElement('p');
+            const date = document.createElement('span');
+            const message = document.createElement('span');
+
+            if (comment.imduyv) {
+                commentBubble.classList.add('imduyv')
+            }
+
+            message.innerHTML = comment.message.replaceAll('\n', '<br>')
+
+            date.innerText = `Fecha: ${new Date(comment.date).toLocaleString()}\n`;
+
+            commentBubble.appendChild(date);
+            commentBubble.appendChild(message);
+
+            commentContainer.appendChild(commentBubble);
+        });
+
+        const form = document.createElement('form');
+        const button = document.createElement('button');
+        const input = document.createElement('textarea');
+
+        form.setAttribute('class', 'w-100 comment-form dis-flex')
+
+        input.setAttribute('class','w-90');
+
+        form.setAttribute('onsubmit', `submitComment(this, '${resObj.public_land_license_id}'); return false`);
+
+        input.name = 'comment';
+        input.setAttribute('required', '');
+
+        button.setAttribute('class','w-10 bi-chat-dots txt-medium');
+
+        form.appendChild(input);
+
+        form.appendChild(button);
+
+        container.appendChild(commentContainer);
+
+        container.appendChild(form);
+
+        resultContent.appendChild(container);
     }
 
     return resultContent;

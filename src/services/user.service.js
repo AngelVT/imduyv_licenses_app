@@ -5,6 +5,7 @@ import { validateUserPermissions, validateUserGroup, validateUserRole, validateN
 import jwt from 'jsonwebtoken';
 import ValidationError from "../errors/ValidationError.js";
 import ResourceError from "../errors/ResourceError.js";
+import { parseBool } from "../utilities/urban.utilities.js";
 
 export async function requestAllUsers() {
     const USERS = await userRepo.findAllUsers();
@@ -247,7 +248,7 @@ export async function requestUserModification(id, userData) {
     const newData = {
         name: name ? capitalizeName(name) : undefined,
         password: ENCRYPTED_PASSWORD,
-        requiredPasswordReset: ENCRYPTED_PASSWORD ? true : requiredPasswordReset ? requiredPasswordReset : undefined,
+        requiredPasswordReset: ENCRYPTED_PASSWORD ? true : requiredPasswordReset ? parseBool(requiredPasswordReset) : undefined,
         locked: locked ? locked : undefined,
         roleId: role,
         groupId: group,

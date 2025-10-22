@@ -62,7 +62,8 @@ const LAND_USE_ATTRIBUTES = [
     'approvalStatus',
     [literal(`"landUse_license"."licenseSpecialData"->>'COS'`), "COS"],
     [literal(`"landUse_license"."licenseSpecialData"->>'alt_max'`), "alt_max"],
-    [literal(`"landUse_license"."licenseSpecialData"->>'niveles'`), "niveles"]
+    [literal(`"landUse_license"."licenseSpecialData"->>'niveles'`), "niveles"],
+    [literal(`"landUse_license"."licenseSpecialData"->>'comments'`), "comments"]
 ];
 
 export async function findLegacyLicenseByInvoice(invoice, type) {
@@ -110,4 +111,38 @@ export async function findLandLicenseByFilters(filters) {
         raw: true,
         nest: true
     });
+}
+
+export async function findLandLicenseID(id) {
+    return await LandUseLicense.findOne({
+        where: {
+            public_land_license_id: id
+        },
+        attributes: [
+            [literal(`"landUse_license"."licenseSpecialData"->>'comments'`), "comments"]
+        ],
+        raw: true,
+        nest: true
+    });
+}
+
+export async function updateLandLicenseComment(id, comments) {
+    const license = await LandUseLicense.findOne({
+        where: {
+            public_land_license_id: id
+        }
+    });
+
+    license.update({
+        licenseSpecialData: literal(`
+            jsonb_set(
+                COALESCE("licenseSpecialData", '{}'::jsonb),
+                '{comments}',
+                '${comments}'::jsonb,
+                true
+            )
+        `)
+    });
+
+    return license;
 }

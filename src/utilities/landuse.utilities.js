@@ -55,7 +55,8 @@ export function generateSpecialData(type) {
                 "El Instituto Municipal de Desarrollo Urbano y Vivienda, se reserva el derecho de revocar la presente en caso de incumplimiento a cualquiera de las condiciones establecidas en la misma."
             ],
             marginName: defaultMargin,
-            marginAttention: defaultMargin
+            marginAttention: defaultMargin,
+            comments: []
         }
     }
 
@@ -83,7 +84,8 @@ export function generateSpecialData(type) {
                 "Deberá tramitar dictamen ante la Dirección de Protección Civil y Bomberos del Municipio de Tizayuca, Hidalgo, así como atender todas las recomendaciones que en materia de riesgos se le efectúen; para poder realizar la actualización de su licencia tendrá que presentar dicho dictamen vigente."
             ],
             marginName: defaultMargin,
-            marginAttention: defaultMargin
+            marginAttention: defaultMargin,
+            comments: []
         }
     }
 
@@ -99,7 +101,8 @@ export function generateSpecialData(type) {
                 "En caso de incumplimiento de las obligaciones señaladas, se harán acreedores a las sanciones y responsabilidades penales, civiles y administrativas conforme al artículo 52 de la Ley de Asentamientos Humanos, Desarrollo Urbano y Ordenamiento Territorial para Estado de Hidalgo."
             ],
             marginName: defaultMargin,
-            marginAttention: defaultMargin
+            marginAttention: defaultMargin,
+            comments: []
         }
     }
 }

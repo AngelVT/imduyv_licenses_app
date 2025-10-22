@@ -139,6 +139,54 @@ async function updateResultField(form, id) {
         });
 }
 
+async function submitObservation(form, id) {
+    const formData = new FormData(form);
+
+    const data = Object.fromEntries(formData);
+
+    const res = await fetch(`/api/landuse/comment/${id}`, {
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    });
+
+    const response = await res.json();
+
+    if (!res.ok) {
+        alert(response.msg);
+        return;
+    }
+
+    const comments = document.getElementById(`comments-${id}`);
+    comments.innerHTML = '';
+
+    response.comments?.forEach(comment => {
+        const commentBubble = document.createElement('p');
+        const date = document.createElement('span');
+        const message = document.createElement('span');
+
+        if (comment.imduyv) {
+            commentBubble.classList.add('imduyv')
+        }
+
+        message.innerHTML = comment.message.replaceAll('\n', '<br>')
+
+        date.innerText = `Fecha: ${new Date(comment.date).toLocaleString()}\n`;
+
+        commentBubble.appendChild(date);
+        commentBubble.appendChild(message);
+
+        comments.appendChild(commentBubble);
+    });
+
+    comments.scrollTop = comments.scrollHeight;
+
+    form.reset();
+}
+
 async function approveLicense(id, button) {
     try {
         let registro = document.querySelector(`#result_invoice_${id}`).innerText;

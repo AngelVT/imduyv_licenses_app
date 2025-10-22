@@ -443,14 +443,14 @@ function createResultPeriodField(id, tag, name, value, type, url, periodType) {
     return field;
 }
 
-function createResultTextArea(id, tag, name, value) {
+function createResultTextArea(id, tag, name, value, empty = false) {
     let field = document.createElement('form');
     let label = document.createElement('label');
     let button = document.createElement('button');
     let input;
     let span;
 
-    field.setAttribute('onsubmit', `updateResultField(this, '${id}'); return false`);
+    field.setAttribute('onsubmit', `updateResultField(this, '${id}', ${empty}); return false`);
     field.setAttribute('class', 'w-100')
 
     label.innerText = tag + ':';

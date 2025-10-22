@@ -69,6 +69,40 @@ export async function findLandLicenseId(id) {
     });
 }
 
+export async function findLandLicenseObservations(id) {
+    return await LandUseLicense.findOne({
+        where: {
+            public_land_license_id: id
+        },
+        attributes: [
+            [Sequelize.literal(`"landUse_license"."licenseSpecialData"->>'comments'`), "comments"]
+        ],
+        raw: true,
+        nest: true
+    });
+}
+
+export async function updateLandLicenseObservations(id, comments) {
+    const license = await LandUseLicense.findOne({
+        where: {
+            public_land_license_id: id
+        }
+    });
+    
+    license.update({
+        licenseSpecialData: Sequelize.literal(`
+            jsonb_set(
+                COALESCE("licenseSpecialData", '{}'::jsonb),
+                '{comments}',
+                '${comments}'::jsonb,
+                true
+            )
+        `)
+    });
+    
+    return license;
+}
+
 export async function findLandLicensePrintInvoice(printInvoice) {
     return await LandUseLicense.findOne({
         where: {

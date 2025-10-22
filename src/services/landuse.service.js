@@ -17,6 +17,7 @@ import { unaccent } from "../utilities/repository.utilities.js";
 import { generateLandQuarterReport, generateLandGeoRefReport, generateLandStatusReport } from '../models/documents/landUse/quarterReport.js';
 import { dateFormatFull } from '../utilities/document.utilities.js';
 import { generateLandDataReport } from '../utilities/reporting.utilities.js';
+import { literal } from "sequelize";
 
 export async function requestAllLandLicenses() {
 
@@ -409,7 +410,7 @@ export async function requestLandLicenseUpdate(id, licenseData, files, requestor
         throw new ValidationError('Request failed due to missing information.',
             'Land use update request',
             `Request failed due to missing information.
-            Provided data -> ${licenseData}`);
+            Provided data -> ${JSON.stringify(licenseData)}`);
     }
 
     if ((requestDate && !validateDates(requestDate)) ||
@@ -445,7 +446,17 @@ export async function requestLandLicenseUpdate(id, licenseData, files, requestor
             Provided data -> Margin Attention: ${marginAttention}.`);
     }
 
-    let newSpecialData = specialDataToJSON(SPECIAL_DATA).licenseSpecialData;
+    //let newSpecialData = specialDataToJSON(SPECIAL_DATA).licenseSpecialData;
+    let newSpecialData = {
+        anexo ,
+        restrictions: restrictions ? restrictions.replaceAll('\r', '').split('\n') : undefined,
+        conditions: conditions ? conditions.replaceAll('\r', '').split('\n') : undefined,
+        parcela,
+        propertyNo,
+        propertyDate,
+        marginName: marginName ? parseInt(marginName) : undefined,
+        marginAttention: marginAttention ? parseInt(marginAttention) : undefined
+    }
     let coordinateInfo;
 
     if (georeference) {
@@ -456,7 +467,7 @@ export async function requestLandLicenseUpdate(id, licenseData, files, requestor
         newSpecialData.niveles = coordinateInfo.data.niveles;
     }
 
-    newSpecialData.anexo = anexo ? anexo : newSpecialData.anexo;
+    /*newSpecialData.anexo = anexo ? anexo : newSpecialData.anexo;
     newSpecialData.restrictions = restrictions ? restrictions.replaceAll('\r', '').split('\n') : newSpecialData.restrictions;
     newSpecialData.conditions = conditions ? conditions.replaceAll('\r', '').split('\n') : newSpecialData.conditions;
     newSpecialData.parcela = parcela ? parcela : newSpecialData.parcela;
@@ -464,10 +475,24 @@ export async function requestLandLicenseUpdate(id, licenseData, files, requestor
     newSpecialData.propertyDate = propertyDate ? propertyDate : newSpecialData.propertyDate;
 
     newSpecialData.marginName = marginName ? parseInt(marginName) : newSpecialData.marginName;
-    newSpecialData.marginAttention = marginAttention ? parseInt(marginAttention) : newSpecialData.marginAttention;
-    /*newSpecialData.COS = COS ? COS : newSpecialData.COS;
+    newSpecialData.marginAttention = marginAttention ? parseInt(marginAttention) : newSpecialData.marginAttention;*/
+
+    /*if (comment) {
+        newSpecialData.comments = newSpecialData.comments ? newSpecialData.comments : [];
+
+        const newComment = {
+            date: Date.now(),
+            author: requestor,
+            imduyv: true,
+            message: comment
+        }
+        newSpecialData.comments.push(newComment);
+    }
+    newSpecialData.COS = COS ? COS : newSpecialData.COS;
     newSpecialData.alt_max = alt_max ? alt_max : newSpecialData.alt_max;
     newSpecialData.niveles = niveles ? niveles : newSpecialData.niveles;*/
+
+    newSpecialData = JSON.stringify(newSpecialData).replace(/'/g, "''");
 
     const NEW_DATA = {
         licensePrintInvoice: licensePrintInvoice,
@@ -496,7 +521,7 @@ export async function requestLandLicenseUpdate(id, licenseData, files, requestor
         discount: discount,
         paymentDone: paymentDone,
         inspector: inspector,
-        licenseSpecialData: newSpecialData,
+        licenseSpecialData: literal(`COALESCE("licenseSpecialData", '{}'::jsonb) || '${newSpecialData}'::jsonb`),
         approvalStatus: false
     }
 
@@ -703,6 +728,38 @@ export async function requestLandLicenseDelete(id) {
             msg: `User ${DELETED_LICENSE.fullInvoice} deleted successfully.`
         },
         license: DELETED_LICENSE
+    }
+}
+
+export async function requestObservationCreation(id, comment, author) {
+    if (!isUuid(id)) {
+        throw new ValidationError('Request failed due to invalid ID.',
+            'Land use observation request',
+            `Request failed due to ID ${id} is invalid.`
+        );
+    }
+
+    if (!comment) {
+        throw new ValidationError('Request failed due to missing information.',
+            'Consultant comment request',
+            `Request failed due to no comment was provided`);
+    }
+
+    const currentComments = await landRepo.findLandLicenseObservations(id);
+    
+    const newComments = JSON.parse(currentComments.comments);
+    
+    newComments.push({
+        date: Date.now(),
+        author: author,
+        imduyv: true,
+        message: comment
+    });
+    
+    await landRepo.updateLandLicenseObservations(id, JSON.stringify(newComments).replace(/'/g, "''"));
+    
+    return {
+        comments: newComments
     }
 }
 

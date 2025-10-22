@@ -48,7 +48,7 @@
                             <option value="">Seleccione año ...</option>
                         </select>
 
-                        <button class="btn btn-primary margin-top-small" type="submit">Buscar</button>
+                        <button id="fullinvoice_search" class="btn btn-primary margin-top-small" type="submit">Buscar</button>
                     </form>
 
                     <form id="consultant_filtered" class="dis-flex flex-wrap flex-center-h w-90">
@@ -120,13 +120,12 @@
             let type = parseFloat(params.get("type"));
             let invoice = parseFloat(params.get("invoice"));
             let year = parseFloat(params.get("year"));
-            let isLegacy = params.get("legacy");
 
-            if (!isNaN(type) && !isNaN(invoice) && !isNaN(year) && isLegacy) {
-                document.querySelector('#licence_type').value = type;
-                document.querySelector('#invoice_number').value = invoice;
-                document.querySelector('#invoice_year').value = year;
-                document.querySelector('#legacy_search').checked = isLegacy === 'true';
+            if (!isNaN(type) && !isNaN(invoice) && !isNaN(year)) {
+                document.querySelector('select[name="type"]').value = type;
+                document.querySelector('input[name="invoice"]').value = invoice;
+                document.querySelector('select[name="year"]').value = year;
+
 
                 document.querySelector('#fullinvoice_search').click();
             }

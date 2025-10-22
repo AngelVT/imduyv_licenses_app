@@ -115,7 +115,8 @@ const setDefaultPermissions = async () => {
             Permission.create({ permission_id: 17, permission: 'administration:update'}),
             Permission.create({ permission_id: 18, permission: 'administration:delete'}),
             Permission.create({ permission_id: 19, permission: 'consultant:manage'}),
-            Permission.create({ permission_id: 20, permission: 'consultant:read'})
+            Permission.create({ permission_id: 20, permission: 'consultant:read'}),
+            Permission.create({ permission_id: 21, permission: 'consultant:comment'})
         ]);
 
         logger.logConsoleInfo("Default permissions have been set");
@@ -139,7 +140,8 @@ const setDefaultPermissions = async () => {
         Permission -> administration:update
         Permission -> administration:delete
         Permission -> consultant:manage
-        Permission -> consultant:read`);
+        Permission -> consultant:read
+        Permission -> consultant:comment`);
 
     } catch (error) {
         logger.logConsoleWarning(`Error establishing default user groups:\n    ${error}`);

@@ -1,8 +1,8 @@
 import * as consultantRepo from '../repositories/consultant.repository.js';
 import ResourceError from '../errors/ResourceError.js';
 import ValidationError from '../errors/ValidationError.js';
-import { parseBool } from '../utilities/urban.utilities.js';
 import { buildLicenseFilter, buildLegacyLicenseFilter } from '../utilities/repository.utilities.js';
+import { validate as isUuid } from 'uuid';
 
 export async function requestConsultLicense(type, invoice, year) {
     if (isNaN(parseInt(type)) || isNaN(parseInt(invoice)) || isNaN(parseInt(year))) {
@@ -45,6 +45,7 @@ export async function requestConsultLicense(type, invoice, year) {
     if (newLicense && Object.keys(newLicense).length > 0) {
         newLicense.legacy_license_uuid = newLicense.public_land_license_id;
         newLicense.licencia = newLicense.fullInvoice;
+        newLicense.comments = JSON.parse(newLicense.comments);
 
         const licDate = new Date(newLicense.expirationDate);
         newLicense.expired = today >= licDate;
@@ -87,10 +88,43 @@ export async function requestConsultLicenseFiltered(searchParams) {
     licenses.forEach(l => {
         l.legacy_license_uuid = l.public_land_license_id;
         l.licencia = l.fullInvoice;
+        l.comments = JSON.parse(l.comments);
     });
 
     return {
         licenses,
         legacyLicenses
+    }
+}
+
+export async function requestCommentCreation(id, comment, author) {
+    if (!isUuid(id)) {
+        throw new ValidationError('Request failed due to invalid ID.',
+            'Consultant comment request',
+            `Request failed due to ID ${id} is invalid.`
+        );
+    }
+
+    if (!comment) {
+        throw new ValidationError('Request failed due to missing information.',
+            'Consultant comment request',
+            `Request failed due to no comment was provided`);
+    }
+
+    const currentComments = await consultantRepo.findLandLicenseID(id);
+
+    const newComments = JSON.parse(currentComments.comments);
+
+    newComments.push({
+        date: Date.now(),
+        author: author,
+        imduyv: false,
+        message: comment
+    })
+
+    await consultantRepo.updateLandLicenseComment(id, JSON.stringify(newComments).replace(/'/g, "''"));
+
+    return {
+        comments: newComments
     }
 }

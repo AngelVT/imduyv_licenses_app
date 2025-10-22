@@ -1800,6 +1800,71 @@ textarea.invissible:focus {
     color: var(--secondary);
 }
 
+.comment-container {
+    max-height: 200px;
+    min-height: 100px;
+    overflow-y: scroll;
+    scrollbar-width: thin;
+    background-color: var(--complementary);
+    padding: 1%;
+    border-radius: 5px 5px 5px 0;
+}
+
+.comment-container > p {
+    background-color: var(--secondary);
+    color: var(--white);
+    border-radius: 0 15px 15px 15px;
+    margin-bottom: 5px;
+    padding: 1%;
+    width: 90%;
+    align-self: flex-start;
+}
+
+.comment-container > p.imduyv {
+    background-color: var(--primary);
+    color: var(--white);
+    align-self: flex-end;
+    margin-right: 10px;
+    border-radius: 15px 0 15px 15px;
+}
+
+.comment-form > textarea {
+    border: none;
+    outline: none;
+    font-size: 12px;
+    resize: vertical;
+    padding: 10px 12px;
+    height: 46px;
+    min-height: 46px;
+    max-height: 280px;
+    border-radius: 0 0 0 5px;
+}
+
+.comment-form > textarea:focus {
+    box-shadow: 2px 0px 26px -2px rgba(0, 0, 0, 0.36) inset;
+    -webkit-box-shadow: 2px 0px 26px -2px rgba(0, 0, 0, 0.36) inset;
+    -moz-box-shadow: 2px 0px 26px -2px rgba(0, 0, 0, 0.36) inset;
+}
+
+.comment-form > button {
+    border: none;
+    outline: none;
+    border-radius: 0 0 5px 0;
+    cursor: pointer;
+    background-color: var(--secondary_alpha);
+    color: var(--white);
+}
+
+.comment-form > button:hover {
+    background-color: var(--secondary);
+}
+
+.comment-form > button:active {
+    box-shadow: 2px 0px 26px -2px rgba(0, 0, 0, 0.36) inset;
+    -webkit-box-shadow: 2px 0px 26px -2px rgba(0, 0, 0, 0.36) inset;
+    -moz-box-shadow: 2px 0px 26px -2px rgba(0, 0, 0, 0.36) inset;
+}
+
 @media (max-width: 1450px) {
     .btn-column {
         font-size: 4.4rem;

@@ -33,3 +33,21 @@ export const getConsultFiltered = requestHandler(
         Requested records -> Consultant request for filter ${searchParams}`);
     }
 );
+
+export const createComment = requestHandler(
+    async function (req, res) {
+        const { id } = req.params;
+        const { comment } = req.body;
+        const author = req.user.name;
+
+        const response = await consultService.requestCommentCreation(id, comment, author);
+    
+        res.status(200).json(response);
+    
+        logger.logRequestInfo('Land use consultan license comment request',
+            `Requestor ID -> ${req.user.uuid}
+        Requestor Name -> ${req.user.name}
+        Requestor Username -> ${req.user.username}
+        Requested record -> Consultant comment request for license ${id}`);
+    }
+);

@@ -25,7 +25,8 @@ const permissions = [
     "administration:update",
     "administration:delete",
     "consultant:manage",
-    "consultant:read"
+    "consultant:read",
+    "consultant:comment"
 ];
 
 formSearchName.addEventListener('submit', event => {
@@ -391,11 +392,15 @@ function generateUserFields(resObj, resultContent) {
         permissionContainer.appendChild(checkbox);
     }
 
+    const buttonContainer = document.createElement('div');
+    buttonContainer.setAttribute('class', 'w-100 dis-flex flex-center');
     let button = document.createElement('button');
 
     button.setAttribute('class', 'bi-floppy margin-vertical-small input-save w-25');
 
-    permissionContainer.appendChild(button);
+    buttonContainer.appendChild(button);
+
+    permissionContainer.appendChild(buttonContainer);
 
     resultContent.appendChild(permissionContainer);
 

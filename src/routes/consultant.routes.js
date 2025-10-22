@@ -20,4 +20,11 @@ router.get('/filtered', [
     authenticator.verifyPermission(['consultant:read','consultant:manage'])
 ], consultantControl.getConsultFiltered);
 
+router.post('/comment/:id', [
+    authenticator.verifyToken(),
+    authenticator.accountIntegrity,
+    authenticator.verifyGroup(CONSULTANT_GROUPS),
+    authenticator.verifyPermission(['consultant:comment','consultant:manage'])
+], consultantControl.createComment);
+
 export default router;

@@ -140,10 +140,10 @@ async function getLicenseByType(type, year) {
 
 async function getLicenseBy(param, value) {
     const cleanValue = value
-            .replace(/[\u00A0\u2000-\u200D\u3000]/g, ' ')
-            .trim()
-            .replace(/\s+/g, ' ');
-            
+        .replace(/[\u00A0\u2000-\u200D\u3000]/g, ' ')
+        .trim()
+        .replace(/\s+/g, ' ');
+
     await fetch(`/api/landuse/param/${param}/value/${cleanValue}`, {
         method: 'GET',
         credentials: 'include'
@@ -904,6 +904,58 @@ function generateLandFields(resObj, resultContent) {
 
     field = createResultField(resObj.id, 'Margen En Atención', 'marginAttention', resObj.licenseSpecialData.marginAttention, 'number');
     fieldGroup.appendChild(field);
+
+    const container = document.createElement('div');
+
+    container.setAttribute('class', 'w-100 dis-flex flex-column');
+
+    const commentContainer = document.createElement('div');
+    commentContainer.setAttribute('class', 'w-100 shadow-inner dis-flex flex-column comment-container');
+    commentContainer.id = `comments-${resObj.id}`
+
+    resObj.licenseSpecialData.comments?.forEach(comment => {
+        const commentBubble = document.createElement('p');
+        const date = document.createElement('span');
+        const message = document.createElement('span');
+
+        if (comment.imduyv) {
+            commentBubble.classList.add('imduyv')
+        }
+
+        message.innerHTML = comment.message.replaceAll('\n', '<br>')
+
+        date.innerText = `Fecha: ${new Date(comment.date).toLocaleString()}\n`;
+
+        commentBubble.appendChild(date);
+        commentBubble.appendChild(message);
+
+        commentContainer.appendChild(commentBubble);
+    });
+
+    const form = document.createElement('form');
+    const button = document.createElement('button');
+    const input = document.createElement('textarea');
+
+    form.setAttribute('class', 'w-100 comment-form dis-flex')
+
+    input.setAttribute('class','w-90');
+
+    form.setAttribute('onsubmit', `submitObservation(this, '${resObj.id}'); return false`);
+
+    input.name = 'comment';
+    input.setAttribute('required', '');
+
+    button.setAttribute('class','w-10 bi-chat-dots txt-medium');
+
+    form.appendChild(input);
+
+    form.appendChild(button);
+
+    container.appendChild(commentContainer);
+
+    container.appendChild(form);
+
+    fieldGroup.appendChild(container);
 
     resultContent.appendChild(fieldGroup);
 

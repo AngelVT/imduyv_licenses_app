@@ -122,6 +122,14 @@ router.delete('/:licenciaID', [
     authenticator.verifyPermission(['license:delete', 'license:manage'])
 ], landControl.deleteLicense);
 
+router.post('/comment/:id', [
+    authenticator.verifyToken(),
+    authenticator.accountIntegrity,
+    authenticator.verifyGroup(LAND_GROUPS),
+    authenticator.verifyRole(MODERATOR),
+    authenticator.verifyPermission(['license:update', 'license:manage']),
+], landControl.createObservation);
+
 router.get('/PDF/t/:type/i/:invoice/y/:year', [
     authenticator.verifyToken(),
     authenticator.accountIntegrity,
