@@ -81,6 +81,23 @@ export async function findLegacyLicenseByRequestor(requestorName) {
     });
 }
 
+export async function findLegacyLicenseByAttention(attention) {
+    return await LegacyLicense.findAll({
+        where: Sequelize.where(
+            Sequelize.fn('unaccent', Sequelize.col('en_atencion')),
+            {
+                [Sequelize.Op.iLike]: `%${escapeLike(attention)}%`
+            }
+        ),
+        order: LEGACY_ORDER,
+        include: LEGACY_MODELS,
+        attributes: LEGACY_ATTRIBUTES,
+        raw: true,
+        nest: true
+    });
+}
+
+
 export async function findLegacyLicenseByPeriod(startDate, endDate) {
     return await LegacyLicense.findAll({
         where: {

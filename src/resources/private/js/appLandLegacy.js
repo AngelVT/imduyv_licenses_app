@@ -5,6 +5,7 @@ const formCatastral = document.getElementById('form_catastral');
 const formRequestor = document.getElementById('form_requestor');
 const formPeriod = document.getElementById('form_period');
 const formInvoice = document.getElementById('form_invoice');
+const formParameter = document.getElementById('form_parameter');
 
 fromTypeYear.addEventListener('submit', async event => {
     try {
@@ -138,6 +139,36 @@ formInvoice.addEventListener('submit', async event => {
         const { licencia } = getParams(formInvoice);
 
         const res = await fetch(`/api/landLegacy/invoice/${encodeURIComponent(licencia)}`, {
+            method: 'GET',
+            credentials: 'include'
+        });
+
+        const response = await res.json();
+
+        if (!res.ok) {
+            alert(response.msg);
+            return;
+        }
+
+        resultContainer.innerHTML = '';
+
+        response.licenses.forEach(l => {
+            createLegacyResult(l, resultContainer);
+        });
+
+    } catch (error) {
+        console.log(error);
+        alert("Request failed")
+    }
+});
+
+formParameter.addEventListener('submit', async event => {
+    try {
+        event.preventDefault();
+
+        const { criteria, value } = getParams(formParameter);
+
+        const res = await fetch(`/api/landLegacy/${criteria}/${value}`, {
             method: 'GET',
             credentials: 'include'
         });

@@ -45,6 +45,13 @@ router.get('/name/:name', [
     authenticator.verifyPermission(['license:read', 'license:manage'])
 ], legacyControl.getLicenseByRequestorName);
 
+router.get('/attention/:attention', [
+    authenticator.verifyToken(),
+    authenticator.accountIntegrity,
+    authenticator.verifyGroup(LAND_GROUPS),
+    authenticator.verifyPermission(['license:read', 'license:manage'])
+], legacyControl.getLicenseByAttention);
+
 router.get('/period/start/:startDate/end/:endDate', [
     authenticator.verifyToken(),
     authenticator.accountIntegrity,

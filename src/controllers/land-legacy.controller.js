@@ -53,6 +53,16 @@ export const getLicenseByRequestorName = requestHandler(
     }
 );
 
+export const getLicenseByAttention = requestHandler(
+    async (req, res) => {
+        const { attention } = req.params;
+
+        const response = await legacyService.requestLegacyLicenseByAttention(attention);
+
+        res.status(200).json(response);
+    }
+);
+
 export const getLicenseByPeriod = requestHandler(
     async (req, res) => {
         const { startDate, endDate } = req.params;

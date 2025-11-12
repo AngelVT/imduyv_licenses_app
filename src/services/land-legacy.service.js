@@ -103,6 +103,22 @@ export async function requestLegacyLicenseByRequestor(requestorName) {
     }
 }
 
+export async function requestLegacyLicenseByAttention(attention) {
+    const attentionName = unaccent(attention);
+
+    const licenses = await legacyRepo.findLegacyLicenseByAttention(attentionName);
+
+    if (!licenses || licenses.length === 0) {
+        throw new ResourceError('The requested records do not exist.',
+            'Land use legacy request by requestor name',
+            `Search requestor name ${attention} not found.`);
+    }
+
+    return {
+        licenses
+    }
+}
+
 export async function requestLegacyLicenseByPeriod(startDate, endDate) {
     if (!validateDates(startDate) || !validateDates(endDate)) {
         throw new ValidationError('Request failed due to invalid search parameters provided.',

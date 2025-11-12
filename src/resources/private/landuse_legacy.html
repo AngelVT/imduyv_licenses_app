@@ -51,16 +51,29 @@
                         
                     </form>
 
-                    <form id="form_catastral" class="dis-flex flex-wrap flex-center-h w-15">
+                    <form id="form_catastral" class="dis-flex flex-wrap flex-center-h w-15 dis-none">
                         <input name="catastralKey" class="input input-secondary input-interface border-secondary input-round w-100" type="number" placeholder="clave catastral" required>
 
                         <button class="btn btn-primary margin-top-small" type="submit">Buscar clave catastral</button>
                     </form>
 
-                    <form id="form_requestor" class="dis-flex flex-wrap flex-center-h w-15">
+                    <form id="form_requestor" class="dis-flex flex-wrap flex-center-h w-15 dis-none">
                         <input name="requestorName" class="input input-secondary input-interface border-secondary input-round w-100" type="text" placeholder="nombre del solicitante" required>
 
                         <button class="btn btn-primary margin-top-small" type="submit">Buscar solicitante</button>
+                    </form>
+
+                    <form id="form_parameter" class="dis-flex flex-wrap flex-center-h w-15">
+                        <select  name="criteria" class="input input-secondary input-interface border-secondary input-round-left w-50" required>
+                            <option value="">Criterio...</option>
+                            <option value="name">Nombre del Solicitante</option>
+                            <option value="catastral">Clave catastral</option>
+                            <option value="attention">En atención</option>
+                        </select>
+                        <input name="value" class="input input-secondary input-interface input-round-right w-50" type="text" placeholder="valor" required>
+
+                        <button class="btn btn-primary margin-top-small" type="submit">Buscar</button>
+                        
                     </form>
 
                     <form id="form_invoice" class="dis-flex flex-wrap flex-center-h w-15">
