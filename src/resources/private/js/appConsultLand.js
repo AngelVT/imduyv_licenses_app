@@ -877,6 +877,10 @@ function generateLandFields(resObj, resultContent) {
         field = createResultField(resObj.id, 'Anexo', 'anexo', resObj.licenseSpecialData.anexo, 'text');
 
         fieldGroup.appendChild(field);
+
+        field = createResultField(resObj.id, 'Compactar superficie', 'compacted', resObj.licenseSpecialData.compacted, 'checkbox');
+
+        fieldGroup.appendChild(field);
     }
 
     if (resObj.licenseType == 6) {

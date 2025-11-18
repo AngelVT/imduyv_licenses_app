@@ -10,6 +10,8 @@ export async function generateLandUseL(lcDBObj) {
     const INSTITUTE_DIRECTOR_SHORT = await docUtils.getDirectorNameShort(lcDBObj.requestDate);
     const LICENSES_DIRECTOR = await docUtils.getLicensesDirectorName(lcDBObj.requestDate);
 
+    const compacted = lcDBObj.licenseSpecialData.compacted;
+
     const definition = {
         pageMargins: [ 5, 100, 5, 10 ],
         styles: docUtils.docStyles,
@@ -156,16 +158,23 @@ export async function generateLandUseL(lcDBObj) {
                                         ],
                                         [
                                             {text: 'Actividad: ', style: 'labelT', border: docUtils.borderless, margin: [0,4,0,0]},
-                                            docUtils.fieldLU(lcDBObj.businessLinePrint, docUtils.borderless, 8, 'boldCenter', 7),
-                                            {},{},{},{},{},{},{},
-                                            {text: 'Superficie: ', style: 'labelT', border: docUtils.borderless, margin: [0,4,0,0]},
-                                            docUtils.fieldLU(lcDBObj.surfaceTotal, docUtils.borderless, 2, 'boldCenter', 6),{}
+                                            docUtils.fieldLU(lcDBObj.businessLinePrint, docUtils.borderless, compacted ? 4 : 8, 'boldCenter', 7),
+                                            {},{},{},
+
+                                            compacted ? {text: 'Superficie: ', style: 'labelT', border: docUtils.borderless, margin: [0,4,0,0]} : {},
+
+                                            compacted ? docUtils.fieldLU(lcDBObj.surfaceTotal, docUtils.borderless, 6, 'boldCenter', 6) : {},
+                                            {},{},
+
+                                            compacted ? {}: {text: 'Superficie: ', style: 'labelT', border: docUtils.borderless, margin: [0,4,0,0]},
+
+                                            compacted ? {} : docUtils.fieldLU(lcDBObj.surfaceTotal, docUtils.borderless, 2, 'boldCenter', 6),{}
                                         ],
                                         [
                                             {
                                                 colSpan: 12,
                                                 text: 'LA AUTORIZACIÓN DE LICENCIA DE USO DE SUELO: TIENE COMO OBJETO AUTORIZAR EL USO O DESTINO DE UN PREDIO O INMUEBLE, ESTABLECIENDO SUS CONDICIONES DE APROVECHAMIENTO DE CONFORMIDAD CON LOS PROGRAMAS, REGLAMENTOS Y NORMATIVIDAD APLICABLE EN MATERIA DE DESARROLLO URBANO Y ORDENAMIENTO TERRITORIAL.',
-                                                fontSize: 6,
+                                                fontSize: compacted ? 5 : 6,
                                                 lineHeight: 1.5,
                                                 style: 'labelTC',
                                                 margin:[0,4,0,0],

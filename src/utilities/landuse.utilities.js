@@ -68,9 +68,10 @@ export function generateSpecialData(type) {
                 "La presente no autoriza acciones urbanas que generen impacto social en su entorno inmediato conforme a lo establecido en el artículo 139 de la Ley de Asentamientos Humanos, Desarrollo Urbano y Ordenamiento Territorial del Estado de Hidalgo y al artículo 61 del Reglamento de la Ley de Asentamientos Humanos, Desarrollo Urbano y Ordenamiento Territorial del Estado de Hidalgo debiendo ser compatibles o permitidos los giros de acuerdo a la matriz de compatibilidad del Programa Municipal de Desarrollo Urbano y Ordenamiento Territorial del Municipio de Tizayuca, Estado de Hidalgo.",
                 "Acatar la normativa y restricciones de la zonificación secundaria que determina el documento técnico del Programa Municipal de Desarrollo Urbano y Ordenamiento Territorial de Tizayuca.",
                 "Los predios que tengan como frente un corredor urbano, podrán adoptar las características propias del corredor, siempre y cuando su acceso sea por el corredor.",
-                "Deberá tramitar en su caso, la licencia de construcción en la Secretaría de Obras Públicas, así como la licencia de funcionamiento en la Dirección de Reglamentos, Espectáculos y Panteones, pertenecientes al Municipio de Tizayuca, Hidalgo.",
+                "Deberá tramitar en su caso, la licencia de construcción en la Secretaría de Infraestructura, Control Urbano, Ecología y Servicios Públicos Municipales, así como la licencia de funcionamiento en la Dirección de Establecimientos Mercantiles y Comercio, pertenecientes al Municipio de Tizayuca, Hidalgo.",
                 "Dar cumplimiento a lo dispuesto en los artículos 80 y 81 de la Ley de Protección Civil del Estado de Hidalgo.",
-                "El Instituto Municipal de Desarrollo Urbano y Vivienda se reserva el derecho de revocar la presente, en caso de incumplimiento a cualquiera de las condiciones establecidas en la misma."
+                "El Instituto Municipal de Desarrollo Urbano y Vivienda se reserva el derecho de revocar la presente, en caso de incumplimiento a cualquiera de las condiciones establecidas en la misma.",
+                "La presente autorización se expide exclusivamente para efectos administrativos y no constituye reconocimiento, validación ni determinación de propiedad, posesión o de algún derecho real sobre el inmueble. En caso de existir o surgir controversias respecto a la titularidad del predio, la resolución que emita la autoridad judicial o administrativa competente prevalecerá sobre la presente autorización pudiendo éste modificarse, suspenderse o quedar sin efectos sin responsabilidad para la autoridad que lo expide."
             ],
             conditions: [
                 `Por lo que hace al uso de suelo *${textTypes[type]}*, una vez autorizado, deberá ser permitido con base en la matriz de compatibilidad del Programa Municipal de Desarrollo Urbano y Ordenamiento Territorial de Tizayuca, Hidalgo.`,
@@ -85,7 +86,8 @@ export function generateSpecialData(type) {
             ],
             marginName: defaultMargin,
             marginAttention: defaultMargin,
-            comments: []
+            comments: [],
+            compacted: false
         }
     }
 

@@ -18,6 +18,7 @@ import { generateLandQuarterReport, generateLandGeoRefReport, generateLandStatus
 import { dateFormatFull } from '../utilities/document.utilities.js';
 import { generateLandDataReport } from '../utilities/reporting.utilities.js';
 import { literal } from "sequelize";
+import { parseBool } from '../utilities/urban.utilities.js';
 
 export async function requestAllLandLicenses() {
 
@@ -365,7 +366,8 @@ export async function requestLandLicenseUpdate(id, licenseData, files, requestor
         propertyNo,
         propertyDate,
         marginName,
-        marginAttention
+        marginAttention,
+        compacted,
         //COS,
         //alt_max,
         //niveles
@@ -406,7 +408,7 @@ export async function requestLandLicenseUpdate(id, licenseData, files, requestor
         }
     }
 
-    if (!licensePrintInvoice && !requestorName && !attentionName && !address && !number && !colony && !contactPhone && !catastralKey && !surface && !georeference && !businessLinePrint && !businessLineIntern && !authorizedUse && !expeditionType && !validity && !requestDate && !expeditionDate && !expirationDate && !paymentInvoice && !cost && !discount && !paymentDone && !inspector && !anexo && !restrictions && !conditions && !parcela && !propertyNo && !propertyDate && !marginName && !marginAttention && !zoneIMG && !recordFile) {
+    if (!licensePrintInvoice && !requestorName && !attentionName && !address && !number && !colony && !contactPhone && !catastralKey && !surface && !georeference && !businessLinePrint && !businessLineIntern && !authorizedUse && !expeditionType && !validity && !requestDate && !expeditionDate && !expirationDate && !paymentInvoice && !cost && !discount && !paymentDone && !inspector && !anexo && !restrictions && !conditions && !parcela && !propertyNo && !propertyDate && !marginName && !marginAttention && !compacted && !zoneIMG && !recordFile) {
         throw new ValidationError('Request failed due to missing information.',
             'Land use update request',
             `Request failed due to missing information.
@@ -455,7 +457,8 @@ export async function requestLandLicenseUpdate(id, licenseData, files, requestor
         propertyNo,
         propertyDate,
         marginName: marginName ? parseInt(marginName) : undefined,
-        marginAttention: marginAttention ? parseInt(marginAttention) : undefined
+        marginAttention: marginAttention ? parseInt(marginAttention) : undefined,
+        compacted: parseBool(compacted, false)
     }
     let coordinateInfo;
 
