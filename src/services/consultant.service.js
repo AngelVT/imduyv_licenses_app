@@ -3,6 +3,8 @@ import ResourceError from '../errors/ResourceError.js';
 import ValidationError from '../errors/ValidationError.js';
 import { buildLicenseFilter, buildLegacyLicenseFilter } from '../utilities/repository.utilities.js';
 import { validate as isUuid } from 'uuid';
+import * as notificationRepo from '../repositories/notification.repository.js';
+import { getIO } from '../sockets/handler.socket.js';
 
 export async function requestConsultLicense(type, invoice, year) {
     if (isNaN(parseInt(type)) || isNaN(parseInt(invoice)) || isNaN(parseInt(year))) {
@@ -117,12 +119,34 @@ export async function requestCommentCreation(id, comment, author) {
 
     newComments.push({
         date: Date.now(),
-        author: author,
+        author: {
+            name: author.name,
+            username: author.username,
+        },
         imduyv: false,
         message: comment
     })
 
     await consultantRepo.updateLandLicenseComment(id, JSON.stringify(newComments).replace(/'/g, "''"));
+
+    const notification = await notificationRepo.saveNotifications({
+        fullInvoice: currentComments.fullInvoice,
+        url: `/app/landPrint?type=${currentComments.licenseType}&invoice=${currentComments.invoice}&year=${currentComments.year}`,
+        commenter: author.id
+    }, false);
+
+    const io = getIO();
+
+    io.to("internal_channel").emit("new_comment", {
+        notification_uuid: notification.notification_uuid,
+        fullInvoice: currentComments.fullInvoice,
+        url: notification.url,
+        createdAt: notification.createdAt,
+        user: {
+            name: author.name,
+            username: author.username
+        }
+    });
 
     return {
         comments: newComments

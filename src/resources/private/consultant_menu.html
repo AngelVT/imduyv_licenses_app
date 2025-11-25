@@ -12,6 +12,8 @@
     <script src="/private/js/appConsultantInterface.js" defer></script>
     <script src="/private/js/appConsultControl.js"></script>
     <script src="/public/js/appWelcomePopUp.js" defer></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/private/js/appNotifications.js" defer></script>
 </head>
 <body>
     <main>
@@ -30,7 +32,7 @@
                     </div>
                 </span>
 
-                <nav class="dis-flex flex-evenly flex-wrap w-50 margin-bottom-small padding-small border-primary border-only-left border-only-bottom border-only-right border-round-bottom controls">
+                <nav class="dis-flex flex-evenly flex-wrap w-50 margin-bottom-small padding-small border-primary border-only-left border-only-bottom border-only-right border-round-bottom controls consultant">
                     <form id="consultant_form" class="dis-flex flex-wrap flex-center-h margin-bottom-small w-90">
                         <select name="type" class="input input-secondary input-interface border-secondary input-round-left w-40" required>
                             <option value="">Seleccione tipo ...</option>

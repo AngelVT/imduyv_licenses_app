@@ -119,7 +119,11 @@ export async function findLandLicenseID(id) {
             public_land_license_id: id
         },
         attributes: [
-            [literal(`"landUse_license"."licenseSpecialData"->>'comments'`), "comments"]
+            [literal(`"landUse_license"."licenseSpecialData"->>'comments'`), "comments"],
+            'fullInvoice',
+            'licenseType',
+            'invoice',
+            'year'
         ],
         raw: true,
         nest: true

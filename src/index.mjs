@@ -2,6 +2,7 @@ import * as loggerFunctions from './utilities/logger.utilities.js';
 import app from './app.js';
 import { closeDB } from './configuration/database.configuration.js';
 import { APP_PORT, STORAGE_DIR, ADMIN_PASSWORD, SECRET, SECRET_DOC } from './configuration/environment.configuration.js';
+import { initSocket } from './sockets/handler.socket.js';
 
 if (!APP_PORT ||
     !STORAGE_DIR ||
@@ -22,6 +23,8 @@ const server = app.listen(APP_PORT, () => {
     loggerFunctions.logConsoleInfo('Server listening on port ' + APP_PORT);
     loggerFunctions.logServerInfo('Server listening', 'Port -> ' + APP_PORT);
 });
+
+initSocket(server);  
 
 server.on('error',(error) => {
     if (error.code === 'EADDRINUSE') {

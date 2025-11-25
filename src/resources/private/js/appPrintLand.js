@@ -164,9 +164,10 @@ async function submitObservation(form, id) {
     comments.innerHTML = '';
 
     response.comments?.forEach(comment => {
-        const commentBubble = document.createElement('p');
-        const date = document.createElement('span');
-        const message = document.createElement('span');
+        const commentBubble = document.createElement('div');
+        const commentAuthor = document.createElement('p');
+        const message = document.createElement('p');
+        const commentDate = document.createElement('p');
 
         if (comment.imduyv) {
             commentBubble.classList.add('imduyv')
@@ -174,10 +175,15 @@ async function submitObservation(form, id) {
 
         message.innerHTML = comment.message.replaceAll('\n', '<br>')
 
-        date.innerText = `Fecha: ${new Date(comment.date).toLocaleString()}\n`;
+        commentAuthor.classList.add('bi-person-circle');
+        commentAuthor.innerText = ` ${comment.author.name} (${comment.author.username})`;
 
-        commentBubble.appendChild(date);
+        commentDate.classList.add('bi-calendar-event');
+        commentDate.innerText = ` ${new Date(comment.date).toLocaleString()}`;
+
+        commentBubble.appendChild(commentAuthor);
         commentBubble.appendChild(message);
+        commentBubble.appendChild(commentDate);
 
         comments.appendChild(commentBubble);
     });

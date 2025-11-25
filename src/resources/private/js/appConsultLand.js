@@ -508,7 +508,7 @@ function generateLandFields(resObj, resultContent) {
     navButton.setAttribute('onclick', `resultNavigation(this, '${resObj.id}', 6, 6)`);
     navButtonTooltip = document.createElement('span');
     navButtonTooltip.setAttribute('class', 'tooltip-text');
-    navButtonTooltip.innerText = 'Datos de especiales';
+    navButtonTooltip.innerText = 'Datos especiales';
     navButton.appendChild(navButtonTooltip);
     navButtons.appendChild(navButton);
 
@@ -919,22 +919,28 @@ function generateLandFields(resObj, resultContent) {
     commentContainer.id = `comments-${resObj.id}`
 
     resObj.licenseSpecialData.comments?.forEach(comment => {
-        const commentBubble = document.createElement('p');
-        const date = document.createElement('span');
-        const message = document.createElement('span');
+        const commentBubble = document.createElement('div');
+            const commentAuthor = document.createElement('p');
+            const message = document.createElement('p');
+            const commentDate = document.createElement('p');
 
-        if (comment.imduyv) {
-            commentBubble.classList.add('imduyv')
-        }
+            if (comment.imduyv) {
+                commentBubble.classList.add('imduyv')
+            }
 
-        message.innerHTML = comment.message.replaceAll('\n', '<br>')
+            message.innerHTML = comment.message.replaceAll('\n', '<br>')
 
-        date.innerText = `Fecha: ${new Date(comment.date).toLocaleString()}\n`;
+            commentAuthor.classList.add('bi-person-circle');
+            commentAuthor.innerText = ` ${comment.author.name} (${comment.author.username})`;
 
-        commentBubble.appendChild(date);
-        commentBubble.appendChild(message);
+            commentDate.classList.add('bi-calendar-event');
+            commentDate.innerText = ` ${new Date(comment.date).toLocaleString()}`;
 
-        commentContainer.appendChild(commentBubble);
+            commentBubble.appendChild(commentAuthor);
+            commentBubble.appendChild(message);
+            commentBubble.appendChild(commentDate);
+
+            commentContainer.appendChild(commentBubble);
     });
 
     const form = document.createElement('form');

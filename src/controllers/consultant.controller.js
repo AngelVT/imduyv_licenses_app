@@ -38,7 +38,11 @@ export const createComment = requestHandler(
     async function (req, res) {
         const { id } = req.params;
         const { comment } = req.body;
-        const author = req.user.name;
+        const author = {
+            id: req.user.id,
+            name: req.user.name,
+            username: req.user.username
+        }
 
         const response = await consultService.requestCommentCreation(id, comment, author);
     

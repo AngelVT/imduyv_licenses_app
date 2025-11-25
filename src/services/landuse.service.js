@@ -19,6 +19,8 @@ import { dateFormatFull } from '../utilities/document.utilities.js';
 import { generateLandDataReport } from '../utilities/reporting.utilities.js';
 import { literal } from "sequelize";
 import { parseBool } from '../utilities/urban.utilities.js';
+import * as notificationRepo from '../repositories/notification.repository.js';
+import { getIO } from '../sockets/handler.socket.js';
 
 export async function requestAllLandLicenses() {
 
@@ -754,12 +756,35 @@ export async function requestObservationCreation(id, comment, author) {
     
     newComments.push({
         date: Date.now(),
-        author: author,
+        author: {
+            name: author.name,
+            username: author.username,
+        },
         imduyv: true,
         message: comment
     });
     
     await landRepo.updateLandLicenseObservations(id, JSON.stringify(newComments).replace(/'/g, "''"));
+    
+
+    const notification = await notificationRepo.saveNotifications({
+        fullInvoice: currentComments.fullInvoice,
+        url: `/app/consultant?type=${currentComments.licenseType}&invoice=${currentComments.invoice}&year=${currentComments.year}`,
+        commenter: author.id
+    });
+
+    const io = getIO();
+
+    io.to("external_channel").emit("new_comment", {
+        notification_uuid: notification.notification_uuid,
+        fullInvoice: currentComments.fullInvoice,
+        url: notification.url,
+        createdAt: notification.createdAt,
+        user: {
+            name: author.name,
+            username: author.username
+        }
+    });
     
     return {
         comments: newComments

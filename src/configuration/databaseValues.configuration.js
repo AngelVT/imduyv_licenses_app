@@ -9,6 +9,7 @@ import { ZONE_DATA } from "../resources/data/appZonesData.js";
 import { PCU_DATA } from "../resources/data/appPCUData.js";
 import { createZoneDataTable, createPCUDataTable} from "../repositories/geo.repository.js";
 import { ADMIN_PASSWORD } from "./environment.configuration.js";
+import { Notification } from "../models/Notification.model.js";
 
 const createSchemas = async () => {
     try {
@@ -553,6 +554,7 @@ const syncModels = async () => {
         await InstituteAdministration.sync();
         await LicensesAdministration.sync();
         await YearOf.sync();
+        await Notification.sync();
     } catch (error) {
         logger.logConsoleWarning(`Error synchronizing models:\n    ${error}`);
         logger.logServerWarning(`Error synchronizing models`, `-${error}`);

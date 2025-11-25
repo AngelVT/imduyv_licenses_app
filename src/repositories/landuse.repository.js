@@ -75,7 +75,11 @@ export async function findLandLicenseObservations(id) {
             public_land_license_id: id
         },
         attributes: [
-            [Sequelize.literal(`"landUse_license"."licenseSpecialData"->>'comments'`), "comments"]
+            [Sequelize.literal(`"landUse_license"."licenseSpecialData"->>'comments'`), "comments"],
+            'fullInvoice',
+            'licenseType',
+            'invoice',
+            'year'
         ],
         raw: true,
         nest: true

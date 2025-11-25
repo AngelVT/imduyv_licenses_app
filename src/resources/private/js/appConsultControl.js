@@ -3,6 +3,7 @@ function hideShow(id) {
     let resultDelete = document.querySelector(`#result_control_delete_${id}`);
     let resultPrint = document.querySelector(`#result_control_print_${id}`);
     let fields = document.querySelector(`#result_fields_${id}`);
+    let comments = document.getElementById(`comments-${id}`);
 
     /*if (resultPrint) {
         resultPrint.classList.toggle("dis-none");
@@ -14,6 +15,10 @@ function hideShow(id) {
     resultTop.classList.toggle("border-round");
     resultTop.classList.toggle("border-round-top");
     fields.classList.toggle("dis-none");
+
+    if (comments) {
+        comments.scrollTop = comments.scrollHeight;
+    }
 }
 
 function hideShowPeriod(id, periodType) {
@@ -968,7 +973,8 @@ function generateTableFrom(obj) {
 }
 
 function resultNavigation(btn, resultId, groupNumber, totalGroups) {
-    let navButtons = document.getElementById(`result_${resultId}_nav`);
+    const navButtons = document.getElementById(`result_${resultId}_nav`);
+    const comments = document.getElementById(`comments-${resultId}`);
 
     navButtons.querySelectorAll('li').forEach(e => {
         e.classList.remove('selected');
@@ -980,4 +986,8 @@ function resultNavigation(btn, resultId, groupNumber, totalGroups) {
 
     document.getElementById(`result_${resultId}_group_${groupNumber}`).classList.remove('dis-none');
     btn.classList.add('selected');
+
+    if (comments) {
+        comments.scrollTop = comments.scrollHeight;
+    }
 }

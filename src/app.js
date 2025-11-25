@@ -24,6 +24,7 @@ import appRoutes from './routes/app.routes.js';
 import testRoutes from './routes/test.routes.js';
 import geoRoutes from './routes/geo.routes.js';
 import administrationRoutes from './routes/administration.routes.js';
+import notificationRoutes from './routes/notification.routes.js';
 import { logConsoleApi, logConsoleApp, logServerHttp } from './utilities/logger.utilities.js';
 
 const app = express();
@@ -121,6 +122,8 @@ app.use('/api/users', userRoutes);
 app.use('/api/administration', administrationRoutes);
 
 app.use('/api/geographic', geoRoutes);
+
+app.use('/app/notification', notificationRoutes);
 
 app.use('/app', appRoutes);
 
