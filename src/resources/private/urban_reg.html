@@ -8,12 +8,15 @@
     <title>SILU - Acciones urbanas</title>
     <link rel="shortcut icon" href="/public/img/urban_icon.svg" type="image/x-icon">
     <script src="/private/js/appRegTools.js"></script>
-    <script src="/private/js/appLogout.js" defer></script>
     <script src="/private/js/appInfoLoader.js" defer></script>
+    <script src="/private/js/appLogout.js" defer></script>
     <script src="/private/js/appUrbanRegistrator.js" defer></script>
     <script src="/private/js/appRegInterface.js" defer></script>
 
 </head>
+<script>
+    const PAGE_GROUP = 'Platform';
+</script>
 <body>
     <main>
         <section class="page-full bg-blur">
@@ -23,14 +26,6 @@
             </div>
             <article class="container shadow-inner padding-large dis-grid grid-reg">
                 <a href="/app/urbanMenu" class="back-arrow bi-arrow-left-circle-fill"></a>
-                <span class="bi-buildings-fill user-info">
-                    <div class="border-round color-white">
-                        <span id="user_name" class="bi-person-circle padding-horizontal-small"> Usuario</span>
-                        <a target="_blank" id="sys_link" href="/app/sysadmin" class="dis-none"><span class="bi-cup-hot btn"> System administration</span></a>
-                        <a target="_blank" id="admin_link" href="/app/administration" class="dis-none"><span class="bi-bank btn"> Administración</span></a>
-                        <span id="logout" class="bi-door-open btn"> Cerrar sesión</span>
-                    </div>
-                </span>
 
                 <form id="form_reg" class="dis-flex flex-center flex-wrap container color-primary">
 

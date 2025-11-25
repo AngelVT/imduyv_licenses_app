@@ -7,21 +7,17 @@
     <link rel="stylesheet" href="/public/css/tlib-0.1.0.css">
     <title>SILU - Admin Panel</title>
     <link rel="shortcut icon" href="/public/img/admin_icon.svg" type="image/x-icon">
-    <script src="/private/js/appLogout.js" defer></script>
     <script src="/private/js/appInfoLoader.js" defer></script>
+    <script src="/private/js/appLogout.js" defer></script>
     <script src="/private/js/appAdministrationPanel.js" defer></script>
     <script src="/private/js/appConsultControl.js" defer></script>
     <script src="/private/js/appAdministrationResults.js" defer></script>
 </head>
+<script>
+    const PAGE_GROUP = 'Administration';
+</script>
 <body>
     <main class="page bg-blur padding-large admin-panel">
-        <span class="bi-buildings-fill user-info">
-            <div class="border-round color-white">
-                <span id="user_name" class="bi-person-circle padding-horizontal-small"> Usuario</span>
-                <a target="_blank" id="sys_link" href="/app/sysadmin" class="dis-none"><span class="bi-cup-hot btn"> System administration</span></a>
-                <span id="logout" class="bi-door-open btn"> Cerrar sesión</span>
-            </div>
-        </span>
 
         <ul id="top_menu" class="dis-flex padding-horizontal-small">
             <li id="invoice_btn" class="txt-medium bi-journal-bookmark-fill menu-tab tooltip selected">

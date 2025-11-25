@@ -7,10 +7,13 @@
     <link rel="stylesheet" href="/public/css/tlib-0.1.0.css">
     <title>SILU - Principal</title>
     <link rel="shortcut icon" href="/public/img/urban_icon.svg" type="image/x-icon">
-    <script src="/private/js/appLogout.js" defer></script>
     <script src="/private/js/appInfoLoader.js" defer></script>
+    <script src="/private/js/appLogout.js" defer></script>
     <!--<script src="/public/js/appWelcomePopUp.js" defer></script>-->
 </head>
+<script>
+    const PAGE_GROUP = 'Platform';
+</script>
 <body>
     <main>
         <section class="page-full menu bg-blur">
@@ -19,14 +22,6 @@
                 <span class="txt-small">Sistema Integral de Licencias Urbanas</span>
             </div>
             <div class="container shadow-inner dis-flex flex-center flex-evenly flex-wrap">
-                <span class="bi-buildings-fill user-info">
-                    <div class="border-round color-white">
-                        <span id="user_name" class="bi-person-circle padding-horizontal-small"> Usuario</span>
-                        <a target="_blank" id="sys_link" href="/app/sysadmin" class="dis-none"><span class="bi-cup-hot btn"> System administration</span></a>
-                        <a target="_blank" id="admin_link" href="/app/administration" class="dis-none"><span class="bi-bank btn"> Administración</span></a>
-                        <span id="logout" class="bi-door-open btn"> Cerrar sesión</span>
-                    </div>
-                </span>
                 <a href="/app/landMenu" class="w-25 btn-column btn-primary shadow txt-xlarge txt-uppercase padding-medium txt-center">
                     <span class="bi-building txt-xlarge"></span>Uso de <br> Suelo
                 </a>

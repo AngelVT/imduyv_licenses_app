@@ -7,27 +7,22 @@
     <link rel="stylesheet" href="/public/css/tlib-0.1.0.css">
     <title>SILU - Legacy</title>
     <link rel="shortcut icon" href="/public/img/landuse_icon.svg" type="image/x-icon">
-    <script src="/private/js/appLogout.js" defer></script>
     <script src="/private/js/appInfoLoader.js" defer></script>
+    <script src="/private/js/appLogout.js" defer></script>
     <script src="/private/js/appConsultControl.js"></script>
     <script src="/private/js/appLandLegacy.js" defer></script>
     <script src="/socket.io/socket.io.js"></script>
     <script src="/private/js/appNotifications.js" defer></script>
 </head>
+<script>
+    const PAGE_GROUP = 'Platform';
+</script>
 <body>
     <main>
         <section class="page-full menu bg-blur">
             <div class="container shadow-inner padding-horizontal-large padding-bottom-medium dis-flex flex-center-v flex-column">
                 
                 <a href="/app/landMenu" class="back-arrow bi-arrow-left-circle-fill"></a>
-                <span class="bi-buildings-fill user-info">
-                    <div class="border-round color-white">
-                        <span id="user_name" class="bi-person-circle padding-horizontal-small"> Usuario</span>
-                        <a target="_blank" id="sys_link" href="/app/sysadmin" class="dis-none"><span class="bi-cup-hot btn"> System administration</span></a>
-                        <a target="_blank" id="admin_link" href="/app/administration" class="dis-none"><span class="bi-bank btn"> Administración</span></a>
-                        <span id="logout" class="bi-door-open btn"> Cerrar sesión</span>
-                    </div>
-                </span>
 
                 <nav class="dis-flex flex-evenly w-100 margin-bottom-small padding-small border-primary border-only-left border-only-bottom border-only-right border-round-bottom controls">
                     <form id="form_type_year" class="dis-flex flex-wrap flex-center-h w-15">

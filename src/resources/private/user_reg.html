@@ -11,17 +11,13 @@
     <script src="/private/js/appInfoLoader.js" defer></script>
     <script src="/private/js/appUserRegistrator.js" defer></script>
 </head>
+<script>
+    const PAGE_GROUP = 'System';
+</script>
 <body>
     <main class="page-full menu bg-blur dis-flex flex-center">
         <a href="/app/sysadmin" class="back-arrow bi-arrow-left-circle-fill"></a>
         <a id="downloader" href="/test" target="_blank" class="dis-none">QR</a>
-        <span class="bi-buildings-fill user-info">
-            <div class="border-round color-white">
-                <span id="user_name" class="bi-person-circle padding-horizontal-small"> Usuario</span>
-                <a target="_blank" id="admin_link" href="/app/administration" class="dis-none"><span class="bi-bank btn"> Administración</span></a>
-                <span id="logout" class="bi-door-open btn"> Cerrar sesión</span>
-            </div>
-        </span>
         <form id="user_reg_form" class="w-50 dis-flex flex-between flex-wrap color-primary">
 
             <section class="step-box w-100 dis-flex flex-between flex-wrap">

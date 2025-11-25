@@ -13,6 +13,9 @@
     <script src="/socket.io/socket.io.js"></script>
     <script src="/private/js/appNotifications.js" defer></script>
 </head>
+<script>
+    const PAGE_GROUP = 'Platform';
+</script>
 <body>
     <main>
         <section class="page-full menu bg-blur">
@@ -22,14 +25,7 @@
             </div>
             <div class="container shadow-inner dis-flex flex-wrap flex-center-v flex-evenly">
                 <a id="mm" href="/app/mainMenu" class="back-arrow bi-arrow-left-circle-fill dis-none"></a>
-                <span class="bi-buildings-fill user-info">
-                    <div class="border-round color-white">
-                        <span id="user_name" class="bi-person-circle padding-horizontal-small"> Usuario</span>
-                        <a target="_blank" id="sys_link" href="/app/sysadmin" class="dis-none"><span class="bi-cup-hot btn"> System administration</span></a>
-                        <a target="_blank" id="admin_link" href="/app/administration" class="dis-none"><span class="bi-bank btn"> Administración</span></a>
-                        <span id="logout" class="bi-door-open btn"> Cerrar sesión</span>
-                    </div>
-                </span>
+                
 
                 <a href="/app/landRegister" class="w-25 btn-column btn-primary shadow txt-xlarge txt-uppercase padding-medium"><span class="bi-database-add txt-xlarge"></span>Registrar</a>
 

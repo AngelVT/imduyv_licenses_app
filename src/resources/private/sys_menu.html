@@ -7,18 +7,14 @@
     <link rel="stylesheet" href="/public/css/tlib-0.1.0.css">
     <title>SILU - System admin</title>
     <link rel="shortcut icon" href="/public/img/sys_icon.svg" type="image/x-icon">
-    <script src="/private/js/appLogout.js" defer></script>
     <script src="/private/js/appInfoLoader.js" defer></script>
+    <script src="/private/js/appLogout.js" defer></script>
 </head>
+<script>
+    const PAGE_GROUP = 'System';
+</script>
 <body>
     <main class="page-full menu bg-blur dis-flex flex-center flex-evenly">
-        <span class="bi-buildings-fill user-info">
-            <div class="border-round color-white">
-                <span id="user_name" class="bi-person-circle padding-horizontal-small"> Usuario</span>
-                <a target="_blank" id="admin_link" href="/app/administration" class="dis-none"><span class="bi-bank btn"> Administración</span></a>
-                <span id="logout" class="bi-door-open btn"> Cerrar sesión</span>
-            </div>
-        </span>
         <a href="/app/userRegister" class="w-25 btn-column btn-primary shadow txt-xlarge txt-uppercase padding-medium txt-center">
             <span class="bi-person-fill-add txt-xlarge"></span>Registrar <br> Usuario
         </a>

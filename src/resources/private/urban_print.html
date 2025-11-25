@@ -8,26 +8,21 @@
     <title>SILU - Acciones urbanas</title>
     <link rel="shortcut icon" href="/public/img/urban_icon.svg" type="image/x-icon">
     <script src="/private/libs/html2pdf.bundle.min.js"></script>
-    <script src="/private/js/appLogout.js" defer></script>
     <script src="/private/js/appInfoLoader.js" defer></script>
+    <script src="/private/js/appLogout.js" defer></script>
     <script src="/private/js/appConsultControl.js"></script>
     <script src="/private/js/appConsultUrban.js" defer></script>
     <script src="/private/js/appPrintUrban.js" defer></script>
 </head>
+<script>
+    const PAGE_GROUP = 'Platform';
+</script>
 <body>
     <main>
         <section class="page-full menu bg-blur">
             <div class="container shadow-inner padding-horizontal-large dis-flex flex-center-v flex-column">
 
                 <a href="/app/urbanMenu" class="back-arrow bi-arrow-left-circle-fill"></a>
-                <span class="bi-buildings-fill user-info">
-                    <div class="border-round color-white">
-                        <span id="user_name" class="bi-person-circle padding-horizontal-small"> Usuario</span>
-                        <a target="_blank" id="sys_link" href="/app/sysadmin" class="dis-none"><span class="bi-cup-hot btn"> System administration</span></a>
-                        <a target="_blank" id="admin_link" href="/app/administration" class="dis-none"><span class="bi-bank btn"> Administración</span></a>
-                        <span id="logout" class="bi-door-open btn"> Cerrar sesión</span>
-                    </div>
-                </span>
                 
                 <div class="h-100 w-100 page-container">
                     <div class="w-100 page">

@@ -1,4 +1,16 @@
+const userInfoPanel = document.createElement('span');
+userInfoPanel.setAttribute("class", "bi-buildings-fill user-info");
+
+userInfoPanel.innerHTML = `
+<div class="border-round color-white" id="user_info_panel">
+    <span id="user_name" class="bi-person-circle padding-horizontal-small"> Usuario</span>
+</div>`;
+
+document.body.appendChild(userInfoPanel);
+
 const labelUser = document.getElementById('user_name');
+const userInfoContainer = document.getElementById('user_info_panel');
+
 
 async function getUserData() {
     try {
@@ -16,8 +28,7 @@ async function getUserData() {
 
         labelUser.innerHTML = ` ${name} (${user})`;
         const mm = document.getElementById('mm');
-        const administration = document.getElementById('admin_link');
-        const sysadmin = document.getElementById('sys_link');
+
         const urbanInvoiceForm = document.getElementById('invoice_form_urban');
         const landInvoiceForm = document.getElementById('invoice_form_land');
 
@@ -27,17 +38,33 @@ async function getUserData() {
             }
         }
 
-        if (administration) {
-            if (user_role == 'admin' || user_role == 'system') {
-                administration.classList.remove('dis-none');
+        if (PAGE_GROUP !== 'System' && PAGE_GROUP !== 'Reset') {
+            if (user_role == 'system') {
+                const sysadmin = document.createElement('a');
+                sysadmin.target = "_blank";
+                sysadmin.id = "sys_link";
+                sysadmin.href = "/app/sysadmin";
+                sysadmin.innerHTML = `<span class="bi-cup-hot btn"> System administration</span>`;
+                userInfoContainer.appendChild(sysadmin);
             }
         }
 
-        if (sysadmin) {
-            if (user_role == 'system') {
-                sysadmin.classList.remove('dis-none');
+        if (PAGE_GROUP !== 'Administration' && PAGE_GROUP !== 'Reset') {
+            if (user_role == 'admin' || user_role == 'system') {
+                const administration = document.createElement('a');
+                administration.target = "_blank";
+                administration.id = "admin_link";
+                administration.href = "/app/administration";
+                administration.innerHTML = `<span class="bi-bank btn"> Administración</span>`;
+                userInfoContainer.appendChild(administration);
             }
         }
+
+        const logout = document.createElement('span');
+        logout.id = "logout";
+        logout.setAttribute("class", "bi-door-open btn");
+        logout.innerText = " Cerrar sesión";
+        userInfoContainer.appendChild(logout);
 
         if (urbanInvoiceForm && landInvoiceForm) {
             if (user_group == 'urban') {
