@@ -82,6 +82,7 @@ function createNotification(data) {
 }
 
 const socket = io("/", {
+    transports: ["websocket"],
     withCredentials: true
 });
 
