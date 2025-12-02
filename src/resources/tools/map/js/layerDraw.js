@@ -31,7 +31,7 @@ function drawLayer(geojson, symbols, layerName) {
             onEachFeature: (feature, layer) => {
                 layer.on("click", (e) => {
                     L.popup(e.latlng, {
-                        content:  fillChart(feature.properties), 
+                        content:  fillChart(feature.properties, e.latlng), 
                         className: 'zone-sec-popup',
                         minWidth: 150,
                         maxWidth: 390,
@@ -78,8 +78,9 @@ function loadPatterns(layerName, symbols) {
     }
 }
 
-function fillChart(properties) {
+function fillChart(properties, location) {
     const infoChart = document.createElement('div');
+    const {lat, lng } = location;
 
     let prop = document.createElement('p')
     prop.innerHTML = `<b>Zona:</b> ${properties.ZonSec2022}`
@@ -111,6 +112,13 @@ function fillChart(properties) {
 
     prop = document.createElement('p')
     prop.innerHTML = `<b>Niveles:</b> ${properties.niveles}`
+    infoChart.appendChild(prop);
+
+    prop = document.createElement('a');
+    prop.classList.add('bi-geo-alt')
+    prop.innerHTML = `<b> Maps</b>`;
+    prop.href = `https://www.google.com/maps/@${lat},${lng},67m`
+    prop.target = '_blank';
     infoChart.appendChild(prop);
 
     return infoChart
