@@ -66,7 +66,6 @@ function createResultTop(obj, isPrint, isLandUse) {
         topLabel.setAttribute('onclick', `hideShow(${obj.id})`);
     }
 
-
     topLabel.innerText = 'Folio: ';
     span = document.createElement('span');
     span.setAttribute('id', `result_invoice_${obj.id}`);
@@ -76,6 +75,14 @@ function createResultTop(obj, isPrint, isLandUse) {
     top.appendChild(topLabel);
 
     topControls.setAttribute('class', 'w-15 dis-flex flex-evenly');
+
+    const [lat, lon] = obj.geoReference.split(',');
+    span = document.createElement('a');
+    span.setAttribute('id', `result_control_location_${obj.id}`);
+    span.setAttribute('target', '_blank');
+    span.setAttribute('href', `/tool/map/?lat=${lat}&lng=${lon}&zoom=19`);
+    span.setAttribute('class', `bi-geo-alt txt-medium color-white result-control`);
+    topControls.appendChild(span);
 
     span = document.createElement('a');
     span.setAttribute('id', `result_control_print_${obj.id}`);
@@ -137,6 +144,14 @@ function createResultTopNoUpdate(obj, isLandUse) {
     top.appendChild(topLabel);
 
     topControls.setAttribute('class', 'w-15 dis-flex flex-evenly');
+
+    const [lat, lon] = obj.geoReference.split(',');
+    span = document.createElement('a');
+    span.setAttribute('id', `result_control_location_${obj.id}`);
+    span.setAttribute('target', '_blank');
+    span.setAttribute('href', `/tool/map/?lat=${lat}&lng=${lon}&zoom=19`);
+    span.setAttribute('class', `bi-geo-alt txt-medium color-white result-control`);
+    topControls.appendChild(span);
 
     span = document.createElement('a');
     span.setAttribute('id', `result_control_pdf_${obj.id}`);
@@ -254,6 +269,14 @@ function createLegacyTop(obj, linkPDF = true) {
     top.appendChild(topLabel);
 
     topControls.setAttribute('class', 'w-15 dis-flex flex-evenly');
+
+    const [lat, lon] = obj.georeferencia ? obj.georeferencia.split(',') : obj.geoReference.split(',');
+    span = document.createElement('a');
+    span.setAttribute('id', `result_control_location_${obj.id}`);
+    span.setAttribute('target', '_blank');
+    span.setAttribute('href', `/tool/map/?lat=${lat}&lng=${lon}&zoom=19`);
+    span.setAttribute('class', `bi-geo-alt txt-medium color-white result-control`);
+    topControls.appendChild(span);
 
     if(linkPDF) {
         span = document.createElement('a');
