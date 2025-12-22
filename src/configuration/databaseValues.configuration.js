@@ -263,7 +263,7 @@ const setDefaultLicenseZones = async () => {
             Zone.create({ license_zone_id: 11, licenseZone: 'Corredor urbano mixto de baja densidad', licenseKey: 'CUMB'}),
             Zone.create({ license_zone_id: 12, licenseZone: 'Corredor urbano mixto de media densidad', licenseKey: 'CUMM'}),
             Zone.create({ license_zone_id: 13, licenseZone: 'Industria de bajo impacto', licenseKey: 'IB'}),
-            Zone.create({ license_zone_id: 14, licenseZone: 'Industria de medio impacto', licenseKey: 'IM'}),
+            Zone.create({ license_zone_id: 14, licenseZone: 'Industria de mediano impacto', licenseKey: 'IM'}),
             Zone.create({ license_zone_id: 15, licenseZone: 'Industria de gran impacto', licenseKey: 'IG'}),
             Zone.create({ license_zone_id: 16, licenseZone: 'Equipamiento Urbano', licenseKey: 'EU'}),
             Zone.create({ license_zone_id: 17, licenseZone: 'Infraestructura urbana', licenseKey: 'IU'}),

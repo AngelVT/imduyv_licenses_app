@@ -22,7 +22,7 @@ export async function generateLandUseDP(lcDBObj) {
                 margin: [0,0,0,10]
             },
             {
-                text: "LICENCIA DE USO DE SUELO",
+                text: "DERECHO DE PREFERENCIA",
                 alignment: 'center',
                 fontSize: 16,
                 bold: true
@@ -246,7 +246,7 @@ export async function generateLandUseDP(lcDBObj) {
                                                             {text: 'NO', bold: true},
                                                             {text: '  ejercerá el Derecho de Preferencia Municipal sobre el bien inmueble identificado como parcela '},
                                                             {text: lcDBObj.licenseSpecialData.parcela, bold: true},
-                                                            {text: ', del ejido de Tizayuca, Hidalgo, la cual ampara con el certificado parcelario '},
+                                                            {text: ', del ejido de Tizayuca, Hidalgo, la cual ampara con el certificado parcelario No.'},
                                                             {text: lcDBObj.licenseSpecialData.propertyNo, bold: true},
                                                             {text: ' de fecha '},
                                                             {text: docUtils.dateFormatFull(lcDBObj.licenseSpecialData.propertyDate)},

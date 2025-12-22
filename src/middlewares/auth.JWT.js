@@ -179,11 +179,11 @@ export const loginRedirect = async (req, res, next) => {
 
         const { userID, username } = decoded;
 
-        if (!userID || !username) return failedResponse();
+        if (!userID || !username) return next();
 
         const USER = await findUserByIdUsername(userID, username);
 
-        if (!USER) return failedResponse();
+        if (!USER) return next();
 
         if (paramURL) {
             res.redirect(paramURL);
