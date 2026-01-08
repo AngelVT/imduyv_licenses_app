@@ -4,6 +4,10 @@ import * as docUtils from "../../../utilities/document.utilities.js";
 export async function generateLandUseC(lcDBObj) {
     lcDBObj = docUtils.prepareData(lcDBObj);
 
+    const EMPTY_CELL = {
+        text:'',
+        border: docUtils.borderless
+    }
     const INSTITUTE_DIRECTOR_SIGNATURE = await docUtils.getDirectorNameSignature(lcDBObj.requestDate);
     const INSTITUTE_DIRECTOR_TITTLE = await docUtils.getDirectorNameTittle(lcDBObj.requestDate);
     const INSTITUTE_DIRECTOR_SHORT = await docUtils.getDirectorNameShort(lcDBObj.requestDate);
@@ -146,6 +150,20 @@ export async function generateLandUseC(lcDBObj) {
                                             {text: 'Clave: ', style: 'labelTC', border: docUtils.borderless, margin: [0,4,0,0]},
                                             docUtils.fieldLU(lcDBObj.zone.licenseKey, docUtils.borderless, 2, 'boldCenter',7),
                                             {}
+                                        ],
+                                        [
+                                            lcDBObj.licenseSpecialData.includeBusinessLine ? {text: 'Actividad: ', style: 'labelTC', border: docUtils.borderless, margin: [0,4,0,0]} : {...EMPTY_CELL},
+                                            lcDBObj.licenseSpecialData.includeBusinessLine ? docUtils.fieldLU(lcDBObj.businessLinePrint, docUtils.borderless, 8, 'boldCenter', 7) : {...EMPTY_CELL},
+                                            {...EMPTY_CELL},
+                                            {...EMPTY_CELL},
+                                            {...EMPTY_CELL},
+                                            {...EMPTY_CELL},
+                                            {...EMPTY_CELL},
+                                            {...EMPTY_CELL},
+                                            {...EMPTY_CELL},
+                                            {...EMPTY_CELL},
+                                            {...EMPTY_CELL},
+                                            {...EMPTY_CELL}
                                         ],
                                         [
                                             {text: 'La expedición de constancia de uso de suelo: tiene como objeto establecer los usos y destinos de un predio con base en lo previsto en el Programa Municipal de Desarrollo Urbano y Ordenamiento Territorial de Tizayuca, lo cual no autoriza su modificación, construcción o alteración.', style: 'labelTC', border: docUtils.borderless, lineHeight: 1.5, colSpan: 12},

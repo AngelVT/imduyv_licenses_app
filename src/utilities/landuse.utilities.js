@@ -56,7 +56,8 @@ export function generateSpecialData(type) {
             ],
             marginName: defaultMargin,
             marginAttention: defaultMargin,
-            comments: []
+            comments: [],
+            includeBusinessLine: false
         }
     }
 

@@ -865,6 +865,10 @@ function generateLandFields(resObj, resultContent) {
         field = createResultField(resObj.id, 'Anexo', 'anexo', resObj.licenseSpecialData.anexo, 'text');
 
         fieldGroup.appendChild(field);
+
+        field = createResultField(resObj.id, 'Incluir actividad', 'includeBusinessLine', resObj.licenseSpecialData.includeBusinessLine, 'checkbox');
+
+        fieldGroup.appendChild(field);
     }
 
     if (resObj.licenseType >= 2 && resObj.licenseType <= 5) {
