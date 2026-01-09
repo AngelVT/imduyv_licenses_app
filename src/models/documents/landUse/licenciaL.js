@@ -1,4 +1,4 @@
-import { __dirstorage,__dirname } from "../../../path.configuration.js";
+import { __dirstorage, __dirname } from "../../../path.configuration.js";
 import * as docUtils from "../../../utilities/document.utilities.js";
 import path from "path";
 
