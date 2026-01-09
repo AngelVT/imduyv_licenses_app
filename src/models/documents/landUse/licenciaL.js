@@ -1,5 +1,6 @@
-import { __dirstorage } from "../../../path.configuration.js";
+import { __dirstorage,__dirname } from "../../../path.configuration.js";
 import * as docUtils from "../../../utilities/document.utilities.js";
+import path from "path";
 
 export async function generateLandUseL(lcDBObj) {
 
@@ -16,6 +17,12 @@ export async function generateLandUseL(lcDBObj) {
         pageMargins: [ 5, 100, 5, 10 ],
         styles: docUtils.docStyles,
         watermark: lcDBObj.approvalStatus ? undefined : { text: 'Sin aprobar', color: 'red', opacity: 0.2, bold: true, italics: false, angle: 60 },
+        header: lcDBObj.year === 2026 ? {
+            image: path.join(__dirname, 'resources', 'public', 'img', '200_logo.png'),
+            alignment: 'center',
+            width: 80,
+            margin: [0, 50, 0, 0]
+        } : {},
         content: [
             {
                 text: await docUtils.getYearLegend(lcDBObj.year),
