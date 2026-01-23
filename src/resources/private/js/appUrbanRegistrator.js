@@ -1,12 +1,12 @@
 const thaForm = document.getElementById('form_reg');
-const isFrac = document.getElementById('isFrac');
+// const isFrac = document.getElementById('isFrac');
 const isFracHidden = document.getElementById('isFracHidden');
 
 resetFormAuto(thaForm);
 
-isFrac.addEventListener('change', () => {
+/* isFrac.addEventListener('change', () => {
     isFracHidden.value = isFrac.checked;
-});
+}); */
 
 thaForm.addEventListener(
     'submit', async event => {
@@ -30,11 +30,11 @@ thaForm.addEventListener(
                     let response = await res.json();
 
                     const goToPrint = confirm(`
-                    Licencia registrada: ${response.license.fullInvoice}
-                    Folio: ${response.license.invoice}
+                    Licencia registrada: ${response.license.fullControlInvoice}
+                    Folio: ${response.license.controlInvoice}
                     Ir a pagina de impresión?`);
                     if (goToPrint) {
-                        location.href = `/app/urbanPrint?type=${response.license.licenseType}&invoice=${response.license.invoice}&year=${response.license.year}`;
+                        location.href = `/app/urbanPrint?type=${response.license.licenseType}&invoice=${response.license.controlInvoice}&year=${response.license.controlYear}`;
                     } else {
                         resetFormAuto(thaForm);
                     }
@@ -142,9 +142,9 @@ function changeStep(btn, step, form, checkFields) {
 
         formData.validity = validities[formData.validity -1] ? validities[formData.validity -1] : '';
 
-        formData.zoneIMG = formData.zoneIMG.size <= 0 ? 'No cargada' : 'Cargada';
+        // formData.zoneIMG = formData.zoneIMG.size <= 0 ? 'No cargada' : 'Cargada';
 
-        formData.resumeTables = formData.resumeTables.size <= 0 ? 'No cargadas' : 'Cargadas';
+        // formData.resumeTables = formData.resumeTables.size <= 0 ? 'No cargadas' : 'Cargadas';
 
         formData.requestDate = formData.requestDate ? dateFormatFull(formData.requestDate) : '';
 
@@ -171,18 +171,18 @@ function changeStep(btn, step, form, checkFields) {
 function resetForm(form) {
     if(confirm('Seguro que quieres reiniciar el formulario?')) {
         document.getElementById(form).reset();
-        resetHiddenFields();
+        //resetHiddenFields();
         changeStep(document.getElementById('reg_nav').firstChild, 1, form, true);
     }
 }
 
 function resetFormAuto(form) {
     form.reset();
-    resetHiddenFields();
+    //resetHiddenFields();
     changeStep(document.getElementById('reg_nav').firstChild, 1, form.getAttribute('id'), true);
 }
 
-function resetHiddenFields() {
+/* function resetHiddenFields() {
     isFracHidden.removeAttribute('value');
     document.querySelectorAll('.LUS').forEach(e => {
         e.classList.add("dis-none");
@@ -219,4 +219,4 @@ function resetHiddenFields() {
     document.querySelectorAll('.CUS').forEach(e => {
         e.classList.add("dis-none");
     });
-}
+} */

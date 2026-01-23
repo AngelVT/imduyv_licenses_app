@@ -8,7 +8,7 @@ const menuBtns = document.getElementById('top_menu').querySelectorAll('li');
 const menuPanels = document.getElementById('panel_container').querySelectorAll('article');
 
 const landForm = document.getElementById('invoice_form_land');
-const urbanForm = document.getElementById('invoice_form_urban');
+// const urbanForm = document.getElementById('invoice_form_urban');
 const municipalForm = document.getElementById('municipal_form');
 const instituteForm = document.getElementById('institute_form');
 const licenseForm = document.getElementById('license_form');
@@ -19,6 +19,20 @@ const municipalPanel = document.getElementById('admin_municipal');
 const institutePanel = document.getElementById('admin_institute');
 const licensePanel = document.getElementById('admin_direction');
 const yearLegendPanel = document.getElementById('year_legend');
+
+async function checkInvoiceStatus() {
+    const invoices = await checkInvoices('/api/urban/check', landForm);
+
+    if (invoices) {
+        invoicePanel.classList.add('dis-none');
+        invoiceBtn.classList.add('dis-none');
+
+        municipalPanel.classList.remove('dis-none');
+        municipalBtn.classList.add('selected');
+    }
+}
+
+checkInvoiceStatus();
 
 invoiceBtn.addEventListener('click', () => {
     hideAndUnselectAll();
@@ -87,7 +101,7 @@ landForm.addEventListener('submit', async event => {
         });
 });
 
-urbanForm.addEventListener('submit', async event => {
+/* urbanForm.addEventListener('submit', async event => {
     event.preventDefault();
 
     const data = Object.fromEntries(new FormData(urbanForm));
@@ -122,7 +136,7 @@ urbanForm.addEventListener('submit', async event => {
         .catch(error => {
             console.error('Error during fetch: ', error)
         });
-});
+}); */
 
 municipalForm.addEventListener('submit', async event => {
     event.preventDefault();

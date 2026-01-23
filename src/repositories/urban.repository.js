@@ -8,7 +8,7 @@ const URBAN_MODELS = [
     {
         model: UrbanType,
         attributes: ['licenseType']
-    },
+    }/* ,
     {
         model: Zone,
         attributes: ['licenseZone', 'licenseKey']
@@ -20,7 +20,7 @@ const URBAN_MODELS = [
     {
         model: Validity,
         attributes: ['licenseValidity']
-    }
+    } */
 ];
 const URBAN_ATTRIBUTES = { exclude: ['urban_license_id'] }
 
@@ -63,8 +63,8 @@ export async function findUrbanLicenseInvoice(type, invoice, year) {
     return await UrbanLicense.findOne({
         where: {
             licenseType: type,
-            invoice: invoice,
-            year: year
+            controlInvoice: invoice,
+            controlYear: year
         },
         attributes: URBAN_ATTRIBUTES,
         include: URBAN_MODELS,
@@ -77,7 +77,7 @@ export async function findUrbanLicenseType(type, year) {
     return await UrbanLicense.findAll({
         where: {
             licenseType: type,
-            year: year
+            controlYear: year
         },
         order: [['invoice', 'ASC']],
         attributes: URBAN_ATTRIBUTES,
@@ -92,7 +92,7 @@ export async function findUrbanLicenseListByType(type, year) {
         attributes: ['public_urban_license_id', 'fullInvoice', 'requestorName'],
         where: {
             licenseType: type,
-            year: year
+            controlYear: year
         },
         order: [['invoice', 'ASC']],
         raw: true,
@@ -119,10 +119,10 @@ export async function findUrbanLicenseBy(parameter, value) {
 export async function saveNewUrbanLicense(newLicenseData) {
     const [NEW_LICENSE, CREATED] = await UrbanLicense.findOrCreate({
         where: {
-            fullInvoice: newLicenseData.fullInvoice,
-            invoice: newLicenseData.invoice,
+            fullControlInvoice: newLicenseData.fullControlInvoice,
+            controlInvoice: newLicenseData.controlInvoice,
             licenseType: newLicenseData.licenseType,
-            year: newLicenseData.year
+            controlYear: newLicenseData.controlYear
         },
         include: URBAN_MODELS,
         defaults: newLicenseData,
@@ -172,7 +172,7 @@ export async function getLicenseEspecialData(id) {
         where: {
             public_urban_license_id: id
         },
-        attributes: ['fullInvoice', 'licenseSpecialData', 'active'],
+        attributes: ['fullControlInvoice', 'fullInvoice', 'active', 'approvalStatus'],
         raw: true,
         nest: true
     });
@@ -201,6 +201,25 @@ export async function getLatestInvoice(type, year) {
             ['invoice', 'DESC']
         ],
         attributes: ['invoice', 'year'],
+        include: {
+            model: UrbanType,
+            attributes: ['licenseType']
+        },
+        raw: true,
+        nest: true
+    });
+}
+
+export async function getLatestControlInvoice(type, year) {
+    return await UrbanLicense.findAll({
+        where: {
+            licenseType: type,
+            controlYear: year
+        },
+        order: [
+            ['controlInvoice', 'DESC']
+        ],
+        attributes: ['controlInvoice', 'controlYear'],
         include: {
             model: UrbanType,
             attributes: ['licenseType']

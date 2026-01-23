@@ -142,9 +142,18 @@ async function setData(targets, coord) {
 
     if(!geoRefData) return;
 
-    targets.numericZone.value = geoRefData.data.numericZone;
-    targets.zone.value = geoRefData.data.zone;
-    targets.key.value = geoRefData.data.key;
+    if (targets.numericZone) {
+        targets.numericZone.value = geoRefData.data.numericZone;
+    }
+    
+    if (targets.zone) {
+        targets.zone.value = geoRefData.data.zone;
+    }
+    
+    if (targets.key) {
+        targets.key.value = geoRefData.data.key;
+    }
+
     if (targets.term) {
         targets.term.value = geoRefData.data.numericTerm;
     }

@@ -9,7 +9,7 @@ const router = Router();
 const URBAN_GROUPS = ['urban', 'all'];
 const MODERATOR = ['moderator', 'admin', 'system'];
 const ADMIN = ['admin', 'system'];
-const UPLOADS = [{ name: 'zoneIMG', maxCount: 1 }, { name: 'resumeTables', maxCount: 3 }]
+const UPLOADS = [{ name: 'unsignedFormat', maxCount: 1 }, { name: 'signedFormat', maxCount: 1 }]
 
 router.get('/', [
     authenticator.verifyToken(),
@@ -53,12 +53,12 @@ router.get('/list/t/:type/y/:year', [
     authenticator.verifyPermission(['license:read', 'license:manage'])
 ], urbanControl.getLicenseListByType);
 
-router.get('/check', [
+/* router.get('/check', [
     authenticator.verifyToken(),
     authenticator.accountIntegrity,
     authenticator.verifyGroup(URBAN_GROUPS),
     authenticator.verifyPermission(['license:read', 'license:manage'])
-], urbanControl.checkInvoices);
+], urbanControl.checkInvoices); */
 
 router.post('/', [
     authenticator.verifyToken(),
@@ -110,19 +110,19 @@ router.delete('/:licenciaID', [
     authenticator.verifyPermission(['license:delete', 'license:manage'])
 ], urbanControl.deleteLicense);
 
-router.get('/PDF/t/:type/i/:invoice/y/:year', [
+/* router.get('/PDF/t/:type/i/:invoice/y/:year', [
     authenticator.verifyToken(),
     authenticator.accountIntegrity,
     authenticator.verifyGroup(URBAN_GROUPS),
     authenticator.verifyPermission(['license:read', 'license:manage'])
-], urbanControl.getLicensePDF);
+], urbanControl.getLicensePDF); */
 
-router.post('/setInvoices', [
+/* router.post('/setInvoices', [
     authenticator.verifyToken(),
     authenticator.accountIntegrity,
     authenticator.verifyGroup(URBAN_GROUPS),
     authenticator.verifyRole(ADMIN),
     authenticator.verifyPermission(['license:create', 'license:manage'])
-], urbanControl.setLicenseStartInvoices);
+], urbanControl.setLicenseStartInvoices); */
 
 export default router;

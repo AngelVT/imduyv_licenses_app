@@ -68,7 +68,7 @@ async function getLicensePrint(type, invoice, year) {
                 
                 createUrbanResult(response.license, resultPrint, true);
 
-                PDF.setAttribute('src', `/api/urban/PDF/t/${type}/i/${invoice}/y/${year}?${new Date().getTime()}`);
+                //PDF.setAttribute('src', `/api/urban/PDF/t/${type}/i/${invoice}/y/${year}?${new Date().getTime()}`);
 
                 return;
             }
@@ -111,7 +111,7 @@ async function getLicensePrintId(id) {
                 
                 createUrbanResult(response.license, resultPrint, true);
 
-                PDF.setAttribute('src', `/api/urban/PDF/t/${response.license.licenseType}/i/${response.license.invoice}/y/${response.license.year}?${new Date().getTime()}`);
+                //PDF.setAttribute('src', `/api/urban/PDF/t/${response.license.licenseType}/i/${response.license.invoice}/y/${response.license.year}?${new Date().getTime()}`);
 
                 return;
             }
@@ -214,8 +214,8 @@ async function updateResultField(form, id) {
                     form.querySelector('input[type=hidden]').value = form.querySelector('.input-interface').value;
                 }
 
-                let url = PDF.getAttribute('src').split('?')[0];
-                PDF.setAttribute('src', `${url}?${new Date().getTime()}`)
+                //let url = PDF.getAttribute('src').split('?')[0];
+                //PDF.setAttribute('src', `${url}?${new Date().getTime()}`)
                 
                 alert(`Cambios guardados exitosamente para el registro: ${registro}`);
                 return;
@@ -231,6 +231,38 @@ async function updateResultField(form, id) {
             alert('An error ocurred:\n' + error);
             console.error('Error updating data: ', error);
         });
+}
+
+async function updateResultStatus(form, id) {
+    if (!confirm('¿Seguro que quieres modificar el estatus para este registro registro?')) {
+        return;
+    }
+
+    const statuses = form.querySelectorAll('input[name=statuses]');
+    const formData = new FormData(form);
+    const data = {}
+
+    for (const s of statuses) {
+        data[s.value] =  s.checked;
+    }
+
+    formData.set('statuses', JSON.stringify(data));
+
+    console.log(Object.fromEntries(formData))
+
+    const res =  await fetch(`/api/urban/${id}`, {
+        method: 'PATCH',
+        credentials: 'include',
+        body: formData
+    });
+
+    const response = await res.json();
+
+    if (!res.ok) {
+        alert(response.msg);
+        form.reset();
+        return;
+    }
 }
 
 async function approveLicense(id, button) {
@@ -255,8 +287,8 @@ async function approveLicense(id, button) {
             return;
         }
 
-        let url = PDF.getAttribute('src').split('?')[0];
-        PDF.setAttribute('src', `${url}?${new Date().getTime()}`);
+        //let url = PDF.getAttribute('src').split('?')[0];
+        //PDF.setAttribute('src', `${url}?${new Date().getTime()}`);
 
         alert(`Licencia ${registro}, aprobada exitosamente.`);
 
@@ -335,8 +367,8 @@ async function unlockLicense(id, button) {
             return;
         }
 
-        let url = PDF.getAttribute('src').split('?')[0];
-        PDF.setAttribute('src', `${url}?${new Date().getTime()}`);
+        //let url = PDF.getAttribute('src').split('?')[0];
+        //PDF.setAttribute('src', `${url}?${new Date().getTime()}`);
 
         alert(`Licencia ${registro}, bloqueada exitosamente.`);
 
@@ -395,8 +427,8 @@ async function updateResultTables(form, id) {
                     return;
                 }
 
-                let url = PDF.getAttribute('src').split('?')[0];
-                PDF.setAttribute('src', `${url}?${new Date().getTime()}`)
+                //let url = PDF.getAttribute('src').split('?')[0];
+                //PDF.setAttribute('src', `${url}?${new Date().getTime()}`)
                 
                 alert(`Cambios guardados exitosamente para el registro: ${registro}`);
                 return;

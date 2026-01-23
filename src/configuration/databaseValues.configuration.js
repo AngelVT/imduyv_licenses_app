@@ -501,7 +501,7 @@ const setDefaultUrbanLicenseTypes = async () => {
             UrbanType.create({ license_urban_type_id: 5, licenseType: 'PLF'}),
             UrbanType.create({ license_urban_type_id: 6, licenseType: 'LF'}),
             UrbanType.create({ license_urban_type_id: 7, licenseType: 'RLF'}),
-            UrbanType.create({ license_urban_type_id: 8, licenseType: 'CRPC'}),
+            UrbanType.create({ license_urban_type_id: 8, licenseType: 'RPC'}),
             UrbanType.create({ license_urban_type_id: 9, licenseType: 'LUH'})
         ]);
 

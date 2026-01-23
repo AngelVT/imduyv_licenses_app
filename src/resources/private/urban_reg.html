@@ -51,22 +51,22 @@
                             <input required name="requestorName" class="w-100 margin-vertical-small input input-interface input-round" type="text">
                         </label>
 
-                        <label class="dis-none txt-uppercase LF LFUS LSUB LUS PLF CRPC RLF w-30">Domicilio del solicitante:
+                        <!--<label class="dis-none txt-uppercase LF LFUS LSUB LUS PLF CRPC RLF w-30">Domicilio del solicitante:
                             <input name="requestorAddress" class="w-100 margin-vertical-small input input-interface input-round" type="text">
-                        </label>
+                        </label>-->
 
-                        <label class="dis-none txt-uppercase LUS LSUB LFUS PLF LF RLF CRPC w-30">Representante:
+                        <!--<label class="dis-none txt-uppercase LUS LSUB LFUS PLF LF RLF CRPC w-30">Representante:
                             <input name="legalRepresentative" class="w-100 margin-vertical-small input input-interface input-round" type="text">
-                        </label>
+                        </label>-->
     
-                        <label class="dis-none txt-uppercase LUS LSUB LFUS PLF LF RLF CRPC w-30">Carácter del Representante:
+                        <!-- <label class="dis-none txt-uppercase LUS LSUB LFUS PLF LF RLF CRPC w-30">Carácter del Representante:
                             <input name="representativeAs" class="w-100 margin-vertical-small input input-interface input-round" type="text">
-                        </label>
+                        </label> -->
 
-                        <label class="dis-none txt-uppercase w-30 LUS">LUS para fraccionamiento:
+                        <!-- <label class="dis-none txt-uppercase w-30 LUS">LUS para fraccionamiento:
                             <input id="isFracHidden" name="isFrac" type="hidden">
                             <input id="isFrac" class="w-100 margin-vertical-small input input-interface input-round" type="checkbox">
-                        </label>
+                        </label> -->
 
                     </div>
 
@@ -77,17 +77,17 @@
                             <input name="buildingAddress" class="w-100 margin-vertical-small input input-interface input-round" type="text">
                         </label>
 
-                        <label class="dis-none txt-uppercase PLF LF RLF CRPC w-30">Colonia/Asentamiento:
+                        <!-- <label class="dis-none txt-uppercase PLF LF RLF CRPC w-30">Colonia/Asentamiento:
                             <input name="colony" class="w-100 margin-vertical-small input input-interface input-round" type="text">
-                        </label>
+                        </label> -->
 
-                        <label class="dis-none txt-uppercase CUS LUS LSUB LFUS PLF LF LUH w-30">Clave catastral:
+                        <!-- <label class="dis-none txt-uppercase CUS LUS LSUB LFUS PLF LF LUH w-30">Clave catastral:
                             <input name="catastralKey" class="w-100 margin-vertical-small input input-interface input-round" type="text">
-                        </label>
+                        </label> -->
 
-                        <label class="dis-none txt-uppercase CUS LUS LFUS LSUB LF PLF LUH w-30">Superficie total:
+                        <!-- <label class="dis-none txt-uppercase CUS LUS LFUS LSUB LF PLF LUH w-30">Superficie total:
                             <input id="input_surface_out" name="surface" class="w-100 margin-vertical-small input input-interface input-round" type="number" step="any">
-                        </label>
+                        </label> -->
                     </div>
 
                     <div data-step="3" id="reg_step_3" class="reg-step step-box w-100 dis-flex flex-wrap flex-evenly dis-none">
@@ -103,146 +103,162 @@
                             <input id="georeference" name="georeference" required class="w-100 margin-vertical-small input input-interface input-round" type="text" readonly>
                         </label>
 
-                        <label class="dis-none txt-uppercase CUS LUS LF LUH w-30">Uso de suelo:
+                        <label class="txt-uppercase w-30">Folios:
+                            <input name="printInvoice" class="w-100 margin-vertical-small input input-interface input-round" type="text">
+                        </label>
+
+                        <div class="txt-uppercase w-30 txt-center">Formato sin firma: 
+                            <input name="unsignedFormat" class="w-100 margin-vertical-small input input-file" type="file" accept=".pdf">
+                        </div>
+
+                        <!-- <div class="txt-uppercase w-30 txt-center">Formato firmado: 
+                            <input name="signedFormat" class="w-100 margin-vertical-small input input-file" type="file" accept=".pdf">
+                        </div> -->
+
+                        <label class="txt-uppercase w-100">Observaciones:
+                            <textarea name="observations" class="w-100 margin-vertical-small input input-interface input-round input-textarea-result"></textarea>
+                        </label>
+
+                        <!-- <label class="dis-none txt-uppercase CUS LUS LF LUH w-30">Uso de suelo:
                             <span class="w-100 dis-flex">
                                 <input id="zone_placeholder" class="w-80 margin-vertical-small input input-interface input-round-left" type="text" readonly>
                                 <input type="hidden" id="field_zone" name="zone">
                                 <input id="field_key" class="w-25 margin-vertical-small input input-interface input-round-right txt-center" type="text" readonly>
                             </span>
-                        </label>
+                        </label> -->
 
-                        <label class="dis-none txt-uppercase CUS LUH w-30">P.C.U.:
+                        <!-- <label class="dis-none txt-uppercase CUS LUH w-30">P.C.U.:
                             <input id="pcu_field" name="PCU" class="w-100 margin-vertical-small input input-interface input-round" type="text" readonly>
-                        </label>
+                        </label> -->
 
-                        <label class="dis-none txt-uppercase w-30 CUS LUS LF LUH">COS:
+                        <!-- <label class="dis-none txt-uppercase w-30 CUS LUS LF LUH">COS:
                             <input id="COS" name="occupationPercent" class="w-100 margin-vertical-small input input-interface input-round" type="text" readonly>
-                        </label>
+                        </label> -->
 
-                        <label class="dis-none txt-uppercase w-30 CUS LUS LF LUH">m² Netos:
+                        <!-- <label class="dis-none txt-uppercase w-30 CUS LUS LF LUH">m² Netos:
                             <input id="m_neto" name="surfacePerLote" class="w-100 margin-vertical-small input input-interface input-round" type="text" readonly>
-                        </label>
+                        </label> -->
 
-                        <label class="dis-none txt-uppercase w-30 CUS LUS LF LUH">Altura Maxima:
+                        <!-- <label class="dis-none txt-uppercase w-30 CUS LUS LF LUH">Altura Maxima:
                             <input id="alt_max" name="maximumHeight" required class="w-100 margin-vertical-small input input-interface input-round" type="text" readonly>
-                        </label>
+                        </label> -->
 
-                        <label class="dis-none txt-uppercase w-30 CUS LUS LF LUH">Niveles:
+                        <!-- <label class="dis-none txt-uppercase w-30 CUS LUS LF LUH">Niveles:
                             <input id="niveles" name="levels" required class="w-100 margin-vertical-small input input-interface input-round" type="text" readonly>
-                        </label>
+                        </label> -->
 
-                        <label class="dis-none txt-uppercase w-30 CUS LUS LF LUH">Frente mínimo:
+                        <!-- <label class="dis-none txt-uppercase w-30 CUS LUS LF LUH">Frente mínimo:
                             <input name="minimalFront" class="w-100 margin-vertical-small input input-interface input-round" type="number">
-                        </label>
+                        </label> -->
 
-                        <label class="dis-none txt-uppercase w-30 CUS LUS LF LUH">Restricción frontal:
+                        <!-- <label class="dis-none txt-uppercase w-30 CUS LUS LF LUH">Restricción frontal:
                             <input name="frontalRestriction" class="w-100 margin-vertical-small input input-interface input-round" type="number">
-                        </label>
+                        </label> -->
 
-                        <label class="dis-none txt-uppercase w-30 LUS LF LUH">Estacionamientos:
+                        <!-- <label class="dis-none txt-uppercase w-30 LUS LF LUH">Estacionamientos:
                             <input name="parkingLots" class="w-100 margin-vertical-small input input-interface input-round" type="text">
-                        </label>
+                        </label> -->
 
-                        <label class="dis-none txt-uppercase w-30 LUS">Uso de suelo autorizado:
+                        <!-- <label class="dis-none txt-uppercase w-30 LUS">Uso de suelo autorizado:
                             <input name="authUse" class="w-100 margin-vertical-small input input-interface input-round" type="text">
-                        </label>
+                        </label> -->
 
-                        <label class="dis-none txt-uppercase w-30 LUS">Actividad:
+                        <!-- <label class="dis-none txt-uppercase w-30 LUS">Actividad:
                             <input name="activity" class="w-100 margin-vertical-small input input-interface input-round" type="text">
-                        </label>
+                        </label> -->
 
-                        <label class="dis-none txt-uppercase w-30 LF">Lotes Totales:
+                        <!-- <label class="dis-none txt-uppercase w-30 LF">Lotes Totales:
                             <input name="habitacionalLotes" class="w-100 margin-vertical-small input input-interface input-round" type="text">
-                        </label>
+                        </label> -->
 
-                        <label class="dis-none txt-uppercase w-30 LF">Manzanas Totales:
+                        <!-- <label class="dis-none txt-uppercase w-30 LF">Manzanas Totales:
                             <input name="totalManzanas" class="w-100 margin-vertical-small input input-interface input-round" type="text">
-                        </label>
+                        </label> -->
 
-                        <label class="dis-none txt-uppercase w-30 LF">Superficie de donación:
+                        <!-- <label class="dis-none txt-uppercase w-30 LF">Superficie de donación:
                             <input name="totalSurface" class="w-100 margin-vertical-small input input-interface input-round" type="number">
-                        </label>
+                        </label> -->
 
-                        <label class="dis-none txt-uppercase w-30 RLF">Relotificación:
+                        <!-- <label class="dis-none txt-uppercase w-30 RLF">Relotificación:
                             <input name="totalRelotification" class="w-100 margin-vertical-small input input-interface input-round" type="text">
-                        </label>
+                        </label> -->
 
-                        <label class="dis-none txt-uppercase w-30 RLF">Folio previo:
+                        <!-- <label class="dis-none txt-uppercase w-30 RLF">Folio previo:
                             <input name="previousInvoice" class="w-100 margin-vertical-small input input-interface input-round" type="text">
-                        </label>
+                        </label> -->
 
-                        <label class="dis-none txt-uppercase w-30 RLF">Fecha de folio previo:
+                        <!-- <label class="dis-none txt-uppercase w-30 RLF">Fecha de folio previo:
                             <input name="previousInvoiceDate" class="w-100 margin-vertical-small input input-interface input-round" type="date">
-                        </label>
+                        </label> -->
 
-                        <label class="dis-none txt-uppercase w-30 CRPC">Viviendas:
+                        <!-- <label class="dis-none txt-uppercase w-30 CRPC">Viviendas:
                             <input name="households" class="w-100 margin-vertical-small input input-interface input-round" type="text">
-                        </label>
+                        </label> -->
 
-                        <label class="dis-none txt-uppercase w-30 CRPC">Superficie privativa:
+                        <!-- <label class="dis-none txt-uppercase w-30 CRPC">Superficie privativa:
                             <input name="privateSurface" class="w-100 margin-vertical-small input input-interface input-round" type="number">
-                        </label>
+                        </label> -->
 
-                        <label class="dis-none txt-uppercase w-30 
+                        <!-- <label class="dis-none txt-uppercase w-30 
                         CRPC">Superficie común:
                             <input name="commonSurface" class="w-100 margin-vertical-small input input-interface input-round" type="number">
-                        </label>
+                        </label> -->
 
-                        <div class="txt-uppercase w-30 txt-center CUS LUS LSUB LFUS LUH dis-none">Zonificación/División: 
+                        <!-- <div class="txt-uppercase w-30 txt-center CUS LUS LSUB LFUS LUH dis-none">Zonificación/División: 
                             <input name="zoneIMG" class="w-100 margin-vertical-small input input-file" type="file" accept=".png, .svg">
-                        </div>
+                        </div> -->
     
-                        <div class="dis-none txt-uppercase PLF LF RLF CRPC w-30">Cuadros y tablas: 
+                        <!-- <div class="dis-none txt-uppercase PLF LF RLF CRPC w-30">Cuadros y tablas: 
                             <input name="resumeTables" class="w-100 margin-vertical-small input-file" type="file" multiple accept=".xhtml">
-                        </div>
+                        </div> -->
 
-                        <label class="dis-none txt-uppercase w-100 LUS CRPC LF LFUS LSUB LUH PLF RLF">Condicionantes:
+                        <!-- <label class="dis-none txt-uppercase w-100 LUS CRPC LF LFUS LSUB LUH PLF RLF">Condicionantes:
                             <textarea name="conditions" class="w-100 margin-vertical-small input input-interface input-round input-textarea-result"></textarea>
-                        </label>
+                        </label> -->
 
-                        <label class="dis-none txt-uppercase w-100 LUS">Observaciones:
+                        <!-- <label class="dis-none txt-uppercase w-100 LUS">Observaciones:
                             <textarea name="observations" class="w-100 margin-vertical-small input input-interface input-round input-textarea-result"></textarea>
-                        </label>
+                        </label> -->
 
-                        <label class="dis-none txt-uppercase w-100 LUS">Area de donación:
+                        <!-- <label class="dis-none txt-uppercase w-100 LUS">Area de donación:
                             <textarea name="donationArea" class="w-100 margin-vertical-small input input-interface input-round input-textarea-result"></textarea>
-                        </label>
+                        </label> -->
 
-                        <label class="dis-none txt-uppercase w-100 LFUS LSUB">Resumen de autorización:
+                        <!-- <label class="dis-none txt-uppercase w-100 LFUS LSUB">Resumen de autorización:
                             <textarea name="authorizationResume" class="w-100 margin-vertical-small input input-interface input-round input-textarea-result"></textarea>
-                        </label>
+                        </label> -->
 
-                        <label class="dis-none txt-uppercase w-100 PLF LF RLF CRPC">Documentos:
+                        <!-- <label class="dis-none txt-uppercase w-100 PLF LF RLF CRPC">Documentos:
                             <textarea name="documents" class="w-100 margin-vertical-small input input-interface input-round input-textarea-result"></textarea>
-                        </label>
+                        </label> -->
 
-                        <label class="dis-none txt-uppercase w-100 PLF">Ubicación:
+                        <!-- <label class="dis-none txt-uppercase w-100 PLF">Ubicación:
                             <textarea name="integrity" class="w-100 margin-vertical-small input input-interface input-round input-textarea-result"></textarea>
-                        </label>
+                        </label> -->
 
-                        <label class="dis-none txt-uppercase w-100 RLF PLF">Uso autorizado:
+                        <!-- <label class="dis-none txt-uppercase w-100 RLF PLF">Uso autorizado:
                             <textarea name="detailedUse" class="w-100 margin-vertical-small input input-interface input-round input-textarea-result"></textarea>
-                        </label>
+                        </label> -->
 
-                        <label class="dis-none txt-uppercase w-100 LF">Constancia de Uso de Suelo:
+                        <!-- <label class="dis-none txt-uppercase w-100 LF">Constancia de Uso de Suelo:
                             <textarea name="urbanCUS" class="w-100 margin-vertical-small input input-interface input-round input-textarea-result"></textarea>
-                        </label>
+                        </label> -->
 
-                        <label class="dis-none txt-uppercase w-100 LF">Licencia de Uso de Suelo:
+                        <!-- <label class="dis-none txt-uppercase w-100 LF">Licencia de Uso de Suelo:
                             <textarea name="urbanLUS" class="w-100 margin-vertical-small input input-interface input-round input-textarea-result"></textarea>
-                        </label>
+                        </label> -->
 
-                        <label class="dis-none txt-uppercase w-100 RLF CRPC">Lotes:
+                        <!-- <label class="dis-none txt-uppercase w-100 RLF CRPC">Lotes:
                             <textarea name="lotes" class="w-100 margin-vertical-small input input-interface input-round input-textarea-result"></textarea>
-                        </label>
+                        </label> -->
 
-                        <label class="dis-none txt-uppercase w-100 RLF">Relotificación resultante:
+                        <!-- <label class="dis-none txt-uppercase w-100 RLF">Relotificación resultante:
                             <textarea name="resultRelotification" class="w-100 margin-vertical-small input input-interface input-round input-textarea-result"></textarea>
-                        </label>
+                        </label> -->
 
-                        <label class="dis-none txt-uppercase w-100 CRPC">Manzanas:
+                        <!-- <label class="dis-none txt-uppercase w-100 CRPC">Manzanas:
                             <textarea name="manzanas" class="w-100 margin-vertical-small input input-interface input-round input-textarea-result"></textarea>
-                        </label>
+                        </label> -->
                     </div>
 
                     <div data-step="4" id="reg_step_4" class="reg-step step-box w-100 dis-flex flex-wrap flex-evenly dis-none">
@@ -264,12 +280,12 @@
                             <input name="receiverName" class="w-100 margin-vertical-small input input-interface input-round" type="text">
                         </label>
     
-                        <div class="dis-none txt-uppercase dis-flex flex-wrap CUS LUS LF PLF LUH w-30"><span class="w-100">Vigencia: </span>
+                        <!-- <div class="dis-none txt-uppercase dis-flex flex-wrap CUS LUS LF PLF LUH w-30"><span class="w-100">Vigencia: </span>
                             <label class="w-50"><input class="margin-horizontal-small" type="radio" name="licenseValidity" value="1" >6 meses</label>
                             <label class="w-50"><input class="margin-horizontal-small" type="radio" name="licenseValidity" value="2">12 meses</label>
-                        </div>
+                        </div> -->
 
-                        <div class="txt-uppercase dis-flex flex-wrap w-30"><span class="w-100">Plazo: </span>
+                        <!-- <div class="txt-uppercase dis-flex flex-wrap w-30"><span class="w-100">Plazo: </span>
                             <select id="term" name="licenseTerm" required class="w-100 margin-vertical-small input input-interface input-round">
                                 <option>Seleccionar ...</option>
                                 <option value="1">Corto</option>
@@ -277,7 +293,7 @@
                                 <option value="3">Largo</option>
                                 <option value="4">N/A</option>
                             </select>
-                        </div>
+                        </div> -->
                     </div>
 
                     <div data-step="5" id="reg_step_5" class="reg-step step-box w-100 dis-flex flex-wrap flex-evenly dis-none">
@@ -309,11 +325,11 @@
 
                                 <p class="txt-bold color-primary">Nombre del solicitante: <span class="color-white" id="check_requestorName">N/A</span></p>
 
-                                <p class="txt-bold color-primary LF LFUS LSUB LUS PLF CRPC RLF">Domicilio del solicitante: <span class="color-white" id="check_requestorAddress">N/A</span></p>
+                                <!-- <p class="txt-bold color-primary LF LFUS LSUB LUS PLF CRPC RLF">Domicilio del solicitante: <span class="color-white" id="check_requestorAddress">N/A</span></p> -->
 
-                                <p class="txt-bold color-primary LUS LSUB LFUS PLF LF RLF CRPC">Representante: <span class="color-white" id="check_legalRepresentative">N/A</span></p>
+                                <!-- <p class="txt-bold color-primary LUS LSUB LFUS PLF LF RLF CRPC">Representante: <span class="color-white" id="check_legalRepresentative">N/A</span></p> -->
 
-                                <p class="txt-bold color-primary LUS LSUB LFUS PLF LF RLF CRPC">Carácter del Representante: <span class="color-white" id="check_representativeAs">N/A</span></p>
+                                <!-- <p class="txt-bold color-primary LUS LSUB LFUS PLF LF RLF CRPC">Carácter del Representante: <span class="color-white" id="check_representativeAs">N/A</span></p> -->
                             </div>
     
                             <div class="w-50 margin-bottom-small color-black">
@@ -321,7 +337,7 @@
     
                                 <p class="txt-bold color-primary LF LFUS LSUB LUS PLF CRPC RLF LUH">Domicilio del inmueble: <span class="color-white" id="check_buildingAddress">N/A</span></p>
                                 
-                                <p class="txt-bold color-primary CUS">Calle: <span class="color-white" id="check_address">N/A</span></p>
+                                <!-- <p class="txt-bold color-primary CUS">Calle: <span class="color-white" id="check_address">N/A</span></p>
 
                                 <p class="txt-bold color-primary CUS">Numero: <span class="color-white" id="check_number">N/A</span></p>
 
@@ -329,7 +345,7 @@
 
                                 <p class="txt-bold color-primary CUS LUS LSUB LFUS PLF LF LUH">Clave catastral: <span class="color-white" id="check_catastralKey">N/A</span></p>
 
-                                <p class="txt-bold color-primary CUS LUS LFUS LSUB LF PLF LUH">Superficie total: <span class="color-white" id="check_surface">N/A</span></p>
+                                <p class="txt-bold color-primary CUS LUS LFUS LSUB LF PLF LUH">Superficie total: <span class="color-white" id="check_surface">N/A</span></p> -->
                             </div>
     
                             <div class="w-50 margin-bottom-small color-black">
@@ -337,7 +353,9 @@
 
                                 <p class="txt-bold color-primary">Georeferencia: <span class="color-white" id="check_georeference">N/A</span></p>
 
-                                <p class="txt-bold color-primary CUS LUS LUH">Uso de suelo: <span class="color-white" id="check_zone">N/A</span></p>
+                                <p class="txt-bold color-primary">Observaciones: <span class="color-white" id="observations">N/A</span></p>
+
+                                <!-- <p class="txt-bold color-primary CUS LUS LUH">Uso de suelo: <span class="color-white" id="check_zone">N/A</span></p>
                                 
                                 <p class="txt-bold color-primary CUS LUH">P.C.U.: <span class="color-white" id="check_PCU">N/A</span></p>
 
@@ -351,7 +369,7 @@
 
                                 <p class="txt-bold color-primary CUS LUS LSUB LFUS LUH">Zonificación/División: <span class="color-white" id="check_zoneIMG">N/A</span></p>
 
-                                <p class="txt-bold color-primary PLF LF RLF CRPC">Cuadros y tablas: <span class="color-white" id="check_resumeTables">N/A</span></p>
+                                <p class="txt-bold color-primary PLF LF RLF CRPC">Cuadros y tablas: <span class="color-white" id="check_resumeTables">N/A</span></p> -->
                             </div>
     
                             <div class="w-50 margin-bottom-small color-black">
@@ -365,9 +383,9 @@
 
                                 <p class="txt-bold color-primary">Nombre de quien recibe: <span class="color-white" id="check_receiverName">N/A</span></p>
 
-                                <p class="txt-bold color-primary CUS LUS LF PLF">Vigencia: <span class="color-white" id="check_validity">N/A</span></p>
+                                <!-- <p class="txt-bold color-primary CUS LUS LF PLF">Vigencia: <span class="color-white" id="check_validity">N/A</span></p>
 
-                                <p class="txt-bold color-primary CUS">Plazo: <span class="color-white" id="check_licenseTerm">N/A</span></p>
+                                <p class="txt-bold color-primary CUS">Plazo: <span class="color-white" id="check_licenseTerm">N/A</span></p> -->
                             </div>
     
                             <div class="w-100 margin-bottom-medium color-black dis-flex flex-between flex-wrap">

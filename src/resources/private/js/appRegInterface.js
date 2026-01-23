@@ -21,14 +21,16 @@ const btnClear = document.getElementById('btn_clear');
 
 const toolMap = document.getElementById('map_tool');
 
-const typeSelector = document.getElementById('license-type-selector');
+//const typeSelector = document.getElementById('license-type-selector');
 
 
-fieldZone.addEventListener(
+if (fieldZone) {
+    fieldZone.addEventListener(
     'change', () => {
         setKey(fieldZone.value, fieldKey);
     }
 );
+}
 
 try {
     btnAddArea.addEventListener(
@@ -72,10 +74,10 @@ btnGeoSearch.addEventListener(
     }
 );
 
-if (typeSelector) {
+/*if (typeSelector) {
     typeSelector.addEventListener(
         'change', () => {
             setFormFields(parseInt(typeSelector.value));
         }
     );
-}
+}*/

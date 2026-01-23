@@ -69,7 +69,7 @@ function createResultTop(obj, isPrint, isLandUse) {
     topLabel.innerText = 'Folio: ';
     span = document.createElement('span');
     span.setAttribute('id', `result_invoice_${obj.id}`);
-    span.innerText = obj.fullInvoice.replaceAll('_', '/');
+    span.innerText = isLandUse ? obj.fullInvoice?.replaceAll('_', '/') : `${obj.fullInvoice?.replaceAll('_', '/')} | Control: ${obj.fullControlInvoice?.replaceAll('_', '/')}`;
     topLabel.appendChild(span);
 
     top.appendChild(topLabel);
@@ -84,12 +84,31 @@ function createResultTop(obj, isPrint, isLandUse) {
     span.setAttribute('class', `bi-geo-alt txt-medium color-white result-control`);
     topControls.appendChild(span);
 
-    span = document.createElement('a');
-    span.setAttribute('id', `result_control_print_${obj.id}`);
-    span.setAttribute('target', '_blank');
-    span.setAttribute('href', `/api/${isLandUse ? 'landuse' : 'urban'}/PDF/t/${obj.licenseType}/i/${obj.invoice}/y/${obj.year}`);
-    span.setAttribute('class', `bi-file-earmark-pdf txt-medium color-white${isPrint ? ' ' : ' dis-none '}result-control`);
-    topControls.appendChild(span);
+    if (isLandUse) {
+        span = document.createElement('a');
+        span.setAttribute('id', `result_control_pdf_${obj.id}`);
+        span.setAttribute('target', '_blank');
+        span.setAttribute('href', `/api/landuse/PDF/t/${obj.licenseType}/i/${obj.invoice}/y/${obj.year}`);
+        span.setAttribute('class', `bi-file-earmark-pdf txt-medium color-white result-control`);
+
+        topControls.appendChild(span);
+    } else {
+        span = document.createElement('a');
+        span.setAttribute('id', `result_control_unsigned_${obj.id}`);
+        span.setAttribute('target', '_blank');
+        span.setAttribute('href', `/urbanStorage/${obj.fullControlInvoice}/${obj.fullControlInvoice}.pdf`);
+        span.setAttribute('class', `bi-folder txt-medium color-white result-control`);
+
+        topControls.appendChild(span);
+
+        span = document.createElement('a');
+        span.setAttribute('id', `result_control_signed_${obj.id}`);
+        span.setAttribute('target', '_blank');
+        span.setAttribute('href', `/urbanStorage/${obj.fullControlInvoice}/${obj.fullInvoice}.pdf`);
+        span.setAttribute('class', `bi-file-check txt-medium color-white result-control`);
+
+        topControls.appendChild(span);
+    }
 
     //if (isLandUse) {
     span = document.createElement('a');
@@ -138,7 +157,7 @@ function createResultTopNoUpdate(obj, isLandUse) {
     topLabel.innerText = 'Folio: ';
     span = document.createElement('span');
     span.setAttribute('id', `result_invoice_${obj.id}`);
-    span.innerText = obj.fullInvoice.replaceAll('_', '/');
+    span.innerText = isLandUse ? obj.fullInvoice?.replaceAll('_', '/') : `${obj.fullInvoice?.replaceAll('_', '/')} | Control: ${obj.fullControlInvoice?.replaceAll('_', '/')}`;
     topLabel.appendChild(span);
 
     top.appendChild(topLabel);
@@ -153,13 +172,31 @@ function createResultTopNoUpdate(obj, isLandUse) {
     span.setAttribute('class', `bi-geo-alt txt-medium color-white result-control`);
     topControls.appendChild(span);
 
-    span = document.createElement('a');
-    span.setAttribute('id', `result_control_pdf_${obj.id}`);
-    span.setAttribute('target', '_blank');
-    span.setAttribute('href', `/api/${isLandUse ? 'landuse' : 'urban'}/PDF/t/${obj.licenseType}/i/${obj.invoice}/y/${obj.year}`);
-    span.setAttribute('class', `bi-file-earmark-pdf txt-medium color-white result-control`);
+    if (isLandUse) {
+        span = document.createElement('a');
+        span.setAttribute('id', `result_control_pdf_${obj.id}`);
+        span.setAttribute('target', '_blank');
+        span.setAttribute('href', `/api/landuse/PDF/t/${obj.licenseType}/i/${obj.invoice}/y/${obj.year}`);
+        span.setAttribute('class', `bi-file-earmark-pdf txt-medium color-white result-control`);
 
-    topControls.appendChild(span);
+        topControls.appendChild(span);
+    } else {
+        span = document.createElement('a');
+        span.setAttribute('id', `result_control_unsigned_${obj.id}`);
+        span.setAttribute('target', '_blank');
+        span.setAttribute('href', `/urbanStorage/${obj.fullControlInvoice}/${obj.fullControlInvoice}.pdf`);
+        span.setAttribute('class', `bi-folder txt-medium color-white result-control`);
+
+        topControls.appendChild(span);
+
+        span = document.createElement('a');
+        span.setAttribute('id', `result_control_signed_${obj.id}`);
+        span.setAttribute('target', '_blank');
+        span.setAttribute('href', `/urbanStorage/${obj.fullControlInvoice}/${obj.fullInvoice}.pdf`);
+        span.setAttribute('class', `bi-file-check txt-medium color-white result-control`);
+
+        topControls.appendChild(span);
+    }
 
     span = document.createElement('a');
     span.setAttribute('id', `result_control_edit_${obj.id}`);
@@ -340,7 +377,7 @@ function createResultField(id, tag, name, value, type) {
         if (type == 'file') {
             input.setAttribute('class', 'w-85 input-file');
             input.setAttribute('multiple', '');
-            input.setAttribute('accept', '.png, .svg, .xhtml, .pdf')
+            input.setAttribute('accept', '.png, .pdf'/* '.png, .svg, .xhtml, .pdf' */)
         } else {
             input.setAttribute('class', 'w-85 input input-interface input-round-left');
         }

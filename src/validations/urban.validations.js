@@ -1,6 +1,7 @@
 import { UrbanType, Term, Zone, Validity, UrbanLicense } from "../models/License.models.js";
 import { fileTypeFromBuffer } from 'file-type';
 import path from 'path';
+import ValidationError from "../errors/ValidationError.js";
 
 export function validateParameter(parameter) {
     const VALID_PARAMETERS = {
@@ -126,4 +127,41 @@ export async function validateTableFiles(files) {
     }
 
     return true;
+}
+
+export async function validatePFFile(file) {
+    if (file.mimetype !== 'application/pdf') {
+        return false;
+    }
+
+    const ext = path.extname(file.originalname).toLowerCase();
+    if (ext !== '.pdf') {
+        return false;
+    }
+
+    const detectedType = await fileTypeFromBuffer(file.buffer);
+    if (!detectedType || detectedType.mime !== 'application/pdf') {
+        return false;
+    }
+
+    return true;
+}
+
+export function validateParseBool(value) {
+    if (typeof value === 'boolean') {
+        return value;
+    }
+
+    if (typeof value === 'string') {
+        const normalized = value.toLowerCase().trim();
+        
+        if (normalized === 'true') return true;
+        if (normalized === 'false') return false;
+    }
+
+    throw new ValidationError(
+        'Request failed due to invalid information.', 
+        'Urban request',
+        `Invalid boolean value: expected true/false or "true"/"false", but received ${JSON.stringify(value)}`
+    );
 }

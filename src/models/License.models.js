@@ -308,7 +308,7 @@ export const UrbanType = pool.define(
     schema: 'licenses'
 });
 
-export const UrbanLicense = pool.define(
+/*export const UrbanLicense = pool.define(
     'urban_license', {
     urban_license_id: {
         type: DataTypes.INTEGER,
@@ -452,9 +452,141 @@ export const UrbanLicense = pool.define(
     }
 }, {
     schema: 'licenses'
+});*/
+
+export const UrbanLicense = pool.define(
+    'urban_license', {
+    urban_license_id: {
+        type: DataTypes.INTEGER,
+        autoIncrement: true,
+        primaryKey: true
+    },
+    public_urban_license_id: {
+        type: DataTypes.UUID,
+        defaultValue: DataTypes.UUIDV4,
+        unique: true
+    },
+    fullControlInvoice: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
+    controlInvoice: {
+        type: DataTypes.INTEGER,
+        allowNull: false
+    },
+    controlYear: {
+        type: DataTypes.INTEGER,
+        allowNull: false
+    },
+    fullInvoice: {
+        type: DataTypes.STRING,
+        allowNull: true
+    },
+    invoice: {
+        type: DataTypes.INTEGER,
+        allowNull: true
+    },
+    licenseType: {
+        type: DataTypes.INTEGER,
+        references: {
+            model: UrbanType,
+            key: 'license_urban_type_id'
+        },
+        allowNull: false
+    },
+    year: {
+        type: DataTypes.INTEGER,
+        allowNull: true
+    },
+    elaboratedBy: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
+    lastModifiedBy: {
+        type: DataTypes.STRING,
+        allowNull: true,
+        defaultValue: 'New record'
+    },
+    requestorName: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
+    requestDate: {
+        type: DataTypes.DATEONLY,
+        allowNull: true
+    },
+    buildingAddress: {
+        type: DataTypes.STRING,
+        allowNull: true
+    },
+    geoReference: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
+    collectionOrder: {
+        type: DataTypes.STRING,
+        allowNull: true
+    },
+    paymentDate: {
+        type: DataTypes.DATEONLY,
+        allowNull: true
+    },
+    billInvoice: {
+        type: DataTypes.STRING,
+        allowNull: true
+    },
+    authorizedQuantity: {
+        type: DataTypes.FLOAT,
+        allowNull: true
+    },
+    expeditionDate: {
+        type: DataTypes.DATEONLY,
+        allowNull: true
+    },
+    printInvoice: {
+        type: DataTypes.STRING,
+        allowNull: true,
+        unique: true
+    },
+    deliveryDate: {
+        type: DataTypes.DATEONLY,
+        allowNull: true
+    },
+    receiverName: {
+        type: DataTypes.STRING,
+        allowNull: true
+    },
+    statuses: {
+        type: DataTypes.JSONB,
+            allowNull: true,
+            defaultValue: {
+            payment_pending: true,
+            imduyv_signature_pending: true,
+            in_progress: false,
+            delivered: false,
+            municipal_signature_pending: true,
+            on_review: false
+        }
+    },
+    observations: {
+        type: DataTypes.STRING,
+        allowNull: true
+    },
+    approvalStatus: {
+        type: DataTypes.BOOLEAN,
+        allowNull: true,
+        defaultValue: false
+    },
+    active: {
+        type: DataTypes.BOOLEAN,
+        allowNull: true,
+        defaultValue: true
+    }
+}, {
+    schema: 'licenses'
 });
 
 UrbanLicense.belongsTo(UrbanType, { foreignKey: 'licenseType' });
-UrbanLicense.belongsTo(Zone, { foreignKey: 'licenseZone' });
-UrbanLicense.belongsTo(Term, { foreignKey: 'licenseTerm' });
-UrbanLicense.belongsTo(Validity, { foreignKey: 'licenseValidity' });
+//UrbanLicense.belongsTo(Zone, { foreignKey: 'licenseZone' });
+//UrbanLicense.belongsTo(Term, { foreignKey: 'licenseTerm' });
+//UrbanLicense.belongsTo(Validity, { foreignKey: 'licenseValidity' });

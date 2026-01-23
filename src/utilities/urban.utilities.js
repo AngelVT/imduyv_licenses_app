@@ -16,7 +16,7 @@ import { generateUrbanRLF } from '../models/documents/urban/licenciaRLF.js';
 import { generateUrbanLUH } from '../models/documents/urban/licenciaLUH.js';
 import { printerPDF } from "../utilities/pdf.utilities.js";
 
-import { getLatestInvoice, getLicenseType } from "../repositories/urban.repository.js";
+import { getLatestControlInvoice, getLatestInvoice, getLicenseType } from "../repositories/urban.repository.js";
 
 async function ensureDirectoryExists(directory) {
     await fs.mkdir(directory, { recursive: true });
@@ -41,6 +41,29 @@ export async function generateInvoiceInformation(licenseType, year) {
     }
 
     fullInvoice = `IMDUyV_DLyCU_${type}_${numericInvoice.toString().padStart(3, '0')}_${year}`;
+
+    return { numericInvoice, fullInvoice }
+}
+
+export async function generateControlInvoiceInformation(licenseType, year) {
+    let numericInvoice;
+    let type;
+    let fullInvoice;
+
+    const INVOICES = await getLatestControlInvoice(licenseType, year);
+
+    if (INVOICES.length == 0) {
+        numericInvoice = 1;
+
+        const types = await getLicenseType(licenseType);
+
+        type = types.licenseType;
+    } else {
+        numericInvoice = INVOICES[0].controlInvoice + 1;
+        type = INVOICES[0].urban_type.licenseType;
+    }
+
+    fullInvoice = `FC_${type}_${numericInvoice.toString().padStart(3, '0')}_${year}`;
 
     return { numericInvoice, fullInvoice }
 }
@@ -562,6 +585,22 @@ export async function generateArchivePDF(license) {
         });
     } catch (error) {
         console.log(error)
+        return false;
+    }
+}
+
+export async function savePDF(file, controlInvoice, invoiceName) {
+    try {
+        const destination = path.join(__dirstorage, 'assets', 'urban', controlInvoice, `${invoiceName}.pdf`);
+
+        const directory = path.dirname(destination);
+
+        await fs.mkdir(directory, { recursive: true });
+
+        await fs.writeFile(destination, file.buffer);
+
+        return true
+    } catch (error) {
         return false;
     }
 }
