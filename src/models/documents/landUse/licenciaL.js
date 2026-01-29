@@ -102,7 +102,7 @@ export async function generateLandUseL(lcDBObj) {
                                             docUtils.fieldLU(lcDBObj.colony, docUtils.borderless, 3, 'boldCenter', 7),{},{}
                                         ],
                                         [
-                                            {text: 'Superficie Total: ', style: 'labelT', border: docUtils.borderless, margin: [0,4,0,0]},
+                                            {text: 'Superficie Aprox.: ', style: 'labelT', border: docUtils.borderless, margin: [0,4,0,0]},
                                             docUtils.fieldLU(lcDBObj.surfaceTotal, docUtils.borderless, 3, 'boldCenter', 7),{},{}
                                         ]
                                     ]
