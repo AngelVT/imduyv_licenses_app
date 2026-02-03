@@ -5,7 +5,7 @@ export const getPointInfo = requestHandler(
     async function (req, res) {
         const coordinates = req.params.coordinates;
 
-        const response = await geoService.requestCoordinateCheck(coordinates);
+        const response = await geoService.requestCoordinateCheck(coordinates, {considerFrac: true});
 
         res.status(200).json(response);
     }
@@ -14,6 +14,14 @@ export const getPointInfo = requestHandler(
 export const getZoneSecLayer = requestHandler(
     async function (req, res) {
         const response = await geoService.requestZoneSecLayer();
+
+        res.status(200).json(response);
+    }
+);
+
+export const getFracLayer = requestHandler(
+    async function (req, res) {
+        const response = await geoService.requestFracLayer();
 
         res.status(200).json(response);
     }

@@ -172,7 +172,19 @@ async function setData(targets, coord) {
     if(targets.PCU) {
         targets.PCU.value = geoRefData.data.PCU
     }
-    targets.tool.setAttribute('href', `/tool/map/?lat=${geoRefData.georeference[0]}&lng=${geoRefData.georeference[1]}&zoom=20`);
+
+    const { origin } = window.location;
+
+    const href = targets.tool.getAttribute('href');
+    
+    const url = new URL(`${origin}${href}`);
+
+    const params = url.searchParams;
+
+    params.set('lat', geoRefData.georeference[0])
+    params.set('lng', geoRefData.georeference[1])
+
+    targets.tool.setAttribute('href', url);
 
     if(document.querySelector('#georeference')) {
         document.querySelector('#georeference').value = geoRefData.georeference.join();
@@ -185,6 +197,10 @@ async function getGeoInfo(georef) {
         let response = await res.json();
 
         if (res.ok) {
+            if (response.warning && URBAN_GEO_INFO) {
+                alert(response.warning);
+                return;
+            }
             return response;
         }
         

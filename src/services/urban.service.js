@@ -240,7 +240,10 @@ export async function requestUrbanLicenseCreate(body, files, requestor) {
             Provided data -> ${JSON.stringify(body)}`);
     }
 
-    const coordinateInfo = await requestCoordinateCheck(georeference);
+    const coordinateInfo = await requestCoordinateCheck(georeference, {
+        considerFrac: true,
+        trowError: true
+    });
 
     if ((requestDate && !validateDates(requestDate)) ||
         (expeditionDate && !validateDates(expeditionDate)) ||
@@ -499,8 +502,18 @@ export async function requestUrbanLicenseUpdate(id, licenseData, files, requesto
         pageBreak_10*/
     } = licenseData;
 
+    if (georeference) {
+        await requestCoordinateCheck(georeference, {
+            considerFrac: true,
+            trowError: true
+        });
+    }
+
     if (files.signedFormat && !SPECIAL_DATA.approvalStatus && SPECIAL_DATA.active) {
-        
+        throw new ValidationError('El formato firmado solo se puede modificar cuando la licencia ha sido aprobada.',
+                'Urban update request',
+                `Request failed due to invalid files provided.
+            Provided files -> ${files.signedFormat.map(file => file.originalname).join(', ')}`);
     }
 
     if (!SPECIAL_DATA.active && files.signedFormat && SPECIAL_DATA.approvalStatus && SPECIAL_DATA.fullInvoice && SPECIAL_DATA.fullControlInvoice) {
@@ -522,11 +535,19 @@ export async function requestUrbanLicenseUpdate(id, licenseData, files, requesto
             license: SPECIAL_DATA
         }
 
-    } else if (!SPECIAL_DATA.active && (printInvoice || receiverName || deliveryDate)) {
+    } else if (!SPECIAL_DATA.active && (printInvoice || receiverName || deliveryDate || statuses)) {
+        const statusObj = JSON.parse(statuses);
+
+        for (const key in statusObj) {
+            if (!Object.hasOwn(statusObj, key)) continue;
+            statusObj[key] = urbanValidate.validateParseBool(statusObj[key]);
+        }
+
         const NEW_DATA = {
             deliveryDate: deliveryDate,
             receiverName: receiverName,
             printInvoice: printInvoice,
+            statuses: statusObj,
             lastModifiedBy: requestor,
         }
 

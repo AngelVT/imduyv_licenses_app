@@ -7,7 +7,8 @@ import { encryptPassword } from "../utilities/password.utilities.js";
 import * as logger from "../utilities/logger.utilities.js";
 import { ZONE_DATA } from "../resources/data/appZonesData.js";
 import { PCU_DATA } from "../resources/data/appPCUData.js";
-import { createZoneDataTable, createPCUDataTable} from "../repositories/geo.repository.js";
+import { FRAC_DATA } from "../resources/data/appFracData.js";
+import { createZoneDataTable, createPCUDataTable, createFracDataTable} from "../repositories/geo.repository.js";
 import { ADMIN_PASSWORD } from "./environment.configuration.js";
 import { Notification } from "../models/Notification.model.js";
 
@@ -527,6 +528,7 @@ const setGeographicData = async () => {
     try {
         const zoneSecFeatures = ZONE_DATA.features;
         const pcuFeatures = PCU_DATA.features;
+        const fracFeatures = FRAC_DATA.features;
 
         if (await createZoneDataTable(zoneSecFeatures)) {
             logger.logConsoleInfo("Zone Sec Geographic data loaded in the DB.");
@@ -536,6 +538,11 @@ const setGeographicData = async () => {
         if (await createPCUDataTable(pcuFeatures)) {
             logger.logConsoleInfo("PCU Geographic data loaded in the DB.");
             logger.logServerInfo("PCU Geographic data loaded in the DB");
+        }
+
+        if (await createFracDataTable(fracFeatures)) {
+            logger.logConsoleInfo("Frac Geographic data loaded in the DB.");
+            logger.logServerInfo("Frac Geographic data loaded in the DB");
         }
 
     } catch (error) {

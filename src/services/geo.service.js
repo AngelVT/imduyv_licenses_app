@@ -1,10 +1,14 @@
 import { ZONE_SYMBOLS } from "../resources/data/appZoneSecSymbols.js";
+import { FRAC_SYMBOLS } from "../resources/data/appFracDataSymbols.js";
 import { Zone, Term } from "../models/License.models.js";
 import * as geoRepo from '../repositories/geo.repository.js';
 import ValidationError from '../errors/ValidationError.js';
 import ResourceError from '../errors/ResourceError.js';
 
-export async function requestCoordinateCheck(coordinates) {
+export async function requestCoordinateCheck(coordinates, {
+    considerFrac = false,
+    trowError = false
+} = {}) {
     if (!coordinates) {
         throw new ValidationError('No coordinates were provided',
             'Point Info request failed due to no coordinate provided');
@@ -25,6 +29,23 @@ export async function requestCoordinateCheck(coordinates) {
         throw new ResourceError('The location requested does not exist in the database',
             'Point Info request failed due to coordinate out of zone sec',
             `Provided coordinates -> ${coordinates}`);
+    }
+
+    let warning;
+    let fracData;
+
+    if (considerFrac) {
+        const [resultsFrac] = await geoRepo.findPointInFrac(COORDINATES);
+        fracData = resultsFrac[0];
+        if (resultsFrac.length === 0) {
+            if (trowError) {
+                throw new ResourceError('El punto dado no se encuentra dentro de un polígono de fraccionamiento valido',
+            'Point Info request failed due to coordinate out of frac',
+            `Provided coordinates -> ${coordinates}`);
+            }
+
+            warning = 'El punto dado no se encuentra dentro de un polígono de fraccionamiento valido';
+        }
     }
 
     const [zoneData] = resultsZone;
@@ -55,6 +76,7 @@ export async function requestCoordinateCheck(coordinates) {
 
     return {
         msg: "Location found",
+        warning,
         georeference: COORDINATES.reverse(),
         data: {
             numericZone: ZONE.license_zone_id,
@@ -66,7 +88,11 @@ export async function requestCoordinateCheck(coordinates) {
             m2_neto: zoneData.m2_neto,
             alt_max: zoneData.alt_max,
             niveles: zoneData.niveles,
-            PCU: pcuData ? pcuData.CALIF : 'U3'
+            PCU: pcuData ? pcuData.CALIF : 'U3',
+            settlement: fracData ? {
+                name: fracData.NOMBRE_DEL,
+                status: fracData.ESTATUS
+            } : undefined
         }
     }
 }
@@ -78,6 +104,17 @@ export async function requestZoneSecLayer() {
         layer: {
             geojson,
             layer_symbols: ZONE_SYMBOLS
+        }
+    }
+}
+
+export async function requestFracLayer() {
+    const geojson = await geoRepo.findFracLayer();
+
+    return {
+        layer: {
+            geojson,
+            layer_symbols: FRAC_SYMBOLS
         }
     }
 }

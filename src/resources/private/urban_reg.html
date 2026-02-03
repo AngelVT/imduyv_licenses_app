@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="/public/css/tlib-0.1.0.css">
     <title>SILU - Acciones urbanas</title>
     <link rel="shortcut icon" href="/public/img/urban_icon.svg" type="image/x-icon">
-    <script src="/private/js/appRegTools.js"></script>
+    <script src="/private/js/appRegTools.js" defer></script>
     <script src="/private/js/appInfoLoader.js" defer></script>
     <script src="/private/js/appLogout.js" defer></script>
     <script src="/private/js/appUrbanRegistrator.js" defer></script>
@@ -16,6 +16,7 @@
 </head>
 <script>
     const PAGE_GROUP = 'Platform';
+    const URBAN_GEO_INFO = true;
 </script>
 <body>
     <main>
@@ -96,7 +97,7 @@
                         <label class="txt-uppercase w-30 dis-flex flex-wrap flex-evenly">Georeferencia (DD):
                             <input id="f-geo_search" class="margin-vertical-small input input-interface input-round w-100" type="text" placeholder="Ej. 19.85071,-98.97995">
                             <span id="b-geo_search" class="bi-search btn btn-secondary txt-center w-45"></span>
-                            <a id="map_tool" href="/tool/map/?lat=19.850710252393498&lng=-98.979980796575546&zoom=20" target="_blank" class="bi-map btn btn-secondary w-45 txt-center"></a>
+                            <a id="map_tool" href="/tool/map/?lat=19.850710252393498&lng=-98.979980796575546&zoom=20&layer=2" target="_blank" class="bi-map btn btn-secondary w-45 txt-center"></a>
                         </label>
 
                         <label class="txt-uppercase w-30">Georeferencia:

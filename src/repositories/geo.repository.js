@@ -91,3 +91,67 @@ export async function createPCUDataTable(features) {
 
     return true
 }
+
+export async function createFracDataTable(features) {
+    const check = await pool.query(`
+        SELECT EXISTS (
+            SELECT 1 FROM information_schema.tables 
+            WHERE table_schema = 'geographic' 
+            AND table_name = 'frac'
+        ) AS exists;`);
+
+    const [status] = check;
+
+    const exists = status[0].exists;
+
+    if (exists) {
+        return;
+    }
+
+    const table = await pool.query(`CREATE TABLE geographic.frac (id SERIAL PRIMARY KEY, "NOMBRE" TEXT, "NO__DE__PA" TEXT, "ESTATUS" TEXT, "FRACCIONAD" TEXT, "NOMBRE_DEL" TEXT, "Area" TEXT, "Esquema" TEXT, "Etapa_de_r" TEXT, geom GEOMETRY);`);
+
+    for (const feature of features) {
+        const properties = feature.properties;
+        const geometry = JSON.stringify(feature.geometry);
+
+        let values = Object.values(properties).map(value => `'${typeof value === 'string' ? value.replaceAll("'", "`") : value
+            }'`).join(', ');
+
+        await pool.query(`INSERT INTO geographic.frac ("NOMBRE", "NO__DE__PA", "ESTATUS", "FRACCIONAD", "NOMBRE_DEL", "Area", "Esquema", "Etapa_de_r", geom) VALUES (${values}, ST_GeomFromGeoJSON(:geom));`,
+            {
+                replacements: { geom: geometry }
+            });
+    }
+
+    return true
+}
+
+export async function findPointInFrac(point) {
+    return await pool.query(`SELECT * FROM geographic.frac WHERE ST_Contains(geom, ST_SetSRID(ST_Point( :point ), 4326));`,
+    {
+        replacements: { point: point }
+    });
+}
+
+export async function findFracLayer() {
+    const query = `
+        SELECT jsonb_build_object(
+            'type', 'FeatureCollection', 
+            'features', jsonb_agg(
+                jsonb_build_object(
+                    'type', 'Feature',
+                    'geometry', ST_AsGeoJSON(geom)::jsonb,
+                    'properties', jsonb_build_object(
+                        'Nombre del asentamiento', t."NOMBRE_DEL",
+                        'Estatus', t."ESTATUS"
+                    )
+                )
+            )
+        ) AS geojson 
+        FROM geographic.frac AS t;`;
+
+        const [result] = await pool.query(query, { 
+            type: pool.QueryTypes.SELECT });
+
+    return result.geojson
+}

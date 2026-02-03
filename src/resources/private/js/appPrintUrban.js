@@ -149,7 +149,7 @@ async function getLicenseList(type, year) {
                 response.licenses.forEach(license => {
                     let option = document.createElement('option');
                     option.value = license.public_urban_license_id;
-                    option.innerText = `${license.fullInvoice.replaceAll('_', '/')} - ${license.requestorName}`;
+                    option.innerText = `${license.fullControlInvoice?.replaceAll('_', '/')} - ${license.fullInvoice?.replaceAll('_', '/')} - ${license.requestorName}`;
                     
                     licenseSelect.appendChild(option);
                 });

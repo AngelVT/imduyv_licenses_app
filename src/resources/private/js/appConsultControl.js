@@ -200,7 +200,10 @@ function createResultTopNoUpdate(obj, isLandUse) {
 
     span = document.createElement('a');
     span.setAttribute('id', `result_control_edit_${obj.id}`);
-    span.setAttribute('href', `/app/${isLandUse ? 'landPrint' : 'urbanPrint'}?type=${obj.licenseType}&invoice=${obj.invoice}&year=${obj.year}`);
+    if (isLandUse) 
+        span.setAttribute('href', `/app/landPrint?type=${obj.licenseType}&invoice=${obj.invoice}&year=${obj.year}`);
+    else
+        span.setAttribute('href', `/app/urbanPrint?type=${obj.licenseType}&invoice=${obj.controlInvoice}&year=${obj.controlYear}`);
     span.setAttribute('class', `bi-pencil-square txt-medium color-white result-control`);
 
     topControls.appendChild(span);

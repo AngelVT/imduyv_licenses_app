@@ -15,6 +15,8 @@ let userMarker = L.BeautifyIcon.icon({
     textColor: '#FF0000'
 });
 
+let overlays = {}
+
 function createUserMarker(lat, lng) {
     lat = parseFloat(lat);
     lng = parseFloat(lng);

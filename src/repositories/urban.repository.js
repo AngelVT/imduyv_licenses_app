@@ -89,7 +89,7 @@ export async function findUrbanLicenseType(type, year) {
 
 export async function findUrbanLicenseListByType(type, year) {
     return await UrbanLicense.findAll({
-        attributes: ['public_urban_license_id', 'fullInvoice', 'requestorName'],
+        attributes: ['public_urban_license_id', 'fullInvoice', 'fullControlInvoice','requestorName'],
         where: {
             licenseType: type,
             controlYear: year
