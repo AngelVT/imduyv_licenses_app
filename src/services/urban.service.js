@@ -20,6 +20,8 @@ import path from 'path';
 import { __dirstorage } from '../path.configuration.js';
 import { requestCoordinateCheck } from './geo.service.js';
 
+const FRAC_TYPES = [5,6,7,8];
+
 export async function requestAllUrbanLicenses() {
     let LICENSES = await urbanRepo.findAllUrbanLicenses();
 
