@@ -137,8 +137,8 @@ function setKey(zone, target) {
     }
 }
 
-async function setData(targets, coord) {
-    let geoRefData = await getGeoInfo(coord.replaceAll('/',','));
+async function setData(targets, coord, type) {
+    const geoRefData = await getGeoInfo(coord.replaceAll('/',','), type);
 
     if(!geoRefData) return;
 
@@ -175,7 +175,7 @@ async function setData(targets, coord) {
 
     const { origin } = window.location;
 
-    const href = targets.tool.getAttribute('href');
+    const href = targets.tool.getAttribute('href').replaceAll(origin, '');
     
     const url = new URL(`${origin}${href}`);
 
@@ -191,9 +191,9 @@ async function setData(targets, coord) {
     }
 }
 
-async function getGeoInfo(georef) {
+async function getGeoInfo(georef, type) {
     try {
-        let res = await fetch(`/api/geographic/pointInfo/${georef}`);
+        let res = await fetch(`/api/geographic/pointInfo/${georef}${type ? `?type=${type}` : ''}`);
         let response = await res.json();
 
         if (res.ok) {

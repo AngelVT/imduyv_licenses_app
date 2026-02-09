@@ -172,7 +172,7 @@ export async function getLicenseEspecialData(id) {
         where: {
             public_urban_license_id: id
         },
-        attributes: ['fullControlInvoice', 'fullInvoice', 'active', 'approvalStatus'],
+        attributes: ['licenseType', 'fullControlInvoice', 'fullInvoice', 'active', 'approvalStatus'],
         raw: true,
         nest: true
     });

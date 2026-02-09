@@ -241,7 +241,7 @@ export async function requestUrbanLicenseCreate(body, files, requestor) {
     }
 
     const coordinateInfo = await requestCoordinateCheck(georeference, {
-        considerFrac: true,
+        considerFrac: FRAC_TYPES.includes(licenseType),
         trowError: true
     });
 
@@ -504,7 +504,7 @@ export async function requestUrbanLicenseUpdate(id, licenseData, files, requesto
 
     if (georeference) {
         await requestCoordinateCheck(georeference, {
-            considerFrac: true,
+            considerFrac: FRAC_TYPES.includes(SPECIAL_DATA.licenseType),
             trowError: true
         });
     }
@@ -599,11 +599,15 @@ export async function requestUrbanLicenseUpdate(id, licenseData, files, requesto
         );
     }
 
-    const statusObj = JSON.parse(statuses);
+    let statusObj;
 
-    for (const key in statusObj) {
-        if (!Object.hasOwn(statusObj, key)) continue;
-        statusObj[key] = urbanValidate.validateParseBool(statusObj[key]);
+    if (statuses) {
+        statusObj = JSON.parse(statuses);
+
+        for (const key in statusObj) {
+            if (!Object.hasOwn(statusObj, key)) continue;
+            statusObj[key] = urbanValidate.validateParseBool(statusObj[key]);
+        }
     }
 
     /*if (!await urbanValidate.validateModels({ validity })) {

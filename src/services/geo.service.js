@@ -10,14 +10,14 @@ export async function requestCoordinateCheck(coordinates, {
     trowError = false
 } = {}) {
     if (!coordinates) {
-        throw new ValidationError('No coordinates were provided',
+        throw new ValidationError('No se proporcionaron coordenadas',
             'Point Info request failed due to no coordinate provided');
     }
 
     const COORDINATES = invertCheckCoords(coordinates);
 
     if (!COORDINATES) {
-        throw new ValidationError('Invalid coordinates provided',
+        throw new ValidationError('Coordenadas invalidas',
             'Point Info request failed due to invalid coordinates provided',
             `Provided coordinates -> ${coordinates}`);
     }
@@ -26,7 +26,7 @@ export async function requestCoordinateCheck(coordinates, {
     const [resultsZone] = await geoRepo.findPointInfoZoneSec(COORDINATES);
 
     if (resultsZone.length === 0) {
-        throw new ResourceError('The location requested does not exist in the database',
+        throw new ResourceError('El punto dado no se encuentra dentro de un polígono de zonificación valido',
             'Point Info request failed due to coordinate out of zone sec',
             `Provided coordinates -> ${coordinates}`);
     }
@@ -68,7 +68,7 @@ export async function requestCoordinateCheck(coordinates, {
     });
 
     if (!ZONE) {
-        throw new ResourceError('The location requested does not exist in the database',
+        throw new ResourceError('El punto dado no se encuentra dentro de un polígono de zonificación valido',
             'Point Info request failed due to coordinate out of zone sec',
             `Provided coordinates -> ${coordinates}
             Coordinate info -> ${JSON.stringify(zoneData)}`);

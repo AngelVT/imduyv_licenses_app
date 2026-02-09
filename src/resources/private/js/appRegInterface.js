@@ -21,8 +21,9 @@ const btnClear = document.getElementById('btn_clear');
 
 const toolMap = document.getElementById('map_tool');
 
-//const typeSelector = document.getElementById('license-type-selector');
+const typeSelector = document.getElementById('license-type-selector');
 
+let licenseType;
 
 if (fieldZone) {
     fieldZone.addEventListener(
@@ -70,14 +71,15 @@ btnGeoSearch.addEventListener(
             PCU: fieldPCU ? fieldPCU : undefined,
             tool: toolMap
         };
-        await setData(targets, fieldGeoRef.value);
+        await setData(targets, fieldGeoRef.value, licenseType);
     }
 );
 
-/*if (typeSelector) {
+if (typeSelector) {
     typeSelector.addEventListener(
         'change', () => {
-            setFormFields(parseInt(typeSelector.value));
+            licenseType = typeSelector.value;
+            document.querySelector('#georeference').value = '';
         }
     );
-}*/
+}
