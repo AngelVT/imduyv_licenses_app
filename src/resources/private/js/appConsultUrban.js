@@ -735,7 +735,7 @@ function generateUrbanFields(resObj, resultContent) {
 
     fieldGroup.appendChild(field);
 
-    field = createResultField(resObj.id, 'Orden de cobro', 'collectionOrder', resObj.collectionOrder, 'number');
+    field = createResultField(resObj.id, 'Orden de cobro', 'collectionOrder', resObj.collectionOrder, 'text');
 
     fieldGroup.appendChild(field);
 

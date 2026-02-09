@@ -511,33 +511,14 @@ export async function requestUrbanLicenseUpdate(id, licenseData, files, requesto
         });
     }
 
-    if (files.signedFormat && !SPECIAL_DATA.approvalStatus && SPECIAL_DATA.active) {
+    /*if (files.signedFormat && !SPECIAL_DATA.approvalStatus && SPECIAL_DATA.active) {
         throw new ValidationError('El formato firmado solo se puede modificar cuando la licencia ha sido aprobada.',
                 'Urban update request',
                 `Request failed due to invalid files provided.
             Provided files -> ${files.signedFormat.map(file => file.originalname).join(', ')}`);
-    }
+    }*/
 
-    if (!SPECIAL_DATA.active && files.signedFormat && SPECIAL_DATA.approvalStatus && SPECIAL_DATA.fullInvoice && SPECIAL_DATA.fullControlInvoice) {
-        if (!await urbanValidate.validatePFFile(files.signedFormat[0])) {
-            throw new ValidationError('Invalid files provided only pdf files are allowed.',
-                'Urban update request',
-                `Request failed due to invalid files provided.
-            Provided files -> ${files.signedFormat.map(file => file.originalname).join(', ')}`);
-        }
-
-        if (!await urbanUtils.savePDF(files.signedFormat[0], SPECIAL_DATA.fullControlInvoice, SPECIAL_DATA.fullInvoice)) {
-            throw new FileSystemError('Error saving files to server.',
-                'Urban update request',
-                `Request failed due to unexpected error saving files to server.
-            Provided files -> ${files.signedFormat.map(file => file.originalname).join(', ')}`);
-        }
-
-        return {
-            license: SPECIAL_DATA
-        }
-
-    } else if (!SPECIAL_DATA.active && (printInvoice || receiverName || deliveryDate || statuses)) {
+    if (!SPECIAL_DATA.active && (printInvoice || receiverName || deliveryDate || statuses)) {
         const statusObj = JSON.parse(statuses);
 
         for (const key in statusObj) {
@@ -559,7 +540,7 @@ export async function requestUrbanLicenseUpdate(id, licenseData, files, requesto
             license: MODIFIED_LICENSE
         }
     } else if (!SPECIAL_DATA.active) {
-        throw new ValidationError('Request failed due to resource is locked.',
+        throw new ValidationError('No se puede actualizar debido a que la licencia esta bloqueada.',
             'Urban update request',
             `Request failed due to license locked.`);
     }
@@ -733,6 +714,22 @@ export async function requestUrbanLicenseUpdate(id, licenseData, files, requesto
             Provided files -> ${files.resumeTables.map(file => file.originalname).join(', ')}`);
         }
     }*/
+
+    if (files.signedFormat) {
+        if (!await urbanValidate.validatePFFile(files.signedFormat[0])) {
+            throw new ValidationError('Invalid files provided only pdf files are allowed.',
+                'Urban update request',
+                `Request failed due to invalid files provided.
+            Provided files -> ${files.signedFormat.map(file => file.originalname).join(', ')}`);
+        }
+
+        if (!await urbanUtils.savePDF(files.signedFormat[0], SPECIAL_DATA.fullControlInvoice, SPECIAL_DATA.fullInvoice)) {
+            throw new FileSystemError('Error saving files to server.',
+                'Urban update request',
+                `Request failed due to unexpected error saving files to server.
+            Provided files -> ${files.signedFormat.map(file => file.originalname).join(', ')}`);
+        }
+    }
 
     if (files.unsignedFormat) {
         if (!await urbanValidate.validatePFFile(files.unsignedFormat[0])) {
