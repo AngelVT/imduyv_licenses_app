@@ -265,7 +265,7 @@ async function updateResultStatus(form, id) {
     }
 }
 
-async function approveLicense(id, button) {
+async function approveLicense(id, button, isLandUse) {
     try {
         let registro = document.querySelector(`#result_invoice_${id}`).innerText;
 
@@ -298,8 +298,8 @@ async function approveLicense(id, button) {
         lockBtn.classList.remove("bi-unlock");
         lockBtn.classList.add("bi-lock");
 
-        button.classList.add("bi-building-check");
-        button.classList.remove("bi-building-dash");
+        button.classList.add(isLandUse ? "bi-building-check" : 'bi-check-circle-fill');
+        button.classList.remove(isLandUse ? "bi-building-dash" : 'bi-check-circle');
         button.removeAttribute('onclick');
     } catch (error) {
         console.log(error);

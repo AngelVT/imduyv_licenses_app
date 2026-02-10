@@ -1,3 +1,12 @@
+const STATUS_MAP = {
+    "delivered": 'Entregado',
+    "on_review": 'En revision',
+    "in_progress": 'En elaboración',
+    "payment_pending": 'Pago pendiente',
+    "imduyv_signature_pending": 'Pendiente de firma Dirección General',
+    "municipal_signature_pending": 'Pendiente firma de Presidencia'
+}
+
 function hideShow(id) {
     let resultTop = document.querySelector(`#result_top_${id}`);
     let resultDelete = document.querySelector(`#result_control_delete_${id}`);
@@ -97,7 +106,7 @@ function createResultTop(obj, isPrint, isLandUse) {
         span.setAttribute('id', `result_control_unsigned_${obj.id}`);
         span.setAttribute('target', '_blank');
         span.setAttribute('href', `/urbanStorage/${obj.fullControlInvoice}/${obj.fullControlInvoice}.pdf`);
-        span.setAttribute('class', `bi-folder txt-medium color-white result-control`);
+        span.setAttribute('class', `bi-file-text txt-medium color-white result-control`);
 
         topControls.appendChild(span);
 
@@ -105,7 +114,7 @@ function createResultTop(obj, isPrint, isLandUse) {
         span.setAttribute('id', `result_control_signed_${obj.id}`);
         span.setAttribute('target', '_blank');
         span.setAttribute('href', `/urbanStorage/${obj.fullControlInvoice}/${obj.fullInvoice}.pdf`);
-        span.setAttribute('class', `bi-file-check txt-medium color-white result-control`);
+        span.setAttribute('class', `bi-folder txt-medium color-white result-control`);
 
         topControls.appendChild(span);
     }
@@ -113,7 +122,7 @@ function createResultTop(obj, isPrint, isLandUse) {
     //if (isLandUse) {
     span = document.createElement('a');
     span.setAttribute('id', `result_control_approve_${obj.id}`);
-    span.setAttribute('class', `${obj.approvalStatus ? 'bi-building-check' : "bi-building-dash"} txt-medium color-white result-control`);
+    span.setAttribute('class', `${obj.approvalStatus ? isLandUse ? 'bi-building-check' : 'bi-check-circle-fill' : isLandUse ? "bi-building-dash" : 'bi-check-circle'} txt-medium color-white result-control`);
     if (!obj.approvalStatus) {
         span.setAttribute('onclick', `approveLicense('${obj.id}', this)`)
     }
@@ -160,6 +169,24 @@ function createResultTopNoUpdate(obj, isLandUse) {
     span.innerText = isLandUse ? obj.fullInvoice?.replaceAll('_', '/') : `${obj.fullInvoice?.replaceAll('_', '/')} | Control: ${obj.fullControlInvoice?.replaceAll('_', '/')}`;
     topLabel.appendChild(span);
 
+    if (!isLandUse) {
+        const detailsLabel = document.createElement('p');
+
+        let statusesText = [];
+
+        for (const key in obj.statuses) {
+            if (!Object.hasOwn(obj.statuses, key)) continue;
+            
+            if (obj.statuses[key]) {
+                statusesText.push(STATUS_MAP[key])
+            }
+        }
+        
+        detailsLabel.innerHTML = `Solicitante: ${obj.requestorName} <br> Estatus: ${statusesText.join(' | ')}`;
+
+        topLabel.appendChild(detailsLabel)
+    }
+
     top.appendChild(topLabel);
 
     topControls.setAttribute('class', 'w-15 dis-flex flex-evenly');
@@ -185,7 +212,7 @@ function createResultTopNoUpdate(obj, isLandUse) {
         span.setAttribute('id', `result_control_unsigned_${obj.id}`);
         span.setAttribute('target', '_blank');
         span.setAttribute('href', `/urbanStorage/${obj.fullControlInvoice}/${obj.fullControlInvoice}.pdf`);
-        span.setAttribute('class', `bi-folder txt-medium color-white result-control`);
+        span.setAttribute('class', `bi-file-text txt-medium color-white result-control`);
 
         topControls.appendChild(span);
 
@@ -193,7 +220,7 @@ function createResultTopNoUpdate(obj, isLandUse) {
         span.setAttribute('id', `result_control_signed_${obj.id}`);
         span.setAttribute('target', '_blank');
         span.setAttribute('href', `/urbanStorage/${obj.fullControlInvoice}/${obj.fullInvoice}.pdf`);
-        span.setAttribute('class', `bi-file-check txt-medium color-white result-control`);
+        span.setAttribute('class', `bi-folder txt-medium color-white result-control`);
 
         topControls.appendChild(span);
     }
