@@ -89,7 +89,7 @@ function createResultTop(obj, isPrint, isLandUse) {
     span = document.createElement('a');
     span.setAttribute('id', `result_control_location_${obj.id}`);
     span.setAttribute('target', '_blank');
-    span.setAttribute('href', `/tool/map/?lat=${lat}&lng=${lon}&zoom=19`);
+    span.setAttribute('href', `/tool/map/?lat=${lat}&lng=${lon}&zoom=19&layer=${isLandUse ? '1' : '2'}`);
     span.setAttribute('class', `bi-geo-alt txt-medium color-white result-control`);
     topControls.appendChild(span);
 
@@ -195,7 +195,7 @@ function createResultTopNoUpdate(obj, isLandUse) {
     span = document.createElement('a');
     span.setAttribute('id', `result_control_location_${obj.id}`);
     span.setAttribute('target', '_blank');
-    span.setAttribute('href', `/tool/map/?lat=${lat}&lng=${lon}&zoom=19`);
+    span.setAttribute('href', `/tool/map/?lat=${lat}&lng=${lon}&zoom=19&layer=${isLandUse ? '1' : '2'}`);
     span.setAttribute('class', `bi-geo-alt txt-medium color-white result-control`);
     topControls.appendChild(span);
 
@@ -341,7 +341,7 @@ function createLegacyTop(obj, linkPDF = true) {
     span = document.createElement('a');
     span.setAttribute('id', `result_control_location_${obj.id}`);
     span.setAttribute('target', '_blank');
-    span.setAttribute('href', `/tool/map/?lat=${lat}&lng=${lon}&zoom=19`);
+    span.setAttribute('href', `/tool/map/?lat=${lat}&lng=${lon}&zoom=19&layer=1`);
     span.setAttribute('class', `bi-geo-alt txt-medium color-white result-control`);
     topControls.appendChild(span);
 
