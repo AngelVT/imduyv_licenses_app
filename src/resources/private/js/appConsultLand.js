@@ -775,7 +775,7 @@ function generateLandFields(resObj, resultContent) {
 
     fieldGroup.appendChild(field);
 
-    /*field = createResultField(resObj.id, 'Plazo', 'term', resObj.licenseTerm, 'select');
+    field = createResultField(resObj.id, 'Plazo', 'term', resObj.licenseTerm, 'select');
 
     field.querySelector('select').innerHTML = `
     <option value="">Selecciona ...</option>
@@ -786,7 +786,7 @@ function generateLandFields(resObj, resultContent) {
 
     field.querySelector('select').value = resObj.licenseTerm;
 
-    fieldGroup.appendChild(field);*/
+    fieldGroup.appendChild(field);
 
     field = createResultField(resObj.id, 'Vigencia', 'validity', resObj.licenseValidity, 'select');
 

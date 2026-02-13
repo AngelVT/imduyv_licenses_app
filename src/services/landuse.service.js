@@ -351,7 +351,7 @@ export async function requestLandLicenseUpdate(id, licenseData, files, requestor
         businessLineIntern,
         authorizedUse,
         expeditionType,
-        //term,
+        term,
         validity,
         requestDate,
         expeditionDate,
@@ -411,7 +411,7 @@ export async function requestLandLicenseUpdate(id, licenseData, files, requestor
         }
     }
 
-    if (!licensePrintInvoice && !requestorName && !attentionName && !address && !number && !colony && !contactPhone && !catastralKey && !surface && !georeference && !businessLinePrint && !businessLineIntern && !authorizedUse && !expeditionType && !validity && !requestDate && !expeditionDate && !expirationDate && !paymentInvoice && !cost && !discount && !paymentDone && !inspector && !anexo && !restrictions && !conditions && !parcela && !propertyNo && !propertyDate && !marginName && !marginAttention && !compacted && !includeBusinessLine && !zoneIMG && !recordFile) {
+    if (!licensePrintInvoice && !requestorName && !attentionName && !address && !number && !colony && !contactPhone && !catastralKey && !surface && !georeference && !businessLinePrint && !businessLineIntern && !authorizedUse && !expeditionType && !validity && !requestDate && !expeditionDate && !expirationDate && !paymentInvoice && !cost && !discount && !paymentDone && !inspector && !anexo && !restrictions && !conditions && !parcela && !propertyNo && !propertyDate && !marginName && !marginAttention && !compacted && !includeBusinessLine && !zoneIMG && !recordFile && !term) {
         throw new ValidationError('Request failed due to missing information.',
             'Land use update request',
             `Request failed due to missing information.
@@ -430,7 +430,7 @@ export async function requestLandLicenseUpdate(id, licenseData, files, requestor
         );
     }
 
-    if (!await landValidate.validateModels({ authorizedUse, validity, expeditionType })) {
+    if (!await landValidate.validateModels({ authorizedUse, validity, expeditionType, term })) {
         throw new ValidationError('Request failed due to invalid information.',
             'Land use update request',
             `Request failed due to invalid information.
@@ -512,7 +512,7 @@ export async function requestLandLicenseUpdate(id, licenseData, files, requestor
         colony: colony,
         surfaceTotal: surface,
         catastralKey: catastralKey,
-        licenseTerm: georeference ? coordinateInfo.data.numericTerm : undefined,
+        licenseTerm: term ? term : georeference ? coordinateInfo.data.numericTerm : undefined,
         geoReference: georeference ? georeference : undefined,
         licenseZone: georeference ? coordinateInfo.data.numericZone : undefined,
         authorizedUse: authorizedUse,
