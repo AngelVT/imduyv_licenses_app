@@ -685,6 +685,7 @@ function generateLandFields(resObj, resultContent) {
     <option value="20">Centros deportivos y ecuestres</option>
     <option value="19">Centros sociales</option>
     <option value="3">Comercio básico</option>
+    <option value="56">Comercio básico y alojamiento</option>
     <option value="8">Comercio de abasto</option>
     <option value="6">Comercio de impacto</option>
     <option value="5">Comercio de medio impacto</option>
