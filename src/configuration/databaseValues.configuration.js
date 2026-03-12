@@ -372,7 +372,8 @@ const setDefaultLicenseAuthUses = async () => {
             AuthUse.create({ license_authUse_id: 53, licenseAuthUse: 'Minería y extracción'}),
             AuthUse.create({ license_authUse_id: 54, licenseAuthUse: 'Sanitaria'}),
             AuthUse.create({ license_authUse_id: 55, licenseAuthUse: 'Comercio y servicios especializados'}),
-            AuthUse.create({ license_authUse_id: 56, licenseAuthUse: 'Comercio básico y alojamiento'})
+            AuthUse.create({ license_authUse_id: 56, licenseAuthUse: 'Comercio básico y alojamiento'}),
+            AuthUse.create({ license_authUse_id: 57, licenseAuthUse: 'Almacenamiento y Abasto'})
         ]);
 
         logger.logConsoleInfo("Default license auth uses have been set");
