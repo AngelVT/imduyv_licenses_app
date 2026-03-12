@@ -675,7 +675,6 @@ function generateLandFields(resObj, resultContent) {
 
     field.querySelector('select').innerHTML = `
     <option value="">Selecciona ...</option>
-    <option value="57">Almacenamiento y abasto</option>
     <option value="43">Almacenamientos, bodegas y depósitos</option>
     <option value="22">Alojamiento</option>
     <option value="51">Aprovechamiento Agropecuario</option>
@@ -685,6 +684,7 @@ function generateLandFields(resObj, resultContent) {
     <option value="7">Centros comerciales</option>
     <option value="20">Centros deportivos y ecuestres</option>
     <option value="19">Centros sociales</option>
+    <option value="57">Comercio, almacenamiento y abasto</option>
     <option value="3">Comercio básico</option>
     <option value="56">Comercio básico y alojamiento</option>
     <option value="8">Comercio de abasto</option>
