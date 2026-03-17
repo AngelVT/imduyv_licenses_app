@@ -185,7 +185,7 @@ export async function generateLandUseDP(lcDBObj) {
                                     widths: ['*'],
                                     body: [
                                         [{  type: 'upper-alpha',
-                                            style: 'regular',
+                                            style: ['regular', 'justify'],
                                             border: docUtils.borderless,
                                             separator: ')',
                                             lineHeight: 1.5,
@@ -231,7 +231,7 @@ export async function generateLandUseDP(lcDBObj) {
                                     widths: ['*'],
                                     body: [
                                         [{  
-                                            style: 'regular',
+                                            style: ['regular', 'justify'],
                                             border: docUtils.borderless,
                                             stack: [
                                                     {
