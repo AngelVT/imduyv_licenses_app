@@ -253,8 +253,8 @@ export async function generateLandUseDP(lcDBObj) {
                                                             {text: 'NO', bold: true},
                                                             {text: '  ejercerá el Derecho de Preferencia Municipal sobre el bien inmueble identificado como parcela '},
                                                             {text: lcDBObj.licenseSpecialData.parcela, bold: true},
-                                                            {text: ', del ejido de Tizayuca, Hidalgo, la cual ampara con el certificado parcelario No.'},
-                                                            {text: lcDBObj.licenseSpecialData.propertyNo, bold: true},
+                                                            {text: ', del ejido de Tizayuca, Hidalgo, la cual ampara con '},
+                                                            {text: docUtils.parseSimpleFormatting(lcDBObj.licenseSpecialData.propertyNo)},
                                                             {text: ' de fecha '},
                                                             {text: docUtils.dateFormatFull(lcDBObj.licenseSpecialData.propertyDate)},
                                                             {text: ', debiendo mantener inalterable el uso de suelo actual.\n\n'}
@@ -264,7 +264,7 @@ export async function generateLandUseDP(lcDBObj) {
                                                         lineHeight: 1.3,
                                                         text: [
                                                             {text: 'TERCERO. ', bold: true},
-                                                            {text: 'Así mismo se le informa que dicho predio, dentro de las normas de compatibilidad y aprovechamiento PLANO 03PE01 - POLÍTICAS TERRITORIALES, PLANO 03PE10 - ETAPAS DE DESARROLLO, 03PE09 -ZONIFICACIÓN SECUNDARIA del PMDUyOT, se encuentra como '},
+                                                            {text: 'Asimismo se le informa que dicho predio, dentro de las normas de compatibilidad y aprovechamiento PLANO 03PE01 - POLÍTICAS TERRITORIALES, PLANO 03PE10 - ETAPAS DE DESARROLLO, 03PE09 -ZONIFICACIÓN SECUNDARIA del PMDUyOT, se encuentra como '},
                                                             {text: lcDBObj.zone.licenseZone, bold: true},
                                                             {text: ` (${lcDBObj.zone.licenseKey}).\n\n`, bold: true},
                                                         ]

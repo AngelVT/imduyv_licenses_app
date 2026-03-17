@@ -96,7 +96,7 @@ export function generateSpecialData(type) {
         return {
             anexo: defaultAnexo,
             parcela: "##/### ###",
-            propertyNo: "###########",
+            propertyNo: "el certificado parcelario *No.###########*",
             propertyDate: "2024-01-01",
             restrictions: [
                 "Los actos, convenios o contratos que se realicen sin respetar el Derecho de Preferencia a que se refiere este apartado podrán ser declarados nulos mediante procedimiento administrativo o judicial, cuando por derecho haya sido conculcado.",
