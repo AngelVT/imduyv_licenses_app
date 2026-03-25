@@ -704,6 +704,7 @@ function generateLandFields(resObj, resultContent) {
     <option value="47">Gas natural y gas LP</option>
     <option value="44">Hidráulica</option>
     <option value="39">Industria a base de minerales no metálicos</option>
+    <option value="58">Industria a base de minerales no metálicos / comercial</option>
     <option value="35">Industria casera</option>
     <option value="36">Industria de bajo impacto</option>
     <option value="37">Industria de medio impacto</option>
