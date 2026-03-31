@@ -10,6 +10,7 @@ export function validateParameter(parameter) {
         elaboratedBy: {},
         lastModifiedBy: {},
         colony: {},
+        address: {},
         catastralKey: {},
         businessLinePrint: {},
         businessLineIntern: {},
