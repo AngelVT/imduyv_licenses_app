@@ -212,6 +212,7 @@ export async function generateTableBody(types, start, end, observations) {
     if (observations.trim() !== '-') {
         body.push([
             {
+                pageBreak: 'before',
                 colSpan: 7,
                 fontSize: 9,
                 margin: [5,0,5,0],
