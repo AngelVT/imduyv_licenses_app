@@ -664,6 +664,7 @@ export async function generateLandDataReport(start, end, types) {
                 folio_pago: legacy.folio_pago,
                 folio_membrete: legacy.folio_membrete,
                 estatus: legacy.folio_membrete ? "ENTREGADA" : "EN REVISIÓN",
+                tipo_tramite: legacy.tipo_tramite
             });
         }
 
@@ -685,6 +686,7 @@ export async function generateLandDataReport(start, end, types) {
                 folio_pago: license.paymentInvoice,
                 folio_membrete: license.licensePrintInvoice,
                 estatus: license.approvalStatus ? "ENTREGADA" : "EN REVISIÓN",
+                tipo_tramite: license.expedition_type.licenseExpType
             });
         }
     }

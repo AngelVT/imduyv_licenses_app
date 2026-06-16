@@ -182,9 +182,14 @@ export async function findLandLicenseByPeriodType(type, start, end) {
                 [Op.between]: [start, end]
             }
         },
+        include: {
+            model: ExpeditionType,
+            attributes: ['licenseExpType']
+        },
         order: [['invoice', 'ASC']], 
         attributes: ['fullInvoice', 'requestorName', 'catastralKey', 'businessLineIntern','address', 'number', 'colony', 'expeditionDate', 'paymentInvoice', 'licensePrintInvoice', 'geoReference', 'approvalStatus'],
-        raw: true
+        raw: true,
+        nest: true
     });
 }
 
