@@ -733,9 +733,14 @@ function generateLandFields(resObj, resultContent) {
     <option value="1">Unifamiliar, plurifamiliar o multifamiliar</option>
     <option value="50">Vial</option>
     <option value="2">Vivienda campestre o aislada</option>
+    <option value="59">Otro</option>
     `;
 
     field.querySelector('select').value = resObj.authorizedUse;
+
+    fieldGroup.appendChild(field);
+
+    field = createResultField(resObj.id, 'Uso autorizado (otro)', 'otherAuthUse', resObj.licenseSpecialData.otherAuthUse, 'text');
 
     fieldGroup.appendChild(field);
 

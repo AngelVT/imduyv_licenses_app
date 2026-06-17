@@ -160,7 +160,7 @@ export async function generateLandUseL(lcDBObj) {
                                         [
                                             {text: 'Uso de suelo que se autoriza: ', style: 'labelTC', border: docUtils.borderless, colSpan: 3, margin: [0,4,0,0]},
                                             {},{},
-                                            docUtils.fieldLU(lcDBObj.authorized_use.licenseAuthUse.toUpperCase(), docUtils.borderless, 9, 'boldCenter', 7),
+                                            docUtils.fieldLU(lcDBObj.authorizedUse === 59 ? lcDBObj.licenseSpecialData.otherAuthUse : lcDBObj.authorized_use.licenseAuthUse.toUpperCase(), docUtils.borderless, 9, 'boldCenter', 7),
                                             {},{},{},{},{},{},{},{}
                                         ],
                                         [

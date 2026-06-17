@@ -57,7 +57,8 @@ export function generateSpecialData(type) {
             marginName: defaultMargin,
             marginAttention: defaultMargin,
             comments: [],
-            includeBusinessLine: false
+            includeBusinessLine: false,
+            otherAuthUse: ''
         }
     }
 
@@ -88,7 +89,8 @@ export function generateSpecialData(type) {
             marginName: defaultMargin,
             marginAttention: defaultMargin,
             comments: [],
-            compacted: false
+            compacted: false,
+            otherAuthUse: ''
         }
     }
 
@@ -105,7 +107,8 @@ export function generateSpecialData(type) {
             ],
             marginName: defaultMargin,
             marginAttention: defaultMargin,
-            comments: []
+            comments: [],
+            otherAuthUse: ''
         }
     }
 }
