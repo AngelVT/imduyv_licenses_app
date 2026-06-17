@@ -435,7 +435,7 @@ export async function requestLandLicenseUpdate(id, licenseData, files, requestor
         throw new ValidationError('Request failed due to invalid information.',
             'Land use update request',
             `Request failed due to invalid information.
-            Provided data -> Term: ${term}, zone: ${zone}, authorized use: ${authorizedUse}, validity: ${validity}, expedition type: ${expeditionType}`);
+            Provided data -> Term: ${term}, authorized use: ${authorizedUse}, validity: ${validity}, expedition type: ${expeditionType}`);
     }
 
     if (marginName && isNaN(parseInt(marginName))) {

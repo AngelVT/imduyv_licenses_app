@@ -23,6 +23,7 @@ export function validateParameter(parameter) {
 }
 
 export async function validateModels(models) {
+    console.log(models)
     if (models.type) {
         if (isNaN(parseInt(models.type))) {
             return false
@@ -56,11 +57,11 @@ export async function validateModels(models) {
         }
     }
 
-    if (models.authUse) {
-        if (isNaN(parseInt(models.authUse))) {
+    if (models.authorizedUse) {
+        if (isNaN(parseInt(models.authorizedUse))) {
             return false
         }
-        const authUses = await AuthUse.findByPk(models.authUse);
+        const authUses = await AuthUse.findByPk(models.authorizedUse);
 
         if (authUses == null) {
             return false;
