@@ -471,7 +471,7 @@ export async function requestLandLicenseUpdate(id, licenseData, files, requestor
         termConditions: termConditions ?  termConditions.replaceAll('\r', '').split('\n') : undefined
     }
     
-    if (newSpecialData.termConditions.includes('-')) {
+    if (termConditions && newSpecialData.termConditions.includes('-')) {
         newSpecialData.termConditions = []
     }
 
