@@ -371,7 +371,9 @@ export async function requestLandLicenseUpdate(id, licenseData, files, requestor
         marginAttention,
         compacted,
         includeBusinessLine,
-        otherAuthUse
+        otherAuthUse,
+        highlightTerm,
+        termConditions
         //COS,
         //alt_max,
         //niveles
@@ -412,7 +414,7 @@ export async function requestLandLicenseUpdate(id, licenseData, files, requestor
         }
     }
 
-    if (!licensePrintInvoice && !requestorName && !attentionName && !address && !number && !colony && !contactPhone && !catastralKey && !surface && !georeference && !businessLinePrint && !businessLineIntern && !authorizedUse && !expeditionType && !validity && !requestDate && !expeditionDate && !expirationDate && !paymentInvoice && !cost && !discount && !paymentDone && !inspector && !anexo && !restrictions && !conditions && !parcela && !propertyNo && !propertyDate && !marginName && !marginAttention && !compacted && !includeBusinessLine && !zoneIMG && !recordFile && !term && !otherAuthUse) {
+    if (!licensePrintInvoice && !requestorName && !attentionName && !address && !number && !colony && !contactPhone && !catastralKey && !surface && !georeference && !businessLinePrint && !businessLineIntern && !authorizedUse && !expeditionType && !validity && !requestDate && !expeditionDate && !expirationDate && !paymentInvoice && !cost && !discount && !paymentDone && !inspector && !anexo && !restrictions && !conditions && !parcela && !propertyNo && !propertyDate && !marginName && !marginAttention && !compacted && !includeBusinessLine && !zoneIMG && !recordFile && !term && !otherAuthUse && !highlightTerm && !termConditions) {
         throw new ValidationError('Request failed due to missing information.',
             'Land use update request',
             `Request failed due to missing information.
@@ -464,8 +466,15 @@ export async function requestLandLicenseUpdate(id, licenseData, files, requestor
         marginAttention: marginAttention ? parseInt(marginAttention) : undefined,
         compacted: parseBool(compacted, false),
         includeBusinessLine: parseBool(includeBusinessLine, false),
-        otherAuthUse: authorizedUse == 59 ? 'Otro' : otherAuthUse
+        otherAuthUse: authorizedUse == 59 ? 'Otro' : otherAuthUse,
+        highlightTerm: parseBool(highlightTerm, false),
+        termConditions: termConditions ?  termConditions.replaceAll('\r', '').split('\n') : undefined
     }
+    
+    if (newSpecialData.termConditions.includes('-')) {
+        newSpecialData.termConditions = []
+    }
+
     let coordinateInfo;
 
     if (georeference) {

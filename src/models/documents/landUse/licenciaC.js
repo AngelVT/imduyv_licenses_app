@@ -138,7 +138,7 @@ export async function generateLandUseC(lcDBObj) {
                                         ],
                                         [
                                             {text: 'Plazo: ', style: 'labelTC', border: docUtils.borderless, margin: [0,4,0,0]},
-                                            docUtils.fieldLU(lcDBObj.term.licenseTerm, docUtils.borderless, 2, 'boldCenter', 6),
+                                            docUtils.fieldLU(lcDBObj.term.licenseTerm, docUtils.borderless, 2, lcDBObj.licenseSpecialData.highlightTerm ? ['boldCenter','highlighted'] : 'boldCenter', 6),
                                             {},
                                             {text: 'COS: ', style: 'labelTC', border: docUtils.borderless, margin: [0,4,0,0]},
                                             docUtils.fieldLU(lcDBObj.licenseSpecialData.COS === 0 ? '-' :  `${lcDBObj.licenseSpecialData.COS} %`, docUtils.borderless, 2, 'boldCenter', 7),
@@ -174,6 +174,14 @@ export async function generateLandUseC(lcDBObj) {
                                         ],
                                         [
                                             {text: 'La expedición de constancia de uso de suelo: tiene como objeto establecer los usos y destinos de un predio con base en lo previsto en el Programa Municipal de Desarrollo Urbano y Ordenamiento Territorial de Tizayuca, lo cual no autoriza su modificación, construcción o alteración.', style: 'labelTC', border: docUtils.borderless, lineHeight: 1.5, colSpan: 12},
+                                            {},{},{},{},{},{},{},{},{},{},{}
+                                        ],
+                                        [
+                                            {
+                                                ul: lcDBObj.licenseSpecialData.termConditions ? lcDBObj.licenseSpecialData.termConditions : [], style: ['regularSmall', 'highlighted'],
+                                                border: docUtils.borderless, lineHeight: 1.5,
+                                                colSpan: 12
+                                            },
                                             {},{},{},{},{},{},{},{},{},{},{}
                                         ]
                                     ]

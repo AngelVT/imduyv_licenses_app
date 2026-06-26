@@ -820,6 +820,12 @@ function generateLandFields(resObj, resultContent) {
 
     fieldGroup.appendChild(field);
 
+    if (resObj.licenseType == 1) {
+        field = createResultTextArea(resObj.id, 'Restricciones de plazo', 'termConditions', resObj.licenseSpecialData.termConditions?.join('\n'));
+
+        fieldGroup.appendChild(field);
+    }
+
     resultContent.appendChild(fieldGroup);
 
     // ! end of terms and validities field group
@@ -875,6 +881,10 @@ function generateLandFields(resObj, resultContent) {
         fieldGroup.appendChild(field);
 
         field = createResultField(resObj.id, 'Incluir actividad', 'includeBusinessLine', resObj.licenseSpecialData.includeBusinessLine, 'checkbox');
+
+        fieldGroup.appendChild(field);
+
+        field = createResultField(resObj.id, 'Resaltar plazo', 'highlightTerm', resObj.licenseSpecialData.highlightTerm, 'checkbox');
 
         fieldGroup.appendChild(field);
     }

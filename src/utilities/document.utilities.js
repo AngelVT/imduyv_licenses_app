@@ -166,6 +166,9 @@ export const docStyles = {
     },
     bold: {
         bold: true
+    },
+    highlighted: {
+        color: '#C82333'
     }
 }
 

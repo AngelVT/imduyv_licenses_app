@@ -58,7 +58,9 @@ export function generateSpecialData(type) {
             marginAttention: defaultMargin,
             comments: [],
             includeBusinessLine: false,
-            otherAuthUse: ''
+            otherAuthUse: '',
+            highlightTerm: false,
+            termConditions: []
         }
     }
 

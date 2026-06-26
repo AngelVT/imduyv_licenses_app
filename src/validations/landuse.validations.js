@@ -23,7 +23,6 @@ export function validateParameter(parameter) {
 }
 
 export async function validateModels(models) {
-    console.log(models)
     if (models.type) {
         if (isNaN(parseInt(models.type))) {
             return false
