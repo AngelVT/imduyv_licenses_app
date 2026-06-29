@@ -173,6 +173,41 @@ export async function requestUnapprovedLandLicenses() {
     }
 }
 
+export async function requestFilteredLanLicenses(type, year, criteria, value, periodStart, periodEnd, isApproved) {
+    if (!type || !year || !criteria || !value || !periodStart || !periodEnd || !isApproved) {
+        throw new ValidationError('Request failed due to missing information.',
+            'Land use update request',
+            `Request failed due to missing information.
+            Provided data -> No data provided`);
+    }
+
+    if (type && isNaN(parseInt(type))) {
+        throw new ValidationError('Request failed due to invalid search parameters provided.',
+            'Land use filtered request',
+            `Search params type: ${type} are invalid.`);
+    }
+
+    if (year && isNaN(parseInt(year))) {
+        throw new ValidationError('Request failed due to invalid search parameters provided.',
+            'Land use filtered request',
+            `Search params year: ${year} are invalid.`);
+    }
+
+    if ((periodStart && periodEnd)  && (!validateDates(periodStart) || !validateDates(periodEnd))) {
+        throw new ValidationError('Request failed due to invalid search parameters provided.',
+            'Land use legacy request by period',
+            `Search params start date: ${periodStart}, end date: ${periodEnd} are invalid.`);
+    }
+
+    if ((periodStart && periodEnd) && (!validatePeriod(periodStart, periodEnd))) {
+        throw new ValidationError('Request failed due to end date cannot be before start date and viceversa.',
+            'Land use legacy request by period',
+            `Request failed due to period start/end inconsistency
+            Provided data -> Period from ${periodStart} to ${periodEnd}.`
+        );
+    }
+}
+
 export async function requestLandLicenseCreate(body, files, requestor) {
     const DATE = new Date;
 
@@ -911,17 +946,18 @@ export async function requestInvoiceCheck() {
     }
 }
 
-export async function requestQuarterReports(periodStart, periodEnd, types, observations, report_type) {
+export async function requestQuarterReports(periodStart, periodEnd, types, observations, report_type, do_pagebreak) {
     const REPORT_TYPES = ["quarter","geoRef", "status", "excel"];
 
-    if (!periodStart || !periodEnd || !types || !report_type) {
+    if (!periodStart || !periodEnd || !types || !report_type || typeof do_pagebreak !== 'boolean') {
         throw new ValidationError('Request failed due to invalid missing information.',
             'Land use report request',
             `Search params missing: 
                 periodStart:${!periodStart}
                 periodEnd: ${!periodEnd}
                 types: ${!types}
-                report_type: ${!report_type}`);
+                report_type: ${!report_type}
+                do_pagebreak: ${!do_pagebreak}`);
     }
 
     if(!Array.isArray(types)) {
@@ -976,7 +1012,7 @@ export async function requestQuarterReports(periodStart, periodEnd, types, obser
             `Observations not provided for quarter report`);
             }
 
-            reportDefinition = await generateLandQuarterReport(periodStart, periodEnd, types, observations);
+            reportDefinition = await generateLandQuarterReport(periodStart, periodEnd, types, observations, do_pagebreak);
             break;
     
         case "geoRef":

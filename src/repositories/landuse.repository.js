@@ -1,5 +1,5 @@
 import { LandUseLicense, Type, Term, Zone, AuthUse, Validity, ExpeditionType } from "../models/License.models.js";
-import { LegacyLicense } from "../models/LandLegacy.models.js";
+import { LegacyLicense, LegacyType } from "../models/LandLegacy.models.js";
 import { Op } from "sequelize";
 import Sequelize from "sequelize";
 import { generateSpecialData } from "../utilities/landuse.utilities.js";

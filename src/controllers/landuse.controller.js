@@ -117,6 +117,22 @@ export const getLicensesUnapproved = requestHandler(
     }
 );
 
+export const getLicensesFiltered = requestHandler(
+    async function (req, res) {
+        const { type, year, criteria, value, periodStart, periodEnd, isApproved } = req.query;
+
+        const response = await landService.requestFilteredLanLicenses(type, year, criteria, value, periodStart, periodEnd, isApproved);
+
+        res.status(200).json(response);
+
+        logger.logRequestInfo('Land use all record request completed',
+            `Requestor ID -> ${req.user.uuid}
+        Requestor Name -> ${req.user.name}
+        Requestor Username -> ${req.user.username}
+        Requested records -> Filtered Request`);
+    }
+);
+
 export const createLicense = requestHandler(
     async function (req, res) {
         const DATA = req.body;
@@ -305,9 +321,9 @@ export const checkInvoices = requestHandler(
 
 export const getQuarterReports = requestHandler(
     async function (req, res) {
-        const { periodStart, periodEnd, types, observations, report_type } = req.body;
+        const { periodStart, periodEnd, types, observations, report_type, do_pagebreak } = req.body;
 
-        const response = await landService.requestQuarterReports(periodStart, periodEnd, types, observations, report_type);
+        const response = await landService.requestQuarterReports(periodStart, periodEnd, types, observations, report_type, do_pagebreak);
 
         if (response.buffer) {
             res.setHeader("Content-Type", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");

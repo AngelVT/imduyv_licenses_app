@@ -62,6 +62,13 @@ router.get('/unapproved', [
     authenticator.verifyPermission(['license:read', 'license:manage'])
 ], landControl.getLicensesUnapproved);
 
+router.get('/filtered', [
+    authenticator.verifyToken(),
+    authenticator.accountIntegrity,
+    authenticator.verifyGroup(LAND_GROUPS),
+    authenticator.verifyPermission(['license:read', 'license:manage'])
+], landControl.getLicensesFiltered);
+
 router.get('/check', [
     authenticator.verifyToken(),
     authenticator.accountIntegrity,

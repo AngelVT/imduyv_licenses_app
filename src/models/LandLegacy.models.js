@@ -134,6 +134,15 @@ export const LegacyLicense = pool.define(
         },
         folio_membrete: {
             type: DataTypes.STRING
+        },
+        is_legacy: {
+            type: DataTypes.VIRTUAL,
+            get() {
+                return true
+            },
+            set(value) {
+                throw new Error('`is_legacy` is a virtual field, no changes can be applied.');
+            }
         }
 }, {
     schema: 'legacy'

@@ -30,6 +30,10 @@ reportForm.addEventListener('submit', async event => {
 
     const dataBody = Object.fromEntries(formData);
 
+    const checkboxPageBreak = document.querySelector("input[name='do_pagebreak']");
+
+    dataBody.do_pagebreak = checkboxPageBreak.checked;
+
     dataBody.types = selectedTypes.map(n => parseInt(n));
     //dataBody.isGeoRef = georefBox.checked;
 
@@ -46,6 +50,7 @@ reportForm.addEventListener('submit', async event => {
         const response = await res.json();
 
         alert(response.msg);
+        return;
     }
 
     const blob = await res.blob();

@@ -3,7 +3,7 @@ import { findLandLicenseByPeriodType } from "../repositories/landuse.repository.
 import { dateFormatFull, dateFormatDMY, parseSimpleFormatting } from "./document.utilities.js";
 import ExcelJS from 'exceljs';
 
-export async function generateTableBody(types, start, end, observations) {
+export async function generateTableBody(types, start, end, observations, do_pagebreak) {
     const body = [
         [
             {
@@ -212,7 +212,7 @@ export async function generateTableBody(types, start, end, observations) {
     if (observations.trim() !== '-') {
         body.push([
             {
-                pageBreak: 'before',
+                pageBreak: do_pagebreak ? 'before' : undefined,
                 colSpan: 7,
                 fontSize: 9,
                 margin: [5,0,5,0],

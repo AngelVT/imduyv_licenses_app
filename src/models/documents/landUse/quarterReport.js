@@ -3,7 +3,7 @@ import { generateTableBody, generateTableBodyGeoRef, generateTableBodyStatus } f
 import { __dirname } from "../../../path.configuration.js";
 import path from "path";
 
-export async function generateLandQuarterReport(start, end, types, observations) {
+export async function generateLandQuarterReport(start, end, types, observations, do_pagebreak) {
     const definition = {
         styles: docUtils.docStyles,
         pageOrientation: 'landscape',
@@ -18,7 +18,7 @@ export async function generateLandQuarterReport(start, end, types, observations)
             {
                 table: {
                     widths: [130, '*', '*', '*', '*', '*', '*'],
-                    body: await generateTableBody(types, start, end, observations)
+                    body: await generateTableBody(types, start, end, observations, do_pagebreak)
                 }
             }
         ],

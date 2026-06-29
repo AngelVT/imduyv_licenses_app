@@ -130,7 +130,7 @@ export async function requestLegacyLicenseByPeriod(startDate, endDate) {
         throw new ValidationError('Request failed due to end date cannot be before start date and viceversa.',
             'Land use legacy request by period',
             `Request failed due to period start/end inconsistency
-            Provided data -> Period from ${startDate} to ${administrationEnd}.`
+            Provided data -> Period from ${startDate} to ${endDate}.`
         );
     }
 
