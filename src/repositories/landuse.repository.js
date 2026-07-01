@@ -163,6 +163,60 @@ export async function findLandLicenseBy(parameter, value) {
     });
 }
 
+export async function findLandLicenseFiltered(filter) {
+    const where = [];
+
+    if (filter.period) {
+        where.push({
+            expeditionDate: {
+                [Op.between]: [filter.period[0], filter.period[1]]
+            }
+        });
+    }
+
+    if (filter.licenseType) {
+        where.push({
+            licenseType: filter.licenseType
+        });
+    }
+
+    if (filter.year) {
+        where.push({
+            year: filter.year
+        });
+    }
+
+    if (typeof filter.approvalStatus === 'boolean') {
+        where.push({
+            approvalStatus: filter.approvalStatus
+        });
+    }
+
+    if (filter.parameter && filter.value) {
+        where.push(Sequelize.where(
+            Sequelize.fn('unaccent',
+                Sequelize.cast(Sequelize.col(filter.parameter), 'text')),
+            {
+                [Op.iLike]: `%${escapeLike(filter.value)}%`
+            }
+        ));
+    }
+
+    if (where.length === 0) {
+        return []
+    }
+
+    return await LandUseLicense.findAll({
+        where: {
+            [Op.and]: where
+        },
+        include: LAND_USE_MODELS,
+        attributes: LAND_USE_ATTRIBUTES,
+        raw: true,
+        nest: true
+    });
+}
+
 export async function findUnapprovedLandLicenses() {
     return await LandUseLicense.findAll({
         where: {

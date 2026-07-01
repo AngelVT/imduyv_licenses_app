@@ -97,6 +97,54 @@ export async function findLegacyLicenseByAttention(attention) {
     });
 }
 
+export async function findLegacyLicenseFiltered(filter) {
+    const where = [];
+
+    if (filter.period) {
+        where.push({
+            fecha_expedicion: {
+                [Op.between]: [filter.period[0], filter.period[1]]
+            }
+        });
+    }
+
+    if (filter.legacy_type_id) {
+        where.push({
+            legacy_type_id: filter.legacy_type_id
+        });
+    }
+
+    if (filter.year) {
+        where.push({
+            year: filter.year
+        });
+    }
+
+    if (filter.parameter && filter.value) {
+        where.push(Sequelize.where(
+            Sequelize.fn('unaccent',
+                Sequelize.cast(Sequelize.col(filter.parameter), 'text')),
+            {
+                [Op.iLike]: `%${escapeLike(filter.value)}%`
+            }
+        ));
+    }
+
+    if (where.length === 0) {
+        return []
+    }
+
+    return await LegacyLicense.findAll({
+        where: {
+            [Op.and]: where
+        },
+        order: LEGACY_ORDER,
+        include: LEGACY_MODELS,
+        attributes: LEGACY_ATTRIBUTES,
+        raw: true,
+        nest: true
+    });
+}
 
 export async function findLegacyLicenseByPeriod(startDate, endDate) {
     return await LegacyLicense.findAll({

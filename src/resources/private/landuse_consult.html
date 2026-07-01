@@ -25,7 +25,7 @@
                 <a href="/app/landMenu" class="back-arrow bi-arrow-left-circle-fill"></a>
 
                 <nav class="dis-flex flex-between w-100 margin-bottom-small padding-small border-primary border-only-left border-only-bottom border-only-right border-round-bottom controls">
-                    <form id="form_land_by" class="dis-flex flex-wrap flex-center-h w-20">
+                    <form id="form_land_by" class="dis-none dis-flex flex-wrap flex-center-h w-20">
                         <select name="by" class="input input-secondary input-interface border-secondary input-round-left w-50" required>
                             <option value="">Seleccione parametro ...</option>
                             <option value="requestorName">Nombre del solicitante</option>
@@ -43,7 +43,7 @@
                         
                     </form>
                     
-                    <form id="form_land_byInvoice" class="dis-flex flex-wrap flex-center-h w-20">
+                    <form id="form_land_byInvoice" class="dis-flex flex-wrap flex-center-h w-30">
                         <select name="byInvoiceType" class="input input-secondary input-interface border-secondary input-round-left w-40" required>
                             <option value="">Seleccione tipo...</option>
                             <option value="1">Constancia</option>
@@ -67,7 +67,7 @@
                         <button class="btn btn-primary margin-top-small" type="submit">Buscar por hoja foliada</button>
                     </form>
 
-                    <form id="form_land_byType" class="dis-flex flex-wrap flex-center-h w-20">
+                    <form id="form_land_byType" class="dis-none dis-flex flex-wrap flex-center-h w-20">
                         <select name="byType" class="input input-secondary input-interface border-secondary input-round-left w-50" required>
                             <option value="">Seleccione tipo...</option>
                             <option value="1">Constancia</option>
@@ -85,7 +85,50 @@
                         
                     </form>
 
-                    <button id="get_unapproved" class="btn btn-primary margin-top-small bi-building-x txt-medium"></button>
+                    <button id="get_unapproved" class="dis-none btn btn-primary margin-top-small bi-building-x txt-medium"></button>
+                    <!-- ! new search form -->
+                    <form id="form_land_filtered" class="dis-flex flex-wrap flex-center-h w-50 filtered-layout">
+
+                        <select name="type" class="input input-secondary input-interface border-secondary input-round-left w-25">
+                            <option value="">Tipo...</option>
+                            <option value="1">Constancia</option>
+                            <option value="2">Licencia Servicios</option>
+                            <option value="3">Licencia Comercal</option>
+                            <option value="4">Licencia Industria</option>
+                            <option value="5">Segregado</option>
+                            <option value="6">Derecho de Preferencia</option>
+                            <option value="7">Licencia Habitacional</option>
+                        </select>
+                        <select id="filter_year_select" name="year" class="input input-secondary input-interface input-round-right w-25">
+                            <option value="">Año ...</option>
+                        </select>
+
+                        <input name="periodStart" class="input input-secondary input-interface border-secondary input-round w-20" type="date">
+                        <p class="w-5 txt-center">a</p>
+                        <input name="periodEnd" class="input input-secondary input-interface input-round w-20" type="date">
+
+                        <select name="parameter" class="input input-secondary input-interface border-secondary input-round-left w-40">
+                            <option value="">Parametro ...</option>
+                            <option value="requestorName">Nombre del solicitante</option>
+                            <option value="attentionName">En atención</option>
+                            <option value="colony">Colonia</option>
+                            <option value="address">Calle</option>
+                            <option value="catastralKey">Clave castastral</option>
+                            <option value="businessLineIntern">Giro</option>
+                            <option value="paymentInvoice">Folio de pago</option>
+                            <option value="inspector">Inspector</option>
+                            <option value="licencia">Folio</option>
+                        </select>
+                        <input name="value" class="input input-secondary input-interface input-round-right w-35" type="text" placeholder="Valor ...">
+
+                        <select name="isApproved" class="input input-secondary input-interface border-secondary input-round w-20">
+                            <option value="">Estatus...</option>
+                            <option value="true">Aprobado</option>
+                            <option value="false">No aprobado</option>
+                        </select>
+
+                        <button class="btn btn-primary margin-top-small" type="submit">Buscar</button>
+                    </form>
                 </nav>
 
                 <div id="results_container" class="results-container">
@@ -98,9 +141,10 @@
     <script>
         const INVOICE_YEAR_SELECTOR = document.getElementById('invoice_year_select');
         const TYPE_YEAR_SELECTOR = document.getElementById('type_year_select');
+        const FILTER_YEAR_SELECTOR = document.getElementById('filter_year_select');
         const YEAR = new Date().getFullYear();
 
-        for (let i = YEAR; i >= 2024; i--) {
+        for (let i = YEAR; i >= 2025; i--) {
             let option = document.createElement('option');
             option.value = i;
             option.innerText = i;
@@ -110,7 +154,7 @@
             INVOICE_YEAR_SELECTOR.appendChild(option);
         }
 
-        for (let i = YEAR; i >= 2024; i--) {
+        for (let i = YEAR; i >= 2025; i--) {
             let option = document.createElement('option');
             option.value = i;
             option.innerText = i;
@@ -118,6 +162,13 @@
                 option.setAttribute('selected','');
             }
             TYPE_YEAR_SELECTOR.appendChild(option);
+        }
+
+        for (let i = YEAR; i >= 2022; i--) {
+            let option = document.createElement('option');
+            option.value = i;
+            option.innerText = i;
+            FILTER_YEAR_SELECTOR.appendChild(option);
         }
     </script>
 </body>

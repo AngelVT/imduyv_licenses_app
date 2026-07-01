@@ -21,6 +21,7 @@ import { literal } from "sequelize";
 import { parseBool } from '../utilities/urban.utilities.js';
 import * as notificationRepo from '../repositories/notification.repository.js';
 import { getIO } from '../sockets/handler.socket.js';
+import { findLegacyLicenseFiltered } from '../repositories/land-legacy.repository.js';
 
 export async function requestAllLandLicenses() {
 
@@ -174,37 +175,107 @@ export async function requestUnapprovedLandLicenses() {
 }
 
 export async function requestFilteredLanLicenses(type, year, criteria, value, periodStart, periodEnd, isApproved) {
-    if (!type || !year || !criteria || !value || !periodStart || !periodEnd || !isApproved) {
-        throw new ValidationError('Request failed due to missing information.',
-            'Land use update request',
+    if (!type && !year && !criteria && !value && !periodStart && !periodEnd && !isApproved) {
+        throw new ValidationError('Solicitud fallida debido a información faltante.',
+            'Land use filtered request',
             `Request failed due to missing information.
             Provided data -> No data provided`);
     }
 
     if (type && isNaN(parseInt(type))) {
-        throw new ValidationError('Request failed due to invalid search parameters provided.',
+        throw new ValidationError('Solicitud fallida debido a tipo invalido.',
             'Land use filtered request',
             `Search params type: ${type} are invalid.`);
     }
 
     if (year && isNaN(parseInt(year))) {
-        throw new ValidationError('Request failed due to invalid search parameters provided.',
+        throw new ValidationError('Solicitud fallida debido a año invalido.',
             'Land use filtered request',
             `Search params year: ${year} are invalid.`);
     }
 
     if ((periodStart && periodEnd)  && (!validateDates(periodStart) || !validateDates(periodEnd))) {
-        throw new ValidationError('Request failed due to invalid search parameters provided.',
-            'Land use legacy request by period',
+        throw new ValidationError('Solicitud fallida debido a fechas invalidas.',
+            'Land use filtered request',
             `Search params start date: ${periodStart}, end date: ${periodEnd} are invalid.`);
     }
 
     if ((periodStart && periodEnd) && (!validatePeriod(periodStart, periodEnd))) {
-        throw new ValidationError('Request failed due to end date cannot be before start date and viceversa.',
-            'Land use legacy request by period',
+        throw new ValidationError('Solicitud fallida debido a que la fecha final no puede ser antes de la fecha de inicio y viceversa.',
+            'Land use filtered request',
             `Request failed due to period start/end inconsistency
             Provided data -> Period from ${periodStart} to ${periodEnd}.`
         );
+    }
+
+    if ((criteria && value) && criteria === 'licencia') {
+        const format = /^[A-Za-z]{1,3}\/\d{3}(\/\d{4})?$/;
+
+        if (!format.test(value)) {
+            throw new ValidationError('Solicitud fallida debido a folio invalido, se recomienda usar este formato para búsqueda por folio TIPO/###/####.',
+            'Land use legacy request by ID',
+            `Request failed due to ID ${invoice} is invalid.`
+            );
+        }
+    }
+
+    const mapRegular = {
+        fullInvoice: 'fullInvoice',
+        requestorName: 'requestorName',
+        attentionName: 'attentionName',
+        elaboratedBy: 'elaboratedBy',
+        lastModifiedBy: 'lastModifiedBy',
+        colony: 'colony',
+        address: 'address',
+        catastralKey: 'catastralKey',
+        businessLinePrint: 'businessLinePrint',
+        businessLineIntern: 'businessLineIntern',
+        paymentInvoice: 'paymentInvoice',
+        contactPhone: 'contactPhone',
+        inspector: 'inspector'
+    }
+
+    const mapLegacy = {
+        requestorName: 'nombre',
+        attentionName: 'en_atencion',
+        catastralKey: 'clave_catastral',
+        licencia: "licencia"
+    }
+
+    const searchValue = unaccent(value);
+
+    const filtersRegular = {
+        licenseType: type,
+        period: periodStart && periodEnd ? [periodStart, periodEnd] : undefined,
+        year: periodStart || periodEnd ? undefined : year,
+        approvalStatus: parseBool(isApproved, undefined),
+        parameter: Object.hasOwn(mapRegular, criteria) ? mapRegular[criteria] : undefined,
+        value: searchValue
+    }
+
+    const filtersLegacy = {
+        legacy_type_id: type,
+        period: periodStart && periodEnd ? [periodStart, periodEnd] : undefined,
+        year: periodStart || periodEnd ? undefined : year,
+        parameter: Object.hasOwn(mapLegacy, criteria) ? mapLegacy[criteria] : undefined,
+        value: searchValue
+    }
+
+    const land = await landRepo.findLandLicenseFiltered(filtersRegular);
+
+    const legacy = await findLegacyLicenseFiltered(filtersLegacy);
+
+    if (land.length === 0 && legacy.length === 0) {
+        throw new ResourceError('No hay registros para mostrar',
+            'Land use filtered request',
+            `Search by filters
+            Land: ${JSON.stringify(filtersRegular, null, 3)}.
+            Legacy: ${JSON.stringify(filtersLegacy, null, 3)}.`);
+    }
+
+    return {
+        licenses: land,
+        legacyLicenses: legacy
     }
 }
 

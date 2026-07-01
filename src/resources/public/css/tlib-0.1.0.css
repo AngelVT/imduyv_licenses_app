@@ -1984,7 +1984,7 @@ textarea.invissible:focus {
         font-size: 4.4rem;
     }
 
-    .controls form {
+    .controls.sized form {
         width: 33%;
     }
 

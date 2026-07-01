@@ -5,6 +5,7 @@ const formSearchByInvoice = document.querySelector('#form_land_byInvoice');
 const formSearchByPrintInvoice = document.querySelector('#form_byPrintInvoice');
 const formSearchByType = document.querySelector('#form_land_byType');
 const formSearchUnapproved = document.querySelector('#get_unapproved');
+const formSearchFiltered = document.querySelector('#form_land_filtered')
 
 formSearchBy.addEventListener('submit',
     event => {
@@ -56,6 +57,74 @@ formSearchByPrintInvoice.addEventListener('submit',
 
 formSearchUnapproved.addEventListener('click', () => {
     getUnapproved()
+});
+
+formSearchFiltered.addEventListener('submit', async e => {
+    e.preventDefault();
+
+    const thisForm = e.target;
+
+    const formFilters = new FormData(thisForm);
+
+    const filters = Object.fromEntries(formFilters);
+
+    const uriFilters = []
+
+    for (const key in filters) {
+        if (!Object.hasOwn(filters, key)) continue;
+
+        if (filters[key]) {
+            uriFilters.push(`${key}=${encodeURIComponent(filters[key])}`);
+        }
+    }
+
+    /*  const cleanValue = value
+        .replace(/[\u00A0\u2000-\u200D\u3000]/g, ' ')
+        .trim()
+        .replace(/\s+/g, ' '); */
+    
+    await fetch(`/api/landuse/filtered?${uriFilters.join('&')}`, {
+        method: 'GET',
+        credentials: 'include'
+    })
+    .then(async res => {
+        if (res.ok) {
+            let content = res.headers.get('Content-Type');
+
+            if (content.includes('text/html')) {
+                location.href = res.url;
+                return;
+            }
+
+            let response = await res.json();
+
+            if (response.legacyLicenses.length === 0 && response.licenses.length === 0) {
+                alert('No hay resultados que coincida con la búsqueda');
+                return;
+            }
+
+            resultContainer.innerHTML = '';
+
+            response.legacyLicenses.forEach(element => {
+                createLegacyResult(element, resultContainer);
+            });
+
+            response.licenses.forEach(element => {
+                createLandResultNoUpdate(element, resultContainer);
+            });
+            return;
+        }
+
+        if (!res.ok) {
+            let response = await res.json();
+            alert(response.msg);
+            return;
+        }
+    })
+    .catch(error => {
+        alert('An error ocurred:\n' + error);
+        console.error('Error getting data: ', error)
+    });
 });
 
 async function getLicense(type, invoice, year) {
@@ -414,6 +483,74 @@ async function deleteResult(id) {
             console.error('Error uploading file: ', error);
         });
 }*/
+
+//-------------------------------------------------------------------
+//* Legacy Result
+
+function createLegacyResult(resObj, target) {
+
+    const resultContent = generateLegacyFields(resObj, createResultContent(resObj.legacy_license_uuid, false));
+
+    const newResult = createResult(
+        resObj.legacy_license_uuid,
+        createLegacyTop(resObj),
+        resultContent);
+
+    target.appendChild(newResult);
+}
+
+function generateLegacyFields(resObj, resultContent) {
+    for (const key in resObj) {
+        if (key === 'legacy_license_uuid' ||
+            key === 'legacy_type' ||
+            key === 'legacy_type_id'
+        ) {
+            continue;
+        }
+
+        const text = document.createTextNode(`${key.replaceAll('_', ' ')}: `);
+        const p = document.createElement('p');
+        const span = document.createElement('span');
+
+        p.setAttribute('class', 'w-25 legacy-field ');
+
+        span.innerText = resObj[key];
+
+        p.appendChild(text);
+        p.appendChild(span);
+
+        resultContent.appendChild(p);
+    }
+
+    const form = document.createElement('form');
+    const label = document.createElement('label');
+    const fileInput = document.createElement('input');
+    const button = document.createElement('button');
+
+    form.setAttribute('onsubmit', `uploadPDF('${resObj.legacy_license_uuid}', this); return false`);
+    form.setAttribute('class', 'w-50 dis-flex flex-column flex-center-v');
+
+    label.innerText = 'Cargar PDF:';
+    label.setAttribute('class', 'w-100 dis-flex flex-column flex-center-v txt-bold color-primary');
+
+    fileInput.type = 'file';
+    fileInput.name = 'legacyPDF';
+    fileInput.accept = '.pdf';
+    fileInput.required = true;
+    fileInput.setAttribute('class', 'w-25 margin-top-small');
+
+    button.type = 'submit';
+    button.innerText = 'Cargar'
+    button.setAttribute('class', 'btn btn-primary margin-top-small')
+
+    label.appendChild(fileInput);
+    form.appendChild(label);
+    form.appendChild(button);
+
+    resultContent.appendChild(form);
+
+    return resultContent;
+}
 
 //-------------------------------------------------------------------
 //* Land Result

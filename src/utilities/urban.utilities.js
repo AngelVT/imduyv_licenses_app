@@ -77,7 +77,7 @@ export function parseBool(value, defaultValue) {
         return value.toLowerCase() === 'true';
     }
 
-    return Boolean(value);
+    return defaultValue;
 }
 
 export function generateSpecialData(type) {

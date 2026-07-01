@@ -227,6 +227,7 @@ function createResultTopNoUpdate(obj, isLandUse) {
 
     span = document.createElement('a');
     span.setAttribute('id', `result_control_edit_${obj.id}`);
+    span.setAttribute('target', '_blank');
     if (isLandUse) 
         span.setAttribute('href', `/app/landPrint?type=${obj.licenseType}&invoice=${obj.invoice}&year=${obj.year}`);
     else
@@ -326,12 +327,12 @@ function createLegacyTop(obj, linkPDF = true) {
     top.setAttribute('id', `result_top_${obj.legacy_license_uuid}`);
     top.setAttribute('class', `w-100 dis-flex flex-between flex-center-v padding-small bg-primary border-round controls`);
 
-    topLabel.setAttribute('class', `color-white txt-bold w-100 txt-center result-label`);
+    topLabel.setAttribute('class', `bi-database-gear color-white txt-bold w-100 txt-center result-label`);
 
     topLabel.setAttribute('onclick', `hideShow('${obj.legacy_license_uuid}')`);
     topLabel.setAttribute('id', `result_user_${obj.legacy_license_uuid}`);
 
-    topLabel.innerText = `${obj.licencia.replaceAll('_', '/')}`;
+    topLabel.innerText = ` Folio: ${obj.licencia.replaceAll('_', '/')}`;
 
     top.appendChild(topLabel);
 
