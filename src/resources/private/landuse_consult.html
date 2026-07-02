@@ -107,25 +107,30 @@
                         <p class="w-5 txt-center">a</p>
                         <input name="periodEnd" class="input input-secondary input-interface input-round w-20" type="date">
 
-                        <select name="parameter" class="input input-secondary input-interface border-secondary input-round-left w-40">
+                        <select name="parameter" class="input input-secondary input-interface border-secondary input-round-left w-20 compatibility-select">
                             <option value="">Parametro ...</option>
-                            <option value="requestorName">Nombre del solicitante</option>
-                            <option value="attentionName">En atención</option>
-                            <option value="colony">Colonia</option>
-                            <option value="address">Calle</option>
-                            <option value="catastralKey">Clave castastral</option>
+                            <option value="requestorName">Nombre del solicitante &#xF8BF</option>
+                            <option value="attentionName">En atención &#xF8BF</option>
+                            <option value="colony">Colonia &#xF8BF</option>
+                            <option value="address">Calle &#xF8BF</option>
+                            <option value="catastralKey">Clave castastral &#xF8BF</option>
                             <option value="businessLineIntern">Giro</option>
                             <option value="paymentInvoice">Folio de pago</option>
-                            <option value="inspector">Inspector</option>
-                            <option value="licencia">Folio</option>
+                            <option value="inspector">Inspector &#xF8BF</option>
+                            <option value="licencia">Folio &#xF8BF</option>
                         </select>
-                        <input name="value" class="input input-secondary input-interface input-round-right w-35" type="text" placeholder="Valor ...">
+                        <input name="value" class="input input-secondary input-interface input-round-right w-20" type="text" placeholder="Valor ...">
 
                         <select name="isApproved" class="input input-secondary input-interface border-secondary input-round w-20">
                             <option value="">Estatus...</option>
                             <option value="true">Aprobado</option>
                             <option value="false">No aprobado</option>
                         </select>
+
+                        <label class="color-primary dis-flex flex-center txt-center w-35">
+                            <input type="checkbox" name="doLegacy" id="filtered_legacy_checkbox" checked>
+                            Incluir legacy
+                        </label>
 
                         <button class="btn btn-primary margin-top-small" type="submit">Buscar</button>
                     </form>

@@ -24,6 +24,17 @@
     src: url("../css/fonts/Montserrat-VariableFont_wght.ttf");
 }
 
+@font-face {
+    font-display: block;
+    font-family: "bootstrap-icons";
+    src: url("../libs/bootstrap-icons-1.11.3/font/fonts/bootstrap-icons.woff2") format("woff2"),
+    url("../libs/bootstrap-icons-1.11.3/font/fonts/bootstrap-icons.woff") format("woff");
+}
+
+.compatibility-select > option {
+    font-family: "bootstrap-icons"!important;
+}
+
 * {
     margin: 0;
     padding: 0;

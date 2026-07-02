@@ -174,13 +174,15 @@ export async function requestUnapprovedLandLicenses() {
     }
 }
 
-export async function requestFilteredLanLicenses(type, year, criteria, value, periodStart, periodEnd, isApproved) {
+export async function requestFilteredLanLicenses(type, year, criteria, value, periodStart, periodEnd, isApproved, doLegacy) {
     if (!type && !year && !criteria && !value && !periodStart && !periodEnd && !isApproved) {
         throw new ValidationError('Solicitud fallida debido a información faltante.',
             'Land use filtered request',
             `Request failed due to missing information.
             Provided data -> No data provided`);
     }
+
+    const includeLegacy = parseBool(doLegacy, false);
 
     if (type && isNaN(parseInt(type))) {
         throw new ValidationError('Solicitud fallida debido a tipo invalido.',
@@ -220,25 +222,24 @@ export async function requestFilteredLanLicenses(type, year, criteria, value, pe
     }
 
     const mapRegular = {
-        fullInvoice: 'fullInvoice',
         requestorName: 'requestorName',
         attentionName: 'attentionName',
-        elaboratedBy: 'elaboratedBy',
-        lastModifiedBy: 'lastModifiedBy',
         colony: 'colony',
         address: 'address',
         catastralKey: 'catastralKey',
         businessLinePrint: 'businessLinePrint',
         businessLineIntern: 'businessLineIntern',
         paymentInvoice: 'paymentInvoice',
-        contactPhone: 'contactPhone',
         inspector: 'inspector'
     }
 
     const mapLegacy = {
         requestorName: 'nombre',
         attentionName: 'en_atencion',
+        colony: 'colonia',
+        address: 'calle',
         catastralKey: 'clave_catastral',
+        inspector: 'inspector',
         licencia: "licencia"
     }
 
@@ -263,7 +264,7 @@ export async function requestFilteredLanLicenses(type, year, criteria, value, pe
 
     const land = await landRepo.findLandLicenseFiltered(filtersRegular);
 
-    const legacy = await findLegacyLicenseFiltered(filtersLegacy);
+    const legacy = includeLegacy ? await findLegacyLicenseFiltered(filtersLegacy) : [];
 
     if (land.length === 0 && legacy.length === 0) {
         throw new ResourceError('No hay registros para mostrar',

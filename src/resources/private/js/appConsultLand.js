@@ -5,7 +5,8 @@ const formSearchByInvoice = document.querySelector('#form_land_byInvoice');
 const formSearchByPrintInvoice = document.querySelector('#form_byPrintInvoice');
 const formSearchByType = document.querySelector('#form_land_byType');
 const formSearchUnapproved = document.querySelector('#get_unapproved');
-const formSearchFiltered = document.querySelector('#form_land_filtered')
+const formSearchFiltered = document.querySelector('#form_land_filtered');
+const doLegacyCheckbox = document.querySelector('#filtered_legacy_checkbox');
 
 formSearchBy.addEventListener('submit',
     event => {
@@ -67,6 +68,8 @@ formSearchFiltered.addEventListener('submit', async e => {
     const formFilters = new FormData(thisForm);
 
     const filters = Object.fromEntries(formFilters);
+
+    filters.doLegacy = doLegacyCheckbox.checked;
 
     const uriFilters = []
 

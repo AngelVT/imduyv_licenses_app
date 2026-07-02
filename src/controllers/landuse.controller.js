@@ -119,9 +119,9 @@ export const getLicensesUnapproved = requestHandler(
 
 export const getLicensesFiltered = requestHandler(
     async function (req, res) {
-        const { type, year, parameter, value, periodStart, periodEnd, isApproved } = req.query;
+        const { type, year, parameter, value, periodStart, periodEnd, isApproved, doLegacy } = req.query;
 
-        const response = await landService.requestFilteredLanLicenses(type, year, parameter, value, periodStart, periodEnd, isApproved);
+        const response = await landService.requestFilteredLanLicenses(type, year, parameter, value, periodStart, periodEnd, isApproved, doLegacy);
 
         res.status(200).json(response);
 
