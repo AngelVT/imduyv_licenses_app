@@ -31,7 +31,7 @@
     url("../libs/bootstrap-icons-1.11.3/font/fonts/bootstrap-icons.woff") format("woff");
 }
 
-.compatibility-select > option {
+.compatibility-select, .compatibility-select > option {
     font-family: "bootstrap-icons"!important;
 }
 
