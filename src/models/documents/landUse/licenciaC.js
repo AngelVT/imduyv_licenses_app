@@ -173,17 +173,17 @@ export async function generateLandUseC(lcDBObj) {
                                             {...EMPTY_CELL}
                                         ],
                                         [
-                                            !lcDBObj.licenseSpecialData.termConditions || lcDBObj.licenseSpecialData.termConditions.length === 0 || lcDBObj.licenseSpecialData.termConditions.includes('-') ? {...EMPTY_CELL} : {
-                                                text: `${'\n'.repeat(Math.ceil((lcDBObj.licenseSpecialData.termConditions.length / 2) - 1))} Restricciones:`,
+                                            !lcDBObj.licenseSpecialData.termConditions || lcDBObj.licenseSpecialData.termConditions === '-' ? {...EMPTY_CELL} : {
+                                                text: `Restricciones:`,
                                                 style: 'labelTC',
                                                 fontSize: 6,
                                                 border: docUtils.borderless,
-                                                margin: [0, 4,0,0],
+                                                margin: [0,4,0,0],
                                                 //colSpan: 2
                                             },
                                             /* {...EMPTY_CELL}, */
-                                            !lcDBObj.licenseSpecialData.termConditions || lcDBObj.licenseSpecialData.termConditions.length === 0 || lcDBObj.licenseSpecialData.termConditions.includes('-') ? {...EMPTY_CELL} : docUtils.fieldUL(
-                                                lcDBObj.licenseSpecialData.termConditions ? lcDBObj.licenseSpecialData.termConditions : [], docUtils.borderless, 11, 'highlighted',7)
+                                            !lcDBObj.licenseSpecialData.termConditions || lcDBObj.licenseSpecialData.termConditions === '-' ? {...EMPTY_CELL} : docUtils.fieldLU(
+                                                lcDBObj.licenseSpecialData.termConditions ? docUtils.parseSimpleFormatting(lcDBObj.licenseSpecialData.termConditions) : '', docUtils.borderless, 11, 'highlighted',7)
                                                 /* {...EMPTY_CELL},
                                                 {...EMPTY_CELL} */
                                             /* {

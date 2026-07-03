@@ -60,7 +60,7 @@ export function generateSpecialData(type) {
             includeBusinessLine: false,
             otherAuthUse: '',
             highlightTerm: false,
-            termConditions: []
+            termConditions: '-'
         }
     }
 

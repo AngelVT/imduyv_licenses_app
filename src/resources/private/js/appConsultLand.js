@@ -961,7 +961,7 @@ function generateLandFields(resObj, resultContent) {
     fieldGroup.appendChild(field);
 
     if (resObj.licenseType == 1) {
-        field = createResultTextArea(resObj.id, 'Restricciones de plazo', 'termConditions', resObj.licenseSpecialData.termConditions?.join('\n'));
+        field = createResultTextArea(resObj.id, 'Restricciones de plazo', 'termConditions', resObj.licenseSpecialData.termConditions);
 
         fieldGroup.appendChild(field);
     }

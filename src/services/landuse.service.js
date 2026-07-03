@@ -575,11 +575,7 @@ export async function requestLandLicenseUpdate(id, licenseData, files, requestor
         includeBusinessLine: parseBool(includeBusinessLine, false),
         otherAuthUse: authorizedUse == 59 ? 'Otro' : otherAuthUse,
         highlightTerm: parseBool(highlightTerm, false),
-        termConditions: termConditions ?  termConditions.replaceAll('\r', '').split('\n') : undefined
-    }
-    
-    if (termConditions && newSpecialData.termConditions.includes('-')) {
-        newSpecialData.termConditions = []
+        termConditions: termConditions ? termConditions.trim().replaceAll('\r', '') : undefined
     }
 
     let coordinateInfo;
