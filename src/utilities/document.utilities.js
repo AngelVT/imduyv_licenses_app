@@ -189,6 +189,15 @@ export function fieldLU(text, borders, span, style, fontSize, marginTop = 0) {
     }
 }
 
+export function fieldUL(array, borders, span, style, fontSize, marginTop = 0) {
+    return {
+        colSpan: span,
+        border: borders,
+        margin: [0, marginTop, 0, 0],
+        table: { widths: ['*'], body: [[{ ul: array, fontSize: fontSize, style: style, margin: [3, 3, 3, 3] }]] }, layout: cellLayout
+    }
+}
+
 export function voidCell(span) {
     return { colSpan: span, border: borderless, text: '' }
 }
