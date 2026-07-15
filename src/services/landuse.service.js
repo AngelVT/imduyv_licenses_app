@@ -480,7 +480,8 @@ export async function requestLandLicenseUpdate(id, licenseData, files, requestor
         includeBusinessLine,
         otherAuthUse,
         highlightTerm,
-        termConditions
+        termConditions,
+        observations
         //COS,
         //alt_max,
         //niveles
@@ -521,7 +522,7 @@ export async function requestLandLicenseUpdate(id, licenseData, files, requestor
         }
     }
 
-    if (!licensePrintInvoice && !requestorName && !attentionName && !address && !number && !colony && !contactPhone && !catastralKey && !surface && !georeference && !businessLinePrint && !businessLineIntern && !authorizedUse && !expeditionType && !validity && !requestDate && !expeditionDate && !expirationDate && !paymentInvoice && !cost && !discount && !paymentDone && !inspector && !anexo && !restrictions && !conditions && !parcela && !propertyNo && !propertyDate && !marginName && !marginAttention && !compacted && !includeBusinessLine && !zoneIMG && !recordFile && !term && !otherAuthUse && !highlightTerm && !termConditions) {
+    if (!licensePrintInvoice && !requestorName && !attentionName && !address && !number && !colony && !contactPhone && !catastralKey && !surface && !georeference && !businessLinePrint && !businessLineIntern && !authorizedUse && !expeditionType && !validity && !requestDate && !expeditionDate && !expirationDate && !paymentInvoice && !cost && !discount && !paymentDone && !inspector && !anexo && !restrictions && !conditions && !parcela && !propertyNo && !propertyDate && !marginName && !marginAttention && !compacted && !includeBusinessLine && !zoneIMG && !recordFile && !term && !otherAuthUse && !highlightTerm && !termConditions && !observations) {
         throw new ValidationError('Request failed due to missing information.',
             'Land use update request',
             `Request failed due to missing information.
@@ -571,11 +572,12 @@ export async function requestLandLicenseUpdate(id, licenseData, files, requestor
         propertyDate,
         marginName: marginName ? parseInt(marginName) : undefined,
         marginAttention: marginAttention ? parseInt(marginAttention) : undefined,
-        compacted: parseBool(compacted, false),
-        includeBusinessLine: parseBool(includeBusinessLine, false),
+        compacted: parseBool(compacted, undefined),
+        includeBusinessLine:  parseBool(includeBusinessLine, undefined),
         otherAuthUse: authorizedUse == 59 ? 'Otro' : otherAuthUse,
-        highlightTerm: parseBool(highlightTerm, false),
-        termConditions: termConditions ? termConditions.trim().replaceAll('\r', '') : undefined
+        highlightTerm: parseBool(highlightTerm, undefined),
+        termConditions: termConditions ? termConditions.trim().replaceAll('\r', '') : undefined,
+        observations: observations ? observations.trim().replaceAll('\r', '') : undefined
     }
 
     let coordinateInfo;

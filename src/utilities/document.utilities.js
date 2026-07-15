@@ -558,7 +558,7 @@ export function prepareData(lcDBObj) {
     const { licenseTerm } = lcDBObj.term;
     const { licenseValidity } = lcDBObj.validity
 
-    lcDBObj.fullInvoice = fullInvoice.replaceAll('_', '/');
+    lcDBObj.fullInvoice = fullInvoice?.replaceAll('_', '/');
 
     if (surfaceTotal) {
         const number = Number(surfaceTotal).toLocaleString();

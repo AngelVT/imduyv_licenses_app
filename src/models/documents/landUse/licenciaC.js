@@ -159,10 +159,10 @@ export async function generateLandUseC(lcDBObj) {
                                             {}
                                         ],
                                         [
-                                            lcDBObj.licenseSpecialData.includeBusinessLine ? {text: 'Actividad: ', style: 'labelTC', border: docUtils.borderless, margin: [0,4,0,0]} : {...EMPTY_CELL},
-                                            lcDBObj.licenseSpecialData.includeBusinessLine ? docUtils.fieldLU(lcDBObj.businessLinePrint, docUtils.borderless, 8, 'boldCenter', 7) : {...EMPTY_CELL},
+                                            lcDBObj.licenseSpecialData.includeBusinessLine ? {text: 'Uso de suelo compatible: ', style: 'labelTC', border: docUtils.borderless, margin: [0,4,0,0], colSpan: 3} : {...EMPTY_CELL},
                                             {...EMPTY_CELL},
                                             {...EMPTY_CELL},
+                                            lcDBObj.licenseSpecialData.includeBusinessLine ? docUtils.fieldLU(lcDBObj.businessLinePrint, docUtils.borderless, 9, 'boldCenter', 7) : {...EMPTY_CELL},
                                             {...EMPTY_CELL},
                                             {...EMPTY_CELL},
                                             {...EMPTY_CELL},
@@ -193,6 +193,20 @@ export async function generateLandUseC(lcDBObj) {
                                             } */,
                                             {...EMPTY_CELL},
                                             {...EMPTY_CELL},{...EMPTY_CELL},{...EMPTY_CELL},{...EMPTY_CELL},{...EMPTY_CELL},{...EMPTY_CELL},{...EMPTY_CELL},{...EMPTY_CELL},{...EMPTY_CELL}
+                                        ],
+                                        [
+                                            !lcDBObj.licenseSpecialData.observations || lcDBObj.licenseSpecialData.observations === '-' ? {...EMPTY_CELL} : {
+                                                text: `Observaciones:`,
+                                                style: 'labelTC',
+                                                fontSize: 7,
+                                                border: docUtils.borderless,
+                                                margin: [0,4,0,0],
+                                                colSpan: 2
+                                            },{...EMPTY_CELL},
+                                            !lcDBObj.licenseSpecialData.observations || lcDBObj.licenseSpecialData.observations === '-' ? {...EMPTY_CELL} : docUtils.fieldLU(
+                                                lcDBObj.licenseSpecialData.observations ? docUtils.parseSimpleFormatting(lcDBObj.licenseSpecialData.observations) : '', docUtils.borderless, 10, 'labelT',7),
+                                            {...EMPTY_CELL},
+                                            {...EMPTY_CELL},{...EMPTY_CELL},{...EMPTY_CELL},{...EMPTY_CELL},{...EMPTY_CELL},{...EMPTY_CELL},{...EMPTY_CELL},{...EMPTY_CELL}
                                         ],
                                         [
                                             {text: 'La expedición de constancia de uso de suelo: tiene como objeto establecer los usos y destinos de un predio con base en lo previsto en el Programa Municipal de Desarrollo Urbano y Ordenamiento Territorial de Tizayuca, lo cual no autoriza su modificación, construcción o alteración.', style: 'labelTC', border: docUtils.borderless, lineHeight: 1.5, colSpan: 12},

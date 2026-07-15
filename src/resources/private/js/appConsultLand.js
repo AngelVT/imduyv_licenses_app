@@ -896,6 +896,12 @@ function generateLandFields(resObj, resultContent) {
 
     fieldGroup.appendChild(field);
 
+    if (resObj.licenseType == 1) {
+        field = createResultTextArea(resObj.id, 'Observaciones', 'observations', resObj.licenseSpecialData.observations);
+
+        fieldGroup.appendChild(field);
+    }
+
     resultContent.appendChild(fieldGroup);
 
     // ! end of zone field group
