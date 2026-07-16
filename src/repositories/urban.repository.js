@@ -8,7 +8,7 @@ const URBAN_MODELS = [
     {
         model: UrbanType,
         attributes: ['licenseType']
-    }/* ,
+    },
     {
         model: Zone,
         attributes: ['licenseZone', 'licenseKey']
@@ -20,7 +20,7 @@ const URBAN_MODELS = [
     {
         model: Validity,
         attributes: ['licenseValidity']
-    } */
+    }
 ];
 const URBAN_ATTRIBUTES = { exclude: ['urban_license_id'] }
 
@@ -172,7 +172,7 @@ export async function getLicenseEspecialData(id) {
         where: {
             public_urban_license_id: id
         },
-        attributes: ['licenseType', 'fullControlInvoice', 'fullInvoice', 'active', 'approvalStatus'],
+        attributes: ['licenseType', 'fullControlInvoice', 'fullInvoice', 'active', 'approvalStatus', 'licenseSpecialData'],
         raw: true,
         nest: true
     });

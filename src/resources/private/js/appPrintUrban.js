@@ -68,7 +68,7 @@ async function getLicensePrint(type, invoice, year) {
                 
                 createUrbanResult(response.license, resultPrint, true);
 
-                //PDF.setAttribute('src', `/api/urban/PDF/t/${type}/i/${invoice}/y/${year}?${new Date().getTime()}`);
+                PDF.setAttribute('src', `/api/urban/PDF/t/${type}/i/${invoice}/y/${year}?${new Date().getTime()}`);
 
                 return;
             }
@@ -111,7 +111,7 @@ async function getLicensePrintId(id) {
                 
                 createUrbanResult(response.license, resultPrint, true);
 
-                //PDF.setAttribute('src', `/api/urban/PDF/t/${response.license.licenseType}/i/${response.license.invoice}/y/${response.license.year}?${new Date().getTime()}`);
+                PDF.setAttribute('src', `/api/urban/PDF/t/${response.license.licenseType}/i/${response.license.invoice}/y/${response.license.year}?${new Date().getTime()}`);
 
                 return;
             }
@@ -214,8 +214,8 @@ async function updateResultField(form, id) {
                     form.querySelector('input[type=hidden]').value = form.querySelector('.input-interface').value;
                 }
 
-                //let url = PDF.getAttribute('src').split('?')[0];
-                //PDF.setAttribute('src', `${url}?${new Date().getTime()}`)
+                let url = PDF.getAttribute('src').split('?')[0];
+                PDF.setAttribute('src', `${url}?${new Date().getTime()}`)
                 
                 alert(`Cambios guardados exitosamente para el registro: ${registro}`);
                 return;
@@ -287,8 +287,8 @@ async function approveLicense(id, button, isLandUse) {
             return;
         }
 
-        //let url = PDF.getAttribute('src').split('?')[0];
-        //PDF.setAttribute('src', `${url}?${new Date().getTime()}`);
+        let url = PDF.getAttribute('src').split('?')[0];
+        PDF.setAttribute('src', `${url}?${new Date().getTime()}`);
 
         alert(`Licencia ${registro}, aprobada exitosamente.`);
 
@@ -307,7 +307,7 @@ async function approveLicense(id, button, isLandUse) {
     }
 }
 
-/*async function lockLicense(id, button) {
+/* async function lockLicense(id, button) {
     try {
         let registro = document.querySelector(`#result_invoice_${id}`).innerText;
 
@@ -342,7 +342,7 @@ async function approveLicense(id, button, isLandUse) {
         console.log(error);
         alert('Solicitud fallida');
     }
-}*/
+} */
 
 async function unlockLicense(id, button) {
     try {
@@ -367,12 +367,12 @@ async function unlockLicense(id, button) {
             return;
         }
 
-        //let url = PDF.getAttribute('src').split('?')[0];
-        //PDF.setAttribute('src', `${url}?${new Date().getTime()}`);
+        let url = PDF.getAttribute('src').split('?')[0];
+        PDF.setAttribute('src', `${url}?${new Date().getTime()}`);
 
         alert(`Licencia ${registro}, bloqueada exitosamente.`);
 
-        //button.setAttribute('onclick', `lockLicense('${id}', this)`);
+        button.setAttribute('onclick', `lockLicense('${id}', this)`);
         const approvalBtn = document.getElementById(`result_control_approve_${id}`);
 
         approvalBtn.classList.remove("bi-building-check");
@@ -427,8 +427,8 @@ async function updateResultTables(form, id) {
                     return;
                 }
 
-                //let url = PDF.getAttribute('src').split('?')[0];
-                //PDF.setAttribute('src', `${url}?${new Date().getTime()}`)
+                let url = PDF.getAttribute('src').split('?')[0];
+                PDF.setAttribute('src', `${url}?${new Date().getTime()}`)
                 
                 alert(`Cambios guardados exitosamente para el registro: ${registro}`);
                 return;

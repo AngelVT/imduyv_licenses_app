@@ -308,7 +308,7 @@ export const UrbanType = pool.define(
     schema: 'licenses'
 });
 
-/*export const UrbanLicense = pool.define(
+export const UrbanLicense = pool.define(
     'urban_license', {
     urban_license_id: {
         type: DataTypes.INTEGER,
@@ -320,13 +320,25 @@ export const UrbanType = pool.define(
         defaultValue: DataTypes.UUIDV4,
         unique: true
     },
-    fullInvoice: {
+    fullControlInvoice: {
         type: DataTypes.STRING,
         allowNull: false
     },
-    invoice: {
+    controlInvoice: {
         type: DataTypes.INTEGER,
         allowNull: false
+    },
+    controlYear: {
+        type: DataTypes.INTEGER,
+        allowNull: false
+    },
+    fullInvoice: {
+        type: DataTypes.STRING,
+        allowNull: true
+    },
+    invoice: {
+        type: DataTypes.INTEGER,
+        allowNull: true
     },
     licenseType: {
         type: DataTypes.INTEGER,
@@ -338,7 +350,7 @@ export const UrbanType = pool.define(
     },
     year: {
         type: DataTypes.INTEGER,
-        allowNull: false
+        allowNull: true
     },
     requestDate: {
         type: DataTypes.DATEONLY,
@@ -432,8 +444,20 @@ export const UrbanType = pool.define(
         type: DataTypes.STRING,
         allowNull: true
     },
-    observations: {
-        type: DataTypes.STRING,
+    statuses: {
+        type: DataTypes.JSONB,
+            allowNull: true,
+            defaultValue: {
+            payment_pending: true,
+            imduyv_signature_pending: true,
+            in_progress: false,
+            delivered: false,
+            municipal_signature_pending: true,
+            on_review: false
+        }
+    },
+    notes: {
+        type: DataTypes.TEXT,
         allowNull: true
     },
     licenseSpecialData: {
@@ -452,9 +476,9 @@ export const UrbanType = pool.define(
     }
 }, {
     schema: 'licenses'
-});*/
+});
 
-export const UrbanLicense = pool.define(
+/* export const UrbanLicense = pool.define(
     'urban_license', {
     urban_license_id: {
         type: DataTypes.INTEGER,
@@ -584,9 +608,9 @@ export const UrbanLicense = pool.define(
     }
 }, {
     schema: 'licenses'
-});
+}); */
 
 UrbanLicense.belongsTo(UrbanType, { foreignKey: 'licenseType' });
-//UrbanLicense.belongsTo(Zone, { foreignKey: 'licenseZone' });
-//UrbanLicense.belongsTo(Term, { foreignKey: 'licenseTerm' });
-//UrbanLicense.belongsTo(Validity, { foreignKey: 'licenseValidity' });
+UrbanLicense.belongsTo(Zone, { foreignKey: 'licenseZone' });
+UrbanLicense.belongsTo(Term, { foreignKey: 'licenseTerm' });
+UrbanLicense.belongsTo(Validity, { foreignKey: 'licenseValidity' });

@@ -84,13 +84,10 @@ export function generateSpecialData(type) {
     switch (parseInt(type)) {
         case 1:
             return {
-                PCU: "PCU",
-                occupationPercent: 0,
-                surfacePerLote: 0,
-                maximumHeight: 9,
-                levels: 3,
-                minimalFront: 0.00,
+                activity: 'HABITACIONAL',
+                minimalFront: 6.00,
                 frontalRestriction: 0.0,
+                layout: "A"
             }
         case 2:
             return {

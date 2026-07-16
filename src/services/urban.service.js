@@ -158,7 +158,7 @@ export async function requestUrbanLicenseCreate(body, files, requestor) {
 
     const YEAR = DATE.getFullYear();
 
-    /*for (const key in body) {
+    /* for (const key in body) {
         if (key !== 'requestorAddress' &&
             key !== 'maximumHeight' &&
             key !== 'parkingLots' &&
@@ -173,7 +173,7 @@ export async function requestUrbanLicenseCreate(body, files, requestor) {
             key !== 'representativeAs') {
             
         }
-    }*/
+    } */
 
     const {
         licenseType,
@@ -190,52 +190,53 @@ export async function requestUrbanLicenseCreate(body, files, requestor) {
         deliveryDate,
         receiverName,
         observations,
-        //legalRepresentative,
-        //colony,
-        //catastralKey,
-        //licenseTerm,
-        //surface,
+        notes,
+        legalRepresentative,
+        colony,
+        catastralKey,
+        licenseTerm,
+        surface,
         //zone,
-        //validity,
-        //isFrac,
+        validity,
+        isFrac,
         //PCU,
         //occupationPercent,
         //surfacePerLote,
         //maximumHeight,
         //levels,
-        //representativeAs,
-        //requestorAddress,
+        representativeAs,
+        requestorAddress,
         //non essential for registration special data
-        //minimalFront,//CUS
-        //frontalRestriction,//CUS
-        //parkingLots,//LUS
-        //conditions,//LUS
-        //restrictions,//LUS
-        //donationArea,//LUS
-        //authUse,//LUS
-        //activity,//LUS
-        //authorizationResume,//LSUB
-        //documents,//PLF
-        //location,//PLF
-        //integrity,//PLF
-        //detailedUse,//PLF
-        //urbanCUS,//LF
-        //urbanLUS,//LF
-        //habitacionalLotes,//LF
-        //totalManzanas,//LF
-        //totalSurface,//LF
-        //lotes,//RLF
-        //resultRelotification,//RLF
-        //totalRelotification,//RLF
-        //previousInvoice,//RLF
-        //previousInvoiceDate,//RLF
-        //manzanas,//CRPC
-        //households,//CRPC
-        //privateSurface,//CRPC
-        //commonSurface,//CRPC
+        minimalFront,//CUS
+        frontalRestriction,//CUS
+        parkingLots,//LUS
+        conditions,//LUS
+        restrictions,//LUS
+        donationArea,//LUS
+        authUse,//LUS
+        activity,//LUS
+        authorizationResume,//LSUB
+        documents,//PLF
+        location,//PLF
+        integrity,//PLF
+        detailedUse,//PLF
+        urbanCUS,//LF
+        urbanLUS,//LF
+        habitacionalLotes,//LF
+        totalManzanas,//LF
+        totalSurface,//LF
+        lotes,//RLF
+        resultRelotification,//RLF
+        totalRelotification,//RLF
+        previousInvoice,//RLF
+        previousInvoiceDate,//RLF
+        manzanas,//CRPC
+        households,//CRPC
+        privateSurface,//CRPC
+        commonSurface,//CRPC
     } = body;
 
-    if (!licenseType || !requestorName || !georeference/* || (licenseType == 2 && typeof isFrac === 'undefined')*/) {
+    if (!licenseType || !requestorName || !georeference || (licenseType == 2 && typeof isFrac === 'undefined')) {
         throw new ValidationError('Request failed due to missing information.',
             'Urban create request',
             `Request failed due to missing information.
@@ -250,8 +251,8 @@ export async function requestUrbanLicenseCreate(body, files, requestor) {
     if ((requestDate && !validateDates(requestDate)) ||
         (expeditionDate && !validateDates(expeditionDate)) ||
         (paymentDate && !validateDates(paymentDate)) ||
-        (deliveryDate && !validateDates(deliveryDate))/* ||
-        (previousInvoiceDate && !validateDates(previousInvoiceDate))*/) {
+        (deliveryDate && !validateDates(deliveryDate)) ||
+        (previousInvoiceDate && !validateDates(previousInvoiceDate))) {
         throw new ValidationError(
             'Request failed due to invalid information.',
             'Urban create request',
@@ -260,18 +261,18 @@ export async function requestUrbanLicenseCreate(body, files, requestor) {
         );
     }
 
-    if (!await urbanValidate.validateModels({ type: licenseType/*, validity */ })) {
+    if (!await urbanValidate.validateModels({ type: licenseType, validity })) {
         throw new ValidationError('Request failed due to invalid information.',
             'Urban create request',
             `Request failed due to invalid information.
             Provided data -> License type: ${licenseType}, term: ${licenseTerm}, zone: ${zone}, validity: ${validity}`);
     }
 
-    /*const INVOICE_INFO = await urbanUtils.generateInvoiceInformation(licenseType, YEAR);*/
+    const INVOICE_INFO = await urbanUtils.generateInvoiceInformation(licenseType, YEAR);
 
     const CONTROL_INVOICE_INFO = await urbanUtils.generateControlInvoiceInformation(licenseType, YEAR);
 
-    /*const SPECIAL_DATA = urbanUtils.generateSpecialData(licenseType);
+    const SPECIAL_DATA = urbanUtils.generateSpecialData(licenseType);
 
     SPECIAL_DATA.PCU = coordinateInfo.data.PCU;
     SPECIAL_DATA.representativeAs = representativeAs ? representativeAs : SPECIAL_DATA.representativeAs;
@@ -281,6 +282,7 @@ export async function requestUrbanLicenseCreate(body, files, requestor) {
     SPECIAL_DATA.surfacePerLote = coordinateInfo.data.m2_neto;
     SPECIAL_DATA.maximumHeight = coordinateInfo.data.alt_max;
     SPECIAL_DATA.levels = coordinateInfo.data.niveles;
+    SPECIAL_DATA.viv_ha = coordinateInfo.data.viv_ha;
     SPECIAL_DATA.isFrac = licenseType == 2 ? urbanUtils.parseBool(isFrac, SPECIAL_DATA.isFrac) : undefined;
 
     //non essential for registration special data
@@ -289,7 +291,9 @@ export async function requestUrbanLicenseCreate(body, files, requestor) {
     SPECIAL_DATA.parkingLots = parkingLots ? parkingLots : SPECIAL_DATA.parkingLots;
     SPECIAL_DATA.conditions = conditions ? conditions.replaceAll('\r', '').split('\n') : SPECIAL_DATA.conditions;
     SPECIAL_DATA.restrictions = restrictions ? restrictions.replaceAll('\r', '').split('\n') : SPECIAL_DATA.restrictions;
+
     SPECIAL_DATA.observations = observations ? observations.replaceAll('\r', '').split('\n') : SPECIAL_DATA.observations;
+    
     SPECIAL_DATA.donationArea = donationArea ? donationArea.replaceAll('\r', '').split('\n') : SPECIAL_DATA.donationArea;
     SPECIAL_DATA.authUse = authUse ? authUse.toUpperCase() : SPECIAL_DATA.authUse;
     SPECIAL_DATA.activity = activity ? activity.toUpperCase() : SPECIAL_DATA.activity;
@@ -311,7 +315,7 @@ export async function requestUrbanLicenseCreate(body, files, requestor) {
     SPECIAL_DATA.manzanas = manzanas ? manzanas.replaceAll('\r', '').split('\n') : SPECIAL_DATA.manzanas;
     SPECIAL_DATA.households = households ? households : SPECIAL_DATA.households;
     SPECIAL_DATA.privateSurface = privateSurface ? privateSurface : SPECIAL_DATA.privateSurface;
-    SPECIAL_DATA.commonSurface = commonSurface ? commonSurface : SPECIAL_DATA.commonSurface;*/
+    SPECIAL_DATA.commonSurface = commonSurface ? commonSurface : SPECIAL_DATA.commonSurface;
 
     const NEW_LICENSE_DATA = {
         fullControlInvoice: CONTROL_INVOICE_INFO.fullInvoice,
@@ -320,28 +324,28 @@ export async function requestUrbanLicenseCreate(body, files, requestor) {
         controlYear: YEAR,
         requestDate: requestDate ? requestDate : null,
         requestorName: requestorName,
-        //legalRepresentative: legalRepresentative ? legalRepresentative : null,
+        legalRepresentative: legalRepresentative ? legalRepresentative : null,
         printInvoice: printInvoice ? printInvoice : null,
         elaboratedBy: requestor,
         buildingAddress: buildingAddress ? buildingAddress : null,
-        //catastralKey: catastralKey ? catastralKey : null,
+        catastralKey: catastralKey ? catastralKey : null,
         geoReference: georeference,
-        //licenseTerm: coordinateInfo.data.numericTerm,
-        //surfaceTotal: surface ? surface : null,
-        //licenseZone: coordinateInfo.data.numericZone,
+        licenseTerm: coordinateInfo.data.numericTerm,
+        surfaceTotal: surface ? surface : null,
+        licenseZone: coordinateInfo.data.numericZone,
         expeditionDate: expeditionDate ? expeditionDate : null,
-        //licenseValidity: validity ? validity : null,
+        licenseValidity: validity ? validity : null,
         collectionOrder: collectionOrder ? collectionOrder : null,
         paymentDate: paymentDate ? paymentDate : null,
         billInvoice: billInvoice ? billInvoice : null,
         authorizedQuantity: authorizedQuantity ? authorizedQuantity : null,
         deliveryDate: deliveryDate ? deliveryDate : null,
         receiverName: receiverName ? receiverName : null,
-        observations: observations ? observations : null,
-        //licenseSpecialData: SPECIAL_DATA
+        notes: notes ? notes : null,
+        licenseSpecialData: SPECIAL_DATA
     }
 
-    /*if (files.zoneIMG) {
+    if (files.zoneIMG) {
         if (!await urbanValidate.validateFile(files.zoneIMG)) {
             throw new ValidationError('Invalid files provided only png files are allowed.',
                 'Urban create request',
@@ -371,7 +375,7 @@ export async function requestUrbanLicenseCreate(body, files, requestor) {
                 `Request failed due to unexpected error saving files to server.
             Provided files -> ${files.resumeTables.map(file => file.originalname).join(', ')}`);
         }
-    }*/
+    }
 
     if (files.unsignedFormat) {
         if (!await urbanValidate.validatePFFile(files.unsignedFormat[0])) {
@@ -420,7 +424,7 @@ export async function requestUrbanLicenseUpdate(id, licenseData, files, requesto
     }
 
     const {
-        requestorName,
+        /* requestorName,
         requestDate,
         buildingAddress,
         georeference,
@@ -431,17 +435,19 @@ export async function requestUrbanLicenseUpdate(id, licenseData, files, requesto
         expeditionDate,
         printInvoice,
         deliveryDate,
-        receiverName,
-        observations,
-        statuses
-        /*requestorName,
+        receiverName,*/
+        notes,
+        statuses, 
+        requestorName,
         legalRepresentative,
         requestDate,
         colony,
         catastralKey,
         surface,
         //zone,
+        georeference,
         expeditionDate,
+        printInvoice,
         collectionOrder,
         paymentDate,
         billInvoice,
@@ -501,24 +507,26 @@ export async function requestUrbanLicenseUpdate(id, licenseData, files, requesto
         pageBreak_7,
         pageBreak_8,
         pageBreak_9,
-        pageBreak_10*/
+        pageBreak_10
     } = licenseData;
 
+    let coordinateInfo;
+
     if (georeference) {
-        await requestCoordinateCheck(georeference, {
+        coordinateInfo = await requestCoordinateCheck(georeference, {
             considerFrac: FRAC_TYPES.includes(SPECIAL_DATA.licenseType),
             trowError: true
         });
     }
 
-    /*if (files.signedFormat && !SPECIAL_DATA.approvalStatus && SPECIAL_DATA.active) {
+    if (files.signedFormat && !SPECIAL_DATA.approvalStatus && SPECIAL_DATA.active) {
         throw new ValidationError('El formato firmado solo se puede modificar cuando la licencia ha sido aprobada.',
                 'Urban update request',
                 `Request failed due to invalid files provided.
             Provided files -> ${files.signedFormat.map(file => file.originalname).join(', ')}`);
-    }*/
+    }
 
-    if (!SPECIAL_DATA.active && (printInvoice || receiverName || deliveryDate || statuses)) {
+    if (!SPECIAL_DATA.active && (printInvoice || receiverName || deliveryDate || statuses || notes)) {
         const statusObj = JSON.parse(statuses);
 
         for (const key in statusObj) {
@@ -531,6 +539,7 @@ export async function requestUrbanLicenseUpdate(id, licenseData, files, requesto
             receiverName: receiverName,
             printInvoice: printInvoice,
             statuses: statusObj,
+            notes: notes,
             lastModifiedBy: requestor,
         }
 
@@ -545,7 +554,7 @@ export async function requestUrbanLicenseUpdate(id, licenseData, files, requesto
             `Request failed due to license locked.`);
     }
 
-    /*for (const key in licenseData) {
+    for (const key in licenseData) {
         if (key !== 'requestorAddress' &&
             key !== 'maximumHeight' &&
             key !== 'parkingLots' &&
@@ -560,9 +569,9 @@ export async function requestUrbanLicenseUpdate(id, licenseData, files, requesto
             key !== 'representativeAs') {
             licenseData[key] = licenseData[key].toLowerCase();
         }
-    }*/
+    }
 
-    if (!requestorName && !requestDate && !expeditionDate && !collectionOrder && !paymentDate && !billInvoice && !authorizedQuantity && !deliveryDate && !receiverName && !buildingAddress && !observations && !georeference && !printInvoice && !files.signedFormat && !files.unsignedFormat && !statuses/*legalRepresentative &&*/ /* !colony && !catastralKey && !surface &&*//* && !validity && typeof isFrac === 'undefined'&& !representativeAs && !requestorAddress*/ /* !minimalFront && !frontalRestriction && !parkingLots && !usePercent, !authUse && !activity && !actualSituation && !actualAuthorizedFS && !authorizationResume && !households && !documents && !lotes && !manzanas && !conditions && !restrictions && *//* && !donationArea && !privateSurface && !commonSurface && !location && !authorizationFor && !integrity && !detailedUse && !urbanLUS && !urbanCUS && !habitacionalLotes && !totalManzanas && !totalSurface && !totalRelotification && !resultRelotification && !previousInvoice && !previousInvoiceDate && !layout && !pageBreak_1 && !pageBreak_2 && !pageBreak_3 && !pageBreak_4 && !pageBreak_5 && !pageBreak_6 && !pageBreak_7 && !pageBreak_8 && !pageBreak_9 && !pageBreak_10 && !files*/) {
+    if (!requestorName && !requestDate && !expeditionDate && !collectionOrder && !paymentDate && !billInvoice && !authorizedQuantity && !deliveryDate && !receiverName && !buildingAddress && !notes && !observations && !georeference && !printInvoice && !files.signedFormat && !files.unsignedFormat && !files.zoneIMG && !statuses && !legalRepresentative &&  !colony && !catastralKey && !surface && !validity && typeof isFrac === 'undefined'&& !representativeAs && !requestorAddress && !minimalFront && !frontalRestriction && !parkingLots && !usePercent, !authUse && !activity && !actualSituation && !actualAuthorizedFS && !authorizationResume && !households && !documents && !lotes && !manzanas && !conditions && !restrictions && !donationArea && !privateSurface && !commonSurface && !location && !authorizationFor && !integrity && !detailedUse && !urbanLUS && !urbanCUS && !habitacionalLotes && !totalManzanas && !totalSurface && !totalRelotification && !resultRelotification && !previousInvoice && !previousInvoiceDate && !layout && !pageBreak_1 && !pageBreak_2 && !pageBreak_3 && !pageBreak_4 && !pageBreak_5 && !pageBreak_6 && !pageBreak_7 && !pageBreak_8 && !pageBreak_9 && !pageBreak_10 && !files) {
         throw new ValidationError('Request failed due to missing information.',
             'Urban update request',
             `Request failed due to missing information.
@@ -572,8 +581,8 @@ export async function requestUrbanLicenseUpdate(id, licenseData, files, requesto
     if ((requestDate && !validateDates(requestDate)) ||
         (expeditionDate && !validateDates(expeditionDate)) ||
         (paymentDate && !validateDates(paymentDate)) ||
-        (deliveryDate && !validateDates(deliveryDate))/* ||
-        (previousInvoiceDate && !validateDates(previousInvoiceDate))*/) {
+        (deliveryDate && !validateDates(deliveryDate)) ||
+        (previousInvoiceDate && !validateDates(previousInvoiceDate))) {
         throw new ValidationError(
             'Request failed due to invalid information.',
             'Urban update request',
@@ -593,24 +602,29 @@ export async function requestUrbanLicenseUpdate(id, licenseData, files, requesto
         }
     }
 
-    /*if (!await urbanValidate.validateModels({ validity })) {
+    if (!await urbanValidate.validateModels({ validity })) {
         throw new ValidationError('Request failed due to invalid information.',
             'Urban update request',
             `Request failed due to invalid information.
             Provided data -> Zone: ${zone}, validity: ${validity}`);
-    }*/
+    }
 
-    //let newSpecialData = specialDataToJSON(SPECIAL_DATA).licenseSpecialData;
+    let newSpecialData = specialDataToJSON(SPECIAL_DATA).licenseSpecialData;
 
     //newSpecialData.PCU = PCU ? PCU.toUpperCase() : newSpecialData.PCU;
-    /*newSpecialData.isFrac = urbanUtils.parseBool(isFrac, newSpecialData.isFrac);
+    newSpecialData.PCU = georeference ? coordinateInfo.data.PCU : newSpecialData.PCU;
+    newSpecialData.occupationPercent = georeference ? coordinateInfo.data.COS : newSpecialData.occupationPercent;
+    newSpecialData.surfacePerLote = georeference ? coordinateInfo.data.m2_neto : newSpecialData.surfacePerLote;
+    newSpecialData.maximumHeight = georeference ? coordinateInfo.data.alt_max : newSpecialData.maximumHeight;
+    newSpecialData.levels = georeference ? coordinateInfo.data.niveles : newSpecialData.levels;
+    newSpecialData.viv_ha = georeference ? coordinateInfo.data.viv_ha : newSpecialData.viv_ha;
+    newSpecialData.isFrac = isFrac ? urbanUtils.parseBool(isFrac, newSpecialData.isFrac) : newSpecialData.isFrac ;
     newSpecialData.representativeAs = representativeAs ? representativeAs : newSpecialData.representativeAs;
     newSpecialData.requestorAddress = requestorAddress ? requestorAddress : newSpecialData.requestorAddress;
     newSpecialData.colony = colony ? colony : newSpecialData.colony;
-    //newSpecialData.occupationPercent = occupationPercent ? occupationPercent : newSpecialData.occupationPercent;
-    //newSpecialData.surfacePerLote = surfacePerLote ? surfacePerLote : newSpecialData.surfacePerLote;
-    //newSpecialData.maximumHeight = maximumHeight ? maximumHeight : newSpecialData.maximumHeight;
-    //newSpecialData.levels = levels ? levels : newSpecialData.levels;
+    newSpecialData.occupationPercent =  georeference ? coordinateInfo.data.COS : newSpecialData.occupationPercent;
+    
+    
     newSpecialData.minimalFront = minimalFront ? minimalFront : newSpecialData.minimalFront;
     newSpecialData.frontalRestriction = frontalRestriction ? frontalRestriction : newSpecialData.frontalRestriction;
     newSpecialData.parkingLots = parkingLots ? parkingLots : newSpecialData.parkingLots;
@@ -656,18 +670,18 @@ export async function requestUrbanLicenseUpdate(id, licenseData, files, requesto
     newSpecialData.pageBreak_9 = urbanUtils.parseBool(pageBreak_9, newSpecialData.pageBreak_9);
     newSpecialData.pageBreak_10 = urbanUtils.parseBool(pageBreak_10, newSpecialData.pageBreak_10);
 
-    newSpecialData.antecedent = newSpecialData.antecedent == '-' ? null : newSpecialData.antecedent;*/
+    newSpecialData.antecedent = newSpecialData.antecedent == '-' ? null : newSpecialData.antecedent;
 
     const NEW_DATA = {
         requestDate: requestDate,
         requestorName: requestorName,
-        //legalRepresentative: legalRepresentative == '-' || representativeAs == '-' ? null : legalRepresentative,
+        legalRepresentative: legalRepresentative == '-' || representativeAs == '-' ? null : legalRepresentative,
         buildingAddress: buildingAddress,
-        //catastralKey: catastralKey,
-        //surfaceTotal: surface,
-        //licenseZone: zone,
-        //licenseValidity: validity,
-        //licenseTerm: term,
+        catastralKey: catastralKey,
+        surfaceTotal: surface,
+        licenseZone: georeference ? coordinateInfo.data.numericZone : undefined,
+        licenseValidity: validity,
+        licenseTerm: georeference ? coordinateInfo.data.numericTerm : undefined,
         georeference: georeference,
         printInvoice: printInvoice,
         expeditionDate: expeditionDate,
@@ -678,12 +692,12 @@ export async function requestUrbanLicenseUpdate(id, licenseData, files, requesto
         deliveryDate: deliveryDate,
         receiverName: receiverName,
         lastModifiedBy: requestor,
-        observations: observations,
-        statuses: statusObj
-        //licenseSpecialData: newSpecialData
+        notes: notes,
+        statuses: statusObj,
+        licenseSpecialData: newSpecialData
     }
 
-    /*if (files.zoneIMG) {
+    if (files.zoneIMG) {
         if (!await urbanValidate.validateFile(files.zoneIMG)) {
             throw new ValidationError('Invalid files provided only png files are allowed.',
                 'Urban update request',
@@ -691,15 +705,15 @@ export async function requestUrbanLicenseUpdate(id, licenseData, files, requesto
             Provided file -> ${files.zoneIMG[0].originalname}`);
         }
 
-        if (!await urbanUtils.saveZoneImage(files.zoneIMG, SPECIAL_DATA.fullInvoice)) {
+        if (!await urbanUtils.saveZoneImage(files.zoneIMG, SPECIAL_DATA.fullControlInvoice)) {
             throw new FileSystemError('Error saving files to server.',
                 'Urban update request',
                 `Request failed due to unexpected error saving files to server.
             Provided file -> ${files.zoneIMG[0].originalname}`);
         }
-    }*/
+    }
 
-    /*if (files.resumeTables) {
+    if (files.resumeTables) {
         if (!await urbanValidate.validateTableFiles(files.resumeTables)) {
             throw new ValidationError('Invalid files provided only xhtml files are allowed.',
                 'Urban update request',
@@ -713,7 +727,7 @@ export async function requestUrbanLicenseUpdate(id, licenseData, files, requesto
                 `Request failed due to unexpected error saving files to server.
             Provided files -> ${files.resumeTables.map(file => file.originalname).join(', ')}`);
         }
-    }*/
+    }
 
     if (files.signedFormat) {
         if (!await urbanValidate.validatePFFile(files.signedFormat[0])) {
@@ -799,12 +813,12 @@ export async function requestUrbanLicenseApprove(id, requestor) {
         active: false
     });
 
-    /*if (!await urbanUtils.generateArchivePDF(approvedLicense)) {
+    if (!await urbanUtils.generateArchivePDF(approvedLicense)) {
         throw new FileSystemError('Error saving files to server.',
             'Urban approval request',
             `Request failed due to unexpected error saving files to server.
             File creation for -> ${id}:${licenseApproval.fullInvoice}`);
-    }*/
+    }
 
     return {
         msg: `The license ${approvedLicense.fullInvoice} was approved`,

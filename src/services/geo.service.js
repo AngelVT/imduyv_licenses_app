@@ -85,6 +85,7 @@ export async function requestCoordinateCheck(coordinates, {
             numericTerm: TERM ? TERM.license_term_id : 4,
             term: TERM ? TERM.licenseTerm : 'n/a',
             COS: zoneData.COS,
+            viv_ha: zoneData.viv_ha ? zoneData.viv_ha : '-',
             m2_neto: zoneData.m2_neto,
             alt_max: zoneData.alt_max,
             niveles: zoneData.niveles,
