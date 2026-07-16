@@ -969,7 +969,7 @@ export async function requestPDFDefinition(type, invoice, year) {
         return {
             ID: LICENSE.public_urban_license_id,
             fullInvoice: LICENSE.fullInvoice,
-            file: path.join(__dirstorage, 'assets', 'urban', LICENSE.fullInvoice, `${LICENSE.fullInvoice}.pdf`)
+            file: path.join(__dirstorage, 'assets', 'urban', LICENSE.fullControlInvoice, `${LICENSE.fullInvoice}.pdf`)
         };
     }
 

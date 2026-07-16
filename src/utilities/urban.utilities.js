@@ -528,7 +528,7 @@ export async function saveLicenseCharts(files, fullInvoice) {
 
 export async function generateArchivePDF(license) {
     try {
-        const destination = path.join(__dirstorage, 'assets', 'urban', license.fullInvoice, `${license.fullInvoice}.pdf`);
+        const destination = path.join(__dirstorage, 'assets', 'urban', license.fullControlInvoice, `${license.fullInvoice}.pdf`);
 
         const directory = path.dirname(destination);
 

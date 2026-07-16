@@ -8,6 +8,19 @@ export async function generateUrbanC(lcDBObj) {
         text:'',
         border: docUtils.borderless
     }
+
+    const frontalRestrictions = {
+        H5:	'N/A',
+        H4:	2.50,
+        "H3.5": 2.50,
+        H3: 2.50,
+        "H2.5": 3.00,
+        H2:	3.00,
+        "H1.5": 5.00,
+        H1:	5.00,
+        "H0.5": 5.00,
+        MI:	5.00
+    }
     
     const layouts = {
         A: [
@@ -171,7 +184,7 @@ export async function generateUrbanC(lcDBObj) {
                                             {},
                                             {text: 'Restricción frontal:', style: 'labelTC', border: docUtils.borderless, colSpan: 2},
                                             {},
-                                            docUtils.fieldLU(`${lcDBObj.licenseSpecialData.frontalRestriction} m`, docUtils.borderless, 2, 'boldCenter', 7),
+                                            docUtils.fieldLU(`${frontalRestrictions[lcDBObj.zone.licenseKey] || lcDBObj.licenseSpecialData.frontalRestriction} m`, docUtils.borderless, 2, 'boldCenter', 7),
                                             {},
                                             {text: 'Densidad:', style: 'labelTC', border: docUtils.borderless, colSpan: 2},
                                             {},
