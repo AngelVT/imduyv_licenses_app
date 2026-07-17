@@ -411,6 +411,11 @@ export const UrbanLicense = pool.define(
         type: DataTypes.DATEONLY,
         allowNull: true
     },
+    printInvoice: {
+        type: DataTypes.STRING,
+        allowNull: true,
+        unique: true
+    },
     licenseValidity: {
         type: DataTypes.INTEGER,
         references: {
