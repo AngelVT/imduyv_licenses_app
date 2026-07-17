@@ -271,8 +271,6 @@ export async function requestUrbanLicenseCreate(body, files, requestor) {
 
     const INVOICE_INFO = await urbanUtils.generateInvoiceInformation(licenseType, YEAR);
 
-    const CONTROL_INVOICE_INFO = await urbanUtils.generateControlInvoiceInformation(licenseType, YEAR);
-
     const SPECIAL_DATA = urbanUtils.generateSpecialData(licenseType);
 
     SPECIAL_DATA.PCU = coordinateInfo.data.PCU;
@@ -320,10 +318,10 @@ export async function requestUrbanLicenseCreate(body, files, requestor) {
     SPECIAL_DATA.commonSurface = commonSurface ? commonSurface : SPECIAL_DATA.commonSurface;
 
     const NEW_LICENSE_DATA = {
-        fullControlInvoice: CONTROL_INVOICE_INFO.fullInvoice,
-        controlInvoice: CONTROL_INVOICE_INFO.numericInvoice,
         licenseType: licenseType,
-        controlYear: YEAR,
+        invoice: INVOICE_INFO.numericInvoice,
+        year: YEAR,
+        fullInvoice: INVOICE_INFO.fullInvoice,
         requestDate: requestDate ? requestDate : null,
         requestorName: requestorName,
         legalRepresentative: legalRepresentative ? legalRepresentative : null,
@@ -387,7 +385,7 @@ export async function requestUrbanLicenseCreate(body, files, requestor) {
             Provided file -> ${files.unsignedFormat[0].originalname}`);
         }
 
-        if (!await urbanUtils.savePDF(files.unsignedFormat[0], CONTROL_INVOICE_INFO.fullInvoice, CONTROL_INVOICE_INFO.fullInvoice)) {
+        if (!await urbanUtils.savePDF(files.unsignedFormat[0], INVOICE_INFO.fullInvoice, `${INVOICE_INFO.fullInvoice}_unsigned`)) {
             throw new FileSystemError('Error saving files to server.',
                 'Urban create request',
                 `Request failed due to unexpected error saving files to server.
@@ -401,7 +399,7 @@ export async function requestUrbanLicenseCreate(body, files, requestor) {
         throw new ValidationError('Unable to create, license already exist',
             'Urban create request',
             `Request failed due to the record already exist.
-            Existing record details -> fullInvoice: ${CONTROL_INVOICE_INFO.fullInvoice}, invoice: ${CONTROL_INVOICE_INFO.numericInvoice}, licenseType: ${licenseType}, year: ${YEAR}`);
+            Existing record details -> fullInvoice: ${INVOICE_INFO.fullInvoice}, invoice: ${INVOICE_INFO.numericInvoice}, licenseType: ${licenseType}, year: ${YEAR}`);
     }
 
     return {
@@ -707,7 +705,7 @@ export async function requestUrbanLicenseUpdate(id, licenseData, files, requesto
             Provided file -> ${files.zoneIMG[0].originalname}`);
         }
 
-        if (!await urbanUtils.saveZoneImage(files.zoneIMG, SPECIAL_DATA.fullControlInvoice)) {
+        if (!await urbanUtils.saveZoneImage(files.zoneIMG, SPECIAL_DATA.fullInvoice)) {
             throw new FileSystemError('Error saving files to server.',
                 'Urban update request',
                 `Request failed due to unexpected error saving files to server.
@@ -739,7 +737,7 @@ export async function requestUrbanLicenseUpdate(id, licenseData, files, requesto
             Provided files -> ${files.signedFormat.map(file => file.originalname).join(', ')}`);
         }
 
-        if (!await urbanUtils.savePDF(files.signedFormat[0], SPECIAL_DATA.fullControlInvoice, SPECIAL_DATA.fullInvoice)) {
+        if (!await urbanUtils.savePDF(files.signedFormat[0], SPECIAL_DATA.fullInvoice, `${INVOICE_INFO.fullInvoice}_signed`)) {
             throw new FileSystemError('Error saving files to server.',
                 'Urban update request',
                 `Request failed due to unexpected error saving files to server.
@@ -755,7 +753,7 @@ export async function requestUrbanLicenseUpdate(id, licenseData, files, requesto
             Provided file -> ${files.unsignedFormat[0].originalname}`);
         }
 
-        if (!await urbanUtils.savePDF(files.unsignedFormat[0], SPECIAL_DATA.fullControlInvoice, SPECIAL_DATA.fullControlInvoice)) {
+        if (!await urbanUtils.savePDF(files.unsignedFormat[0], SPECIAL_DATA.fullInvoice, `${INVOICE_INFO.fullInvoice}_unsigned`)) {
             throw new FileSystemError('Error saving files to server.',
                 'Urban update request',
                 `Request failed due to unexpected error saving files to server.
@@ -800,16 +798,7 @@ export async function requestUrbanLicenseApprove(id, requestor) {
         }
     }
 
-    let INVOICE_INFO;
-
-    if (!licenseApproval.fullInvoice) {
-        INVOICE_INFO = await urbanUtils.generateInvoiceInformation(licenseApproval.licenseType, YEAR);
-    }
-
     const approvedLicense = await urbanRepo.saveUrbanLicense(id, {
-        fullInvoice: INVOICE_INFO?.fullInvoice,
-        invoice: INVOICE_INFO?.numericInvoice,
-        year: YEAR,
         lastModifiedBy: requestor,
         approvalStatus: true,
         active: false
@@ -971,7 +960,7 @@ export async function requestPDFDefinition(type, invoice, year) {
         return {
             ID: LICENSE.public_urban_license_id,
             fullInvoice: LICENSE.fullInvoice,
-            file: path.join(__dirstorage, 'assets', 'urban', LICENSE.fullControlInvoice, `${LICENSE.fullInvoice}.pdf`)
+            file: path.join(__dirstorage, 'assets', 'urban', LICENSE.fullInvoice, `${LICENSE.fullInvoice}.pdf`)
         };
     }
 

@@ -320,18 +320,6 @@ export const UrbanLicense = pool.define(
         defaultValue: DataTypes.UUIDV4,
         unique: true
     },
-    fullControlInvoice: {
-        type: DataTypes.STRING,
-        allowNull: false
-    },
-    controlInvoice: {
-        type: DataTypes.INTEGER,
-        allowNull: false
-    },
-    controlYear: {
-        type: DataTypes.INTEGER,
-        allowNull: false
-    },
     fullInvoice: {
         type: DataTypes.STRING,
         allowNull: true

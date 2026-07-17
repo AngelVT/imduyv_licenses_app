@@ -32,11 +32,11 @@ thaForm.addEventListener(
                     let response = await res.json();
 
                     const goToPrint = confirm(`
-                    Licencia registrada: ${response.license.fullControlInvoice}
-                    Folio: ${response.license.controlInvoice}
+                    Licencia registrada: ${response.license.fullInvoice}
+                    Folio: ${response.license.invoice}
                     Ir a pagina de impresión?`);
                     if (goToPrint) {
-                        location.href = `/app/urbanPrint?type=${response.license.licenseType}&invoice=${response.license.controlInvoice}&year=${response.license.controlYear}`;
+                        location.href = `/app/urbanPrint?type=${response.license.licenseType}&invoice=${response.license.invoice}&year=${response.license.year}`;
                     } else {
                         resetFormAuto(thaForm);
                     }

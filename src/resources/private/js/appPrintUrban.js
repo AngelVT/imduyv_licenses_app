@@ -111,7 +111,7 @@ async function getLicensePrintId(id) {
                 
                 createUrbanResult(response.license, resultPrint, true);
 
-                PDF.setAttribute('src', `/api/urban/PDF/t/${response.license.licenseType}/i/${response.license.controlInvoice}/y/${response.license.controlYear}?${new Date().getTime()}`);
+                PDF.setAttribute('src', `/api/urban/PDF/t/${response.license.licenseType}/i/${response.license.invoice}/y/${response.license.year}?${new Date().getTime()}`);
 
                 return;
             }
@@ -149,7 +149,7 @@ async function getLicenseList(type, year) {
                 response.licenses.forEach(license => {
                     let option = document.createElement('option');
                     option.value = license.public_urban_license_id;
-                    option.innerText = `${license.fullControlInvoice?.replaceAll('_', '/')} - ${license.fullInvoice?.replaceAll('_', '/')} - ${license.requestorName}`;
+                    option.innerText = `${license.fullInvoice?.replaceAll('_', '/')} - ${license.fullInvoice?.replaceAll('_', '/')} - ${license.requestorName}`;
                     
                     licenseSelect.appendChild(option);
                 });
