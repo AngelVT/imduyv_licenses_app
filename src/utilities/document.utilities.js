@@ -118,7 +118,7 @@ export const cellLayout = {
 export const docStyles = {
     headT: {
         color: 'white',
-        fillColor: '#511D4E',
+        fillColor: '#68263A',
         fontSize: 7,
         bold: true,
         alignment: 'center',
@@ -561,7 +561,10 @@ export function prepareData(lcDBObj) {
     lcDBObj.fullInvoice = fullInvoice?.replaceAll('_', '/');
 
     if (surfaceTotal) {
-        const number = Number(surfaceTotal).toLocaleString();
+        const number = Number(surfaceTotal).toLocaleString(undefined, {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2
+        });
         lcDBObj.surfaceTotal = number !== 'NaN' ? number : surfaceTotal;
     }
 

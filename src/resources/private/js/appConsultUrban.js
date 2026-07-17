@@ -435,7 +435,7 @@ function generateUrbanFields(resObj, resultContent) {
 
     fieldGroup.appendChild(field);
 
-    field = createResultField(resObj.id, 'Folio', 'printInvoice', resObj.printInvoice, 'text');
+    field = createResultField(resObj.id, 'Folio de impresión', 'printInvoice', resObj.printInvoice, 'text');
 
     fieldGroup.appendChild(field);
 
