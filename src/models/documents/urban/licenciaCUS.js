@@ -305,7 +305,7 @@ export async function generateUrbanC(lcDBObj) {
                             {},
                             {text: 'Vigencia: ', style: 'labelTC', colSpan: 2},
                             {},
-                            docUtils.fieldLU(lcDBObj.validity.licenseValidity, docUtils.borderless, 2, 'boldCenter',7),
+                            docUtils.fieldLU(lcDBObj.validity?.licenseValidity, docUtils.borderless, 2, 'boldCenter',7),
                             {},
                             {text: 'Folio de pago: ', style: 'labelTC', colSpan: 2},
                             {},

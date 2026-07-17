@@ -556,7 +556,7 @@ export function prepareData(lcDBObj) {
     const { fullInvoice, surfaceTotal, term, validity } = lcDBObj;
     const { conditions, restrictions, marginAttention, marginName, requestorAddress, colony, representativeAs } = lcDBObj.licenseSpecialData;
     const { licenseTerm } = lcDBObj.term;
-    const { licenseValidity } = lcDBObj.validity
+    //const { licenseValidity } = lcDBObj.validity
 
     lcDBObj.fullInvoice = fullInvoice?.replaceAll('_', '/');
 
@@ -586,8 +586,8 @@ export function prepareData(lcDBObj) {
         lcDBObj.term.licenseTerm = licenseTerm.toUpperCase();
     }
 
-    if (validity && licenseValidity !== null) {
-        lcDBObj.validity.licenseValidity = licenseValidity.toUpperCase();
+    if (validity && validity !== null &&  validity.licenseValidity !== null) {
+        lcDBObj.validity.licenseValidity =  validity.licenseValidity.toUpperCase();
     }
 
     if (requestorAddress) {
