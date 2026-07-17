@@ -78,7 +78,7 @@ function createResultTop(obj, isPrint, isLandUse) {
     topLabel.innerText = 'Folio: ';
     span = document.createElement('span');
     span.setAttribute('id', `result_invoice_${obj.id}`);
-    span.innerText = isLandUse ? obj.fullInvoice?.replaceAll('_', '/') : `${obj.fullInvoice?.replaceAll('_', '/')} | Control: ${obj.fullControlInvoice?.replaceAll('_', '/')}`;
+    span.innerText = isLandUse ? obj.fullInvoice?.replaceAll('_', '/') : `${obj.fullInvoice?.replaceAll('_', '/')}`;
     topLabel.appendChild(span);
 
     top.appendChild(topLabel);
@@ -105,7 +105,7 @@ function createResultTop(obj, isPrint, isLandUse) {
         span = document.createElement('a');
         span.setAttribute('id', `result_control_unsigned_${obj.id}`);
         span.setAttribute('target', '_blank');
-        span.setAttribute('href', `/urbanStorage/${obj.fullControlInvoice}/${obj.fullControlInvoice}.pdf`);
+        span.setAttribute('href', `/urbanStorage/${obj.fullInvoice}/${obj.fullInvoice}_unsigned.pdf`);
         span.setAttribute('class', `bi-file-text txt-medium color-white result-control`);
 
         topControls.appendChild(span);
@@ -113,7 +113,7 @@ function createResultTop(obj, isPrint, isLandUse) {
         span = document.createElement('a');
         span.setAttribute('id', `result_control_signed_${obj.id}`);
         span.setAttribute('target', '_blank');
-        span.setAttribute('href', `/urbanStorage/${obj.fullControlInvoice}/${obj.fullInvoice}.pdf`);
+        span.setAttribute('href', `/urbanStorage/${obj.fullInvoice}/${obj.fullInvoice}_signed.pdf`);
         span.setAttribute('class', `bi-folder txt-medium color-white result-control`);
 
         topControls.appendChild(span);
@@ -166,7 +166,7 @@ function createResultTopNoUpdate(obj, isLandUse) {
     topLabel.innerText = 'Folio: ';
     span = document.createElement('span');
     span.setAttribute('id', `result_invoice_${obj.id}`);
-    span.innerText = isLandUse ? obj.fullInvoice?.replaceAll('_', '/') : `${obj.fullInvoice?.replaceAll('_', '/')} | Control: ${obj.fullControlInvoice?.replaceAll('_', '/')}`;
+    span.innerText = isLandUse ? obj.fullInvoice?.replaceAll('_', '/') : `${obj.fullInvoice?.replaceAll('_', '/')}`;
     topLabel.appendChild(span);
 
     if (!isLandUse) {
@@ -211,7 +211,7 @@ function createResultTopNoUpdate(obj, isLandUse) {
         span = document.createElement('a');
         span.setAttribute('id', `result_control_unsigned_${obj.id}`);
         span.setAttribute('target', '_blank');
-        span.setAttribute('href', `/urbanStorage/${obj.fullControlInvoice}/${obj.fullControlInvoice}.pdf`);
+        span.setAttribute('href', `/urbanStorage/${obj.fullInvoice}/${obj.fullInvoice}_unsigned.pdf`);
         span.setAttribute('class', `bi-file-text txt-medium color-white result-control`);
 
         topControls.appendChild(span);
@@ -219,7 +219,7 @@ function createResultTopNoUpdate(obj, isLandUse) {
         span = document.createElement('a');
         span.setAttribute('id', `result_control_signed_${obj.id}`);
         span.setAttribute('target', '_blank');
-        span.setAttribute('href', `/urbanStorage/${obj.fullControlInvoice}/${obj.fullInvoice}.pdf`);
+        span.setAttribute('href', `/urbanStorage/${obj.fullInvoice}/${obj.fullInvoice}_signed.pdf`);
         span.setAttribute('class', `bi-folder txt-medium color-white result-control`);
 
         topControls.appendChild(span);
@@ -231,7 +231,7 @@ function createResultTopNoUpdate(obj, isLandUse) {
     if (isLandUse) 
         span.setAttribute('href', `/app/landPrint?type=${obj.licenseType}&invoice=${obj.invoice}&year=${obj.year}`);
     else
-        span.setAttribute('href', `/app/urbanPrint?type=${obj.licenseType}&invoice=${obj.controlInvoice}&year=${obj.controlYear}`);
+        span.setAttribute('href', `/app/urbanPrint?type=${obj.licenseType}&invoice=${obj.invoice}&year=${obj.year}`);
     span.setAttribute('class', `bi-pencil-square txt-medium color-white result-control`);
 
     topControls.appendChild(span);
