@@ -80,6 +80,7 @@ if (typeSelector) {
         'change', () => {
             licenseType = typeSelector.value;
             document.querySelector('#georeference').value = '';
+            setFormFields(parseInt(typeSelector.value));
         }
     );
 }

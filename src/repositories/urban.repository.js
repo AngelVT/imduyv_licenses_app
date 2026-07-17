@@ -1,8 +1,9 @@
 import { UrbanLicense, UrbanType, Zone, Term, Validity } from "../models/License.models.js";
-import { Op } from "sequelize";
+import { Op, UniqueConstraintError } from "sequelize";
 import Sequelize from "sequelize";
 import { generateSpecialData } from "../utilities/urban.utilities.js";
 import { escapeLike } from "../utilities/repository.utilities.js";
+import ValidationError from "../errors/ValidationError.js";
 
 const URBAN_MODELS = [
     {
@@ -117,39 +118,62 @@ export async function findUrbanLicenseBy(parameter, value) {
 }
 
 export async function saveNewUrbanLicense(newLicenseData) {
-    const [NEW_LICENSE, CREATED] = await UrbanLicense.findOrCreate({
-        where: {
-            fullControlInvoice: newLicenseData.fullControlInvoice,
-            controlInvoice: newLicenseData.controlInvoice,
-            licenseType: newLicenseData.licenseType,
-            controlYear: newLicenseData.controlYear
-        },
-        include: URBAN_MODELS,
-        defaults: newLicenseData,
-        raw: true,
-        nest: true
-    });
+    
+    try {
+        const [NEW_LICENSE, CREATED] = await UrbanLicense.findOrCreate({
+            where: {
+                fullControlInvoice: newLicenseData.fullControlInvoice,
+                controlInvoice: newLicenseData.controlInvoice,
+                licenseType: newLicenseData.licenseType,
+                controlYear: newLicenseData.controlYear
+            },
+            include: URBAN_MODELS,
+            defaults: newLicenseData,
+            raw: true,
+            nest: true
+        });
 
-    return CREATED ? generateSafeLicense(NEW_LICENSE) : null;
+        return CREATED ? generateSafeLicense(NEW_LICENSE) : null;
+    } catch (error) {
+        if (error instanceof UniqueConstraintError) {
+            throw new ValidationError('No se pudo crear la licencia, debido a que el folio de hoja foliada ya existe.',
+            'Urban create request',
+            `Request failed due to the printInvoice already exist.
+            Existing record details -> printInvoice: ${newLicenseData.printInvoice}`);
+        }
+
+        throw error;
+    }
 }
 
 export async function saveUrbanLicense(id, newData) {
-    const MODIFIED_LICENSE = await UrbanLicense.findOne({
-        where: {
-            public_urban_license_id: id
-        },
-        include: URBAN_MODELS
-    });
+    try {
+        const MODIFIED_LICENSE = await UrbanLicense.findOne({
+            where: {
+                public_urban_license_id: id
+            },
+            include: URBAN_MODELS
+        });
 
-    if (MODIFIED_LICENSE == null) return null;
+        if (MODIFIED_LICENSE == null) return null;
 
-    await MODIFIED_LICENSE.update(newData);
+        await MODIFIED_LICENSE.update(newData);
 
-    if (newData.zone) {
-        await MODIFIED_LICENSE.reload({ include: URBAN_MODELS });
+        if (newData.zone) {
+            await MODIFIED_LICENSE.reload({ include: URBAN_MODELS });
+        }
+
+        return generateSafeLicense(MODIFIED_LICENSE);
+    } catch (error) {
+        if (error instanceof UniqueConstraintError) {
+            throw new ValidationError('No se pudo modificar la licencia, debido a que el folio de hoja foliada ya existe.',
+            'Urban create request',
+            `Request failed due to the printInvoice already exist.
+            Existing record details -> printInvoice: ${newData.printInvoice}`);
+        }
+
+        throw error;
     }
-
-    return generateSafeLicense(MODIFIED_LICENSE);
 }
 
 export async function deleteUrbanLicense(id) {

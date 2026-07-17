@@ -426,7 +426,7 @@ export const UrbanLicense = pool.define(
         allowNull: true
     },
     collectionOrder: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.STRING,
         allowNull: true
     },
     paymentDate: {
