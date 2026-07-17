@@ -85,8 +85,8 @@ export function generateSpecialData(type) {
         case 1:
             return {
                 activity: 'HABITACIONAL',
-                minimalFront: 6.00,
-                frontalRestriction: 0.0,
+                minimalFront: '6.00',
+                frontalRestriction: '0.0',
                 layout: "A"
             }
         case 2:

@@ -11,15 +11,15 @@ export async function generateUrbanC(lcDBObj) {
 
     const frontalRestrictions = {
         H5:	'N/A',
-        H4:	2.50,
-        "H3.5": 2.50,
-        H3: 2.50,
-        "H2.5": 3.00,
-        H2:	3.00,
-        "H1.5": 5.00,
-        H1:	5.00,
-        "H0.5": 5.00,
-        MI:	5.00
+        H4:	"2.50",
+        "H3.5": "2.50",
+        H3: "2.50",
+        "H2.5": "3.00",
+        H2:	"3.00",
+        "H1.5": "5.00",
+        H1:	"5.00",
+        "H0.5": "5.00",
+        MI:	"5.00"
     }
     
     const layouts = {
@@ -96,7 +96,7 @@ export async function generateUrbanC(lcDBObj) {
                                         ],
                                         [
                                             {text: 'Fecha de Solicitud: ', style: 'labelT', border: docUtils.borderless},
-                                            docUtils.fieldLU(docUtils.dateFormatFull(lcDBObj.requestDate), docUtils.borderless, null,'boldCenter', 7)
+                                            docUtils.fieldLU(docUtils.dateFormatFull(lcDBObj.requestDate, true), docUtils.borderless, null,'boldCenter', 7)
                                         ]
                                     ]
                                 },
@@ -301,7 +301,7 @@ export async function generateUrbanC(lcDBObj) {
                     body: [
                         [{text: 'Fecha de Expedición: ', style: 'labelTC', colSpan: 2},
                             {},
-                            docUtils.fieldLU(docUtils.dateFormatFull(lcDBObj.expeditionDate), docUtils.borderless, 2, 'boldCenter',6),
+                            docUtils.fieldLU(docUtils.dateFormatFull(lcDBObj.expeditionDate, true), docUtils.borderless, 2, 'boldCenter',6),
                             {},
                             {text: 'Vigencia: ', style: 'labelTC', colSpan: 2},
                             {},
@@ -327,13 +327,13 @@ export async function generateUrbanC(lcDBObj) {
                         width: '80%',
                         stack: [
                             {
-                                text:`NOTIFÍQUESE Y CÚMPLASE\nASÍ EN DEFINITIVA LO RESOLVIÓ Y AUTORIZÓ ${INSTITUTE_DIRECTOR_SIGNATURE},\nDIRECTOR(A) GENERAL DEL INSTITUTO MUNICIPAL DE DESARROLLO URBANO Y VIVIENDA`,
+                                text:`NOTIFÍQUESE Y CÚMPLASE\nASÍ EN DEFINITIVA LO RESOLVIÓ Y AUTORIZÓ ${INSTITUTE_DIRECTOR_SIGNATURE},\nDIRECTOR GENERAL DEL INSTITUTO MUNICIPAL DE DESARROLLO URBANO Y VIVIENDA`,
                                 style: 'boldCenter',
                                 fontSize: 7,
                                 margin: [0,10,0,10]
                             },
                             {
-                                text: `${INSTITUTE_DIRECTOR_SIGNATURE}\nDIRECTOR(A) GENERAL`,
+                                text: `${INSTITUTE_DIRECTOR_SIGNATURE}\nDIRECTOR GENERAL`,
                                 style: 'labelTC',
                                 fontSize: 8
                             }

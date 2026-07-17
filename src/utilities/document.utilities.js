@@ -620,7 +620,7 @@ export function anexoFn(anexo) {
     }
 }
 
-export function dateFormatFull(dateNumeric) {
+export function dateFormatFull(dateNumeric, uppercase = false) {
     let months = [
         "Enero",
         "Febrero",
@@ -638,7 +638,14 @@ export function dateFormatFull(dateNumeric) {
         return "Fecha no definida";
     }
     let date = dateNumeric.split('-');
-    return `${date[2]} de ${months[parseInt(date[1]) - 1]} del ${date[0]}`;
+
+    const stringDate = `${date[2]} de ${months[parseInt(date[1]) - 1]} del ${date[0]}`;
+
+    if (uppercase) {
+        return stringDate.toUpperCase();
+    }
+
+    return stringDate;
 }
 
 export function dateFormatDMY(isoDate) {

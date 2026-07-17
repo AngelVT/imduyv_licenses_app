@@ -111,7 +111,7 @@ async function getLicensePrintId(id) {
                 
                 createUrbanResult(response.license, resultPrint, true);
 
-                PDF.setAttribute('src', `/api/urban/PDF/t/${response.license.licenseType}/i/${response.license.invoice}/y/${response.license.year}?${new Date().getTime()}`);
+                PDF.setAttribute('src', `/api/urban/PDF/t/${response.license.licenseType}/i/${response.license.controlInvoice}/y/${response.license.controlYear}?${new Date().getTime()}`);
 
                 return;
             }

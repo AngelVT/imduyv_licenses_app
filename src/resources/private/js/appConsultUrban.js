@@ -692,7 +692,7 @@ function generateUrbanFields(resObj, resultContent) {
     fieldGroup.appendChild(field);
 
     if (resObj.licenseType == 1 || resObj.licenseType == 2 || resObj.licenseType == 5 || resObj.licenseType == 6 || resObj.licenseType == 9) {
-        field = createResultField(resObj.id, 'Vigencia', 'validity', resObj.licenseValidity, 'select');
+        field = createResultField(resObj.id, 'Vigencia', 'licenseValidity', resObj.licenseValidity, 'select');
 
             field.querySelector('select').innerHTML = `
             <option value="">Selecciona ...</option>

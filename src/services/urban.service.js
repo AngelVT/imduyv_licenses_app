@@ -182,7 +182,7 @@ export async function requestUrbanLicenseCreate(body, files, requestor) {
         buildingAddress,
         georeference,
         collectionOrder,
-        paymentDate,
+        //paymentDate,
         billInvoice,
         authorizedQuantity,
         expeditionDate,
@@ -197,8 +197,9 @@ export async function requestUrbanLicenseCreate(body, files, requestor) {
         licenseTerm,
         surface,
         //zone,
-        validity,
+        licenseValidity,
         isFrac,
+        layout,
         //PCU,
         //occupationPercent,
         //surfacePerLote,
@@ -250,22 +251,22 @@ export async function requestUrbanLicenseCreate(body, files, requestor) {
 
     if ((requestDate && !validateDates(requestDate)) ||
         (expeditionDate && !validateDates(expeditionDate)) ||
-        (paymentDate && !validateDates(paymentDate)) ||
+        /* (paymentDate && !validateDates(paymentDate)) || */
         (deliveryDate && !validateDates(deliveryDate)) ||
         (previousInvoiceDate && !validateDates(previousInvoiceDate))) {
         throw new ValidationError(
             'Request failed due to invalid information.',
             'Urban create request',
             `Request failed due to invalid information.
-            Provided data -> Request date: ${requestDate}, Expedition date: ${expeditionDate}, Payment date: ${paymentDate}, Delivery date: ${deliveryDate}, Previous invoice date: ${previousInvoiceDate}`
+            Provided data -> Request date: ${requestDate}, Expedition date: ${expeditionDate}, Delivery date: ${deliveryDate}, Previous invoice date: ${previousInvoiceDate}`
         );
     }
 
-    if (!await urbanValidate.validateModels({ type: licenseType, validity })) {
+    if (!await urbanValidate.validateModels({ type: licenseType, validity: licenseValidity })) {
         throw new ValidationError('Request failed due to invalid information.',
             'Urban create request',
             `Request failed due to invalid information.
-            Provided data -> License type: ${licenseType}, term: ${licenseTerm}, zone: ${zone}, validity: ${validity}`);
+            Provided data -> License type: ${licenseType}, term: ${licenseTerm}, zone: ${zone}, validity: ${licenseValidity}`);
     }
 
     const INVOICE_INFO = await urbanUtils.generateInvoiceInformation(licenseType, YEAR);
@@ -286,6 +287,7 @@ export async function requestUrbanLicenseCreate(body, files, requestor) {
     SPECIAL_DATA.isFrac = licenseType == 2 ? urbanUtils.parseBool(isFrac, SPECIAL_DATA.isFrac) : undefined;
 
     //non essential for registration special data
+    SPECIAL_DATA.layout = (licenseType == 1 && layout) ? layout : SPECIAL_DATA.layout;
     SPECIAL_DATA.minimalFront = minimalFront ? minimalFront : SPECIAL_DATA.minimalFront;
     SPECIAL_DATA.frontalRestriction = frontalRestriction ? frontalRestriction : SPECIAL_DATA.frontalRestriction;
     SPECIAL_DATA.parkingLots = parkingLots ? parkingLots : SPECIAL_DATA.parkingLots;
@@ -334,9 +336,9 @@ export async function requestUrbanLicenseCreate(body, files, requestor) {
         surfaceTotal: surface ? surface : null,
         licenseZone: coordinateInfo.data.numericZone,
         expeditionDate: expeditionDate ? expeditionDate : null,
-        licenseValidity: validity ? validity : null,
+        licenseValidity: licenseValidity ? licenseValidity : null,
         collectionOrder: collectionOrder ? collectionOrder : null,
-        paymentDate: paymentDate ? paymentDate : null,
+        paymentDate: requestDate ? requestDate : null,
         billInvoice: billInvoice ? billInvoice : null,
         authorizedQuantity: authorizedQuantity ? authorizedQuantity : null,
         deliveryDate: deliveryDate ? deliveryDate : null,
@@ -449,12 +451,12 @@ export async function requestUrbanLicenseUpdate(id, licenseData, files, requesto
         expeditionDate,
         printInvoice,
         collectionOrder,
-        paymentDate,
+        //paymentDate,
         billInvoice,
         authorizedQuantity,
         deliveryDate,
         receiverName,
-        validity,
+        licenseValidity,
         //term,
         //PCU,
         isFrac,
@@ -571,7 +573,7 @@ export async function requestUrbanLicenseUpdate(id, licenseData, files, requesto
         }
     }
 
-    if (!requestorName && !requestDate && !expeditionDate && !collectionOrder && !paymentDate && !billInvoice && !authorizedQuantity && !deliveryDate && !receiverName && !buildingAddress && !notes && !observations && !georeference && !printInvoice && !files.signedFormat && !files.unsignedFormat && !files.zoneIMG && !statuses && !legalRepresentative &&  !colony && !catastralKey && !surface && !validity && typeof isFrac === 'undefined'&& !representativeAs && !requestorAddress && !minimalFront && !frontalRestriction && !parkingLots && !usePercent, !authUse && !activity && !actualSituation && !actualAuthorizedFS && !authorizationResume && !households && !documents && !lotes && !manzanas && !conditions && !restrictions && !donationArea && !privateSurface && !commonSurface && !location && !authorizationFor && !integrity && !detailedUse && !urbanLUS && !urbanCUS && !habitacionalLotes && !totalManzanas && !totalSurface && !totalRelotification && !resultRelotification && !previousInvoice && !previousInvoiceDate && !layout && !pageBreak_1 && !pageBreak_2 && !pageBreak_3 && !pageBreak_4 && !pageBreak_5 && !pageBreak_6 && !pageBreak_7 && !pageBreak_8 && !pageBreak_9 && !pageBreak_10 && !files) {
+    if (!requestorName && !requestDate && !expeditionDate && !collectionOrder && /* !paymentDate && */ !billInvoice && !authorizedQuantity && !deliveryDate && !receiverName && !buildingAddress && !notes && !observations && !georeference && !printInvoice && !files.signedFormat && !files.unsignedFormat && !files.zoneIMG && !statuses && !legalRepresentative &&  !colony && !catastralKey && !surface && !licenseValidity && typeof isFrac === 'undefined'&& !representativeAs && !requestorAddress && !minimalFront && !frontalRestriction && !parkingLots && !usePercent, !authUse && !activity && !actualSituation && !actualAuthorizedFS && !authorizationResume && !households && !documents && !lotes && !manzanas && !conditions && !restrictions && !donationArea && !privateSurface && !commonSurface && !location && !authorizationFor && !integrity && !detailedUse && !urbanLUS && !urbanCUS && !habitacionalLotes && !totalManzanas && !totalSurface && !totalRelotification && !resultRelotification && !previousInvoice && !previousInvoiceDate && !layout && !pageBreak_1 && !pageBreak_2 && !pageBreak_3 && !pageBreak_4 && !pageBreak_5 && !pageBreak_6 && !pageBreak_7 && !pageBreak_8 && !pageBreak_9 && !pageBreak_10 && !files) {
         throw new ValidationError('Request failed due to missing information.',
             'Urban update request',
             `Request failed due to missing information.
@@ -580,14 +582,14 @@ export async function requestUrbanLicenseUpdate(id, licenseData, files, requesto
 
     if ((requestDate && !validateDates(requestDate)) ||
         (expeditionDate && !validateDates(expeditionDate)) ||
-        (paymentDate && !validateDates(paymentDate)) ||
+        /* (paymentDate && !validateDates(paymentDate)) || */
         (deliveryDate && !validateDates(deliveryDate)) ||
         (previousInvoiceDate && !validateDates(previousInvoiceDate))) {
         throw new ValidationError(
             'Request failed due to invalid information.',
             'Urban update request',
             `Request failed due to invalid information.
-            Provided data -> Request date: ${requestDate}, Expedition date: ${expeditionDate}, Payment date: ${paymentDate}, Delivery date: ${deliveryDate}, Previous invoice date: ${previousInvoiceDate}`
+            Provided data -> Request date: ${requestDate}, Expedition date: ${expeditionDate}, Delivery date: ${deliveryDate}, Previous invoice date: ${previousInvoiceDate}`
         );
     }
 
@@ -602,7 +604,7 @@ export async function requestUrbanLicenseUpdate(id, licenseData, files, requesto
         }
     }
 
-    if (!await urbanValidate.validateModels({ validity })) {
+    if (!await urbanValidate.validateModels({ validity: licenseValidity })) {
         throw new ValidationError('Request failed due to invalid information.',
             'Urban update request',
             `Request failed due to invalid information.
@@ -680,13 +682,13 @@ export async function requestUrbanLicenseUpdate(id, licenseData, files, requesto
         catastralKey: catastralKey,
         surfaceTotal: surface,
         licenseZone: georeference ? coordinateInfo.data.numericZone : undefined,
-        licenseValidity: validity,
+        licenseValidity: licenseValidity,
         licenseTerm: georeference ? coordinateInfo.data.numericTerm : undefined,
         georeference: georeference,
         printInvoice: printInvoice,
         expeditionDate: expeditionDate,
         collectionOrder: collectionOrder,
-        paymentDate: paymentDate,
+        paymentDate: requestDate,
         billInvoice: billInvoice,
         authorizedQuantity: authorizedQuantity,
         deliveryDate: deliveryDate,
