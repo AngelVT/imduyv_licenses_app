@@ -180,12 +180,12 @@ export function field(text, borders, span, style, fontSize) {
     }
 }
 
-export function fieldLU(text, borders, span, style, fontSize, marginTop = 0) {
+export function fieldLU(text, borders, span, style, fontSize, marginTop = 0, margins = [3, 3, 3, 3]) {
     return {
         colSpan: span,
         border: borders,
         margin: [0, marginTop, 0, 0],
-        table: { widths: ['*'], body: [[{ text: text, fontSize: fontSize, style: style, margin: [3, 3, 3, 3] }]] }, layout: cellLayout
+        table: { widths: ['*'], body: [[{ text: text, fontSize: fontSize, style: style, margin: margins }]] }, layout: cellLayout
     }
 }
 
@@ -502,7 +502,7 @@ export async function loadChartXHTML(fullInvoice, sourcePattern, fontSize, tittl
     return tableBody;
 }
 
-export async function fileExist(location, group, width) {
+export async function fileExist(location, group, width, height) {
     const DEFAULT_WIDTH = 586;
     const extensions = ['.png', '.svg']; // add more if needed
     const basePath = path.join(__dirstorage, 'assets', group, location.replaceAll('/', '_'));
@@ -517,7 +517,8 @@ export async function fileExist(location, group, width) {
                 return {
                     border: [true, true, true, false],
                     svg: svgText,
-                    width: width ? width : DEFAULT_WIDTH
+                    width: width ? width : DEFAULT_WIDTH,
+                    height: height
                 };
             }
 
@@ -525,6 +526,7 @@ export async function fileExist(location, group, width) {
                 border: [true, true, true, false],
                 image: filePath,
                 width: width ? width : DEFAULT_WIDTH,
+                height: height,
                 alignment: 'center'
             };
         } catch (err) {
@@ -554,7 +556,7 @@ function formatTextArray(arrayText) {
 
 export function prepareData(lcDBObj) {
     const { fullInvoice, surfaceTotal, term, validity } = lcDBObj;
-    const { conditions, restrictions, marginAttention, marginName, requestorAddress, colony, representativeAs } = lcDBObj.licenseSpecialData;
+    const { conditions, restrictions, marginAttention, marginName, marginDate, requestorAddress, colony, representativeAs } = lcDBObj.licenseSpecialData;
     const { licenseTerm } = lcDBObj.term;
     //const { licenseValidity } = lcDBObj.validity
 
@@ -574,6 +576,10 @@ export function prepareData(lcDBObj) {
 
     if (!marginAttention) {
         lcDBObj.licenseSpecialData.marginAttention = 0;
+    }
+
+    if (!marginDate) {
+        lcDBObj.licenseSpecialData.marginDate = 0;
     }
 
     for (const key in lcDBObj) {

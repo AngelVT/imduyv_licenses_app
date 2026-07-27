@@ -234,6 +234,7 @@ async function updateResultField(form, id) {
 }
 
 async function updateResultStatus(form, id) {
+    let registro = document.querySelector(`#result_invoice_${id}`).innerText;
     if (!confirm('¿Seguro que quieres modificar el estatus para este registro registro?')) {
         return;
     }
@@ -248,8 +249,6 @@ async function updateResultStatus(form, id) {
 
     formData.set('statuses', JSON.stringify(data));
 
-    console.log(Object.fromEntries(formData))
-
     const res =  await fetch(`/api/urban/${id}`, {
         method: 'PATCH',
         credentials: 'include',
@@ -263,6 +262,8 @@ async function updateResultStatus(form, id) {
         form.reset();
         return;
     }
+
+    alert(`Estatus guardado exitosamente para el registro: ${registro}`);
 }
 
 async function approveLicense(id, button, isLandUse) {

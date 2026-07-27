@@ -498,6 +498,9 @@ export async function requestUrbanLicenseUpdate(id, licenseData, files, requesto
         previousInvoice,
         previousInvoiceDate,
         layout,
+        marginName,
+        marginDate,
+        termRestrictions,
         pageBreak_1,
         pageBreak_2,
         pageBreak_3,
@@ -571,7 +574,7 @@ export async function requestUrbanLicenseUpdate(id, licenseData, files, requesto
         }
     }
 
-    if (!requestorName && !requestDate && !expeditionDate && !collectionOrder && /* !paymentDate && */ !billInvoice && !authorizedQuantity && !deliveryDate && !receiverName && !buildingAddress && !notes && !observations && !georeference && !printInvoice && !files.signedFormat && !files.unsignedFormat && !files.zoneIMG && !statuses && !legalRepresentative &&  !colony && !catastralKey && !surface && !licenseValidity && typeof isFrac === 'undefined'&& !representativeAs && !requestorAddress && !minimalFront && !frontalRestriction && !parkingLots && !usePercent, !authUse && !activity && !actualSituation && !actualAuthorizedFS && !authorizationResume && !households && !documents && !lotes && !manzanas && !conditions && !restrictions && !donationArea && !privateSurface && !commonSurface && !location && !authorizationFor && !integrity && !detailedUse && !urbanLUS && !urbanCUS && !habitacionalLotes && !totalManzanas && !totalSurface && !totalRelotification && !resultRelotification && !previousInvoice && !previousInvoiceDate && !layout && !pageBreak_1 && !pageBreak_2 && !pageBreak_3 && !pageBreak_4 && !pageBreak_5 && !pageBreak_6 && !pageBreak_7 && !pageBreak_8 && !pageBreak_9 && !pageBreak_10 && !files) {
+    if (!files && !files.signedFormat && !files.unsignedFormat && !files.zoneIMG && !requestorName && !requestDate && !expeditionDate && !collectionOrder && /* !paymentDate && */ !billInvoice && !authorizedQuantity && !deliveryDate && !receiverName && !buildingAddress && !notes && !observations && !georeference && !printInvoice && !statuses && !legalRepresentative &&  !colony && !catastralKey && !surface && !licenseValidity && typeof isFrac === 'undefined'&& !representativeAs && !requestorAddress && !minimalFront && !frontalRestriction && !parkingLots && !usePercent && !authUse && !activity && !actualSituation && !actualAuthorizedFS && !authorizationResume && !households && !documents && !lotes && !manzanas && !conditions && !restrictions && !donationArea && !privateSurface && !commonSurface && !location && !authorizationFor && !integrity && !detailedUse && !urbanLUS && !urbanCUS && !habitacionalLotes && !totalManzanas && !totalSurface && !totalRelotification && !resultRelotification && !previousInvoice && !previousInvoiceDate && !layout && !termRestrictions && !marginName && !marginDate && !pageBreak_1 && !pageBreak_2 && !pageBreak_3 && !pageBreak_4 && !pageBreak_5 && !pageBreak_6 && !pageBreak_7 && !pageBreak_8 && !pageBreak_9 && !pageBreak_10) {
         throw new ValidationError('Request failed due to missing information.',
             'Urban update request',
             `Request failed due to missing information.
@@ -609,6 +612,20 @@ export async function requestUrbanLicenseUpdate(id, licenseData, files, requesto
             Provided data -> Zone: ${zone}, validity: ${validity}`);
     }
 
+    if (marginName && isNaN(parseInt(marginName))) {
+        throw new ValidationError('Request failed due to invalid margin.',
+            'Urban update request',
+            `Request failed due to invalid information.
+            Provided data -> Margin Name: ${marginName}.`);
+    }
+
+    if (marginDate && isNaN(parseInt(marginDate))) {
+        throw new ValidationError('Request failed due to invalid margin.',
+            'Urban update request',
+            `Request failed due to invalid information.
+            Provided data -> Margin Attention: ${marginDate}.`);
+    }
+
     let newSpecialData = specialDataToJSON(SPECIAL_DATA).licenseSpecialData;
 
     //newSpecialData.PCU = PCU ? PCU.toUpperCase() : newSpecialData.PCU;
@@ -642,6 +659,7 @@ export async function requestUrbanLicenseUpdate(id, licenseData, files, requesto
     newSpecialData.conditions = conditions ? conditions.replaceAll('\r', '').split('\n') : newSpecialData.conditions;
     newSpecialData.restrictions = restrictions ? restrictions.replaceAll('\r', '').split('\n') : newSpecialData.restrictions;
     newSpecialData.observations = observations ? observations.replaceAll('\r', '').split('\n') : newSpecialData.observations;
+    newSpecialData.termRestrictions = termRestrictions ? termRestrictions : newSpecialData.termRestrictions;
     newSpecialData.privateSurface = privateSurface ? privateSurface : newSpecialData.privateSurface;
     newSpecialData.commonSurface = commonSurface ? commonSurface : newSpecialData.commonSurface;
     newSpecialData.location = location ? location.replaceAll('\r', '').split('\n') : newSpecialData.location;
@@ -659,6 +677,8 @@ export async function requestUrbanLicenseUpdate(id, licenseData, files, requesto
     newSpecialData.previousInvoiceDate = previousInvoiceDate ? previousInvoiceDate : newSpecialData.previousInvoiceDate;
 
     newSpecialData.layout = layout ? layout.toUpperCase() : newSpecialData.layout;
+    newSpecialData.marginName = marginName ? parseInt(marginName) : newSpecialData.marginName;
+    newSpecialData.marginDate = marginDate ? parseInt(marginDate) : newSpecialData.marginDate;
     newSpecialData.pageBreak_1 = urbanUtils.parseBool(pageBreak_1, newSpecialData.pageBreak_1);
     newSpecialData.pageBreak_2 = urbanUtils.parseBool(pageBreak_2, newSpecialData.pageBreak_2);
     newSpecialData.pageBreak_3 = urbanUtils.parseBool(pageBreak_3, newSpecialData.pageBreak_3);

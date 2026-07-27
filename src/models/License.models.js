@@ -439,13 +439,12 @@ export const UrbanLicense = pool.define(
     },
     statuses: {
         type: DataTypes.JSONB,
-            allowNull: true,
-            defaultValue: {
-            payment_pending: true,
-            imduyv_signature_pending: true,
-            in_progress: false,
+        allowNull: true,
+        defaultValue: {
+            imduyv_signature_pending: false,
+            in_progress: true,
             delivered: false,
-            municipal_signature_pending: true,
+            municipal_signature_pending: false,
             on_review: false
         }
     },

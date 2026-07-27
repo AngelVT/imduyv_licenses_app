@@ -58,13 +58,18 @@ export function parseBool(value, defaultValue) {
 }
 
 export function generateSpecialData(type) {
+    const defaultMargin = 10;
+
     switch (parseInt(type)) {
         case 1:
             return {
                 activity: 'HABITACIONAL',
                 minimalFront: '6.00',
                 frontalRestriction: '0.0',
-                layout: "A"
+                layout: "A",
+                marginName: defaultMargin,
+                marginDate: defaultMargin,
+                termRestrictions: '-'
             }
         case 2:
             return {

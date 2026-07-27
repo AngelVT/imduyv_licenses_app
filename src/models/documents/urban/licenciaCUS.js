@@ -1,4 +1,5 @@
-import { __dirstorage } from "../../../path.configuration.js";
+import { __dirstorage, __dirname } from "../../../path.configuration.js";
+import path from "path";
 import * as docUtils from "../../../utilities/document.utilities.js";
 
 export async function generateUrbanC(lcDBObj) {
@@ -48,9 +49,15 @@ export async function generateUrbanC(lcDBObj) {
     const LICENSES_DIRECTOR = await docUtils.getLicensesDirectorName(lcDBObj.requestDate);
 
     const definition = {
-        pageMargins: [ 5, 60, 5, 60 ],
+        pageMargins: [ 5, 100, 5, 30 ],
         styles: docUtils.docStyles,
         watermark: lcDBObj.approvalStatus ? undefined : { text: 'Sin aprobar', color: 'red', opacity: 0.2, bold: true, italics: false, angle: 60 },
+        header: lcDBObj.year === 2026 ? {
+            image: path.join(__dirname, 'resources', 'public', 'img', '200_logo.png'),
+            alignment: 'center',
+            width: 80,
+            margin: [0, 50, 0, 0]
+        } : {},
         content: [
             {
                 text: await docUtils.getYearLegend(lcDBObj.year),
@@ -87,16 +94,12 @@ export async function generateUrbanC(lcDBObj) {
                                     widths: [70, '*'],
                                     body: [
                                         [
-                                            {text: 'Nombre: ', style: 'labelT', border: docUtils.borderless},
-                                            docUtils.fieldLU(lcDBObj.requestorName, docUtils.borderless, null, 'boldCenter', 7)
+                                            {text: 'Nombre: ', style: 'labelT', border: docUtils.borderless, margin: [0,lcDBObj.licenseSpecialData.marginName + 4,0,0]},
+                                            docUtils.fieldLU(lcDBObj.requestorName, docUtils.borderless, null, 'boldCenter', 7, lcDBObj.licenseSpecialData.marginName)
                                         ],
                                         [
-                                            {text: '', border: docUtils.borderless},
-                                            {text: '', border: docUtils.borderless}
-                                        ],
-                                        [
-                                            {text: 'Fecha de Solicitud: ', style: 'labelT', border: docUtils.borderless},
-                                            docUtils.fieldLU(docUtils.dateFormatFull(lcDBObj.requestDate, true), docUtils.borderless, null,'boldCenter', 7)
+                                            {text: 'Fecha de Solicitud: ', style: 'labelT', border: docUtils.borderless, margin: [0,lcDBObj.licenseSpecialData.marginDate + 4,0,0]},
+                                            docUtils.fieldLU(docUtils.dateFormatFull(lcDBObj.requestDate, true), docUtils.borderless, null,'boldCenter', 7, lcDBObj.licenseSpecialData.marginDate)
                                         ]
                                     ]
                                 },
@@ -164,32 +167,31 @@ export async function generateUrbanC(lcDBObj) {
                                         ],
                                         layouts[lcDBObj.licenseSpecialData.layout],
                                         [
-                                            {text: 'Porcentaje de ocupación:', style: 'labelTC', border: docUtils.borderless, colSpan: 2},
-                                            {},
-                                            docUtils.fieldLU(`${lcDBObj.licenseSpecialData.occupationPercent}%`, docUtils.borderless, 2, 'boldCenter', 7),
-                                            {},
-                                            {text: 'Sup. mínima por lote:', style: 'labelTC', border: docUtils.borderless, colSpan: 2},
-                                            {},
-                                            docUtils.fieldLU(`${lcDBObj.licenseSpecialData.surfacePerLote} m²`, docUtils.borderless, 2, 'boldCenter', 7),
-                                            {},
-                                            {text: 'Altura máxima:', style: 'labelTC', border: docUtils.borderless, colSpan: 2},
-                                            {},
-                                            docUtils.fieldLU(`${lcDBObj.licenseSpecialData.maximumHeight} metros o ${lcDBObj.licenseSpecialData.levels} niveles`, docUtils.borderless, 2, 'boldCenter', 7),
-                                            {}
+                                            {text: 'Porcentaje de ocupación:', style: 'labelTC', border: docUtils.borderless, fontSize: 6.2},
+                                            docUtils.fieldLU(`${lcDBObj.licenseSpecialData.occupationPercent}%`, docUtils.borderless, 1, 'boldCenter', 7),
+                                            {text: 'Sup. mínima por lote:', style: 'labelTC', border: docUtils.borderless, fontSize: 6.2},
+                                            docUtils.fieldLU(`${lcDBObj.licenseSpecialData.surfacePerLote} m²`, docUtils.borderless, 1, 'boldCenter', 7),
+                                            {text: 'Altura máxima:', style: 'labelTC', border: docUtils.borderless, fontSize: 6.2},
+                                            docUtils.fieldLU(`${lcDBObj.licenseSpecialData.maximumHeight} metros o ${lcDBObj.licenseSpecialData.levels} niveles`, docUtils.borderless, 1, 'boldCenter', 6.2, undefined, [3, 0, 3, 0]),
+                                            {text: 'Frente mínimo:', style: 'labelTC', border: docUtils.borderless, fontSize: 6.2},
+                                            docUtils.fieldLU(`${lcDBObj.licenseSpecialData.minimalFront} m`, docUtils.borderless, 1, 'boldCenter', 7),
+                                            {text: 'Restricción frontal:', style: 'labelTC', border: docUtils.borderless, fontSize: 6.2},
+                                            docUtils.fieldLU(`${frontalRestrictions[lcDBObj.zone.licenseKey] || lcDBObj.licenseSpecialData.frontalRestriction} m`, docUtils.borderless, 1, 'boldCenter', 7),
+                                            {text: 'Densidad:', style: 'labelTC', border: docUtils.borderless, fontSize: 6.2, margin: [0, 4, 0, 0]},
+                                            docUtils.fieldLU(`${lcDBObj.licenseSpecialData.viv_ha}`, docUtils.borderless, 1, 'boldCenter', 7)
                                         ],
                                         [
-                                            {text: 'Frente mínimo:', style: 'labelTC', border: docUtils.borderless, colSpan: 2},
-                                            {},
-                                            docUtils.fieldLU(`${lcDBObj.licenseSpecialData.minimalFront} m`, docUtils.borderless, 2, 'boldCenter', 7),
-                                            {},
-                                            {text: 'Restricción frontal:', style: 'labelTC', border: docUtils.borderless, colSpan: 2},
-                                            {},
-                                            docUtils.fieldLU(`${frontalRestrictions[lcDBObj.zone.licenseKey] || lcDBObj.licenseSpecialData.frontalRestriction} m`, docUtils.borderless, 2, 'boldCenter', 7),
-                                            {},
-                                            {text: 'Densidad:', style: 'labelTC', border: docUtils.borderless, colSpan: 2},
-                                            {},
-                                            docUtils.fieldLU(`${lcDBObj.licenseSpecialData.viv_ha}`, docUtils.borderless, 2, 'boldCenter', 7),
-                                            {},
+                                            !lcDBObj.licenseSpecialData.termRestrictions || lcDBObj.licenseSpecialData.termRestrictions === '-' ? {...EMPTY_CELL} : {
+                                                text: `Restricciones:`,
+                                                style: 'labelTC',
+                                                fontSize: 6,
+                                                border: docUtils.borderless,
+                                                margin: [0,4,0,0]
+                                            },
+                                            !lcDBObj.licenseSpecialData.termRestrictions || lcDBObj.licenseSpecialData.termRestrictions === '-' ? {...EMPTY_CELL} : docUtils.fieldLU(
+                                                lcDBObj.licenseSpecialData.termRestrictions ? docUtils.parseSimpleFormatting(lcDBObj.licenseSpecialData.termRestrictions) : '', docUtils.borderless, 11, 'highlighted',7),
+                                            {...EMPTY_CELL},
+                                            {...EMPTY_CELL},{...EMPTY_CELL},{...EMPTY_CELL},{...EMPTY_CELL},{...EMPTY_CELL},{...EMPTY_CELL},{...EMPTY_CELL},{...EMPTY_CELL},{...EMPTY_CELL}
                                         ],
                                         [
                                             {text: ['La expedición de constancia de uso de suelo: tiene como objeto establecer los usos y destinos de un predio con base en lo previsto en el Programa Municipal de Desarrollo Urbano y Ordenamiento Territorial de Tizayuca, lo cual ',{text:'NO AUTORIZA SU MODIFICACIÓN, CONSTRUCCIÓN O ALTERACIÓN.', decoration: 'underline'}], style: 'labelTC', border: docUtils.borderless, colSpan: 12, lineHeight: 1.5},
@@ -215,7 +217,7 @@ export async function generateUrbanC(lcDBObj) {
                                     {text: `03PE09 - MAPA DE ZONIFICACIÓN - ${lcDBObj.geoReference}`, style: 'headT', border: docUtils.borderless, margin:[1,2,1,2]}
                                 ],
                                 [
-                                    await docUtils.fileExist(lcDBObj.fullInvoice, 'urban', 290)
+                                    await docUtils.fileExist(lcDBObj.fullInvoice, 'urban', 290, 141.5)
                                     /*{
                                         /*text: 'IMG'
                                         border: docUtils.borderless,
@@ -231,7 +233,7 @@ export async function generateUrbanC(lcDBObj) {
                     {
                         margin: [0,0,5,0],
                         stack: [
-                            { text: layoutText[lcDBObj.licenseSpecialData.layout], style: 'regular', margin: [0,0,0,1],alignment: 'justify', lineHeight: 1.1, fontSize: 7 },
+                            { text: layoutText[lcDBObj.licenseSpecialData.layout], margin: [0,0,0,1],alignment: 'justify', lineHeight: 1.1, fontSize: 6.2 },
                             {
                                 table: {
                                     widths: ['*'],

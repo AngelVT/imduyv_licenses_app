@@ -200,22 +200,22 @@ async function capture() {
 }
 
 document.addEventListener("keydown", async (e) => {
-    const searchForm = document.getElementById('search-form');
+    const controls = document.querySelector('.leaflet-control-container');
     const key = e.key.toLocaleLowerCase();
 
     if (key === "c") {
         try {
-            searchForm.classList.add('dis-none');
+            controls.classList.add('dis-none');
             crosshair.classList.add('dis-none');
 
             await capture();
 
             setTimeout(() => {
-                searchForm.classList.remove('dis-none');
+                controls.classList.remove('dis-none');
                 crosshair.classList.remove('dis-none');
             }, 500);
         } catch (error) {
-            searchForm.classList.remove('dis-none');
+            controls.classList.remove('dis-none');
             crosshair.classList.remove('dis-none');
         }
     }

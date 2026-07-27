@@ -553,6 +553,10 @@ function generateUrbanFields(resObj, resultContent) {
     }
 
     if (resObj.licenseType == 1) {
+        field = createResultTextArea(resObj.id, 'Restricciones', 'termRestrictions', resObj.licenseSpecialData.termRestrictions);
+
+        fieldGroup.appendChild(field);
+
         field = createResultField(resObj.id, 'Actividad', 'activity', resObj.licenseSpecialData.activity, 'text');
 
         fieldGroup.appendChild(field); 
@@ -771,10 +775,6 @@ function generateUrbanFields(resObj, resultContent) {
     statuses.innerHTML = `
         <div class="w-100 dis-flex flex-wrap">
             <label class="w-25 dis-flex flex-wrap flex-center-v">
-                <input class="w-5 input input-interface margin-right-small" type="checkbox" name="statuses" value="payment_pending" ${resObj.statuses.payment_pending ? 'checked' : ''}> Pago pendiente 
-            </label>
-
-            <label class="w-25 dis-flex flex-wrap flex-center-v">
                 <input class="w-5 input input-interface margin-right-small" type="checkbox" name="statuses" value="imduyv_signature_pending" ${resObj.statuses.imduyv_signature_pending ? 'checked' : ''}> Firma dirección general pendiente 
             </label>
 
@@ -811,6 +811,12 @@ function generateUrbanFields(resObj, resultContent) {
         field.querySelector('select').value = resObj.licenseSpecialData.layout;
 
         fieldGroup.appendChild(field);
+
+        field = createResultField(resObj.id, 'Margen Nombre', 'marginName', resObj.licenseSpecialData.marginName, 'number');
+    fieldGroup.appendChild(field);
+
+    field = createResultField(resObj.id, 'Margen Fecha Solicitud', 'marginDate', resObj.licenseSpecialData.marginDate, 'number');
+    fieldGroup.appendChild(field);
     }
 
     if (resObj.licenseType == 3 || resObj.licenseType == 4) {
