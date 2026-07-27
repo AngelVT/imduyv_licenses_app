@@ -49,7 +49,7 @@ export async function generateUrbanC(lcDBObj) {
     const LICENSES_DIRECTOR = await docUtils.getLicensesDirectorName(lcDBObj.requestDate);
 
     const definition = {
-        pageMargins: [ 5, 100, 5, 30 ],
+        pageMargins: [ 5, 100, 5, 10 ],
         styles: docUtils.docStyles,
         watermark: lcDBObj.approvalStatus ? undefined : { text: 'Sin aprobar', color: 'red', opacity: 0.2, bold: true, italics: false, angle: 60 },
         header: lcDBObj.year === 2026 ? {
@@ -320,13 +320,13 @@ export async function generateUrbanC(lcDBObj) {
             {
                 columns: [
                     {
-                        width: '10%',
-                        margin: [0,40,0,0],
+                        width: '15%',
+                        margin: [0,100,0,0],
                         text: `Elaboró: ${docUtils.madeBy(lcDBObj.elaboratedBy)}\nRevisó: ${LICENSES_DIRECTOR}`,
                         fontSize: 6
                     },
                     {
-                        width: '80%',
+                        width: '70%',
                         stack: [
                             {
                                 text:`NOTIFÍQUESE Y CÚMPLASE\nASÍ EN DEFINITIVA LO RESOLVIÓ Y AUTORIZÓ ${INSTITUTE_DIRECTOR_SIGNATURE},\nDIRECTOR GENERAL DEL INSTITUTO MUNICIPAL DE DESARROLLO URBANO Y VIVIENDA`,
@@ -337,25 +337,29 @@ export async function generateUrbanC(lcDBObj) {
                             {
                                 text: `${INSTITUTE_DIRECTOR_SIGNATURE}\nDIRECTOR GENERAL`,
                                 style: 'labelTC',
-                                fontSize: 8
+                                fontSize: 8,
+                                margin: [0, 60, 0, 0]
                             }
                         ]
                     },
                     {
-                        width: '10%',
-                        text: ''
+                        width: '15%',
+                        stack: [
+                            {
+                                svg: `
+                                    <svg width="30" height="84">
+                                        <text x="16" y="42" transform="rotate(-90, 15, 42)" text-anchor="middle" font-size="5" font-weight="bold">
+                                            <tspan x="16" dy="1.2em">${lcDBObj.fullInvoice}</tspan>
+                                            <tspan x="16" dy="1.2em">Pagina 1 de 2</tspan>
+                                        </text>
+                                    </svg>`,
+                                alignment: 'right'
+                            }
+                        ]
                     }
                 ]
             }
-        ],
-        footer: function(currentPage, pageCount) {
-            return {
-                style: 'regularSmall',
-                bold: true,
-                text: `${lcDBObj.fullInvoice}\nPagina ${currentPage} de ${pageCount}`,
-                alignment: 'center'
-            };
-        }
+        ]
     };
     return definition;
 }
