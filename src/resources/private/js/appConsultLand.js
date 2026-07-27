@@ -1033,6 +1033,18 @@ function generateLandFields(resObj, resultContent) {
         field = createResultField(resObj.id, 'Resaltar plazo', 'highlightTerm', resObj.licenseSpecialData.highlightTerm, 'checkbox');
 
         fieldGroup.appendChild(field);
+
+        field = createResultField(resObj.id, 'Omitir COS', 'omitCOS', resObj.licenseSpecialData.omitCOS, 'checkbox');
+
+        fieldGroup.appendChild(field);
+
+        field = createResultField(resObj.id, 'Omitir Altura Maxima', 'omitAlt_max', resObj.licenseSpecialData.omitAlt_max, 'checkbox');
+
+        fieldGroup.appendChild(field);
+
+        field = createResultField(resObj.id, 'Omitir Niveles', 'omitNiveles', resObj.licenseSpecialData.omitNiveles, 'checkbox');
+
+        fieldGroup.appendChild(field);
     }
 
     if (resObj.licenseType >= 2 && resObj.licenseType <= 5) {

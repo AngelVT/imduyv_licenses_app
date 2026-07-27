@@ -481,10 +481,10 @@ export async function requestLandLicenseUpdate(id, licenseData, files, requestor
         otherAuthUse,
         highlightTerm,
         termConditions,
-        observations
-        //COS,
-        //alt_max,
-        //niveles
+        observations,
+        omitCOS,
+        omitAlt_max,
+        omitNiveles
     } = licenseData;
 
     const [zoneIMG] = files.zoneIMG || [];
@@ -522,7 +522,7 @@ export async function requestLandLicenseUpdate(id, licenseData, files, requestor
         }
     }
 
-    if (!licensePrintInvoice && !requestorName && !attentionName && !address && !number && !colony && !contactPhone && !catastralKey && !surface && !georeference && !businessLinePrint && !businessLineIntern && !authorizedUse && !expeditionType && !validity && !requestDate && !expeditionDate && !expirationDate && !paymentInvoice && !cost && !discount && !paymentDone && !inspector && !anexo && !restrictions && !conditions && !parcela && !propertyNo && !propertyDate && !marginName && !marginAttention && !compacted && !includeBusinessLine && !zoneIMG && !recordFile && !term && !otherAuthUse && !highlightTerm && !termConditions && !observations) {
+    if (!licensePrintInvoice && !requestorName && !attentionName && !address && !number && !colony && !contactPhone && !catastralKey && !surface && !georeference && !businessLinePrint && !businessLineIntern && !authorizedUse && !expeditionType && !validity && !requestDate && !expeditionDate && !expirationDate && !paymentInvoice && !cost && !discount && !paymentDone && !inspector && !anexo && !restrictions && !conditions && !parcela && !propertyNo && !propertyDate && !marginName && !marginAttention && !compacted && !includeBusinessLine && !zoneIMG && !recordFile && !term && !otherAuthUse && !highlightTerm && !termConditions && !observations && !omitCOS && !omitAlt_max && !omitNiveles) {
         throw new ValidationError('Request failed due to missing information.',
             'Land use update request',
             `Request failed due to missing information.
@@ -562,6 +562,27 @@ export async function requestLandLicenseUpdate(id, licenseData, files, requestor
             Provided data -> Margin Attention: ${marginAttention}.`);
     }
 
+    if (omitCOS && typeof parseBool(omitCOS, undefined) !== 'boolean') {
+        throw new ValidationError('Request failed due to invalid omit.',
+            'Land use update request',
+            `Request failed due to invalid information.
+            Provided data -> Margin Attention: ${omitCOS}.`);
+    }
+
+    if (omitAlt_max && typeof parseBool(omitAlt_max, undefined) !== 'boolean') {
+        throw new ValidationError('Request failed due to invalid omit.',
+            'Land use update request',
+            `Request failed due to invalid information.
+            Provided data -> Margin Attention: ${omitAlt_max}.`);
+    }
+
+    if (omitNiveles && typeof parseBool(omitNiveles, undefined) !== 'boolean') {
+        throw new ValidationError('Request failed due to invalid omit.',
+            'Land use update request',
+            `Request failed due to invalid information.
+            Provided data -> Margin Attention: ${omitNiveles}.`);
+    }
+
     //let newSpecialData = specialDataToJSON(SPECIAL_DATA).licenseSpecialData;
     let newSpecialData = {
         anexo ,
@@ -577,7 +598,10 @@ export async function requestLandLicenseUpdate(id, licenseData, files, requestor
         otherAuthUse: authorizedUse == 59 ? 'Otro' : otherAuthUse,
         highlightTerm: parseBool(highlightTerm, undefined),
         termConditions: termConditions ? termConditions.trim().replaceAll('\r', '') : undefined,
-        observations: observations ? observations.trim().replaceAll('\r', '') : undefined
+        observations: observations ? observations.trim().replaceAll('\r', '') : undefined,
+        omitCOS: parseBool(omitCOS, undefined),
+        omitAlt_max: parseBool(omitAlt_max, undefined),
+        omitNiveles: parseBool(omitNiveles, undefined)
     }
 
     let coordinateInfo;

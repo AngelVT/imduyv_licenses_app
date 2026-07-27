@@ -5,6 +5,8 @@ import path from "path";
 export async function generateLandUseC(lcDBObj) {
     lcDBObj = docUtils.prepareData(lcDBObj);
 
+    const { omitCOS, omitAlt_max, omitNiveles } = lcDBObj.licenseSpecialData;
+
     const EMPTY_CELL = {
         text:'',
         border: docUtils.borderless
@@ -141,13 +143,13 @@ export async function generateLandUseC(lcDBObj) {
                                             docUtils.fieldLU(lcDBObj.term.licenseTerm, docUtils.borderless, 2, lcDBObj.licenseSpecialData.highlightTerm ? ['boldCenter','highlighted'] : 'boldCenter', 6),
                                             {},
                                             {text: 'COS: ', style: 'labelTC', border: docUtils.borderless, margin: [0,4,0,0]},
-                                            docUtils.fieldLU(lcDBObj.licenseSpecialData.COS === 0 ? '-' :  `${lcDBObj.licenseSpecialData.COS} %`, docUtils.borderless, 2, 'boldCenter', 7),
+                                            docUtils.fieldLU((lcDBObj.licenseSpecialData.COS === 0 || omitCOS) ? '-' :  `${lcDBObj.licenseSpecialData.COS} %`, docUtils.borderless, 2, 'boldCenter', 7),
                                             {},
                                             {text: 'Altura maxima: ', style: 'labelTC', border: docUtils.borderless},
-                                            docUtils.fieldLU(lcDBObj.licenseSpecialData.alt_max === 0 ? '-' : `${lcDBObj.licenseSpecialData.alt_max} M`, docUtils.borderless, 2, 'boldCenter', 6),
+                                            docUtils.fieldLU((lcDBObj.licenseSpecialData.alt_max === 0 || omitAlt_max) ? '-' : `${lcDBObj.licenseSpecialData.alt_max} M`, docUtils.borderless, 2, 'boldCenter', 6),
                                             {},
                                             {text: 'Niveles: ', style: 'labelTC', border: docUtils.borderless, margin: [0,4,0,0]},
-                                            docUtils.fieldLU(lcDBObj.licenseSpecialData.niveles === 0 ? '-' : lcDBObj.licenseSpecialData.niveles, docUtils.borderless, 2, 'boldCenter', 6),
+                                            docUtils.fieldLU((lcDBObj.licenseSpecialData.niveles === 0 || omitNiveles) ? '-' : lcDBObj.licenseSpecialData.niveles, docUtils.borderless, 2, 'boldCenter', 6),
                                             {}
                                         ],
                                         [

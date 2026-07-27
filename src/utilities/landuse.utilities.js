@@ -61,7 +61,10 @@ export function generateSpecialData(type) {
             otherAuthUse: '',
             highlightTerm: false,
             termConditions: '-',
-            observations: '-'
+            observations: '-',
+            omitCOS: false,
+            omitAlt_max: false,
+            omitNiveles: false
         }
     }
 
