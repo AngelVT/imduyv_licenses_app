@@ -48,35 +48,38 @@ export async function generateUrbanC(lcDBObj) {
     const INSTITUTE_DIRECTOR_SIGNATURE = await docUtils.getDirectorNameSignature(lcDBObj.requestDate);
     const LICENSES_DIRECTOR = await docUtils.getLicensesDirectorName(lcDBObj.requestDate);
 
+    const yearLegend = await docUtils.getYearLegend(lcDBObj.year);
+
     const definition = {
-        pageMargins: [ 5, 100, 5, 10 ],
+        pageMargins: [ 5, 80, 5, 10 ],
         styles: docUtils.docStyles,
         watermark: lcDBObj.approvalStatus ? undefined : { text: 'Sin aprobar', color: 'red', opacity: 0.2, bold: true, italics: false, angle: 60 },
         header: lcDBObj.year === 2026 ? {
             image: path.join(__dirname, 'resources', 'public', 'img', '200_logo.png'),
             alignment: 'center',
-            width: 80,
-            margin: [0, 50, 0, 0]
+            width: 60,
+            margin: [0, 40, 0, 0]
         } : {},
         content: [
             {
-                text: await docUtils.getYearLegend(lcDBObj.year),
+                text: docUtils.capitalize(yearLegend),
                 alignment: 'center',
                 fontSize: 8,
-                margin: [0,0,0,10]
+                margin: [0,0,0,10],
+                style: 'grayed'
             },
             {
                 text: "CONSTANCIA DE USO DE SUELO",
                 alignment: 'center',
-                fontSize: 16,
+                fontSize: 12,
                 bold: true
             },
             {
                 text: lcDBObj.fullInvoice,
                 alignment: 'center',
-                fontSize: 12,
+                fontSize: 10,
                 bold: true,
-                margin: [0,0,0,10]
+                margin: [0,0,0,5]
             },
             {
                 style: 'formRow',
@@ -338,7 +341,7 @@ export async function generateUrbanC(lcDBObj) {
                                 text: `${INSTITUTE_DIRECTOR_SIGNATURE}\nDIRECTOR GENERAL`,
                                 style: 'labelTC',
                                 fontSize: 8,
-                                margin: [0, 60, 0, 0]
+                                margin: [0, 50, 0, 0]
                             }
                         ]
                     },
@@ -350,7 +353,7 @@ export async function generateUrbanC(lcDBObj) {
                                     <svg width="30" height="84">
                                         <text x="16" y="42" transform="rotate(-90, 15, 42)" text-anchor="middle" font-size="5" font-weight="bold">
                                             <tspan x="16" dy="1.2em">${lcDBObj.fullInvoice}</tspan>
-                                            <tspan x="16" dy="1.2em">Pagina 1 de 2</tspan>
+                                            <tspan x="16" dy="1.2em">Pagina 1 de 1</tspan>
                                         </text>
                                     </svg>`,
                                 alignment: 'right'

@@ -169,6 +169,9 @@ export const docStyles = {
     },
     highlighted: {
         color: '#C82333'
+    },
+    grayed: {
+        color: '#7f7f7f'
     }
 }
 
@@ -865,7 +868,7 @@ export async function getYearLegend(year) {
     return `"${LEGEND.year}, ${LEGEND.year_legend}"`
 }
 
-function capitalize(str) {
+export function capitalize(str) {
     return str
         .split(' ')
         .map(word => {
