@@ -869,11 +869,16 @@ export async function getYearLegend(year) {
 }
 
 export function capitalize(str) {
+    const lowerWords = ['de']
     return str
         .split(' ')
         .map(word => {
-            return word.charAt(0).toLocaleUpperCase() +
-                word.slice(1).toLocaleLowerCase();
+            const lowerWord = word.toLocaleLowerCase()
+            if (lowerWords.includes(lowerWord)) {
+                return lowerWord
+            }
+            return lowerWord.charAt(0).toLocaleUpperCase() +
+                lowerWord.slice(1);
         })
         .join(' ');
 }
