@@ -58,14 +58,14 @@ export async function generateUrbanC(lcDBObj) {
             image: path.join(__dirname, 'resources', 'public', 'img', '200_logo.png'),
             alignment: 'center',
             width: 60,
-            margin: [0, 40, 0, 0]
+            margin: [0, 50, 0, 0]
         } : {},
         content: [
             {
                 text: docUtils.capitalize(yearLegend),
                 alignment: 'center',
                 fontSize: 8,
-                margin: [0,0,0,10],
+                margin: [0,0,0,0],
                 style: 'grayed'
             },
             {
