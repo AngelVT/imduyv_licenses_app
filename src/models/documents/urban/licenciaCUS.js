@@ -124,7 +124,7 @@ export async function generateUrbanC(lcDBObj) {
                                             docUtils.fieldLU(lcDBObj.catastralKey, docUtils.borderless,null, 'boldCenter', 6)
                                         ],
                                         [
-                                            {text: 'Superficie aproximada: ', style: 'labelT', border: docUtils.borderless},
+                                            {text: 'Superficie Aproximada: ', style: 'labelT', border: docUtils.borderless},
                                             docUtils.fieldLU(`${lcDBObj.surfaceTotal} m²`, docUtils.borderless, null, 'boldCenter', 7)
                                         ]
                                     ]
