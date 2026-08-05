@@ -702,7 +702,7 @@ export async function requestUrbanLicenseUpdate(id, licenseData, files, requesto
         licenseZone: georeference ? coordinateInfo.data.numericZone : undefined,
         licenseValidity: licenseValidity,
         licenseTerm: georeference ? coordinateInfo.data.numericTerm : undefined,
-        georeference: georeference,
+        geoReference: georeference,
         printInvoice: printInvoice,
         expeditionDate: expeditionDate,
         collectionOrder: collectionOrder,
