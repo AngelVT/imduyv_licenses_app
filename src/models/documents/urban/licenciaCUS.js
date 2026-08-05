@@ -338,7 +338,7 @@ export async function generateUrbanC(lcDBObj) {
                                 margin: [0,10,0,10]
                             },
                             {
-                                text: `${INSTITUTE_DIRECTOR_SIGNATURE}\nDIRECTOR GENERAL`,
+                                text: `${INSTITUTE_DIRECTOR_SIGNATURE}\nDIRECTOR GENERAL DEL INSTITUTO MUNICIPAL\nDE DESARROLLO URBANO Y VIVIENDA`,
                                 style: 'labelTC',
                                 fontSize: 8,
                                 margin: [0, 50, 0, 0]
